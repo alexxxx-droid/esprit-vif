@@ -2,14 +2,19 @@ import { useState } from 'react';
 import { addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
 import { formatMonth, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
 import { domainProfile } from '../../core/stats';
-import { bestOverall, officialTests } from '../../store/progress';
+import { bestOverall, gameUnlocked, officialTests } from '../../store/progress';
 import { BrainAgeChart } from '../components/BrainAgeChart';
+import { BrainMap } from '../components/BrainMap';
 import { DomainBadge, ScreenHeader } from '../components/bits';
 import { Icon } from '../components/Icon';
+import { MedalBadge, RankBar } from '../components/progress-bits';
 import { useToday } from '../hooks';
 import { useProgress } from '../progress-context';
+import { useProgression } from '../progression';
 import { navigate } from '../router';
+import { TROPHY_ICONS } from '../trophy-icons';
 
 const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
@@ -22,10 +27,31 @@ export function ProgressScreen() {
     .filter((t) => t.brainAge !== undefined)
     .map((t) => ({ day: t.day, age: t.brainAge as number }));
   const profile = domainProfile(data.plays);
+  const { rank, stars, trophies } = useProgression();
+  const medals = GAME_ORDER.map((id) => medalFor(data.games[id]?.bests));
+  const trophiesWon = trophies.filter((t) => t.unlocked).length;
 
   return (
     <div className="screen screen-in progress">
       <ScreenHeader title="Progrès" subtitle="Ce qui compte, c’est la régularité." />
+
+      <section className="card rank-card" aria-label="Ton rang">
+        <RankBar rank={rank} />
+        <div className="rank-card__stats">
+          <span>
+            <Icon name="star" size={16} />
+            <strong>{stars}</strong> étoiles
+          </span>
+          <span>
+            <Icon name="trophy" size={16} />
+            <strong>{trophiesWon}</strong>/{trophies.length} trophées
+          </span>
+          <span>
+            <Icon name="medal" size={16} />
+            <strong>{medals.filter(Boolean).length}</strong>/{GAME_ORDER.length} médailles
+          </span>
+        </div>
+      </section>
 
       <div className="tiles">
         <StatTile label="Série en cours" value={currentStreak(playedDays, today)} unit="jour" icon="flame" />
@@ -43,6 +69,14 @@ export function ProgressScreen() {
         ) : (
           <Empty text="Ta courbe apparaîtra après ton premier test du jour." />
         )}
+      </section>
+
+      <section className="card" aria-labelledby="map-title">
+        <h2 className="section-title" id="map-title">
+          Carte du cerveau
+        </h2>
+        <p className="card__sub">Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)</p>
+        <BrainMap profile={profile} />
       </section>
 
       <section className="card" aria-labelledby="domains-title">
@@ -75,13 +109,59 @@ export function ProgressScreen() {
 
       <Calendar playedDays={playedDays} today={today} />
 
+      <section aria-labelledby="medals-title">
+        <h2 className="section-title" id="medals-title">
+          Médailles
+        </h2>
+        <ul className="medal-legend">
+          {MEDAL_ORDER.map((medal) => (
+            <li key={medal}>
+              <MedalBadge medal={medal} size={30} />
+              <span>
+                <strong>
+                  {MEDAL_NAMES[medal]} · {medals.filter((m) => m === medal).length}
+                </strong>
+                <span className="medal-legend__rule">{MEDAL_RULES[medal]}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="trophies-title">
+        <h2 className="section-title" id="trophies-title">
+          Trophées · {trophiesWon}/{trophies.length}
+        </h2>
+        <ul className="trophies">
+          {trophies.map((trophy) => (
+            <li key={trophy.id} className={`trophy${trophy.unlocked ? ' is-won' : ''}`}>
+              <span className="trophy__icon" aria-hidden="true">
+                <Icon name={trophy.unlocked ? TROPHY_ICONS[trophy.icon] : 'lock'} size={20} />
+              </span>
+              <span className="trophy__name">{trophy.name}</span>
+              <span className="trophy__desc">{trophy.description}</span>
+              {trophy.unlocked ? (
+                <span className="trophy__state">Débloqué</span>
+              ) : (
+                trophy.progress && (
+                  <span className="trophy__state">
+                    {trophy.progress[0]} / {trophy.progress[1]}
+                  </span>
+                )
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section aria-labelledby="records-title">
         <h2 className="section-title" id="records-title">
           Records
         </h2>
         <ul className="records">
-          {GAME_ORDER.map((id) => {
+          {GAME_ORDER.map((id, i) => {
             const best = bestOverall(data, id);
+            const medal = medals[i];
             return (
               <li key={id}>
                 <button type="button" className="record" onClick={() => navigate({ name: 'play', gameId: id })}>
@@ -89,9 +169,10 @@ export function ProgressScreen() {
                   <span className="record__text">
                     <span className="record__name">{GAMES[id].name}</span>
                     <span className="record__detail">
-                      {best ? `${best.headline} · niveau ${best.level}` : 'Pas encore de record'}
+                      {best ? `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts` : 'Pas encore de record'}
                     </span>
                   </span>
+                  {medal && <MedalBadge medal={medal} size={26} />}
                   <span className="record__score">{best ? best.score : '—'}</span>
                 </button>
               </li>

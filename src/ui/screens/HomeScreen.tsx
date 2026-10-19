@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
+import { coachTip } from '../../core/coach';
 import { addDays, currentStreak, dailyGames, hasOfficialTest } from '../../core/daily';
 import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
@@ -9,6 +10,7 @@ import { DomainBadge } from '../components/bits';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
+import { useProgression } from '../progression';
 import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
 
@@ -23,6 +25,8 @@ export function HomeScreen() {
   const today = useToday();
   const minute = useMinuteOfDay();
   const [starting, setStarting] = useState(false);
+  const { rank } = useProgression();
+  const rankProgress = (rank.xp - rank.levelStart) / (rank.nextAt - rank.levelStart);
 
   const inProgress = testInProgress(data, today);
   const doneToday = hasOfficialTest(data.tests, today);
@@ -71,12 +75,28 @@ export function HomeScreen() {
           </span>
           <span className="brand__name">Esprit Vif</span>
         </div>
-        {streak > 0 && (
-          <span className="streak" title="Jours d’entraînement d’affilée">
-            <Icon name="flame" size={18} />
-            {plural(streak, 'jour')}
-          </span>
-        )}
+        <span className="home__chips">
+          {streak > 0 && (
+            <span className="streak" title="Jours d’entraînement d’affilée">
+              <Icon name="flame" size={18} />
+              {plural(streak, 'jour')}
+            </span>
+          )}
+          <a
+            href="#/progres"
+            className="rank-chip"
+            aria-label={`Niveau ${rank.level}, ${rank.title}. Voir mes progrès`}
+            onClick={(event) => {
+              event.preventDefault();
+              navigate({ name: 'progress' }, { replace: true });
+            }}
+          >
+            <span className="rank-chip__ring" style={{ '--p': rankProgress } as CSSProperties}>
+              {rank.level}
+            </span>
+            <span className="rank-chip__label">Niv.</span>
+          </a>
+        </span>
       </header>
       <p className="home__date">{formatLongDay(today)}</p>
 
@@ -108,6 +128,18 @@ export function HomeScreen() {
       {!doneToday && <Programme games={programme} test={inProgress} />}
 
       <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
+
+      <section className="coach" aria-labelledby="coach-title">
+        <span className="coach__icon" aria-hidden="true">
+          <Icon name="spark" size={20} />
+        </span>
+        <div>
+          <h2 className="coach__title" id="coach-title">
+            Le mot du coach
+          </h2>
+          <p className="coach__tip">{coachTip(today)}</p>
+        </div>
+      </section>
 
       <InstallCard />
     </div>

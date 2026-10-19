@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import type { PlayOutcome } from '../core/types';
-import { gameLevel, officialTests, parseBackup, ProgressStore, testInProgress } from './progress';
+import { gameLevel, gameUnlocked, officialTests, parseBackup, progressionInput, ProgressStore, testInProgress } from './progress';
 import { createMemoryStorage, openIndexedDbStorage } from './storage';
 
 const outcome = (score: number): PlayOutcome => ({ score, stats: { timeMs: 30_000 }, headline: `${score} pts`, lines: [] });
@@ -113,5 +113,33 @@ describe('stockage IndexedDB', () => {
     const cleared = await ProgressStore.load(await openIndexedDbStorage('esprit-vif-test'));
     expect(cleared.getSnapshot().plays).toEqual([]);
     expect(cleared.getSnapshot().settings.theme).toBe('dark');
+  });
+});
+
+describe('séances, marathons et duels', () => {
+  it('sont comptés, sauvegardés et restaurés', async () => {
+    const store = await freshStore();
+    await store.completeSession('2026-10-19');
+    await store.completeSession('2026-10-19');
+    expect(await store.recordMarathon('calcul', 180)).toBe(true);
+    expect(await store.recordMarathon('calcul', 120)).toBe(false);
+    await store.recordDuel();
+    const other = await freshStore();
+    await other.importJson(store.exportJson());
+    expect(other.getSnapshot().extras).toEqual({
+      sessions: ['2026-10-19'],
+      marathons: { calcul: { best: 180, count: 2 } },
+      duels: 1,
+    });
+    expect(progressionInput(other.getSnapshot()).marathons).toBe(2);
+  });
+
+  it('ne conseille jamais un niveau encore verrouillé', async () => {
+    const store = await freshStore();
+    await store.recordPlay({ gameId: 'calcul', level: 1, mode: 'free', seed: 1, outcome: outcome(90) });
+    expect(gameLevel(store.getSnapshot(), 'calcul')).toBe(2);
+    expect(gameUnlocked(store.getSnapshot(), 'calcul')).toBe(2);
+    await store.recordPlay({ gameId: 'calcul', level: 2, mode: 'free', seed: 1, outcome: outcome(40) });
+    expect(gameUnlocked(store.getSnapshot(), 'calcul')).toBe(2);
   });
 });

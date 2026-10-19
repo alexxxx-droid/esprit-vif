@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { COACH_TIPS, coachTip } from './coach';
 import {
   addDays,
   addMonths,
@@ -97,5 +98,13 @@ describe('séries de jours', () => {
   it('retrouve la meilleure série', () => {
     expect(bestStreak(['2026-10-01', '2026-10-02', '2026-10-05', '2026-10-06', '2026-10-07'])).toBe(3);
     expect(bestStreak([])).toBe(0);
+  });
+});
+
+describe('mot du coach', () => {
+  it('change chaque jour et reste le même toute la journée', () => {
+    expect(coachTip('2026-10-19')).toBe(coachTip('2026-10-19'));
+    expect(coachTip('2026-10-19')).not.toBe(coachTip('2026-10-20'));
+    expect(COACH_TIPS.length).toBeGreaterThanOrEqual(50);
   });
 });

@@ -4,6 +4,7 @@ import {
   gameStars,
   medalFor,
   playXp,
+  progressionDelta,
   rankFor,
   titleFor,
   totalXp,
@@ -113,5 +114,22 @@ describe('trophées', () => {
     expect(byId['serie-7'].progress).toEqual([3, 7]);
     expect(byId['etoiles-50'].progress).toEqual([5, 50]);
     expect(byId['age-20'].unlocked).toBe(false);
+  });
+});
+
+describe('ce qu’une partie fait gagner', () => {
+  it('détecte XP, étoiles, médaille, niveau débloqué et nouveaux trophées', () => {
+    const before = { ...empty, bests: { calcul: bestsUpTo(4) } };
+    const play = { gameId: 'calcul' as const, level: 5, score: 96, at: '2026-10-19T10:00:00Z', day: '2026-10-19' };
+    const after = { ...before, plays: [play], bests: { calcul: { ...bestsUpTo(4), 5: { score: 96 } } } };
+    const delta = progressionDelta(before, after, 'calcul', 5);
+    expect(delta.xpGained).toBe(playXp(96, 5) + 30);
+    expect(delta.starsBefore).toBe(0);
+    expect(delta.starsAfter).toBe(3);
+    expect(delta.medalBefore).toBeNull();
+    expect(delta.medalAfter).toBe('bronze');
+    expect(delta.unlockedNext).toBe(true);
+    expect(delta.newTrophies.map((t) => t.id)).toContain('premiers-pas');
+    expect(delta.newTrophies.map((t) => t.id)).toContain('bronze');
   });
 });

@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { GameMeta } from '../../core/games/registry';
+import { progressionDelta, type ProgressionDelta } from '../../core/progression';
 import { randomSeed } from '../../core/rng';
 import type { PlayMode, PlayOutcome } from '../../core/types';
-import type { SavedPlay } from '../../store/progress';
+import { progressionInput, type SavedPlay } from '../../store/progress';
 import { fx } from '../fx/fx';
 import { GAME_COMPONENTS } from '../games/catalog';
+import { useStore } from '../progress-context';
 import { GameChromeContext } from './chrome';
 import { Countdown } from './Countdown';
 import { GameIntro } from './GameIntro';
@@ -18,35 +20,55 @@ interface Run {
   level: number;
 }
 
+/** Ce qu'affiche l'écran de résultat. */
+export interface RunResult {
+  outcome: PlayOutcome;
+  /** Partie enregistrée (null en duel : rien n'est gardé). */
+  saved: SavedPlay | null;
+  level: number;
+  seed: number;
+  delta: ProgressionDelta | null;
+}
+
 export interface RunnerActionsArgs {
-  saved: SavedPlay;
-  replay: () => void;
+  result: RunResult;
+  /** Relance une partie, au même niveau ou au niveau indiqué. */
+  replay: (level?: number) => void;
 }
 
 interface GameRunnerProps {
   meta: GameMeta;
   level: number;
   mode: PlayMode;
-  /** Graine imposée (test officiel du jour) ; sinon une nouvelle graine à chaque partie. */
+  /** Le joueur peut choisir son niveau parmi ceux qu'il a débloqués. */
+  selectable?: boolean;
+  /** Graine imposée (test officiel, duel) ; sinon une nouvelle graine à chaque partie. */
   fixedSeed?: number;
   /** Mention au-dessus du titre, par exemple « Test du jour · 1/3 ». */
   badge?: string;
-  save: (outcome: PlayOutcome, run: { seed: number; level: number }) => Promise<SavedPlay>;
+  /** Texte du bouton de départ. */
+  startLabel?: string;
+  save: (outcome: PlayOutcome, run: { seed: number; level: number }) => Promise<SavedPlay | null>;
   actions: (args: RunnerActionsArgs) => ReactNode;
   onQuit: () => void;
 }
 
 /** Déroulé commun à tous les jeux : intro → 3-2-1 → partie → résultat. */
-export function GameRunner({ meta, level, mode, fixedSeed, badge, save, actions, onQuit }: GameRunnerProps) {
+export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, startLabel, save, actions, onQuit }: GameRunnerProps) {
+  const store = useStore();
   const [phase, setPhase] = useState<Phase>('intro');
+  const [selected, setSelected] = useState(level);
   const [run, setRun] = useState<Run>({ id: 0, seed: 0, level });
-  const [result, setResult] = useState<{ outcome: PlayOutcome; saved: SavedPlay } | null>(null);
+  const [result, setResult] = useState<RunResult | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const chrome = useMemo(() => ({ title: meta.name, onQuit }), [meta.name, onQuit]);
+  const chosen = selectable ? selected : level;
 
-  const begin = () => {
+  const begin = (override?: number) => {
     const seed = fixedSeed ?? randomSeed();
-    setRun((previous) => ({ id: previous.id + 1, seed, level }));
+    const playLevel = override ?? chosen;
+    if (override !== undefined) setSelected(override);
+    setRun((previous) => ({ id: previous.id + 1, seed, level: playLevel }));
     setResult(null);
     setNotice(null);
     setPhase('countdown');
@@ -67,10 +89,12 @@ export function GameRunner({ meta, level, mode, fixedSeed, badge, save, actions,
   const finish = async (outcome: PlayOutcome) => {
     setPhase('saving');
     try {
+      const before = progressionInput(store.getSnapshot());
       const saved = await save(outcome, { seed: run.seed, level: run.level });
-      if (saved.record === 'new') fx.record();
+      const delta = saved ? progressionDelta(before, progressionInput(store.getSnapshot()), meta.id, run.level) : null;
+      if (delta && (delta.rankAfter.level > delta.rankBefore.level || delta.newTrophies.length || saved?.record === 'new')) fx.record();
       else fx.done();
-      setResult({ outcome, saved });
+      setResult({ outcome, saved, level: run.level, seed: run.seed, delta });
       setPhase('result');
     } catch {
       setNotice('Cette partie n’a pas pu être enregistrée. Réessaie quand tu veux.');
@@ -79,15 +103,26 @@ export function GameRunner({ meta, level, mode, fixedSeed, badge, save, actions,
   };
 
   if (phase === 'intro') {
-    return <GameIntro meta={meta} level={level} badge={badge} notice={notice} onStart={begin} onQuit={onQuit} />;
+    return (
+      <GameIntro
+        meta={meta}
+        level={chosen}
+        onLevelChange={selectable ? setSelected : undefined}
+        badge={badge}
+        notice={notice}
+        startLabel={startLabel}
+        onStart={() => begin()}
+        onQuit={onQuit}
+      />
+    );
   }
   if (phase === 'countdown') {
     return <Countdown title={meta.name} onDone={() => setPhase('play')} onQuit={onQuit} />;
   }
   if (phase === 'result' && result) {
     return (
-      <GameResult meta={meta} mode={mode} outcome={result.outcome} saved={result.saved}>
-        {actions({ saved: result.saved, replay: begin })}
+      <GameResult meta={meta} mode={mode} result={result}>
+        {actions({ result, replay: begin })}
       </GameResult>
     );
   }

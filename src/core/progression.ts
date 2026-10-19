@@ -293,6 +293,38 @@ export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(i
   });
 }
 
+/** Ce qu'une partie vient de faire gagner : affiché sur l'écran de résultat. */
+export interface ProgressionDelta {
+  xpGained: number;
+  rankBefore: Rank;
+  rankAfter: Rank;
+  starsBefore: number;
+  starsAfter: number;
+  medalBefore: Medal | null;
+  medalAfter: Medal | null;
+  /** Le niveau suivant vient de se débloquer. */
+  unlockedNext: boolean;
+  newTrophies: TrophyStatus[];
+}
+
+export function progressionDelta(before: ProgressionInput, after: ProgressionInput, gameId: GameId, level: number): ProgressionDelta {
+  const rankBefore = rankFor(totalXp(before));
+  const rankAfter = rankFor(totalXp(after));
+  const unlockedBefore = new Set(trophyStatuses(before, rankBefore.level).filter((s) => s.unlocked).map((s) => s.id));
+  const levelStars = (input: ProgressionInput) => starsFor(input.bests[gameId]?.[level]?.score ?? 0);
+  return {
+    xpGained: rankAfter.xp - rankBefore.xp,
+    rankBefore,
+    rankAfter,
+    starsBefore: levelStars(before),
+    starsAfter: levelStars(after),
+    medalBefore: medalFor(before.bests[gameId]),
+    medalAfter: medalFor(after.bests[gameId]),
+    unlockedNext: unlockedLevel(after.bests[gameId]) > unlockedLevel(before.bests[gameId]),
+    newTrophies: trophyStatuses(after, rankAfter.level).filter((s) => s.unlocked && !unlockedBefore.has(s.id)),
+  };
+}
+
 /** Résumé de la progression pour l'interface. */
 export interface ProgressionSummary {
   rank: Rank;

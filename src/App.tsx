@@ -15,6 +15,7 @@ import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { HomeScreen } from './ui/screens/HomeScreen';
 import { DuelScreen, MarathonScreen, SessionScreen } from './ui/screens/ModeScreens';
+import { PartyScreen } from './ui/screens/PartyScreen';
 import { DailyTestScreen, PlayScreen } from './ui/screens/PlayScreens';
 import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
@@ -45,6 +46,8 @@ function Screen({ route }: { route: Route }) {
       return <MarathonScreen domain={route.domain} />;
     case 'duel':
       return <DuelScreen />;
+    case 'party':
+      return <PartyScreen />;
   }
 }
 

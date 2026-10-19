@@ -2446,8 +2446,14 @@
 
 .modes__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+}
+
+@media (min-width: 700px) {
+  .modes__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .mode-tile {
@@ -2455,7 +2461,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  min-height: 132px;
+  min-height: 118px;
   padding: 14px 12px;
   border: 0;
   border-radius: var(--radius-l);
@@ -2754,7 +2760,7 @@
   animation: pop 360ms var(--ease-spring) both;
 }
 
-.duel-final {
+.intro__head.duel-final {
   align-items: center;
   text-align: center;
 }
@@ -3427,4 +3433,236 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
+}
+
+/* ---------- Mode fête ---------- */
+
+.party-seats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.party-seat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.party-seat .field__input {
+  flex: 1;
+}
+
+.party {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  padding: calc(env(safe-area-inset-top, 0px) + 6px) 6px calc(env(safe-area-inset-bottom, 0px) + 6px);
+  background: var(--bg);
+}
+
+.party--3,
+.party--4 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.party-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transition:
+    box-shadow 160ms,
+    opacity 160ms;
+}
+
+/* Les zones du haut regardent le joueur d'en face. */
+.party-zone.is-flipped {
+  transform: rotate(180deg);
+}
+
+.party-zone.is-frozen {
+  opacity: 0.55;
+}
+
+.party-zone.is-won {
+  box-shadow: inset 0 0 0 4px var(--good), var(--shadow-1);
+}
+
+.party-zone__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.party-zone__name {
+  overflow: hidden;
+  flex: 1;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.party-zone__score {
+  min-width: 40px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.party-zone__intro {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  animation: pop 360ms var(--ease-spring) both;
+}
+
+.party-zone__title {
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 800;
+}
+
+.party-zone__rule {
+  color: var(--ink-2);
+}
+
+.party-zone__question {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  min-height: 0;
+}
+
+.party-zone__text,
+.party-zone__word {
+  font-size: clamp(1.8rem, 9vw, 3rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.party-zone__word {
+  padding: 4px 18px;
+  border-radius: 14px;
+  background: var(--stage);
+  text-transform: uppercase;
+}
+
+.party-dots {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: min(100%, 150px);
+}
+
+.party-dots span {
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.party-dots span.is-on {
+  background: var(--ink);
+}
+
+.party-zone__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.party-option {
+  min-height: 52px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transition: transform 80ms;
+}
+
+.party-option:active {
+  transform: scale(0.95);
+}
+
+.party-option.is-answer {
+  box-shadow: inset 0 0 0 4px var(--good);
+}
+
+.party-option--color.is-answer {
+  box-shadow:
+    inset 0 0 0 4px var(--surface),
+    0 0 0 3px var(--good);
+}
+
+.party-zone__status {
+  min-height: 1.3em;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.party-zone.is-won .party-zone__status {
+  color: var(--good);
+}
+
+.party-board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: var(--radius-l);
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.party-board__round {
+  font-weight: 800;
+}
+
+.party-board__row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Bandeau central : manche, question, et de quoi arrêter. */
+.party-bar {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  translate: -50% -50%;
+}
+
+.party-bar .icon-btn {
+  width: 36px;
+  height: 36px;
 }

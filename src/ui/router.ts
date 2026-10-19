@@ -14,7 +14,8 @@ export type Route =
   | { name: 'report'; testId: string }
   | { name: 'session' }
   | { name: 'marathon'; domain: Domain | null }
-  | { name: 'duel' };
+  | { name: 'duel' }
+  | { name: 'party' };
 
 const isDomain = (value: string | undefined): value is Domain => DOMAIN_ORDER.includes(value as Domain);
 
@@ -45,6 +46,8 @@ export function parseHash(hash: string): Route {
       return { name: 'marathon', domain: isDomain(arg) ? arg : null };
     case 'duel':
       return { name: 'duel' };
+    case 'fete':
+      return { name: 'party' };
     default:
       return { name: 'home' };
   }
@@ -72,6 +75,8 @@ export function routeHash(route: Route): string {
       return route.domain ? `#/marathon/${route.domain}` : '#/marathon';
     case 'duel':
       return '#/duel';
+    case 'party':
+      return '#/fete';
   }
 }
 

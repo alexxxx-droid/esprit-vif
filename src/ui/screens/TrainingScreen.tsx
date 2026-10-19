@@ -53,7 +53,14 @@ export function TrainingScreen() {
               <Icon name="duel" />
             </span>
             <span className="mode-tile__title">Duel à deux</span>
-            <span className="mode-tile__sub">Même partie, même téléphone</span>
+            <span className="mode-tile__sub">Même partie, à tour de rôle</span>
+          </button>
+          <button type="button" className="mode-tile" onClick={() => navigate({ name: 'party' })}>
+            <span className="mode-tile__icon">
+              <Icon name="users" />
+            </span>
+            <span className="mode-tile__title">Mode fête</span>
+            <span className="mode-tile__sub">2 à 4 joueurs en même temps</span>
           </button>
         </div>
       </section>

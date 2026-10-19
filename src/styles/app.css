@@ -877,6 +877,343 @@
   background: var(--d-langage);
 }
 
+/* ---------- Progrès ---------- */
+
+.card .section-title {
+  margin-bottom: 2px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tile-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.tile-stat__icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.tile-stat__icon--flame,
+.tile-stat__icon--star {
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.tile-stat__value {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.tile-stat__unit {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tile-stat__label {
+  margin-top: 8px;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.chart {
+  margin-top: 14px;
+}
+
+.chart__plot {
+  position: relative;
+  border-radius: 12px;
+}
+
+.chart__plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.chart__grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.chart__tick {
+  fill: var(--ink-3);
+  font-family: var(--font);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__area {
+  fill: color-mix(in oklab, var(--accent) 10%, transparent);
+}
+
+.chart__line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart__dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart__cross {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+}
+
+.chart__end {
+  fill: var(--ink);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart__tooltip {
+  position: absolute;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-2);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 14px));
+}
+
+.chart__table {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.chart__table summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--ink-2);
+  font-weight: 650;
+  cursor: pointer;
+  list-style: none;
+}
+
+.chart__table summary::-webkit-details-marker {
+  display: none;
+}
+
+.chart__table summary::before {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  content: '';
+  rotate: -45deg;
+  transition: rotate 160ms var(--ease-out);
+}
+
+.chart__table[open] summary::before {
+  rotate: 45deg;
+}
+
+.chart__table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.chart__table th,
+.chart__table td {
+  padding: 8px 4px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+
+.chart__table th {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.chart__table th:last-child,
+.chart__table td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-bars--profile {
+  margin-top: 16px;
+}
+
+.score-bar__value.is-empty {
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.calendar__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar__title {
+  flex: 1;
+  text-align: center;
+}
+
+.calendar__title .section-title::first-letter {
+  text-transform: uppercase;
+}
+
+.icon-btn--flat {
+  background: var(--surface-2);
+  box-shadow: none;
+}
+
+.icon-btn--next svg {
+  transform: scaleX(-1);
+}
+
+.icon-btn:disabled {
+  opacity: 0.35;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  justify-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.calendar__weekday {
+  padding-bottom: 4px;
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.calendar__day {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 42px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar__day.is-played {
+  background: var(--warm);
+  color: var(--badge-ink);
+  font-weight: 800;
+  rotate: -8deg;
+}
+
+.calendar__day.is-today {
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 4px var(--ink);
+}
+
+.calendar__day.is-future {
+  color: var(--ink-3);
+}
+
+.records {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: var(--shadow-1);
+  transition: transform 120ms var(--ease-out);
+}
+
+.record:active {
+  transform: scale(0.98);
+}
+
+.record__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.record__name {
+  font-weight: 680;
+}
+
+.record__detail {
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 0.85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record__score {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Réglages ---------- */
 
 .settings__card {

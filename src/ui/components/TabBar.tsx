@@ -4,6 +4,7 @@ import { Icon, type IconName } from './Icon';
 const TABS: { route: Route; label: string; icon: IconName }[] = [
   { route: { name: 'home' }, label: 'Accueil', icon: 'home' },
   { route: { name: 'training' }, label: 'Entraînement', icon: 'training' },
+  { route: { name: 'progress' }, label: 'Progrès', icon: 'progress' },
   { route: { name: 'settings' }, label: 'Réglages', icon: 'settings' },
 ];
 

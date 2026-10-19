@@ -66,6 +66,26 @@ export function currentStreak(days: Iterable<string>, today: string): number {
   return count;
 }
 
+/**
+ * Grille d'un mois pour le calendrier, semaines commençant le lundi :
+ * des cases vides (null) avant le 1er, puis un jour par case.
+ */
+export function monthGrid(year: number, month: number): (string | null)[] {
+  const first = new Date(Date.UTC(year, month - 1, 1));
+  const leading = (first.getUTCDay() + 6) % 7;
+  const length = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return [
+    ...Array.from({ length: leading }, () => null),
+    ...Array.from({ length }, (_, i) => `${year}-${pad(month)}-${pad(i + 1)}`),
+  ];
+}
+
+/** Décale un mois « AAAA-MM » de `delta` mois. */
+export function addMonths(year: number, month: number, delta: number): [number, number] {
+  const index = year * 12 + (month - 1) + delta;
+  return [Math.floor(index / 12), (index % 12) + 1];
+}
+
 export function bestStreak(days: Iterable<string>): number {
   const sorted = [...new Set(days)].sort();
   let best = 0;

@@ -115,6 +115,17 @@ export function testInProgress(data: ProgressData, day: string): TestRecord | nu
   return data.tests.find((t) => !t.done && t.day === day) ?? null;
 }
 
+/** Meilleur score d'un jeu, tous niveaux confondus. */
+export function bestOverall(data: ProgressData, gameId: GameId): (BestRecord & { level: number }) | null {
+  let best: (BestRecord & { level: number }) | null = null;
+  for (const [level, record] of Object.entries(data.games[gameId]?.bests ?? {})) {
+    if (!best || record.score > best.score || (record.score === best.score && Number(level) > best.level)) {
+      best = { ...record, level: Number(level) };
+    }
+  }
+  return best;
+}
+
 export function officialTests(data: ProgressData): TestRecord[] {
   return data.tests.filter((t) => t.done && t.official).sort((a, b) => a.startedAt.localeCompare(b.startedAt));
 }

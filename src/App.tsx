@@ -7,6 +7,7 @@ import { useProgress } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { HomeScreen } from './ui/screens/HomeScreen';
 import { DailyTestScreen, PlayScreen } from './ui/screens/PlayScreens';
+import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
 import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { TrainingScreen } from './ui/screens/TrainingScreen';
@@ -16,8 +17,9 @@ const TABBED: Route['name'][] = ['home', 'training', 'progress', 'settings'];
 function Screen({ route }: { route: Route }) {
   switch (route.name) {
     case 'home':
-    case 'progress':
       return <HomeScreen />;
+    case 'progress':
+      return <ProgressScreen />;
     case 'training':
       return <TrainingScreen />;
     case 'settings':

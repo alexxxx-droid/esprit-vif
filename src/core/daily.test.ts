@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   addDays,
+  addMonths,
   bestStreak,
+  monthGrid,
   currentStreak,
   dailyGames,
   dailySeed,
@@ -55,6 +57,22 @@ describe('un seul test officiel par jour', () => {
     expect(hasOfficialTest(tests, '2026-10-19')).toBe(false);
     expect(hasOfficialTest(tests, '2026-10-18')).toBe(true);
     expect(hasOfficialTest([...tests, { day: '2026-10-19', official: true, done: true }], '2026-10-19')).toBe(true);
+  });
+});
+
+describe('calendrier', () => {
+  it('commence le lundi et compte les jours du mois', () => {
+    const october = monthGrid(2026, 10); // le 1er octobre 2026 est un jeudi
+    expect(october.slice(0, 4)).toEqual([null, null, null, '2026-10-01']);
+    expect(october.filter(Boolean)).toHaveLength(31);
+    expect(monthGrid(2028, 2).filter(Boolean)).toHaveLength(29);
+    expect(monthGrid(2026, 6)[0]).toBe('2026-06-01'); // un lundi
+  });
+
+  it('passe d’un mois à l’autre, années comprises', () => {
+    expect(addMonths(2026, 1, -1)).toEqual([2025, 12]);
+    expect(addMonths(2026, 12, 1)).toEqual([2027, 1]);
+    expect(addMonths(2026, 10, 0)).toEqual([2026, 10]);
   });
 });
 

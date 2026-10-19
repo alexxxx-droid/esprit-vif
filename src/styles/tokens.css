@@ -1,0 +1,155 @@
+/*
+ * Jetons de design. Thème clair par défaut, thème sombre choisi (pas une simple inversion) :
+ * - automatiquement si l'appareil est en sombre et qu'aucun thème n'est imposé ;
+ * - toujours si l'utilisateur choisit « Sombre » dans les réglages.
+ * Couleurs des domaines : validées pour le daltonisme (ordre Calcul → Langage, voir docs/DECISIONS.md).
+ */
+:root {
+  color-scheme: light;
+  --bg: #f5f2ec;
+  --surface: #ffffff;
+  --surface-2: #f0ebe3;
+  --surface-3: #e4ddd2;
+  --ink: #18171c;
+  --ink-2: #4f4c57;
+  --ink-3: #6c6873;
+  --line: #e4ded3;
+  --switch-off: #8f8999;
+
+  --accent: #4b39ef;
+  --accent-strong: #3a28d6;
+  --accent-ink: #ffffff;
+  --accent-soft: #e9e5ff;
+  --accent-soft-ink: #3423c4;
+
+  --good: #157a48;
+  --good-soft: #dcf2e6;
+  --on-good: #ffffff;
+  --bad: #c0352a;
+  --bad-soft: #fbe4e1;
+  --on-bad: #ffffff;
+  --warm: #f0a400;
+  --warm-soft: #fff1cc;
+  --warm-ink: #6b4700;
+
+  --d-calcul: #2a78d6;
+  --d-memoire: #eb6834;
+  --d-attention: #1baf7a;
+  --d-vitesse: #eda100;
+  --d-langage: #e87ba4;
+  --badge-ink: #18171c;
+
+  /* Scène sombre des Couleurs piégées : les quatre encres y restent lisibles dans les deux thèmes. */
+  --stage: #17161d;
+  --stage-2: #26242f;
+  --stage-ink: #f3f1f7;
+  --stage-ink-2: #b6b2c1;
+  --ink-rouge: #ff5a52;
+  --ink-bleu: #4f8dff;
+  --ink-vert: #34c972;
+  --ink-jaune: #ffd23f;
+
+  --shadow-1: 0 1px 2px rgb(30 24 60 / 6%), 0 6px 20px -6px rgb(30 24 60 / 12%);
+  --shadow-2: 0 2px 6px rgb(30 24 60 / 8%), 0 18px 40px -12px rgb(30 24 60 / 24%);
+  --shadow-accent: 0 14px 30px -12px rgb(75 57 239 / 60%);
+
+  --radius-s: 12px;
+  --radius-m: 18px;
+  --radius-l: 24px;
+  --radius-xl: 32px;
+  --gutter: 16px;
+  --tabbar-h: 70px;
+
+  --font: 'Bricolage Grotesque Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+    --bg: #111015;
+    --surface: #1c1b22;
+    --surface-2: #25232d;
+    --surface-3: #33303d;
+    --ink: #f4f2f8;
+    --ink-2: #bdb9c8;
+    --ink-3: #9a96a6;
+    --line: #2f2d38;
+    --switch-off: #6e6a7b;
+
+    --accent: #9385ff;
+    --accent-strong: #a89dff;
+    --accent-ink: #120f2a;
+    --accent-soft: #2b2558;
+    --accent-soft-ink: #d3ccff;
+
+    --good: #4fd99a;
+    --good-soft: #15382a;
+    --on-good: #0b1f15;
+    --bad: #ff7b6e;
+    --bad-soft: #3f1d1a;
+    --on-bad: #2a0c09;
+    --warm: #ffc233;
+    --warm-soft: #3a2c0a;
+    --warm-ink: #ffd77a;
+
+    --d-calcul: #3987e5;
+    --d-memoire: #d95926;
+    --d-attention: #199e70;
+    --d-vitesse: #c98500;
+    --d-langage: #d55181;
+    --badge-ink: #111015;
+
+    --stage: #0c0b10;
+    --stage-2: #201e28;
+
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 45%);
+    --shadow-2: 0 2px 6px rgb(0 0 0 / 35%), 0 18px 40px -12px rgb(0 0 0 / 60%);
+    --shadow-accent: 0 14px 30px -12px rgb(147 133 255 / 45%);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #111015;
+  --surface: #1c1b22;
+  --surface-2: #25232d;
+  --surface-3: #33303d;
+  --ink: #f4f2f8;
+  --ink-2: #bdb9c8;
+  --ink-3: #9a96a6;
+  --line: #2f2d38;
+  --switch-off: #6e6a7b;
+
+  --accent: #9385ff;
+  --accent-strong: #a89dff;
+  --accent-ink: #120f2a;
+  --accent-soft: #2b2558;
+  --accent-soft-ink: #d3ccff;
+
+  --good: #4fd99a;
+  --good-soft: #15382a;
+  --on-good: #0b1f15;
+  --bad: #ff7b6e;
+  --bad-soft: #3f1d1a;
+  --on-bad: #2a0c09;
+  --warm: #ffc233;
+  --warm-soft: #3a2c0a;
+  --warm-ink: #ffd77a;
+
+  --d-calcul: #3987e5;
+  --d-memoire: #d95926;
+  --d-attention: #199e70;
+  --d-vitesse: #c98500;
+  --d-langage: #d55181;
+  --badge-ink: #111015;
+
+  --stage: #0c0b10;
+  --stage-2: #201e28;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 45%);
+  --shadow-2: 0 2px 6px rgb(0 0 0 / 35%), 0 18px 40px -12px rgb(0 0 0 / 60%);
+  --shadow-accent: 0 14px 30px -12px rgb(147 133 255 / 45%);
+}

@@ -1,0 +1,71 @@
+import type { Domain } from '../../core/types';
+
+const STROKE: Record<string, string> = {
+  home: 'M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6.5H9V21H4.5a1 1 0 0 1-1-1z',
+  training: 'M6.5 7v10M3.5 9.5v5M17.5 7v10M20.5 9.5v5M6.5 12h11',
+  progress: 'M3.5 20.5h17M6.5 16.5v-4M11.5 16.5V6.5M16.5 16.5v-7',
+  settings: 'M4 6.5h9M19 6.5h1M4 12h3M11 12h9M4 17.5h11M19 17.5h1',
+  close: 'M6.5 6.5l11 11M17.5 6.5l-11 11',
+  back: 'M14.5 18l-6-6 6-6',
+  erase: 'M9 5.5h10.5a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9L3.5 12zM12 9.5l5 5M17 9.5l-5 5',
+  arrow: 'M5 12h14M13 6l6 6-6 6',
+  check: 'M5 12.5l4.5 4.5L19 7.5',
+  up: 'M12 19V5M6 11l6-6 6 6',
+  down: 'M12 5v14M6 13l6 6 6-6',
+  replay: 'M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4',
+  volume: 'M4 9.5v5h3.5L12 18V6L7.5 9.5zM16 9a4.5 4.5 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11',
+  vibrate: 'M8.5 4.5h7a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1zM3.5 9v6M20.5 9v6',
+  mic: 'M12 3.5a2.5 2.5 0 0 1 2.5 2.5v5a2.5 2.5 0 0 1-5 0V6A2.5 2.5 0 0 1 12 3.5zM6 11a6 6 0 0 0 12 0M12 17v3.5',
+  bell: 'M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 1.5h-15zM10 20.5a2 2 0 0 0 4 0',
+  sun: 'M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4',
+  download: 'M12 4v11M7 10.5l5 5 5-5M5 20h14',
+  upload: 'M12 15.5V4.5M7 9l5-5 5 5M5 20h14',
+  trash: 'M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13',
+  info: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 11v5.5M12 7.8v.2',
+  calendar: 'M5 5.5h14a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1zM4 10h16M8.5 3.5v4M15.5 3.5v4',
+  flame:
+    'M12 3c.6 2.8 4.5 4.8 4.5 9.3a4.5 4.5 0 0 1-9 0c0-1.8.7-3 1.8-4 .2 1.4.9 2.4 2 2.6-.4-2.6.1-5.4.7-7.9z',
+  // Domaines
+  calcul: 'M7 4v6M4 7h6M14 7h6M4.8 14.8l4.4 4.4M9.2 14.8l-4.4 4.4M14 17h6M17 14.2v.1M17 19.7v.1',
+  memoire: 'M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z',
+  attention: 'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z',
+  vitesse: 'M13.5 2.5 4.5 14h7l-1 7.5 9-11.5h-7z',
+  langage: 'M4.5 5h15a1 1 0 0 1 1 1v9.5a1 1 0 0 1-1 1H10l-5.5 4v-4h0a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM8.5 9.5h7M8.5 12.5h4.5',
+};
+
+const FILL: Record<string, string> = {
+  play: 'M8 5.2v13.6a.8.8 0 0 0 1.2.7l10.6-6.8a.8.8 0 0 0 0-1.4L9.2 4.5A.8.8 0 0 0 8 5.2z',
+  spark: 'M12 2c.9 5.3 4.7 9.1 10 10-5.3.9-9.1 4.7-10 10-.9-5.3-4.7-9.1-10-10C7.3 11.1 11.1 7.3 12 2z',
+  star: 'M12 3.2l2.7 5.5 6 .9-4.35 4.2 1 6-5.35-2.8-5.35 2.8 1-6L3.3 9.6l6-.9z',
+  stamp: 'M12 2.5l2.2 1.6 2.7-.1.9 2.6 2.2 1.6-.8 2.6.8 2.6-2.2 1.6-.9 2.6-2.7-.1L12 21.5l-2.2-1.6-2.7.1-.9-2.6L4 15.8l.8-2.6L4 10.6l2.2-1.6.9-2.6 2.7.1z',
+};
+
+export type IconName = keyof typeof STROKE | keyof typeof FILL | Domain;
+
+interface IconProps {
+  name: IconName;
+  size?: number;
+  className?: string;
+  strokeWidth?: number;
+}
+
+export function Icon({ name, size = 24, className, strokeWidth = 2 }: IconProps) {
+  const filled = FILL[name];
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill={filled ? 'currentColor' : 'none'}
+      stroke={filled ? 'none' : 'currentColor'}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d={filled ?? STROKE[name]} />
+    </svg>
+  );
+}

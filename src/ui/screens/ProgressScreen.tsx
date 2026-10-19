@@ -233,7 +233,7 @@ export function ProgressScreen() {
         <div className="tab-panel" role="tabpanel" id="panel-records" aria-labelledby="tab-records">
           <section aria-labelledby="records-title">
             <h2 className="section-title" id="records-title">
-              Records
+              Tes meilleurs scores, jeu par jeu
             </h2>
             <ul className="records">
               {GAME_ORDER.map((id, i) => {

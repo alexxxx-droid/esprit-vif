@@ -10,6 +10,20 @@
   padding: calc(env(safe-area-inset-top, 0px) + 12px) var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 16px);
 }
 
+/* Ambiance du domaine : un halo discret en haut de l'écran, la barre de progression à sa couleur. */
+.domain-scope {
+  display: contents;
+}
+
+.domain-scope :is(.intro, .countdown, .game, .result) {
+  background-image: radial-gradient(130% 32% at 50% -6%, color-mix(in oklab, var(--dom) 18%, transparent), transparent 72%);
+  background-repeat: no-repeat;
+}
+
+.domain-scope .hud__progress span {
+  background: var(--dom);
+}
+
 .game {
   gap: 12px;
   height: 100dvh;

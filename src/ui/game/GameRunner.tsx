@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import type { GameMeta } from '../../core/games/registry';
 import { progressionDelta, type ProgressionDelta } from '../../core/progression';
 import { randomSeed } from '../../core/rng';
@@ -102,8 +102,15 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     }
   };
 
+  // Toute la partie baigne dans la couleur de son domaine (halo, barre de progression).
+  const tinted = (node: ReactNode) => (
+    <div className="domain-scope" style={{ '--dom': `var(--d-${meta.domain})` } as CSSProperties}>
+      {node}
+    </div>
+  );
+
   if (phase === 'intro') {
-    return (
+    return tinted(
       <GameIntro
         meta={meta}
         level={chosen}
@@ -113,23 +120,23 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
         startLabel={startLabel}
         onStart={() => begin()}
         onQuit={onQuit}
-      />
+      />,
     );
   }
   if (phase === 'countdown') {
-    return <Countdown title={meta.name} onDone={() => setPhase('play')} onQuit={onQuit} />;
+    return tinted(<Countdown title={meta.name} onDone={() => setPhase('play')} onQuit={onQuit} />);
   }
   if (phase === 'result' && result) {
-    return (
+    return tinted(
       <GameResult meta={meta} mode={mode} result={result}>
         {actions({ result, replay: begin })}
-      </GameResult>
+      </GameResult>,
     );
   }
   const Game = GAME_COMPONENTS[meta.id];
-  return (
+  return tinted(
     <GameChromeContext value={chrome}>
       <Game key={run.id} seed={run.seed} level={run.level} onFinish={finish} />
-    </GameChromeContext>
+    </GameChromeContext>,
   );
 }

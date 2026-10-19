@@ -96,6 +96,19 @@ export function currentStreak(days: Iterable<string>, today: string): number {
 }
 
 /**
+ * La série du jour et le dernier jour où elle tiendra encore sans nouvelle partie (jour de repos
+ * compris) : de quoi l'afficher hors de l'appli, sur le widget, sans la recalculer.
+ */
+export function streakHorizon(days: Iterable<string>, today: string): { count: number; until: string | null } {
+  const set = new Set(days);
+  const count = currentStreakDetail(set, today).count;
+  if (count === 0) return { count, until: null };
+  let until = today;
+  for (let d = 1; d <= REST_DAY_EVERY && currentStreakDetail(set, addDays(today, d)).count > 0; d++) until = addDays(today, d);
+  return { count, until };
+}
+
+/**
  * Grille d'un mois pour le calendrier, semaines commençant le lundi :
  * des cases vides (null) avant le 1er, puis un jour par case.
  */

@@ -103,6 +103,11 @@ export function SettingsScreen() {
               defaultValue={active.name}
               maxLength={16}
               placeholder={playerName}
+              enterKeyHint="done"
+              // Entrée (la touche « OK » du clavier) valide le prénom, comme quitter le champ.
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur();
+              }}
               onBlur={(event) => {
                 if (event.target.value.trim() !== active.name) void manager.update(active.id, { name: event.target.value });
               }}
@@ -292,6 +297,23 @@ export function SettingsScreen() {
           </label>
         )}
       </Section>
+
+      {platform().pinWidget && (
+        <Section title="Écran d’accueil">
+          <p className="hint">
+            Un widget montre ta série et le test du jour, avec deux boutons pour lancer le test ou la séance. Un appui long sur l’icône d’Esprit Vif donne
+            aussi des raccourcis.
+          </p>
+          <ActionRow
+            icon="plus"
+            label="Ajouter le widget"
+            onClick={async () => {
+              const asked = await platform().pinWidget?.();
+              if (!asked) say('Appuie longuement sur ton écran d’accueil, puis Widgets, puis Esprit Vif.');
+            }}
+          />
+        </Section>
+      )}
 
       {canInstall && (
         <Section title="Appli">

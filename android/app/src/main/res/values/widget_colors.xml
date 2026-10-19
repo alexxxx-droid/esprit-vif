@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget_bg">#FFFFFF</color>
+    <color name="widget_ink">#18171C</color>
+    <color name="widget_ink_2">#5C5966</color>
+    <color name="widget_accent">#4B39EF</color>
+    <color name="widget_accent_ink">#FFFFFF</color>
+    <color name="widget_soft">#EFEAFE</color>
+    <color name="widget_soft_ink">#3A2BC4</color>
+    <color name="shortcut_bg">#4B39EF</color>
+    <color name="shortcut_ink">#FFFFFF</color>
+</resources>

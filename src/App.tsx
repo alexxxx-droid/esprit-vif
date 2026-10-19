@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from 'react';
-import { hasOfficialTest } from './core/daily';
+import { hasOfficialTest, streakHorizon } from './core/daily';
 import { sessionDone, sessionGames } from './core/modes';
 import type { Domain } from './core/types';
-import type { PlayRecord, Settings } from './store/progress';
+import { profileName } from './store/profiles';
+import type { PlayRecord, Settings, TestRecord } from './store/progress';
 import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
@@ -11,13 +12,14 @@ import { setEffectsVolume, setSoundEnabled } from './ui/fx/sound';
 import { MOTION_EVENT, useToday } from './ui/hooks';
 import { platform } from './ui/platform';
 import { setGenerousTime } from './ui/tempo';
+import { useProfiles } from './ui/profiles-context';
 import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { ChallengeScreen } from './ui/screens/ChallengeScreen';
 import { HomeScreen } from './ui/screens/HomeScreen';
 import { DuelScreen, MarathonScreen, SessionScreen } from './ui/screens/ModeScreens';
 import { PartyScreen } from './ui/screens/PartyScreen';
-import { DailyTestScreen, PlayScreen } from './ui/screens/PlayScreens';
+import { DailyTestScreen, PlayScreen, StartTestScreen } from './ui/screens/PlayScreens';
 import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
 import { SettingsScreen } from './ui/screens/SettingsScreen';
@@ -39,6 +41,8 @@ function Screen({ route }: { route: Route }) {
       return <PlayScreen gameId={route.gameId} />;
     case 'test':
       return <DailyTestScreen />;
+    case 'start-test':
+      return <StartTestScreen />;
     case 'report':
       return <ReportScreen testId={route.testId} />;
     case 'session':
@@ -100,6 +104,23 @@ function useReminderSync(settings: Settings, doneToday: boolean) {
   }, [settings.reminder, settings.reminderTime, doneToday]);
 }
 
+/** Appli Android : le widget d'écran d'accueil suit la série et le test du jour. */
+function useWidgetSync(plays: readonly PlayRecord[], tests: readonly TestRecord[], today: string) {
+  const { active, profiles } = useProfiles();
+  // Un prénom choisi, ou « Joueur 2 » quand plusieurs joueurs partagent l'appareil ; sinon rien.
+  const name = active.name || profiles.length > 1 ? profileName(active, profiles) : '';
+  useEffect(() => {
+    const update = platform().updateWidget;
+    if (!update) return;
+    const { count, until } = streakHorizon(
+      plays.map((p) => p.day),
+      today,
+    );
+    const last = tests.filter((t) => t.done && t.official).sort((a, b) => a.startedAt.localeCompare(b.startedAt)).at(-1);
+    void update({ name, streak: count, streakUntil: until ?? '', testDay: last?.day ?? '', brainAge: last?.brainAge ?? 0 });
+  }, [plays, tests, today, name]);
+}
+
 /** Les quatre jeux de la séance joués, d'une façon ou d'une autre : la séance compte, même hors de son écran. */
 function useSessionAutoComplete(plays: readonly PlayRecord[], sessions: readonly string[], goals: readonly Domain[], today: string) {
   const store = useStore();
@@ -118,6 +139,7 @@ export function App() {
   useApplySettings(settings);
   useReminderSync(settings, hasOfficialTest(tests, today));
   useSessionAutoComplete(plays, extras.sessions, settings.goals, today);
+  useWidgetSync(plays, tests, today);
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
 

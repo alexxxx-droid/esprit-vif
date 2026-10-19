@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Raccourcis de l'icône (appui long) : chacun ouvre un lien espritvif://… que l'appli suit. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_test"
+        android:shortcutId="test"
+        android:shortcutLongLabel="@string/shortcut_test_long"
+        android:shortcutShortLabel="@string/shortcut_test">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="espritvif://test-du-jour"
+            android:targetClass="io.github.alexxxxdroid.espritvif.MainActivity"
+            android:targetPackage="io.github.alexxxxdroid.espritvif" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_seance"
+        android:shortcutId="seance"
+        android:shortcutLongLabel="@string/shortcut_seance_long"
+        android:shortcutShortLabel="@string/shortcut_seance">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="espritvif://seance"
+            android:targetClass="io.github.alexxxxdroid.espritvif.MainActivity"
+            android:targetPackage="io.github.alexxxxdroid.espritvif" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_jeux"
+        android:shortcutId="jeux"
+        android:shortcutLongLabel="@string/shortcut_jeux_long"
+        android:shortcutShortLabel="@string/shortcut_jeux">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="espritvif://entrainement"
+            android:targetClass="io.github.alexxxxdroid.espritvif.MainActivity"
+            android:targetPackage="io.github.alexxxxdroid.espritvif" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_defis"
+        android:shortcutId="defis"
+        android:shortcutLongLabel="@string/shortcut_defis_long"
+        android:shortcutShortLabel="@string/shortcut_defis">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="espritvif://defi"
+            android:targetClass="io.github.alexxxxdroid.espritvif.MainActivity"
+            android:targetPackage="io.github.alexxxxdroid.espritvif" />
+    </shortcut>
+</shortcuts>

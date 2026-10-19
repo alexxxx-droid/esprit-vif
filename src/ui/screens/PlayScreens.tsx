@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { dailySeed } from '../../core/daily';
-import { GAMES } from '../../core/games/registry';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
+import { dailyGames, dailySeed } from '../../core/daily';
+import { DAILY_ROTATION, GAMES } from '../../core/games/registry';
 import { MAX_LEVEL } from '../../core/levels';
 import type { GameId } from '../../core/types';
-import { gameLevel, gameUnlocked, testInProgress, type TestRecord } from '../../store/progress';
+import { gameLevel, gameUnlocked, officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { Icon } from '../components/Icon';
 import { GameRunner } from '../game/GameRunner';
 import { useToday } from '../hooks';
@@ -55,6 +55,31 @@ function nextPending(test: TestRecord): GameId | null {
 }
 
 /** Test du jour : trois jeux à niveau fixe, enchaînés, puis le bilan. */
+/** Raccourci « Test du jour » : reprend le test commencé, sinon le commence ; déjà fait, son bilan. */
+export function StartTestScreen() {
+  const data = useProgress();
+  const store = useStore();
+  const today = useToday();
+  const started = useRef(false);
+
+  const go = useEffectEvent(async () => {
+    if (testInProgress(data, today)) return navigate({ name: 'test' }, { replace: true });
+    const done = officialTests(data).find((t) => t.day === today);
+    if (done) return navigate({ name: 'report', testId: done.id }, { replace: true });
+    await store.startTest(dailyGames(today, DAILY_ROTATION));
+    navigate({ name: 'test' }, { replace: true });
+  });
+
+  useEffect(() => {
+    // Une seule fois, même si l'effet est rejoué (mode strict) : sinon deux tests seraient créés.
+    if (started.current) return;
+    started.current = true;
+    void go();
+  }, []);
+
+  return null;
+}
+
 export function DailyTestScreen() {
   const data = useProgress();
   const store = useStore();

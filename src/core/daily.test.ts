@@ -12,6 +12,7 @@ import {
   dayIndex,
   dayKey,
   hasOfficialTest,
+  streakHorizon,
 } from './daily';
 
 describe('dayKey et addDays', () => {
@@ -117,5 +118,17 @@ describe('mot du coach', () => {
     expect(coachTip('2026-10-19')).toBe(coachTip('2026-10-19'));
     expect(coachTip('2026-10-19')).not.toBe(coachTip('2026-10-20'));
     expect(COACH_TIPS.length).toBeGreaterThanOrEqual(50);
+  });
+});
+
+describe('horizon de la série (widget)', () => {
+  it('dit jusqu’à quand la série tient sans jouer, jour de repos compris', () => {
+    expect(streakHorizon([], '2026-10-19')).toEqual({ count: 0, until: null });
+    // Joué hier et avant-hier, pas aujourd'hui : la série tient encore demain (jour de repos), plus après.
+    const days = ['2026-10-17', '2026-10-18'];
+    const h = streakHorizon(days, '2026-10-19');
+    expect(h.count).toBe(2);
+    expect(h.until).toBe('2026-10-20');
+    expect(streakHorizon([...days, '2026-10-19'], '2026-10-19')).toEqual({ count: 3, until: '2026-10-21' });
   });
 });

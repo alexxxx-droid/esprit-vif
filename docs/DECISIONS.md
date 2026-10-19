@@ -234,6 +234,21 @@ Elevate, Peak, NeuroNation, CogniFit) :
 - Icônes générées une fois depuis `public/favicon.svg` (`npm run icons`), version « maskable »
   comprise pour Android.
 
+## Raccourcis et widget (Android)
+
+- **Liens `espritvif://…`** : `espritvif://seance` ouvre `#/seance`, etc. (`openAppLink` dans
+  `src/native.ts`, au lancement comme appli déjà ouverte). `#/test-du-jour` commence ou reprend
+  le test du jour, ou montre son bilan s'il est déjà fait.
+- **Raccourcis de l'icône** (appui long, `res/xml/shortcuts.xml`) : Test du jour, Séance du jour,
+  Entraînement, Défis entre amies, avec les pictogrammes de l'appli. La PWA a les mêmes dans son
+  manifeste (avec Progrès à la place d'Entraînement).
+- **Widget** (`EspritWidget.java`, 4 × 2) : la série, le test du jour (à faire, ou fait avec
+  l'âge cérébral) et deux boutons (Test ou Entraînement, Séance). L'appli lui confie ses données
+  par un petit module maison (`WidgetBridge.java`) à chaque changement ; le widget compare
+  seulement les dates : la série s'affiche tant qu'elle tient (`streakHorizon`, jour de repos
+  compris), le test redevient « à faire » le lendemain sans ouvrir l'appli. Le prénom n'y figure
+  que s'il a été choisi (ou s'il y a plusieurs joueurs). Les réglages proposent de l'ajouter.
+
 ## Rappel quotidien
 
 Sans serveur, une PWA ne peut pas déclencher une notification à heure fixe de façon fiable.

@@ -11,6 +11,7 @@ export type Route =
   | { name: 'settings' }
   | { name: 'play'; gameId: GameId }
   | { name: 'test' }
+  | { name: 'start-test' }
   | { name: 'report'; testId: string }
   | { name: 'session' }
   | { name: 'marathon'; domain: Domain | null }
@@ -37,6 +38,8 @@ export function parseHash(hash: string): Route {
       return { name: 'settings' };
     case 'test':
       return { name: 'test' };
+    case 'test-du-jour':
+      return { name: 'start-test' };
     case 'jeu':
       return arg && isGameId(arg) ? { name: 'play', gameId: arg } : { name: 'training' };
     case 'bilan':
@@ -68,6 +71,8 @@ export function routeHash(route: Route): string {
       return '#/reglages';
     case 'test':
       return '#/test';
+    case 'start-test':
+      return '#/test-du-jour';
     case 'play':
       return `#/jeu/${route.gameId}`;
     case 'report':

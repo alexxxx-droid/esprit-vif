@@ -4,4 +4,15 @@
     <string name="title_activity_main">Esprit Vif</string>
     <string name="package_name">io.github.alexxxxdroid.espritvif</string>
     <string name="custom_url_scheme">io.github.alexxxxdroid.espritvif</string>
+    <string name="shortcut_test">Test</string>
+    <string name="shortcut_test_long">Test du jour</string>
+    <string name="shortcut_seance">Séance</string>
+    <string name="shortcut_seance_long">Séance du jour</string>
+    <string name="shortcut_jeux">Jeux</string>
+    <string name="shortcut_jeux_long">Entraînement</string>
+    <string name="shortcut_defis">Défis</string>
+    <string name="shortcut_defis_long">Défis entre amies</string>
+    <string name="widget_description">Ta série et le test du jour, d’un coup d’œil</string>
+    <string name="widget_no_streak">Une partie aujourd’hui lance ta série</string>
+    <string name="widget_test_todo">Test du jour : à faire</string>
 </resources>

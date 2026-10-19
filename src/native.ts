@@ -1,10 +1,11 @@
 import { App } from '@capacitor/app';
+import { registerPlugin } from '@capacitor/core';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Share } from '@capacitor/share';
 import { setNativeHaptics, type HapticKind } from './ui/fx/haptics';
-import { setPlatform, type ReminderOptions, type ShareResult } from './ui/platform';
+import { setPlatform, type ReminderOptions, type ShareResult, type WidgetSummary } from './ui/platform';
 
 /**
  * Ce que l'appli Android fait de plus que le site : vraies notifications, vibrations natives,
@@ -80,6 +81,29 @@ async function shareLink(text: string, url: string): Promise<ShareResult> {
   }
 }
 
+/** Le widget d'écran d'accueil : un petit module natif propre à l'appli (android/…/WidgetBridge.java). */
+interface WidgetBridgePlugin {
+  update(summary: WidgetSummary): Promise<void>;
+  pin(): Promise<{ requested: boolean }>;
+}
+
+const WidgetBridge = registerPlugin<WidgetBridgePlugin>('WidgetBridge');
+
+async function updateWidget(summary: WidgetSummary) {
+  await WidgetBridge.update(summary).catch(() => undefined);
+}
+
+async function pinWidget(): Promise<boolean> {
+  const { requested } = await WidgetBridge.pin().catch(() => ({ requested: false }));
+  return requested;
+}
+
+/** Liens espritvif://seance… venus des raccourcis de l'icône ou du widget : on ouvre l'écran demandé. */
+function openAppLink(url: string) {
+  const match = /^espritvif:\/\/(.*)$/.exec(url);
+  if (match) location.hash = `#/${match[1]}`;
+}
+
 function vibrate(kind: HapticKind) {
   const effect =
     kind === 'tap'
@@ -91,9 +115,12 @@ function vibrate(kind: HapticKind) {
 }
 
 export async function setupNative() {
-  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder });
+  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder, updateWidget, pinWidget });
   setNativeHaptics(vibrate);
   // Retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
+  const launch = await App.getLaunchUrl().catch(() => undefined);
+  if (launch?.url) openAppLink(launch.url);
+  await App.addListener('appUrlOpen', ({ url }) => openAppLink(url));
   await App.addListener('backButton', ({ canGoBack }) => {
     if (!location.hash || location.hash === '#/') void App.exitApp();
     else if (canGoBack) history.back();

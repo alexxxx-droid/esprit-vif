@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
           name: 'Esprit Vif',
           short_name: 'Esprit Vif',
           description:
-            'Quelques minutes par jour pour garder l’esprit vif : test du jour, huit mini-jeux, âge cérébral.',
+            'Quelques minutes par jour pour garder l’esprit vif : test du jour, 28 mini-jeux, défis entre amies, âge cérébral (indicateur ludique).',
           lang: 'fr',
           dir: 'ltr',
           start_url: './',
@@ -44,7 +44,9 @@ export default defineConfig(({ mode }) => {
             { src: 'maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
           ],
           shortcuts: [
-            { name: 'Entraînement', url: './#/entrainement', icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }] },
+            { name: 'Test du jour', short_name: 'Test', url: './#/test-du-jour', icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }] },
+            { name: 'Séance du jour', short_name: 'Séance', url: './#/seance', icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }] },
+            { name: 'Défis entre amies', short_name: 'Défis', url: './#/defi', icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }] },
             { name: 'Progrès', url: './#/progres', icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }] },
           ],
         },

@@ -21,6 +21,17 @@ export async function copyText(text: string): Promise<boolean> {
   }
 }
 
+/** Ce qu'affiche le widget d'écran d'accueil (appli Android). */
+export interface WidgetSummary {
+  name: string;
+  streak: number;
+  /** Dernier jour où la série tient sans nouvelle partie (« AAAA-MM-JJ »), vide sans série. */
+  streakUntil: string;
+  /** Jour du dernier test officiel et son âge cérébral. */
+  testDay: string;
+  brainAge: number;
+}
+
 export interface Platform {
   native: boolean;
   /** Propose le fichier à l'utilisateur (téléchargement ou partage). */
@@ -34,6 +45,10 @@ export interface Platform {
    * Renvoie faux si les notifications sont refusées. Absent sur le web.
    */
   scheduleReminder?: (time: string | null, options: ReminderOptions) => Promise<boolean>;
+  /** Met à jour le widget d'écran d'accueil. Absent sur le web. */
+  updateWidget?: (summary: WidgetSummary) => Promise<void>;
+  /** Propose d'ajouter le widget ; faux si le téléphone ne sait pas le faire depuis l'appli. */
+  pinWidget?: () => Promise<boolean>;
 }
 
 function download(name: string, blob: Blob) {

@@ -1,3 +1,5 @@
+import { tr } from '../core/lang';
+
 /**
  * Cartes à partager : une image de 1080 × 1350 (format portrait des messageries) dessinée
  * sur l'appareil, avec le compagnon du joueur. Rien n'est envoyé nulle part sans son geste.
@@ -140,7 +142,7 @@ export async function renderCard(spec: CardSpec, day: string): Promise<Blob> {
     ctx.fillText(spec.game, W / 2, 390);
     ctx.fillStyle = SOFT;
     ctx.font = `600 36px ${font}`;
-    ctx.fillText(`niveau ${spec.level}`, W / 2, 445);
+    ctx.fillText(tr(`niveau ${spec.level}`, `level ${spec.level}`), W / 2, 445);
     ctx.fillStyle = INK;
     ctx.font = `800 300px ${font}`;
     const scoreWidth = ctx.measureText(String(spec.score)).width;
@@ -159,21 +161,21 @@ export async function renderCard(spec: CardSpec, day: string): Promise<Blob> {
   } else {
     ctx.fillStyle = SOFT;
     ctx.font = `700 46px ${font}`;
-    ctx.fillText('Mon âge cérébral', W / 2, 400);
+    ctx.fillText(tr('Mon âge cérébral', 'My brain age'), W / 2, 400);
     ctx.fillStyle = INK;
     ctx.font = `800 300px ${font}`;
     const ageWidth = ctx.measureText(String(spec.age)).width;
     ctx.fillText(String(spec.age), W / 2 - 60, 700);
     ctx.textAlign = 'left';
     ctx.font = `700 80px ${font}`;
-    ctx.fillText('ans', W / 2 - 60 + ageWidth / 2 + 12, 700);
+    ctx.fillText(tr('ans', 'years'), W / 2 - 60 + ageWidth / 2 + 12, 700);
     ctx.textAlign = 'center';
     ctx.fillStyle = INK;
     ctx.font = `600 40px ${font}`;
     wrap(ctx, spec.verdict, 780).forEach((l, i) => ctx.fillText(l, W / 2, 820 + i * 54));
     ctx.fillStyle = SOFT;
     ctx.font = `500 30px ${font}`;
-    ctx.fillText('Indicateur ludique, pas une mesure médicale.', W / 2, 1020);
+    ctx.fillText(tr('Indicateur ludique, pas une mesure médicale.', 'A playful indicator, not a medical measure.'), W / 2, 1020);
   }
 
   if (spec.mascot) {
@@ -184,7 +186,7 @@ export async function renderCard(spec: CardSpec, day: string): Promise<Blob> {
   ctx.textAlign = 'left';
   ctx.fillStyle = '#ffffff';
   ctx.font = `800 44px ${font}`;
-  ctx.fillText('À ton tour ?', 84, 1200);
+  ctx.fillText(tr('À ton tour ?', 'Your turn?'), 84, 1200);
   ctx.font = `600 32px ${font}`;
   ctx.fillText(SITE, 84, 1252);
 

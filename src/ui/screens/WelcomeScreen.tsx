@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from 'react';
 import { dailyGames } from '../../core/daily';
 import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES } from '../../core/games/registry';
 import type { CharacterId } from '../../core/characters';
+import { tr } from '../../core/lang';
 import type { Domain, GameId } from '../../core/types';
 import { DomainBadge } from '../components/bits';
 import { GameArt } from '../components/GameArt';
@@ -47,7 +48,7 @@ export function WelcomeScreen() {
 
   return (
     <div className="screen screen-in welcome">
-      <div className="welcome__steps" aria-label={`Étape ${step + 1} sur 3`}>
+      <div className="welcome__steps" aria-label={tr(`Étape ${step + 1} sur 3`, `Step ${step + 1} of 3`)}>
         {[0, 1, 2].map((i) => (
           <span key={i} className={i <= step ? 'is-on' : undefined} />
         ))}
@@ -64,22 +65,25 @@ export function WelcomeScreen() {
             <Mascot key={character} character={character} mood="hello" size={96} className="welcome__vif" />
           </div>
           <div className="intro__head">
-            <h1 className="intro__title">Bienvenue sur Esprit Vif&nbsp;!</h1>
+            <h1 className="intro__title">{tr('Bienvenue sur Esprit Vif\u00a0!', 'Welcome to Esprit Vif!')}</h1>
             <p className="intro__rule">
-              Quelques minutes par jour, {GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance&nbsp;!
+              {tr(
+                `Quelques minutes par jour, ${GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance\u00a0!`,
+                `A few minutes a day, ${GAME_ORDER.length} mini-games and your brain age to track your progress. Pick your companion and let’s get to know each other!`,
+              )}
             </p>
           </div>
           <label className="field">
-            <span className="field__label">Ton prénom</span>
-            <input className="field__input" value={name} maxLength={16} placeholder="Prénom" onChange={(e) => setName(e.target.value)} />
+            <span className="field__label">{tr('Ton prénom', 'Your first name')}</span>
+            <input className="field__input" value={name} maxLength={16} placeholder={tr('Prénom', 'First name')} onChange={(e) => setName(e.target.value)} />
           </label>
-          <span className="field__label">Ton compagnon</span>
+          <span className="field__label">{tr('Ton compagnon', 'Your companion')}</span>
           <CharacterPicker value={character} onChange={setCharacter} />
-          <span className="field__label">Ta couleur</span>
-          <ColorPicker value={color} onChange={setColor} label="Couleur de ton avatar" />
+          <span className="field__label">{tr('Ta couleur', 'Your color')}</span>
+          <ColorPicker value={color} onChange={setColor} label={tr('Couleur de ton avatar', 'Your avatar color')} />
           <button type="button" className="cta welcome__cta" onClick={() => void saveProfile()}>
             <span className="cta__text">
-              <span className="cta__label">Continuer</span>
+              <span className="cta__label">{tr('Continuer', 'Continue')}</span>
             </span>
             <span className="cta__icon">
               <Icon name="arrow" />
@@ -91,10 +95,15 @@ export function WelcomeScreen() {
       {step === 1 && (
         <>
           <div className="intro__head">
-            <h1 className="intro__title">Qu’as-tu envie de travailler&nbsp;?</h1>
-            <p className="intro__rule">Choisis jusqu’à {MAX_GOALS} objectifs : ta séance du jour les mettra en avant. Tu pourras les changer dans les réglages.</p>
+            <h1 className="intro__title">{tr('Qu’as-tu envie de travailler\u00a0?', 'What would you like to work on?')}</h1>
+            <p className="intro__rule">
+              {tr(
+                `Choisis jusqu’à ${MAX_GOALS} objectifs : ta séance du jour les mettra en avant. Tu pourras les changer dans les réglages.`,
+                `Pick up to ${MAX_GOALS} goals: your daily session will focus on them. You can change them in Settings.`,
+              )}
+            </p>
           </div>
-          <div className="goals" role="group" aria-label="Objectifs">
+          <div className="goals" role="group" aria-label={tr('Objectifs', 'Goals')}>
             {DOMAIN_ORDER.map((domain) => {
               const on = goals.includes(domain);
               return (
@@ -119,8 +128,12 @@ export function WelcomeScreen() {
           </div>
           <button type="button" className="cta welcome__cta" onClick={() => setStep(2)}>
             <span className="cta__text">
-              <span className="cta__label">{goals.length ? 'Continuer' : 'Passer'}</span>
-              <span className="cta__sub">{goals.length ? `${goals.length} objectif${goals.length > 1 ? 's' : ''}` : 'Tout travailler un peu'}</span>
+              <span className="cta__label">{goals.length ? tr('Continuer', 'Continue') : tr('Passer', 'Skip')}</span>
+              <span className="cta__sub">
+                {goals.length
+                  ? tr(`${goals.length} objectif${goals.length > 1 ? 's' : ''}`, `${goals.length} goal${goals.length === 1 ? '' : 's'}`)
+                  : tr('Tout travailler un peu', 'A bit of everything')}
+              </span>
             </span>
             <span className="cta__icon">
               <Icon name="arrow" />
@@ -132,9 +145,12 @@ export function WelcomeScreen() {
       {step === 2 && (
         <>
           <div className="intro__head">
-            <h1 className="intro__title">Ton bilan de départ</h1>
+            <h1 className="intro__title">{tr('Ton bilan de départ', 'Your starting assessment')}</h1>
             <p className="intro__rule">
-              Trois mini-jeux, environ trois minutes : ils te donnent ton âge cérébral de départ et ouvrent d’emblée les niveaux où tu es déjà à l’aise.
+              {tr(
+                'Trois mini-jeux, environ trois minutes : ils te donnent ton âge cérébral de départ et ouvrent d’emblée les niveaux où tu es déjà à l’aise.',
+                'Three mini-games, about three minutes: they give you your starting brain age and unlock right away the levels you’re already comfortable with.',
+              )}
             </p>
           </div>
           <ol className="programme__list">
@@ -150,20 +166,20 @@ export function WelcomeScreen() {
           </ol>
           <p className="disclaimer">
             <Icon name="info" size={18} />
-            L’âge cérébral est un indicateur ludique, pas une mesure médicale.
+            {tr('L’âge cérébral est un indicateur ludique, pas une mesure médicale.', 'Brain age is a playful indicator, not a medical measure.')}
           </p>
           <div className="welcome__actions">
             <button type="button" className="cta" onClick={() => void finish(true)} disabled={busy}>
               <span className="cta__text">
-                <span className="cta__label">Commencer le bilan</span>
-                <span className="cta__sub">3 jeux · environ 3 minutes</span>
+                <span className="cta__label">{tr('Commencer le bilan', 'Start the assessment')}</span>
+                <span className="cta__sub">{tr('3 jeux · environ 3 minutes', '3 games · about 3 minutes')}</span>
               </span>
               <span className="cta__icon">
                 <Icon name="play" />
               </span>
             </button>
             <button type="button" className="btn btn--lg btn--ghost" onClick={() => void finish(false)} disabled={busy}>
-              Plus tard
+              {tr('Plus tard', 'Later')}
             </button>
           </div>
         </>

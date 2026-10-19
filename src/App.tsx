@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { hasOfficialTest, streakHorizon } from './core/daily';
+import { tr } from './core/lang';
 import { sessionDone, sessionGames } from './core/modes';
 import type { Domain } from './core/types';
 import { profileName } from './store/profiles';
@@ -126,7 +127,18 @@ function useWidgetSync(plays: readonly PlayRecord[], tests: readonly TestRecord[
       today,
     );
     const last = tests.filter((t) => t.done && t.official).sort((a, b) => a.startedAt.localeCompare(b.startedAt)).at(-1);
-    void update({ name, streak: count, streakUntil: until ?? '', testDay: last?.day ?? '', brainAge: last?.brainAge ?? 0 });
+    const texts = {
+      streakOne: tr('Série : 1 jour', 'Streak: 1 day'),
+      streakMany: tr('Série : %d jours', 'Streak: %d days'),
+      noStreak: tr('Une partie aujourd’hui lance ta série', 'Play today to start a streak'),
+      testDoneAge: tr('Test du jour fait · âge cérébral %d ans', 'Daily test done · brain age %d'),
+      testDone: tr('Test du jour fait', 'Daily test done'),
+      testTodo: tr('Test du jour : à faire', 'Daily test: to do'),
+      test: tr('Test du jour', 'Daily test'),
+      training: tr('Entraînement', 'Training'),
+      session: tr('Séance du jour', 'Daily session'),
+    };
+    void update({ name, streak: count, streakUntil: until ?? '', testDay: last?.day ?? '', brainAge: last?.brainAge ?? 0, texts });
   }, [plays, tests, today, name]);
 }
 

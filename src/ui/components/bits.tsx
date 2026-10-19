@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DOMAINS } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import type { Domain } from '../../core/types';
 import { useCountUp } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
@@ -51,12 +52,12 @@ export function NumPad({ onDigit, onErase, onSubmit, disabled }: NumPadProps) {
     return <WritePad onDigit={onDigit} onErase={onErase} onSubmit={onSubmit} disabled={disabled} onUseKeys={() => void store.updateSettings({ handwriting: false })} />;
   }
   const erase = (
-    <TapButton className="numpad__key numpad__key--muted" onTap={onErase} aria-label="Effacer" disabled={disabled}>
+    <TapButton className="numpad__key numpad__key--muted" onTap={onErase} aria-label={tr('Effacer', 'Erase')} disabled={disabled}>
       <Icon name="erase" size={28} />
     </TapButton>
   );
   return (
-    <div className="numpad" role="group" aria-label="Pavé numérique">
+    <div className="numpad" role="group" aria-label={tr('Pavé numérique', 'Number pad')}>
       {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
         <TapButton key={d} className="numpad__key" onTap={() => onDigit(d)} disabled={disabled}>
           {d}
@@ -83,7 +84,7 @@ export function ScoreRing({ score, size = 176 }: { score: number; size?: number 
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   return (
-    <div className="score-ring" style={{ width: size, height: size }} role="img" aria-label={`Score : ${score} sur 100`}>
+    <div className="score-ring" style={{ width: size, height: size }} role="img" aria-label={tr(`Score : ${score} sur 100`, `Score: ${score} out of 100`)}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
         <circle className="score-ring__track" cx={size / 2} cy={size / 2} r={radius} strokeWidth={stroke} />
         <circle
@@ -184,7 +185,7 @@ export function ConfirmDialog({ open, title, children, confirmLabel, danger, onC
       <div className="dialog__body">{children}</div>
       <div className="dialog__actions">
         <button type="button" className="btn" onClick={onCancel}>
-          Annuler
+          {tr('Annuler', 'Cancel')}
         </button>
         <button type="button" className={`btn ${danger ? 'btn--danger' : 'btn--primary'}`} onClick={onConfirm}>
           {confirmLabel}

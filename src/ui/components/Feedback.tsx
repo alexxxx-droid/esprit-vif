@@ -1,3 +1,4 @@
+import { tr } from '../../core/lang';
 import { Icon } from './Icon';
 import type { Mark } from './feedback-state';
 
@@ -11,7 +12,7 @@ export function FeedbackMark({ mark }: { mark: Mark | null }) {
         <Icon name={good ? 'check' : 'close'} size={40} strokeWidth={3} />
       </span>
       {mark.detail && <span className="mark__detail">{mark.detail}</span>}
-      <span className="sr-only">{good ? 'Juste' : `Erreur${mark.detail ? ` ${mark.detail}` : ''}`}</span>
+      <span className="sr-only">{good ? tr('Juste', 'Correct') : `${tr('Erreur', 'Wrong')}${mark.detail ? ` ${mark.detail}` : ''}`}</span>
     </div>
   );
 }

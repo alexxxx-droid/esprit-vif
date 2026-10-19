@@ -1,5 +1,6 @@
 import { App } from '@capacitor/app';
 import { registerPlugin } from '@capacitor/core';
+import { tr } from './core/lang';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -14,10 +15,11 @@ import { setPlatform, type ReminderOptions, type ShareResult, type WidgetSummary
 
 const REMINDER_DAYS = 14;
 const REMINDER_IDS = Array.from({ length: REMINDER_DAYS }, (_, i) => 100 + i);
-const REMINDER_MESSAGES = [
-  'Ton test du jour t’attend : cinq minutes suffisent.',
-  'Trois petits jeux pour garder l’esprit vif ?',
-  'Une pause pour ton cerveau ? Le test du jour est prêt.',
+/** Les messages du rappel, dans la langue de l'appli au moment où il est programmé. */
+const reminderMessages = () => [
+  tr('Ton test du jour t’attend : cinq minutes suffisent.', 'Your daily test is waiting: five minutes is all it takes.'),
+  tr('Trois petits jeux pour garder l’esprit vif ?', 'Three quick games to keep your mind sharp?'),
+  tr('Une pause pour ton cerveau ? Le test du jour est prêt.', 'A break for your brain? Your daily test is ready.'),
 ];
 
 /**
@@ -36,13 +38,14 @@ async function scheduleReminder(time: string | null, { skipToday, ask }: Reminde
   const [hours, minutes] = time.split(':').map(Number);
   const now = new Date();
   const notifications = [];
+  const messages = reminderMessages();
   for (let day = 0; notifications.length < REMINDER_DAYS && day <= REMINDER_DAYS; day++) {
     const at = new Date(now.getFullYear(), now.getMonth(), now.getDate() + day, hours, minutes);
     if (at <= now || (day === 0 && skipToday)) continue;
     notifications.push({
       id: REMINDER_IDS[notifications.length],
       title: 'Esprit Vif',
-      body: REMINDER_MESSAGES[day % REMINDER_MESSAGES.length],
+      body: messages[day % messages.length],
       schedule: { at, allowWhileIdle: true },
       // Un rappel n'a pas besoin d'être à la seconde : pas d'alarme exacte, donc pas de détour
       // par l'écran système « Alarmes et rappels ».
@@ -57,7 +60,11 @@ async function scheduleReminder(time: string | null, { skipToday, ask }: Reminde
 
 async function saveFile(name: string, text: string) {
   const { uri } = await Filesystem.writeFile({ path: name, data: text, directory: Directory.Cache, encoding: Encoding.UTF8 });
-  await Share.share({ title: 'Sauvegarde Esprit Vif', files: [uri], dialogTitle: 'Enregistrer ou envoyer la sauvegarde' });
+  await Share.share({
+    title: tr('Sauvegarde Esprit Vif', 'Esprit Vif backup'),
+    files: [uri],
+    dialogTitle: tr('Enregistrer ou envoyer la sauvegarde', 'Save or send the backup'),
+  });
 }
 
 async function shareImage(name: string, image: Blob, text: string) {
@@ -68,12 +75,12 @@ async function shareImage(name: string, image: Blob, text: string) {
     reader.readAsDataURL(image);
   });
   const { uri } = await Filesystem.writeFile({ path: name, data, directory: Directory.Cache });
-  await Share.share({ title: 'Esprit Vif', text, files: [uri], dialogTitle: 'Partager' });
+  await Share.share({ title: 'Esprit Vif', text, files: [uri], dialogTitle: tr('Partager', 'Share') });
 }
 
 async function shareLink(text: string, url: string): Promise<ShareResult> {
   try {
-    await Share.share({ title: 'Esprit Vif', text, url, dialogTitle: 'Envoyer le défi' });
+    await Share.share({ title: 'Esprit Vif', text, url, dialogTitle: tr('Envoyer le défi', 'Send the challenge') });
     return 'shared';
   } catch {
     // Feuille fermée sans choisir d'appli.

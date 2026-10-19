@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { tr } from '../../core/lang';
 import { pickLevel } from '../../core/levels';
 import { generateSchulte, SCHULTE_LEVELS, SCHULTE_PENALTY_MS, scoreSchulte } from '../../core/games/schulte';
 import { timedOutcome } from '../../core/outcome';
@@ -72,14 +73,14 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage schulte-stage">
         <p className="schulte__target" aria-live="polite">
-          Touche le <strong>{sequence[Math.min(next, total - 1)]}</strong>
+          {tr('Touche le', 'Tap')} <strong>{sequence[Math.min(next, total - 1)]}</strong>
         </p>
         <div
           key={moved}
           className={`schulte${moved ? ' schulte--moved' : ''}`}
           style={{ '--size': board.size } as CSSProperties}
           role="group"
-          aria-label="Grille de symboles"
+          aria-label={tr('Grille de symboles', 'Symbol grid')}
         >
           {cells.map((label, cell) => {
             const isFound = found.has(label);
@@ -90,7 +91,7 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
                 {...cellProps(cell)}
                 className={`schulte__cell${isFound && config.mark ? ' is-found' : ''}`}
                 onTap={() => tap(cell)}
-                aria-label={isFound && config.mark ? `${label}, trouvé` : label}
+                aria-label={isFound && config.mark ? tr(`${label}, trouvé`, `${label}, found`) : label}
               >
                 <span key={shaking ? wrong.id : 0} className={shaking ? 'shake' : undefined}>
                   <span

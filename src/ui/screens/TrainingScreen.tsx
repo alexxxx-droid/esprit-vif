@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { dailyGames, hasOfficialTest } from '../../core/daily';
 import { DAILY_ROTATION, DOMAIN_ORDER, DOMAINS, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import { gameStars, medalFor } from '../../core/progression';
 import { gameUnlocked } from '../../store/progress';
@@ -27,48 +28,56 @@ export function TrainingScreen() {
 
   return (
     <div className="screen screen-in">
-      <ScreenHeader title="Entraînement" subtitle="Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants." />
+      <ScreenHeader
+        title={tr('Entraînement', 'Training')}
+        subtitle={tr('Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants.', 'Each game has 20 levels: earn stars to unlock the next ones.')}
+      />
 
       <section className="modes" aria-labelledby="modes-title">
         <h2 className="domain-section__title" id="modes-title">
-          Modes de jeu
+          {tr('Modes de jeu', 'Game modes')}
         </h2>
         <div className="modes__grid">
           <button type="button" className="mode-tile" onClick={() => navigate({ name: 'session' })}>
             <span className="mode-tile__icon">
               <Icon name="target" />
             </span>
-            <span className="mode-tile__title">Séance du jour</span>
-            <span className="mode-tile__sub">4 jeux sur mesure</span>
+            <span className="mode-tile__title">{tr('Séance du jour', 'Daily session')}</span>
+            <span className="mode-tile__sub">{tr('4 jeux sur mesure', '4 games made for you')}</span>
           </button>
           <button type="button" className="mode-tile" onClick={() => navigate({ name: 'marathon', domain: null })}>
             <span className="mode-tile__icon">
               <Icon name="flame" />
             </span>
             <span className="mode-tile__title">Marathon</span>
-            <span className="mode-tile__sub">Tout un domaine d’affilée</span>
+            <span className="mode-tile__sub">{tr('Tout un domaine d’affilée', 'A whole area in a row')}</span>
           </button>
           <button type="button" className="mode-tile" onClick={() => navigate({ name: 'duel' })}>
             <span className="mode-tile__icon">
               <Icon name="duel" />
             </span>
-            <span className="mode-tile__title">Duel à deux</span>
-            <span className="mode-tile__sub">Même partie, à tour de rôle</span>
+            <span className="mode-tile__title">{tr('Duel à deux', 'Two-player duel')}</span>
+            <span className="mode-tile__sub">{tr('Même partie, à tour de rôle', 'Same game, taking turns')}</span>
           </button>
           <button type="button" className="mode-tile" onClick={() => navigate({ name: 'party' })}>
             <span className="mode-tile__icon">
               <Icon name="users" />
             </span>
-            <span className="mode-tile__title">Mode fête</span>
-            <span className="mode-tile__sub">2 à 4 joueurs en même temps</span>
+            <span className="mode-tile__title">{tr('Mode fête', 'Party mode')}</span>
+            <span className="mode-tile__sub">{tr('2 à 4 joueurs en même temps', '2 to 4 players at once')}</span>
           </button>
           <button type="button" className="mode-tile mode-tile--wide" onClick={() => navigate({ name: 'challenge', code: null })}>
             <span className="mode-tile__icon">
               <Icon name="share" />
             </span>
             <span className="mode-tile__text">
-              <span className="mode-tile__title">Défis entre amies</span>
-              <span className="mode-tile__sub">Un lien, les mêmes parties chacune chez soi, et votre classement par catégorie</span>
+              <span className="mode-tile__title">{tr('Défis entre amies', 'Friend challenges')}</span>
+              <span className="mode-tile__sub">
+                {tr(
+                  'Un lien, les mêmes parties chacune chez soi, et votre classement par catégorie',
+                  'One link, the same games for everyone on their own phone, and your leaderboard by category',
+                )}
+              </span>
             </span>
             <Icon name="arrow" />
           </button>
@@ -99,8 +108,8 @@ export function TrainingScreen() {
             <Icon name="replay" />
           </span>
           <span className="card__text">
-            <span className="card__title">Refaire le test du jour</span>
-            <span className="card__sub">Pour le plaisir : il ne compte pas dans tes progrès.</span>
+            <span className="card__title">{tr('Refaire le test du jour', 'Retake the daily test')}</span>
+            <span className="card__sub">{tr('Pour le plaisir : il ne compte pas dans tes progrès.', 'Just for fun: it doesn’t count toward your progress.')}</span>
           </span>
           <Icon name="arrow" />
         </button>
@@ -129,9 +138,7 @@ function GameCard({ meta }: { meta: GameMeta }) {
           <span style={{ transform: `scaleX(${unlocked / MAX_LEVEL})` }} />
         </span>
         <span className="game-card__meta">
-          <span>
-            Niv. {unlocked}/{MAX_LEVEL}
-          </span>
+          <span>{tr(`Niv. ${unlocked}/${MAX_LEVEL}`, `Lv. ${unlocked}/${MAX_LEVEL}`)}</span>
           <span className="game-card__stars">
             <Icon name="star" size={13} />
             {played ? stars : 0}

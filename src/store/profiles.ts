@@ -1,4 +1,5 @@
 import { isCharacterId, type CharacterId } from '../core/characters';
+import { tr } from '../core/lang';
 import { newId, ProgressStore } from './progress';
 import type { Storage } from './storage';
 
@@ -100,7 +101,7 @@ export class ProfileManager {
 
   /** Nouveau joueur, qui devient aussitôt le profil actif. */
   async add(name: string, color: number, character: CharacterId = 'vif', now = new Date()): Promise<Profile> {
-    if (this.state.profiles.length >= MAX_PROFILES) throw new Error(`${MAX_PROFILES} profils au maximum.`);
+    if (this.state.profiles.length >= MAX_PROFILES) throw new Error(tr(`${MAX_PROFILES} profils au maximum.`, `${MAX_PROFILES} profiles at most.`));
     const id = newId();
     const profile: Profile = { id, name: cleanName(name), color: color % PROFILE_COLORS, character, db: `${MAIN_DB}-${id}`, createdAt: now.toISOString() };
     const store = await ProgressStore.load(await this.backend.open(profile.db));
@@ -139,7 +140,8 @@ export class ProfileManager {
   }
 }
 
-/** Prénom affichable : « Joueur 2 » tant que le profil n'a pas de nom. */
+/** Prénom affichable : « Joueur 2 » (« Player 2 ») tant que le profil n'a pas de nom. */
 export function profileName(profile: Profile, profiles: readonly Profile[]): string {
-  return profile.name || `Joueur ${profiles.indexOf(profile) + 1}`;
+  const rank = profiles.indexOf(profile) + 1;
+  return profile.name || tr(`Joueur ${rank}`, `Player ${rank}`);
 }

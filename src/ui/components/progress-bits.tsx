@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { lang, tr } from '../../core/lang';
 import { MAX_LEVEL, starsFor } from '../../core/levels';
 import { MEDAL_NAMES, type Medal, type Rank } from '../../core/progression';
 import type { GameId } from '../../core/types';
@@ -6,10 +7,15 @@ import { gameUnlocked } from '../../store/progress';
 import { useProgress } from '../progress-context';
 import { Icon } from './Icon';
 
+/** « 2 étoiles » / « 2 stars » (en français, 0 et 1 au singulier). */
+function starsText(count: number): string {
+  return tr(`${count} étoile${count > 1 ? 's' : ''}`, `${count} star${count === 1 ? '' : 's'}`);
+}
+
 /** 0 à 3 étoiles : pleines ou en creux (la forme porte l'info, pas seulement la couleur). */
 export function Stars({ count, size = 16, animateFrom }: { count: number; size?: number; animateFrom?: number }) {
   return (
-    <span className="stars" role="img" aria-label={`${count} étoile${count > 1 ? 's' : ''} sur 3`}>
+    <span className="stars" role="img" aria-label={tr(`${starsText(count)} sur 3`, `${starsText(count)} out of 3`)}>
       {[0, 1, 2].map((i) => (
         <span
           key={i}
@@ -23,13 +29,18 @@ export function Stars({ count, size = 16, animateFrom }: { count: number; size?:
   );
 }
 
+/** « Médaille Or » / « Gold medal ». */
+function medalTitle(medal: Medal): string {
+  return lang() === 'en' ? `${MEDAL_NAMES[medal]} medal` : `Médaille ${MEDAL_NAMES[medal]}`;
+}
+
 export function MedalBadge({ medal, size = 28, withName = false }: { medal: Medal; size?: number; withName?: boolean }) {
   return (
-    <span className={`medal medal--${medal}`} title={`Médaille ${MEDAL_NAMES[medal]}`}>
+    <span className={`medal medal--${medal}`} title={medalTitle(medal)}>
       <span className="medal__disc" style={{ width: size, height: size }}>
         <Icon name="medal" size={Math.round(size * 0.62)} />
       </span>
-      {withName ? <span className="medal__name">{MEDAL_NAMES[medal]}</span> : <span className="sr-only">Médaille {MEDAL_NAMES[medal]}</span>}
+      {withName ? <span className="medal__name">{MEDAL_NAMES[medal]}</span> : <span className="sr-only">{medalTitle(medal)}</span>}
     </span>
   );
 }
@@ -47,7 +58,7 @@ export function LevelPicker({ gameId, selected, onSelect }: { gameId: GameId; se
   }, [selected]);
 
   return (
-    <div className="levels" ref={row} role="group" aria-label="Choix du niveau">
+    <div className="levels" ref={row} role="group" aria-label={tr('Choix du niveau', 'Choose a level')}>
       {Array.from({ length: MAX_LEVEL }, (_, i) => {
         const level = i + 1;
         const locked = level > unlocked;
@@ -60,7 +71,11 @@ export function LevelPicker({ gameId, selected, onSelect }: { gameId: GameId; se
             aria-pressed={level === selected}
             disabled={locked}
             onClick={() => onSelect(level)}
-            aria-label={locked ? `Niveau ${level}, verrouillé` : `Niveau ${level}, ${stars} étoile${stars > 1 ? 's' : ''}`}
+            aria-label={
+              locked
+                ? tr(`Niveau ${level}, verrouillé`, `Level ${level}, locked`)
+                : tr(`Niveau ${level}, ${starsText(stars)}`, `Level ${level}, ${starsText(stars)}`)
+            }
           >
             <span className="level-chip__num">{locked ? <Icon name="lock" size={16} /> : level}</span>
             <Stars count={locked ? 0 : stars} size={10} />
@@ -82,13 +97,13 @@ export function RankBar({ rank, compact = false }: { rank: Rank; compact?: boole
       </span>
       <div className="rank__body">
         <p className="rank__title">
-          <span className="sr-only">Niveau {rank.level} : </span>
+          <span className="sr-only">{tr(`Niveau ${rank.level} : `, `Level ${rank.level}: `)}</span>
           {rank.title}
         </p>
         <div
           className="rank__bar"
           role="progressbar"
-          aria-label="XP vers le niveau suivant"
+          aria-label={tr('XP vers le niveau suivant', 'XP to the next level')}
           aria-valuemin={0}
           aria-valuemax={span}
           aria-valuenow={rank.xp - rank.levelStart}
@@ -96,7 +111,10 @@ export function RankBar({ rank, compact = false }: { rank: Rank; compact?: boole
           <span style={{ transform: `scaleX(${progress})` }} />
         </div>
         <p className="rank__xp">
-          {rank.xp - rank.levelStart} / {span} XP · niveau {rank.level + 1} ensuite
+          {tr(
+            `${rank.xp - rank.levelStart} / ${span} XP · niveau ${rank.level + 1} ensuite`,
+            `${rank.xp - rank.levelStart} / ${span} XP · level ${rank.level + 1} next`,
+          )}
         </p>
       </div>
     </div>

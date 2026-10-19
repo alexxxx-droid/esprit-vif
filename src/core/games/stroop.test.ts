@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
+import { setLang } from '../lang';
 import { MAX_LEVEL, pickLevel } from '../levels';
 import { createRng } from '../rng';
 import {
@@ -7,8 +8,12 @@ import {
   scoreStroop,
   STROOP_COLORS,
   STROOP_COUNT,
+  STROOP_KEYS,
+  STROOP_LABELS,
   STROOP_LEVELS,
   stroopAnswer,
+  stroopKeys,
+  stroopLevelLabel,
 } from './stroop';
 
 const SEEDS = Array.from({ length: 80 }, (_, i) => i * 104729 + 3);
@@ -92,5 +97,44 @@ describe('réponse à la voix', () => {
     expect(matchSpokenColor('verre')).toBe('vert');
     expect(matchSpokenColor('violette')).toBe('violet');
     expect(matchSpokenColor('bonjour')).toBeNull();
+  });
+});
+
+describe('Couleurs piégées en anglais', () => {
+  afterEach(() => setLang('fr'));
+
+  it('nomme les couleurs dans la langue en cours', () => {
+    expect(STROOP_COLORS.map((c) => STROOP_LABELS[c])).toEqual(['Rouge', 'Bleu', 'Vert', 'Jaune', 'Orange', 'Violet']);
+    setLang('en');
+    expect(STROOP_COLORS.map((c) => STROOP_LABELS[c])).toEqual(['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple']);
+    expect(stroopLevelLabel(1)).toBe('4 colors · fixed buttons');
+    expect(stroopLevelLabel(6)).toBe('4 colors · fixed buttons · word or ink');
+    expect(stroopLevelLabel(3)).toBe('4 colors · tricky buttons');
+    setLang('fr');
+    expect(stroopLevelLabel(1)).toBe('4 couleurs · boutons fixes');
+  });
+
+  it('prend l’initiale anglaise comme raccourci clavier', () => {
+    expect(stroopKeys()).toBe(STROOP_KEYS);
+    setLang('en');
+    const keys = stroopKeys();
+    expect(Object.keys(keys).sort()).toEqual(['b', 'g', 'o', 'p', 'r', 'y']);
+    expect(new Set(Object.values(keys)).size).toBe(STROOP_COLORS.length);
+    for (const [key, color] of Object.entries(keys)) expect(STROOP_LABELS[color][0].toLowerCase()).toBe(key);
+  });
+
+  it('reconnaît les couleurs dites en anglais, et plus en français', () => {
+    setLang('en');
+    expect(matchSpokenColor('Red')).toBe('rouge');
+    expect(matchSpokenColor('um blue')).toBe('bleu');
+    expect(matchSpokenColor('blew')).toBe('bleu');
+    expect(matchSpokenColor('green yellow')).toBe('jaune');
+    expect(matchSpokenColor('Orange!')).toBe('orange');
+    expect(matchSpokenColor('purple')).toBe('violet');
+    expect(matchSpokenColor('rouge')).toBeNull();
+    expect(matchSpokenColor('hello')).toBeNull();
+    setLang('fr');
+    expect(matchSpokenColor('green')).toBeNull();
+    expect(matchSpokenColor('rouge')).toBe('rouge');
   });
 });

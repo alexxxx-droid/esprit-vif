@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -56,7 +57,9 @@ export function pluieTarget(level: number): number {
 
 export function pluieLevelLabel(level: number): string {
   const c = pluieLevel(level);
-  return `Chute en ${secondsLabel(c.fallMs)} · une goutte toutes les ${secondsLabel(c.spawnMs)}`;
+  const fall = secondsLabel(c.fallMs);
+  const spawn = secondsLabel(c.spawnMs);
+  return tr(`Chute en ${fall} · une goutte toutes les ${spawn}`, `Falls in ${fall} · a new drop every ${spawn}`);
 }
 
 export interface PluieDrop {

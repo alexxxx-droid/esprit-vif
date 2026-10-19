@@ -1,4 +1,5 @@
 import { DOMAIN_ORDER, DOMAINS } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import type { Domain } from '../../core/types';
 
 const SIZE = 300;
@@ -19,10 +20,10 @@ function point(index: number, value: number): [number, number] {
 export function BrainMap({ profile }: { profile: Record<Domain, number | null> }) {
   const values = DOMAIN_ORDER.map((d) => profile[d] ?? 0);
   const shape = values.map((v, i) => point(i, Math.max(v, 3)).join(',')).join(' ');
-  const summary = DOMAIN_ORDER.map((d) => `${DOMAINS[d].name} ${profile[d] ?? 'non joué'}`).join(', ');
+  const summary = DOMAIN_ORDER.map((d) => `${DOMAINS[d].name} ${profile[d] ?? tr('non joué', 'not played')}`).join(', ');
   return (
     <figure className="brain-map">
-      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={`Carte du cerveau : ${summary}.`}>
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-label={tr(`Carte du cerveau : ${summary}.`, `Brain map: ${summary}.`)}>
         {RINGS.map((ring) => (
           <polygon
             key={ring}

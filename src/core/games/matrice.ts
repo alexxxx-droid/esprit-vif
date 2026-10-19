@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -46,7 +47,8 @@ export function matriceLevel(level: number): MatriceLevel {
 
 export function matriceLevelLabel(level: number): string {
   const c = matriceLevel(level);
-  return [`${c.size} × ${c.size}`, `${secondsLabel(c.flashMs)} par case`, c.reverse && 'à l’envers'].filter(Boolean).join(' · ');
+  const flash = secondsLabel(c.flashMs);
+  return [`${c.size} × ${c.size}`, tr(`${flash} par case`, `${flash} per square`), c.reverse && tr('à l’envers', 'backward')].filter(Boolean).join(' · ');
 }
 
 /** Séquence de cases toutes différentes. */

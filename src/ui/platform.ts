@@ -30,6 +30,8 @@ export interface WidgetSummary {
   /** Jour du dernier test officiel et son âge cérébral. */
   testDay: string;
   brainAge: number;
+  /** Les textes du widget dans la langue de l'appli (« %d » reçoit un nombre). */
+  texts: Record<'streakOne' | 'streakMany' | 'noStreak' | 'testDoneAge' | 'testDone' | 'testTodo' | 'test' | 'training' | 'session', string>;
 }
 
 export interface Platform {

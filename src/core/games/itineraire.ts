@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -12,11 +13,36 @@ export const ITI_TRIALS = 8;
 
 export type Dir = 'up' | 'down' | 'left' | 'right';
 
+/** Directions ; `label` (accesseur) se lit dans la langue de l'interface. */
 export const DIRS: Record<Dir, { dc: number; dr: number; label: string }> = {
-  up: { dc: 0, dr: -1, label: 'en haut' },
-  down: { dc: 0, dr: 1, label: 'en bas' },
-  left: { dc: -1, dr: 0, label: 'à gauche' },
-  right: { dc: 1, dr: 0, label: 'à droite' },
+  up: {
+    dc: 0,
+    dr: -1,
+    get label() {
+      return tr('en haut', 'up');
+    },
+  },
+  down: {
+    dc: 0,
+    dr: 1,
+    get label() {
+      return tr('en bas', 'down');
+    },
+  },
+  left: {
+    dc: -1,
+    dr: 0,
+    get label() {
+      return tr('à gauche', 'left');
+    },
+  },
+  right: {
+    dc: 1,
+    dr: 0,
+    get label() {
+      return tr('à droite', 'right');
+    },
+  },
 };
 
 const OPPOSITE: Record<Dir, Dir> = { up: 'down', down: 'up', left: 'right', right: 'left' };
@@ -73,11 +99,12 @@ export function itiLevel(level: number): ItiLevel {
 
 export function itiLevelLabel(level: number): string {
   const c = itiLevel(level);
+  const every = secondsLabel(c.showMs);
   return [
-    `grille ${c.size} × ${c.size}`,
-    `${c.moves} déplacements`,
-    c.maxSteps > 1 ? `jusqu’à ${c.maxSteps} cases` : null,
-    c.oneByOne ? `une flèche toutes les ${secondsLabel(c.showMs)}` : null,
+    tr(`grille ${c.size} × ${c.size}`, `${c.size} × ${c.size} grid`),
+    tr(`${c.moves} déplacements`, `${c.moves} moves`),
+    c.maxSteps > 1 ? tr(`jusqu’à ${c.maxSteps} cases`, `up to ${c.maxSteps} squares`) : null,
+    c.oneByOne ? tr(`une flèche toutes les ${every}`, `one arrow every ${every}`) : null,
   ]
     .filter(Boolean)
     .join(' · ');

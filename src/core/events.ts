@@ -1,5 +1,6 @@
 import { addDays, dayIndex } from './daily';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES, gamesOfDomain } from './games/registry';
+import { tr } from './lang';
 import { createRng, hashSeed } from './rng';
 import type { GameId } from './types';
 
@@ -19,6 +20,7 @@ export interface EventPlay {
 
 export type SeasonId = 'halloween' | 'noel' | 'printemps' | 'ete';
 
+/** Les textes d'une saison se lisent dans la langue de l'interface (accesseurs : lus à l'affichage). */
 export interface Season {
   id: SeasonId;
   name: string;
@@ -32,39 +34,64 @@ export interface Season {
 
 export const SEASON_PLAYS = 3;
 
+/** Un texte dans les deux langues : [français, anglais]. */
+type Bilingual = readonly [fr: string, en: string];
+
+interface SeasonTexts {
+  name: Bilingual;
+  trophyName: Bilingual;
+  trophyDescription: Bilingual;
+  greeting: Bilingual;
+}
+
+function season(id: SeasonId, from: string, to: string, trophyId: string, texts: SeasonTexts): Season {
+  return {
+    id,
+    from,
+    to,
+    get name() {
+      return tr(...texts.name);
+    },
+    trophy: {
+      id: trophyId,
+      get name() {
+        return tr(...texts.trophyName);
+      },
+      get description() {
+        return tr(...texts.trophyDescription);
+      },
+    },
+    get greeting() {
+      return tr(...texts.greeting);
+    },
+  };
+}
+
 export const SEASONS: readonly Season[] = [
-  {
-    id: 'halloween',
-    name: 'Halloween',
-    from: '10-15',
-    to: '11-02',
-    trophy: { id: 'saison-halloween', name: 'Citrouille futée', description: 'Jouer 3 parties pendant Halloween (15 oct. – 2 nov.).' },
-    greeting: 'C’est Halloween ! Trois parties d’ici le 2 novembre pour la Citrouille futée.',
-  },
-  {
-    id: 'noel',
-    name: 'Noël',
-    from: '12-01',
-    to: '12-31',
-    trophy: { id: 'saison-noel', name: 'Lutin malin', description: 'Jouer 3 parties en décembre.' },
-    greeting: 'C’est bientôt Noël ! Trois parties en décembre pour le Lutin malin.',
-  },
-  {
-    id: 'printemps',
-    name: 'Printemps',
-    from: '03-20',
-    to: '04-20',
-    trophy: { id: 'saison-printemps', name: 'Premier bourgeon', description: 'Jouer 3 parties au printemps (20 mars – 20 avril).' },
-    greeting: 'Le printemps est là ! Trois parties d’ici le 20 avril pour le Premier bourgeon.',
-  },
-  {
-    id: 'ete',
-    name: 'Été',
-    from: '07-01',
-    to: '08-31',
-    trophy: { id: 'saison-ete', name: 'Coup de soleil', description: 'Jouer 3 parties en juillet ou en août.' },
-    greeting: 'C’est l’été ! Trois parties d’ici fin août pour le Coup de soleil.',
-  },
+  season('halloween', '10-15', '11-02', 'saison-halloween', {
+    name: ['Halloween', 'Halloween'],
+    trophyName: ['Citrouille futée', 'Clever Pumpkin'],
+    trophyDescription: ['Jouer 3 parties pendant Halloween (15 oct. – 2 nov.).', 'Play 3 games during Halloween (Oct 15 – Nov 2).'],
+    greeting: ['C’est Halloween ! Trois parties d’ici le 2 novembre pour la Citrouille futée.', 'It’s Halloween! Play three games by November 2 to win the Clever Pumpkin.'],
+  }),
+  season('noel', '12-01', '12-31', 'saison-noel', {
+    name: ['Noël', 'Christmas'],
+    trophyName: ['Lutin malin', 'Smart Elf'],
+    trophyDescription: ['Jouer 3 parties en décembre.', 'Play 3 games in December.'],
+    greeting: ['C’est bientôt Noël ! Trois parties en décembre pour le Lutin malin.', 'Christmas is coming! Play three games in December to win the Smart Elf.'],
+  }),
+  season('printemps', '03-20', '04-20', 'saison-printemps', {
+    name: ['Printemps', 'Spring'],
+    trophyName: ['Premier bourgeon', 'First Bud'],
+    trophyDescription: ['Jouer 3 parties au printemps (20 mars – 20 avril).', 'Play 3 games in spring (March 20 – April 20).'],
+    greeting: ['Le printemps est là ! Trois parties d’ici le 20 avril pour le Premier bourgeon.', 'Spring is here! Play three games by April 20 to win the First Bud.'],
+  }),
+  season('ete', '07-01', '08-31', 'saison-ete', {
+    name: ['Été', 'Summer'],
+    trophyName: ['Coup de soleil', 'Sun-Kissed'],
+    trophyDescription: ['Jouer 3 parties en juillet ou en août.', 'Play 3 games in July or August.'],
+    greeting: ['C’est l’été ! Trois parties d’ici fin août pour le Coup de soleil.', 'It’s summer! Play three games by the end of August to win the Sun-Kissed trophy.'],
+  }),
 ];
 
 const monthDay = (day: string) => day.slice(5);
@@ -113,15 +140,17 @@ export function weeklyChallenge(day: string): WeeklyChallenge {
   const kind = rng.pick<ChallengeKind>(['domain-plays', 'game-score', 'days', 'variety', 'sessions']);
   if (kind === 'domain-plays') {
     const domain = rng.pick(DOMAIN_ORDER.filter((d) => gamesOfDomain(d).length > 0));
-    return { week, kind, domain, target: 8, label: `Jouer 8 parties de ${DOMAINS[domain].name}` };
+    const name = DOMAINS[domain].name;
+    return { week, kind, domain, target: 8, label: tr(`Jouer 8 parties de ${name}`, `Play 8 ${name} games`) };
   }
   if (kind === 'game-score') {
     const gameId = rng.pick(GAME_ORDER);
-    return { week, kind, gameId, score: 85, target: 1, label: `Obtenir 85 points ou plus en ${GAMES[gameId].name}` };
+    const name = GAMES[gameId].name;
+    return { week, kind, gameId, score: 85, target: 1, label: tr(`Obtenir 85 points ou plus en ${name}`, `Score 85 points or more in ${name}`) };
   }
-  if (kind === 'days') return { week, kind, target: 5, label: 'S’entraîner 5 jours différents cette semaine' };
-  if (kind === 'variety') return { week, kind, target: 8, label: 'Jouer à 8 jeux différents cette semaine' };
-  return { week, kind, target: 3, label: 'Terminer 3 séances du jour cette semaine' };
+  if (kind === 'days') return { week, kind, target: 5, label: tr('S’entraîner 5 jours différents cette semaine', 'Train on 5 different days this week') };
+  if (kind === 'variety') return { week, kind, target: 8, label: tr('Jouer à 8 jeux différents cette semaine', 'Play 8 different games this week') };
+  return { week, kind, target: 3, label: tr('Terminer 3 séances du jour cette semaine', 'Finish 3 daily sessions this week') };
 }
 
 /** Avancement d'un défi d'après les parties et les séances de sa semaine. */

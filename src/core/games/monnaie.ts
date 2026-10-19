@@ -1,4 +1,5 @@
 import { NBSP } from '../format';
+import { lang, tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -83,22 +84,34 @@ export function monnaieLevel(level: number): MonnaieLevel {
   return pickLevel(MONNAIE_LEVELS, level);
 }
 
-/** 1200 → « 12 € » (des centimes ne s'affichent que s'il y en a). */
+/** 1200 → « 12 € » (« €12 » en anglais ; des centimes ne s'affichent que s'il y en a). */
 export function formatEuros(cents: number): string {
   const euros = Math.floor(cents / 100);
-  return cents % 100 ? `${euros},${String(cents % 100).padStart(2, '0')}${NBSP}€` : `${euros}${NBSP}€`;
+  const rest = String(cents % 100).padStart(2, '0');
+  if (lang() === 'en') return cents % 100 ? `€${euros}.${rest}` : `€${euros}`;
+  return cents % 100 ? `${euros},${rest}${NBSP}€` : `${euros}${NBSP}€`;
 }
 
-/** Libellé court d'une pièce ou d'un billet : « 2 € », « 50 € ». */
+/** Libellé court d'une pièce ou d'un billet : « 2 € », « 50 € » (« €2 », « €50 » en anglais). */
 export function denominationLabel(cents: number): string {
+  if (lang() === 'en') return cents >= 100 ? `€${cents / 100}` : `${cents}${NBSP}c`;
   return cents >= 100 ? `${cents / 100}${NBSP}€` : `${cents}${NBSP}c`;
 }
 
 export function monnaieLevelLabel(level: number): string {
   const c = monnaieLevel(level);
-  if (c.mode === 'change') return `Monnaie à rendre · prix jusqu’à ${formatEuros(c.maxPrice)}`;
-  const kinds = c.values.some((v) => v >= 500) ? 'pièces et billets' : 'pièces';
-  return [`${c.minItems} à ${c.maxItems} ${kinds}`, `jusqu’à ${formatEuros(Math.max(...c.values))}`, c.hideMs && `cachés après ${secondsLabel(c.hideMs)}`]
+  if (c.mode === 'change') {
+    const price = formatEuros(c.maxPrice);
+    return tr(`Monnaie à rendre · prix jusqu’à ${price}`, `Making change · prices up to ${price}`);
+  }
+  const kinds = c.values.some((v) => v >= 500) ? tr('pièces et billets', 'coins and bills') : tr('pièces', 'coins');
+  const top = formatEuros(Math.max(...c.values));
+  const hidden = c.hideMs && secondsLabel(c.hideMs);
+  return [
+    tr(`${c.minItems} à ${c.maxItems} ${kinds}`, `${c.minItems} to ${c.maxItems} ${kinds}`),
+    tr(`jusqu’à ${top}`, `up to ${top}`),
+    hidden && tr(`cachés après ${hidden}`, `hidden after ${hidden}`),
+  ]
     .filter(Boolean)
     .join(' · ');
 }

@@ -3,6 +3,7 @@ import { coachTip } from '../../core/coach';
 import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
 import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
@@ -70,17 +71,20 @@ function Home() {
   if (inProgress) {
     const next = inProgress.games.find((g) => !inProgress.results.some((r) => r.gameId === g)) ?? inProgress.games[0];
     cta = {
-      label: 'Continuer le test',
-      sub: `Jeu ${inProgress.results.length + 1} sur ${inProgress.games.length} · ${GAMES[next].name}`,
+      label: tr('Continuer le test', 'Continue the test'),
+      sub: tr(
+        `Jeu ${inProgress.results.length + 1} sur ${inProgress.games.length} · ${GAMES[next].name}`,
+        `Game ${inProgress.results.length + 1} of ${inProgress.games.length} · ${GAMES[next].name}`,
+      ),
       action: () => navigate({ name: 'test' }),
     };
   } else if (!doneToday) {
-    cta = { label: 'Test du jour', sub: '3 jeux · environ 5 minutes', action: () => void startTest() };
+    cta = { label: tr('Test du jour', 'Daily test'), sub: tr('3 jeux · environ 5 minutes', '3 games · about 5 minutes'), action: () => void startTest() };
   } else {
     const suggestion = suggestGame(data.plays, GAME_ORDER);
     cta = {
-      label: 'Continuer',
-      sub: `Entraînement conseillé : ${GAMES[suggestion].name}`,
+      label: tr('Continuer', 'Keep going'),
+      sub: tr(`Entraînement conseillé : ${GAMES[suggestion].name}`, `Suggested training: ${GAMES[suggestion].name}`),
       action: () => navigate({ name: 'play', gameId: suggestion }),
     };
   }
@@ -92,25 +96,25 @@ function Home() {
           type="button"
           className="player-chip"
           onClick={() => setPlayersOpen(true)}
-          aria-label={`${profileName(active, profiles)} joue. Changer de joueur`}
+          aria-label={tr(`${profileName(active, profiles)} joue. Changer de joueur`, `${profileName(active, profiles)} is playing. Switch players`)}
         >
           <ProfileAvatar profile={active} profiles={profiles} size={42} />
           <span className="player-chip__text">
-            {active.name && <span className="player-chip__hello">Bonjour,</span>}
+            {active.name && <span className="player-chip__hello">{tr('Bonjour,', 'Hi,')}</span>}
             <span className="player-chip__name">{active.name || 'Esprit Vif'}</span>
           </span>
         </button>
         <span className="home__chips">
           {streak > 0 && (
-            <span className="streak" title="Jours d’entraînement d’affilée">
+            <span className="streak" title={tr('Jours d’entraînement d’affilée', 'Training days in a row')}>
               <Icon name="flame" size={18} />
-              {plural(streak, 'jour')}
+              {tr(plural(streak, 'jour'), plural(streak, 'day'))}
             </span>
           )}
           <a
             href="#/progres"
             className="rank-chip"
-            aria-label={`Niveau ${rank.level}, ${rank.title}. Voir mes progrès`}
+            aria-label={tr(`Niveau ${rank.level}, ${rank.title}. Voir mes progrès`, `Level ${rank.level}, ${rank.title}. See my progress`)}
             onClick={(event) => {
               event.preventDefault();
               navigate({ name: 'progress' }, { replace: true });
@@ -119,7 +123,7 @@ function Home() {
             <span className="rank-chip__ring" style={{ '--p': rankProgress } as CSSProperties}>
               {rank.level}
             </span>
-            <span className="rank-chip__label">Niv.</span>
+            <span className="rank-chip__label">{tr('Niv.', 'Lv.')}</span>
           </a>
         </span>
       </header>
@@ -128,20 +132,26 @@ function Home() {
       {!store.persistent && (
         <p className="notice">
           <Icon name="info" size={20} />
-          Ce navigateur ne permet pas d’enregistrer tes progrès : ils seront perdus à la fermeture.
+          {tr(
+            'Ce navigateur ne permet pas d’enregistrer tes progrès : ils seront perdus à la fermeture.',
+            'This browser can’t save your progress: it will be lost when you close it.',
+          )}
         </p>
       )}
       {reminderDue && (
         <p className="notice notice--accent" role="status">
           <Icon name="bell" size={20} />
-          C’est l’heure de ton test du jour. Cinq minutes suffisent&nbsp;!
+          {tr('C’est l’heure de ton test du jour. Cinq minutes suffisent\u00a0!', 'Time for your daily test. Five minutes is all it takes!')}
         </p>
       )}
 
       {restedYesterday && (
         <p className="notice notice--warm" role="status">
           <Mascot mood="sleep" size={34} />
-          Hier était ton jour de repos. Une partie aujourd’hui et ta série de {plural(streak, 'jour')} continue&nbsp;!
+          {tr(
+            `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${plural(streak, 'jour')} continue\u00a0!`,
+            `Yesterday was your rest day. Play one game today and your ${streak}-day streak keeps going!`,
+          )}
         </p>
       )}
 
@@ -173,7 +183,7 @@ function Home() {
           <Mascot mood="hello" size={58} className="coach__vif" />
           <div>
             <h2 className="coach__title" id="coach-title">
-              Le mot de {characterName(active.character)}, ton coach
+              {tr(`Le mot de ${characterName(active.character)}, ton coach`, `Tip from your coach, ${characterName(active.character)}`)}
             </h2>
             <p className="coach__tip">{coachTip(today)}</p>
           </div>
@@ -194,12 +204,14 @@ function SeasonCard() {
   if (!season) return null;
   const count = Math.min(SEASON_PLAYS, seasonPlays(data.plays, season, today.slice(0, 4)));
   return (
-    <section className={`season season--${season.id}`} aria-label={`Saison : ${season.name}`}>
+    <section className={`season season--${season.id}`} aria-label={tr(`Saison : ${season.name}`, `Season: ${season.name}`)}>
       <Mascot mood="hello" size={60} />
       <div className="season__text">
         <p className="season__greeting">{season.greeting}</p>
         <p className="season__progress">
-          {count >= SEASON_PLAYS ? `Trophée « ${season.trophy.name} » gagné !` : `${count} / ${SEASON_PLAYS} parties`}
+          {count >= SEASON_PLAYS
+            ? tr(`Trophée « ${season.trophy.name} » gagné !`, `“${season.trophy.name}” trophy earned!`)
+            : tr(`${count} / ${SEASON_PLAYS} parties`, `${count} / ${SEASON_PLAYS} games`)}
         </p>
       </div>
     </section>
@@ -221,7 +233,7 @@ function WeeklyCard() {
       </span>
       <div className="weekly__text">
         <h2 className="weekly__title" id="weekly-title">
-          Défi de la semaine
+          {tr('Défi de la semaine', 'Weekly challenge')}
         </h2>
         <p className="weekly__label">{challenge.label}</p>
         <span className="mini-bar" aria-hidden="true">
@@ -229,8 +241,10 @@ function WeeklyCard() {
         </span>
         <p className="weekly__meta">
           {done
-            ? `Relevé ! +${WEEKLY_XP} XP`
-            : `${progress} / ${challenge.target} · +${WEEKLY_XP} XP · ${daysLeft === 1 ? 'dernier jour' : `encore ${plural(daysLeft, 'jour')}`}`}
+            ? tr(`Relevé ! +${WEEKLY_XP} XP`, `Done! +${WEEKLY_XP} XP`)
+            : `${progress} / ${challenge.target} · +${WEEKLY_XP} XP · ${
+                daysLeft === 1 ? tr('dernier jour', 'last day') : tr(`encore ${plural(daysLeft, 'jour')}`, `${plural(daysLeft, 'day')} left`)
+              }`}
         </p>
       </div>
     </section>
@@ -250,13 +264,13 @@ function SessionCard() {
         <Icon name="target" />
       </span>
       <span className="card__text">
-        <span className="card__title">Séance du jour</span>
+        <span className="card__title">{tr('Séance du jour', 'Daily session')}</span>
         <span className="card__sub">
           {completed
-            ? 'Terminée : bravo, à demain !'
+            ? tr('Terminée : bravo, à demain !', 'All done. Great job, see you tomorrow!')
             : done.size
-              ? `${done.size} jeux sur ${picks.length} · on continue ?`
-              : `${picks.length} jeux choisis pour toi · ≈ 6 min`}
+              ? tr(`${done.size} jeux sur ${picks.length} · on continue ?`, `${done.size} of ${picks.length} games · keep going?`)
+              : tr(`${picks.length} jeux choisis pour toi · ≈ 6 min`, `${picks.length} games picked for you · ≈ 6 min`)}
         </span>
       </span>
       <span className="session-card__dots" aria-hidden="true">
@@ -293,18 +307,20 @@ function InstallCard() {
       </span>
       <span className="card__text">
         <span className="card__title" id="install-title">
-          Installe Esprit Vif
+          {tr('Installe Esprit Vif', 'Install Esprit Vif')}
         </span>
-        <span className="card__sub">Une icône sur ton écran d’accueil, et ça marche même sans réseau.</span>
+        <span className="card__sub">
+          {tr('Une icône sur ton écran d’accueil, et ça marche même sans réseau.', 'An icon on your home screen, and it works even offline.')}
+        </span>
       </span>
       <span className="install-card__actions">
         <button type="button" className="btn btn--primary" onClick={() => void promptInstall()}>
-          Installer
+          {tr('Installer', 'Install')}
         </button>
         <button
           type="button"
           className="icon-btn icon-btn--flat"
-          aria-label="Plus tard"
+          aria-label={tr('Plus tard', 'Later')}
           onClick={() => {
             setDismissed(true);
             try {
@@ -327,7 +343,7 @@ function WeekStrip({ playedDays, today }: { playedDays: Set<string>; today: stri
   return (
     <section aria-labelledby="week-title">
       <h2 className="section-title" id="week-title">
-        Tes 7 derniers jours
+        {tr('Tes 7 derniers jours', 'Your last 7 days')}
       </h2>
       <ol className="week">
         {days.map((day) => {
@@ -341,7 +357,10 @@ function WeekStrip({ playedDays, today }: { playedDays: Set<string>; today: stri
                 {played ? <Icon name="check" size={18} strokeWidth={3} /> : Number(day.slice(8))}
               </span>
               <span className="sr-only">
-                {formatWeekday(day)} : {played ? 'entraînement fait' : 'pas d’entraînement'}
+                {tr(
+                  `${formatWeekday(day)} : ${played ? 'entraînement fait' : 'pas d’entraînement'}`,
+                  `${formatWeekday(day)}: ${played ? 'trained' : 'no training'}`,
+                )}
               </span>
             </li>
           );
@@ -354,22 +373,22 @@ function WeekStrip({ playedDays, today }: { playedDays: Set<string>; today: stri
 function AgeHero({ last, previous, doneToday }: { last: TestRecord; previous?: TestRecord; doneToday: boolean }) {
   const diff = previous?.brainAge !== undefined && last.brainAge !== undefined ? last.brainAge - previous.brainAge : null;
   return (
-    <section className="hero" aria-label="Ton âge cérébral">
+    <section className="hero" aria-label={tr('Ton âge cérébral', 'Your brain age')}>
       <div className="hero__glow" aria-hidden="true" />
-      <p className="hero__label">Ton âge cérébral</p>
+      <p className="hero__label">{tr('Ton âge cérébral', 'Your brain age')}</p>
       <p className="hero__age">
         <span className="hero__value">{last.brainAge}</span>
-        <span className="hero__unit">ans</span>
+        <span className="hero__unit">{tr('ans', 'years')}</span>
       </p>
       <div className="hero__meta">
         {diff !== null && diff !== 0 && (
           <span className={`delta ${diff < 0 ? 'delta--good' : 'delta--soft'}`}>
             <Icon name={diff < 0 ? 'down' : 'up'} size={16} />
-            {plural(Math.abs(diff), 'an')}
+            {tr(plural(Math.abs(diff), 'an'), plural(Math.abs(diff), 'year'))}
           </span>
         )}
-        {diff === 0 && <span className="delta delta--soft">stable</span>}
-        <span>{doneToday ? 'Test du jour fait' : `Dernier test : ${formatShortDay(last.day)}`}</span>
+        {diff === 0 && <span className="delta delta--soft">{tr('stable', 'steady')}</span>}
+        <span>{doneToday ? tr('Test du jour fait', 'Daily test done') : tr(`Dernier test : ${formatShortDay(last.day)}`, `Last test: ${formatShortDay(last.day)}`)}</span>
         {doneToday && (
           <span className="stamp-mini" aria-hidden="true">
             <Icon name="check" size={14} strokeWidth={3} />
@@ -384,9 +403,9 @@ function WelcomeHero() {
   return (
     <section className="hero hero--welcome">
       <div className="hero__glow" aria-hidden="true" />
-      <p className="hero__label">Bienvenue&nbsp;!</p>
-      <p className="hero__title">Quelques minutes par jour pour garder l’esprit vif.</p>
-      <p className="hero__text">Ton premier test du jour te donne ton âge cérébral de départ.</p>
+      <p className="hero__label">{tr('Bienvenue\u00a0!', 'Welcome!')}</p>
+      <p className="hero__title">{tr('Quelques minutes par jour pour garder l’esprit vif.', 'A few minutes a day to keep your mind sharp.')}</p>
+      <p className="hero__text">{tr('Ton premier test du jour te donne ton âge cérébral de départ.', 'Your first daily test gives you your starting brain age.')}</p>
     </section>
   );
 }
@@ -395,7 +414,7 @@ function Programme({ games, test }: { games: GameId[]; test: TestRecord | null }
   return (
     <section className="programme" aria-labelledby="programme-title">
       <h2 className="section-title" id="programme-title">
-        Au programme aujourd’hui
+        {tr('Au programme aujourd’hui', 'On today’s program')}
       </h2>
       <ol className="programme__list">
         {games.map((id) => {
@@ -410,7 +429,7 @@ function Programme({ games, test }: { games: GameId[]; test: TestRecord | null }
               {done && (
                 <span className="programme__check">
                   <Icon name="check" size={18} strokeWidth={3} />
-                  <span className="sr-only">fait</span>
+                  <span className="sr-only">{tr('fait', 'done')}</span>
                 </span>
               )}
             </li>

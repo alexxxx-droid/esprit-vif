@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { DIRS, generateIti, ITI_TRIALS, itiLevel, scoreIti, type Cell, type ItiTrial, type Move } from '../../core/games/itineraire';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -17,7 +18,10 @@ const ROTATION = { right: 0, down: 90, left: 180, up: -90 } as const;
 /** Un déplacement : la flèche, et le nombre de cases s'il y en a plusieurs. */
 export function MoveChip({ move, big }: { move: Move; big?: boolean }) {
   return (
-    <span className={`iti-move${big ? ' iti-move--big' : ''}`} aria-label={`${move.steps} case${move.steps > 1 ? 's' : ''} ${DIRS[move.dir].label}`}>
+    <span className={`iti-move${big ? ' iti-move--big' : ''}`} aria-label={tr(
+        `${move.steps} case${move.steps > 1 ? 's' : ''} ${DIRS[move.dir].label}`,
+        `${move.steps} square${move.steps === 1 ? '' : 's'} ${DIRS[move.dir].label}`,
+      )}>
       <span style={{ transform: `rotate(${ROTATION[move.dir]}deg)` }} aria-hidden="true">
         <Icon name="arrow" size={big ? 44 : 24} strokeWidth={big ? 3 : 2.6} />
       </span>
@@ -51,7 +55,10 @@ export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps
             className={`iti-cell${start ? ' is-start' : ''}${state}`}
             onTap={() => onPick?.(cell)}
             disabled={disabled || !onPick}
-            aria-label={`Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}`}
+            aria-label={tr(
+              `Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}`,
+              `Row ${cell.row + 1}, column ${cell.col + 1}${start ? ', start' : ''}`,
+            )}
           >
             {start && <Mascot character={active.character} mood="happy" size={30} still />}
           </TapButton>
@@ -85,10 +92,10 @@ export function ItiGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreIti(correct),
       stats: { correct, trials: ITI_TRIALS },
-      headline: `${correct} trajet${correct > 1 ? 's' : ''} sur ${ITI_TRIALS}`,
+      headline: tr(`${correct} trajet${correct > 1 ? 's' : ''} sur ${ITI_TRIALS}`, `${correct} of ${ITI_TRIALS} routes`),
       lines: [
-        { label: 'Trajets retrouvés', value: `${correct} / ${ITI_TRIALS}` },
-        { label: 'Déplacements par trajet', value: String(config.moves) },
+        { label: tr('Trajets retrouvés', 'Routes found'), value: `${correct} / ${ITI_TRIALS}` },
+        { label: tr('Déplacements par trajet', 'Moves per route'), value: String(config.moves) },
       ],
     });
   });
@@ -136,7 +143,7 @@ export function ItiGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', 'Voici le trajet');
+      showMark('bad', tr('Voici le trajet', 'Here’s the route'));
     }
   };
 
@@ -157,14 +164,14 @@ export function ItiGame({ seed, level, onFinish }: GameProps) {
               trial.moves.map((move, i) => <MoveChip key={i} move={move} />)
             )
           ) : phase === 'answer' ? (
-            <p className="lettre__ask">Où arrives-tu&nbsp;? Touche la case.</p>
+            <p className="lettre__ask">{tr('Où arrives-tu\u00a0? Touche la case.', 'Where do you end up? Tap the square.')}</p>
           ) : (
             trial.moves.map((move, i) => <MoveChip key={i} move={move} />)
           )}
         </div>
         <ItiGrid trial={trial} picked={picked} showPath={phase === 'reveal' && !right} disabled={phase === 'reveal' || (phase === 'show' && config.oneByOne)} onPick={pick} />
         <p className="qui__round">
-          Trajet {index + 1}/{trials.length}
+          {tr('Trajet', 'Route')} {index + 1}/{trials.length}
         </p>
         <FeedbackMark mark={mark} />
       </div>

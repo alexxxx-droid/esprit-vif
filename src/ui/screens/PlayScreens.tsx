@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { dailyGames, dailySeed } from '../../core/daily';
 import { DAILY_ROTATION, GAMES } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import type { GameId } from '../../core/types';
 import { gameLevel, gameUnlocked, officialTests, testInProgress, type TestRecord } from '../../store/progress';
@@ -31,16 +32,16 @@ export function PlayScreen({ gameId }: { gameId: GameId }) {
           <>
             {next && (
               <button type="button" className="btn btn--primary btn--lg" onClick={() => replay(next)} autoFocus>
-                Niveau {next}
+                {tr(`Niveau ${next}`, `Level ${next}`)}
                 <Icon name="arrow" />
               </button>
             )}
             <button type="button" className={`btn btn--lg${next ? '' : ' btn--primary'}`} onClick={() => replay()} autoFocus={!next}>
               <Icon name="replay" />
-              {next ? 'Rejouer ce niveau' : 'Rejouer'}
+              {next ? tr('Rejouer ce niveau', 'Replay this level') : tr('Rejouer', 'Play again')}
             </button>
             <button type="button" className="btn btn--lg btn--ghost" onClick={quit}>
-              Terminer
+              {tr('Terminer', 'Finish')}
             </button>
           </>
         );
@@ -106,7 +107,7 @@ export function DailyTestScreen() {
       level={meta.dailyLevel}
       mode="daily"
       fixedSeed={test.official ? dailySeed(test.day, current) : undefined}
-      badge={`${test.official ? 'Test du jour' : 'Test pour le plaisir'} · ${position}/${test.games.length}`}
+      badge={`${test.official ? tr('Test du jour', 'Daily test') : tr('Test pour le plaisir', 'Just-for-fun test')} · ${position}/${test.games.length}`}
       save={async (outcome, run) => {
         const saved = await store.recordPlay({
           gameId: current,
@@ -122,7 +123,7 @@ export function DailyTestScreen() {
       actions={() =>
         following ? (
           <button type="button" className="btn btn--primary btn--lg" onClick={() => setCurrent(following)} autoFocus>
-            Jeu suivant : {GAMES[following].name}
+            {tr(`Jeu suivant : ${GAMES[following].name}`, `Next game: ${GAMES[following].name}`)}
             <Icon name="arrow" />
           </button>
         ) : (
@@ -132,7 +133,7 @@ export function DailyTestScreen() {
             onClick={() => navigate({ name: 'report', testId: test.id }, { replace: true })}
             autoFocus
           >
-            Voir mon bilan
+            {tr('Voir mon bilan', 'See my report')}
             <Icon name="arrow" />
           </button>
         )

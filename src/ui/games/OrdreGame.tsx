@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import { initialMatrice, MATRICE_MAX_FAILURES, nextMatrice, type MatriceState } from '../../core/games/matrice';
 import { generateOrdreRound, ordreLevel, ordreMaxSpan, scoreOrdre } from '../../core/games/ordre';
@@ -47,10 +48,12 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreOrdre(final.best),
       stats: { best: final.best, rounds: final.rounds },
-      headline: final.best ? `${plural(final.best, 'nombre')} retenus` : 'Aucune série retenue',
+      headline: final.best
+        ? tr(`${plural(final.best, 'nombre')} retenus`, `${plural(final.best, 'number')} remembered`)
+        : tr('Aucune série retenue', 'No series remembered'),
       lines: [
-        { label: 'Plus longue série', value: final.best ? plural(final.best, 'nombre') : '—' },
-        { label: 'Séries réussies', value: String(final.rounds - final.failures) },
+        { label: tr('Plus longue série', 'Longest series'), value: final.best ? tr(plural(final.best, 'nombre'), plural(final.best, 'number')) : '—' },
+        { label: tr('Séries réussies', 'Series completed'), value: String(final.rounds - final.failures) },
       ],
     });
   });
@@ -99,16 +102,17 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
   return (
     <div className="game">
       <GameHud>
-        <span className="chip">{plural(round.cells.length, 'nombre')}</span>
+        <span className="chip">{tr(plural(round.cells.length, 'nombre'), plural(round.cells.length, 'number'))}</span>
       </GameHud>
       <div className="game__stage matrice-stage">
         <p className={`matrice__status matrice__status--${phase}`} aria-live="polite">
-          {phase === 'show' && 'Retiens où sont les nombres…'}
-          {phase === 'input' && (config.descending ? 'Du plus grand au plus petit !' : 'Du plus petit au plus grand !')}
-          {phase === 'success' && 'Bravo, un nombre de plus !'}
-          {phase === 'fail' && 'Raté : voici les nombres.'}
+          {phase === 'show' && tr('Retiens où sont les nombres…', 'Remember where the numbers are…')}
+          {phase === 'input' &&
+            (config.descending ? tr('Du plus grand au plus petit !', 'Largest to smallest!') : tr('Du plus petit au plus grand !', 'Smallest to largest!'))}
+          {phase === 'success' && tr('Bravo, un nombre de plus !', 'Well done, one more number!')}
+          {phase === 'fail' && tr('Raté : voici les nombres.', 'Missed: here are the numbers.')}
         </p>
-        <div className="matrice ordre" style={{ '--size': config.size } as CSSProperties} role="group" aria-label="Cases à toucher">
+        <div className="matrice ordre" style={{ '--size': config.size } as CSSProperties} role="group" aria-label={tr('Cases à toucher', 'Squares to tap')}>
           {Array.from({ length: cellCount }, (_, cell) => {
             const holds = round.cells.includes(cell);
             const value = holds ? valueOf(cell) : null;
@@ -129,7 +133,7 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
                 {...cellProps(cell)}
                 className={classes}
                 onTap={() => tap(cell)}
-                aria-label={visible ? `Case ${value}` : holds ? 'Case cachée' : 'Case vide'}
+                aria-label={visible ? tr(`Case ${value}`, `Square ${value}`) : holds ? tr('Case cachée', 'Hidden square') : tr('Case vide', 'Empty square')}
                 aria-disabled={phase !== 'input' || !holds}
               >
                 {visible && <span className="ordre__value">{value}</span>}
@@ -137,11 +141,19 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
             );
           })}
         </div>
-        <p className="tries" aria-label={`${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`}>
+        <p
+          className="tries"
+          aria-label={tr(
+            `${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`,
+            `${plural(Math.max(0, triesLeft), 'try', 'tries')} left`,
+          )}
+        >
           {Array.from({ length: MATRICE_MAX_FAILURES }, (_, i) => (
             <span key={i} className={i < triesLeft ? 'is-left' : undefined} aria-hidden="true" />
           ))}
-          <span aria-hidden="true">{triesLeft > 1 ? '2 essais' : triesLeft === 1 ? 'Dernier essai' : 'Fin de partie'}</span>
+          <span aria-hidden="true">
+            {triesLeft > 1 ? tr('2 essais', '2 tries') : triesLeft === 1 ? tr('Dernier essai', 'Last try') : tr('Fin de partie', 'Game over')}
+          </span>
         </p>
       </div>
     </div>

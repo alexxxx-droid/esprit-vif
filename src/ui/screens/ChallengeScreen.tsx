@@ -16,6 +16,7 @@ import {
 } from '../../core/challenges';
 import { plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAMES } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { DUEL_DIFFICULTIES, type DuelDifficulty } from '../../core/modes';
 import { hashSeed, randomSeed } from '../../core/rng';
 import type { Domain } from '../../core/types';
@@ -50,8 +51,15 @@ function useNameGate() {
   const missing = !active.name.trim();
   const field = missing ? (
     <label className="field">
-      <span className="field__label">Ton prénom, pour que tes amies te reconnaissent</span>
-      <input className="field__input" value={draft} maxLength={16} placeholder="Prénom" autoComplete="given-name" onChange={(e) => setDraft(e.target.value)} />
+      <span className="field__label">{tr('Ton prénom, pour que tes amies te reconnaissent', 'Your first name, so your friends know it’s you')}</span>
+      <input
+        className="field__input"
+        value={draft}
+        maxLength={16}
+        placeholder={tr('Prénom', 'First name')}
+        autoComplete="given-name"
+        onChange={(e) => setDraft(e.target.value)}
+      />
     </label>
   ) : null;
   return {
@@ -81,7 +89,7 @@ function FriendAvatar({ name, me, size = 40 }: { name: string; me: boolean; size
 function Header({ onBack, badge }: { onBack: () => void; badge?: string }) {
   return (
     <header className="intro__top">
-      <button type="button" className="icon-btn" onClick={onBack} aria-label="Retour">
+      <button type="button" className="icon-btn" onClick={onBack} aria-label={tr('Retour', 'Back')}>
         <Icon name="back" />
       </button>
       {badge && <span className="pill">{badge}</span>}
@@ -102,11 +110,16 @@ function BrokenLink() {
       <Header onBack={() => navigate({ name: 'challenge', code: null }, { replace: true })} />
       <div className="intro__head duel-final">
         <Mascot mood="gentle" size={110} />
-        <h1 className="intro__title">Ce lien de défi est incomplet</h1>
-        <p className="intro__rule">Il a sans doute été coupé en route. Demande à ton amie de te le renvoyer en entier.</p>
+        <h1 className="intro__title">{tr('Ce lien de défi est incomplet', 'This challenge link is incomplete')}</h1>
+        <p className="intro__rule">
+          {tr(
+            'Il a sans doute été coupé en route. Demande à ton amie de te le renvoyer en entier.',
+            'It probably got cut off along the way. Ask your friend to send you the whole link again.',
+          )}
+        </p>
       </div>
       <button type="button" className="btn btn--primary btn--lg mode-cta" onClick={() => navigate({ name: 'challenge', code: null }, { replace: true })}>
-        Voir mes défis
+        {tr('Voir mes défis', 'See my challenges')}
       </button>
     </div>
   );
@@ -151,27 +164,29 @@ function ChallengeHub() {
     <div className="screen screen-in mode-screen">
       <Header onBack={() => navigate({ name: 'training' }, { replace: true })} />
       <div className="intro__head">
-        <h1 className="intro__title">Défis entre amies</h1>
+        <h1 className="intro__title">{tr('Défis entre amies', 'Friend challenges')}</h1>
         <p className="intro__rule">
-          Tu joues trois parties, puis tu envoies le lien : tes amies jouent exactement les mêmes sur leur téléphone. Vos scores forment un classement par catégorie, gardé
-          sur chaque appareil, sans compte.
+          {tr(
+            'Tu joues trois parties, puis tu envoies le lien : tes amies jouent exactement les mêmes sur leur téléphone. Vos scores forment un classement par catégorie, gardé sur chaque appareil, sans compte.',
+            'You play three games, then send the link: your friends play exactly the same ones on their phones. Your scores make a leaderboard for each category, kept on each device, no account needed.',
+          )}
         </p>
       </div>
 
       <section className="card challenge-new" aria-labelledby="challenge-new">
         <h2 className="section-title" id="challenge-new">
-          Nouveau défi
+          {tr('Nouveau défi', 'New challenge')}
         </h2>
         <div className="field">
           <span className="field__label" id="challenge-domain">
-            Catégorie
+            {tr('Catégorie', 'Category')}
           </span>
           <div className="challenge-chips" role="radiogroup" aria-labelledby="challenge-domain">
             <button type="button" role="radio" aria-checked={domain === 'mix'} className="challenge-chip" onClick={() => setDomain('mix')}>
               <span className="challenge-chip__mix" aria-hidden="true">
                 <Icon name="spark" size={14} />
               </span>
-              Un peu de tout
+              {tr('Un peu de tout', 'A bit of everything')}
             </button>
             {DOMAIN_ORDER.map((d) => (
               <button key={d} type="button" role="radio" aria-checked={domain === d} className="challenge-chip" onClick={() => setDomain(d)}>
@@ -183,13 +198,13 @@ function ChallengeHub() {
         </div>
         <div className="field">
           <span className="field__label" id="challenge-level">
-            Difficulté
+            {tr('Difficulté', 'Difficulty')}
           </span>
           <div className="segmented duel-setup__levels" role="radiogroup" aria-labelledby="challenge-level">
             {(Object.keys(DUEL_DIFFICULTIES) as DuelDifficulty[]).map((key) => (
               <button key={key} type="button" role="radio" aria-checked={difficulty === key} className="segmented__option" onClick={() => setDifficulty(key)}>
                 {DUEL_DIFFICULTIES[key].label}
-                <small>niveau {DUEL_DIFFICULTIES[key].level}</small>
+                <small>{tr(`niveau ${DUEL_DIFFICULTIES[key].level}`, `level ${DUEL_DIFFICULTIES[key].level}`)}</small>
               </button>
             ))}
           </div>
@@ -197,8 +212,8 @@ function ChallengeHub() {
         {nameGate.field}
         <button type="button" className="cta" onClick={() => void create()} disabled={!nameGate.ready}>
           <span className="cta__text">
-            <span className="cta__label">Créer le défi</span>
-            <span className="cta__sub">3 jeux · tu joues d’abord, puis tu l’envoies</span>
+            <span className="cta__label">{tr('Créer le défi', 'Create the challenge')}</span>
+            <span className="cta__sub">{tr('3 jeux · tu joues d’abord, puis tu l’envoies', '3 games · you play first, then send it')}</span>
           </span>
           <span className="cta__icon">
             <Icon name="play" />
@@ -208,15 +223,15 @@ function ChallengeHub() {
 
       <section aria-labelledby="challenge-ranking">
         <h2 className="section-title" id="challenge-ranking">
-          Classement entre amies
+          {tr('Classement entre amies', 'Friends leaderboard')}
         </h2>
         {hasFriends ? (
           <>
-            <div className="challenge-chips challenge-chips--scroll" role="tablist" aria-label="Catégorie du classement">
+            <div className="challenge-chips challenge-chips--scroll" role="tablist" aria-label={tr('Catégorie du classement', 'Leaderboard category')}>
               {(['all', ...ranked] as const).map((d) => (
                 <button key={d} type="button" role="tab" aria-selected={tab === d} className="challenge-chip" onClick={() => setTab(d)}>
                   {d !== 'all' && <DomainBadge domain={d} size={24} />}
-                  {d === 'all' ? 'Toutes catégories' : DOMAINS[d].name}
+                  {d === 'all' ? tr('Toutes catégories', 'All categories') : DOMAINS[d].name}
                 </button>
               ))}
             </div>
@@ -228,15 +243,15 @@ function ChallengeHub() {
                   <span className="mode-item__text">
                     <span className="mode-item__name">
                       {row.name}
-                      {row.me && <span className="challenge-me"> (toi)</span>}
+                      {row.me && <span className="challenge-me">{tr(' (toi)', ' (you)')}</span>}
                     </span>
-                    <span className="mode-item__sub">{plural(row.games, 'partie', 'parties')}</span>
+                    <span className="mode-item__sub">{tr(plural(row.games, 'partie', 'parties'), plural(row.games, 'game'))}</span>
                   </span>
                   <span className="mode-item__score">
                     {row.average}
-                    <small> de moyenne</small>
+                    <small>{tr(' de moyenne', ' average')}</small>
                   </span>
-                  {i === 0 && ranking.length > 1 && <span className="visually-hidden">en tête</span>}
+                  {i === 0 && ranking.length > 1 && <span className="visually-hidden">{tr('en tête', 'in the lead')}</span>}
                 </li>
               ))}
             </ol>
@@ -244,7 +259,10 @@ function ChallengeHub() {
         ) : (
           <p className="empty">
             <Icon name="users" size={22} />
-            Pas encore de classement : crée un défi et envoie-le à tes amies. Leurs scores reviennent quand elles te renvoient le lien.
+            {tr(
+              'Pas encore de classement : crée un défi et envoie-le à tes amies. Leurs scores reviennent quand elles te renvoient le lien.',
+              'No leaderboard yet: create a challenge and send it to your friends. Their scores come back when they send you the link back.',
+            )}
           </p>
         )}
       </section>
@@ -252,7 +270,7 @@ function ChallengeHub() {
       {recent.length > 0 && (
         <section aria-labelledby="challenge-recent">
           <h2 className="section-title" id="challenge-recent">
-            Mes défis
+            {tr('Mes défis', 'My challenges')}
           </h2>
           <div className="mode-list">
             {recent.map((c) => {
@@ -272,13 +290,15 @@ function ChallengeHub() {
                     ))}
                   </span>
                   <span className="mode-item__text">
-                    <span className="mode-item__name">{c.from === me ? 'Ton défi' : `Défi de ${c.from}`}</span>
+                    <span className="mode-item__name">{c.from === me ? tr('Ton défi', 'Your challenge') : tr(`Défi de ${c.from}`, `${c.from}’s challenge`)}</span>
                     <span className="mode-item__sub">
-                      niveau {c.level}
-                      {others.length > 0 ? ` · avec ${others.map((s) => s.name).join(', ')}` : ' · en attente de réponses'}
+                      {tr(`niveau ${c.level}`, `level ${c.level}`)}
+                      {others.length > 0
+                        ? tr(` · avec ${others.map((s) => s.name).join(', ')}`, ` · with ${others.map((s) => s.name).join(', ')}`)
+                        : tr(' · en attente de réponses', ' · waiting for replies')}
                     </span>
                   </span>
-                  {mine ? <span className="mode-item__score">{mine.total}</span> : <span className="reason reason--weak">À relever</span>}
+                  {mine ? <span className="mode-item__score">{mine.total}</span> : <span className="reason reason--weak">{tr('À relever', 'To play')}</span>}
                 </button>
               );
             })}
@@ -288,16 +308,16 @@ function ChallengeHub() {
 
       <section className="card challenge-paste" aria-labelledby="challenge-paste">
         <h2 className="section-title" id="challenge-paste">
-          On t’a envoyé un lien&nbsp;?
+          {tr('On t’a envoyé un lien\u00a0?', 'Got a link from someone?')}
         </h2>
-        <p className="mode-item__sub">Il s’ouvre tout seul depuis ta messagerie. Sinon, colle-le ici.</p>
+        <p className="mode-item__sub">{tr('Il s’ouvre tout seul depuis ta messagerie. Sinon, colle-le ici.', 'It opens by itself from your messaging app. If not, paste it here.')}</p>
         <div className="challenge-paste__row">
           <input
             className="field__input"
             value={pasted}
             onChange={(e) => setPasted(e.target.value)}
-            placeholder="Colle le lien du défi"
-            aria-label="Lien du défi"
+            placeholder={tr('Colle le lien du défi', 'Paste the challenge link')}
+            aria-label={tr('Lien du défi', 'Challenge link')}
             autoComplete="off"
           />
           <button
@@ -306,10 +326,12 @@ function ChallengeHub() {
             disabled={!pastedLink}
             onClick={() => pastedLink && navigate({ name: 'challenge', code: encodeChallenge(pastedLink) })}
           >
-            Ouvrir
+            {tr('Ouvrir', 'Open')}
           </button>
         </div>
-        {pasted.trim() && !pastedLink && <p className="challenge-paste__error">Ce lien ne ressemble pas à un défi Esprit Vif.</p>}
+        {pasted.trim() && !pastedLink && (
+          <p className="challenge-paste__error">{tr('Ce lien ne ressemble pas à un défi Esprit Vif.', 'This link doesn’t look like an Esprit Vif challenge.')}</p>
+        )}
       </section>
     </div>
   );
@@ -355,7 +377,7 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
         level={link.level}
         mode="free"
         fixedSeed={challengeSeed(link, playing)}
-        badge={`Défi · ${playing + 1}/${link.games.length}`}
+        badge={tr(`Défi · ${playing + 1}/${link.games.length}`, `Challenge · ${playing + 1}/${link.games.length}`)}
         save={async (outcome) => {
           const next = [...scores.slice(0, playing), outcome.score];
           setScores(next);
@@ -367,7 +389,9 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
         }}
         actions={() => (
           <button type="button" className="btn btn--primary btn--lg" onClick={() => setPlaying(last ? null : playing + 1)} autoFocus>
-            {last ? 'Voir le résultat du défi' : `Jeu suivant : ${GAMES[link.games[playing + 1]].name}`}
+            {last
+              ? tr('Voir le résultat du défi', 'See the challenge results')
+              : tr(`Jeu suivant : ${GAMES[link.games[playing + 1]].name}`, `Next game: ${GAMES[link.games[playing + 1]].name}`)}
             <Icon name="arrow" />
           </button>
         )}
@@ -383,16 +407,21 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
   const rival = standings.find((s) => !s.me && s.complete);
   return (
     <div className="screen screen-in mode-screen">
-      <Header onBack={back} badge={`niveau ${link.level}`} />
+      <Header onBack={back} badge={tr(`niveau ${link.level}`, `level ${link.level}`)} />
       <div className="intro__head duel-final">
         {author ? <Mascot mood="cheer" size={110} /> : <FriendAvatar name={link.from} me={false} size={96} />}
-        <h1 className="intro__title">{author ? 'Ton défi est prêt' : `${link.from} te défie\u00a0!`}</h1>
+        <h1 className="intro__title">
+          {author ? tr('Ton défi est prêt', 'Your challenge is ready') : tr(`${link.from} te défie\u00a0!`, `${link.from} challenges you!`)}
+        </h1>
         <p className="intro__rule">
           {author
-            ? 'Joue les trois parties, puis envoie le lien : tes amies auront exactement les mêmes à jouer.'
+            ? tr(
+                'Joue les trois parties, puis envoie le lien : tes amies auront exactement les mêmes à jouer.',
+                'Play the three games, then send the link: your friends will get exactly the same ones to play.',
+              )
             : rival
-              ? `Mêmes parties, même niveau. Son score reste caché jusqu’à la fin de la tienne.`
-              : 'Mêmes parties, même niveau pour tout le monde.'}
+              ? tr(`Mêmes parties, même niveau. Son score reste caché jusqu’à la fin de la tienne.`, 'Same games, same level. Their score stays hidden until you finish yours.')
+              : tr('Mêmes parties, même niveau pour tout le monde.', 'Same games, same level for everyone.')}
         </p>
       </div>
       <ol className="mode-list">
@@ -405,14 +434,18 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
               </span>
               <span className="mode-item__sub">{DOMAINS[GAMES[gameId].domain].name}</span>
             </span>
-            {scores[i] !== undefined ? <span className="mode-item__score">{scores[i]} pts</span> : rival && <span className="challenge-hidden">?</span>}
+            {scores[i] !== undefined ? (
+              <span className="mode-item__score">{tr(`${scores[i]} pts`, `${scores[i]} pts`)}</span>
+            ) : (
+              rival && <span className="challenge-hidden">?</span>
+            )}
           </li>
         ))}
       </ol>
       {nameGate.field}
       <p className="mode-note">
         <Icon name="info" size={18} />
-        Une seule tentative par défi. Tes niveaux ne bougent pas.
+        {tr('Une seule tentative par défi. Tes niveaux ne bougent pas.', 'One try per challenge. Your levels don’t change.')}
       </p>
       <button
         type="button"
@@ -425,8 +458,14 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
         autoFocus={nameGate.ready}
       >
         <span className="cta__text">
-          <span className="cta__label">{scores.length ? 'Continuer' : author ? 'Jouer mon défi' : 'Relever le défi'}</span>
-          <span className="cta__sub">{scores.length ? `jeu ${scores.length + 1} sur ${link.games.length}` : `≈ ${link.games.length + 1} minutes`}</span>
+          <span className="cta__label">
+            {scores.length ? tr('Continuer', 'Continue') : author ? tr('Jouer mon défi', 'Play my challenge') : tr('Relever le défi', 'Take the challenge')}
+          </span>
+          <span className="cta__sub">
+            {scores.length
+              ? tr(`jeu ${scores.length + 1} sur ${link.games.length}`, `game ${scores.length + 1} of ${link.games.length}`)
+              : `≈ ${link.games.length + 1} minutes`}
+          </span>
         </span>
         <span className="cta__icon">
           <Icon name="play" />
@@ -446,20 +485,28 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
   const tied = complete.filter((s) => s.total === top.total).length > 1;
   const reply: ChallengeLink = { ...link, from: me, scores: mine.scores.map((s) => s ?? 0), day: today };
   const url = challengeUrl(reply);
+  const gameNames = link.games.map((g) => GAMES[g].name).join(', ');
   const text = others.length
-    ? `Mon score au défi Esprit Vif : ${mine.total}/${SCORE_MAX}. Ajoute-le à ton classement !`
-    : `${me} te défie sur Esprit Vif : ${link.games.map((g) => GAMES[g].name).join(', ')} (niveau ${link.level}). Mon score : ${mine.total}/${SCORE_MAX}. À toi !`;
+    ? tr(
+        `Mon score au défi Esprit Vif : ${mine.total}/${SCORE_MAX}. Ajoute-le à ton classement !`,
+        `My score in the Esprit Vif challenge: ${mine.total}/${SCORE_MAX}. Add it to your leaderboard!`,
+      )
+    : tr(
+        `${me} te défie sur Esprit Vif : ${gameNames} (niveau ${link.level}). Mon score : ${mine.total}/${SCORE_MAX}. À toi !`,
+        `${me} challenges you on Esprit Vif: ${gameNames} (level ${link.level}). My score: ${mine.total}/${SCORE_MAX}. Your turn!`,
+      );
+  const copied = tr('Lien copié : colle-le dans ta messagerie.', 'Link copied: paste it into your messaging app.');
 
   const send = async () => {
     const result = await platform().shareLink(text, url);
-    if (result === 'copied') setNotice('Lien copié : colle-le dans ta messagerie.');
-    if (result === 'failed') setNotice('Partage impossible ici : utilise « Copier le lien ».');
+    if (result === 'copied') setNotice(copied);
+    if (result === 'failed') setNotice(tr('Partage impossible ici : utilise « Copier le lien ».', 'Sharing isn’t available here: use “Copy the link”.'));
   };
-  const copy = async () => setNotice((await copyText(url)) ? 'Lien copié : colle-le dans ta messagerie.' : 'Copie impossible : sélectionne le lien à la main.');
+  const copy = async () => setNotice((await copyText(url)) ? copied : tr('Copie impossible : sélectionne le lien à la main.', 'Couldn’t copy: select the link by hand.'));
 
   return (
     <div className="screen screen-in mode-screen">
-      <Header onBack={onBack} badge={`niveau ${link.level}`} />
+      <Header onBack={onBack} badge={tr(`niveau ${link.level}`, `level ${link.level}`)} />
       <div className="intro__head duel-final">
         {others.length === 0 ? (
           <>
@@ -468,21 +515,35 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
               {mine.total}
               <small> / {SCORE_MAX}</small>
             </h1>
-            <p className="intro__rule">Envoie le lien : celles qui le reçoivent jouent les mêmes parties, puis te renvoient leur score.</p>
+            <p className="intro__rule">
+              {tr(
+                'Envoie le lien : celles qui le reçoivent jouent les mêmes parties, puis te renvoient leur score.',
+                'Send the link: whoever gets it plays the same games, then sends you their score.',
+              )}
+            </p>
           </>
         ) : (
           <>
             {tied ? <Mascot mood="happy" size={110} /> : top.me ? <Mascot mood="cheer" size={110} /> : <FriendAvatar name={top.name} me={false} size={96} />}
-            <h1 className="intro__title">{tied ? 'Égalité au sommet\u00a0!' : top.me ? 'Tu remportes le défi\u00a0!' : `${top.name} remporte le défi\u00a0!`}</h1>
+            <h1 className="intro__title">
+              {tied
+                ? tr('Égalité au sommet\u00a0!', 'A tie at the top!')
+                : top.me
+                  ? tr('Tu remportes le défi\u00a0!', 'You win the challenge!')
+                  : tr(`${top.name} remporte le défi\u00a0!`, `${top.name} wins the challenge!`)}
+            </h1>
             <p className="intro__rule">
-              Ton score : {mine.total} / {SCORE_MAX}. Renvoie le lien pour que tes amies voient le tien.
+              {tr(
+                `Ton score : ${mine.total} / ${SCORE_MAX}. Renvoie le lien pour que tes amies voient le tien.`,
+                `Your score: ${mine.total} / ${SCORE_MAX}. Send the link back so your friends can see it.`,
+              )}
             </p>
           </>
         )}
       </div>
-      <div className="challenge-table" role="table" aria-label="Scores du défi">
+      <div className="challenge-table" role="table" aria-label={tr('Scores du défi', 'Challenge scores')}>
         <div className="challenge-table__row challenge-table__head" role="row">
-          <span role="columnheader">Joueuse</span>
+          <span role="columnheader">{tr('Joueuse', 'Player')}</span>
           {link.games.map((g) => (
             <span key={g} role="columnheader" className="challenge-table__game" title={GAMES[g].name}>
               <GameArt gameId={g} size={30} />
@@ -495,7 +556,7 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
           <div key={s.me ? '' : s.name.toLowerCase()} className={`challenge-table__row${s.me ? ' is-me' : ''}${s === top && !tied && others.length ? ' is-top' : ''}`} role="row">
             <span role="cell" className="challenge-table__who">
               <FriendAvatar name={s.name} me={s.me} size={32} />
-              <span className="challenge-table__name">{s.me ? 'Toi' : s.name}</span>
+              <span className="challenge-table__name">{s.me ? tr('Toi', 'You') : s.name}</span>
             </span>
             {s.scores.map((score, i) => (
               <span key={i} role="cell" className="challenge-table__score">
@@ -517,13 +578,13 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
       <div className="mode-actions">
         <button type="button" className="btn btn--primary btn--lg" onClick={() => void send()} autoFocus>
           <Icon name="share" />
-          {others.length ? 'Renvoyer mon score' : 'Envoyer le défi'}
+          {others.length ? tr('Renvoyer mon score', 'Send my score back') : tr('Envoyer le défi', 'Send the challenge')}
         </button>
         <button type="button" className="btn btn--lg btn--ghost" onClick={() => void copy()}>
-          Copier le lien
+          {tr('Copier le lien', 'Copy the link')}
         </button>
         <button type="button" className="btn btn--lg btn--ghost" onClick={onBack}>
-          Classement entre amies
+          {tr('Classement entre amies', 'Friends leaderboard')}
         </button>
       </div>
     </div>

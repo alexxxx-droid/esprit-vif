@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import {
   CORRESPONDANCE_DURATION_MS,
   correspondanceLevel,
@@ -46,11 +47,14 @@ export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreCorrespondance(correct, errors, level),
       stats: { correct, errors },
-      headline: `${correct} bonnes réponses · ${errors} erreur${errors > 1 ? 's' : ''}`,
+      headline: tr(
+        `${correct} bonnes réponses · ${errors} erreur${errors > 1 ? 's' : ''}`,
+        `${correct} correct · ${errors} error${errors === 1 ? '' : 's'}`,
+      ),
       lines: [
-        { label: 'Bonnes réponses', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(target) },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(target) },
       ],
     });
   });
@@ -84,7 +88,7 @@ export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', deck.same[index] ? 'C’était pareil' : 'C’était différent');
+      showMark('bad', deck.same[index] ? tr('C’était pareil', 'It was the same') : tr('C’était différent', 'It was different'));
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -114,29 +118,29 @@ export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
         <p className="correspondance__ask">
           {memorizing
             ? back === 1
-              ? 'Retiens cette carte.'
-              : `Retiens les ${back} premières cartes.`
+              ? tr('Retiens cette carte.', 'Remember this card.')
+              : tr(`Retiens les ${back} premières cartes.`, `Remember the first ${back} cards.`)
             : back === 1
-              ? 'Pareille que la carte d’avant ?'
-              : 'Pareille qu’il y a deux cartes ?'}
+              ? tr('Pareille que la carte d’avant ?', 'Same as the card before?')
+              : tr('Pareille qu’il y a deux cartes ?', 'Same as two cards ago?')}
         </p>
         <FeedbackMark mark={mark} />
       </div>
       <div className="game__controls yes-no">
         {memorizing ? (
           <TapButton className="big-answer" onTap={next}>
-            Carte suivante
+            {tr('Carte suivante', 'Next card')}
             <Icon name="arrow" />
           </TapButton>
         ) : (
           <>
             <TapButton className="big-answer big-answer--no" onTap={() => answer(false)} aria-keyshortcuts="ArrowLeft">
               <Icon name="close" />
-              Non
+              {tr('Non', 'No')}
             </TapButton>
             <TapButton className="big-answer big-answer--yes" onTap={() => answer(true)} aria-keyshortcuts="ArrowRight">
               <Icon name="check" />
-              Oui
+              {tr('Oui', 'Yes')}
             </TapButton>
           </>
         )}

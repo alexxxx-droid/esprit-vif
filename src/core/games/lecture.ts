@@ -1,3 +1,4 @@
+import { lang, tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -146,6 +147,144 @@ export const SENTENCES: readonly (readonly SentencePair[])[] = [
   ],
 ];
 
+/** Les mêmes paliers en anglais : des phrases écrites pour l'anglais, simples et sans piège culturel. */
+export const SENTENCES_EN: readonly (readonly SentencePair[])[] = [
+  // Tier 1: short sentences.
+  [
+    ['Snow is cold.', 'Snow is boiling hot.'],
+    ['Fire is hot.', 'Fire is icy cold.'],
+    ['A cat has four legs.', 'A cat has six legs.'],
+    ['Birds have feathers.', 'Birds have scales.'],
+    ['Milk is white.', 'Milk is green.'],
+    ['A week has seven days.', 'A week has ten days.'],
+    ['Fish live in water.', 'Fish live in trees.'],
+    ['A lemon is yellow.', 'A lemon is blue.'],
+    ['A car has wheels.', 'A car has wings.'],
+    ['Grass is green.', 'Grass is purple.'],
+    ['We sleep in a bed.', 'We sleep in an oven.'],
+    ['The sea is salty.', 'The sea is sugary.'],
+    ['A square has four sides.', 'A square has three sides.'],
+    ['Cows give milk.', 'Cows give wool.'],
+    ['A year has twelve months.', 'A year has eight months.'],
+    ['We drink from a glass.', 'We drink from a fork.'],
+    ['Ice melts in the sun.', 'Ice hardens in the sun.'],
+    ['Dogs bark.', 'Dogs meow.'],
+    ['Bees make honey.', 'Bees make milk.'],
+    ['A triangle has three sides.', 'A triangle has five sides.'],
+    ['We read books.', 'We drink books.'],
+    ['An apple is a fruit.', 'An apple is a tool.'],
+    ['A piano is an instrument.', 'A piano is an animal.'],
+    ['Paris is in France.', 'Paris is in Spain.'],
+    ['A hand has five fingers.', 'A hand has seven fingers.'],
+    ['We see with our eyes.', 'We see with our ears.'],
+    ['We hear with our ears.', 'We hear with our knees.'],
+    ['A baby cat is a kitten.', 'A baby cat is a chick.'],
+    ['Strawberries are red.', 'Strawberries are black.'],
+    ['Sheep have wool.', 'Sheep have feathers.'],
+    ['Two and two make four.', 'Two and two make five.'],
+    ['Trains run on rails.', 'Trains run on water.'],
+    ['A bicycle has two wheels.', 'A bicycle has five wheels.'],
+    ['A lion is an animal.', 'A lion is a plant.'],
+    ['Rain makes things wet.', 'Rain makes things dry.'],
+    ['Trees have leaves.', 'Trees have teeth.'],
+    ['Monday comes after Sunday.', 'Monday comes after Wednesday.'],
+    ['Sugar is sweet.', 'Sugar is salty.'],
+    ['We write with a pen.', 'We write with a spoon.'],
+    ['Ducks can swim.', 'Ducks can knit.'],
+  ],
+  // Tier 2: longer sentences, with comparisons.
+  [
+    ['An elephant is much heavier than a mouse.', 'A mouse is much heavier than an elephant.'],
+    ['Water freezes when it is very cold.', 'Water freezes when it is very hot.'],
+    ['An hour has sixty minutes.', 'An hour has a hundred minutes.'],
+    ['Polar bears live in cold regions.', 'Polar bears live in hot deserts.'],
+    ['The sun rises in the east.', 'The sun rises in the west.'],
+    ['A giraffe has a very long neck.', 'A giraffe has a very short neck.'],
+    ['February is the shortest month of the year.', 'February is the longest month of the year.'],
+    ['We open an umbrella when it rains.', 'We open an umbrella to slice bread.'],
+    ['A dozen eggs means twelve eggs.', 'A dozen eggs means twenty eggs.'],
+    ['The heart pumps blood around the body.', 'The hair pumps blood around the body.'],
+    ['A kilometer is longer than a meter.', 'A meter is longer than a kilometer.'],
+    ['Caterpillars turn into butterflies.', 'Caterpillars turn into birds.'],
+    ['Bread is made with flour.', 'Bread is made with sand.'],
+    ['The North Pole is a very cold place.', 'The North Pole is a very hot place.'],
+    ['A tortoise moves more slowly than a hare.', 'A tortoise runs faster than a horse.'],
+    ['A dentist takes care of teeth.', 'A dentist repairs cars.'],
+    ['Plants need light to grow.', 'Plants grow best in total darkness.'],
+    ['Cheese can be made from milk.', 'Cheese is made from orange juice.'],
+    ['There are sixty seconds in a minute.', 'There are ten seconds in a minute.'],
+    ['A plane carries passengers through the air.', 'A plane carries passengers under the sea.'],
+    ['The Earth goes around the sun.', 'The sun goes around the Earth.'],
+    ['A baker makes bread and cakes.', 'A baker repairs cars and trucks.'],
+    ['Dolphins come up to the surface to breathe.', 'Dolphins never need to breathe air.'],
+    ['In the fall, many trees lose their leaves.', 'In the spring, all trees lose their leaves.'],
+    ['A cork floats on water.', 'An iron key floats on water.'],
+    ['Owls hunt mostly at night.', 'Owls hunt mostly at noon.'],
+    ['Ten is a bigger number than seven.', 'Seven is a bigger number than ten.'],
+    ['A mail carrier brings letters to mailboxes.', 'A mail carrier brings letters to rivers.'],
+    ['Snails move very slowly.', 'Snails move faster than a car.'],
+    ['We cook pasta in boiling water.', 'We cook pasta in icy water.'],
+    ['A zebra has black and white stripes.', 'A zebra has red and green spots.'],
+    ['Noon is in the middle of the day.', 'Midnight is in the middle of the day.'],
+    ['An orchestra plays music together.', 'An orchestra plays soccer together.'],
+    ['The moon goes around the Earth.', 'The Earth goes around the moon.'],
+    ['A liter of water weighs about one kilogram.', 'A liter of water weighs about ten kilograms.'],
+    ['Clouds bring rain.', 'Mountains bring rain.'],
+    ['A century lasts one hundred years.', 'A century lasts ten years.'],
+    ['Firefighters put out fires.', 'Firefighters start fires.'],
+    ['Spiders have eight legs.', 'Spiders have two legs.'],
+    ['Winter is usually colder than summer.', 'Summer is usually colder than winter.'],
+  ],
+  // Tier 3: negations and small reasonings, to read to the end.
+  [
+    ['A fish cannot survive long out of water.', 'A fish never needs water to live.'],
+    ['It is not true that cats bark.', 'It is true that cats bark.'],
+    ['Snakes have no legs.', 'Snakes have four legs.'],
+    ['A week does not have eight days.', 'A week does not have seven days.'],
+    ['Ice is not hot.', 'Ice is not cold.'],
+    ['Not all dogs are black.', 'All dogs, without exception, are black.'],
+    ['No triangle has four sides.', 'Some triangles have four sides.'],
+    ['If all cats are animals, then my cat is an animal.', 'If all cats are animals, then all animals are cats.'],
+    ['It is false to say that a square has five sides.', 'It is false to say that a square has four sides.'],
+    ['Not all birds can fly.', 'All birds, without exception, can fly.'],
+    ['Neither lions nor tigers eat only grass.', 'Lions and tigers eat only grass.'],
+    ['A minute is not longer than an hour.', 'An hour is not longer than a minute.'],
+    ['Without water, plants end up wilting.', 'Without water, plants grow faster.'],
+    ['Nobody can breathe underwater without equipment.', 'Everybody can breathe underwater without equipment.'],
+    ['Not a single month of the year has forty days.', 'At least one month of the year has forty days.'],
+    ['We don’t usually write with our feet.', 'We don’t usually write with our hands.'],
+    ['An even number is never odd.', 'An even number is sometimes odd.'],
+    ['It is not impossible to see the moon in the daytime.', 'It is impossible to see the moon in the daytime.'],
+    ['Seven is not an even number.', 'Eight is not an even number.'],
+    ['Right before Tuesday comes Monday, not Wednesday.', 'Right before Tuesday comes Wednesday, not Monday.'],
+    ['An ant is not bigger than a dog.', 'A dog is not bigger than an ant.'],
+    ['Warm is not the opposite of hot.', 'Cold is not the opposite of hot.'],
+    ['The word “cat” does not contain the letter O.', 'The word “cat” does not contain the letter A.'],
+    ['Ten minus three is not eight.', 'Ten minus three is not seven.'],
+    ['If Sam is taller than Mia and I am taller than Sam, I am taller than Mia.', 'If Sam is taller than Mia and I am taller than Sam, Mia is taller than me.'],
+    ['Not all roses are red.', 'All roses, without exception, are red.'],
+    ['A child is never older than their parents.', 'A child is always older than their parents.'],
+    ['We set an alarm clock to wake up, not to go to bed.', 'We set an alarm clock to go to bed, not to wake up.'],
+    ['The word “sun” does not start with the letter L.', 'The word “sun” does not start with the letter S.'],
+    ['Apples don’t grow on pine trees.', 'Pine trees grow apples.'],
+    ['A number greater than ten is never smaller than five.', 'A number greater than ten is sometimes smaller than five.'],
+    ['Mixing yellow and red does not make blue.', 'Mixing yellow and red does not make orange.'],
+    ['After Thursday comes Friday, not Saturday.', 'After Thursday comes Saturday, not Friday.'],
+    ['A cube has no round faces.', 'A cube has no square faces.'],
+    ['A half is not smaller than a quarter.', 'A quarter is not smaller than a half.'],
+    ['Twice four is not six.', 'Twice four is not eight.'],
+    ['If tomorrow is Saturday, then today is not Monday.', 'If tomorrow is Saturday, then today is Monday.'],
+    ['A month does not have more days than a year.', 'A month has more days than a year.'],
+    ['When it freezes, the water in a lake does not get warmer.', 'When it freezes, the water in a lake gets boiling hot.'],
+    ['It is not the cow that lays eggs, but the hen.', 'It is not the hen that lays eggs, but the cow.'],
+  ],
+];
+
+/** Les phrases de la langue en cours. */
+export function sentences(): readonly (readonly SentencePair[])[] {
+  return lang() === 'en' ? SENTENCES_EN : SENTENCES;
+}
+
 export interface LectureLevel {
   /** Paliers de phrases tirés à ce niveau (1 à 3). */
   tiers: readonly (1 | 2 | 3)[];
@@ -182,11 +321,17 @@ export function lectureLevel(level: number): LectureLevel {
   return pickLevel(LECTURE_LEVELS, level);
 }
 
-const TIER_LABELS = { 1: 'phrases courtes', 2: 'phrases longues', 3: 'négations' } as const;
+const TIER_LABELS = {
+  1: ['phrases courtes', 'short sentences'],
+  2: ['phrases longues', 'long sentences'],
+  3: ['négations', 'negations'],
+} as const;
 
 export function lectureLevelLabel(level: number): string {
   const c = lectureLevel(level);
-  return `${c.tiers.map((t) => TIER_LABELS[t]).join(' et ')} · objectif ${c.target}`;
+  const names = c.tiers.map((t) => tr(TIER_LABELS[t][0], TIER_LABELS[t][1]));
+  const tiers = tr(names.join(' et '), names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]);
+  return tr(`${tiers} · objectif ${c.target}`, `${tiers} · target ${c.target}`);
 }
 
 export interface LectureQuestion {
@@ -199,7 +344,8 @@ export interface LectureQuestion {
  * rapides, un second passage suit, mélangé autrement et avec des versions tirées à nouveau.
  */
 export function generateLecture(rng: Rng, level: number): LectureQuestion[] {
-  const pool = lectureLevel(level).tiers.flatMap((t) => SENTENCES[t - 1]);
+  const all = sentences();
+  const pool = lectureLevel(level).tiers.flatMap((t) => all[t - 1]);
   const pass = () => rng.shuffle(pool).map(([truth, lie]) => (rng.chance(0.5) ? { sentence: truth, truth: true } : { sentence: lie, truth: false }));
   return [...pass(), ...pass()];
 }

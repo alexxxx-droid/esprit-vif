@@ -1,6 +1,8 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { generatePaires, pairesLevel, scorePaires, type PairFace } from '../../core/games/paires';
-import { fillWord, SHAPE_NAMES } from '../../core/games/shapes';
+import { describeShape } from '../../core/games/shapes';
+import { plural } from '../../core/format';
+import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { Shape } from '../components/Shape';
 import { TapButton } from '../components/TapButton';
@@ -15,7 +17,8 @@ function faceColor(face: PairFace, similar: boolean): string {
   return similar ? 'var(--ink)' : PAIR_COLORS[face.color];
 }
 
-const describeFace = (face: PairFace) => `${SHAPE_NAMES[face.shape]} ${fillWord(face.shape, face.filled)}`;
+/** « étoile creuse » (« hollow star ») : l'ordre des mots suit la langue. */
+const describeFace = (face: PairFace) => describeShape({ shape: face.shape, filled: face.filled, rotation: 0 });
 
 /** Une carte retournable : dos commun, face = une forme. */
 export function PairCard({ face, up, found, color, label, onTap }: { face: PairFace; up: boolean; found: boolean; color: string; label: string; onTap?: () => void }) {
@@ -53,11 +56,11 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scorePaires(foundPairs, tries, level),
       stats: { found: foundPairs, attempts: tries, seconds },
-      headline: `${foundPairs}/${config.pairs} paires · ${tries} coups`,
+      headline: tr(`${foundPairs}/${config.pairs} paires · ${tries} coups`, `${foundPairs}/${config.pairs} pairs · ${plural(tries, 'move')}`),
       lines: [
-        { label: 'Paires trouvées', value: `${foundPairs} / ${config.pairs}` },
-        { label: 'Coups joués', value: String(tries) },
-        { label: 'Coups minimum', value: String(config.pairs) },
+        { label: tr('Paires trouvées', 'Pairs found'), value: `${foundPairs} / ${config.pairs}` },
+        { label: tr('Coups joués', 'Moves'), value: String(tries) },
+        { label: tr('Coups minimum', 'Fewest possible moves'), value: String(config.pairs) },
       ],
     });
   });
@@ -124,10 +127,14 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
       <div className="game__stage paires-stage">
         <p className="anagram__found" aria-live="polite">
           {preview ? (
-            'Mémorise les cartes…'
+            tr('Mémorise les cartes…', 'Memorize the cards…')
           ) : (
             <>
-              <strong>{pairsFound}</strong> / {config.pairs} paires · {attempts} coup{attempts > 1 ? 's' : ''}
+              <strong>{pairsFound}</strong>{' '}
+              {tr(
+                `/ ${config.pairs} paires · ${attempts} coup${attempts > 1 ? 's' : ''}`,
+                `/ ${config.pairs} pairs · ${attempts} move${attempts === 1 ? '' : 's'}`,
+              )}
             </>
           )}
         </p>
@@ -143,7 +150,13 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
                 up={visible}
                 found={isFound}
                 color={faceColor(face, config.similar)}
-                label={isFound ? `Carte ${card + 1} : ${describeFace(face)}, trouvée` : visible ? `Carte ${card + 1} : ${describeFace(face)}` : `Carte ${card + 1}, cachée`}
+                label={
+                  isFound
+                    ? tr(`Carte ${card + 1} : ${describeFace(face)}, trouvée`, `Card ${card + 1}: ${describeFace(face)}, found`)
+                    : visible
+                      ? tr(`Carte ${card + 1} : ${describeFace(face)}`, `Card ${card + 1}: ${describeFace(face)}`)
+                      : tr(`Carte ${card + 1}, cachée`, `Card ${card + 1}, face down`)
+                }
                 onTap={() => flip(card)}
               />
             );

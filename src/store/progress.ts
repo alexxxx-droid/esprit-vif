@@ -1,4 +1,5 @@
 import { mergeResults, type ChallengeLink, type FriendResult } from '../core/challenges';
+import { tr, type LangChoice } from '../core/lang';
 import { dayKey, hasOfficialTest } from '../core/daily';
 import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
 import { unlockedLevel, type ProgressionInput } from '../core/progression';
@@ -86,6 +87,8 @@ export interface Settings {
   seasonal: boolean;
   /** Jeux de nombres : écrire la réponse au doigt plutôt que toucher le pavé. */
   handwriting: boolean;
+  /** Langue de l'interface (« auto » : celle du téléphone). */
+  language: LangChoice;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -108,6 +111,7 @@ export const DEFAULT_SETTINGS: Settings = {
   effectsVolume: 0.9,
   seasonal: true,
   handwriting: false,
+  language: 'auto',
 };
 
 export interface MarathonRecord {
@@ -310,7 +314,7 @@ export class ProgressStore {
   /** Ajoute le résultat d'un jeu au test ; le test se termine avec son dernier jeu. */
   async addTestResult(testId: string, play: PlayRecord, now = new Date()): Promise<TestRecord> {
     const current = this.data.tests.find((t) => t.id === testId);
-    if (!current) throw new Error('Test introuvable');
+    if (!current) throw new Error(tr('Test introuvable', 'Test not found'));
     const results = [
       ...current.results.filter((r) => r.gameId !== play.gameId),
       { gameId: play.gameId, playId: play.id, score: play.score },
@@ -498,6 +502,7 @@ function isTest(v: unknown): v is TestRecord {
 function normalize(raw: StoredData): ProgressData {
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
+  if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
   const games: Partial<Record<GameId, GameProgress>> = {};
   if (isObject(raw.kv.games)) {
     for (const [id, value] of Object.entries(raw.kv.games)) {
@@ -525,16 +530,16 @@ export function parseBackup(text: string): ProgressData {
   try {
     parsed = JSON.parse(text);
   } catch {
-    throw new Error('Ce fichier n’est pas une sauvegarde lisible.');
+    throw new Error(tr('Ce fichier n’est pas une sauvegarde lisible.', 'This file isn’t a readable backup.'));
   }
   if (!isObject(parsed) || parsed.app !== BACKUP_APP) {
-    throw new Error('Ce fichier ne vient pas d’Esprit Vif.');
+    throw new Error(tr('Ce fichier ne vient pas d’Esprit Vif.', 'This file doesn’t come from Esprit Vif.'));
   }
   if (typeof parsed.format !== 'number' || parsed.format > BACKUP_FORMAT) {
-    throw new Error('Cette sauvegarde vient d’une version plus récente de l’appli.');
+    throw new Error(tr('Cette sauvegarde vient d’une version plus récente de l’appli.', 'This backup comes from a newer version of the app.'));
   }
   if (!Array.isArray(parsed.plays) || !Array.isArray(parsed.tests)) {
-    throw new Error('Cette sauvegarde est incomplète.');
+    throw new Error(tr('Cette sauvegarde est incomplète.', 'This backup is incomplete.'));
   }
   return normalize({
     plays: parsed.plays,

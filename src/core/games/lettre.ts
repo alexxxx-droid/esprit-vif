@@ -1,8 +1,9 @@
+import { lang, tr, type Lang } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
-import { CATEGORIES } from './lexique';
-import { WORDS } from './words';
+import { categories, CATEGORIES, type Category } from './lexique';
+import { anagramWords, COMMON_WORDS_EN, hasRudeWord } from './words';
 
 /**
  * Lettre manquante : « Fruit : CER_SE ». La catégorie sert d'indice et lève toute ambiguïté ;
@@ -51,19 +52,64 @@ export function lettreLevel(level: number): LettreLevel {
 
 export function lettreLevelLabel(level: number): string {
   const c = lettreLevel(level);
-  return [`Mots de ${c.minLength} à ${c.maxLength} lettres`, c.missing === 1 ? '1 lettre manquante' : '2 lettres manquantes', `${c.options} choix`].join(' · ');
+  return [
+    tr(`Mots de ${c.minLength} à ${c.maxLength} lettres`, `Words of ${c.minLength} to ${c.maxLength} letters`),
+    c.missing === 1 ? tr('1 lettre manquante', '1 missing letter') : tr('2 lettres manquantes', '2 missing letters'),
+    tr(`${c.options} choix`, `${c.options} choices`),
+  ].join(' · ');
 }
 
 const VOWELS = 'AEIOUY';
-const CONSONANTS = 'BCDFGLMNPRSTV';
+const CONSONANTS: Record<Lang, string> = { fr: 'BCDFGLMNPRSTV', en: 'BCDFGHKLMNPRSTVW' };
+
+export interface LettreWord {
+  word: string;
+  hint: string;
+}
 
 /** Mots sans accent (en majuscules) avec leur catégorie : la seule réserve où l'on pioche. */
-export const LETTRE_WORDS: readonly { word: string; hint: string }[] = CATEGORIES.flatMap((c) =>
-  c.words.filter((w) => /^[a-z]+$/i.test(w)).map((w) => ({ word: w.toUpperCase(), hint: c.label })),
-);
+const lettreWordsOf = (cats: readonly Category[]): LettreWord[] =>
+  cats.flatMap((c) => c.words.filter((w) => /^[a-z]+$/i.test(w)).map((w) => ({ word: w.toUpperCase(), hint: c.label })));
 
-/** Tout ce qu'on sait être un mot : un leurre ne doit jamais en former un. */
-const KNOWN = new Set([...WORDS, ...CATEGORIES.flatMap((c) => c.words.map((w) => w.toUpperCase()))]);
+/** La réserve française. */
+export const LETTRE_WORDS: readonly LettreWord[] = lettreWordsOf(CATEGORIES);
+
+interface LettreLexicon {
+  words: readonly LettreWord[];
+  /** Tout ce qu'on sait être un mot : un leurre ne doit jamais en former un. */
+  known: ReadonlySet<string>;
+}
+
+/** Réserve et mots connus de chaque langue, calculés une fois, à la première partie. */
+const lexicons = new Map<Lang, LettreLexicon>();
+
+function lettreLexicon(): LettreLexicon {
+  const current = lang();
+  let lex = lexicons.get(current);
+  if (!lex) {
+    const cats = categories();
+    lex = {
+      words: current === 'fr' ? LETTRE_WORDS : lettreWordsOf(cats),
+      known: new Set([
+        ...anagramWords(),
+        ...(current === 'en' ? COMMON_WORDS_EN : []),
+        ...cats.flatMap((c) => c.words.map((w) => w.toUpperCase())),
+      ]),
+    };
+    lexicons.set(current, lex);
+  }
+  return lex;
+}
+
+/** La réserve de mots dans la langue en cours. */
+export function lettreWords(): readonly LettreWord[] {
+  return lettreLexicon().words;
+}
+
+/** Les mots connus dans la langue en cours (aucun leurre ne doit en former un). */
+export function lettreKnownWords(): ReadonlySet<string> {
+  return lettreLexicon().known;
+}
 
 export interface LettreQuestion {
   word: string;
@@ -83,7 +129,9 @@ const fill = (word: string, positions: number[], letters: string) => {
 
 export function generateLettreQuestion(rng: Rng, level: number): LettreQuestion {
   const c = lettreLevel(level);
-  const pool = LETTRE_WORDS.filter(({ word }) => word.length >= c.minLength && word.length <= c.maxLength);
+  const { words, known } = lettreLexicon();
+  const consonants = CONSONANTS[lang()];
+  const pool = words.filter(({ word }) => word.length >= c.minLength && word.length <= c.maxLength);
   for (;;) {
     const { word, hint } = rng.pick(pool);
     const positions = rng.shuffle([...word].map((_, i) => i)).slice(0, c.missing).sort((a, b) => a - b);
@@ -93,10 +141,11 @@ export function generateLettreQuestion(rng: Rng, level: number): LettreQuestion 
       const letters = positions.map((p, i) => {
         // Une des deux lettres peut rester juste : le leurre n'en est que plus crédible.
         if (c.missing === 2 && i === 0 && rng.chance(0.35)) return word[p];
-        return rng.pick([...(VOWELS.includes(word[p]) ? VOWELS : CONSONANTS)]);
+        return rng.pick([...(VOWELS.includes(word[p]) ? VOWELS : consonants)]);
       });
       const candidate = letters.join('');
-      if (options.includes(candidate) || KNOWN.has(fill(word, positions, candidate))) continue;
+      const filled = fill(word, positions, candidate);
+      if (options.includes(candidate) || known.has(filled) || hasRudeWord(filled)) continue;
       options.push(candidate);
     }
     if (options.length < c.options) continue;

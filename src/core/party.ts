@@ -1,5 +1,6 @@
+import { tr } from './lang';
 import { createRng, deriveSeed } from './rng';
-import { STROOP_COLORS, type StroopColor } from './games/stroop';
+import { STROOP_COLORS, STROOP_LABELS, type StroopColor } from './games/stroop';
 
 /**
  * Mode fête : 2 à 4 joueurs sur le même écran, chacun dans sa zone. Tout le monde voit
@@ -9,12 +10,29 @@ import { STROOP_COLORS, type StroopColor } from './games/stroop';
 
 export type PartyKind = 'calcul' | 'couleur' | 'grand' | 'combien';
 
-export const PARTY_ROUNDS: { kind: PartyKind; title: string; rule: string }[] = [
-  { kind: 'calcul', title: 'Calcul express', rule: 'Touche le bon résultat avant les autres.' },
-  { kind: 'couleur', title: 'Couleur piégée', rule: 'Touche la couleur de l’encre, pas le mot écrit.' },
-  { kind: 'grand', title: 'Le plus grand', rule: 'Touche le plus grand des deux nombres.' },
-  { kind: 'combien', title: 'Combien de points ?', rule: 'Compte les points, vite !' },
-  { kind: 'calcul', title: 'Finale : calcul', rule: 'Dernière manche, tout se joue maintenant !' },
+export interface PartyRound {
+  kind: PartyKind;
+  /** Titre et règle dans la langue en cours. */
+  readonly title: string;
+  readonly rule: string;
+}
+
+const partyRound = (kind: PartyKind, title: readonly [fr: string, en: string], rule: readonly [fr: string, en: string]): PartyRound => ({
+  kind,
+  get title() {
+    return tr(...title);
+  },
+  get rule() {
+    return tr(...rule);
+  },
+});
+
+export const PARTY_ROUNDS: readonly PartyRound[] = [
+  partyRound('calcul', ['Calcul express', 'Quick Math'], ['Touche le bon résultat avant les autres.', 'Tap the right answer before the others.']),
+  partyRound('couleur', ['Couleur piégée', 'Color Trap'], ['Touche la couleur de l’encre, pas le mot écrit.', 'Tap the ink color, not the written word.']),
+  partyRound('grand', ['Le plus grand', 'The Bigger One'], ['Touche le plus grand des deux nombres.', 'Tap the bigger of the two numbers.']),
+  partyRound('combien', ['Combien de points ?', 'How Many Dots?'], ['Compte les points, vite !', 'Count the dots, fast!']),
+  partyRound('calcul', ['Finale : calcul', 'Final: Math'], ['Dernière manche, tout se joue maintenant !', 'Last round, it all comes down to this!']),
 ];
 
 export const QUESTIONS_PER_ROUND = 5;
@@ -69,11 +87,13 @@ export function partyQuestion(seed: number, round: number, index: number): Party
     const ink = colors[0];
     const word = rng.pick(STROOP_COLORS.filter((c) => c !== ink));
     const shuffled = rng.shuffle(colors);
+    // Le mot de couleur dans la langue en cours (en français, c'est l'identifiant lui-même).
+    const name = (c: StroopColor) => STROOP_LABELS[c].toLowerCase();
     return {
       kind,
-      text: word,
+      text: name(word),
       ink,
-      options: shuffled.map((c) => ({ label: c, color: c })),
+      options: shuffled.map((c) => ({ label: name(c), color: c })),
       answer: shuffled.indexOf(ink),
     };
   }
@@ -83,11 +103,11 @@ export function partyQuestion(seed: number, round: number, index: number): Party
     // Des nombres proches : on lit les chiffres, pas seulement la longueur.
     while (b === a || b <= 0) b = a + rng.int(-9, 9) * (rng.chance(0.5) ? 1 : 10);
     const pair = [a, b];
-    return { kind, text: 'Le plus grand ?', options: pair.map((v) => ({ label: String(v) })), answer: a > b ? 0 : 1 };
+    return { kind, text: tr('Le plus grand ?', 'Which is bigger?'), options: pair.map((v) => ({ label: String(v) })), answer: a > b ? 0 : 1 };
   }
   const count = rng.int(hard ? 8 : 4, hard ? 16 : 10);
   const dots = rng.shuffle(Array.from({ length: 25 }, (_, i) => i)).slice(0, count);
-  return { kind, text: 'Combien de points ?', dots, ...numberOptions(rng, count, 3) };
+  return { kind, text: tr('Combien de points ?', 'How many dots?'), dots, ...numberOptions(rng, count, 3) };
 }
 
 export interface PartyPlayer {

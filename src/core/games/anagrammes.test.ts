@@ -1,16 +1,18 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { setLang } from '../lang';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
 import {
   anagramDeck,
   anagramLevel,
+  anagramLevelLabel,
   buildAnagramIndex,
   isAnagramAnswer,
   letterKey,
   scoreAnagrammes,
   scramble,
 } from './anagrammes';
-import { WORDS } from './words';
+import { anagramWords, hasRudeWord, WORDS, WORDS_EN } from './words';
 
 describe('liste de mots', () => {
   it('compte au moins 150 mots de 5 à 7 lettres, sans accent ni doublon', () => {
@@ -73,5 +75,65 @@ describe('réponses aux Anagrammes', () => {
       expect(score).toBeGreaterThanOrEqual(0);
       expect(score).toBeLessThanOrEqual(100);
     }
+  });
+});
+
+describe('Anagrammes en anglais', () => {
+  beforeEach(() => setLang('en'));
+  afterEach(() => setLang('fr'));
+
+  it('a sa propre liste : au moins 450 mots courants de 5 à 7 lettres, sans doublon', () => {
+    expect(anagramWords()).toBe(WORDS_EN);
+    expect(WORDS_EN.length).toBeGreaterThanOrEqual(450);
+    expect(new Set(WORDS_EN).size).toBe(WORDS_EN.length);
+    for (const word of WORDS_EN) expect(word).toMatch(/^[A-Z]{5,7}$/);
+    // Pas de mot dont l'orthographe change entre l'anglais britannique et américain.
+    for (const variant of ['COLOR', 'COLOUR', 'FAVOR', 'HUMOR', 'HONOR', 'LABOR', 'METER', 'LITER', 'FIBER', 'CENTER', 'THEATER', 'JEWELRY', 'PAJAMAS']) {
+      expect(WORDS_EN).not.toContain(variant);
+    }
+  });
+
+  it('a assez de mots anglais pour chaque niveau, tirés de la liste anglaise', () => {
+    const english = new Set(WORDS_EN);
+    for (let level = 1; level <= MAX_LEVEL; level++) {
+      const deck = anagramDeck(createRng(level), level);
+      expect(deck.length).toBeGreaterThanOrEqual(40);
+      for (const puzzle of deck.slice(0, 30)) {
+        expect(english.has(puzzle.word)).toBe(true);
+        expect(puzzle.letters).toHaveLength(puzzle.word.length + anagramLevel(level).decoys);
+        expect(isAnagramAnswer(puzzle.word, puzzle)).toBe(true);
+        expect(hasRudeWord(puzzle.letters)).toBe(false);
+      }
+    }
+  });
+
+  it('mélange sans retomber sur un mot anglais valable ni sur une grossièreté', () => {
+    const index = buildAnagramIndex();
+    expect(index.get(letterKey('HEART'))).toEqual(['EARTH', 'HEART']);
+    for (let seed = 1; seed <= 5; seed++) {
+      const rng = createRng(seed);
+      for (const word of WORDS_EN) {
+        const letters = scramble(rng, word);
+        expect(letterKey(letters)).toBe(letterKey(word));
+        expect(index.get(letterKey(word))).not.toContain(letters);
+        expect(hasRudeWord(letters)).toBe(false);
+      }
+    }
+  });
+
+  it('accepte les anagrammes anglaises, refuse les mots français', () => {
+    expect(isAnagramAnswer('HEART', { word: 'HEART', letters: 'RATEH' })).toBe(true);
+    expect(isAnagramAnswer('EARTH', { word: 'HEART', letters: 'RATEH' })).toBe(true);
+    expect(isAnagramAnswer('CHIEN', { word: 'CHIEN', letters: 'HCINE' })).toBe(false);
+    setLang('fr');
+    expect(isAnagramAnswer('CHIEN', { word: 'CHIEN', letters: 'HCINE' })).toBe(true);
+    expect(isAnagramAnswer('EARTH', { word: 'HEART', letters: 'RATEH' })).toBe(false);
+  });
+
+  it('libelle les niveaux en anglais', () => {
+    expect(anagramLevelLabel(1)).toMatch(/^5 letters · 75\Ws$/);
+    expect(anagramLevelLabel(2)).toMatch(/^5 or 6 letters/);
+    expect(anagramLevelLabel(14)).toMatch(/^5 to 7 letters · 1 decoy/);
+    expect(anagramLevelLabel(8)).toContain('2 decoys');
   });
 });

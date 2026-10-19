@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { lang, tr } from '../../core/lang';
 import { generateQui, quiLevel, scoreQui, type Person } from '../../core/games/quiestqui';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -44,10 +45,10 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreQui(correct, total),
       stats: { correct, total, people: config.people },
-      headline: `${correct} sur ${total} reconnus`,
+      headline: tr(`${correct} sur ${total} reconnus`, `${correct} of ${total} recognized`),
       lines: [
-        { label: 'Bonnes réponses', value: `${correct} / ${total}` },
-        { label: 'Visages par manche', value: String(config.people) },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: `${correct} / ${total}` },
+        { label: tr('Visages par manche', 'Faces per round'), value: String(config.people) },
       ],
     });
   });
@@ -83,7 +84,8 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', question.kind === 'face' ? `Voici ${people[question.target].name}` : `C’était ${people[question.target].name}`);
+      const name = people[question.target].name;
+      showMark('bad', question.kind === 'face' ? tr(`Voici ${name}`, `This is ${name}`) : tr(`C’était ${name}`, `It was ${name}`));
     }
   };
 
@@ -102,9 +104,9 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
         <>
           <div className="game__stage qui">
             <p className="qui__round">
-              Manche {round + 1}/{rounds.length}
+              {tr('Manche', 'Round')} {round + 1}/{rounds.length}
             </p>
-            <p className="lettre__ask">Retiens qui est qui</p>
+            <p className="lettre__ask">{tr('Retiens qui est qui', 'Remember who’s who')}</p>
             <div key={round} className={`qui-grid qui-grid--${people.length}`}>
               {people.map((p, i) => (
                 <div key={i} className="qui-person" style={{ '--i': i } as CSSProperties}>
@@ -119,7 +121,7 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
           </div>
           <div className="game__controls">
             <button type="button" className="btn btn--primary btn--lg qui__ready" onClick={() => setPhase('quiz')}>
-              J’ai retenu
+              {tr('J’ai retenu', 'Got it')}
             </button>
           </div>
         </>
@@ -127,7 +129,15 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
         <>
           <div className="game__stage qui">
             <p className="qui__prompt" key={`${round}-${index}`}>
-              Qui est <strong>{people[question.target].name}</strong>&nbsp;?
+              {lang() === 'en' ? (
+                <>
+                  Who is <strong>{people[question.target].name}</strong>?
+                </>
+              ) : (
+                <>
+                  Qui est <strong>{people[question.target].name}</strong>&nbsp;?
+                </>
+              )}
             </p>
             <FeedbackMark mark={mark} />
           </div>
@@ -137,7 +147,7 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
                 key={option}
                 className={`qui-pick${state(option)}`}
                 onTap={() => choose(option)}
-                aria-label={`Visage ${k + 1}`}
+                aria-label={tr(`Visage ${k + 1}`, `Face ${k + 1}`)}
                 aria-keyshortcuts={k < 9 ? String(k + 1) : undefined}
               >
                 <PersonFace person={people[option]} />
@@ -150,7 +160,7 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
         <>
           <div className="game__stage qui">
             <PersonFace key={`${round}-${index}`} person={people[question.target]} size={112} />
-            <p className="qui__prompt">Quel est son prénom&nbsp;?</p>
+            <p className="qui__prompt">{tr('Quel est son prénom\u00a0?', 'What’s their name?')}</p>
             <FeedbackMark mark={mark} />
           </div>
           <div className="game__controls qui-names">

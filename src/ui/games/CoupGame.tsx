@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import { COUP_DURATION_MS, coupLevel, generateCoupTrial, scoreCoup, type Dot } from '../../core/games/coupdoeil';
 import { createRng } from '../../core/rng';
@@ -52,11 +53,14 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreCoup(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Bonnes réponses', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: `${config.target} (erreurs déduites)` },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: tr(`${config.target} (erreurs déduites)`, `${config.target} (minus errors)`) },
       ],
     });
   });
@@ -92,7 +96,12 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `${b.length > a.length ? `${b.length} orange contre ${a.length} bleus` : `${a.length} bleus contre ${b.length} orange`}`);
+      showMark(
+        'bad',
+        b.length > a.length
+          ? tr(`${b.length} orange contre ${a.length} bleus`, `${b.length} orange vs ${a.length} blue`)
+          : tr(`${a.length} bleus contre ${b.length} orange`, `${a.length} blue vs ${b.length} orange`),
+      );
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -117,7 +126,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
           {phase === 'fix' ? <span className="coup__cross" aria-hidden="true" /> : <DotField key={index} groups={trial.groups} hidden={phase === 'ask'} />}
         </div>
         <p className="lettre__ask" aria-live="polite">
-          {phase === 'ask' ? 'Quelle couleur était la plus nombreuse ?' : phase === 'show' ? 'Regarde bien…' : ' '}
+          {phase === 'ask' ? tr('Quelle couleur était la plus nombreuse ?', 'Which color had more dots?') : phase === 'show' ? tr('Regarde bien…', 'Look closely…') : ' '}
         </p>
         <FeedbackMark mark={mark} />
       </div>
@@ -125,7 +134,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
         {COUP_GROUPS.map((g, i) => (
           <TapButton key={g.name} className="coup__option" onTap={() => choose(i as 0 | 1)} disabled={phase === 'fix'} aria-keyshortcuts={i ? 'ArrowRight' : 'ArrowLeft'}>
             <span className="coup__swatch" style={{ background: g.color }} aria-hidden="true" />
-            {g.more}
+            {tr(g.more.fr, g.more.en)}
           </TapButton>
         ))}
       </div>

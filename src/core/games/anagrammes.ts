@@ -1,7 +1,8 @@
+import { lang, tr, type Lang } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
-import { WORDS } from './words';
+import { anagramWords, hasRudeWord } from './words';
 
 export interface AnagramLevel {
   /** Longueurs des mots possibles. */
@@ -51,13 +52,14 @@ export function anagramLevel(level: number): AnagramLevel {
 export function anagramLevelLabel(level: number): string {
   const c = anagramLevel(level);
   const [first, second] = c.lengths;
+  const last = c.lengths[c.lengths.length - 1];
   const lengths =
     c.lengths.length === 1
-      ? `${first} lettres`
+      ? tr(`${first} lettres`, `${first} letters`)
       : c.lengths.length === 2
-        ? `${first} ou ${second} lettres`
-        : `${first} à ${c.lengths[c.lengths.length - 1]} lettres`;
-  const decoys = c.decoys === 0 ? null : c.decoys === 1 ? '1 leurre' : `${c.decoys} leurres`;
+        ? tr(`${first} ou ${second} lettres`, `${first} or ${second} letters`)
+        : tr(`${first} à ${last} lettres`, `${first} to ${last} letters`);
+  const decoys = c.decoys === 0 ? null : c.decoys === 1 ? tr('1 leurre', '1 decoy') : tr(`${c.decoys} leurres`, `${c.decoys} decoys`);
   return [lengths, decoys, secondsLabel(c.durationMs)].filter(Boolean).join(' · ');
 }
 
@@ -66,7 +68,8 @@ export function letterKey(word: string): string {
   return [...word].sort().join('');
 }
 
-export function buildAnagramIndex(words: readonly string[] = WORDS): Map<string, string[]> {
+/** Index des anagrammes : par défaut, celui de la liste de la langue en cours. */
+export function buildAnagramIndex(words: readonly string[] = anagramWords()): Map<string, string[]> {
   const index = new Map<string, string[]>();
   for (const word of words) {
     const key = letterKey(word);
@@ -75,23 +78,43 @@ export function buildAnagramIndex(words: readonly string[] = WORDS): Map<string,
   return index;
 }
 
-const INDEX = buildAnagramIndex();
-const WORD_SET = new Set(WORDS);
+interface Lexicon {
+  words: readonly string[];
+  index: Map<string, string[]>;
+  set: ReadonlySet<string>;
+  /** Lettres les plus courantes de la langue : de bons leurres. */
+  decoys: string;
+}
 
-/** Lettres les plus courantes en français : de bons leurres. */
-const DECOY_LETTERS = 'EASITNRULODCMP';
+/** Lettres les plus courantes, par langue. */
+const DECOY_LETTERS: Record<Lang, string> = { fr: 'EASITNRULODCMP', en: 'ETAOINSRHLDCUM' };
+
+/** Liste, index et leurres de chaque langue, calculés une fois, à la première partie. */
+const lexicons = new Map<Lang, Lexicon>();
+
+function lexicon(): Lexicon {
+  const current = lang();
+  let lex = lexicons.get(current);
+  if (!lex) {
+    const words = anagramWords();
+    lex = { words, index: buildAnagramIndex(words), set: new Set(words), decoys: DECOY_LETTERS[current] };
+    lexicons.set(current, lex);
+  }
+  return lex;
+}
 
 /** Mélange les lettres sans jamais retomber sur un mot valable (ni le mot de départ, ni un autre). */
-export function scramble(rng: Rng, word: string, index: Map<string, string[]> = INDEX): string {
+export function scramble(rng: Rng, word: string, index: Map<string, string[]> = lexicon().index): string {
   const forbidden = new Set(index.get(letterKey(word)) ?? [word]);
+  const acceptable = (candidate: string) => !forbidden.has(candidate) && !hasRudeWord(candidate);
   for (let attempt = 0; attempt < 50; attempt++) {
     const candidate = rng.shuffle([...word]).join('');
-    if (!forbidden.has(candidate)) return candidate;
+    if (acceptable(candidate)) return candidate;
   }
   // Repli déterministe : décalages successifs jusqu'à sortir des mots valables.
   for (let shift = 1; shift < word.length; shift++) {
     const candidate = word.slice(shift) + word.slice(0, shift);
-    if (!forbidden.has(candidate)) return candidate;
+    if (acceptable(candidate)) return candidate;
   }
   return [...word].reverse().join('');
 }
@@ -105,14 +128,21 @@ export interface AnagramPuzzle {
 /** Suite de mots mélangés pour une partie (sans doublon, et sans deux anagrammes l'une de l'autre). */
 export function anagramDeck(rng: Rng, level: number): AnagramPuzzle[] {
   const { lengths, decoys } = anagramLevel(level);
+  const lex = lexicon();
   const seen = new Set<string>();
   const deck: AnagramPuzzle[] = [];
-  for (const word of rng.shuffle(WORDS.filter((w) => lengths.includes(w.length)))) {
+  for (const word of rng.shuffle(lex.words.filter((w) => lengths.includes(w.length)))) {
     const key = letterKey(word);
     if (seen.has(key)) continue;
     seen.add(key);
-    const letters = [...scramble(rng, word)];
-    for (let i = 0; i < decoys; i++) letters.splice(rng.int(0, letters.length), 0, rng.pick([...DECOY_LETTERS]));
+    const scrambled = scramble(rng, word, lex.index);
+    // Un leurre glissé au mauvais endroit ne doit pas former de grossièreté non plus.
+    let letters: string[];
+    let tries = 0;
+    do {
+      letters = [...scrambled];
+      for (let i = 0; i < decoys; i++) letters.splice(rng.int(0, letters.length), 0, rng.pick([...lex.decoys]));
+    } while (hasRudeWord(letters.join('')) && ++tries < 20);
     deck.push({ word, letters: letters.join('') });
   }
   return deck;
@@ -131,7 +161,7 @@ function fitsIn(attempt: string, letters: string): boolean {
 
 /** Toute réponse de la liste, de la bonne longueur et formée des lettres proposées, est acceptée. */
 export function isAnagramAnswer(attempt: string, puzzle: AnagramPuzzle): boolean {
-  return attempt.length === puzzle.word.length && WORD_SET.has(attempt) && fitsIn(attempt, puzzle.letters);
+  return attempt.length === puzzle.word.length && lexicon().set.has(attempt) && fitsIn(attempt, puzzle.letters);
 }
 
 export function scoreAnagrammes(found: number, level: number): number {

@@ -1,4 +1,5 @@
 import type { GameMeta } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import { bestFor } from '../../store/progress';
 import { DomainChip } from '../components/bits';
@@ -31,7 +32,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
   return (
     <div className="intro screen-in">
       <header className="intro__top">
-        <button type="button" className="icon-btn" onClick={onQuit} aria-label="Retour">
+        <button type="button" className="icon-btn" onClick={onQuit} aria-label={tr('Retour', 'Back')}>
           <Icon name="back" />
         </button>
         {badge && <span className="pill">{badge}</span>}
@@ -55,12 +56,12 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       <dl className="facts">
         <div className="facts__wide">
           <dt>
-            Niveau {level}/{MAX_LEVEL}
+            {tr('Niveau', 'Level')} {level}/{MAX_LEVEL}
           </dt>
           <dd>{meta.levelLabel(level)}</dd>
         </div>
         <div>
-          <dt>Record</dt>
+          <dt>{tr('Record', 'Best score')}</dt>
           <dd>{best ? `${best.score} pts` : '—'}</dd>
         </div>
       </dl>
@@ -68,7 +69,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       {NUMBER_GAMES.has(meta.id) && (
         <div className="answer-mode">
           <span className="answer-mode__label" id="answer-mode">
-            Répondre avec
+            {tr('Répondre avec', 'Answer with')}
           </span>
           <div className="segmented segmented--tight answer-mode__options" role="radiogroup" aria-labelledby="answer-mode">
             {([false, true] as const).map((handwriting) => (
@@ -81,7 +82,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
                 onClick={() => void store.updateSettings({ handwriting })}
               >
                 <Icon name={handwriting ? 'pen' : 'keypad'} size={18} />
-                {handwriting ? 'Le doigt' : 'Le pavé'}
+                {handwriting ? tr('Le doigt', 'Finger') : tr('Le pavé', 'Keypad')}
               </button>
             ))}
           </div>
@@ -98,13 +99,16 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       {onTutorial && firstTime && (
         <p className="notice notice--warm">
           <Icon name="info" size={20} />
-          Première fois&nbsp;? L’essai guidé t’explique le jeu en une minute, sans chrono.
+          {tr(
+            'Première fois\u00a0? L’essai guidé t’explique le jeu en une minute, sans chrono.',
+            'First time? The guided practice explains the game in a minute, with no timer.',
+          )}
         </p>
       )}
 
       <button type="button" className="cta intro__start" onClick={onStart} autoFocus>
         <span className="cta__text">
-          <span className="cta__label">{startLabel ?? 'C’est parti'}</span>
+          <span className="cta__label">{startLabel ?? tr('C’est parti', 'Let’s go')}</span>
           <span className="cta__sub">{meta.duration}</span>
         </span>
         <span className="cta__icon">
@@ -114,7 +118,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       {onTutorial && (
         <button type="button" className="btn btn--lg btn--ghost intro__tutorial" onClick={onTutorial}>
           <Icon name="training" />
-          Essai guidé, sans chrono
+          {tr('Essai guidé, sans chrono', 'Guided practice, no timer')}
         </button>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { locale } from '../../core/lang';
 import { platform } from '../platform';
 
 /**
@@ -57,7 +58,7 @@ export function listen(onTranscript: (text: string, key: string) => void, onUnav
   let active = true;
   let round = 0;
   const recognition = new Ctor();
-  recognition.lang = 'fr-FR';
+  recognition.lang = locale();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;

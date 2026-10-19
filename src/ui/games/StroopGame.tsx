@@ -1,10 +1,11 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { pickLevel } from '../../core/levels';
 import {
   generateStroop,
   matchSpokenColor,
   scoreStroop,
-  STROOP_KEYS,
+  stroopKeys,
   STROOP_LABELS,
   STROOP_LEVELS,
   STROOP_PENALTY_MS,
@@ -53,7 +54,8 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', `${item.ask === 'ink' ? 'L’encre' : 'Le mot'} : ${STROOP_LABELS[expected].toLowerCase()}`);
+      const name = STROOP_LABELS[expected].toLowerCase();
+      showMark('bad', item.ask === 'ink' ? tr(`L’encre : ${name}`, `Ink: ${name}`) : tr(`Le mot : ${name}`, `Word: ${name}`));
       setErrors(totalErrors);
     }
     setIndex(index + 1);
@@ -93,7 +95,8 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
   useKeyDown((event) => {
     const key = event.key.toLowerCase();
     const byPosition = Number(key);
-    if (STROOP_KEYS[key] && item.buttons.includes(STROOP_KEYS[key])) answer(STROOP_KEYS[key]);
+    const keys = stroopKeys();
+    if (keys[key] && item.buttons.includes(keys[key])) answer(keys[key]);
     else if (byPosition >= 1 && byPosition <= item.buttons.length) answer(item.buttons[byPosition - 1]);
   }, !done);
 
@@ -109,20 +112,25 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
           </p>
           {switching && (
             <p key={index} className={`stroop__ask stroop__ask--${item.ask}`}>
-              {item.ask === 'ink' ? 'Couleur de l’encre' : 'Lis le mot'}
+              {item.ask === 'ink' ? tr('Couleur de l’encre', 'Ink color') : tr('Lis le mot', 'Read the word')}
             </p>
           )}
           <p
             className={`stroop__word ink--${item.ink}`}
             aria-live="polite"
-            aria-label={`${item.ask === 'word' ? 'Lis le mot. ' : ''}Le mot ${STROOP_LABELS[item.word]}, écrit en ${STROOP_LABELS[item.ink].toLowerCase()}`}
+            aria-label={tr(
+              `${item.ask === 'word' ? 'Lis le mot. ' : ''}Le mot ${STROOP_LABELS[item.word]}, écrit en ${STROOP_LABELS[item.ink].toLowerCase()}`,
+              `${item.ask === 'word' ? 'Read the word. ' : ''}The word ${STROOP_LABELS[item.word]}, written in ${STROOP_LABELS[item.ink].toLowerCase()}`,
+            )}
           >
             {STROOP_LABELS[item.word].toUpperCase()}
           </p>
           {voiceOn && (
             <p className="stroop__voice">
               <Icon name="mic" size={18} />
-              {voiceFailed ? 'Micro indisponible : réponds avec les boutons.' : 'Dis la couleur, ou touche-la.'}
+              {voiceFailed
+                ? tr('Micro indisponible : réponds avec les boutons.', 'Microphone unavailable: answer with the buttons.')
+                : tr('Dis la couleur, ou touche-la.', 'Say the color, or tap it.')}
             </p>
           )}
           <FeedbackMark mark={mark} />
@@ -131,7 +139,7 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
       <div
         className={`game__controls stroop__answers${item.buttons.length > 4 ? ' stroop__answers--wide' : ''}`}
         role="group"
-        aria-label="Couleur à répondre"
+        aria-label={tr('Couleur à répondre', 'Color to answer')}
       >
         {item.buttons.map((color, i) => (
           <TapButton key={color} className="stroop__answer" onTap={() => answer(color)} aria-label={STROOP_LABELS[color]}>

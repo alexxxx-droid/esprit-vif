@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -91,8 +92,16 @@ export function intrusLevel(level: number): IntrusLevel {
 
 export function intrusLevelLabel(level: number): string {
   const c = intrusLevel(level);
-  const symbols = c.tiers.length === 0 ? 'miroirs' : c.tiers.includes(1) ? (c.tiers.includes(3) ? 'symboles variés' : 'symboles faciles') : 'symboles trompeurs';
-  return [symbols, c.mirror && c.tiers.length > 0 && 'miroirs', c.tilt && 'en désordre', `dès ${c.start} × ${c.start}`]
+  const mirrors = tr('miroirs', 'mirrors');
+  const symbols =
+    c.tiers.length === 0
+      ? mirrors
+      : c.tiers.includes(1)
+        ? c.tiers.includes(3)
+          ? tr('symboles variés', 'mixed symbols')
+          : tr('symboles faciles', 'easy symbols')
+        : tr('symboles trompeurs', 'tricky symbols');
+  return [symbols, c.mirror && c.tiers.length > 0 && mirrors, c.tilt && tr('en désordre', 'tilted'), tr(`dès ${c.start} × ${c.start}`, `from ${c.start} × ${c.start}`)]
     .filter(Boolean)
     .join(' · ');
 }

@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { lang, tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import { BOUTIQUE_ROUNDS, boutiqueLevel, generateBoutiqueRound, scoreBoutique } from '../../core/games/boutique';
 import { createRng, deriveSeed } from '../../core/rng';
@@ -57,10 +58,10 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreBoutique(total),
       stats: { correct: total, events: config.events },
-      headline: `${total}/${BOUTIQUE_ROUNDS} manches`,
+      headline: tr(`${total}/${BOUTIQUE_ROUNDS} manches`, `${total}/${BOUTIQUE_ROUNDS} rounds`),
       lines: [
-        { label: 'Manches réussies', value: `${total} / ${BOUTIQUE_ROUNDS}` },
-        { label: 'Mouvements par manche', value: String(config.events) },
+        { label: tr('Manches réussies', 'Rounds won'), value: `${total} / ${BOUTIQUE_ROUNDS}` },
+        { label: tr('Mouvements par manche', 'Moves per round'), value: String(config.events) },
       ],
     });
   });
@@ -104,7 +105,7 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `Il y en avait ${current.answer}`);
+      showMark('bad', tr(`Il y en avait ${current.answer}`, `There were ${current.answer}`));
     }
     setPhase('feedback');
   };
@@ -127,9 +128,16 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
   }, phase === 'answer');
 
   const duration = stepMs;
+  const en = lang() === 'en';
   const describe =
     phase === 'events'
-      ? [event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`, event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`]
+      ? (en
+          ? [
+              event.enter && `${plural(event.enter, 'customer')} ${event.enter === 1 ? 'comes' : 'come'} in`,
+              event.leave && `${plural(event.leave, 'customer')} ${event.leave === 1 ? 'leaves' : 'leave'}`,
+            ]
+          : [event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`, event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`]
+        )
           .filter(Boolean)
           .join(', ')
       : '';
@@ -138,22 +146,23 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
     <div className="game">
       <GameHud progress={round / BOUTIQUE_ROUNDS}>
         <span className="chip">
-          Manche {round + 1}/{BOUTIQUE_ROUNDS}
+          {tr('Manche', 'Round')} {round + 1}/{BOUTIQUE_ROUNDS}
         </span>
       </GameHud>
       <div className="game__stage boutique">
         <p className="boutique__prompt" aria-live="polite">
           {phase === 'start' && (
             <>
-              Dans la boutique : <strong>{plural(current.start, 'client')}</strong>
+              {en ? 'In the shop: ' : 'Dans la boutique : '}
+              <strong>{en ? plural(current.start, 'customer') : plural(current.start, 'client')}</strong>
             </>
           )}
-          {phase === 'events' && 'Compte bien…'}
-          {phase !== 'start' && phase !== 'events' && 'Combien de clients dans la boutique ?'}
+          {phase === 'events' && tr('Compte bien…', 'Keep counting…')}
+          {phase !== 'start' && phase !== 'events' && tr('Combien de clients dans la boutique ?', 'How many customers are in the shop?')}
         </p>
         <div className="shop">
           <div className="shop__roof" />
-          <div className="shop__sign">BOUTIQUE</div>
+          <div className="shop__sign">{tr('BOUTIQUE', 'SHOP')}</div>
           <div className={`shop__window${phase === 'start' ? ' is-open' : ''}`}>
             {phase === 'start' &&
               Array.from({ length: current.start }, (_, i) => (
@@ -176,12 +185,12 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
                 {/* Sans animation, les passages s'affichent en étiquettes à côté de la porte. */}
                 {reduced && event.enter > 0 && (
                   <span className="shop__badge shop__badge--in">
-                    +{event.enter} entre{event.enter > 1 ? 'nt' : ''}
+                    {en ? `+${event.enter} in` : `+${event.enter} entre${event.enter > 1 ? 'nt' : ''}`}
                   </span>
                 )}
                 {reduced && event.leave > 0 && (
                   <span className="shop__badge shop__badge--out">
-                    {event.leave} sor{event.leave > 1 ? 'tent' : 't'}
+                    {en ? `${event.leave} out` : `${event.leave} sor${event.leave > 1 ? 'tent' : 't'}`}
                   </span>
                 )}
               </>

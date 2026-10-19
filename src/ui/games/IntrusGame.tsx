@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useState, type CSSProperties } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
   generateIntrus,
@@ -33,11 +34,11 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreIntrus(found, level),
       stats: { found, errors, size: board.size },
-      headline: `${plural(found, 'intrus')} · ${plural(errors, 'erreur')}`,
+      headline: tr(`${plural(found, 'intrus')} · ${plural(errors, 'erreur')}`, `${found} found · ${plural(errors, 'error')}`),
       lines: [
-        { label: 'Intrus trouvés', value: String(found) },
-        { label: 'Erreurs', value: errors ? `${errors} (−${(errors * INTRUS_PENALTY_MS) / 1000} s)` : 'Aucune' },
-        { label: 'Grille finale', value: `${board.size} × ${board.size}` },
+        { label: tr('Intrus trouvés', 'Odd ones found'), value: String(found) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? `${errors} (−${(errors * INTRUS_PENALTY_MS) / 1000} s)` : tr('Aucune', 'None') },
+        { label: tr('Grille finale', 'Final grid'), value: `${board.size} × ${board.size}` },
       ],
     });
   });
@@ -80,7 +81,7 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage intrus-stage">
         <p className="intrus__found" aria-live="polite">
-          <strong>{found}</strong> {found < 2 ? 'trouvé' : 'trouvés'}
+          <strong>{found}</strong> {tr(found < 2 ? 'trouvé' : 'trouvés', 'found')}
           {wrong && (
             <span key={wrong.id} className="penalty">
               −2&nbsp;s
@@ -92,7 +93,7 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
           className="intrus"
           style={{ '--size': board.size } as CSSProperties}
           role="group"
-          aria-label="Trouve le symbole différent"
+          aria-label={tr('Trouve le symbole différent', 'Find the symbol that’s different')}
         >
           {Array.from({ length: count }, (_, cell) => {
             const isOdd = cell === board.oddIndex;
@@ -105,7 +106,7 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
                 {...cellProps(cell)}
                 className="intrus__cell"
                 onTap={() => tap(cell)}
-                aria-label={flipped ? `${symbol} retourné` : symbol}
+                aria-label={flipped ? tr(`${symbol} retourné`, `${symbol} flipped`) : symbol}
               >
                 <span key={shaking ? wrong.id : 0} className={shaking ? 'shake' : undefined}>
                   <span

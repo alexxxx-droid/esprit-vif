@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { plural } from '../../core/format';
 import { generateLettre, LETTRE_DURATION_MS, lettreLevel, scoreLettre, type LettreQuestion } from '../../core/games/lettre';
+import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -43,11 +44,14 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreLettre(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'mot complété', 'mots complétés')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'mot complété', 'mots complétés')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'word completed', 'words completed')} · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Mots complétés', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(config.target) },
+        { label: tr('Mots complétés', 'Words completed'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
@@ -75,7 +79,7 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `C’était ${q.word}`);
+      showMark('bad', tr(`C’était ${q.word}`, `It was ${q.word}`));
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -106,9 +110,14 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
           <WordTiles question={q} />
         </div>
         <p className="sr-only">
-          {q.hint} : {[...q.word].map((letter, i) => (q.positions.includes(i) ? 'blanc' : letter)).join(' ')}
+          {tr(`${q.hint} : `, `${q.hint}: `)}
+          {[...q.word].map((letter, i) => (q.positions.includes(i) ? tr('blanc', 'blank') : letter)).join(' ')}
         </p>
-        <p className="lettre__ask">{config.missing === 1 ? 'Quelle lettre manque-t-il ?' : 'Quelles lettres manque-t-il ?'}</p>
+        <p className="lettre__ask">
+          {config.missing === 1
+            ? tr('Quelle lettre manque-t-il ?', 'Which letter is missing?')
+            : tr('Quelles lettres manque-t-il ?', 'Which letters are missing?')}
+        </p>
         <FeedbackMark mark={mark} />
       </div>
       <div className={`game__controls lettre__options lettre__options--${config.options}`}>

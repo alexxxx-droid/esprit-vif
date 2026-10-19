@@ -1,5 +1,6 @@
 import { addDays } from './daily';
 import { DOMAIN_ORDER, DOMAINS, GAMES, gamesOfDomain } from './games/registry';
+import { tr } from './lang';
 import type { GameId } from './types';
 
 /**
@@ -38,7 +39,16 @@ function progressInsight(plays: readonly InsightPlay[], today: string): Insight 
     const diff = Math.round(average(recent) - average(older));
     if (diff >= 5 && (!best || diff > best.diff)) best = { name: DOMAINS[domain].name, diff };
   }
-  return best && { id: 'progress', icon: 'up', text: `En ${best.name}, +${best.diff} pts en moyenne ces 30 derniers jours par rapport aux 30 d’avant.` };
+  return (
+    best && {
+      id: 'progress',
+      icon: 'up',
+      text: tr(
+        `En ${best.name}, +${best.diff} pts en moyenne ces 30 derniers jours par rapport aux 30 d’avant.`,
+        `In ${best.name}, +${best.diff} pts on average over the last 30 days, compared with the 30 before.`,
+      ),
+    }
+  );
 }
 
 type Moment = 'matin' | 'après-midi' | 'soir';
@@ -66,16 +76,21 @@ function momentInsight(plays: readonly InsightPlay[]): Insight | null {
   moments.sort((a, b) => b.mean - a.mean);
   const gap = Math.round(moments[0].mean - average(moments.slice(1).map((m) => m.mean)));
   if (gap < 4) return null;
-  const when = moments[0].moment === 'matin' ? 'le matin' : moments[0].moment === 'soir' ? 'le soir' : 'l’après-midi';
-  return { id: 'moment', icon: moments[0].moment === 'soir' ? 'moon' : 'sun', text: `Tu réussis mieux ${when} : +${gap} pts par rapport à tes autres moments.` };
+  const moment = moments[0].moment;
+  const when = moment === 'matin' ? tr('le matin', 'in the morning') : moment === 'soir' ? tr('le soir', 'in the evening') : tr('l’après-midi', 'in the afternoon');
+  return {
+    id: 'moment',
+    icon: moment === 'soir' ? 'moon' : 'sun',
+    text: tr(`Tu réussis mieux ${when} : +${gap} pts par rapport à tes autres moments.`, `You do best ${when}: +${gap} pts compared with other times of day.`),
+  };
 }
 
 function regularityInsight(plays: readonly InsightPlay[], today: string): Insight | null {
   const from = addDays(today, -13);
   const days = new Set(plays.filter((p) => p.day >= from && p.day <= today).map((p) => p.day)).size;
   if (days < 3) return null;
-  const tail = days >= 10 ? ' : une régularité exemplaire.' : days >= 6 ? ' : continue comme ça.' : '.';
-  return { id: 'regularity', icon: 'calendar', text: `${days} jours d’entraînement sur les 14 derniers${tail}` };
+  const tail = days >= 10 ? tr(' : une régularité exemplaire.', ': impressively consistent.') : days >= 6 ? tr(' : continue comme ça.', ': keep it up.') : '.';
+  return { id: 'regularity', icon: 'calendar', text: tr(`${days} jours d’entraînement sur les 14 derniers${tail}`, `${days} training days out of the last 14${tail}`) };
 }
 
 /** Un domaine jamais essayé : la porte d'entrée la plus douce, son premier jeu. */
@@ -83,7 +98,13 @@ function discoveryInsight(plays: readonly InsightPlay[]): Insight | null {
   const played = new Set(plays.map((p) => GAMES[p.gameId].domain));
   const missing = DOMAIN_ORDER.find((d) => !played.has(d) && gamesOfDomain(d).length > 0);
   if (!missing || plays.length < 5) return null;
-  return { id: 'discovery', icon: 'target', text: `Tu n’as pas encore essayé le domaine ${DOMAINS[missing].name} : commence par ${GAMES[gamesOfDomain(missing)[0]].name}.` };
+  const domain = DOMAINS[missing].name;
+  const game = GAMES[gamesOfDomain(missing)[0]].name;
+  return {
+    id: 'discovery',
+    icon: 'target',
+    text: tr(`Tu n’as pas encore essayé le domaine ${domain} : commence par ${game}.`, `You haven’t tried ${domain} games yet: start with ${game}.`),
+  };
 }
 
 /** Jusqu'à trois constats, les plus parlants d'abord. */

@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
   formatClock,
@@ -63,9 +64,9 @@ export function ClockFace({ time, numerals, size = 200 }: { time: number; numera
 }
 
 function askOf(q: HorlogeQuestion): string {
-  if (q.mode === 'read') return 'Quelle heure est-il ?';
-  if (q.mode === 'later') return `Quelle heure sera-t-il dans ${formatDuration(q.delta)} ?`;
-  return 'Combien de temps s’est écoulé d’une horloge à l’autre ?';
+  if (q.mode === 'read') return tr('Quelle heure est-il ?', 'What time is it?');
+  if (q.mode === 'later') return tr(`Quelle heure sera-t-il dans ${formatDuration(q.delta)} ?`, `What time will it be in ${formatDuration(q.delta)}?`);
+  return tr('Combien de temps s’est écoulé d’une horloge à l’autre ?', 'How much time passed from one clock to the other?');
 }
 
 export function HorlogesGame({ seed, level, onFinish }: GameProps) {
@@ -84,11 +85,14 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreHorloges(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Bonnes réponses', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(config.target) },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
@@ -116,7 +120,7 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `C’était ${q.options[q.answer]}`);
+      showMark('bad', tr(`C’était ${q.options[q.answer]}`, `It was ${q.options[q.answer]}`));
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -127,7 +131,10 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
     if (n >= 1 && n <= 4) choose(n - 1);
   }, !over);
 
-  const label = q.mode === 'elapsed' ? `De ${formatClock(q.clock)} à ${formatClock(q.clock2 ?? 0)}` : `Horloge : ${formatClock(q.clock)}`;
+  const label =
+    q.mode === 'elapsed'
+      ? tr(`De ${formatClock(q.clock)} à ${formatClock(q.clock2 ?? 0)}`, `From ${formatClock(q.clock)} to ${formatClock(q.clock2 ?? 0)}`)
+      : tr(`Horloge : ${formatClock(q.clock)}`, `Clock: ${formatClock(q.clock)}`);
 
   return (
     <div className="game">
@@ -148,7 +155,7 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
           )}
         </div>
         {/* Les lecteurs d'écran ne voient pas les aiguilles : on leur lit l'heure sans la donner aux autres. */}
-        <p className="sr-only">{q.mode === 'read' ? 'Horloge à lire : choisis parmi les propositions.' : label}</p>
+        <p className="sr-only">{q.mode === 'read' ? tr('Horloge à lire : choisis parmi les propositions.', 'Clock to read: pick one of the choices.') : label}</p>
         <p className="horloges__ask">{askOf(q)}</p>
         <FeedbackMark mark={mark} />
       </div>

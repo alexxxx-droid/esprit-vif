@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { answerLength, CALCUL_PENALTY_MS, formatCalc, generateCalcul, scoreCalcul } from '../../core/games/calcul';
 import { timedOutcome } from '../../core/outcome';
 import { createRng } from '../../core/rng';
@@ -91,7 +92,7 @@ export function CalculGame({ seed, level, onFinish }: GameProps) {
         <p className="calc__question" aria-live="polite">
           {formatCalc(question)}
         </p>
-        <div className="calc__answer" aria-label={`Ta réponse : ${typed || 'vide'}`}>
+        <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>
           {Array.from({ length }, (_, i) => (
             <span key={i} className={`slot${typed[i] ? ' slot--filled' : ''}`}>
               {typed[i] ?? ''}

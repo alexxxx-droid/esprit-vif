@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -44,15 +45,16 @@ export const CORRESPONDANCE_LEVELS: readonly CorrespondanceLevel[] = [
   L('mixed', 2, 20),
 ];
 
-const SET_LABELS: Record<CardSet, string> = {
-  shapes: 'formes',
-  shapesFill: 'formes pleines ou creuses',
-  similar: 'formes qui se ressemblent',
-  letters: 'lettres',
-  similarLetters: 'lettres jumelles (b, d, p, q…)',
-  digits: 'nombres',
-  rotated: 'flèches orientées',
-  mixed: 'tout mélangé',
+/** Libellés des jeux de cartes : [français, anglais], choisis à l'affichage. */
+const SET_LABELS: Record<CardSet, readonly [string, string]> = {
+  shapes: ['formes', 'shapes'],
+  shapesFill: ['formes pleines ou creuses', 'filled or hollow shapes'],
+  similar: ['formes qui se ressemblent', 'look-alike shapes'],
+  letters: ['lettres', 'letters'],
+  similarLetters: ['lettres jumelles (b, d, p, q…)', 'twin letters (b, d, p, q…)'],
+  digits: ['nombres', 'numbers'],
+  rotated: ['flèches orientées', 'arrows facing different ways'],
+  mixed: ['tout mélangé', 'all mixed up'],
 };
 
 export function correspondanceLevel(level: number): CorrespondanceLevel {
@@ -61,7 +63,7 @@ export function correspondanceLevel(level: number): CorrespondanceLevel {
 
 export function correspondanceLevelLabel(level: number): string {
   const c = correspondanceLevel(level);
-  return `${SET_LABELS[c.set]} · ${c.back === 1 ? 'carte précédente' : 'il y a deux cartes'}`;
+  return `${tr(...SET_LABELS[c.set])} · ${c.back === 1 ? tr('carte précédente', 'previous card') : tr('il y a deux cartes', 'two cards back')}`;
 }
 
 /** Une carte : une forme dessinée, ou un texte (lettre, nombre). */

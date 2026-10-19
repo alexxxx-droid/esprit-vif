@@ -1,6 +1,8 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { App } from '../App';
+import { resolveLang, setLang } from '../core/lang';
 import type { ProfileManager } from '../store/profiles';
+import type { ProgressStore } from '../store/progress';
 import { ProfilesContext } from './profiles-context';
 import { ProgressContext } from './progress-context';
 
@@ -10,8 +12,22 @@ export function ProfilesRoot({ manager }: { manager: ProfileManager }) {
   return (
     <ProfilesContext value={manager}>
       <ProgressContext value={store}>
-        <App key={active.id} />
+        <LanguageRoot store={store} profileId={active.id} />
       </ProgressContext>
     </ProfilesContext>
   );
+}
+
+/**
+ * La langue suit le réglage du joueur : elle est fixée avant de dessiner l'appli, qui repart
+ * d'un écran neuf quand elle change (tous les textes se recalculent).
+ */
+function LanguageRoot({ store, profileId }: { store: ProgressStore; profileId: string }) {
+  const choice = useSyncExternalStore(store.subscribe, () => store.getSnapshot().settings.language);
+  const current = resolveLang(choice, navigator.language);
+  setLang(current);
+  useEffect(() => {
+    document.documentElement.lang = current;
+  }, [current]);
+  return <App key={`${profileId}-${current}`} />;
 }

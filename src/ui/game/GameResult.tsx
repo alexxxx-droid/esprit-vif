@@ -1,6 +1,7 @@
 import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
+import { lang, tr } from '../../core/lang';
 import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from '../../core/levels';
 import { cheer } from '../../core/outcome';
 import { MEDAL_NAMES, medalRank } from '../../core/progression';
@@ -60,7 +61,7 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       {celebrate && <Confetti />}
       <p className="result__game">
         <GameArt gameId={meta.id} size={30} />
-        {meta.name} · niveau {level}
+        {meta.name} · {tr('niveau', 'level')} {level}
       </p>
       <div className="result__ring">
         <ScoreRing score={outcome.score} />
@@ -73,7 +74,15 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       {saved?.record === 'new' && (
         <p className="badge badge--record">
           <Icon name="star" size={18} />
-          Nouveau record&nbsp;! <span className="badge__aside">avant&nbsp;: {saved.previousBest?.score} pts</span>
+          {lang() === 'en' ? (
+            <>
+              New best! <span className="badge__aside">before: {saved.previousBest?.score} pts</span>
+            </>
+          ) : (
+            <>
+              Nouveau record&nbsp;! <span className="badge__aside">avant&nbsp;: {saved.previousBest?.score} pts</span>
+            </>
+          )}
         </p>
       )}
 
@@ -96,12 +105,12 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       )}
 
       {delta && (
-        <section className="gains" aria-label="Ce que tu as gagné">
+        <section className="gains" aria-label={tr('Ce que tu as gagné', 'What you earned')}>
           {levelUp && (
             <p className="gain gain--level">
               <Icon name="crown" size={22} />
               <span>
-                Niveau {delta.rankAfter.level}&nbsp;! <strong>{delta.rankAfter.title}</strong>
+                {lang() === 'en' ? `Level ${delta.rankAfter.level}!` : `Niveau ${delta.rankAfter.level}\u00a0!`} <strong>{delta.rankAfter.title}</strong>
               </span>
             </p>
           )}
@@ -109,7 +118,15 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
             <p className="gain gain--medal">
               <MedalBadge medal={delta.medalAfter} size={30} />
               <span>
-                Médaille <strong>{MEDAL_NAMES[delta.medalAfter]}</strong> en {meta.name}&nbsp;!
+                {lang() === 'en' ? (
+                  <>
+                    <strong>{MEDAL_NAMES[delta.medalAfter]}</strong> medal in {meta.name}!
+                  </>
+                ) : (
+                  <>
+                    Médaille <strong>{MEDAL_NAMES[delta.medalAfter]}</strong> en {meta.name}&nbsp;!
+                  </>
+                )}
               </span>
             </p>
           )}
@@ -119,7 +136,7 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
                 <Icon name={TROPHY_ICONS[trophy.icon]} size={20} />
               </span>
               <span>
-                Trophée <strong>{trophy.name}</strong>
+                {tr('Trophée', 'Trophy')} <strong>{trophy.name}</strong>
                 <span className="gain__desc">{trophy.description}</span>
               </span>
             </p>
@@ -132,16 +149,16 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       )}
 
       <ShareButton
-        label="Partager mon score"
+        label={tr('Partager mon score', 'Share my score')}
         build={async () => {
           const color = getComputedStyle(document.documentElement).getPropertyValue(`--d-${meta.domain}`).trim();
           const line =
             comparison?.kind === 'first'
-              ? 'Ma première partie !'
+              ? tr('Ma première partie !', 'My first game!')
               : comparison?.kind === 'above'
-                ? `+${comparison.diff} pts au-dessus de ma moyenne`
+                ? tr(`+${comparison.diff} pts au-dessus de ma moyenne`, `+${comparison.diff} pts above my average`)
                 : comparison?.kind === 'level'
-                  ? 'Dans ma moyenne'
+                  ? tr('Dans ma moyenne', 'Right on my average')
                   : undefined;
           const image = await renderCard(
             { kind: 'result', game: meta.name, level, score: outcome.score, stars: starsFor(outcome.score), color, line, mascot: document.querySelector<SVGSVGElement>('.result__vif') },
@@ -150,7 +167,10 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
           return {
             image,
             name: `esprit-vif-${meta.id}-${outcome.score}.png`,
-            text: `J’ai fait ${outcome.score}/100 à ${meta.name} (niveau ${level}) sur Esprit Vif. À ton tour ! https://alexxxx-droid.github.io/esprit-vif/`,
+            text: tr(
+              `J’ai fait ${outcome.score}/100 à ${meta.name} (niveau ${level}) sur Esprit Vif. À ton tour ! https://alexxxx-droid.github.io/esprit-vif/`,
+              `I scored ${outcome.score}/100 in ${meta.name} (level ${level}) on Esprit Vif. Your turn! https://alexxxx-droid.github.io/esprit-vif/`,
+            ),
           };
         }}
       />
@@ -161,8 +181,17 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
 }
 
 function CompareLine({ comparison }: { comparison: Comparison }) {
-  if (comparison.kind === 'first') return <p className="compare">Première partie : c’est ton point de départ.</p>;
-  if (comparison.kind === 'level') return <p className="compare">Dans ta moyenne récente ({comparison.average}&nbsp;pts).</p>;
+  if (comparison.kind === 'first')
+    return <p className="compare">{tr('Première partie : c’est ton point de départ.', 'First game: this is your starting point.')}</p>;
+  if (comparison.kind === 'level')
+    return (
+      <p className="compare">
+        {tr(
+          `Dans ta moyenne récente (${comparison.average}\u00a0pts).`,
+          `Right on your recent average (${comparison.average}\u00a0pts).`,
+        )}
+      </p>
+    );
   const up = comparison.kind === 'above';
   return (
     <p className={`compare compare--${comparison.kind}`}>
@@ -172,7 +201,9 @@ function CompareLine({ comparison }: { comparison: Comparison }) {
           {up ? '+' : '−'}
           {Math.abs(comparison.diff)}&nbsp;pts
         </strong>{' '}
-        {up ? 'au-dessus de ta moyenne récente' : 'sous ta moyenne : ça arrive, la prochaine sera la bonne'}
+        {up
+          ? tr('au-dessus de ta moyenne récente', 'above your recent average')
+          : tr('sous ta moyenne : ça arrive, la prochaine sera la bonne', 'below your average: it happens, the next one will be better')}
       </span>
     </p>
   );
@@ -215,7 +246,15 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
       <p className="level-change level-change--up">
         <Icon name="up" size={20} />
         <span>
-          Niveau <strong>{level + 1}</strong> débloqué&nbsp;!
+          {lang() === 'en' ? (
+            <>
+              Level <strong>{level + 1}</strong> unlocked!
+            </>
+          ) : (
+            <>
+              Niveau <strong>{level + 1}</strong> débloqué&nbsp;!
+            </>
+          )}
         </span>
       </p>
     );
@@ -225,7 +264,15 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
     <p className="level-change">
       <Icon name="lock" size={20} />
       <span>
-        Encore <strong>{UNLOCK_SCORE - score}&nbsp;pts</strong> pour gagner une étoile et débloquer le niveau suivant.
+        {lang() === 'en' ? (
+          <>
+            <strong>{UNLOCK_SCORE - score}&nbsp;more pts</strong> to earn a star and unlock the next level.
+          </>
+        ) : (
+          <>
+            Encore <strong>{UNLOCK_SCORE - score}&nbsp;pts</strong> pour gagner une étoile et débloquer le niveau suivant.
+          </>
+        )}
       </span>
     </p>
   );

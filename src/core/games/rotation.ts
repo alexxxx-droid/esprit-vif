@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -55,8 +56,13 @@ export function rotationLevel(level: number): RotationLevel {
 
 export function rotationLevelLabel(level: number): string {
   const c = rotationLevel(level);
-  const mirrors = c.mirrors === 0 ? 'sans miroir' : c.mirrors === 1 ? '1 reflet piège' : `${c.mirrors} reflets pièges`;
-  return `Pièces de ${c.size} carrés · ${c.options} choix · ${mirrors}`;
+  const mirrors =
+    c.mirrors === 0
+      ? tr('sans miroir', 'no mirror images')
+      : c.mirrors === 1
+        ? tr('1 reflet piège', '1 mirror-image trap')
+        : tr(`${c.mirrors} reflets pièges`, `${c.mirrors} mirror-image traps`);
+  return tr(`Pièces de ${c.size} carrés · ${c.options} choix · ${mirrors}`, `${c.size}-square pieces · ${c.options} choices · ${mirrors}`);
 }
 
 /** Ramène la pièce dans le coin haut-gauche, carrés triés : deux pièces identiques ont la même forme normalisée. */

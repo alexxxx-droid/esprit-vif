@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { tr } from '../../core/lang';
 import { applyUpdate, dismissOfflineReady, usePwa } from '../pwa';
 import { Icon } from './Icon';
 
@@ -15,10 +16,10 @@ export function PwaNotices() {
   if (needRefresh) {
     return (
       <div className="toast toast--action" role="status">
-        <span>Une nouvelle version d’Esprit Vif est prête.</span>
+        <span>{tr('Une nouvelle version d’Esprit Vif est prête.', 'A new version of Esprit Vif is ready.')}</span>
         <button type="button" className="btn btn--primary" onClick={() => void applyUpdate()}>
           <Icon name="replay" size={20} />
-          Mettre à jour
+          {tr('Mettre à jour', 'Update')}
         </button>
       </div>
     );
@@ -26,7 +27,7 @@ export function PwaNotices() {
   if (offlineReady) {
     return (
       <p className="toast" role="status">
-        Esprit Vif fonctionne maintenant hors ligne.
+        {tr('Esprit Vif fonctionne maintenant hors ligne.', 'Esprit Vif now works offline.')}
       </p>
     );
   }

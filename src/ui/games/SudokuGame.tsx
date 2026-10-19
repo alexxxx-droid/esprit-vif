@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { formatSeconds, plural } from '../../core/format';
 import { boxShape, generateSudoku, peers, scoreSudoku, SUDOKU_PENALTY_S, sudokuLevel } from '../../core/games/sudoku';
 import { createRng } from '../../core/rng';
@@ -47,11 +48,11 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
       onFinish({
         score: scoreSudoku(ms, errors, level),
         stats: { timeMs: Math.round(ms), errors, puzzles: puzzles.length },
-        headline: `${formatSeconds(ms)} · ${plural(errors, 'erreur')}`,
+        headline: `${formatSeconds(ms)} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
         lines: [
-          { label: 'Temps', value: formatSeconds(ms) },
-          { label: 'Chiffres refusés', value: errors ? `${errors} (+${errors * SUDOKU_PENALTY_S} s)` : 'Aucun' },
-          { label: 'Grilles', value: `${puzzles.length} × ${size} × ${size}` },
+          { label: tr('Temps', 'Time'), value: formatSeconds(ms) },
+          { label: tr('Chiffres refusés', 'Digits rejected'), value: errors ? `${errors} (+${errors * SUDOKU_PENALTY_S} s)` : tr('Aucun', 'None') },
+          { label: tr('Grilles', 'Grids'), value: `${puzzles.length} × ${size} × ${size}` },
         ],
       });
     }
@@ -72,14 +73,14 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
       setGrid(next);
       if (next.every((v) => v !== 0)) {
         fx.good();
-        showMark('good', puzzles.length > 1 ? `Grille ${current + 1}/${puzzles.length}` : undefined);
+        showMark('good', puzzles.length > 1 ? tr(`Grille ${current + 1}/${puzzles.length}`, `Grid ${current + 1}/${puzzles.length}`) : undefined);
       } else fx.tap();
     } else {
       fx.bad();
       clock.addPenalty(SUDOKU_PENALTY_S * 1000);
       setErrors(errors + 1);
       setWrong({ cell: selected, id: Date.now() });
-      showMark('bad', `Pas de ${digit} ici · +${SUDOKU_PENALTY_S} s`);
+      showMark('bad', tr(`Pas de ${digit} ici · +${SUDOKU_PENALTY_S} s`, `No ${digit} here · +${SUDOKU_PENALTY_S} s`));
     }
   };
 
@@ -112,14 +113,14 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
       <div className="game__stage sudoku-stage">
         {puzzles.length > 1 && (
           <p className="chip sudoku__count">
-            Grille {Math.min(current + 1, puzzles.length)}/{puzzles.length}
+            {tr('Grille', 'Grid')} {Math.min(current + 1, puzzles.length)}/{puzzles.length}
           </p>
         )}
         <div
           key={current}
           className={`sudoku sudoku--${size}${solved ? ' is-solved' : ''}`}
           role="grid"
-          aria-label={`Grille de ${size} sur ${size}`}
+          aria-label={tr(`Grille de ${size} sur ${size}`, `${size} by ${size} grid`)}
           style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
         >
           {grid.map((value, i) => {
@@ -140,7 +141,7 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
                 key={wrong?.cell === i ? `${i}-${wrong.id}` : i}
                 className={classes.filter(Boolean).join(' ')}
                 onTap={() => setSelected(i)}
-                aria-label={`Ligne ${r + 1}, colonne ${c + 1} : ${value || 'vide'}`}
+                aria-label={tr(`Ligne ${r + 1}, colonne ${c + 1} : ${value || 'vide'}`, `Row ${r + 1}, column ${c + 1}: ${value || 'empty'}`)}
                 aria-selected={i === selected}
                 role="gridcell"
               >
@@ -153,7 +154,7 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
       </div>
       <div className={`game__controls sudoku__pad sudoku__pad--${size}`}>
         {Array.from({ length: size }, (_, d) => d + 1).map((digit) => (
-          <TapButton key={digit} className="sudoku__digit" onTap={() => place(digit)} disabled={remaining(digit) === 0} aria-label={`Placer ${digit}`}>
+          <TapButton key={digit} className="sudoku__digit" onTap={() => place(digit)} disabled={remaining(digit) === 0} aria-label={tr(`Placer ${digit}`, `Place ${digit}`)}>
             {digit}
             <span className="sudoku__left" aria-hidden="true">
               {remaining(digit) || <Icon name="check" size={12} strokeWidth={3} />}

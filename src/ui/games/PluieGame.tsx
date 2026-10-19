@@ -1,4 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { plural } from '../../core/format';
+import { tr } from '../../core/lang';
 import { answerLength, formatCalc } from '../../core/games/calcul';
 import { generatePluie, PLUIE_DURATION_MS, PLUIE_LIVES, pluieLevel, pluieTarget, scorePluie } from '../../core/games/pluie';
 import { createRng } from '../../core/rng';
@@ -40,11 +42,11 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scorePluie(solvedCount, level),
       stats: { solved: solvedCount, missed: missedCount },
-      headline: `${solvedCount} gouttes résolues`,
+      headline: tr(`${solvedCount} gouttes résolues`, `${plural(solvedCount, 'drop')} solved`),
       lines: [
-        { label: 'Gouttes résolues', value: String(solvedCount) },
-        { label: 'Gouttes perdues', value: String(missedCount) },
-        { label: 'Objectif pour 100 pts', value: String(pluieTarget(level)) },
+        { label: tr('Gouttes résolues', 'Drops solved'), value: String(solvedCount) },
+        { label: tr('Gouttes perdues', 'Drops lost'), value: String(missedCount) },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(pluieTarget(level)) },
       ],
     });
   });
@@ -62,7 +64,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
       missedSet = new Set([...missed, ...fallen.map((d) => d.id)]);
       setMissed(missedSet);
       fx.bad();
-      showMark('bad', 'Une goutte est tombée');
+      showMark('bad', tr('Une goutte est tombée', 'A drop fell'));
     }
     if (missedSet.size >= PLUIE_LIVES || t >= PLUIE_DURATION_MS) finish(solved.size, missedSet.size);
   });
@@ -92,7 +94,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     if (entry.length >= longest) {
       fx.bad();
       setTyped('');
-      showMark('bad', 'Aucune goutte ne vaut ça');
+      showMark('bad', tr('Aucune goutte ne vaut ça', 'No drop equals that'));
       return;
     }
     fx.tap();
@@ -116,7 +118,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
           <span className="pluie__score">
             <strong>{solved.size}</strong> / {pluieTarget(level)}
           </span>
-          <span className="pluie__lives" aria-label={`${lives} vie${lives > 1 ? 's' : ''}`}>
+          <span className="pluie__lives" aria-label={tr(`${lives} vie${lives > 1 ? 's' : ''}`, `${lives} ${lives === 1 ? 'life' : 'lives'}`)}>
             {Array.from({ length: PLUIE_LIVES }, (_, i) => (
               <span key={i} className={i < lives ? 'is-left' : undefined} aria-hidden="true" />
             ))}
@@ -142,7 +144,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
           ))}
           <div className="rain__water" aria-hidden="true" />
         </div>
-        <p className={`rain__entry${typed ? ' is-filled' : ''}`}>{typed || 'Tape un résultat'}</p>
+        <p className={`rain__entry${typed ? ' is-filled' : ''}`}>{typed || tr('Tape un résultat', 'Type an answer')}</p>
         <FeedbackMark mark={mark} />
       </div>
       <div className="game__controls">

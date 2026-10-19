@@ -1,7 +1,8 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
-import { CATEGORIES, type Category } from './lexique';
+import { categories, type Category } from './lexique';
 
 /**
  * Catégories : des mots d'une même catégorie et un intrus. Au début l'intrus vient de loin
@@ -49,8 +50,13 @@ export function categoriesLevel(level: number): CategoriesLevel {
 
 export function categoriesLevelLabel(level: number): string {
   const c = categoriesLevel(level);
-  const near = c.near === 0 ? 'intrus évidents' : c.near === 1 ? 'intrus de la même famille' : 'intrus parfois proches';
-  return `${c.words} mots · ${near}`;
+  const near =
+    c.near === 0
+      ? tr('intrus évidents', 'easy odd ones')
+      : c.near === 1
+        ? tr('intrus de la même famille', 'odd ones from the same family')
+        : tr('intrus parfois proches', 'odd ones sometimes close');
+  return tr(`${c.words} mots · ${near}`, `${c.words} words · ${near}`);
 }
 
 export interface CategoriesQuestion {
@@ -62,9 +68,10 @@ export interface CategoriesQuestion {
 
 export function generateCategoriesQuestion(rng: Rng, level: number): CategoriesQuestion {
   const c = categoriesLevel(level);
-  const main = rng.pick(CATEGORIES);
+  const all = categories();
+  const main = rng.pick(all);
   const near = rng.chance(c.near);
-  const intruder = rng.pick(CATEGORIES.filter((other) => other !== main && (other.family === main.family) === near));
+  const intruder = rng.pick(all.filter((other) => other !== main && (other.family === main.family) === near));
   const words = [...rng.shuffle(main.words).slice(0, c.words - 1), rng.pick(intruder.words)];
   const shuffled = rng.shuffle(words);
   return { words: shuffled, answer: shuffled.indexOf(words[words.length - 1]), main, intruder };

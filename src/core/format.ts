@@ -1,21 +1,61 @@
+import { lang, locale } from './lang';
+
 /** Espace insécable : l'unité ne se retrouve jamais seule en début de ligne. */
 export const NBSP = String.fromCharCode(0xa0);
 
-const oneDecimal = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const longDay = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-const shortDay = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short' });
-const monthYear = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
-const weekdayNarrow = new Intl.DateTimeFormat('fr-FR', { weekday: 'narrow' });
-const weekdayLong = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric' });
-
-/** 32400 ms → « 32,4 s ». */
-export function formatSeconds(ms: number): string {
-  return `${oneDecimal.format(ms / 1000)}${NBSP}s`;
+/** Les formats Intl de la langue en cours, créés une fois par langue. */
+interface Formats {
+  oneDecimal: Intl.NumberFormat;
+  decimal: Intl.NumberFormat;
+  longDay: Intl.DateTimeFormat;
+  shortDay: Intl.DateTimeFormat;
+  monthYear: Intl.DateTimeFormat;
+  weekdayNarrow: Intl.DateTimeFormat;
+  weekdayLong: Intl.DateTimeFormat;
 }
 
-/** Accord en nombre à la française : 0 et 1 restent au singulier. */
+const cache = new Map<string, Formats>();
+
+function formats(): Formats {
+  const key = locale();
+  let set = cache.get(key);
+  if (!set) {
+    set = {
+      oneDecimal: new Intl.NumberFormat(key, { minimumFractionDigits: 1, maximumFractionDigits: 1 }),
+      decimal: new Intl.NumberFormat(key, { maximumFractionDigits: 2 }),
+      longDay: new Intl.DateTimeFormat(key, { weekday: 'long', day: 'numeric', month: 'long' }),
+      shortDay: new Intl.DateTimeFormat(key, { day: 'numeric', month: 'short' }),
+      monthYear: new Intl.DateTimeFormat(key, { month: 'long', year: 'numeric' }),
+      weekdayNarrow: new Intl.DateTimeFormat(key, { weekday: 'narrow' }),
+      weekdayLong: new Intl.DateTimeFormat(key, { weekday: 'long', day: 'numeric' }),
+    };
+    cache.set(key, set);
+  }
+  return set;
+}
+
+/** 32400 ms → « 32,4 s » (« 32.4 s » en anglais). */
+export function formatSeconds(ms: number): string {
+  return `${formatOneDecimal(ms / 1000)}${NBSP}s`;
+}
+
+/** Un nombre à une décimale, à la façon de la langue en cours. */
+export function formatOneDecimal(value: number): string {
+  return formats().oneDecimal.format(value);
+}
+
+/** Un nombre à deux décimales au plus. */
+export function formatDecimal(value: number): string {
+  return formats().decimal.format(value);
+}
+
+/**
+ * Accord en nombre : en français, 0 et 1 restent au singulier ; en anglais, seul 1.
+ * Les mots viennent de la même langue : `tr(plural(n, 'partie'), plural(n, 'game'))`.
+ */
 export function plural(count: number, singular: string, pluralForm = `${singular}s`): string {
-  return `${count}${NBSP}${Math.abs(count) < 2 ? singular : pluralForm}`;
+  const one = lang() === 'en' ? Math.abs(count) === 1 : Math.abs(count) < 2;
+  return `${count}${NBSP}${one ? singular : pluralForm}`;
 }
 
 function fromDayKey(day: string): Date {
@@ -25,25 +65,25 @@ function fromDayKey(day: string): Date {
 
 /** « 2026-10-19 » → « lundi 19 octobre ». */
 export function formatLongDay(day: string): string {
-  return longDay.format(fromDayKey(day));
+  return formats().longDay.format(fromDayKey(day));
 }
 
 /** « 2026-10-19 » → « 19 oct. ». */
 export function formatShortDay(day: string): string {
-  return shortDay.format(fromDayKey(day));
+  return formats().shortDay.format(fromDayKey(day));
 }
 
 /** « 2026-10-19 » → « L ». */
 export function formatWeekdayInitial(day: string): string {
-  return weekdayNarrow.format(fromDayKey(day));
+  return formats().weekdayNarrow.format(fromDayKey(day));
 }
 
 /** « 2026-10-19 » → « lundi 19 ». */
 export function formatWeekday(day: string): string {
-  return weekdayLong.format(fromDayKey(day));
+  return formats().weekdayLong.format(fromDayKey(day));
 }
 
 /** « 2026-10-19 » → « octobre 2026 ». */
 export function formatMonth(day: string): string {
-  return monthYear.format(fromDayKey(day));
+  return formats().monthYear.format(fromDayKey(day));
 }

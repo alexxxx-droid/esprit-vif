@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -60,10 +61,10 @@ export function balanceTimes(level: number): { best: number; worst: number } {
 export function balanceLevelLabel(level: number): string {
   const c = balanceLevel(level);
   return [
-    `${c.items} objets`,
-    c.asks.length > 1 ? 'le plus lourd ou le plus léger' : 'le plus lourd',
-    c.pairs && 'balances à deux contre un',
-    c.noise && `${c.noise} balance${c.noise > 1 ? 's' : ''} inutile${c.noise > 1 ? 's' : ''}`,
+    tr(`${c.items} objets`, `${c.items} items`),
+    c.asks.length > 1 ? tr('le plus lourd ou le plus léger', 'heaviest or lightest') : tr('le plus lourd', 'heaviest'),
+    c.pairs && tr('balances à deux contre un', 'two-against-one scales'),
+    c.noise && tr(`${c.noise} balance${c.noise > 1 ? 's' : ''} inutile${c.noise > 1 ? 's' : ''}`, `${c.noise} useless scale${c.noise > 1 ? 's' : ''}`),
   ]
     .filter(Boolean)
     .join(' · ');

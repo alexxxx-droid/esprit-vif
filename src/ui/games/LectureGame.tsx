@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { plural } from '../../core/format';
 import { generateLecture, LECTURE_DURATION_MS, lectureLevel, scoreLecture } from '../../core/games/lecture';
+import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -28,11 +29,14 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreLecture(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Phrases bien jugées', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: `${config.target} (erreurs déduites)` },
+        { label: tr('Phrases bien jugées', 'Sentences judged right'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: tr(`${config.target} (erreurs déduites)`, `${config.target} (minus errors)`) },
       ],
     });
   });
@@ -60,7 +64,7 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', q.truth ? 'C’était vrai' : 'C’était faux');
+      showMark('bad', q.truth ? tr('C’était vrai', 'It was true') : tr('C’était faux', 'It was false'));
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -68,7 +72,7 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
 
   useKeyDown((e) => {
     const key = e.key.toLowerCase();
-    if (key === 'arrowleft' || key === 'v') judge(true);
+    if (key === 'arrowleft' || key === tr('v', 't')) judge(true);
     else if (key === 'arrowright' || key === 'f') judge(false);
   }, !over);
 
@@ -87,13 +91,13 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
         <FeedbackMark mark={mark} />
       </div>
       <div className="game__controls lecture__options">
-        <TapButton className="lecture__option lecture__option--true" onTap={() => judge(true)} aria-keyshortcuts="V ArrowLeft">
+        <TapButton className="lecture__option lecture__option--true" onTap={() => judge(true)} aria-keyshortcuts={tr('V ArrowLeft', 'T ArrowLeft')}>
           <Icon name="check" size={26} strokeWidth={3} />
-          Vrai
+          {tr('Vrai', 'True')}
         </TapButton>
         <TapButton className="lecture__option lecture__option--false" onTap={() => judge(false)} aria-keyshortcuts="F ArrowRight">
           <Icon name="close" size={26} strokeWidth={3} />
-          Faux
+          {tr('Faux', 'False')}
         </TapButton>
       </div>
     </div>

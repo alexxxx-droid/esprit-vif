@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import type { GameMeta } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { progressionDelta, type ProgressionDelta } from '../../core/progression';
 import { randomSeed } from '../../core/rng';
 import type { PlayMode, PlayOutcome } from '../../core/types';
@@ -81,7 +82,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     const onVisibility = () => {
       if (document.visibilityState !== 'hidden') return;
       setPhase('intro');
-      setNotice('Partie interrompue. Elle reprendra depuis le début quand tu voudras.');
+      setNotice(tr('Partie interrompue. Elle reprendra depuis le début quand tu voudras.', 'Game interrupted. It will start over whenever you like.'));
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
@@ -106,7 +107,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
       setResult({ outcome, saved, level: run.level, seed: run.seed, delta });
       setPhase('result');
     } catch {
-      setNotice('Cette partie n’a pas pu être enregistrée. Réessaie quand tu veux.');
+      setNotice(tr('Cette partie n’a pas pu être enregistrée. Réessaie quand tu veux.', 'This game could not be saved. Try again whenever you like.'));
       setPhase('intro');
     }
   };

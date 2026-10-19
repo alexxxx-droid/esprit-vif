@@ -1,3 +1,4 @@
+import { lang, tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -62,8 +63,32 @@ export function reflexeLevel(level: number): ReflexeLevel {
   return pickLevel(REFLEXE_LEVELS, level);
 }
 
+/** Noms anglais des formes, au pluriel (la règle les cite toujours ainsi). */
+const SHAPE_PLURALS_EN: Record<ShapeKind, string> = {
+  circle: 'circles',
+  square: 'squares',
+  triangle: 'triangles',
+  star: 'stars',
+  diamond: 'diamonds',
+  cross: 'crosses',
+  hexagon: 'hexagons',
+  octagon: 'octagons',
+  pentagon: 'pentagons',
+  heart: 'hearts',
+  moon: 'moons',
+  flag: 'flags',
+};
+
+/** « Tap the filled circles », « Tap everything except the stars ». */
+function describeRuleEn(rule: ReflexeRule): string {
+  const names = rule.go.map((s) => `the ${rule.filledOnly ? 'filled ' : ''}${SHAPE_PLURALS_EN[s]}`);
+  const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0];
+  return rule.inverted ? `Tap everything except ${list}` : `Tap ${list}`;
+}
+
 /** Règle en mots : « Touche les ronds pleins », « Touche tout sauf les étoiles ». */
 export function describeRule(rule: ReflexeRule): string {
+  if (lang() === 'en') return describeRuleEn(rule);
   const names = rule.go.map((s) => `${SHAPE_NAMES[s]}s${rule.filledOnly ? ` ${fillWord(s, true, true)}` : ''}`.replace('croixs', 'croix'));
   const list = names.length > 1 ? `${names.slice(0, -1).join(', les ')} et les ${names.at(-1)}` : names[0];
   return rule.inverted ? `Touche tout, sauf les ${list}` : `Touche les ${list}`;
@@ -71,7 +96,11 @@ export function describeRule(rule: ReflexeRule): string {
 
 export function reflexeLevelLabel(level: number): string {
   const c = reflexeLevel(level);
-  return [c.rules.length > 1 ? `${c.rules.length} règles successives` : describeRule(c.rules[0]), `${secondsLabel(c.windowMs)} pour réagir`].join(' · ');
+  const react = secondsLabel(c.windowMs);
+  return [
+    c.rules.length > 1 ? tr(`${c.rules.length} règles successives`, `${c.rules.length} rules in a row`) : describeRule(c.rules[0]),
+    tr(`${react} pour réagir`, `${react} to react`),
+  ].join(' · ');
 }
 
 export function isGo(card: ShapeCard, rule: ReflexeRule): boolean {

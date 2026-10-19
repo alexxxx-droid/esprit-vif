@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { generateMots, motsLevel, scoreMots } from '../../core/games/mots';
+import { NBSP } from '../../core/format';
+import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -67,7 +69,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', probe.seen ? 'Il était dans la liste' : 'Il n’y était pas');
+      showMark('bad', probe.seen ? tr('Il était dans la liste', 'It was in the list') : tr('Il n’y était pas', 'It wasn’t there'));
     }
     setTally(next);
     setIndex(index + 1);
@@ -75,11 +77,14 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       onFinish({
         score: scoreMots(next.hits, next.falseAlarms, level),
         stats: { ...next, count: config.count },
-        headline: `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège${next.falseAlarms > 1 ? 's' : ''}`,
+        headline: tr(
+          `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège${next.falseAlarms > 1 ? 's' : ''}`,
+          `${next.hits}/${config.count} recalled · ${next.falseAlarms} trap${next.falseAlarms === 1 ? '' : 's'}`,
+        ),
         lines: [
-          { label: 'Mots retrouvés', value: `${next.hits} / ${config.count}` },
-          { label: 'Mots oubliés', value: String(next.misses) },
-          { label: 'Pièges évités', value: `${next.rejections} / ${config.count}` },
+          { label: tr('Mots retrouvés', 'Words recalled'), value: `${next.hits} / ${config.count}` },
+          { label: tr('Mots oubliés', 'Words forgotten'), value: String(next.misses) },
+          { label: tr('Pièges évités', 'Traps avoided'), value: `${next.rejections} / ${config.count}` },
         ],
       });
     }
@@ -91,7 +96,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       e.preventDefault();
       endStudy();
     } else if (key === 'arrowleft' || key === 'n') answer(false);
-    else if (key === 'arrowright' || key === 'v') answer(true);
+    else if (key === 'arrowright' || key === tr('v', 'y')) answer(true);
   }, !done);
 
   if (studying) {
@@ -101,7 +106,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
           <TimeLeft clock={clock} durationMs={studyMs} />
         </GameHud>
         <div className="game__stage mots">
-          <p className="mots__ask">Retiens ces {config.count} mots</p>
+          <p className="mots__ask">{tr(`Retiens ces ${config.count} mots`, `Memorize these ${config.count} words`)}</p>
           <ul className={`mots__list${config.count > 12 ? ' mots__list--dense' : ''}`}>
             {round.study.map((word, i) => (
               <li key={word} style={{ animationDelay: `${i * 30}ms` }}>
@@ -112,7 +117,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
         </div>
         <div className="game__controls">
           <TapButton className="big-answer mots__ready" onTap={() => endStudy()}>
-            C’est retenu
+            {tr('C’est retenu', 'Got it')}
             <Icon name="arrow" />
           </TapButton>
         </div>
@@ -131,17 +136,17 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
         <div key={index} className="mots__probe" aria-live="polite">
           {probe.word}
         </div>
-        <p className="mots__ask">Était-il dans la liste&nbsp;?</p>
+        <p className="mots__ask">{tr(`Était-il dans la liste${NBSP}?`, 'Was it in the list?')}</p>
         <FeedbackMark mark={mark} />
       </div>
       <div className="game__controls yes-no">
         <TapButton className="big-answer big-answer--no" onTap={() => answer(false)} aria-keyshortcuts="ArrowLeft">
           <Icon name="close" />
-          Pas vu
+          {tr('Pas vu', 'Not seen')}
         </TapButton>
         <TapButton className="big-answer big-answer--yes" onTap={() => answer(true)} aria-keyshortcuts="ArrowRight">
           <Icon name="check" />
-          Vu
+          {tr('Vu', 'Seen')}
         </TapButton>
       </div>
     </div>

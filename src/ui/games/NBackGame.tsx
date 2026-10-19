@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import {
   balancedAccuracy,
   generateNBack,
@@ -23,13 +24,28 @@ import { slow } from '../tempo';
 
 type Channel = 'letter' | 'position';
 
-const CHANNEL_LABELS: Record<Channel, { button: string; miss: string; wrong: string; stat: string }> = {
-  letter: { button: 'Même lettre', miss: 'C’était la même lettre', wrong: 'Pas la même lettre', stat: 'Lettres' },
-  position: { button: 'Même place', miss: 'C’était la même place', wrong: 'Pas la même place', stat: 'Positions' },
-};
+/** Les libellés d'un canal, dans la langue en cours. */
+function channelLabels(channel: Channel): { button: string; miss: string; wrong: string; stat: string } {
+  return channel === 'letter'
+    ? {
+        button: tr('Même lettre', 'Same letter'),
+        miss: tr('C’était la même lettre', 'It was the same letter'),
+        wrong: tr('Pas la même lettre', 'Not the same letter'),
+        stat: tr('Lettres', 'Letters'),
+      }
+    : {
+        button: tr('Même place', 'Same spot'),
+        miss: tr('C’était la même place', 'It was the same spot'),
+        wrong: tr('Pas la même place', 'Not the same spot'),
+        stat: tr('Positions', 'Positions'),
+      };
+}
 
 function describe(t: NBackTally): string {
-  return `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausse${t.falseAlarms > 1 ? 's' : ''} alerte${t.falseAlarms > 1 ? 's' : ''}`;
+  return tr(
+    `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausse${t.falseAlarms > 1 ? 's' : ''} alerte${t.falseAlarms > 1 ? 's' : ''}`,
+    `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} false alarm${t.falseAlarms === 1 ? '' : 's'}`,
+  );
 }
 
 export function NBackGame({ seed, level, onFinish }: GameProps) {
@@ -47,7 +63,7 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
   // Fin d'essai : une cible non signalée est montrée, pour apprendre sans punir.
   const endTrial = useEffectEvent((trial: number) => {
     const missed = channels.find((c) => sequence[c]!.targets[trial] && !responses[c][trial]);
-    if (missed) showMark('bad', CHANNEL_LABELS[missed].miss);
+    if (missed) showMark('bad', channelLabels(missed).miss);
   });
 
   const finish = useEffectEvent(() => {
@@ -56,10 +72,10 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreNBack(tallies, level),
       stats: { n, accuracy, useful: Math.round(usefulAccuracy(tallies) * 100) },
-      headline: `${accuracy} % de précision · ${n} en arrière`,
+      headline: tr(`${accuracy} % de précision · ${n} en arrière`, `${accuracy}% accuracy · ${n} back`),
       lines: [
-        ...channels.map((c, i) => ({ label: CHANNEL_LABELS[c].stat, value: describe(tallies[i]) })),
-        { label: 'Précision', value: `${accuracy} %` },
+        ...channels.map((c, i) => ({ label: channelLabels(c).stat, value: describe(tallies[i]) })),
+        { label: tr('Précision', 'Accuracy'), value: tr(`${accuracy} %`, `${accuracy}%`) },
       ],
     });
   });
@@ -93,7 +109,7 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', CHANNEL_LABELS[c].wrong);
+      showMark('bad', channelLabels(c).wrong);
     }
   };
 
@@ -114,11 +130,13 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
   return (
     <div className="game">
       <GameHud progress={Math.max(0, scoredIndex) / NBACK_TRIALS}>
-        <span className="chip">{n} en arrière</span>
+        <span className="chip">{tr(`${n} en arrière`, `${n} back`)}</span>
       </GameHud>
       <div className="game__stage nback">
         <p className="nback__count">
-          {index < n ? 'Mémorise…' : `Essai ${Math.min(scoredIndex + 1, NBACK_TRIALS)} / ${NBACK_TRIALS}`}
+          {index < n
+            ? tr('Mémorise…', 'Memorize…')
+            : tr(`Essai ${Math.min(scoredIndex + 1, NBACK_TRIALS)} / ${NBACK_TRIALS}`, `Trial ${Math.min(scoredIndex + 1, NBACK_TRIALS)} / ${NBACK_TRIALS}`)}
         </p>
         {sequence.position ? (
           <div className="nback__grid" aria-live="polite">
@@ -142,7 +160,7 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
           </div>
         )}
         <p className="nback__hint">
-          {n === 1 ? 'Pareil qu’au coup précédent ?' : `Pareil qu’il y a ${n} coups ?`}
+          {n === 1 ? tr('Pareil qu’au coup précédent ?', 'Same as the previous one?') : tr(`Pareil qu’il y a ${n} coups ?`, `Same as ${n} turns ago?`)}
         </p>
         <FeedbackMark mark={mark} />
       </div>
@@ -155,7 +173,7 @@ export function NBackGame({ seed, level, onFinish }: GameProps) {
             disabled={!canAnswer(c)}
             aria-keyshortcuts={channels.length > 1 ? (c === 'letter' ? 'A' : 'L') : 'Space'}
           >
-            {index < n ? 'Mémorise…' : CHANNEL_LABELS[c].button}
+            {index < n ? tr('Mémorise…', 'Memorize…') : channelLabels(c).button}
           </TapButton>
         ))}
       </div>

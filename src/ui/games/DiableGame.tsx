@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { formatSeconds } from '../../core/format';
 import { answerLength, formatCalc } from '../../core/games/calcul';
 import { diableLevel, generateDiable, scoreDiable } from '../../core/games/diable';
@@ -43,11 +44,11 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
       onFinish({
         score: scoreDiable(score, elapsedMs, level),
         stats: { correct: score, count, n, timeMs: Math.round(elapsedMs) },
-        headline: `${score}/${count} justes · ${formatSeconds(elapsedMs)}`,
+        headline: tr(`${score}/${count} justes · ${formatSeconds(elapsedMs)}`, `${score}/${count} correct · ${formatSeconds(elapsedMs)}`),
         lines: [
-          { label: 'Bonnes réponses', value: `${score} / ${count}` },
-          { label: 'Temps', value: formatSeconds(elapsedMs) },
-          { label: 'En arrière', value: `${n} calcul${n > 1 ? 's' : ''}` },
+          { label: tr('Bonnes réponses', 'Correct answers'), value: `${score} / ${count}` },
+          { label: tr('Temps', 'Time'), value: formatSeconds(elapsedMs) },
+          { label: tr('En arrière', 'How far back'), value: tr(`${n} calcul${n > 1 ? 's' : ''}`, `${n} sum${n === 1 ? '' : 's'}`) },
         ],
       });
     }
@@ -105,18 +106,18 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
               ?
             </span>
           ))}
-          <span className="diable__now">maintenant</span>
+          <span className="diable__now">{tr('maintenant', 'now')}</span>
         </div>
         <div key={index} className="diable__card" aria-live="polite">
           {shown ? formatCalc(shown) : '…'}
         </div>
         <p className="diable__ask">
           {memorizing
-            ? 'Retiens ce calcul, puis touche « Retenu ».'
-            : `Résultat du calcul d’il y a ${n === 1 ? '1 coup' : `${n} coups`} ?`}
+            ? tr('Retiens ce calcul, puis touche « Retenu ».', 'Remember this sum, then tap “Got it”.')
+            : tr(`Résultat du calcul d’il y a ${n === 1 ? '1 coup' : `${n} coups`} ?`, `Answer to the sum from ${n === 1 ? '1 turn' : `${n} turns`} ago?`)}
         </p>
         {!memorizing && target && (
-          <div className="calc__answer" aria-label={`Ta réponse : ${typed || 'vide'}`}>
+          <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>
             {Array.from({ length: answerLength(target.answer) }, (_, i) => (
               <span key={i} className={`slot${typed[i] ? ' slot--filled' : ''}`}>
                 {typed[i] ?? ''}
@@ -129,7 +130,7 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
       <div className="game__controls">
         {memorizing ? (
           <TapButton className="big-answer" onTap={remember} aria-keyshortcuts="Enter">
-            Retenu
+            {tr('Retenu', 'Got it')}
             <Icon name="arrow" />
           </TapButton>
         ) : (

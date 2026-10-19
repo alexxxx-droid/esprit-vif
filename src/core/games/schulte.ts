@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -60,17 +61,18 @@ export const SCHULTE_LEVELS: readonly SchulteLevel[] = [
   L(6, 'desc', 40, 135, { mark: false, tilt: true, reshuffleEvery: 6 }),
 ];
 
-const ORDER_LABELS: Record<SchulteOrder, string> = {
-  asc: 'dans l’ordre',
-  desc: 'à rebours',
-  alpha: 'lettres A à Y',
-  alt: '1-A-2-B…',
+/** [français, anglais], choisis à l'affichage. */
+const ORDER_LABELS: Record<SchulteOrder, readonly [string, string]> = {
+  asc: ['dans l’ordre', 'in order'],
+  desc: ['à rebours', 'countdown'],
+  alpha: ['lettres A à Y', 'letters A to Y'],
+  alt: ['1-A-2-B…', '1-A-2-B…'],
 };
 
 export function schulteLevelLabel(level: number): string {
   const c = pickLevel(SCHULTE_LEVELS, level);
-  const flags = [!c.mark && 'sans repères', c.tilt && 'brouillée', c.reshuffleEvery && 'mouvante'].filter(Boolean);
-  return [`${c.size} × ${c.size}`, ORDER_LABELS[c.order], ...flags].join(' · ');
+  const flags = [!c.mark && tr('sans repères', 'no markers'), c.tilt && tr('brouillée', 'scrambled'), c.reshuffleEvery && tr('mouvante', 'shifting')].filter(Boolean);
+  return [`${c.size} × ${c.size}`, tr(...ORDER_LABELS[c.order]), ...flags].join(' · ');
 }
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

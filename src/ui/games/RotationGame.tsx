@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
   generateRotation,
@@ -50,11 +51,14 @@ export function RotationGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreRotation(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'pièce trouvée', 'pièces trouvées')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'pièce trouvée', 'pièces trouvées')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'piece')} found · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Pièces trouvées', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(config.target) },
+        { label: tr('Pièces trouvées', 'Pieces found'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
@@ -82,7 +86,10 @@ export function RotationGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', puzzle.kinds[option] === 'mirror' ? 'C’était son reflet' : 'Ce n’est pas la même pièce');
+      showMark(
+        'bad',
+        puzzle.kinds[option] === 'mirror' ? tr('C’était son reflet', 'That was its mirror image') : tr('Ce n’est pas la même pièce', 'That’s not the same piece'),
+      );
       setErrors(errors + 1);
     }
     setIndex(index + 1);
@@ -104,14 +111,14 @@ export function RotationGame({ seed, level, onFinish }: GameProps) {
         </p>
         <figure key={index} className="rotation__model">
           <PieceView piece={puzzle.model} span={span} size={128} />
-          <figcaption>Modèle</figcaption>
+          <figcaption>{tr('Modèle', 'Model')}</figcaption>
         </figure>
-        <p className="rotation__ask">Laquelle est la même pièce, simplement tournée&nbsp;?</p>
+        <p className="rotation__ask">{tr('Laquelle est la même pièce, simplement tournée\u00a0?', 'Which one is the same piece, just rotated?')}</p>
         <FeedbackMark mark={mark} />
       </div>
       <div className={`game__controls rotation__options rotation__options--${config.options}`}>
         {puzzle.options.map((piece, i) => (
-          <TapButton key={`${index}-${i}`} className="rotation__option" onTap={() => choose(i)} aria-label={`Pièce ${i + 1}`} aria-keyshortcuts={String(i + 1)}>
+          <TapButton key={`${index}-${i}`} className="rotation__option" onTap={() => choose(i)} aria-label={tr(`Pièce ${i + 1}`, `Piece ${i + 1}`)} aria-keyshortcuts={String(i + 1)}>
             <PieceView piece={piece} span={span} size={config.options === 3 ? 84 : 104} />
           </TapButton>
         ))}

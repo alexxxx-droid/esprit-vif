@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore } from '../scoring';
@@ -54,7 +55,10 @@ export function sudokuLevel(level: number): SudokuLevel {
 
 export function sudokuLevelLabel(level: number): string {
   const c = sudokuLevel(level);
-  return [`${c.puzzles > 1 ? `${c.puzzles} grilles` : '1 grille'} ${c.size} × ${c.size}`, `${c.givens} chiffres donnés`].join(' · ');
+  return tr(
+    [`${c.puzzles > 1 ? `${c.puzzles} grilles` : '1 grille'} ${c.size} × ${c.size}`, `${c.givens} chiffres donnés`].join(' · '),
+    [`${c.puzzles > 1 ? `${c.puzzles} grids` : '1 grid'} of ${c.size} × ${c.size}`, `${c.givens} digits given`].join(' · '),
+  );
 }
 
 /** Dimensions d'un bloc : 2 × 2 pour le 4 × 4, 2 lignes × 3 colonnes pour le 6 × 6. */

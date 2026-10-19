@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -61,8 +62,14 @@ export function flechesLevel(level: number): FlechesLevel {
 
 export function flechesLevelLabel(level: number): string {
   const c = flechesLevel(level);
-  const rule = { center: 'flèche du milieu', flank: 'flèches voisines', switch: 'consigne changeante' }[c.rule];
-  return [rule, c.dirs === 4 ? '4 directions' : '2 directions', `${c.flankers * 2 + 1} flèches`, `${secondsLabel(c.windowMs)} pour répondre`]
+  const rule = {
+    center: tr('flèche du milieu', 'middle arrow'),
+    flank: tr('flèches voisines', 'outer arrows'),
+    switch: tr('consigne changeante', 'changing rule'),
+  }[c.rule];
+  const arrows = c.flankers * 2 + 1;
+  const delay = secondsLabel(c.windowMs);
+  return [rule, c.dirs === 4 ? '4 directions' : '2 directions', tr(`${arrows} flèches`, `${arrows} arrows`), tr(`${delay} pour répondre`, `${delay} to answer`)]
     .filter(Boolean)
     .join(' · ');
 }

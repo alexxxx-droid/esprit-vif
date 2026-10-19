@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import { tr } from '../../core/lang';
 import { describeRule, generateReflexe, reflexeLevel, REFLEXE_TRIALS, scoreReflexe } from '../../core/games/reflexe';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -39,11 +40,11 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreReflexe(t.hits, t.misses, t.falseAlarms, t.rejections, mean, level),
       stats: { hits: t.hits, misses: t.misses, falseAlarms: t.falseAlarms, rejections: t.rejections, meanRt: mean ? Math.round(mean) : 0 },
-      headline: `${t.hits + t.rejections}/${REFLEXE_TRIALS} justes${mean ? ` · ${Math.round(mean)} ms` : ''}`,
+      headline: `${t.hits + t.rejections}/${REFLEXE_TRIALS} ${tr('justes', 'correct')}${mean ? ` · ${Math.round(mean)} ms` : ''}`,
       lines: [
-        { label: 'Bonnes touches', value: `${t.hits} / ${t.hits + t.misses}` },
-        { label: 'Retenues réussies', value: `${t.rejections} / ${t.rejections + t.falseAlarms}` },
-        { label: 'Temps de réaction moyen', value: mean ? `${Math.round(mean)} ms` : '—' },
+        { label: tr('Bonnes touches', 'Correct taps'), value: `${t.hits} / ${t.hits + t.misses}` },
+        { label: tr('Retenues réussies', 'Correct holds'), value: `${t.rejections} / ${t.rejections + t.falseAlarms}` },
+        { label: tr('Temps de réaction moyen', 'Average reaction time'), value: mean ? `${Math.round(mean)} ms` : '—' },
       ],
     });
   });
@@ -52,7 +53,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
     // Pas de réaction : bien joué si la forme était à éviter, raté sinon.
     if (trial.go) {
       fx.bad();
-      showMark('bad', 'Il fallait toucher');
+      showMark('bad', tr('Il fallait toucher', 'You should have tapped'));
       setTally({ ...tally, misses: tally.misses + 1 });
     } else setTally({ ...tally, rejections: tally.rejections + 1 });
     setPhase('fb');
@@ -86,7 +87,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
       setTally({ ...tally, hits: tally.hits + 1, rts: [...tally.rts, performance.now() - shownAt.current] });
     } else {
       fx.bad();
-      showMark('bad', 'Pas celle-là !');
+      showMark('bad', tr('Pas celle-là !', 'Not that one!'));
       setTally({ ...tally, falseAlarms: tally.falseAlarms + 1 });
     }
     setPhase('fb');
@@ -107,7 +108,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
         </span>
       </GameHud>
       <p key={trial.ruleIndex} className={`reflexe__rule${ruleChanged && phase === 'gap' ? ' is-new' : ''}`} aria-live="polite">
-        {ruleChanged && phase === 'gap' && <strong>Nouvelle règle ! </strong>}
+        {ruleChanged && phase === 'gap' && <strong>{tr('Nouvelle règle ! ', 'New rule! ')}</strong>}
         {describeRule(rule)}
         <span className="reflexe__rule-shapes" aria-hidden="true">
           {rule.go.map((shape) => (
@@ -116,7 +117,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
         </span>
       </p>
       <div className="game__stage reflexe-stage">
-        <TapButton className="reflexe" onTap={tap} aria-label="Toucher" aria-keyshortcuts="Space">
+        <TapButton className="reflexe" onTap={tap} aria-label={tr('Toucher', 'Tap')} aria-keyshortcuts="Space">
           {phase === 'stim' && (
             <span key={index} className="reflexe__shape">
               <Shape card={trial.card} size={150} />

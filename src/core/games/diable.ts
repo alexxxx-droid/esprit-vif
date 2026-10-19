@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore, type TimeThresholds } from '../scoring';
@@ -40,14 +41,15 @@ export const DIABLE_LEVELS: readonly DiableLevel[] = [
   L(4, ['mul12', 'div12', 'add100'], 16, 70, 180),
 ];
 
-const KIND_LABELS: Partial<Record<CalcKind, string>> = {
-  add1: 'additions',
-  sub1: 'soustractions',
-  mul1: 'tables',
-  add2: 'deux chiffres',
-  mul12: 'tables de 12',
-  add100: 'jusqu’à 100',
-  mulTeen: 'grands produits',
+/** Familles nommées dans le libellé : [français, anglais], choisis à l'affichage. */
+const KIND_LABELS: Partial<Record<CalcKind, readonly [string, string]>> = {
+  add1: ['additions', 'addition'],
+  sub1: ['soustractions', 'subtraction'],
+  mul1: ['tables', 'times tables'],
+  add2: ['deux chiffres', 'two digits'],
+  mul12: ['tables de 12', 'tables to 12'],
+  add100: ['jusqu’à 100', 'up to 100'],
+  mulTeen: ['grands produits', 'big products'],
 };
 
 export function diableLevel(level: number): DiableLevel {
@@ -56,8 +58,11 @@ export function diableLevel(level: number): DiableLevel {
 
 export function diableLevelLabel(level: number): string {
   const c = diableLevel(level);
-  const kinds = [...new Set(c.kinds.map((k) => KIND_LABELS[k]).filter(Boolean))].join(', ');
-  return `${c.n} calcul${c.n > 1 ? 's' : ''} en arrière · ${kinds} · ${c.count} réponses`;
+  const kinds = [...new Set(c.kinds.map((k) => KIND_LABELS[k]).filter((label) => label !== undefined).map((label) => tr(...label)))].join(', ');
+  return tr(
+    `${c.n} calcul${c.n > 1 ? 's' : ''} en arrière · ${kinds} · ${c.count} réponses`,
+    `${c.n} sum${c.n > 1 ? 's' : ''} back · ${kinds} · ${c.count} answers`,
+  );
 }
 
 export function generateDiable(rng: Rng, level: number): CalcQuestion[] {

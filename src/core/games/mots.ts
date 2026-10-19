@@ -1,7 +1,8 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
-import { CATEGORIES } from './lexique';
+import { categories } from './lexique';
 
 /**
  * Mots à retenir : une liste à mémoriser, puis des mots un par un — « vu » ou « pas vu » ?
@@ -47,7 +48,14 @@ export function motsLevel(level: number): MotsLevel {
 
 export function motsLevelLabel(level: number): string {
   const c = motsLevel(level);
-  return [`${c.count} mots`, `${secondsLabel(c.studyMs)} pour les lire`, c.lures === 'category' && 'pièges de même famille'].filter(Boolean).join(' · ');
+  const study = secondsLabel(c.studyMs);
+  return [
+    tr(`${c.count} mots`, `${c.count} words`),
+    tr(`${study} pour les lire`, `${study} to read them`),
+    c.lures === 'category' && tr('pièges de même famille', 'same-category traps'),
+  ]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 export interface MotsProbe {
@@ -66,7 +74,7 @@ export function generateMots(rng: Rng, level: number): MotsRound {
   let fresh: string[];
   if (lures === 'category') {
     // Quelques catégories, des mots à apprendre et autant de pièges dans chacune.
-    const cats = rng.shuffle(CATEGORIES).slice(0, Math.ceil(count / 3));
+    const cats = rng.shuffle(categories()).slice(0, Math.ceil(count / 3));
     const pools = cats.map((c) => rng.shuffle(c.words));
     study = [];
     fresh = [];
@@ -76,7 +84,7 @@ export function generateMots(rng: Rng, level: number): MotsRound {
       fresh.push(pool[2 * Math.floor(i / pools.length) + 1]);
     }
   } else {
-    const all = rng.shuffle(CATEGORIES.flatMap((c) => c.words));
+    const all = rng.shuffle(categories().flatMap((c) => c.words));
     study = all.slice(0, count);
     fresh = all.slice(count, count * 2);
   }

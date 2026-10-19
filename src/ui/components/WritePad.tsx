@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { recognizeDigit, type Pt } from '../../core/handwriting';
+import { tr } from '../../core/lang';
 import { fx } from '../fx/fx';
 import { Icon } from './Icon';
 import { TapButton } from './TapButton';
@@ -149,13 +150,13 @@ export function WritePad({ onDigit, onErase, onSubmit, disabled, onUseKeys }: Wr
   };
 
   const eraseKey = (
-    <TapButton className="numpad__key numpad__key--muted" onTap={erase} aria-label="Effacer" disabled={disabled}>
+    <TapButton className="numpad__key numpad__key--muted" onTap={erase} aria-label={tr('Effacer', 'Erase')} disabled={disabled}>
       <Icon name="erase" size={28} />
     </TapButton>
   );
 
   return (
-    <div className={`writepad${disabled ? ' is-disabled' : ''}`} role="group" aria-label="Zone d’écriture">
+    <div className={`writepad${disabled ? ' is-disabled' : ''}`} role="group" aria-label={tr('Zone d’écriture', 'Writing area')}>
       <div className="writepad__area">
         <canvas
           ref={canvasRef}
@@ -164,18 +165,18 @@ export function WritePad({ onDigit, onErase, onSubmit, disabled, onUseKeys }: Wr
           onPointerMove={move}
           onPointerUp={up}
           onPointerCancel={up}
-          aria-label="Écris un chiffre avec le doigt"
+          aria-label={tr('Écris un chiffre avec le doigt', 'Write a digit with your finger')}
         />
         {!inked && (
           <p key={read?.n ?? 0} className={`writepad__hint${read ? (read.digit ? ' is-read' : ' is-unread') : ''}`} aria-live="polite">
-            {read ? (read.digit ?? '?') : 'Écris un chiffre ici'}
-            {read && !read.digit && <small>Pas reconnu, réécris-le</small>}
+            {read ? (read.digit ?? '?') : tr('Écris un chiffre ici', 'Write a digit here')}
+            {read && !read.digit && <small>{tr('Pas reconnu, réécris-le', 'Not recognized, write it again')}</small>}
           </p>
         )}
       </div>
       <div className="writepad__keys">
         {onSubmit ? eraseKey : <span aria-hidden="true" />}
-        <TapButton className="numpad__key numpad__key--muted writepad__switch" onTap={onUseKeys} aria-label="Revenir au pavé de touches">
+        <TapButton className="numpad__key numpad__key--muted writepad__switch" onTap={onUseKeys} aria-label={tr('Revenir au pavé de touches', 'Back to the keypad')}>
           <Icon name="keypad" size={26} />
         </TapButton>
         {onSubmit ? (

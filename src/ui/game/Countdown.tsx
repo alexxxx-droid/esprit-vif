@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useState } from 'react';
+import { tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
 import { fx } from '../fx/fx';
 
@@ -23,7 +24,7 @@ export function Countdown({ title, onDone, onQuit }: { title: string; onDone: ()
   return (
     <div className="countdown">
       <header className="intro__top">
-        <button type="button" className="icon-btn" onClick={onQuit} aria-label="Quitter la partie">
+        <button type="button" className="icon-btn" onClick={onQuit} aria-label={tr('Quitter la partie', 'Quit the game')}>
           <Icon name="close" />
         </button>
       </header>
@@ -31,7 +32,7 @@ export function Countdown({ title, onDone, onQuit }: { title: string; onDone: ()
       <p className="countdown__number" key={count} aria-live="assertive">
         {count}
       </p>
-      <p className="countdown__hint">Prépare-toi…</p>
+      <p className="countdown__hint">{tr('Prépare-toi…', 'Get ready…')}</p>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { nbackLevel, tutorialTrials } from '../../core/games/nback';
+import { lang, tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { fx } from '../fx/fx';
@@ -9,12 +10,12 @@ import type { TutorialProps } from '../game/chrome';
 const OUTLINED = 3;
 const WITH_HISTORY = 6;
 
-const coups = (n: number) => (n === 1 ? 'au coup d’avant' : `il y a ${n} coups`);
+const coups = (n: number) => tr(n === 1 ? 'au coup d’avant' : `il y a ${n} coups`, n === 1 ? 'one turn ago' : `${n} turns ago`);
 
 function Item({ value, channel, size = 'big' }: { value: string | number; channel: 'letter' | 'position'; size?: 'big' | 'small' }) {
   if (channel === 'letter') return <span className={`tuto-letter tuto-letter--${size}`}>{value}</span>;
   return (
-    <span className={`tuto-grid tuto-grid--${size}`} aria-label={`case ${Number(value) + 1}`}>
+    <span className={`tuto-grid tuto-grid--${size}`} aria-label={tr(`case ${Number(value) + 1}`, `square ${Number(value) + 1}`)}>
       {Array.from({ length: 9 }, (_, cell) => (
         <span key={cell} className={cell === value ? 'is-lit' : undefined} />
       ))}
@@ -31,21 +32,29 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
   const [index, setIndex] = useState(-1);
   const [answer, setAnswer] = useState<boolean | null>(null);
   const [right, setRight] = useState(0);
-  const thing = channel === 'letter' ? 'lettre' : 'case allumée';
+  const thing = channel === 'letter' ? tr('lettre', 'letter') : tr('case allumée', 'lit square');
+  const en = lang() === 'en';
 
   if (index < 0) {
     return (
       <div className="screen screen-in tuto">
         <div className="intro__head duel-final">
           <Mascot mood="think" size={96} />
-          <h1 className="intro__title">Essai guidé</h1>
-          <p className="intro__rule">
-            Des {channel === 'letter' ? 'lettres' : 'cases'} vont apparaître une à une. À chaque fois, demande-toi&nbsp;: est-ce la même {thing} {coups(n)}&nbsp;?
-            Ici, pas de chrono&nbsp;: prends ton temps.
-          </p>
+          <h1 className="intro__title">{tr('Essai guidé', 'Guided practice')}</h1>
+          {en ? (
+            <p className="intro__rule">
+              {channel === 'letter' ? 'Letters' : 'Squares'} will appear one at a time. Each time, ask yourself: is it the same {thing} as {coups(n)}?
+              There’s no timer here: take your time.
+            </p>
+          ) : (
+            <p className="intro__rule">
+              Des {channel === 'letter' ? 'lettres' : 'cases'} vont apparaître une à une. À chaque fois, demande-toi&nbsp;: est-ce la même {thing} {coups(n)}&nbsp;?
+              Ici, pas de chrono&nbsp;: prends ton temps.
+            </p>
+          )}
         </div>
         <button type="button" className="btn btn--primary btn--lg mode-cta" onClick={() => setIndex(0)} autoFocus>
-          Commencer l’essai
+          {tr('Commencer l’essai', 'Start the practice')}
           <Icon name="arrow" />
         </button>
       </div>
@@ -57,17 +66,26 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
       <div className="screen screen-in tuto">
         <div className="intro__head duel-final">
           <Mascot mood="cheer" size={96} />
-          <h1 className="intro__title">Tu as compris le principe&nbsp;!</h1>
-          <p className="intro__rule">
-            {right} bonne{right > 1 ? 's' : ''} réponse{right > 1 ? 's' : ''} sur {trials.values.length - n}. Pour de vrai, tout défile seul, sans attendre&nbsp;: touche le
-            bouton <strong>seulement quand c’est pareil</strong>, sinon ne fais rien.
-            {config.n > 2 && ` À ce niveau, c’est ${config.n} en arrière\u00a0: même principe, en remontant plus loin.`}
-            {config.mode === 'dual' && ' À ce niveau, lettres et cases à la fois\u00a0: un bouton pour chacune.'}
-          </p>
+          <h1 className="intro__title">{tr('Tu as compris le principe\u00a0!', 'You’ve got the idea!')}</h1>
+          {en ? (
+            <p className="intro__rule">
+              {right} correct answer{right === 1 ? '' : 's'} out of {trials.values.length - n}. In the real game, everything moves on by itself, without
+              waiting: tap the button <strong>only when it’s the same</strong>, otherwise do nothing.
+              {config.n > 2 && ` At this level, it’s ${config.n} back: same idea, just further back.`}
+              {config.mode === 'dual' && ' At this level, letters and squares at once: one button for each.'}
+            </p>
+          ) : (
+            <p className="intro__rule">
+              {right} bonne{right > 1 ? 's' : ''} réponse{right > 1 ? 's' : ''} sur {trials.values.length - n}. Pour de vrai, tout défile seul, sans attendre&nbsp;: touche le
+              bouton <strong>seulement quand c’est pareil</strong>, sinon ne fais rien.
+              {config.n > 2 && ` À ce niveau, c’est ${config.n} en arrière\u00a0: même principe, en remontant plus loin.`}
+              {config.mode === 'dual' && ' À ce niveau, lettres et cases à la fois\u00a0: un bouton pour chacune.'}
+            </p>
+          )}
         </div>
         <div className="mode-actions">
           <button type="button" className="btn btn--primary btn--lg" onClick={() => onDone(true)} autoFocus>
-            Jouer pour de vrai
+            {tr('Jouer pour de vrai', 'Play for real')}
             <Icon name="play" />
           </button>
           <button
@@ -79,10 +97,10 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
               setAnswer(null);
             }}
           >
-            Refaire l’essai
+            {tr('Refaire l’essai', 'Practice again')}
           </button>
           <button type="button" className="btn btn--lg btn--ghost" onClick={() => onDone(false)}>
-            Retour
+            {tr('Retour', 'Back')}
           </button>
         </div>
       </div>
@@ -110,17 +128,19 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
     } else fx.bad();
   };
   const lure = n === 2 && !target && value === trials.values[index - 1];
+  const ago = coups(n);
+  const Ago = ago.charAt(0).toUpperCase() + ago.slice(1);
 
   return (
     <div className="screen screen-in tuto">
       <header className="intro__top">
-        <button type="button" className="icon-btn" onClick={() => onDone(false)} aria-label="Quitter l’essai">
+        <button type="button" className="icon-btn" onClick={() => onDone(false)} aria-label={tr('Quitter l’essai', 'Quit the practice')}>
           <Icon name="close" />
         </button>
-        <span className="pill">Essai guidé</span>
+        <span className="pill">{tr('Essai guidé', 'Guided practice')}</span>
       </header>
       <div className="tuto__stage">
-        <div className={`tuto__history${showHistory ? '' : ' is-hidden'}`} aria-label="Ce qui est passé">
+        <div className={`tuto__history${showHistory ? '' : ' is-hidden'}`} aria-label={tr('Ce qui est passé', 'What came before')}>
           {showHistory &&
             history.map((v, i) => {
               const at = index - history.length + i;
@@ -128,39 +148,50 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
               return (
                 <span key={at} className={`tuto__past${isBack ? ' is-back' : ''}`}>
                   <Item value={v} channel={channel} size="small" />
-                  {isBack && <small>{coups(n)}</small>}
+                  {isBack && <small>{ago}</small>}
                 </span>
               );
             })}
-          {!showHistory && <small>De mémoire, maintenant&nbsp;!</small>}
+          {!showHistory && <small>{tr('De mémoire, maintenant\u00a0!', 'From memory now!')}</small>}
         </div>
         <div key={index} className="tuto__current">
           <Item value={value} channel={channel} />
         </div>
         <p className="tuto__ask" aria-live="polite">
           {warmup
-            ? `Retiens-la, puis passe à la suivante.`
+            ? tr(`Retiens-la, puis passe à la suivante.`, 'Remember it, then go on to the next one.')
             : answer === null
-              ? `Même ${thing} ${coups(n)}\u00a0?`
+              ? tr(`Même ${thing} ${ago}\u00a0?`, `Same ${thing} as ${ago}?`)
               : answer === target
-                ? `Oui\u00a0! ${coups(n).charAt(0).toUpperCase() + coups(n).slice(1)}, c’était ${channel === 'letter' ? back : 'cette case-là'}\u00a0: ${target ? 'pareil' : 'différent'}.`
-                : `Pas tout à fait\u00a0: ${coups(n)}, c’était ${channel === 'letter' ? back : 'une autre case'}, donc ${target ? 'pareil' : 'différent'}.`}
-          {answer !== null && lure && ' (Piège\u00a0: c’est le coup d’avant qui est pareil, pas celui d’il y a 2\u00a0coups.)'}
+                ? tr(
+                    `Oui\u00a0! ${Ago}, c’était ${channel === 'letter' ? back : 'cette case-là'}\u00a0: ${target ? 'pareil' : 'différent'}.`,
+                    `Yes! ${Ago}, it was ${channel === 'letter' ? back : 'that square'}: ${target ? 'same' : 'different'}.`,
+                  )
+                : tr(
+                    `Pas tout à fait\u00a0: ${ago}, c’était ${channel === 'letter' ? back : 'une autre case'}, donc ${target ? 'pareil' : 'différent'}.`,
+                    `Not quite: ${ago}, it was ${channel === 'letter' ? back : 'another square'}, so ${target ? 'same' : 'different'}.`,
+                  )}
+          {answer !== null &&
+            lure &&
+            tr(
+              ' (Piège\u00a0: c’est le coup d’avant qui est pareil, pas celui d’il y a 2\u00a0coups.)',
+              ' (Trap: it’s the one just before that matches, not the one from 2 turns ago.)',
+            )}
         </p>
       </div>
       <div className="tuto__buttons">
         {warmup || answer !== null ? (
           <button type="button" className="btn btn--primary btn--lg" onClick={next} autoFocus>
-            Suivant
+            {tr('Suivant', 'Next')}
             <Icon name="arrow" />
           </button>
         ) : (
           <>
             <button type="button" className="big-answer" onClick={() => choose(true)}>
-              Pareil
+              {tr('Pareil', 'Same')}
             </button>
             <button type="button" className="big-answer" onClick={() => choose(false)}>
-              Différent
+              {tr('Différent', 'Different')}
             </button>
           </>
         )}

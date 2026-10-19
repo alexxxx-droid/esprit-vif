@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -57,12 +58,13 @@ export function ordreLevel(level: number): OrdreLevel {
 
 export function ordreLevelLabel(level: number): string {
   const c = ordreLevel(level);
+  const show = secondsLabel(c.showMs);
   return [
-    `de ${c.min} à ${c.max}`,
-    c.descending ? 'du plus grand au plus petit' : 'du plus petit au plus grand',
-    c.sequential && 'un par un',
-    `${secondsLabel(c.showMs)} par nombre`,
-    c.size === 5 && 'grille 5 × 5',
+    tr(`de ${c.min} à ${c.max}`, `${c.min} to ${c.max}`),
+    c.descending ? tr('du plus grand au plus petit', 'largest to smallest') : tr('du plus petit au plus grand', 'smallest to largest'),
+    c.sequential && tr('un par un', 'one at a time'),
+    tr(`${show} par nombre`, `${show} per number`),
+    c.size === 5 && tr('grille 5 × 5', '5 × 5 grid'),
   ]
     .filter(Boolean)
     .join(' · ');

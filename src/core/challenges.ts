@@ -1,4 +1,5 @@
 import { DOMAIN_ORDER, gamesOfDomain, isGameId } from './games/registry';
+import { tr } from './lang';
 import { createRng, deriveSeed } from './rng';
 import type { Domain, GameId } from './types';
 
@@ -78,7 +79,7 @@ export function decodeChallenge(input: string): ChallengeLink | null {
       seed: Number(raw.s) >>> 0,
       level: Math.min(20, Math.max(1, Number(raw.l) || 1)),
       games,
-      from: String(raw.n ?? '').trim().slice(0, 16) || 'Une amie',
+      from: String(raw.n ?? '').trim().slice(0, 16) || tr('Une amie', 'A friend'),
       scores,
       day: typeof raw.d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.d) ? raw.d : '',
     };

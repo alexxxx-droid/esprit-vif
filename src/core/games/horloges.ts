@@ -1,4 +1,5 @@
 import { NBSP } from '../format';
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -57,30 +58,47 @@ export function horlogesLevel(level: number): HorlogeLevel {
   return pickLevel(HORLOGES_LEVELS, level);
 }
 
-const MODE_NAMES: Record<HorlogeMode, string> = { read: 'lire l’heure', later: 'heure d’arrivée', elapsed: 'temps écoulé' };
-const NUMERAL_NAMES: Record<Numerals, string> = { all: 'cadran chiffré', quarters: '4 chiffres', none: 'sans chiffres' };
+/** Noms des modes et des cadrans : [français, anglais], choisis à l'affichage. */
+const MODE_NAMES: Record<HorlogeMode, readonly [string, string]> = {
+  read: ['lire l’heure', 'tell the time'],
+  later: ['heure d’arrivée', 'time later'],
+  elapsed: ['temps écoulé', 'time elapsed'],
+};
+const NUMERAL_NAMES: Record<Numerals, readonly [string, string]> = {
+  all: ['cadran chiffré', 'all numbers'],
+  quarters: ['4 chiffres', '4 numbers'],
+  none: ['sans chiffres', 'no numbers'],
+};
+
+function stepName(step: number): string {
+  if (step === 1) return tr('à la minute', 'to the minute');
+  if (step === 30) return tr('à la demi-heure', 'to the half hour');
+  if (step === 15) return tr('au quart d’heure', 'to the quarter hour');
+  return tr(`à ${step}${NBSP}min`, `to ${step}${NBSP}min`);
+}
 
 export function horlogesLevelLabel(level: number): string {
   const c = horlogesLevel(level);
-  const step = c.step === 1 ? 'à la minute' : c.step === 30 ? 'à la demi-heure' : c.step === 15 ? 'au quart d’heure' : `à ${c.step}${NBSP}min`;
-  const label = [c.modes.map((m) => MODE_NAMES[m]).join(', '), step, NUMERAL_NAMES[c.numerals]].join(' · ');
+  const label = [c.modes.map((m) => tr(...MODE_NAMES[m])).join(', '), stepName(c.step), tr(...NUMERAL_NAMES[c.numerals])].join(' · ');
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
 const wrap = (t: number) => ((t % HALF_DAY) + HALF_DAY) % HALF_DAY;
 
-/** 135 → « 2 h 15 » (cadran de 12 heures : 0 se lit 12). */
+/** 135 → « 2 h 15 » (« 2:15 » en anglais ; cadran de 12 heures : 0 se lit 12). */
 export function formatClock(t: number): string {
   const m = wrap(t);
-  return `${Math.floor(m / 60) || 12}${NBSP}h${NBSP}${pad(m % 60)}`;
+  const h = Math.floor(m / 60) || 12;
+  return tr(`${h}${NBSP}h${NBSP}${pad(m % 60)}`, `${h}:${pad(m % 60)}`);
 }
 
-/** 45 → « 45 min », 60 → « 1 h », 85 → « 1 h 25 ». */
+/** 45 → « 45 min », 60 → « 1 h », 85 → « 1 h 25 » (« 1 hr 25 min » en anglais). */
 export function formatDuration(minutes: number): string {
   if (minutes < 60) return `${minutes}${NBSP}min`;
   const h = Math.floor(minutes / 60);
-  return minutes % 60 ? `${h}${NBSP}h${NBSP}${pad(minutes % 60)}` : `${h}${NBSP}h`;
+  if (!(minutes % 60)) return tr(`${h}${NBSP}h`, `${h}${NBSP}hr`);
+  return tr(`${h}${NBSP}h${NBSP}${pad(minutes % 60)}`, `${h}${NBSP}hr${NBSP}${minutes % 60}${NBSP}min`);
 }
 
 export interface HorlogeQuestion {

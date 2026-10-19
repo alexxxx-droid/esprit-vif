@@ -1,5 +1,6 @@
 import { useId, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { formatLongDay, formatShortDay } from '../../core/format';
+import { tr } from '../../core/lang';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 
 export interface AgePoint {
@@ -13,6 +14,11 @@ const M = { top: 16, right: 50, bottom: 30, left: 34 };
 const PW = W - M.left - M.right;
 const PH = H - M.top - M.bottom;
 const TICKS = [20, 40, 60, 80];
+
+/** « 45 ans » / « 45 years ». */
+function years(age: number): string {
+  return tr(`${age} ans`, `${age} years`);
+}
 
 /**
  * Courbe de l'âge cérébral. L'axe est inversé (20 ans en haut) : progresser, c'est monter.
@@ -49,8 +55,11 @@ export function BrainAgeChart({ points }: { points: AgePoint[] }) {
   const first = points[0];
   const summary =
     n === 1
-      ? `Un test : ${first.age} ans.`
-      : `${n} tests, de ${first.age} ans le ${formatLongDay(first.day)} à ${last.age} ans le ${formatLongDay(last.day)}.`;
+      ? tr(`Un test : ${first.age} ans.`, `One test: ${first.age} years.`)
+      : tr(
+          `${n} tests, de ${first.age} ans le ${formatLongDay(first.day)} à ${last.age} ans le ${formatLongDay(last.day)}.`,
+          `${n} tests, from ${first.age} years on ${formatLongDay(first.day)} to ${last.age} years on ${formatLongDay(last.day)}.`,
+        );
 
   return (
     <div className="chart">
@@ -58,7 +67,10 @@ export function BrainAgeChart({ points }: { points: AgePoint[] }) {
         className="chart__plot"
         tabIndex={0}
         role="group"
-        aria-label={`Courbe de l’âge cérébral. ${summary} Flèches gauche et droite pour parcourir les tests.`}
+        aria-label={tr(
+          `Courbe de l’âge cérébral. ${summary} Flèches gauche et droite pour parcourir les tests.`,
+          `Brain age chart. ${summary} Use the left and right arrows to browse the tests.`,
+        )}
         aria-describedby={`${id}-table`}
         onKeyDown={onKey}
         onBlur={() => setActive(null)}
@@ -90,7 +102,7 @@ export function BrainAgeChart({ points }: { points: AgePoint[] }) {
             ) : null,
           )}
           <text className="chart__end" x={x(n - 1) + 11} y={y(last.age) + 4}>
-            {last.age} ans
+            {tr(`${last.age} ans`, `${last.age} yrs`)}
           </text>
           <text className="chart__tick" x={x(0)} y={H - 8} textAnchor={n === 1 ? 'middle' : 'start'}>
             {formatShortDay(first.day)}
@@ -110,27 +122,27 @@ export function BrainAgeChart({ points }: { points: AgePoint[] }) {
             }}
           >
             <span className="chart__tooltip-day">{formatShortDay(shown.day)}</span>
-            <strong>{shown.age} ans</strong>
+            <strong>{years(shown.age)}</strong>
           </div>
         )}
       </div>
       <p className="sr-only" aria-live="polite">
-        {shown ? `${formatLongDay(shown.day)} : ${shown.age} ans` : ''}
+        {shown ? tr(`${formatLongDay(shown.day)} : ${shown.age} ans`, `${formatLongDay(shown.day)}: ${shown.age} years`) : ''}
       </p>
       <details className="chart__table" id={`${id}-table`}>
-        <summary>Voir les valeurs</summary>
+        <summary>{tr('Voir les valeurs', 'Show the values')}</summary>
         <table>
           <thead>
             <tr>
-              <th scope="col">Test du jour</th>
-              <th scope="col">Âge cérébral</th>
+              <th scope="col">{tr('Test du jour', 'Daily test')}</th>
+              <th scope="col">{tr('Âge cérébral', 'Brain age')}</th>
             </tr>
           </thead>
           <tbody>
             {[...points].reverse().map((p) => (
               <tr key={p.day}>
                 <td>{formatLongDay(p.day)}</td>
-                <td>{p.age} ans</td>
+                <td>{years(p.age)}</td>
               </tr>
             ))}
           </tbody>

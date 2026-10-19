@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
   formatStep,
@@ -61,11 +62,14 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreTotal(final.points, level),
       stats: { ...final },
-      headline: `${final.won}/${TOTAL_ROUNDS} manches · suite de ${final.longest}`,
+      headline: tr(`${final.won}/${TOTAL_ROUNDS} manches · suite de ${final.longest}`, `${final.won}/${TOTAL_ROUNDS} rounds · run of ${final.longest}`),
       lines: [
-        { label: 'Manches réussies', value: `${final.won} / ${TOTAL_ROUNDS}` },
-        { label: 'Plus longue suite réussie', value: final.longest ? plural(final.longest, 'nombre') : '—' },
-        { label: 'Points', value: `${final.points} / ${totalPerfectPoints(level)}` },
+        { label: tr('Manches réussies', 'Rounds won'), value: `${final.won} / ${TOTAL_ROUNDS}` },
+        {
+          label: tr('Plus longue suite réussie', 'Longest run solved'),
+          value: final.longest ? tr(plural(final.longest, 'nombre'), plural(final.longest, 'number')) : '—',
+        },
+        { label: tr('Points', 'Points'), value: `${final.points} / ${totalPerfectPoints(level)}` },
       ],
     });
   });
@@ -97,7 +101,7 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
       setTally({ points: tally.points + length, won: tally.won + 1, longest: Math.max(tally.longest, length) });
     } else {
       fx.bad();
-      showMark('bad', `Le total était ${current.total}`);
+      showMark('bad', tr(`Le total était ${current.total}`, `The total was ${current.total}`));
     }
     setPhase('feedback');
   };
@@ -131,13 +135,13 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
     <div className="game">
       <GameHud progress={round / TOTAL_ROUNDS}>
         <span className="chip">
-          Manche {round + 1}/{TOTAL_ROUNDS}
+          {tr('Manche', 'Round')} {round + 1}/{TOTAL_ROUNDS}
         </span>
       </GameHud>
       <div className="game__stage total">
-        <p className="total__info">{plural(length, 'nombre')} à additionner</p>
+        <p className="total__info">{tr(`${plural(length, 'nombre')} à additionner`, `${plural(length, 'number')} to add up`)}</p>
         <div className="total__screen" aria-live="polite">
-          {phase === 'show' && step === -1 && <span className="total__ready">Prêt&nbsp;?</span>}
+          {phase === 'show' && step === -1 && <span className="total__ready">{tr('Prêt\u00a0?', 'Ready?')}</span>}
           {showing && (
             <span key={step} className={`total__step${current.steps[step] < 0 ? ' is-minus' : ''}`}>
               {formatStep(current.steps[step])}

@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -132,32 +133,43 @@ const KINDS = {
 export type CalcKind = keyof typeof KINDS;
 
 export interface CalcLevel extends TimeThresholds {
+  /** Libellé dans la langue de l'interface (accesseur : lu à l'affichage). */
   label: string;
   kinds: CalcKind[];
 }
 
+/** Un niveau et son libellé dans les deux langues, choisi à la lecture. */
+const C = (fr: string, en: string, kinds: CalcKind[], best: number, worst: number): CalcLevel => ({
+  get label() {
+    return tr(fr, en);
+  },
+  kinds,
+  best,
+  worst,
+});
+
 /** Niveaux 1 à 3 : ceux de la spec. Au-delà, chaînes, centaines, carrés, produits à deux chiffres. */
 export const CALCUL_LEVELS: readonly CalcLevel[] = [
-  { label: 'Tables à un chiffre', kinds: ['add1', 'sub1', 'mul1'], best: 20, worst: 80 },
-  { label: 'Deux chiffres et divisions', kinds: ['add2', 'sub2', 'mulTeen', 'divTwo'], best: 35, worst: 110 },
-  { label: 'Jusqu’à 100, tables de 12', kinds: ['add100', 'sub100', 'mul12', 'div12'], best: 45, worst: 130 },
-  { label: 'Centaines', kinds: ['add3', 'sub3', 'mul12', 'div12'], best: 48, worst: 135 },
-  { label: 'Calculs en chaîne', kinds: ['chainAddSub', 'mul12', 'div12'], best: 50, worst: 140 },
-  { label: 'Grandes multiplications', kinds: ['mul2x1', 'divTwo', 'add100', 'sub100'], best: 50, worst: 140 },
-  { label: 'Chaînes et centaines', kinds: ['chainMulAdd', 'add3', 'div12'], best: 52, worst: 145 },
-  { label: 'Divisions de centaines', kinds: ['div3', 'mul2x1', 'sub3'], best: 55, worst: 150 },
-  { label: 'Parenthèses', kinds: ['chainParen', 'chainAddSub', 'mul12'], best: 55, worst: 150 },
-  { label: 'Carrés', kinds: ['square', 'mul2x1', 'div3'], best: 58, worst: 155 },
-  { label: 'Centaines doubles', kinds: ['add33', 'sub33', 'mul12'], best: 58, worst: 155 },
-  { label: 'Double produit', kinds: ['chainMulMul', 'chainMulAdd'], best: 60, worst: 160 },
-  { label: 'Deux chiffres × deux chiffres', kinds: ['mul2x2', 'div3'], best: 62, worst: 165 },
-  { label: 'Carrés et parenthèses', kinds: ['square', 'chainParen', 'sub33'], best: 62, worst: 165 },
-  { label: 'Grand mélange', kinds: ['mul2x2', 'chainMulMul', 'add33'], best: 64, worst: 170 },
-  { label: 'Mélange expert', kinds: ['square', 'mul2x1', 'div3', 'add33', 'sub33', 'chainMulMul', 'mul2x2'], best: 66, worst: 175 },
-  { label: 'Produits géants', kinds: ['mul2x2', 'square', 'div3', 'chainMulMul'], best: 68, worst: 180 },
-  { label: 'Divisions à deux chiffres', kinds: ['div4', 'mul2x2'], best: 70, worst: 185 },
-  { label: 'Presque génie', kinds: ['chainBig', 'div4', 'square'], best: 72, worst: 190 },
-  { label: 'Génie du calcul', kinds: ['chainBig', 'div4', 'mul2x2', 'square', 'chainMulMul', 'sub33'], best: 75, worst: 200 },
+  C('Tables à un chiffre', 'Single-digit facts', ['add1', 'sub1', 'mul1'], 20, 80),
+  C('Deux chiffres et divisions', 'Two digits and division', ['add2', 'sub2', 'mulTeen', 'divTwo'], 35, 110),
+  C('Jusqu’à 100, tables de 12', 'Up to 100, times tables to 12', ['add100', 'sub100', 'mul12', 'div12'], 45, 130),
+  C('Centaines', 'Hundreds', ['add3', 'sub3', 'mul12', 'div12'], 48, 135),
+  C('Calculs en chaîne', 'Chained problems', ['chainAddSub', 'mul12', 'div12'], 50, 140),
+  C('Grandes multiplications', 'Bigger multiplication', ['mul2x1', 'divTwo', 'add100', 'sub100'], 50, 140),
+  C('Chaînes et centaines', 'Chains and hundreds', ['chainMulAdd', 'add3', 'div12'], 52, 145),
+  C('Divisions de centaines', 'Dividing hundreds', ['div3', 'mul2x1', 'sub3'], 55, 150),
+  C('Parenthèses', 'Parentheses', ['chainParen', 'chainAddSub', 'mul12'], 55, 150),
+  C('Carrés', 'Squares', ['square', 'mul2x1', 'div3'], 58, 155),
+  C('Centaines doubles', 'Three digits and three digits', ['add33', 'sub33', 'mul12'], 58, 155),
+  C('Double produit', 'Double products', ['chainMulMul', 'chainMulAdd'], 60, 160),
+  C('Deux chiffres × deux chiffres', 'Two digits × two digits', ['mul2x2', 'div3'], 62, 165),
+  C('Carrés et parenthèses', 'Squares and parentheses', ['square', 'chainParen', 'sub33'], 62, 165),
+  C('Grand mélange', 'Big mix', ['mul2x2', 'chainMulMul', 'add33'], 64, 170),
+  C('Mélange expert', 'Expert mix', ['square', 'mul2x1', 'div3', 'add33', 'sub33', 'chainMulMul', 'mul2x2'], 66, 175),
+  C('Produits géants', 'Giant products', ['mul2x2', 'square', 'div3', 'chainMulMul'], 68, 180),
+  C('Divisions à deux chiffres', 'Two-digit division', ['div4', 'mul2x2'], 70, 185),
+  C('Presque génie', 'Almost a genius', ['chainBig', 'div4', 'square'], 72, 190),
+  C('Génie du calcul', 'Math genius', ['chainBig', 'div4', 'mul2x2', 'square', 'chainMulMul', 'sub33'], 75, 200),
 ];
 
 export function makeCalcQuestion(rng: Rng, kind: CalcKind): CalcQuestion {

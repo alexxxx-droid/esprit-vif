@@ -1,4 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { plural } from '../../core/format';
+import { tr } from '../../core/lang';
 import { denominationLabel, formatEuros, generateMonnaie, MONNAIE_DURATION_MS, monnaieLevel, scoreMonnaie } from '../../core/games/monnaie';
 import { createRng, deriveSeed } from '../../core/rng';
 import { NumPad } from '../components/bits';
@@ -15,7 +17,7 @@ import { slow } from '../tempo';
 export function Money({ cents, hidden = false }: { cents: number; hidden?: boolean }) {
   const kind = cents >= 500 ? 'note' : 'coin';
   return (
-    <span className={`money money--${kind} money--v${cents}${hidden ? ' is-hidden' : ''}`} aria-label={hidden ? 'cachée' : denominationLabel(cents)}>
+    <span className={`money money--${kind} money--v${cents}${hidden ? ' is-hidden' : ''}`} aria-label={hidden ? tr('cachée', 'hidden') : denominationLabel(cents)}>
       {!hidden && <span className="money__label">{denominationLabel(cents)}</span>}
     </span>
   );
@@ -38,11 +40,11 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreMonnaie(correct, level),
       stats: { correct, errors },
-      headline: `${correct} bonnes réponses`,
+      headline: tr(`${correct} bonnes réponses`, plural(correct, 'correct answer')),
       lines: [
-        { label: 'Bonnes réponses', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(config.target) },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
@@ -78,7 +80,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `C’était ${formatEuros(question.answer)}`);
+      showMark('bad', tr(`C’était ${formatEuros(question.answer)}`, `It was ${formatEuros(question.answer)}`));
       setErrors(errors + 1);
     }
     setTyped('');
@@ -113,7 +115,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
           <strong>{correct}</strong> / {config.target}
         </p>
         {question.mode === 'total' ? (
-          <div key={index} className="money-tray" aria-label="Pièces et billets à compter">
+          <div key={index} className="money-tray" aria-label={tr('Pièces et billets à compter', 'Coins and bills to count')}>
             {question.items.map((cents, i) => (
               <Money key={i} cents={cents} hidden={hidden} />
             ))}
@@ -121,14 +123,14 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
         ) : (
           <div key={index} className="change">
             <p className="change__tag">
-              Prix <strong>{formatEuros(question.price)}</strong>
+              {tr('Prix', 'Price')} <strong>{formatEuros(question.price)}</strong>
             </p>
             <p className="change__paid">
-              Payé avec <Money cents={question.paid} />
+              {tr('Payé avec', 'Paid with')} <Money cents={question.paid} />
             </p>
           </div>
         )}
-        <p className="monnaie__ask">{question.mode === 'total' ? 'Combien en tout ?' : 'Combien faut-il rendre ?'}</p>
+        <p className="monnaie__ask">{question.mode === 'total' ? tr('Combien en tout ?', 'How much in total?') : tr('Combien faut-il rendre ?', 'How much change is due?')}</p>
         <p className={`money-entry${typed ? ' is-filled' : ''}`} aria-live="polite">
           {formatEuros(Number(typed || 0) * 100)}
         </p>

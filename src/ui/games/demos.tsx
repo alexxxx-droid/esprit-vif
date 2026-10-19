@@ -1,5 +1,8 @@
+import { formatClock } from '../../core/games/horloges';
+import { denominationLabel, formatEuros } from '../../core/games/monnaie';
 import { mirror, rotate, type Piece } from '../../core/games/rotation';
 import type { ShapeKind } from '../../core/games/shapes';
+import { lang, tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
 import { Shape } from '../components/Shape';
 import { ScaleView } from './BalanceGame';
@@ -69,35 +72,42 @@ export function CalculDemo() {
   );
 }
 
+/** Le mot affiché porte le nom d'une couleur (`word`), écrit dans une autre encre (`ink`). */
 const STROOP_SCRIPT = [
-  { word: 'BLEU', ink: 'rouge', press: '', ok: false },
-  { word: 'BLEU', ink: 'rouge', press: 'rouge', ok: false },
-  { word: 'BLEU', ink: 'rouge', press: 'rouge', ok: true },
-  { word: 'VERT', ink: 'jaune', press: '', ok: false },
-  { word: 'VERT', ink: 'jaune', press: 'jaune', ok: false },
-  { word: 'VERT', ink: 'jaune', press: 'jaune', ok: true },
-];
-
-const STROOP_BUTTONS = [
-  ['rouge', 'Rouge'],
-  ['bleu', 'Bleu'],
-  ['vert', 'Vert'],
-  ['jaune', 'Jaune'],
+  { word: 'bleu', ink: 'rouge', press: '', ok: false },
+  { word: 'bleu', ink: 'rouge', press: 'rouge', ok: false },
+  { word: 'bleu', ink: 'rouge', press: 'rouge', ok: true },
+  { word: 'vert', ink: 'jaune', press: '', ok: false },
+  { word: 'vert', ink: 'jaune', press: 'jaune', ok: false },
+  { word: 'vert', ink: 'jaune', press: 'jaune', ok: true },
 ] as const;
+
+/** Les quatre couleurs de la démo : nom en français et en anglais, choisi à l'affichage. */
+const STROOP_BUTTONS = [
+  ['rouge', 'Rouge', 'Red'],
+  ['bleu', 'Bleu', 'Blue'],
+  ['vert', 'Vert', 'Green'],
+  ['jaune', 'Jaune', 'Yellow'],
+] as const;
+
+function stroopName(color: (typeof STROOP_BUTTONS)[number][0]): string {
+  const [, fr, en] = STROOP_BUTTONS.find(([c]) => c === color)!;
+  return tr(fr, en);
+}
 
 export function StroopDemo() {
   const step = STROOP_SCRIPT[useDemoFrame(STROOP_SCRIPT.length, 800, 2)];
   return (
     <div className="demo demo--stroop">
       <div className="demo__stage">
-        <span className={`demo__word ink--${step.ink}`}>{step.word}</span>
+        <span className={`demo__word ink--${step.ink}`}>{stroopName(step.word).toUpperCase()}</span>
         <Tick show={step.ok} />
       </div>
       <div className="demo__answers">
-        {STROOP_BUTTONS.map(([color, label]) => (
+        {STROOP_BUTTONS.map(([color, fr, en]) => (
           <span key={color} className={`demo__answer${step.press === color ? ' is-pressed' : ''}`}>
             <span className={`swatch swatch--${color}`} />
-            {label}
+            {tr(fr, en)}
           </span>
         ))}
       </div>
@@ -123,7 +133,7 @@ export function MatriceDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        {frame < 3 ? 'Regarde…' : frame === 3 ? 'À toi !' : frame < 7 ? 'Même ordre…' : 'Bravo !'}
+        {frame < 3 ? tr('Regarde…', 'Watch…') : frame === 3 ? tr('À toi !', 'Your turn!') : frame < 7 ? tr('Même ordre…', 'Same order…') : tr('Bravo !', 'Well done!')}
         <Tick show={frame >= 7} />
       </p>
     </div>
@@ -149,7 +159,7 @@ export function NBackDemo({ level }: { level: number }) {
         ))}
       </div>
       <span className={`demo__button${frame >= stream.length ? ' is-pressed' : ''}`}>
-        Identique
+        {tr('Identique', 'Same')}
         <Tick show={frame >= stream.length} />
       </span>
     </div>
@@ -193,17 +203,29 @@ export function IntrusDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        Le « {board.odd} » se cache parmi les « {board.base} »
+        {lang() === 'en' ? (
+          <>
+            The “{board.odd}” is hiding among the “{board.base}”s
+          </>
+        ) : (
+          <>
+            Le « {board.odd} » se cache parmi les « {board.base} »
+          </>
+        )}
         <Tick show={frame % 3 === 2} />
       </p>
     </div>
   );
 }
 
-const ANAGRAM_TILES = ['H', 'C', 'I', 'N', 'E'];
-const ANAGRAM_ORDER = [1, 0, 2, 4, 3]; // C H I E N
+/** Un mot de cinq lettres par langue : les lettres mélangées, puis l'ordre où on les touche. */
+const ANAGRAM_DEMO = {
+  fr: { tiles: ['H', 'C', 'I', 'N', 'E'], order: [1, 0, 2, 4, 3] }, // C H I E N
+  en: { tiles: ['G', 'T', 'I', 'R', 'E'], order: [1, 2, 0, 4, 3] }, // T I G E R
+};
 
 export function AnagrammesDemo() {
+  const { tiles: ANAGRAM_TILES, order: ANAGRAM_ORDER } = ANAGRAM_DEMO[lang()];
   const frame = useDemoFrame(8, 550, 6);
   const count = Math.min(5, Math.max(0, frame - 1));
   const picked = ANAGRAM_ORDER.slice(0, count);
@@ -228,20 +250,23 @@ export function AnagrammesDemo() {
   );
 }
 
-const BOUTIQUE_SCRIPT = [
-  { text: 'Dans la boutique : 2', delta: '' },
-  { text: 'Dans la boutique : ?', delta: '+1 entre' },
-  { text: 'Dans la boutique : ?', delta: '−2 sortent' },
-  { text: 'Il en reste 1', delta: '' },
-];
+function boutiqueScript() {
+  return [
+    { text: tr('Dans la boutique : 2', 'In the shop: 2'), delta: '' },
+    { text: tr('Dans la boutique : ?', 'In the shop: ?'), delta: tr('+1 entre', '+1 in') },
+    { text: tr('Dans la boutique : ?', 'In the shop: ?'), delta: tr('−2 sortent', '−2 out') },
+    { text: tr('Il en reste 1', '1 left'), delta: '' },
+  ];
+}
 
 export function BoutiqueDemo() {
+  const BOUTIQUE_SCRIPT = boutiqueScript();
   const frame = useDemoFrame(BOUTIQUE_SCRIPT.length + 1, 900, 3);
   const step = BOUTIQUE_SCRIPT[Math.min(frame, BOUTIQUE_SCRIPT.length - 1)];
   return (
     <div className="demo">
       <div className="demo-shop">
-        <span className="demo-shop__house">BOUTIQUE</span>
+        <span className="demo-shop__house">{tr('BOUTIQUE', 'SHOP')}</span>
         {step.delta && (
           <span key={frame} className={`demo-shop__delta${step.delta.startsWith('+') ? ' is-in' : ' is-out'}`}>
             {step.delta}
@@ -256,14 +281,18 @@ export function BoutiqueDemo() {
   );
 }
 
-const DIABLE_SCRIPT = [
-  { card: '3 + 4', ask: 'Retiens…', answer: '' },
-  { card: '5 × 2', ask: 'Résultat d’avant ?', answer: '' },
-  { card: '5 × 2', ask: 'Résultat d’avant ?', answer: '7' },
-  { card: '9 − 6', ask: 'Résultat d’avant ?', answer: '10' },
-];
+function diableScript() {
+  const before = tr('Résultat d’avant ?', 'Previous answer?');
+  return [
+    { card: '3 + 4', ask: tr('Retiens…', 'Remember…'), answer: '' },
+    { card: '5 × 2', ask: before, answer: '' },
+    { card: '5 × 2', ask: before, answer: '7' },
+    { card: '9 − 6', ask: before, answer: '10' },
+  ];
+}
 
 export function DiableDemo() {
+  const DIABLE_SCRIPT = diableScript();
   const frame = useDemoFrame(DIABLE_SCRIPT.length + 1, 1000, 2);
   const step = DIABLE_SCRIPT[Math.min(frame, DIABLE_SCRIPT.length - 1)];
   return (
@@ -305,7 +334,7 @@ export function OrdreDemo() {
         })}
       </div>
       <p className="demo__caption">
-        {frame === 0 ? 'Retiens…' : 'Du plus petit au plus grand'}
+        {frame === 0 ? tr('Retiens…', 'Remember…') : tr('Du plus petit au plus grand', 'Smallest to largest')}
         <Tick show={frame >= 4} />
       </p>
     </div>
@@ -318,17 +347,17 @@ export function MonnaieDemo() {
     <div className="demo">
       <div className="money-tray money-tray--demo">
         <span className="money money--coin money--v200">
-          <span className="money__label">2 €</span>
+          <span className="money__label">{tr('2 €', denominationLabel(200))}</span>
         </span>
         <span className="money money--coin money--v100">
-          <span className="money__label">1 €</span>
+          <span className="money__label">{tr('1 €', denominationLabel(100))}</span>
         </span>
         <span className="money money--note money--v500">
-          <span className="money__label">5 €</span>
+          <span className="money__label">{tr('5 €', denominationLabel(500))}</span>
         </span>
       </div>
       <p className="demo__caption">
-        {frame >= 2 ? '= 8 €' : 'Combien en tout ?'}
+        {frame >= 2 ? tr('= 8 €', `= ${formatEuros(800)}`) : tr('Combien en tout ?', 'How much in total?')}
         <Tick show={frame >= 3} />
       </p>
     </div>
@@ -349,18 +378,22 @@ export function PluieDemo() {
         <span className="demo-rain__water" />
       </div>
       <p className="demo__caption">
-        {frame < 2 ? 'Tape le résultat avant l’eau' : frame === 2 ? '7…' : 'Plouf, résolue !'}
+        {frame < 2
+          ? tr('Tape le résultat avant l’eau', 'Type the answer before it hits the water')
+          : frame === 2
+            ? '7…'
+            : tr('Plouf, résolue !', 'Splash, solved!')}
         <Tick show={frame >= 3} />
       </p>
     </div>
   );
 }
 
-const MATCH_SCRIPT: { shape: ShapeKind; answer: string }[] = [
+const MATCH_SCRIPT: { shape: ShapeKind; answer: '' | 'yes' | 'no' }[] = [
   { shape: 'circle', answer: '' },
-  { shape: 'circle', answer: 'Oui' },
-  { shape: 'square', answer: 'Non' },
-  { shape: 'square', answer: 'Oui' },
+  { shape: 'circle', answer: 'yes' },
+  { shape: 'square', answer: 'no' },
+  { shape: 'square', answer: 'yes' },
 ];
 
 export function CorrespondanceDemo() {
@@ -372,7 +405,9 @@ export function CorrespondanceDemo() {
         <Shape card={{ shape: step.shape, filled: true, rotation: 0 }} size={64} />
       </div>
       <p className="demo__caption">
-        {step.answer ? `Pareille qu’avant ? ${step.answer}` : 'Retiens la carte'}
+        {step.answer
+          ? tr(`Pareille qu’avant ? ${step.answer === 'yes' ? 'Oui' : 'Non'}`, `Same as before? ${step.answer === 'yes' ? 'Yes' : 'No'}`)
+          : tr('Retiens la carte', 'Remember the card')}
         <Tick show={Boolean(step.answer)} />
       </p>
     </div>
@@ -392,7 +427,7 @@ export function FlechesDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        Celle du milieu : à droite
+        {tr('Celle du milieu : à droite', 'The middle one: right')}
         <Tick show={frame % 2 === 1} />
       </p>
     </div>
@@ -408,7 +443,13 @@ export function ReflexeDemo() {
         <Shape card={{ shape, filled: true, rotation: 0 }} size={60} />
       </div>
       <p className="demo__caption">
-        {shape === 'circle' ? (frame % 2 === 1 ? 'Rond : je touche !' : 'Un rond…') : frame % 2 === 1 ? 'Carré : je me retiens' : 'Un carré…'}
+        {shape === 'circle'
+          ? frame % 2 === 1
+            ? tr('Rond : je touche !', 'Circle: tap!')
+            : tr('Un rond…', 'A circle…')
+          : frame % 2 === 1
+            ? tr('Carré : je me retiens', 'Square: hold back')
+            : tr('Un carré…', 'A square…')}
         <Tick show={frame % 2 === 1} />
       </p>
     </div>
@@ -438,7 +479,7 @@ export function RotationDemo() {
         </span>
       </div>
       <p className="demo__caption">
-        {frame < 2 ? 'Tournée, pas retournée…' : 'Celle-ci : l’autre est un reflet'}
+        {frame < 2 ? tr('Tournée, pas retournée…', 'Rotated, not flipped…') : tr('Celle-ci : l’autre est un reflet', 'This one: the other is a mirror image')}
         <Tick show={frame === 2} />
       </p>
     </div>
@@ -469,7 +510,7 @@ export function SudokuDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        {frame < 2 ? 'Il ne manque que…' : 'le 1 !'}
+        {frame < 2 ? tr('Il ne manque que…', 'All that’s missing is…') : tr('le 1 !', 'the 1!')}
         <Tick show={frame === 2} />
       </p>
     </div>
@@ -484,7 +525,7 @@ export function BalanceDemo() {
         <ScaleView clue={{ left: [0], right: [1], heavier: 'left' }} look={(i) => BALANCE_LOOKS[i]} />
       </div>
       <p className="demo__caption">
-        {frame === 0 ? 'Le côté qui descend…' : '…porte le plus lourd'}
+        {frame === 0 ? tr('Le côté qui descend…', 'The side that goes down…') : tr('…porte le plus lourd', '…holds the heavier one')}
         <Tick show={frame === 1} />
       </p>
     </div>
@@ -497,20 +538,30 @@ export function HorlogesDemo() {
     <div className="demo">
       <ClockFace time={135} numerals="all" size={104} />
       <p className="demo__caption">
-        {frame === 0 ? 'Quelle heure est-il ?' : '2 h 15'}
+        {frame === 0 ? tr('Quelle heure est-il ?', 'What time is it?') : tr('2 h 15', formatClock(135))}
         <Tick show={frame === 1} />
       </p>
     </div>
   );
 }
 
-const MOTS_SCRIPT = [
-  { probe: null, caption: 'Retiens la liste…' },
-  { probe: 'pomme', caption: 'pomme ? Vu !' },
-  { probe: 'lion', caption: 'lion ? Pas vu !' },
-];
+/** La liste à retenir et les deux mots montrés ensuite (le premier était dans la liste), par langue. */
+const MOTS_DEMO = {
+  fr: { words: ['vélo', 'pomme', 'violon'], seen: 'pomme', unseen: 'lion' },
+  en: { words: ['bike', 'apple', 'violin'], seen: 'apple', unseen: 'lion' },
+};
+
+function motsScript() {
+  const { seen, unseen } = MOTS_DEMO[lang()];
+  return [
+    { probe: null, caption: tr('Retiens la liste…', 'Remember the list…') },
+    { probe: seen, caption: tr(`${seen} ? Vu !`, `${seen}? Seen!`) },
+    { probe: unseen, caption: tr(`${unseen} ? Pas vu !`, `${unseen}? Not seen!`) },
+  ];
+}
 
 export function MotsDemo() {
+  const MOTS_SCRIPT = motsScript();
   const frame = useDemoFrame(MOTS_SCRIPT.length, 1200, 1);
   const step = MOTS_SCRIPT[frame];
   return (
@@ -521,9 +572,9 @@ export function MotsDemo() {
         </span>
       ) : (
         <span className="demo-words">
-          <span>vélo</span>
-          <span>pomme</span>
-          <span>violon</span>
+          {MOTS_DEMO[lang()].words.map((word) => (
+            <span key={word}>{word}</span>
+          ))}
         </span>
       )}
       <p className="demo__caption">
@@ -534,35 +585,47 @@ export function MotsDemo() {
   );
 }
 
+/** Un mot à trou par langue : l'indice, le mot, la lettre qui manque, les lettres hésitées. */
+const LETTRE_DEMO = {
+  fr: { hint: 'Animal de la ferme', word: 'CHEVAL', position: 3, letter: 'V', guess: 'B, V ou R…', answer: 'V : CHEVAL' },
+  en: { hint: 'Farm animal', word: 'HORSE', position: 2, letter: 'R', guess: 'R, N or T…', answer: 'R: HORSE' },
+};
+
 export function LettreDemo() {
+  const demo = LETTRE_DEMO[lang()];
   const frame = useDemoFrame(3, 1000, 2);
   return (
     <div className="demo">
-      <span className="demo-hint">Animal de la ferme</span>
-      <WordTiles question={{ word: 'CHEVAL', positions: [3] }} filled={frame === 2 ? 'V' : undefined} />
+      <span className="demo-hint">{demo.hint}</span>
+      <WordTiles question={{ word: demo.word, positions: [demo.position] }} filled={frame === 2 ? demo.letter : undefined} />
       <p className="demo__caption">
-        {frame === 0 ? 'Quelle lettre manque ?' : frame === 1 ? 'B, V ou R…' : 'V : CHEVAL'}
+        {frame === 0 ? tr('Quelle lettre manque ?', 'Which letter is missing?') : frame === 1 ? demo.guess : demo.answer}
         <Tick show={frame === 2} />
       </p>
     </div>
   );
 }
 
-const CATEGORIES_DEMO = ['pomme', 'poire', 'violon', 'cerise'];
+/** Trois fruits et un intrus (le troisième mot), par langue. */
+const CATEGORIES_DEMO = {
+  fr: ['pomme', 'poire', 'violon', 'cerise'],
+  en: ['apple', 'pear', 'violin', 'cherry'],
+};
 
 export function CategoriesDemo() {
+  const words = CATEGORIES_DEMO[lang()];
   const frame = useDemoFrame(2, 1300, 1);
   return (
     <div className="demo">
       <div className="demo-cats">
-        {CATEGORIES_DEMO.map((word) => (
-          <span key={word} className={frame === 1 && word === 'violon' ? 'is-picked' : undefined}>
+        {words.map((word, i) => (
+          <span key={word} className={frame === 1 && i === 2 ? 'is-picked' : undefined}>
             {word}
           </span>
         ))}
       </div>
       <p className="demo__caption">
-        {frame === 0 ? 'Trois fruits et…' : 'un intrus : le violon !'}
+        {frame === 0 ? tr('Trois fruits et…', 'Three fruits and…') : tr('un intrus : le violon !', 'an odd one out: the violin!')}
         <Tick show={frame === 1} />
       </p>
     </div>
@@ -595,7 +658,7 @@ export function PairesDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        {frame < 2 ? 'Retourne deux cartes…' : 'Deux pareilles : une paire !'}
+        {frame < 2 ? tr('Retourne deux cartes…', 'Turn over two cards…') : tr('Deux pareilles : une paire !', 'Two alike: a pair!')}
         <Tick show={frame === 2 || frame === 4} />
       </p>
     </div>
@@ -615,7 +678,7 @@ export function SchulteDemo() {
           </span>
         ))}
       </div>
-      <p className="demo__caption">1, 2, 3… jusqu’au bout&nbsp;!</p>
+      <p className="demo__caption">{tr('1, 2, 3… jusqu’au bout\u00a0!', '1, 2, 3… all the way!')}</p>
     </div>
   );
 }
@@ -649,30 +712,36 @@ export function CoupDemo() {
         {COUP_GROUPS.map((g, i) => (
           <span key={g.name} className={frame === 2 && i === 0 ? 'is-picked' : undefined}>
             <i style={{ background: g.color }} />
-            {g.more}
+            {tr(g.more.fr, g.more.en)}
           </span>
         ))}
       </div>
       <p className="demo__caption">
-        {frame === 0 ? 'Regarde, sans compter…' : frame === 1 ? 'Bleus ou orange ?' : '7 bleus contre 4 orange'}
+        {frame === 0
+          ? tr('Regarde, sans compter…', 'Look, don’t count…')
+          : frame === 1
+            ? tr('Bleus ou orange ?', 'Blue or orange?')
+            : tr('7 bleus contre 4 orange', '7 blue vs 4 orange')}
         <Tick show={frame === 2} />
       </p>
     </div>
   );
 }
 
+/** Trois visages ; les prénoms suivent la langue (le premier est celui qu'on cherche). */
 const QUI_DEMO = [
-  { character: 'pomme' as const, color: 1, name: 'Léa' },
-  { character: 'citron' as const, color: 0, name: 'Hugo' },
-  { character: 'raisin' as const, color: 2, name: 'Nina' },
+  { character: 'pomme' as const, color: 1, names: { fr: 'Léa', en: 'Lucy' } },
+  { character: 'citron' as const, color: 0, names: { fr: 'Hugo', en: 'Jack' } },
+  { character: 'raisin' as const, color: 2, names: { fr: 'Nina', en: 'Nina' } },
 ];
 
 export function QuiDemo() {
+  const people = QUI_DEMO.map((p) => ({ ...p, name: p.names[lang()] }));
   const frame = useDemoFrame(3, 1300, 2);
   return (
     <div className="demo">
       <div className="demo-qui">
-        {QUI_DEMO.map((p, i) => (
+        {people.map((p, i) => (
           <div key={p.name} className={`qui-person${frame === 2 && i === 0 ? ' is-picked' : ''}`}>
             <PersonFace person={p} size={54} />
             <span className="qui-person__name">{frame === 0 ? p.name : ' '}</span>
@@ -680,7 +749,11 @@ export function QuiDemo() {
         ))}
       </div>
       <p className="demo__caption">
-        {frame === 0 ? 'Retiens les prénoms…' : frame === 1 ? 'Qui est Léa ?' : 'La pomme sur fond orange !'}
+        {frame === 0
+          ? tr('Retiens les prénoms…', 'Remember the names…')
+          : frame === 1
+            ? tr('Qui est Léa ?', `Who is ${people[0].name}?`)
+            : tr('La pomme sur fond orange !', 'The apple on orange!')}
         <Tick show={frame === 2} />
       </p>
     </div>
@@ -688,8 +761,8 @@ export function QuiDemo() {
 }
 
 const LECTURE_DEMO = [
-  { sentence: 'Un chat a quatre pattes.', truth: true },
-  { sentence: 'La mer est sucrée.', truth: false },
+  { sentence: { fr: 'Un chat a quatre pattes.', en: 'A cat has four legs.' }, truth: true },
+  { sentence: { fr: 'La mer est sucrée.', en: 'The sea is sweet.' }, truth: false },
 ];
 
 export function LectureDemo() {
@@ -698,19 +771,23 @@ export function LectureDemo() {
   const answered = frame % 2 === 1;
   return (
     <div className="demo">
-      <p className="demo-lecture">{q.sentence}</p>
+      <p className="demo-lecture">{q.sentence[lang()]}</p>
       <div className="demo-lecture__options">
         <span className={answered && q.truth ? 'is-picked' : undefined}>
           <Icon name="check" size={16} strokeWidth={3} />
-          Vrai
+          {tr('Vrai', 'True')}
         </span>
         <span className={answered && !q.truth ? 'is-picked' : undefined}>
           <Icon name="close" size={16} strokeWidth={3} />
-          Faux
+          {tr('Faux', 'False')}
         </span>
       </div>
       <p className="demo__caption">
-        {answered ? (q.truth ? 'Vrai, bien sûr' : 'Faux : elle est salée') : 'Vrai ou faux ?'}
+        {answered
+          ? q.truth
+            ? tr('Vrai, bien sûr', 'True, of course')
+            : tr('Faux : elle est salée', 'False: it’s salty')
+          : tr('Vrai ou faux ?', 'True or false?')}
         <Tick show={answered} />
       </p>
     </div>
@@ -738,11 +815,15 @@ export function ItiDemo() {
   return (
     <div className="demo demo-iti">
       <div className="iti__moves">
-        {frame === 1 ? <span className="demo__caption">Où arrive-t-on ?</span> : ITI_DEMO.moves.map((m, i) => <MoveChip key={i} move={m} />)}
+        {frame === 1 ? <span className="demo__caption">{tr('Où arrive-t-on ?', 'Where do we end up?')}</span> : ITI_DEMO.moves.map((m, i) => <MoveChip key={i} move={m} />)}
       </div>
       <ItiGrid trial={ITI_DEMO} picked={frame === 2 ? ITI_DEMO.end : null} showPath={false} />
       <p className="demo__caption">
-        {frame === 0 ? 'Deux à droite, un en haut…' : frame === 1 ? 'Les flèches ont disparu' : 'Ici !'}
+        {frame === 0
+          ? tr('Deux à droite, un en haut…', 'Two right, one up…')
+          : frame === 1
+            ? tr('Les flèches ont disparu', 'The arrows are gone')
+            : tr('Ici !', 'Here!')}
         <Tick show={frame === 2} />
       </p>
     </div>

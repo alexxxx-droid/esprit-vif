@@ -1,6 +1,7 @@
 import { bestStreak } from './daily';
-import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type SeasonId } from './events';
+import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type Season, type SeasonId } from './events';
 import { DOMAIN_ORDER, GAME_ORDER, gamesOfDomain } from './games/registry';
+import { tr } from './lang';
 import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from './levels';
 import type { GameId } from './types';
 
@@ -65,16 +66,41 @@ export function totalStars(bests: ProgressionInput['bests']): number {
   return Object.values(bests).reduce((sum, b) => sum + gameStars(b), 0);
 }
 
+/** Un texte dans les deux langues : [français, anglais], choisi à l'affichage. */
+type Bilingual = readonly [fr: string, en: string];
+
 export type Medal = 'bronze' | 'argent' | 'or' | 'platine';
 export const MEDAL_ORDER: readonly Medal[] = ['bronze', 'argent', 'or', 'platine'];
-export const MEDAL_NAMES: Record<Medal, string> = { bronze: 'Bronze', argent: 'Argent', or: 'Or', platine: 'Platine' };
+/** Noms des médailles (accesseurs : lus dans la langue de l'interface). */
+export const MEDAL_NAMES: Record<Medal, string> = {
+  get bronze() {
+    return tr('Bronze', 'Bronze');
+  },
+  get argent() {
+    return tr('Argent', 'Silver');
+  },
+  get or() {
+    return tr('Or', 'Gold');
+  },
+  get platine() {
+    return tr('Platine', 'Platinum');
+  },
+};
 
 /** Médailles par jeu, selon le niveau réussi (le platine demande 3 étoiles au niveau 20). */
 export const MEDAL_RULES: Record<Medal, string> = {
-  bronze: 'Réussir le niveau 5',
-  argent: 'Réussir le niveau 10',
-  or: 'Réussir le niveau 15',
-  platine: 'Trois étoiles au niveau 20',
+  get bronze() {
+    return tr('Réussir le niveau 5', 'Pass level 5');
+  },
+  get argent() {
+    return tr('Réussir le niveau 10', 'Pass level 10');
+  },
+  get or() {
+    return tr('Réussir le niveau 15', 'Pass level 15');
+  },
+  get platine() {
+    return tr('Trois étoiles au niveau 20', 'Three stars on level 20');
+  },
 };
 
 export function medalFor(bests: LevelBests | undefined): Medal | null {
@@ -125,20 +151,23 @@ export function xpToReach(level: number): number {
   return 100 * n + (25 * n * (n - 1)) / 2;
 }
 
-export const TITLES: readonly [number, string][] = [
-  [1, 'Esprit curieux'],
-  [5, 'Esprit éveillé'],
-  [10, 'Esprit agile'],
-  [15, 'Esprit vif'],
-  [20, 'Esprit affûté'],
-  [25, 'Esprit brillant'],
-  [30, 'Esprit lumineux'],
-  [40, 'Esprit étincelant'],
-  [50, 'Esprit légendaire'],
+/** Titres de rang : niveau minimum, puis le titre en français et en anglais. */
+export const TITLES: readonly (readonly [min: number, fr: string, en: string])[] = [
+  [1, 'Esprit curieux', 'Curious Mind'],
+  [5, 'Esprit éveillé', 'Awakened Mind'],
+  [10, 'Esprit agile', 'Agile Mind'],
+  [15, 'Esprit vif', 'Quick Mind'],
+  [20, 'Esprit affûté', 'Sharp Mind'],
+  [25, 'Esprit brillant', 'Brilliant Mind'],
+  [30, 'Esprit lumineux', 'Radiant Mind'],
+  [40, 'Esprit étincelant', 'Dazzling Mind'],
+  [50, 'Esprit légendaire', 'Legendary Mind'],
 ];
 
+/** Le titre du rang, dans la langue de l'interface. */
 export function titleFor(level: number): string {
-  return [...TITLES].reverse().find(([min]) => level >= min)?.[1] ?? TITLES[0][1];
+  const [, fr, en] = [...TITLES].reverse().find(([min]) => level >= min) ?? TITLES[0];
+  return tr(fr, en);
 }
 
 export interface Rank {
@@ -203,6 +232,7 @@ interface TrophyContext {
 
 interface TrophyDef {
   id: string;
+  /** Nom et description dans la langue de l'interface (accesseurs : lus à l'affichage). */
   name: string;
   description: string;
   icon: TrophyIcon;
@@ -214,10 +244,22 @@ interface TrophyDef {
   season?: SeasonId;
 }
 
-const t = (id: string, name: string, description: string, icon: TrophyIcon, value: TrophyDef['value'], target = 1, counter = target > 1): TrophyDef => ({
+const t = (
+  id: string,
+  name: Bilingual,
+  description: Bilingual,
+  icon: TrophyIcon,
+  value: TrophyDef['value'],
+  target = 1,
+  counter = target > 1,
+): TrophyDef => ({
   id,
-  name,
-  description,
+  get name() {
+    return tr(...name);
+  },
+  get description() {
+    return tr(...description);
+  },
   icon,
   value,
   target,
@@ -228,57 +270,97 @@ const has = (condition: boolean) => (condition ? 1 : 0);
 const SEASON_ICONS: Record<SeasonId, TrophyIcon> = { halloween: 'pumpkin', noel: 'snow', printemps: 'flower', ete: 'sun' };
 const medalsAtLeast = (c: TrophyContext, medal: Medal) => c.medals.filter((m) => medalRank(m) >= medalRank(medal)).length;
 
+/** Trophée de saison : ses textes viennent de la saison (déjà dans les deux langues). */
+const seasonTrophy = (season: Season): TrophyDef => ({
+  id: season.trophy.id,
+  get name() {
+    return season.trophy.name;
+  },
+  get description() {
+    return season.trophy.description;
+  },
+  icon: SEASON_ICONS[season.id],
+  value: (c) => seasonPlays(c.plays, season),
+  target: SEASON_PLAYS,
+  counter: SEASON_PLAYS > 1,
+  season: season.id,
+});
+
 export const TROPHIES: readonly TrophyDef[] = [
-  t('premiers-pas', 'Premiers pas', 'Terminer une première partie.', 'check', (c) => c.plays.length),
-  t('rendez-vous', 'Rendez-vous', 'Terminer un test du jour.', 'calendar', (c) => c.official.length),
-  t('habitue', 'Habitué', 'Terminer 10 tests du jour.', 'calendar', (c) => c.official.length, 10),
-  t('fidele', 'Fidèle', 'Terminer 50 tests du jour.', 'calendar', (c) => c.official.length, 50),
-  t('serie-3', 'Bon rythme', 'Tenir une série de 3 jours.', 'flame', (c) => c.streak, 3),
-  t('serie-7', 'Une semaine pile', 'Tenir une série de 7 jours.', 'flame', (c) => c.streak, 7),
-  t('serie-30', 'Un mois sans faille', 'Tenir une série de 30 jours.', 'flame', (c) => c.streak, 30),
-  t('curieux', 'Curieux', 'Essayer 12 jeux différents.', 'training', (c) => c.distinctGames, 12),
-  t('touche-a-tout', 'Touche-à-tout', 'Essayer tous les jeux.', 'training', (c) => c.distinctGames, GAME_ORDER.length),
-  t('cent', 'Cent parties', 'Jouer 100 parties.', 'replay', (c) => c.plays.length, 100),
-  t('infatigable', 'Infatigable', 'Jouer 500 parties.', 'replay', (c) => c.plays.length, 500),
-  t('sans-faute', 'Sans faute', 'Obtenir 100 points dans une partie.', 'star', (c) => c.perfects),
-  t('perfection', 'Perfectionniste', 'Obtenir 100 points 25 fois.', 'star', (c) => c.perfects, 25),
-  t('age-40', 'Esprit alerte', 'Atteindre un âge cérébral de 40 ans ou moins.', 'spark', (c) => has(c.minAge !== null && c.minAge <= 40)),
-  t('age-30', 'Esprit vif', 'Atteindre un âge cérébral de 30 ans ou moins.', 'spark', (c) => has(c.minAge !== null && c.minAge <= 30)),
-  t('age-20', 'Au sommet', 'Atteindre l’âge cérébral de 20 ans.', 'spark', (c) => has(c.minAge === 20)),
+  t('premiers-pas', ['Premiers pas', 'First Steps'], ['Terminer une première partie.', 'Finish your first game.'], 'check', (c) => c.plays.length),
+  t('rendez-vous', ['Rendez-vous', 'Check-In'], ['Terminer un test du jour.', 'Finish a daily test.'], 'calendar', (c) => c.official.length),
+  t('habitue', ['Habitué', 'Regular'], ['Terminer 10 tests du jour.', 'Finish 10 daily tests.'], 'calendar', (c) => c.official.length, 10),
+  t('fidele', ['Fidèle', 'Faithful'], ['Terminer 50 tests du jour.', 'Finish 50 daily tests.'], 'calendar', (c) => c.official.length, 50),
+  t('serie-3', ['Bon rythme', 'In the Groove'], ['Tenir une série de 3 jours.', 'Keep a 3-day streak.'], 'flame', (c) => c.streak, 3),
+  t('serie-7', ['Une semaine pile', 'A Full Week'], ['Tenir une série de 7 jours.', 'Keep a 7-day streak.'], 'flame', (c) => c.streak, 7),
+  t('serie-30', ['Un mois sans faille', 'A Flawless Month'], ['Tenir une série de 30 jours.', 'Keep a 30-day streak.'], 'flame', (c) => c.streak, 30),
+  t('curieux', ['Curieux', 'Curious'], ['Essayer 12 jeux différents.', 'Try 12 different games.'], 'training', (c) => c.distinctGames, 12),
+  t('touche-a-tout', ['Touche-à-tout', 'Jack of All Trades'], ['Essayer tous les jeux.', 'Try every game.'], 'training', (c) => c.distinctGames, GAME_ORDER.length),
+  t('cent', ['Cent parties', 'A Hundred Games'], ['Jouer 100 parties.', 'Play 100 games.'], 'replay', (c) => c.plays.length, 100),
+  t('infatigable', ['Infatigable', 'Tireless'], ['Jouer 500 parties.', 'Play 500 games.'], 'replay', (c) => c.plays.length, 500),
+  t('sans-faute', ['Sans faute', 'Perfect Score'], ['Obtenir 100 points dans une partie.', 'Score 100 points in a game.'], 'star', (c) => c.perfects),
+  t('perfection', ['Perfectionniste', 'Perfectionist'], ['Obtenir 100 points 25 fois.', 'Score 100 points 25 times.'], 'star', (c) => c.perfects, 25),
+  t(
+    'age-40',
+    ['Esprit alerte', 'Alert Mind'],
+    ['Atteindre un âge cérébral de 40 ans ou moins.', 'Reach a brain age of 40 or under.'],
+    'spark',
+    (c) => has(c.minAge !== null && c.minAge <= 40),
+  ),
+  t(
+    'age-30',
+    ['Esprit vif', 'Quick Mind'],
+    ['Atteindre un âge cérébral de 30 ans ou moins.', 'Reach a brain age of 30 or under.'],
+    'spark',
+    (c) => has(c.minAge !== null && c.minAge <= 30),
+  ),
+  t('age-20', ['Au sommet', 'At the Top'], ['Atteindre l’âge cérébral de 20 ans.', 'Reach a brain age of 20.'], 'spark', (c) => has(c.minAge === 20)),
   t(
     'progres',
-    'En progrès',
-    'Gagner 5 ans d’âge cérébral depuis ton premier test.',
+    ['En progrès', 'On the Rise'],
+    ['Gagner 5 ans d’âge cérébral depuis ton premier test.', 'Take 5 years off your brain age since your first test.'],
     'progress',
     (c) => (c.firstAge !== null && c.minAge !== null ? c.firstAge - c.minAge : 0),
     5,
   ),
-  t('etoiles-50', 'Pluie d’étoiles', 'Gagner 50 étoiles.', 'star', (c) => c.stars, 50),
-  t('etoiles-250', 'Constellation', 'Gagner 250 étoiles.', 'star', (c) => c.stars, 250),
-  t('etoiles-1000', 'Voie lactée', 'Gagner 1 000 étoiles.', 'star', (c) => c.stars, 1000),
-  t('bronze', 'Première médaille', 'Gagner une médaille de bronze.', 'medal', (c) => medalsAtLeast(c, 'bronze')),
-  t('or', 'Médaille d’or', 'Gagner une médaille d’or.', 'medal', (c) => medalsAtLeast(c, 'or')),
-  t('platine', 'Platine', 'Gagner une médaille de platine.', 'medal', (c) => medalsAtLeast(c, 'platine')),
-  t('collection', 'Collectionneur', 'Une médaille dans chaque jeu.', 'medal', (c) => medalsAtLeast(c, 'bronze'), GAME_ORDER.length),
-  t('specialiste', 'Spécialiste', 'L’or dans tous les jeux d’un même domaine.', 'trophy', (c) => has(c.domainGold)),
-  t('tout-en-haut', 'Tout en haut', 'Débloquer le niveau 20 d’un jeu.', 'trophy', (c) => c.maxUnlocked, MAX_LEVEL, false),
-  t('niveau-10', 'Niveau 10', 'Atteindre le niveau 10 de joueur.', 'crown', (c) => c.rank, 10, false),
-  t('niveau-25', 'Niveau 25', 'Atteindre le niveau 25 de joueur.', 'crown', (c) => c.rank, 25, false),
-  t('niveau-50', 'Niveau 50', 'Atteindre le niveau 50 de joueur.', 'crown', (c) => c.rank, 50, false),
-  t('seance', 'Séance complète', 'Terminer une séance du jour.', 'training', (c) => c.sessions),
-  t('assidu', 'Assidu', 'Terminer 20 séances du jour.', 'training', (c) => c.sessions, 20),
-  t('marathon', 'Marathonien', 'Terminer un marathon.', 'flame', (c) => c.marathons),
-  t('duel', 'Premier duel', 'Jouer un duel à deux.', 'duel', (c) => c.duels),
-  t('amies', 'Entre amies', 'Relever un défi entre amies.', 'users', (c) => c.challenges),
-  t('amies-10', 'La bande au complet', 'Relever 10 défis entre amies.', 'users', (c) => c.challenges, 10),
-  t('leve-tot', 'Lève-tôt', 'Faire le test du jour avant 8 h.', 'sun', (c) => has(c.earlyTest)),
-  t('nuit', 'Oiseau de nuit', 'Jouer une partie après 23 h.', 'moon', (c) => has(c.lateGame)),
-  t('defi', 'Défi relevé', 'Relever un défi de la semaine.', 'target', (c) => c.weeklies),
-  t('defis-5', 'Toujours partant', 'Relever 5 défis de la semaine.', 'target', (c) => c.weeklies, 5),
-  ...SEASONS.map((season) => ({
-    ...t(season.trophy.id, season.trophy.name, season.trophy.description, SEASON_ICONS[season.id], (c: TrophyContext) => seasonPlays(c.plays, season), SEASON_PLAYS),
-    season: season.id,
-  })),
+  t('etoiles-50', ['Pluie d’étoiles', 'Shower of Stars'], ['Gagner 50 étoiles.', 'Earn 50 stars.'], 'star', (c) => c.stars, 50),
+  t('etoiles-250', ['Constellation', 'Constellation'], ['Gagner 250 étoiles.', 'Earn 250 stars.'], 'star', (c) => c.stars, 250),
+  t('etoiles-1000', ['Voie lactée', 'Milky Way'], ['Gagner 1 000 étoiles.', 'Earn 1,000 stars.'], 'star', (c) => c.stars, 1000),
+  t('bronze', ['Première médaille', 'First Medal'], ['Gagner une médaille de bronze.', 'Earn a bronze medal.'], 'medal', (c) => medalsAtLeast(c, 'bronze')),
+  t('or', ['Médaille d’or', 'Gold Medal'], ['Gagner une médaille d’or.', 'Earn a gold medal.'], 'medal', (c) => medalsAtLeast(c, 'or')),
+  t('platine', ['Platine', 'Platinum'], ['Gagner une médaille de platine.', 'Earn a platinum medal.'], 'medal', (c) => medalsAtLeast(c, 'platine')),
+  t(
+    'collection',
+    ['Collectionneur', 'Collector'],
+    ['Une médaille dans chaque jeu.', 'A medal in every game.'],
+    'medal',
+    (c) => medalsAtLeast(c, 'bronze'),
+    GAME_ORDER.length,
+  ),
+  t('specialiste', ['Spécialiste', 'Specialist'], ['L’or dans tous les jeux d’un même domaine.', 'Gold in every game of one domain.'], 'trophy', (c) => has(c.domainGold)),
+  t(
+    'tout-en-haut',
+    ['Tout en haut', 'Top of the Ladder'],
+    ['Débloquer le niveau 20 d’un jeu.', 'Unlock level 20 in a game.'],
+    'trophy',
+    (c) => c.maxUnlocked,
+    MAX_LEVEL,
+    false,
+  ),
+  t('niveau-10', ['Niveau 10', 'Level 10'], ['Atteindre le niveau 10 de joueur.', 'Reach player level 10.'], 'crown', (c) => c.rank, 10, false),
+  t('niveau-25', ['Niveau 25', 'Level 25'], ['Atteindre le niveau 25 de joueur.', 'Reach player level 25.'], 'crown', (c) => c.rank, 25, false),
+  t('niveau-50', ['Niveau 50', 'Level 50'], ['Atteindre le niveau 50 de joueur.', 'Reach player level 50.'], 'crown', (c) => c.rank, 50, false),
+  t('seance', ['Séance complète', 'Session Complete'], ['Terminer une séance du jour.', 'Finish a daily session.'], 'training', (c) => c.sessions),
+  t('assidu', ['Assidu', 'Dedicated'], ['Terminer 20 séances du jour.', 'Finish 20 daily sessions.'], 'training', (c) => c.sessions, 20),
+  t('marathon', ['Marathonien', 'Marathoner'], ['Terminer un marathon.', 'Finish a marathon.'], 'flame', (c) => c.marathons),
+  t('duel', ['Premier duel', 'First Duel'], ['Jouer un duel à deux.', 'Play a two-player duel.'], 'duel', (c) => c.duels),
+  t('amies', ['Entre amies', 'Among Friends'], ['Relever un défi entre amies.', 'Take on a friend challenge.'], 'users', (c) => c.challenges),
+  t('amies-10', ['La bande au complet', 'The Whole Gang'], ['Relever 10 défis entre amies.', 'Take on 10 friend challenges.'], 'users', (c) => c.challenges, 10),
+  t('leve-tot', ['Lève-tôt', 'Early Bird'], ['Faire le test du jour avant 8 h.', 'Take the daily test before 8 a.m.'], 'sun', (c) => has(c.earlyTest)),
+  t('nuit', ['Oiseau de nuit', 'Night Owl'], ['Jouer une partie après 23 h.', 'Play a game after 11 p.m.'], 'moon', (c) => has(c.lateGame)),
+  t('defi', ['Défi relevé', 'Challenge Met'], ['Relever un défi de la semaine.', 'Complete a weekly challenge.'], 'target', (c) => c.weeklies),
+  t('defis-5', ['Toujours partant', 'Always Game'], ['Relever 5 défis de la semaine.', 'Complete 5 weekly challenges.'], 'target', (c) => c.weeklies, 5),
+  ...SEASONS.map(seasonTrophy),
 ];
 
 export interface TrophyStatus {

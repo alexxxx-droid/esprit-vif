@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAMES } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import {
   DUEL_DIFFICULTIES,
   DUEL_ROUNDS,
@@ -28,7 +29,7 @@ import { navigate } from '../router';
 function ModeHeader({ onBack, badge }: { onBack: () => void; badge?: string }) {
   return (
     <header className="intro__top">
-      <button type="button" className="icon-btn" onClick={onBack} aria-label="Retour">
+      <button type="button" className="icon-btn" onClick={onBack} aria-label={tr('Retour', 'Back')}>
         <Icon name="back" />
       </button>
       {badge && <span className="pill">{badge}</span>}
@@ -58,7 +59,7 @@ export function SessionScreen() {
         meta={GAMES[playing]}
         level={gameLevel(data, playing)}
         mode="free"
-        badge={`Séance du jour · ${position}/${picks.length}`}
+        badge={tr(`Séance du jour · ${position}/${picks.length}`, `Daily session · ${position}/${picks.length}`)}
         save={async (outcome, run) => {
           const saved = await store.recordPlay({ gameId: playing, level: run.level, mode: 'free', seed: run.seed, outcome });
           const nowDone = sessionDone(picks, store.getSnapshot().plays, today);
@@ -68,12 +69,12 @@ export function SessionScreen() {
         actions={() =>
           next ? (
             <button type="button" className="btn btn--primary btn--lg" onClick={() => setPlaying(next.gameId)} autoFocus>
-              Jeu suivant : {GAMES[next.gameId].name}
+              {tr(`Jeu suivant : ${GAMES[next.gameId].name}`, `Next game: ${GAMES[next.gameId].name}`)}
               <Icon name="arrow" />
             </button>
           ) : (
             <button type="button" className="btn btn--primary btn--lg" onClick={back} autoFocus>
-              Terminer la séance
+              {tr('Terminer la séance', 'Finish the session')}
               <Icon name="check" />
             </button>
           )
@@ -87,8 +88,13 @@ export function SessionScreen() {
     <div className="screen screen-in mode-screen">
       <ModeHeader onBack={() => navigate({ name: 'home' }, { replace: true })} badge="≈ 6 minutes" />
       <div className="intro__head">
-        <h1 className="intro__title">Séance du jour</h1>
-        <p className="intro__rule">Quatre jeux choisis pour toi : tes domaines les plus fragiles d’abord, puis de quoi varier. Chacun à ton niveau.</p>
+        <h1 className="intro__title">{tr('Séance du jour', 'Daily session')}</h1>
+        <p className="intro__rule">
+          {tr(
+            'Quatre jeux choisis pour toi : tes domaines les plus fragiles d’abord, puis de quoi varier. Chacun à ton niveau.',
+            'Four games picked for you: your weakest areas first, then some variety. Each one at your level.',
+          )}
+        </p>
       </div>
       <ol className="mode-list">
         {picks.map((pick) => (
@@ -97,11 +103,14 @@ export function SessionScreen() {
             <span className="mode-item__text">
               <span className="mode-item__name">{GAMES[pick.gameId].name}</span>
               <span className="mode-item__sub">
-                {DOMAINS[pick.domain].name} · niveau {gameLevel(data, pick.gameId)}
+                {tr(
+                  `${DOMAINS[pick.domain].name} · niveau ${gameLevel(data, pick.gameId)}`,
+                  `${DOMAINS[pick.domain].name} · level ${gameLevel(data, pick.gameId)}`,
+                )}
               </span>
             </span>
             {done.has(pick.gameId) ? (
-              <span className="mode-item__check" aria-label="Fait">
+              <span className="mode-item__check" aria-label={tr('Fait', 'Done')}>
                 <Icon name="check" size={18} strokeWidth={3} />
               </span>
             ) : (
@@ -114,18 +123,18 @@ export function SessionScreen() {
         <>
           <p className="badge badge--record mode-done">
             <Icon name="check" size={18} />
-            Séance terminée&nbsp;! <span className="badge__aside">+30 XP · à demain</span>
+            {tr('Séance terminée\u00a0!', 'Session complete!')} <span className="badge__aside">{tr('+30 XP · à demain', '+30 XP · see you tomorrow')}</span>
           </p>
           <button type="button" className="btn btn--lg mode-cta" onClick={() => navigate({ name: 'home' }, { replace: true })}>
-            Retour à l’accueil
+            {tr('Retour à l’accueil', 'Back to home')}
           </button>
         </>
       ) : (
         <button type="button" className="cta mode-cta" onClick={() => setPlaying(pending[0].gameId)} autoFocus>
           <span className="cta__text">
-            <span className="cta__label">{done.size ? 'Continuer la séance' : 'Commencer'}</span>
+            <span className="cta__label">{done.size ? tr('Continuer la séance', 'Continue the session') : tr('Commencer', 'Start')}</span>
             <span className="cta__sub">
-              {done.size ? `${done.size} jeu${done.size > 1 ? 'x' : ''} sur ${picks.length} · ` : ''}
+              {done.size ? tr(`${done.size} jeu${done.size > 1 ? 'x' : ''} sur ${picks.length} · `, `${done.size} of ${picks.length} games · `) : ''}
               {GAMES[pending[0].gameId].name}
             </span>
           </span>
@@ -151,7 +160,12 @@ function MarathonPicker() {
       <ModeHeader onBack={() => navigate({ name: 'training' }, { replace: true })} />
       <div className="intro__head">
         <h1 className="intro__title">Marathon</h1>
-        <p className="intro__rule">Tous les jeux d’un domaine à la suite, chacun à ton niveau. Les scores s’additionnent : bats ton record&nbsp;!</p>
+        <p className="intro__rule">
+          {tr(
+            'Tous les jeux d’un domaine à la suite, chacun à ton niveau. Les scores s’additionnent : bats ton record\u00a0!',
+            'All the games in one area back to back, each at your level. The scores add up: beat your best!',
+          )}
+        </p>
       </div>
       <div className="mode-list">
         {DOMAIN_ORDER.map((domain) => {
@@ -163,7 +177,10 @@ function MarathonPicker() {
               <span className="mode-item__text">
                 <span className="mode-item__name">{DOMAINS[domain].name}</span>
                 <span className="mode-item__sub">
-                  {plural(games.length, 'jeu', 'jeux')} · {record ? `record ${record.best} / ${games.length * 100}` : 'pas encore couru'}
+                  {tr(plural(games.length, 'jeu', 'jeux'), plural(games.length, 'game'))} ·{' '}
+                  {record
+                    ? tr(`record ${record.best} / ${games.length * 100}`, `best ${record.best} / ${games.length * 100}`)
+                    : tr('pas encore couru', 'not run yet')}
                 </span>
               </span>
               <Icon name="arrow" />
@@ -199,7 +216,7 @@ function MarathonRun({ domain }: { domain: Domain }) {
         meta={GAMES[gameId]}
         level={gameLevel(data, gameId)}
         mode="free"
-        badge={`Marathon ${DOMAINS[domain].name} · ${playing + 1}/${games.length}`}
+        badge={tr(`Marathon ${DOMAINS[domain].name} · ${playing + 1}/${games.length}`, `${DOMAINS[domain].name} marathon · ${playing + 1}/${games.length}`)}
         save={async (outcome, run) => {
           const saved = await store.recordPlay({ gameId, level: run.level, mode: 'free', seed: run.seed, outcome });
           const next = [...scores.slice(0, playing), outcome.score];
@@ -213,7 +230,9 @@ function MarathonRun({ domain }: { domain: Domain }) {
         }}
         actions={() => (
           <button type="button" className="btn btn--primary btn--lg" onClick={() => setPlaying(last ? null : playing + 1)} autoFocus>
-            {last ? 'Voir le bilan du marathon' : `Jeu suivant : ${GAMES[games[playing + 1]].name}`}
+            {last
+              ? tr('Voir le bilan du marathon', 'See the marathon results')
+              : tr(`Jeu suivant : ${GAMES[games[playing + 1]].name}`, `Next game: ${GAMES[games[playing + 1]].name}`)}
             <Icon name="arrow" />
           </button>
         )}
@@ -229,7 +248,7 @@ function MarathonRun({ domain }: { domain: Domain }) {
       <div className="intro__head">
         <span className="mode-domain">
           <DomainBadge domain={domain} size={26} />
-          Marathon {DOMAINS[domain].name}
+          {tr(`Marathon ${DOMAINS[domain].name}`, `${DOMAINS[domain].name} marathon`)}
         </span>
         {finished ? (
           <>
@@ -238,19 +257,27 @@ function MarathonRun({ domain }: { domain: Domain }) {
               <small> / {max}</small>
             </h1>
             {finished.first ? (
-              <p className="intro__rule">Premier marathon dans ce domaine : ton record est posé, à toi de le battre.</p>
+              <p className="intro__rule">
+                {tr(
+                  'Premier marathon dans ce domaine : ton record est posé, à toi de le battre.',
+                  'Your first marathon in this area: your best score is set, now go beat it.',
+                )}
+              </p>
             ) : finished.record ? (
               <p className="badge badge--record">
                 <Icon name="star" size={18} />
-                Nouveau record&nbsp;!
+                {tr('Nouveau record\u00a0!', 'New best!')}
               </p>
             ) : (
-              <p className="intro__rule">Ton record reste à {best} points.</p>
+              <p className="intro__rule">{tr(`Ton record reste à ${best} points.`, `Your best is still ${best} points.`)}</p>
             )}
           </>
         ) : (
           <p className="intro__rule">
-            {plural(games.length, 'jeu', 'jeux')} à la suite, sans pause obligatoire. {best ? `Record à battre : ${best} / ${max}.` : 'Premier marathon : pose ton record !'}
+            {tr(
+              `${plural(games.length, 'jeu', 'jeux')} à la suite, sans pause obligatoire. ${best ? `Record à battre : ${best} / ${max}.` : 'Premier marathon : pose ton record !'}`,
+              `${plural(games.length, 'game')} back to back, no required breaks. ${best ? `Best to beat: ${best} / ${max}.` : 'First marathon: set your best score!'}`,
+            )}
           </p>
         )}
       </div>
@@ -262,7 +289,7 @@ function MarathonRun({ domain }: { domain: Domain }) {
               <span className="mode-item__name">
                 {i + 1}. {GAMES[gameId].name}
               </span>
-              <span className="mode-item__sub">niveau {gameLevel(data, gameId)}</span>
+              <span className="mode-item__sub">{tr(`niveau ${gameLevel(data, gameId)}`, `level ${gameLevel(data, gameId)}`)}</span>
             </span>
             {scores[i] !== undefined && <span className="mode-item__score">{scores[i]} pts</span>}
           </li>
@@ -272,17 +299,21 @@ function MarathonRun({ domain }: { domain: Domain }) {
         <div className="mode-actions">
           <button type="button" className="btn btn--primary btn--lg" onClick={restart} autoFocus>
             <Icon name="replay" />
-            Recommencer
+            {tr('Recommencer', 'Play again')}
           </button>
           <button type="button" className="btn btn--lg btn--ghost" onClick={() => navigate({ name: 'marathon', domain: null }, { replace: true })}>
-            Autre domaine
+            {tr('Autre domaine', 'Another area')}
           </button>
         </div>
       ) : (
         <button type="button" className="cta mode-cta" onClick={() => setPlaying(scores.length)} autoFocus>
           <span className="cta__text">
-            <span className="cta__label">{scores.length ? 'Continuer' : 'C’est parti'}</span>
-            <span className="cta__sub">{scores.length ? `${total} pts · jeu ${scores.length + 1} sur ${games.length}` : GAMES[games[0]].name}</span>
+            <span className="cta__label">{scores.length ? tr('Continuer', 'Continue') : tr('C’est parti', 'Let’s go')}</span>
+            <span className="cta__sub">
+              {scores.length
+                ? tr(`${total} pts · jeu ${scores.length + 1} sur ${games.length}`, `${total} pts · game ${scores.length + 1} of ${games.length}`)
+                : GAMES[games[0]].name}
+            </span>
           </span>
           <span className="cta__icon">
             <Icon name="play" />
@@ -307,7 +338,8 @@ export function DuelScreen() {
   const [scores, setScores] = useState<RoundScores[]>([]);
   const [round, setRound] = useState(0);
   const [player, setPlayer] = useState<0 | 1>(0);
-  const nameOf = (p: 0 | 1) => names[p].trim() || `Joueur ${p + 1}`;
+  const defaultName = (p: 0 | 1) => tr(`Joueur ${p + 1}`, `Player ${p + 1}`);
+  const nameOf = (p: 0 | 1) => names[p].trim() || defaultName(p);
   const level = DUEL_DIFFICULTIES[difficulty].level;
   const quitDuel = useCallback(() => setPhase('setup'), []);
 
@@ -326,27 +358,30 @@ export function DuelScreen() {
       <div className="screen screen-in mode-screen">
         <ModeHeader onBack={() => navigate({ name: 'training' }, { replace: true })} />
         <div className="intro__head">
-          <h1 className="intro__title">Duel à deux</h1>
+          <h1 className="intro__title">{tr('Duel à deux', 'Two-player duel')}</h1>
           <p className="intro__rule">
-            Trois manches sur le même téléphone. Chacun joue exactement la même partie, à tour de rôle : le meilleur score gagne la manche.
+            {tr(
+              'Trois manches sur le même téléphone. Chacun joue exactement la même partie, à tour de rôle : le meilleur score gagne la manche.',
+              'Three rounds on the same phone. You each play exactly the same game, taking turns: the best score wins the round.',
+            )}
           </p>
         </div>
         <div className="duel-setup">
           {([0, 1] as const).map((p) => (
             <label key={p} className="field">
-              <span className="field__label">Joueur {p + 1}</span>
+              <span className="field__label">{defaultName(p)}</span>
               <input
                 className="field__input"
                 value={names[p]}
                 maxLength={16}
-                placeholder={`Joueur ${p + 1}`}
+                placeholder={defaultName(p)}
                 onChange={(e) => setNames(p === 0 ? [e.target.value, names[1]] : [names[0], e.target.value])}
               />
             </label>
           ))}
           <div className="field">
             <span className="field__label" id="duel-difficulty">
-              Difficulté
+              {tr('Difficulté', 'Difficulty')}
             </span>
             <div className="segmented duel-setup__levels" role="radiogroup" aria-labelledby="duel-difficulty">
               {(Object.keys(DUEL_DIFFICULTIES) as DuelDifficulty[]).map((key) => (
@@ -359,7 +394,7 @@ export function DuelScreen() {
                   onClick={() => setDifficulty(key)}
                 >
                   {DUEL_DIFFICULTIES[key].label}
-                  <small>niveau {DUEL_DIFFICULTIES[key].level}</small>
+                  <small>{tr(`niveau ${DUEL_DIFFICULTIES[key].level}`, `level ${DUEL_DIFFICULTIES[key].level}`)}</small>
                 </button>
               ))}
             </div>
@@ -367,12 +402,12 @@ export function DuelScreen() {
         </div>
         <p className="mode-note">
           <Icon name="info" size={18} />
-          Rien n’est enregistré dans tes progrès, à part le duel lui-même.
+          {tr('Rien n’est enregistré dans tes progrès, à part le duel lui-même.', 'Nothing is saved to your progress, except the duel itself.')}
         </p>
         <button type="button" className="cta mode-cta" onClick={start}>
           <span className="cta__text">
-            <span className="cta__label">Lancer le duel</span>
-            <span className="cta__sub">3 manches · environ 6 minutes</span>
+            <span className="cta__label">{tr('Lancer le duel', 'Start the duel')}</span>
+            <span className="cta__sub">{tr('3 manches · environ 6 minutes', '3 rounds · about 6 minutes')}</span>
           </span>
           <span className="cta__icon">
             <Icon name="duel" />
@@ -387,19 +422,23 @@ export function DuelScreen() {
   if (phase === 'handoff') {
     return (
       <div className="screen screen-in mode-screen duel-handoff">
-        <ModeHeader onBack={quitDuel} badge={`Manche ${round + 1}/${DUEL_ROUNDS}`} />
+        <ModeHeader onBack={quitDuel} badge={tr(`Manche ${round + 1}/${DUEL_ROUNDS}`, `Round ${round + 1}/${DUEL_ROUNDS}`)} />
         <div className="duel-handoff__body">
           <span className={`duel-avatar duel-avatar--${player}`}>{nameOf(player).charAt(0).toUpperCase()}</span>
-          <h1 className="intro__title">À toi, {nameOf(player)}&nbsp;!</h1>
+          <h1 className="intro__title">{tr(`À toi, ${nameOf(player)}\u00a0!`, `Your turn, ${nameOf(player)}!`)}</h1>
           <p className="intro__rule">
-            {player === 0 ? `${nameOf(1)}, regarde ailleurs ! Au programme : ` : `${nameOf(0)} a fini son tour. La même partie t’attend : `}
+            {player === 0
+              ? tr(`${nameOf(1)}, regarde ailleurs ! Au programme : `, `${nameOf(1)}, look away! Up next: `)
+              : tr(`${nameOf(0)} a fini son tour. La même partie t’attend : `, `${nameOf(0)} has finished their turn. The same game is waiting for you: `)}
             <strong>{GAMES[current.gameId].name}</strong>.
           </p>
         </div>
         <button type="button" className="cta mode-cta" onClick={() => setPhase('play')} autoFocus>
           <span className="cta__text">
-            <span className="cta__label">Je suis prêt</span>
-            <span className="cta__sub">{DOMAINS[GAMES[current.gameId].domain].name} · niveau {level}</span>
+            <span className="cta__label">{tr('Je suis prêt', 'I’m ready')}</span>
+            <span className="cta__sub">
+              {tr(`${DOMAINS[GAMES[current.gameId].domain].name} · niveau ${level}`, `${DOMAINS[GAMES[current.gameId].domain].name} · level ${level}`)}
+            </span>
           </span>
           <span className="cta__icon">
             <Icon name="play" />
@@ -417,7 +456,7 @@ export function DuelScreen() {
         level={level}
         mode="free"
         fixedSeed={current.seed}
-        badge={`Duel · ${nameOf(player)} · manche ${round + 1}/${DUEL_ROUNDS}`}
+        badge={tr(`Duel · ${nameOf(player)} · manche ${round + 1}/${DUEL_ROUNDS}`, `Duel · ${nameOf(player)} · round ${round + 1}/${DUEL_ROUNDS}`)}
         save={async (outcome) => {
           setScores((previous) => previous.map((s, i) => (i === round ? (player === 0 ? [outcome.score, s[1]] : [s[0], outcome.score]) : s)));
           return null;
@@ -433,12 +472,12 @@ export function DuelScreen() {
               }}
               autoFocus
             >
-              Au tour de {nameOf(1)}
+              {tr(`Au tour de ${nameOf(1)}`, `${nameOf(1)}’s turn`)}
               <Icon name="arrow" />
             </button>
           ) : (
             <button type="button" className="btn btn--primary btn--lg" onClick={() => setPhase('round')} autoFocus>
-              Résultat de la manche
+              {tr('Résultat de la manche', 'Round result')}
               <Icon name="arrow" />
             </button>
           )
@@ -456,14 +495,17 @@ export function DuelScreen() {
     const winner = roundWinner(roundScores);
     return (
       <div className="screen screen-in mode-screen">
-        <ModeHeader onBack={quitDuel} badge={`Manche ${round + 1}/${DUEL_ROUNDS}`} />
+        <ModeHeader onBack={quitDuel} badge={tr(`Manche ${round + 1}/${DUEL_ROUNDS}`, `Round ${round + 1}/${DUEL_ROUNDS}`)} />
         <div className="intro__head">
           <p className="mode-item__sub">{GAMES[current.gameId].name}</p>
-          <h1 className="intro__title">{winner === null ? 'Égalité !' : `${nameOf(winner)} gagne la manche !`}</h1>
+          <h1 className="intro__title">{winner === null ? tr('Égalité !', 'It’s a tie!') : tr(`${nameOf(winner)} gagne la manche !`, `${nameOf(winner)} wins the round!`)}</h1>
         </div>
         <DuelBoard names={[nameOf(0), nameOf(1)]} scores={roundScores} highlight={winner} />
         <p className="mode-note">
-          Manches gagnées : {nameOf(0)} {wins[0]} – {wins[1]} {nameOf(1)}
+          {tr(
+            `Manches gagnées : ${nameOf(0)} ${wins[0]} – ${wins[1]} ${nameOf(1)}`,
+            `Rounds won: ${nameOf(0)} ${wins[0]} – ${wins[1]} ${nameOf(1)}`,
+          )}
         </p>
         <button
           type="button"
@@ -481,8 +523,8 @@ export function DuelScreen() {
           autoFocus
         >
           <span className="cta__text">
-            <span className="cta__label">{lastRound ? 'Voir le vainqueur' : `Manche ${round + 2}`}</span>
-            <span className="cta__sub">{lastRound ? 'Fin du duel' : `${nameOf(0)} commence`}</span>
+            <span className="cta__label">{lastRound ? tr('Voir le vainqueur', 'See the winner') : tr(`Manche ${round + 2}`, `Round ${round + 2}`)}</span>
+            <span className="cta__sub">{lastRound ? tr('Fin du duel', 'End of the duel') : tr(`${nameOf(0)} commence`, `${nameOf(0)} goes first`)}</span>
           </span>
           <span className="cta__icon">
             <Icon name="arrow" />
@@ -496,12 +538,17 @@ export function DuelScreen() {
   const totals: [number, number] = [complete.reduce((s, x) => s + x[0], 0), complete.reduce((s, x) => s + x[1], 0)];
   return (
     <div className="screen screen-in mode-screen">
-      <ModeHeader onBack={() => navigate({ name: 'training' }, { replace: true })} badge="Fin du duel" />
+      <ModeHeader onBack={() => navigate({ name: 'training' }, { replace: true })} badge={tr('Fin du duel', 'End of the duel')} />
       <div className="intro__head duel-final">
         {winner !== null && <span className={`duel-avatar duel-avatar--${winner} duel-avatar--big`}>{nameOf(winner).charAt(0).toUpperCase()}</span>}
-        <h1 className="intro__title">{winner === null ? 'Égalité parfaite !' : `${nameOf(winner)} remporte le duel !`}</h1>
+        <h1 className="intro__title">
+          {winner === null ? tr('Égalité parfaite !', 'A perfect tie!') : tr(`${nameOf(winner)} remporte le duel !`, `${nameOf(winner)} wins the duel!`)}
+        </h1>
         <p className="intro__rule">
-          {wins[0]} manche{wins[0] > 1 ? 's' : ''} à {wins[1]} · {totals[0]} contre {totals[1]} points au total
+          {tr(
+            `${wins[0]} manche${wins[0] > 1 ? 's' : ''} à ${wins[1]} · ${totals[0]} contre ${totals[1]} points au total`,
+            `${wins[0]} to ${wins[1]} in rounds · ${totals[0]} to ${totals[1]} points in total`,
+          )}
         </p>
       </div>
       <ol className="mode-list">
@@ -512,10 +559,8 @@ export function DuelScreen() {
             <li key={i} className="mode-item">
               <GameArt gameId={r.gameId} size={44} />
               <span className="mode-item__text">
-                <span className="mode-item__name">
-                  Manche {i + 1} · {GAMES[r.gameId].name}
-                </span>
-                <span className="mode-item__sub">{w === null ? 'égalité' : `pour ${nameOf(w)}`}</span>
+                <span className="mode-item__name">{tr(`Manche ${i + 1} · ${GAMES[r.gameId].name}`, `Round ${i + 1} · ${GAMES[r.gameId].name}`)}</span>
+                <span className="mode-item__sub">{w === null ? tr('égalité', 'tie') : tr(`pour ${nameOf(w)}`, `won by ${nameOf(w)}`)}</span>
               </span>
               <span className="mode-item__score">
                 {s[0]} – {s[1]}
@@ -527,10 +572,10 @@ export function DuelScreen() {
       <div className="mode-actions">
         <button type="button" className="btn btn--primary btn--lg" onClick={start} autoFocus>
           <Icon name="replay" />
-          Revanche
+          {tr('Revanche', 'Rematch')}
         </button>
         <button type="button" className="btn btn--lg btn--ghost" onClick={() => navigate({ name: 'training' }, { replace: true })}>
-          Terminer
+          {tr('Terminer', 'Finish')}
         </button>
       </div>
     </div>

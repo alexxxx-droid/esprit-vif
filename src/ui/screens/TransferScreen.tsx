@@ -2,6 +2,7 @@ import qrcode from 'qrcode-generator';
 import { useEffect, useRef, useState } from 'react';
 import { isCharacterId } from '../../core/characters';
 import { plural } from '../../core/format';
+import { tr } from '../../core/lang';
 import { decodeTransfer, encodeTransfer, FrameCollector, splitCode, transferId, type TransferPayload } from '../../core/transfer';
 import { MAX_PROFILES, profileName } from '../../store/profiles';
 import { Icon } from '../components/Icon';
@@ -32,7 +33,7 @@ function QrCanvas({ text }: { text: string }) {
     ctx.fillStyle = '#000000';
     for (let r = 0; r < modules; r++) for (let c = 0; c < modules; c++) if (qr.isDark(r, c)) ctx.fillRect(offset + c * cell, offset + r * cell, cell, cell);
   }, [text]);
-  return <canvas ref={ref} className="transfer__qr" width={720} height={720} aria-label="Code de transfert" />;
+  return <canvas ref={ref} className="transfer__qr" width={720} height={720} aria-label={tr('Code de transfert', 'Transfer code')} />;
 }
 
 function useSay() {
@@ -45,20 +46,25 @@ export function TransferScreen() {
   return (
     <div className="screen screen-in mode-screen transfer">
       <header className="intro__top">
-        <button type="button" className="icon-btn" onClick={() => navigate({ name: 'settings' }, { replace: true })} aria-label="Retour">
+        <button type="button" className="icon-btn" onClick={() => navigate({ name: 'settings' }, { replace: true })} aria-label={tr('Retour', 'Back')}>
           <Icon name="back" />
         </button>
       </header>
       <div className="intro__head">
-        <h1 className="intro__title">Transférer</h1>
-        <p className="intro__rule">D’un téléphone à l’autre, ou du site à l’appli&nbsp;: ta progression passe par des QR codes, sans compte ni serveur.</p>
+        <h1 className="intro__title">{tr('Transférer', 'Transfer')}</h1>
+        <p className="intro__rule">
+          {tr(
+            'D’un téléphone à l’autre, ou du site à l’appli\u00a0: ta progression passe par des QR codes, sans compte ni serveur.',
+            'From one phone to another, or from the website to the app: your progress travels by QR code, with no account or server.',
+          )}
+        </p>
       </div>
-      <div className="tabs tabs--two" role="tablist" aria-label="Sens du transfert">
+      <div className="tabs tabs--two" role="tablist" aria-label={tr('Sens du transfert', 'Transfer direction')}>
         <button type="button" role="tab" aria-selected={tab === 'send'} className="tabs__tab" onClick={() => setTab('send')}>
-          Envoyer
+          {tr('Envoyer', 'Send')}
         </button>
         <button type="button" role="tab" aria-selected={tab === 'receive'} className="tabs__tab" onClick={() => setTab('receive')}>
-          Recevoir
+          {tr('Recevoir', 'Receive')}
         </button>
       </div>
       {tab === 'send' ? <SendPanel /> : <ReceivePanel />}
@@ -98,26 +104,36 @@ function SendPanel() {
   return (
     <div className="tab-panel transfer__panel" role="tabpanel">
       <p className="transfer__what">
-        <strong>{profileName(active, profiles)}</strong> · {plural(data.plays.length, 'partie')} · {plural(data.tests.filter((t) => t.done).length, 'test')}
+        <strong>{profileName(active, profiles)}</strong> · {tr(plural(data.plays.length, 'partie'), plural(data.plays.length, 'game'))} ·{' '}
+        {plural(data.tests.filter((t) => t.done).length, 'test')}
       </p>
-      <div className="transfer__qr-wrap">{frames.length ? <QrCanvas text={frames[index % frames.length]} /> : <span className="transfer__wait">Préparation…</span>}</div>
+      <div className="transfer__qr-wrap">{frames.length ? <QrCanvas text={frames[index % frames.length]} /> : <span className="transfer__wait">{tr('Préparation…', 'Getting ready…')}</span>}</div>
       {frames.length > 1 && (
         <p className="transfer__count" aria-live="off">
-          Image {(index % frames.length) + 1} / {frames.length} · elles défilent en boucle
+          {tr(
+            `Image ${(index % frames.length) + 1} / ${frames.length} · elles défilent en boucle`,
+            `Image ${(index % frames.length) + 1} / ${frames.length} · they play on a loop`,
+          )}
         </p>
       )}
       <ol className="transfer__steps">
-        <li>Sur l’autre appareil&nbsp;: Réglages, Transférer, Recevoir.</li>
-        <li>Vise ce code et garde les deux écrans immobiles jusqu’à la fin.</li>
+        <li>{tr('Sur l’autre appareil\u00a0: Réglages, Transférer, Recevoir.', 'On the other device: Settings, Transfer, Receive.')}</li>
+        <li>{tr('Vise ce code et garde les deux écrans immobiles jusqu’à la fin.', 'Point it at this code and keep both screens still until the end.')}</li>
       </ol>
       <button
         type="button"
         className="btn btn--lg btn--ghost"
         disabled={!code}
-        onClick={async () => say((await copyText(code ?? '')) ? 'Code copié\u00a0: colle-le dans l’autre appli, onglet Recevoir.' : 'Copie impossible ici.')}
+        onClick={async () =>
+          say(
+            (await copyText(code ?? ''))
+              ? tr('Code copié\u00a0: colle-le dans l’autre appli, onglet Recevoir.', 'Code copied: paste it into the other app, in the Receive tab.')
+              : tr('Copie impossible ici.', 'Can’t copy here.'),
+          )
+        }
       >
         <Icon name="share" />
-        Copier le code (même téléphone)
+        {tr('Copier le code (même téléphone)', 'Copy the code (same phone)')}
       </button>
       {message && (
         <p className="mode-note" role="status">
@@ -177,7 +193,7 @@ function ReceivePanel() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
       } catch {
-        say('L’appareil photo n’est pas accessible\u00a0: autorise-le, ou colle le code plus bas.');
+        say(tr('L’appareil photo n’est pas accessible\u00a0: autorise-le, ou colle le code plus bas.', 'The camera isn’t available: allow it, or paste the code below.'));
         setScanning(false);
         return;
       }
@@ -194,7 +210,7 @@ function ReceivePanel() {
           setScanning(false);
           const payload = await decodeTransfer(full);
           if (payload) setReceived(payload);
-          else say('Le code reçu est abîmé. Recommence le scan.');
+          else say(tr('Le code reçu est abîmé. Recommence le scan.', 'The code received is damaged. Scan again.'));
           return;
         }
         timer = window.setTimeout(() => void tick(), 90);
@@ -225,7 +241,7 @@ function ReceivePanel() {
     const companion = isCharacterId(character) ? character : 'vif';
     try {
       if (asNew) {
-        await manager.add(name || 'Joueur', color, companion);
+        await manager.add(name || tr('Joueur', 'Player'), color, companion);
         await manager.getSnapshot().store.importJson(received.backup);
       } else {
         await manager.getSnapshot().store.importJson(received.backup);
@@ -234,32 +250,33 @@ function ReceivePanel() {
       navigate({ name: 'home' }, { replace: true });
     } catch (error) {
       setBusy(false);
-      say(error instanceof Error ? error.message : 'Transfert impossible.');
+      say(error instanceof Error ? error.message : tr('Transfert impossible.', 'Transfer failed.'));
     }
   };
 
   if (received && summary) {
-    const who = received.profile.name || 'Ce joueur';
+    const who = received.profile.name || tr('Ce joueur', 'This player');
     return (
       <div className="tab-panel transfer__panel" role="tabpanel">
         <div className="transfer__done">
           <Icon name="check" size={28} strokeWidth={3} />
           <p>
-            Progression reçue&nbsp;: <strong>{who}</strong>, {plural(summary.plays, 'partie')}, {plural(summary.tests, 'test')}.
+            {tr('Progression reçue\u00a0: ', 'Progress received: ')}
+            <strong>{who}</strong>, {tr(plural(summary.plays, 'partie'), plural(summary.plays, 'game'))}, {plural(summary.tests, 'test')}.
           </p>
         </div>
         <div className="mode-actions">
           {profiles.length < MAX_PROFILES && (
             <button type="button" className="btn btn--primary btn--lg" disabled={busy} onClick={() => void apply(true)}>
               <Icon name="plus" />
-              Ajouter comme nouveau joueur
+              {tr('Ajouter comme nouveau joueur', 'Add as a new player')}
             </button>
           )}
           <button type="button" className="btn btn--lg btn--ghost danger-text" disabled={busy} onClick={() => void apply(false)}>
-            Remplacer la progression de {profileName(active, profiles)}
+            {tr(`Remplacer la progression de ${profileName(active, profiles)}`, `Replace ${profileName(active, profiles)}’s progress`)}
           </button>
           <button type="button" className="btn btn--lg btn--ghost" disabled={busy} onClick={() => setReceived(null)}>
-            Annuler
+            {tr('Annuler', 'Cancel')}
           </button>
         </div>
       </div>
@@ -274,7 +291,7 @@ function ReceivePanel() {
         {!scanning && (
           <button type="button" className="btn btn--primary btn--lg transfer__scan" onClick={() => setScanning(true)}>
             <Icon name="target" />
-            Scanner avec l’appareil photo
+            {tr('Scanner avec l’appareil photo', 'Scan with the camera')}
           </button>
         )}
         {scanning && <span className="transfer__frame" aria-hidden="true" />}
@@ -284,14 +301,16 @@ function ReceivePanel() {
           <span className="transfer__bar">
             <span style={{ transform: `scaleX(${progress ? progress.received / progress.total : 0})` }} />
           </span>
-          {progress ? `Reçu ${progress.received} / ${progress.total}` : 'Vise le code de l’autre appareil…'}
+          {progress
+            ? tr(`Reçu ${progress.received} / ${progress.total}`, `Received ${progress.received} / ${progress.total}`)
+            : tr('Vise le code de l’autre appareil…', 'Point at the code on the other device…')}
           <button type="button" className="btn btn--ghost" onClick={() => setScanning(false)}>
-            Arrêter
+            {tr('Arrêter', 'Stop')}
           </button>
         </div>
       )}
       <label className="field">
-        <span className="field__label">Ou colle un code copié</span>
+        <span className="field__label">{tr('Ou colle un code copié', 'Or paste a copied code')}</span>
         <textarea className="field__input transfer__paste" value={pasted} onChange={(e) => setPasted(e.target.value)} placeholder="EV1:…" rows={3} spellCheck={false} />
       </label>
       <button
@@ -301,10 +320,10 @@ function ReceivePanel() {
         onClick={async () => {
           const payload = await decodeTransfer(pasted);
           if (payload) setReceived(payload);
-          else say('Ce code est incomplet ou abîmé.');
+          else say(tr('Ce code est incomplet ou abîmé.', 'This code is incomplete or damaged.'));
         }}
       >
-        Valider le code
+        {tr('Valider le code', 'Use this code')}
       </button>
       {message && (
         <p className="mode-note" role="status">

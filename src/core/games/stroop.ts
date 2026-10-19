@@ -1,3 +1,4 @@
+import { lang, tr, type Lang } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -5,17 +6,38 @@ import { timeScore, type TimeThresholds } from '../scoring';
 export const STROOP_COLORS = ['rouge', 'bleu', 'vert', 'jaune', 'orange', 'violet'] as const;
 export type StroopColor = (typeof STROOP_COLORS)[number];
 
+/** Nom affiché de chaque couleur, dans la langue en cours (les identifiants restent en français). */
 export const STROOP_LABELS: Record<StroopColor, string> = {
-  rouge: 'Rouge',
-  bleu: 'Bleu',
-  vert: 'Vert',
-  jaune: 'Jaune',
-  orange: 'Orange',
-  violet: 'Violet',
+  get rouge() {
+    return tr('Rouge', 'Red');
+  },
+  get bleu() {
+    return tr('Bleu', 'Blue');
+  },
+  get vert() {
+    return tr('Vert', 'Green');
+  },
+  get jaune() {
+    return tr('Jaune', 'Yellow');
+  },
+  get orange() {
+    return tr('Orange', 'Orange');
+  },
+  get violet() {
+    return tr('Violet', 'Purple');
+  },
 };
 
 /** Touche clavier de chaque couleur (en plus des chiffres 1 à 6 selon la position). */
 export const STROOP_KEYS: Record<string, StroopColor> = { r: 'rouge', b: 'bleu', v: 'vert', j: 'jaune', o: 'orange', i: 'violet' };
+
+/** Les mêmes touches en anglais : l'initiale du nom anglais. */
+export const STROOP_KEYS_EN: Record<string, StroopColor> = { r: 'rouge', b: 'bleu', g: 'vert', y: 'jaune', o: 'orange', p: 'violet' };
+
+/** Les touches de la langue en cours. */
+export function stroopKeys(): Record<string, StroopColor> {
+  return lang() === 'en' ? STROOP_KEYS_EN : STROOP_KEYS;
+}
 
 export interface StroopItem {
   /** Le mot écrit. */
@@ -77,8 +99,9 @@ export const STROOP_LEVELS: readonly StroopLevel[] = [
 
 export function stroopLevelLabel(level: number): string {
   const c = pickLevel(STROOP_LEVELS, level);
-  const buttons = c.trap ? 'boutons piégés' : c.shuffle ? 'boutons mélangés' : 'boutons fixes';
-  return `${c.colors} couleurs · ${buttons}${c.switchRatio ? ' · mot ou encre' : ''}`;
+  const buttons = c.trap ? tr('boutons piégés', 'tricky buttons') : c.shuffle ? tr('boutons mélangés', 'shuffled buttons') : tr('boutons fixes', 'fixed buttons');
+  const both = c.switchRatio ? tr(' · mot ou encre', ' · word or ink') : '';
+  return tr(`${c.colors} couleurs · ${buttons}${both}`, `${c.colors} colors · ${buttons}${both}`);
 }
 
 /** La couleur à répondre pour un mot donné. */
@@ -119,7 +142,7 @@ export function scoreStroop(elapsedMs: number, errors: number, level: number): n
   return timeScore(seconds, pickLevel(STROOP_LEVELS, level));
 }
 
-const SPOKEN: Record<string, StroopColor> = {
+const SPOKEN_FR: Record<string, StroopColor> = {
   rouge: 'rouge',
   rouges: 'rouge',
   bleu: 'bleu',
@@ -139,6 +162,27 @@ const SPOKEN: Record<string, StroopColor> = {
   violets: 'violet',
 };
 
+/** En anglais, avec les homophones que la reconnaissance vocale renvoie parfois (« read », « blew »). */
+const SPOKEN_EN: Record<string, StroopColor> = {
+  red: 'rouge',
+  reds: 'rouge',
+  read: 'rouge',
+  blue: 'bleu',
+  blues: 'bleu',
+  blew: 'bleu',
+  green: 'vert',
+  greens: 'vert',
+  yellow: 'jaune',
+  yellows: 'jaune',
+  orange: 'orange',
+  oranges: 'orange',
+  purple: 'violet',
+  purples: 'violet',
+  violet: 'violet',
+};
+
+const SPOKEN: Record<Lang, Record<string, StroopColor>> = { fr: SPOKEN_FR, en: SPOKEN_EN };
+
 /** Reconnaissance vocale : retrouve la dernière couleur prononcée dans une transcription. */
 export function matchSpokenColor(transcript: string): StroopColor | null {
   const words = transcript
@@ -147,8 +191,9 @@ export function matchSpokenColor(transcript: string): StroopColor | null {
     .replace(/[̀-ͯ]/g, '')
     .split(/[^a-z]+/)
     .filter(Boolean);
+  const spoken = SPOKEN[lang()];
   for (let i = words.length - 1; i >= 0; i--) {
-    const color = SPOKEN[words[i]];
+    const color = spoken[words[i]];
     if (color) return color;
   }
   return null;

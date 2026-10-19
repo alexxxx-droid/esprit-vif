@@ -1,7 +1,10 @@
+import { lang } from '../lang';
+
 /**
  * Mots rangés par catégorie, pour Catégories, Mots à retenir et Lettre manquante.
  * Règle d'or : un mot n'appartient qu'à une seule catégorie, sans double sens gênant
  * (pas d'« orange », d'« avocat » ni de « rose » : ils seraient à la fois deux choses).
+ * Chaque langue a son lexique (`categories()` choisit celui de la langue en cours).
  */
 
 export type Family = 'nourriture' | 'animaux' | 'objets' | 'nature' | 'societe' | 'divers';
@@ -62,8 +65,57 @@ export const CATEGORIES: readonly Category[] = [
   C('emotions', 'Émotion', 'des émotions', 'divers', 'joie tristesse colère peur surprise dégoût fierté honte jalousie ennui tendresse gratitude nostalgie frayeur enthousiasme timidité'),
 ];
 
+/**
+ * Le lexique anglais : mêmes identifiants et mêmes familles, des mots courants choisis pour l'anglais
+ * (pas traduits mot à mot). Mêmes règles : pas de double sens qui rendrait l'intrus discutable
+ * (ni « orange », « bat », « seal », « crane », « date », « trunk », « fan », « kite », « triangle »…).
+ * `plural` se lit sans article : « Previous: “radish” among fruits ».
+ */
+export const CATEGORIES_EN: readonly Category[] = [
+  C('fruits', 'Fruit', 'fruits', 'nourriture', 'apple pear banana pineapple mango grape lemon raspberry blueberry melon watermelon fig strawberry papaya lychee tangerine nectarine pomegranate grapefruit blackberry cranberry clementine guava'),
+  C('legumes', 'Vegetable', 'vegetables', 'nourriture', 'carrot leek turnip radish cabbage zucchini eggplant spinach broccoli celery artichoke beet cucumber lettuce asparagus onion parsnip cauliflower kale potato pea shallot okra'),
+  C('desserts', 'Dessert', 'desserts', 'nourriture', 'cake pie pancake sorbet donut cookie brownie muffin cupcake pudding custard tiramisu waffle meringue macaron cheesecake sundae eclair strudel crumble tart'),
+  C('boissons', 'Drink', 'drinks', 'nourriture', 'coffee tea milk lemonade soda juice water smoothie milkshake cocoa latte espresso cappuccino cola tonic cider limeade eggnog'),
+  C('sauvages', 'Wild animal', 'wild animals', 'animaux', 'lion tiger bear wolf fox giraffe zebra elephant monkey deer panther hippopotamus rhinoceros kangaroo gorilla badger beaver squirrel hedgehog cheetah lynx leopard koala raccoon moose'),
+  C('ferme', 'Farm animal', 'farm animals', 'animaux', 'cow pig sheep goat horse donkey bull lamb ewe pony mule ox piglet heifer foal stallion mare colt hog alpaca llama'),
+  C('oiseaux', 'Bird', 'birds', 'animaux', 'sparrow pigeon blackbird eagle owl crow swan parrot falcon pelican flamingo ostrich penguin vulture dove seagull hummingbird woodpecker peacock stork heron magpie hawk'),
+  C('poissons', 'Fish', 'fish', 'animaux', 'tuna trout shark sardine carp cod herring eel mackerel swordfish halibut haddock anchovy catfish goldfish tilapia barracuda piranha minnow grouper sturgeon monkfish'),
+  C('insectes', 'Insect', 'insects', 'animaux', 'bee ant butterfly mosquito wasp ladybug dragonfly grasshopper locust beetle flea cicada hornet termite bumblebee mantis firefly moth cockroach gnat'),
+  C('meubles', 'Furniture', 'pieces of furniture', 'objets', 'table chair wardrobe bed sofa armchair dresser sideboard shelf stool bench cupboard ottoman futon bookcase nightstand recliner'),
+  C('cuisine', 'Kitchen utensil', 'kitchen utensils', 'objets', 'saucepan skillet ladle whisk spatula colander spoon fork bowl grater sieve funnel teapot kettle peeler corkscrew wok strainer'),
+  C('outils', 'Tool', 'tools', 'objets', 'hammer screwdriver saw pliers drill shovel rake axe chisel trowel wrench pickaxe mallet crowbar hacksaw clamp pitchfork'),
+  C('instruments', 'Musical instrument', 'musical instruments', 'objets', 'piano violin guitar flute trumpet harp drum cello saxophone clarinet accordion oboe xylophone banjo ukulele cymbal mandolin trombone tuba harmonica tambourine bassoon'),
+  C('vetements', 'Clothing', 'clothes', 'objets', 'shirt pants skirt dress coat jacket sweater sock scarf vest shorts overalls raincoat tights parka cardigan blouse jeans hoodie'),
+  C('arbres', 'Tree', 'trees', 'nature', 'oak maple birch willow elm poplar cedar cypress sequoia redwood spruce fir larch beech holly baobab eucalyptus sycamore aspen linden alder acacia pine'),
+  C('fleurs', 'Flower', 'flowers', 'nature', 'tulip daisy poppy sunflower lily orchid daffodil peony jasmine dahlia geranium cornflower forget-me-not hydrangea gladiolus carnation marigold crocus snowdrop begonia petunia buttercup dandelion'),
+  C('meteo', 'Weather', 'weather words', 'nature', 'rain snow wind storm cloud fog hail thunder sunshine frost rainbow drizzle downpour dew hurricane tornado heatwave lightning blizzard breeze sleet mist'),
+  C('metiers', 'Job', 'jobs', 'societe', 'baker doctor firefighter plumber hairdresser nurse pilot chef gardener carpenter dentist architect electrician veterinarian journalist waiter librarian pharmacist farmer butcher teacher lawyer mechanic florist cashier'),
+  C('sports', 'Sport', 'sports', 'societe', 'soccer tennis rugby swimming judo skiing golf boxing cycling basketball volleyball handball rowing surfing karate climbing badminton diving skating archery hockey baseball wrestling gymnastics bowling'),
+  C('transports', 'Transportation', 'means of transportation', 'societe', 'car bicycle train airplane boat bus truck subway tram motorcycle helicopter taxi ship tractor van ferry submarine ambulance sailboat'),
+  C('batiments', 'Building', 'buildings', 'societe', 'house school church castle hospital factory museum stadium lighthouse windmill cabin garage barn prison library skyscraper palace cathedral hotel warehouse supermarket tower'),
+  C('famille', 'Family', 'family members', 'societe', 'father mother brother sister uncle aunt cousin nephew niece son daughter godfather godmother grandfather grandmother husband wife son-in-law grandson granddaughter'),
+  C('corps', 'Body part', 'body parts', 'divers', 'arm leg hand foot head knee elbow shoulder finger nose mouth ear eye ankle wrist neck belly forehead chin cheek toe hip thumb heel lip tongue tooth eyebrow'),
+  C('pays', 'Country', 'countries', 'divers', 'France Spain Italy Japan Brazil Canada Morocco China India Mexico Peru Egypt Sweden Greece Portugal Norway Kenya Argentina Ireland Australia Germany Belgium Switzerland'),
+  C('couleurs', 'Color', 'colors', 'divers', 'red blue green yellow black white purple beige turquoise indigo scarlet cyan magenta vermilion crimson maroon brown pink'),
+  C('epices', 'Spice or herb', 'spices or herbs', 'nourriture', 'cinnamon vanilla saffron cumin curry paprika nutmeg turmeric thyme basil parsley chives rosemary oregano tarragon coriander dill cardamom clove anise'),
+  C('fromages', 'Cheese', 'cheeses', 'nourriture', 'camembert brie roquefort emmental mozzarella parmesan feta cheddar gouda mascarpone ricotta gorgonzola stilton edam provolone halloumi manchego pecorino'),
+  C('ecole', 'School supply', 'school supplies', 'objets', 'pencil notebook eraser pen backpack binder marker highlighter stapler sharpener chalk calculator crayon glue notepad folder protractor'),
+  C('jouets', 'Toy', 'toys', 'objets', 'doll ball teddy puzzle yo-yo marbles dominoes puppet rattle kaleidoscope figurine dollhouse pinwheel robot jack-in-the-box boomerang trampoline'),
+  C('paysages', 'Landscape', 'landscapes', 'nature', 'mountain hill valley cliff volcano desert forest lake river ocean island waterfall dune canyon marsh meadow beach cave glacier swamp lagoon'),
+  C('espace', 'Space', 'space words', 'nature', 'planet star comet galaxy asteroid satellite nebula meteorite moon universe constellation eclipse orbit Jupiter Saturn Venus Neptune Uranus Mars'),
+  C('formes', 'Shape', 'shapes', 'divers', 'circle square rectangle diamond rhombus oval trapezoid hexagon pentagon octagon cube sphere cylinder cone parallelogram semicircle prism'),
+  C('calendrier', 'Day or month', 'days or months', 'divers', 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday January February April June July August September October November December'),
+  C('emotions', 'Emotion', 'emotions', 'divers', 'joy sadness anger fear surprise disgust pride shame jealousy boredom tenderness gratitude nostalgia enthusiasm shyness happiness loneliness envy excitement anxiety'),
+];
+
+/** Les catégories de la langue en cours. */
+export function categories(): readonly Category[] {
+  return lang() === 'en' ? CATEGORIES_EN : CATEGORIES;
+}
+
+/** La catégorie d'un mot, dans le lexique de la langue en cours. */
 export function categoryOf(word: string): Category | undefined {
-  return CATEGORIES.find((c) => c.words.includes(word));
+  return categories().find((c) => c.words.includes(word));
 }
 
 /** Tous les mots de toutes les catégories. */

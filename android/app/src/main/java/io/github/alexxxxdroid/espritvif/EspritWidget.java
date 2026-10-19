@@ -16,7 +16,8 @@ import java.util.Locale;
 /**
  * Widget d'écran d'accueil : la série en cours, le test du jour (à faire ou fait, avec l'âge
  * cérébral), et deux boutons qui ouvrent l'appli sur le test ou la séance du jour. Les données
- * viennent de l'appli (WidgetBridge) ; le widget se contente de comparer les dates à aujourd'hui.
+ * et les textes (dans la langue choisie dans l'appli) viennent de WidgetBridge ; le widget se
+ * contente de comparer les dates à aujourd'hui. Sans texte reçu, il parle français.
  */
 public class EspritWidget extends AppWidgetProvider {
 
@@ -31,6 +32,11 @@ public class EspritWidget extends AppWidgetProvider {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         int[] ids = manager.getAppWidgetIds(new ComponentName(context, EspritWidget.class));
         for (int id : ids) manager.updateAppWidget(id, views(context));
+    }
+
+    /** Un texte confié par l'appli (« %d » y reçoit un nombre), ou son équivalent français. */
+    private static String text(SharedPreferences prefs, String key, String fallback, int number) {
+        return prefs.getString("t_" + key, fallback).replace("%d", String.valueOf(number));
     }
 
     static RemoteViews views(Context context) {
@@ -48,13 +54,21 @@ public class EspritWidget extends AppWidgetProvider {
         boolean alive = streak > 0 && !until.isEmpty() && today.compareTo(until) <= 0;
         views.setTextViewText(
             R.id.widget_streak,
-            alive ? (streak == 1 ? "Série : 1 jour" : "Série : " + streak + " jours") : context.getString(R.string.widget_no_streak)
+            alive
+                ? (streak == 1 ? text(prefs, "streakOne", "Série : 1 jour", 1) : text(prefs, "streakMany", "Série : %d jours", streak))
+                : text(prefs, "noStreak", context.getString(R.string.widget_no_streak), 0)
         );
         views.setTextViewText(
             R.id.widget_status,
-            testDone ? (age > 0 ? "Test du jour fait · âge cérébral " + age + " ans" : "Test du jour fait") : "Test du jour : à faire"
+            testDone
+                ? (age > 0 ? text(prefs, "testDoneAge", "Test du jour fait · âge cérébral %d ans", age) : text(prefs, "testDone", "Test du jour fait", 0))
+                : text(prefs, "testTodo", context.getString(R.string.widget_test_todo), 0)
         );
-        views.setTextViewText(R.id.widget_test, testDone ? "Entraînement" : "Test du jour");
+        views.setTextViewText(
+            R.id.widget_test,
+            testDone ? text(prefs, "training", "Entraînement", 0) : text(prefs, "test", context.getString(R.string.shortcut_test_long), 0)
+        );
+        views.setTextViewText(R.id.widget_session, text(prefs, "session", context.getString(R.string.shortcut_seance_long), 0));
         views.setOnClickPendingIntent(R.id.widget_root, open(context, "", 1));
         views.setOnClickPendingIntent(R.id.widget_test, open(context, testDone ? "entrainement" : "test-du-jour", 2));
         views.setOnClickPendingIntent(R.id.widget_session, open(context, "seance", 3));

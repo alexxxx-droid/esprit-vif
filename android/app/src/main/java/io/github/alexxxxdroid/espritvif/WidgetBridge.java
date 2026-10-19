@@ -3,29 +3,40 @@ package io.github.alexxxxdroid.espritvif;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import java.util.Iterator;
 
-/** Le pont entre l'appli (JavaScript) et le widget : on lui confie la série et le test du jour. */
+/** Le pont entre l'appli (JavaScript) et le widget : on lui confie la série, le test du jour et ses textes. */
 @CapacitorPlugin(name = "WidgetBridge")
 public class WidgetBridge extends Plugin {
 
     @PluginMethod
     public void update(PluginCall call) {
         Context context = getContext();
-        context
+        SharedPreferences.Editor editor = context
             .getSharedPreferences(EspritWidget.PREFS, Context.MODE_PRIVATE)
             .edit()
             .putString("name", call.getString("name", ""))
             .putInt("streak", call.getInt("streak", 0))
             .putString("streakUntil", call.getString("streakUntil", ""))
             .putString("testDay", call.getString("testDay", ""))
-            .putInt("brainAge", call.getInt("brainAge", 0))
-            .apply();
+            .putInt("brainAge", call.getInt("brainAge", 0));
+        // Les textes dans la langue de l'appli (« streakMany », « testTodo »…), préfixés « t_ ».
+        JSObject texts = call.getObject("texts");
+        if (texts != null) {
+            Iterator<String> keys = texts.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                editor.putString("t_" + key, texts.getString(key, ""));
+            }
+        }
+        editor.apply();
         EspritWidget.refreshAll(context);
         call.resolve();
     }

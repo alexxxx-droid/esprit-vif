@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -56,7 +57,14 @@ export function pairesLevel(level: number): PairesLevel {
 
 export function pairesLevelLabel(level: number): string {
   const c = pairesLevel(level);
-  return [`${c.pairs} paires`, c.previewMs ? `aperçu de ${secondsLabel(c.previewMs)}` : 'sans aperçu', c.similar && 'formes proches'].filter(Boolean).join(' · ');
+  const preview = secondsLabel(c.previewMs);
+  return [
+    tr(`${c.pairs} paires`, `${c.pairs} pairs`),
+    c.previewMs ? tr(`aperçu de ${preview}`, `${preview} preview`) : tr('sans aperçu', 'no preview'),
+    c.similar && tr('formes proches', 'similar shapes'),
+  ]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 export interface PairFace {

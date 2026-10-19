@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { plural } from '../../core/format';
 import { CATEGORIES_DURATION_MS, categoriesLevel, generateCategories, scoreCategories } from '../../core/games/categories';
+import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -28,11 +29,14 @@ export function CategoriesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreCategories(correct, errors, level),
       stats: { correct, errors },
-      headline: `${plural(correct, 'intrus trouvé', 'intrus trouvés')} · ${plural(errors, 'erreur')}`,
+      headline: tr(
+        `${plural(correct, 'intrus trouvé', 'intrus trouvés')} · ${plural(errors, 'erreur')}`,
+        `${plural(correct, 'odd one found', 'odd ones found')} · ${plural(errors, 'error')}`,
+      ),
       lines: [
-        { label: 'Intrus trouvés', value: String(correct) },
-        { label: 'Erreurs', value: errors ? String(errors) : 'Aucune' },
-        { label: 'Objectif pour 100 pts', value: String(config.target) },
+        { label: tr('Intrus trouvés', 'Odd ones found'), value: String(correct) },
+        { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
+        { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
@@ -60,11 +64,11 @@ export function CategoriesGame({ seed, level, onFinish }: GameProps) {
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', `C’était « ${q.words[q.answer]} »`);
+      showMark('bad', tr(`C’était « ${q.words[q.answer]} »`, `It was “${q.words[q.answer]}”`));
       setErrors(errors + 1);
     }
     // Rappel discret de la solution, le temps de la question suivante.
-    setLastAnswer(`Avant : « ${q.words[q.answer]} » au milieu ${q.main.plural}`);
+    setLastAnswer(tr(`Avant : « ${q.words[q.answer]} » au milieu ${q.main.plural}`, `Previous: “${q.words[q.answer]}” among ${q.main.plural}`));
     setIndex(index + 1);
   };
 
@@ -82,7 +86,7 @@ export function CategoriesGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        <p className="categories__ask">Trouve l’intrus</p>
+        <p className="categories__ask">{tr('Trouve l’intrus', 'Find the odd one out')}</p>
         <div key={index} className={`categories__words${config.words > 6 ? ' categories__words--dense' : ''}`}>
           {q.words.map((word, i) => (
             <TapButton key={word} className="categories__word" onTap={() => choose(i)} aria-keyshortcuts={i < 9 ? String(i + 1) : undefined}>

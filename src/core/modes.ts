@@ -1,4 +1,5 @@
 import { DOMAIN_ORDER, gamesOfDomain } from './games/registry';
+import { tr } from './lang';
 import { createRng, deriveSeed, hashSeed } from './rng';
 import { domainProfile, type ScoredPlay } from './stats';
 import type { Domain, GameId } from './types';
@@ -15,11 +16,20 @@ export interface SessionPick {
   reason: SessionReason;
 }
 
+/** Pourquoi ce jeu est dans la séance (accesseurs : lus dans la langue de l'interface). */
 export const SESSION_REASONS: Record<SessionReason, string> = {
-  goal: 'Ton objectif',
-  weak: 'À renforcer',
-  new: 'À découvrir',
-  variety: 'Pour varier',
+  get goal() {
+    return tr('Ton objectif', 'Your goal');
+  },
+  get weak() {
+    return tr('À renforcer', 'Needs work');
+  },
+  get new() {
+    return tr('À découvrir', 'Something new');
+  },
+  get variety() {
+    return tr('Pour varier', 'For variety');
+  },
 };
 
 /**
@@ -66,10 +76,26 @@ export const DUEL_ROUNDS = 3;
 
 export type DuelDifficulty = 'facile' | 'moyen' | 'difficile';
 
+/** Niveaux du duel ; `label` (accesseur) se lit dans la langue de l'interface. */
 export const DUEL_DIFFICULTIES: Record<DuelDifficulty, { label: string; level: number }> = {
-  facile: { label: 'Facile', level: 1 },
-  moyen: { label: 'Moyen', level: 5 },
-  difficile: { label: 'Difficile', level: 10 },
+  facile: {
+    get label() {
+      return tr('Facile', 'Easy');
+    },
+    level: 1,
+  },
+  moyen: {
+    get label() {
+      return tr('Moyen', 'Medium');
+    },
+    level: 5,
+  },
+  difficile: {
+    get label() {
+      return tr('Difficile', 'Hard');
+    },
+    level: 10,
+  },
 };
 
 export interface DuelRound {

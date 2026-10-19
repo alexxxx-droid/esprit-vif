@@ -11,6 +11,7 @@ import {
   type PartyPlayer,
   type PartyQuestion,
 } from '../../core/party';
+import { tr } from '../../core/lang';
 import { randomSeed } from '../../core/rng';
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
@@ -52,7 +53,7 @@ export function PartyScreen() {
   const playing = phase === 'round' || phase === 'question' || phase === 'reveal';
 
   const start = () => {
-    setPlayers(Array.from({ length: count }, (_, i) => ({ name: names[i].trim() || `Joueur ${i + 1}`, color: SEATS[i].color, score: 0 })));
+    setPlayers(Array.from({ length: count }, (_, i) => ({ name: names[i].trim() || tr(`Joueur ${i + 1}`, `Player ${i + 1}`), color: SEATS[i].color, score: 0 })));
     setSeed(randomSeed());
     setRound(0);
     setIndex(0);
@@ -117,25 +118,27 @@ export function PartyScreen() {
     return (
       <div className="screen screen-in mode-screen">
         <header className="intro__top">
-          <button type="button" className="icon-btn" onClick={() => navigate({ name: 'training' }, { replace: true })} aria-label="Retour">
+          <button type="button" className="icon-btn" onClick={() => navigate({ name: 'training' }, { replace: true })} aria-label={tr('Retour', 'Back')}>
             <Icon name="back" />
           </button>
         </header>
         <div className="intro__head">
-          <h1 className="intro__title">Mode fête</h1>
+          <h1 className="intro__title">{tr('Mode fête', 'Party mode')}</h1>
           <p className="intro__rule">
-            Jusqu’à 4 joueurs en même temps, chacun de son côté de l’écran. Le premier qui répond juste marque le point ; une erreur te gèle jusqu’à la question
-            suivante. Cinq manches, idéal sur une tablette posée à plat.
+            {tr(
+              'Jusqu’à 4 joueurs en même temps, chacun de son côté de l’écran. Le premier qui répond juste marque le point ; une erreur te gèle jusqu’à la question suivante. Cinq manches, idéal sur une tablette posée à plat.',
+              'Up to 4 players at once, each on their own side of the screen. The first to answer correctly scores the point; a wrong answer freezes you until the next question. Five rounds, perfect on a tablet lying flat.',
+            )}
           </p>
         </div>
         <div className="field">
           <span className="field__label" id="party-count">
-            Nombre de joueurs
+            {tr('Nombre de joueurs', 'Number of players')}
           </span>
           <div className="segmented" role="radiogroup" aria-labelledby="party-count">
             {Array.from({ length: MAX_PLAYERS - MIN_PLAYERS + 1 }, (_, i) => i + MIN_PLAYERS).map((n) => (
               <button key={n} type="button" role="radio" aria-checked={count === n} className="segmented__option" onClick={() => setCount(n)}>
-                {n} joueurs
+                {tr(`${n} joueurs`, `${n} players`)}
               </button>
             ))}
           </div>
@@ -150,8 +153,8 @@ export function PartyScreen() {
                 className="field__input"
                 value={names[i]}
                 maxLength={12}
-                placeholder={`Joueur ${i + 1}`}
-                aria-label={`Prénom du joueur ${i + 1}`}
+                placeholder={tr(`Joueur ${i + 1}`, `Player ${i + 1}`)}
+                aria-label={tr(`Prénom du joueur ${i + 1}`, `Player ${i + 1}’s name`)}
                 onChange={(e) => setNames(names.map((n, k) => (k === i ? e.target.value : n)))}
               />
             </label>
@@ -159,8 +162,8 @@ export function PartyScreen() {
         </div>
         <button type="button" className="cta mode-cta" onClick={start}>
           <span className="cta__text">
-            <span className="cta__label">Lancer la fête</span>
-            <span className="cta__sub">5 manches · environ 5 minutes</span>
+            <span className="cta__label">{tr('Lancer la fête', 'Start the party')}</span>
+            <span className="cta__sub">{tr('5 manches · environ 5 minutes', '5 rounds · about 5 minutes')}</span>
           </span>
           <span className="cta__icon">
             <Icon name="play" />
@@ -176,7 +179,11 @@ export function PartyScreen() {
       <div className="screen screen-in mode-screen party-results">
         <div className="intro__head duel-final">
           <Mascot character={SEATS[players.indexOf(ranking[0].player)].character} mood="cheer" size={120} />
-          <h1 className="intro__title">{ranking.filter((r) => r.rank === 1).length > 1 ? 'Égalité au sommet !' : `${ranking[0].player.name} gagne la fête !`}</h1>
+          <h1 className="intro__title">
+            {ranking.filter((r) => r.rank === 1).length > 1
+              ? tr('Égalité au sommet !', 'A tie at the top!')
+              : tr(`${ranking[0].player.name} gagne la fête !`, `${ranking[0].player.name} wins the party!`)}
+          </h1>
         </div>
         <ol className="mode-list">
           {ranking.map(({ player, rank }) => (
@@ -189,7 +196,7 @@ export function PartyScreen() {
                 <span className="mode-item__name">{player.name}</span>
               </span>
               <span className="mode-item__score">
-                {player.score} point{player.score > 1 ? 's' : ''}
+                {tr(`${player.score} point${player.score > 1 ? 's' : ''}`, `${player.score} point${player.score === 1 ? '' : 's'}`)}
               </span>
             </li>
           ))}
@@ -197,10 +204,10 @@ export function PartyScreen() {
         <div className="mode-actions">
           <button type="button" className="btn btn--primary btn--lg" onClick={start} autoFocus>
             <Icon name="replay" />
-            Revanche
+            {tr('Revanche', 'Rematch')}
           </button>
           <button type="button" className="btn btn--lg btn--ghost" onClick={() => setPhase('setup')}>
-            Changer les joueurs
+            {tr('Changer les joueurs', 'Change players')}
           </button>
         </div>
       </div>
@@ -236,11 +243,14 @@ export function PartyScreen() {
         </div>
       )}
       <div className="party-bar">
-        <button type="button" className="icon-btn" onClick={() => setPhase('setup')} aria-label="Arrêter la fête">
+        <button type="button" className="icon-btn" onClick={() => setPhase('setup')} aria-label={tr('Arrêter la fête', 'Stop the party')}>
           <Icon name="close" />
         </button>
         <span>
-          Manche {round + 1}/{PARTY_ROUNDS.length} · {Math.min(index + 1, QUESTIONS_PER_ROUND)}/{QUESTIONS_PER_ROUND}
+          {tr(
+            `Manche ${round + 1}/${PARTY_ROUNDS.length} · ${Math.min(index + 1, QUESTIONS_PER_ROUND)}/${QUESTIONS_PER_ROUND}`,
+            `Round ${round + 1}/${PARTY_ROUNDS.length} · ${Math.min(index + 1, QUESTIONS_PER_ROUND)}/${QUESTIONS_PER_ROUND}`,
+          )}
         </span>
       </div>
     </div>
@@ -265,7 +275,7 @@ function PartyZone({ seat, count, player, question, intro, frozen, state, winner
   return (
     <section
       className={`party-zone avatar-tint--c${player.color}${flipped ? ' is-flipped' : ''}${frozen ? ' is-frozen' : ''} is-${state}`}
-      aria-label={`Zone de ${player.name}`}
+      aria-label={tr(`Zone de ${player.name}`, `${player.name}’s area`)}
     >
       <header className="party-zone__head">
         <span className={`avatar avatar--c${player.color}`} style={{ width: 40, height: 40 }} aria-hidden="true">
@@ -311,7 +321,13 @@ function PartyZone({ seat, count, player, question, intro, frozen, state, winner
             ))}
           </div>
           <p className="party-zone__status" aria-live="polite">
-            {state === 'won' ? 'Bravo, le point est pour toi !' : state === 'lost' ? `${winnerName} a été plus rapide` : frozen ? 'Raté ! Attends la suivante' : ' '}
+            {state === 'won'
+              ? tr('Bravo, le point est pour toi !', 'Nice, the point is yours!')
+              : state === 'lost'
+                ? tr(`${winnerName} a été plus rapide`, `${winnerName} was faster`)
+                : frozen
+                  ? tr('Raté ! Attends la suivante', 'Missed! Wait for the next one')
+                  : ' '}
           </p>
         </>
       )}

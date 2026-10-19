@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
 import { formatLongDay, formatMonth, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { tr } from '../../core/lang';
 import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
 import { seasonOf, SEASONS } from '../../core/events';
 import { insights } from '../../core/insights';
@@ -20,13 +21,15 @@ import { useProgression } from '../progression';
 import { navigate } from '../router';
 import { TROPHY_ICONS } from '../trophy-icons';
 
-const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+/** Les initiales des jours, du lundi au dimanche, dans la langue de l'interface. */
+const weekdays = () => tr('LMMJVSD', 'MTWTFSS').split('');
 
 type Tab = 'resume' | 'trophees' | 'records';
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'resume', label: 'Résumé' },
-  { id: 'trophees', label: 'Trophées' },
-  { id: 'records', label: 'Records' },
+// Les libellés portent les deux langues : `tr` se choisit à l'affichage, jamais au chargement.
+const TABS: { id: Tab; fr: string; en: string }[] = [
+  { id: 'resume', fr: 'Résumé', en: 'Summary' },
+  { id: 'trophees', fr: 'Trophées', en: 'Trophies' },
+  { id: 'records', fr: 'Records', en: 'Best scores' },
 ];
 const TAB_KEY = 'esprit-vif:progress-tab';
 
@@ -71,9 +74,9 @@ export function ProgressScreen() {
 
   return (
     <div className="screen screen-in progress">
-      <ScreenHeader title="Progrès" subtitle="Ce qui compte, c’est la régularité." />
+      <ScreenHeader title={tr('Progrès', 'Progress')} subtitle={tr('Ce qui compte, c’est la régularité.', 'What counts is showing up regularly.')} />
 
-      <div className="tabs" role="tablist" aria-label="Rubriques des progrès">
+      <div className="tabs" role="tablist" aria-label={tr('Rubriques des progrès', 'Progress sections')}>
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -85,7 +88,7 @@ export function ProgressScreen() {
             className="tabs__tab"
             onClick={() => setTab(t.id)}
           >
-            {t.label}
+            {tr(t.fr, t.en)}
             {t.id === 'trophees' && <span className="tabs__count">{trophiesWon}</span>}
           </button>
         ))}
@@ -93,27 +96,27 @@ export function ProgressScreen() {
 
       {tab === 'resume' && (
         <div className="tab-panel" role="tabpanel" id="panel-resume" aria-labelledby="tab-resume">
-          <section className="card rank-card" aria-label="Ton rang">
+          <section className="card rank-card" aria-label={tr('Ton rang', 'Your rank')}>
             <RankBar rank={rank} />
             <div className="rank-card__stats">
               <span>
                 <Icon name="star" size={16} />
-                <strong>{stars}</strong> étoiles
+                <strong>{stars}</strong> {tr('étoiles', stars === 1 ? 'star' : 'stars')}
               </span>
               <span>
                 <Icon name="trophy" size={16} />
-                <strong>{trophiesWon}</strong>/{trophies.length} trophées
+                <strong>{trophiesWon}</strong>/{trophies.length} {tr('trophées', 'trophies')}
               </span>
               <span>
                 <Icon name="medal" size={16} />
-                <strong>{medals.filter(Boolean).length}</strong>/{GAME_ORDER.length} médailles
+                <strong>{medals.filter(Boolean).length}</strong>/{GAME_ORDER.length} {tr('médailles', 'medals')}
               </span>
             </div>
           </section>
 
           <section className="card insights" aria-labelledby="insights-title">
             <h2 className="section-title" id="insights-title">
-              Ce que disent tes parties
+              {tr('Ce que disent tes parties', 'What your games say')}
             </h2>
             {notes.length ? (
               <ul className="insights__list">
@@ -129,39 +132,50 @@ export function ProgressScreen() {
             ) : (
               <p className="empty empty--vif">
                 <Mascot mood="think" size={48} />
-                Joue quelques parties : je te dirai ce que j’y remarque.
+                {tr('Joue quelques parties : je te dirai ce que j’y remarque.', 'Play a few games: I’ll tell you what I notice.')}
               </p>
             )}
           </section>
 
           <div className="tiles">
-            <StatTile label="Série en cours" value={currentStreak(playedDays, today)} unit="jour" icon="flame" />
-            <StatTile label="Meilleure série" value={bestStreak(playedDays)} unit="jour" icon="star" />
-            <StatTile label="Jours joués" value={playedDays.size} unit="jour" icon="calendar" />
+            <StatTile label={tr('Série en cours', 'Current streak')} value={currentStreak(playedDays, today)} unit={tr('jour', 'day')} icon="flame" />
+            <StatTile label={tr('Meilleure série', 'Best streak')} value={bestStreak(playedDays)} unit={tr('jour', 'day')} icon="star" />
+            <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
           </div>
-          <p className="hint progress__rest">Un jour de repos par semaine ne casse pas ta série.</p>
+          <p className="hint progress__rest">{tr('Un jour de repos par semaine ne casse pas ta série.', 'One rest day a week won’t break your streak.')}</p>
 
           <section className="card" aria-labelledby="curve-title">
             <h2 className="section-title" id="curve-title">
-              Âge cérébral
+              {tr('Âge cérébral', 'Brain age')}
             </h2>
-            <p className="card__sub">Tes {tests.length > 1 ? `${tests.length} derniers` : ''} tests du jour officiels</p>
-            {tests.length ? <BrainAgeChart points={tests} /> : <Empty text="Ta courbe apparaîtra après ton premier test du jour." />}
+            <p className="card__sub">
+              {tr(
+                `Tes ${tests.length > 1 ? `${tests.length} derniers` : ''} tests du jour officiels`,
+                `Your ${tests.length > 1 ? `last ${tests.length} ` : ''}official daily tests`,
+              )}
+            </p>
+            {tests.length ? (
+              <BrainAgeChart points={tests} />
+            ) : (
+              <Empty text={tr('Ta courbe apparaîtra après ton premier test du jour.', 'Your curve will appear after your first daily test.')} />
+            )}
           </section>
 
           <section className="card" aria-labelledby="map-title">
             <h2 className="section-title" id="map-title">
-              Carte du cerveau
+              {tr('Carte du cerveau', 'Brain map')}
             </h2>
-            <p className="card__sub">Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)</p>
+            <p className="card__sub">
+              {tr('Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)', 'Your strengths at a glance (average of your last 5 games)')}
+            </p>
             <BrainMap profile={profile} />
           </section>
 
           <section className="card" aria-labelledby="domains-title">
             <h2 className="section-title" id="domains-title">
-              Par domaine
+              {tr('Par domaine', 'By area')}
             </h2>
-            <p className="card__sub">Moyenne de tes 5 dernières parties</p>
+            <p className="card__sub">{tr('Moyenne de tes 5 dernières parties', 'Average of your last 5 games')}</p>
             <ul className="score-bars score-bars--profile">
               {DOMAIN_ORDER.map((domain) => {
                 const value = profile[domain];
@@ -170,7 +184,7 @@ export function ProgressScreen() {
                     <div className="score-bar__head">
                       <DomainBadge domain={domain} size={32} />
                       <span className="score-bar__name">{DOMAINS[domain].name}</span>
-                      <span className={`score-bar__value${value === null ? ' is-empty' : ''}`}>{value ?? 'Pas encore joué'}</span>
+                      <span className={`score-bar__value${value === null ? ' is-empty' : ''}`}>{value ?? tr('Pas encore joué', 'Not played yet')}</span>
                     </div>
                     <div className="bar" aria-hidden="true">
                       {value !== null && <span className={`bar__fill bar__fill--${domain}`} style={{ width: `${Math.max(2, value)}%` }} />}
@@ -189,7 +203,7 @@ export function ProgressScreen() {
         <div className="tab-panel" role="tabpanel" id="panel-trophees" aria-labelledby="tab-trophees">
           <section aria-labelledby="medals-title">
             <h2 className="section-title" id="medals-title">
-              Médailles
+              {tr('Médailles', 'Medals')}
             </h2>
             <ul className="medal-legend">
               {MEDAL_ORDER.map((medal) => (
@@ -208,7 +222,7 @@ export function ProgressScreen() {
 
           <section aria-labelledby="trophies-title">
             <h2 className="section-title" id="trophies-title">
-              Trophées · {trophiesWon}/{trophies.length}
+              {tr(`Trophées · ${trophiesWon}/${trophies.length}`, `Trophies · ${trophiesWon}/${trophies.length}`)}
             </h2>
             <ul className="trophies">
               {sortedTrophies.map((trophy) => (
@@ -220,9 +234,11 @@ export function ProgressScreen() {
                   <span className="trophy__desc">{trophy.description}</span>
                   {trophy.season && <span className="trophy__season">{SEASONS.find((s) => s.id === trophy.season)?.name}</span>}
                   {trophy.unlocked ? (
-                    <span className="trophy__state">Débloqué</span>
+                    <span className="trophy__state">{tr('Débloqué', 'Unlocked')}</span>
                   ) : trophy.season && seasonOf(today)?.id !== trophy.season ? (
-                    <span className="trophy__state">De retour le {seasonReturn(trophy.season, today)}</span>
+                    <span className="trophy__state">
+                      {tr(`De retour le ${seasonReturn(trophy.season, today)}`, `Back on ${seasonReturn(trophy.season, today)}`)}
+                    </span>
                   ) : (
                     trophy.progress && (
                       <span className="trophy__state">
@@ -241,7 +257,7 @@ export function ProgressScreen() {
         <div className="tab-panel" role="tabpanel" id="panel-records" aria-labelledby="tab-records">
           <section aria-labelledby="records-title">
             <h2 className="section-title" id="records-title">
-              Tes meilleurs scores, jeu par jeu
+              {tr('Tes meilleurs scores, jeu par jeu', 'Your best scores, game by game')}
             </h2>
             <ul className="records">
               {GAME_ORDER.map((id, i) => {
@@ -254,7 +270,12 @@ export function ProgressScreen() {
                       <span className="record__text">
                         <span className="record__name">{GAMES[id].name}</span>
                         <span className="record__detail">
-                          {best ? `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts` : 'Pas encore de record'}
+                          {best
+                            ? tr(
+                                `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts`,
+                                `${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/20 unlocked`,
+                              )
+                            : tr('Pas encore de record', 'No best score yet')}
                         </span>
                       </span>
                       {medal && <MedalBadge medal={medal} size={26} />}
@@ -271,7 +292,7 @@ export function ProgressScreen() {
   );
 }
 
-/** Prochaine ouverture d'une saison, en toutes lettres (« 15 octobre »). */
+/** Prochaine ouverture d'une saison, en toutes lettres (« 15 octobre », « October 15 »). */
 function seasonReturn(id: string, today: string): string {
   const season = SEASONS.find((s) => s.id === id);
   if (!season) return '';
@@ -321,7 +342,7 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
           className="icon-btn icon-btn--flat"
           onClick={() => setOffset(offset - 1)}
           disabled={offset <= minOffset}
-          aria-label="Mois précédent"
+          aria-label={tr('Mois précédent', 'Previous month')}
         >
           <Icon name="back" />
         </button>
@@ -330,7 +351,9 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
             {formatMonth(`${year}-${String(month).padStart(2, '0')}-01`)}
           </h2>
           <p className="card__sub">
-            {playedThisMonth ? `${plural(playedThisMonth, 'jour')} d’entraînement` : 'Aucun entraînement ce mois-ci'}
+            {playedThisMonth
+              ? tr(`${plural(playedThisMonth, 'jour')} d’entraînement`, plural(playedThisMonth, 'training day'))
+              : tr('Aucun entraînement ce mois-ci', 'No training this month')}
           </p>
         </div>
         <button
@@ -338,13 +361,13 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
           className="icon-btn icon-btn--flat icon-btn--next"
           onClick={() => setOffset(offset + 1)}
           disabled={offset >= 0}
-          aria-label="Mois suivant"
+          aria-label={tr('Mois suivant', 'Next month')}
         >
           <Icon name="back" />
         </button>
       </div>
       <div className="calendar__grid" role="list">
-        {WEEKDAYS.map((d, i) => (
+        {weekdays().map((d, i) => (
           <span key={i} className="calendar__weekday" aria-hidden="true">
             {d}
           </span>
@@ -355,7 +378,10 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
               key={day}
               role="listitem"
               className={`calendar__day${playedDays.has(day) ? ' is-played' : ''}${day === today ? ' is-today' : ''}${day > today ? ' is-future' : ''}`}
-              aria-label={`${formatWeekday(day)} : ${playedDays.has(day) ? 'entraînement fait' : 'pas d’entraînement'}`}
+              aria-label={tr(
+                `${formatWeekday(day)} : ${playedDays.has(day) ? 'entraînement fait' : 'pas d’entraînement'}`,
+                `${formatWeekday(day)}: ${playedDays.has(day) ? 'trained' : 'no training'}`,
+              )}
             >
               {Number(day.slice(8))}
             </span>

@@ -1,16 +1,16 @@
+import { formatOneDecimal } from '../../core/format';
+import { tr } from '../../core/lang';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Icon } from '../components/Icon';
 import { useGameChrome } from './chrome';
 import type { GameClock } from './clock';
-
-const oneDecimal = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 /** Barre du haut pendant la partie : quitter, titre, chrono, progression. */
 export function GameHud({ progress, children }: { progress?: number; children?: ReactNode }) {
   const { title, onQuit } = useGameChrome();
   return (
     <header className="hud">
-      <button type="button" className="icon-btn" onClick={onQuit} aria-label="Quitter la partie">
+      <button type="button" className="icon-btn" onClick={onQuit} aria-label={tr('Quitter la partie', 'Quit the game')}>
         <Icon name="close" />
       </button>
       <p className="hud__title">{title}</p>
@@ -19,7 +19,7 @@ export function GameHud({ progress, children }: { progress?: number; children?: 
         <div
           className="hud__progress"
           role="progressbar"
-          aria-label="Progression"
+          aria-label={tr('Progression', 'Progress')}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(progress * 100)}
@@ -37,15 +37,15 @@ export function Stopwatch({ clock }: { clock: GameClock }) {
   useEffect(() => {
     let raf = 0;
     const draw = () => {
-      if (ref.current) ref.current.textContent = `${oneDecimal.format(clock.total() / 1000)} s`;
+      if (ref.current) ref.current.textContent = `${formatOneDecimal(clock.total() / 1000)} s`;
       raf = requestAnimationFrame(draw);
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
   }, [clock]);
   return (
-    <span className="chrono" role="timer" aria-label="Chronomètre" ref={ref}>
-      0,0 s
+    <span className="chrono" role="timer" aria-label={tr('Chronomètre', 'Stopwatch')} ref={ref}>
+      {formatOneDecimal(0)} s
     </span>
   );
 }
@@ -67,7 +67,7 @@ export function TimeLeft({ clock, durationMs }: { clock: GameClock; durationMs: 
     return () => cancelAnimationFrame(raf);
   }, [clock, durationMs]);
   return (
-    <span className="chrono" role="timer" aria-label="Temps restant" ref={ref}>
+    <span className="chrono" role="timer" aria-label={tr('Temps restant', 'Time left')} ref={ref}>
       {Math.ceil(durationMs / 1000)} s
     </span>
   );

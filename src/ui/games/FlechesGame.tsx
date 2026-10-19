@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import { tr } from '../../core/lang';
 import { flechesAnswer, flechesLevel, FLECHES_TRIALS, generateFleches, scoreFleches, type Dir } from '../../core/games/fleches';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -14,7 +15,14 @@ import { slow } from '../tempo';
 type Phase = 'fix' | 'stim' | 'fb';
 
 const ROTATION: Record<Dir, number> = { right: 0, down: 90, left: 180, up: -90 };
-const DIR_NAMES: Record<Dir, string> = { left: 'gauche', right: 'droite', up: 'haut', down: 'bas' };
+const DIR_NAMES: Record<Dir, { fr: string; en: string }> = {
+  left: { fr: 'gauche', en: 'left' },
+  right: { fr: 'droite', en: 'right' },
+  up: { fr: 'haut', en: 'up' },
+  down: { fr: 'bas', en: 'down' },
+};
+/** Nom d'une direction dans la langue en cours. */
+const dirName = (dir: Dir) => tr(DIR_NAMES[dir].fr, DIR_NAMES[dir].en);
 const KEYS: Record<string, Dir> = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
 
 export function Arrow({ dir, size = 44 }: { dir: Dir; size?: number }) {
@@ -42,10 +50,10 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreFleches(total, mean, level),
       stats: { correct: total, meanRt: mean === null ? 0 : Math.round(mean) },
-      headline: `${total}/${FLECHES_TRIALS} justes${mean ? ` · ${Math.round(mean)} ms` : ''}`,
+      headline: `${total}/${FLECHES_TRIALS} ${tr('justes', 'correct')}${mean ? ` · ${Math.round(mean)} ms` : ''}`,
       lines: [
-        { label: 'Bonnes réponses', value: `${total} / ${FLECHES_TRIALS}` },
-        { label: 'Temps de réaction moyen', value: mean ? `${Math.round(mean)} ms` : '—' },
+        { label: tr('Bonnes réponses', 'Correct answers'), value: `${total} / ${FLECHES_TRIALS}` },
+        { label: tr('Temps de réaction moyen', 'Average reaction time'), value: mean ? `${Math.round(mean)} ms` : '—' },
       ],
     });
   });
@@ -61,7 +69,7 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
 
   const timeout = useEffectEvent(() => {
     fx.bad();
-    showMark('bad', 'Trop tard !');
+    showMark('bad', tr('Trop tard !', 'Too late!'));
     record(false, null);
   });
 
@@ -92,7 +100,7 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
     if (ok) fx.good();
     else {
       fx.bad();
-      showMark('bad', `C’était ${DIR_NAMES[flechesAnswer(trial)]}`);
+      showMark('bad', tr(`C’était ${dirName(flechesAnswer(trial))}`, `It was ${dirName(flechesAnswer(trial))}`));
     }
     record(ok, performance.now() - shownAt.current);
   };
@@ -117,7 +125,7 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
       <div className="game__stage fleches">
         {config.rule === 'switch' && phase !== 'fix' && (
           <p key={index} className={`fleches__ask fleches__ask--${trial.ask}`}>
-            {trial.ask === 'center' ? 'Celle du milieu' : 'Les voisines'}
+            {trial.ask === 'center' ? tr('Celle du milieu', 'The middle one') : tr('Les voisines', 'The outer ones')}
           </p>
         )}
         <div className="fleches__row" aria-live="polite" style={{ translate: `${trial.offset}% 0` }}>
@@ -130,16 +138,21 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
           )}
         </div>
         <p className="sr-only">
-          {phase !== 'fix' && `Milieu : ${DIR_NAMES[trial.center]}, voisines : ${DIR_NAMES[trial.flank]}`}
+          {phase !== 'fix' &&
+            tr(`Milieu : ${dirName(trial.center)}, voisines : ${dirName(trial.flank)}`, `Middle: ${dirName(trial.center)}, outer: ${dirName(trial.flank)}`)}
         </p>
         <p className="fleches__hint">
-          {config.rule === 'flank' ? 'Sens des flèches voisines ?' : config.rule === 'center' ? 'Sens de la flèche du milieu ?' : 'Suis la consigne !'}
+          {config.rule === 'flank'
+            ? tr('Sens des flèches voisines ?', 'Which way do the outer arrows point?')
+            : config.rule === 'center'
+              ? tr('Sens de la flèche du milieu ?', 'Which way does the middle arrow point?')
+              : tr('Suis la consigne !', 'Follow the instruction!')}
         </p>
         <FeedbackMark mark={mark} />
       </div>
       <div className={`game__controls fleches__pad fleches__pad--${config.dirs}`}>
         {(config.dirs === 2 ? (['left', 'right'] as Dir[]) : (['up', 'left', 'right', 'down'] as Dir[])).map((dir) => (
-          <TapButton key={dir} className={`dir-btn dir-btn--${dir}`} onTap={() => answer(dir)} aria-label={DIR_NAMES[dir]}>
+          <TapButton key={dir} className={`dir-btn dir-btn--${dir}`} onTap={() => answer(dir)} aria-label={dirName(dir)}>
             <Arrow dir={dir} size={34} />
           </TapButton>
         ))}

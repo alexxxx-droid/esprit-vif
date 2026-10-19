@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
   generateSequence,
@@ -68,11 +69,13 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreMatrice(best),
       stats: { best, rounds: final.rounds, failures: final.failures, flashMs },
-      headline: best ? `${plural(best, 'case')} retenues` : 'Aucune séquence retenue',
+      headline: best
+        ? tr(`${plural(best, 'case')} retenues`, `${plural(best, 'square')} remembered`)
+        : tr('Aucune séquence retenue', 'No sequence remembered'),
       lines: [
-        { label: 'Plus longue séquence', value: best ? plural(best, 'case') : '—' },
-        { label: 'Séquences réussies', value: String(final.rounds - final.failures) },
-        { label: 'Rythme', value: `${secondsLabel(flashMs)} par case` },
+        { label: tr('Plus longue séquence', 'Longest sequence'), value: best ? tr(plural(best, 'case'), plural(best, 'square')) : '—' },
+        { label: tr('Séquences réussies', 'Sequences completed'), value: String(final.rounds - final.failures) },
+        { label: tr('Rythme', 'Pace'), value: tr(`${secondsLabel(flashMs)} par case`, `${secondsLabel(flashMs)} per square`) },
       ],
     });
   });
@@ -125,16 +128,16 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
 
   const triesLeft = MATRICE_MAX_FAILURES - game.failures - (phase === 'fail' ? 1 : 0);
   const status: Record<Phase, string> = {
-    show: 'Regarde bien…',
-    input: `${reverse ? 'À l’envers ! ' : 'À toi ! '}${entered.length} / ${sequence.length}`,
-    success: 'Bravo, une case de plus !',
-    fail: 'Raté : voici le bon ordre.',
+    show: tr('Regarde bien…', 'Watch closely…'),
+    input: `${reverse ? tr('À l’envers ! ', 'Backwards! ') : tr('À toi ! ', 'Your turn! ')}${entered.length} / ${sequence.length}`,
+    success: tr('Bravo, une case de plus !', 'Well done, one more square!'),
+    fail: tr('Raté : voici le bon ordre.', 'Missed: here’s the right order.'),
   };
 
   return (
     <div className="game">
       <GameHud>
-        <span className="chip">{plural(game.span, 'case')}</span>
+        <span className="chip">{tr(plural(game.span, 'case'), plural(game.span, 'square'))}</span>
       </GameHud>
       <div className="game__stage matrice-stage">
         <p className={`matrice__status matrice__status--${phase}`} aria-live="polite">
@@ -144,7 +147,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
           className={`matrice matrice--${phase}`}
           style={{ '--size': size } as CSSProperties}
           role="group"
-          aria-label={`Grille de ${cellCount} cases`}
+          aria-label={tr(`Grille de ${cellCount} cases`, `Grid of ${cellCount} squares`)}
         >
           {Array.from({ length: cellCount }, (_, cell) => {
             const order = expected.indexOf(cell);
@@ -163,7 +166,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
                 {...cellProps(cell)}
                 className={classes}
                 onTap={() => tap(cell)}
-                aria-label={`Case ${cell + 1}`}
+                aria-label={tr(`Case ${cell + 1}`, `Square ${cell + 1}`)}
                 aria-disabled={phase !== 'input'}
               >
                 {phase === 'fail' && order >= 0 && <span className="matrice__order">{order + 1}</span>}
@@ -171,11 +174,19 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
             );
           })}
         </div>
-        <p className="tries" aria-label={`${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`}>
+        <p
+          className="tries"
+          aria-label={tr(
+            `${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`,
+            `${plural(Math.max(0, triesLeft), 'try', 'tries')} left`,
+          )}
+        >
           {Array.from({ length: MATRICE_MAX_FAILURES }, (_, i) => (
             <span key={i} className={i < triesLeft ? 'is-left' : undefined} aria-hidden="true" />
           ))}
-          <span aria-hidden="true">{triesLeft > 1 ? '2 essais' : triesLeft === 1 ? 'Dernier essai' : 'Fin de partie'}</span>
+          <span aria-hidden="true">
+            {triesLeft > 1 ? tr('2 essais', '2 tries') : triesLeft === 1 ? tr('Dernier essai', 'Last try') : tr('Fin de partie', 'Game over')}
+          </span>
         </p>
       </div>
     </div>

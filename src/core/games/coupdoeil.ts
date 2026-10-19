@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -55,7 +56,9 @@ export function coupLevel(level: number): CoupLevel {
 export function coupLevelLabel(level: number): string {
   const c = coupLevel(level);
   const small = Math.round((c.min + c.max) / 2);
-  return `≈ ${Math.max(small + 1, Math.round(small * c.ratio))} contre ${small} · vu ${secondsLabel(c.showMs)}`;
+  const big = Math.max(small + 1, Math.round(small * c.ratio));
+  const shown = secondsLabel(c.showMs);
+  return tr(`≈ ${big} contre ${small} · vu ${shown}`, `≈ ${big} vs. ${small} · shown ${shown}`);
 }
 
 export interface Dot {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { lang, tr } from '../../core/lang';
 import { formatSeconds } from '../../core/format';
 import { balanceLevel, generateBalance, scoreBalance, type BalanceClue } from '../../core/games/balance';
 import { SHAPE_NAMES, theShape, type ShapeKind } from '../../core/games/shapes';
@@ -29,11 +30,14 @@ export function ScaleView({ clue, look }: { clue: BalanceClue; look: (item: numb
     { x: PIVOT.x - dx, y: PIVOT.y + dy, items: clue.left },
     { x: PIVOT.x + dx, y: PIVOT.y - dy, items: clue.right },
   ];
-  const describe = (items: number[]) => items.map((i) => theShape(look(i).shape)).join(' et ');
+  const describe = (items: number[]) => items.map((i) => theShape(look(i).shape)).join(tr(' et ', ' and '));
   const heavy = clue.heavier === 'left' ? clue.left : clue.right;
   const light = clue.heavier === 'left' ? clue.right : clue.left;
   return (
-    <svg className="scale" viewBox={`0 0 ${W} 92`} role="img" aria-label={`${describe(heavy)} ${heavy.length > 1 ? 'pèsent' : 'pèse'} plus que ${describe(light)}`}>
+    <svg className="scale" viewBox={`0 0 ${W} 92`} role="img" aria-label={tr(
+        `${describe(heavy)} ${heavy.length > 1 ? 'pèsent' : 'pèse'} plus que ${describe(light)}`,
+        `${describe(heavy)} ${heavy.length > 1 ? 'weigh' : 'weighs'} more than ${describe(light)}`,
+      )}>
       <rect className="scale__post" x={PIVOT.x - 2} y={PIVOT.y} width={4} height={60} rx={2} />
       <rect className="scale__post" x={PIVOT.x - 22} y={86} width={44} height={5} rx={2.5} />
       <line className="scale__beam" x1={ends[0].x} y1={ends[0].y} x2={ends[1].x} y2={ends[1].y} />
@@ -86,7 +90,7 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', `C’était ${theShape(look(puzzle.answer).shape)}`);
+      showMark('bad', tr(`C’était ${theShape(look(puzzle.answer).shape)}`, `It was ${theShape(look(puzzle.answer).shape)}`));
     }
     setCorrect(total);
     setLocked(true);
@@ -99,10 +103,10 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
           onFinish({
             score: scoreBalance(total, ms, level),
             stats: { correct: total, timeMs: Math.round(ms) },
-            headline: `${total}/${puzzles.length} justes · ${formatSeconds(ms)}`,
+            headline: tr(`${total}/${puzzles.length} justes · ${formatSeconds(ms)}`, `${total}/${puzzles.length} correct · ${formatSeconds(ms)}`),
             lines: [
-              { label: 'Bonnes déductions', value: `${total} / ${puzzles.length}` },
-              { label: 'Temps', value: formatSeconds(ms) },
+              { label: tr('Bonnes déductions', 'Correct deductions'), value: `${total} / ${puzzles.length}` },
+              { label: tr('Temps', 'Time'), value: formatSeconds(ms) },
             ],
           });
         }
@@ -125,7 +129,15 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage balance">
         <p className="balance__ask">
-          Lequel est le plus <strong>{puzzle.ask === 'heaviest' ? 'lourd' : 'léger'}</strong>&nbsp;?
+          {lang() === 'en' ? (
+            <>
+              Which one is the <strong>{puzzle.ask === 'heaviest' ? 'heaviest' : 'lightest'}</strong>?
+            </>
+          ) : (
+            <>
+              Lequel est le plus <strong>{puzzle.ask === 'heaviest' ? 'lourd' : 'léger'}</strong>&nbsp;?
+            </>
+          )}
         </p>
         <div key={index} className={`balance__clues${puzzle.clues.length > 6 ? ' balance__clues--3' : ''}`}>
           {puzzle.clues.map((clue, i) => (

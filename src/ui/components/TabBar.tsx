@@ -1,18 +1,22 @@
+import { tr } from '../../core/lang';
 import { navigate, routeHash, type Route } from '../router';
 import { Icon, type IconName } from './Icon';
 
-const TABS: { route: Route; label: string; icon: IconName }[] = [
-  { route: { name: 'home' }, label: 'Accueil', icon: 'home' },
-  { route: { name: 'training' }, label: 'Entraînement', icon: 'training' },
-  { route: { name: 'progress' }, label: 'Progrès', icon: 'progress' },
-  { route: { name: 'settings' }, label: 'Réglages', icon: 'settings' },
-];
+/** Les onglets, avec leur libellé dans la langue en cours (calculé à l'affichage). */
+function tabs(): { route: Route; label: string; icon: IconName }[] {
+  return [
+    { route: { name: 'home' }, label: tr('Accueil', 'Home'), icon: 'home' },
+    { route: { name: 'training' }, label: tr('Entraînement', 'Training'), icon: 'training' },
+    { route: { name: 'progress' }, label: tr('Progrès', 'Progress'), icon: 'progress' },
+    { route: { name: 'settings' }, label: tr('Réglages', 'Settings'), icon: 'settings' },
+  ];
+}
 
 export function TabBar({ current }: { current: Route['name'] }) {
   return (
-    <nav className="tabbar" aria-label="Navigation principale">
+    <nav className="tabbar" aria-label={tr('Navigation principale', 'Main navigation')}>
       <div className="tabbar__inner">
-        {TABS.map((tab) => (
+        {tabs().map((tab) => (
           <a
             key={tab.route.name}
             href={routeHash(tab.route)}

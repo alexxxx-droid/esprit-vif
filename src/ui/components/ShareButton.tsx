@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { tr } from '../../core/lang';
 import { platform } from '../platform';
 import { Icon } from './Icon';
 
@@ -24,7 +25,7 @@ export function ShareButton({ label, build }: ShareButtonProps) {
   return (
     <button type="button" className="btn btn--lg share-btn" onClick={() => void share()} disabled={busy}>
       <Icon name="share" />
-      {busy ? 'Préparation…' : label}
+      {busy ? tr('Préparation…', 'Preparing…') : label}
     </button>
   );
 }

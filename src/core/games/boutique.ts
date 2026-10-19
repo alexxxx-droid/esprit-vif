@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -74,7 +75,13 @@ export function boutiqueLevel(level: number): BoutiqueLevel {
 
 export function boutiqueLevelLabel(level: number): string {
   const c = boutiqueLevel(level);
-  return [`${c.events} mouvements`, `${secondsLabel(c.stepMs)} chacun`, c.both && 'entrées et sorties mêlées', c.cats && 'chats farceurs']
+  const step = secondsLabel(c.stepMs);
+  return [
+    tr(`${c.events} mouvements`, `${c.events} moves`),
+    tr(`${step} chacun`, `${step} each`),
+    c.both && tr('entrées et sorties mêlées', 'ins and outs at once'),
+    c.cats && tr('chats farceurs', 'sneaky cats'),
+  ]
     .filter(Boolean)
     .join(' · ');
 }

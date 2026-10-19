@@ -1,4 +1,4 @@
-import { NBSP } from './format';
+import { formatDecimal, NBSP } from './format';
 import { clampLevel } from './scoring';
 
 /** Nombre de niveaux de chaque jeu. */
@@ -19,9 +19,7 @@ export function pickLevel<T>(table: readonly T[], level: number): T {
   return table[clampLevel(level, table.length) - 1];
 }
 
-const decimal = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 });
-
 /** 1500 → « 1,5 s », pour les libellés de niveau. */
 export function secondsLabel(ms: number): string {
-  return `${decimal.format(ms / 1000)}${NBSP}s`;
+  return `${formatDecimal(ms / 1000)}${NBSP}s`;
 }

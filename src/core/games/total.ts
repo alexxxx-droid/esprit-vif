@@ -1,3 +1,4 @@
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -47,7 +48,12 @@ export function totalLevel(level: number): TotalLevel {
 
 export function totalLevelLabel(level: number): string {
   const c = totalLevel(level);
-  return [`Jusqu’à ${c.maxStep}`, `un nombre toutes les ${secondsLabel(c.stepMs)}`, c.start > 4 && `départ à ${c.start}`]
+  const step = secondsLabel(c.stepMs);
+  return [
+    tr(`Jusqu’à ${c.maxStep}`, `Up to ${c.maxStep}`),
+    tr(`un nombre toutes les ${step}`, `a number every ${step}`),
+    c.start > 4 && tr(`départ à ${c.start}`, `starts at ${c.start}`),
+  ]
     .filter(Boolean)
     .join(' · ');
 }

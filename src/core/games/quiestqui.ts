@@ -1,4 +1,5 @@
 import { CHARACTERS, type CharacterId } from '../characters';
+import { lang, tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -77,7 +78,13 @@ export function quiLevel(level: number): QuiLevel {
 
 export function quiLevelLabel(level: number): string {
   const c = quiLevel(level);
-  return [`${c.people} visages`, c.sameFruit > 1 ? 'fruits en double' : null, c.lookAlikeNames ? 'prénoms proches' : null, `${secondsLabel(c.studyMs)} chacun`]
+  const study = secondsLabel(c.studyMs);
+  return [
+    tr(`${c.people} visages`, `${c.people} faces`),
+    c.sameFruit > 1 ? tr('fruits en double', 'repeated fruits') : null,
+    c.lookAlikeNames ? tr('prénoms proches', 'similar names') : null,
+    tr(`${study} chacun`, `${study} each`),
+  ]
     .filter(Boolean)
     .join(' · ');
 }
@@ -97,6 +104,27 @@ export const QUI_NAMES: readonly string[] = [
   'Emma', 'Eden', 'Elsa', 'Ethan', 'Eliott',
   'Félix', 'Fanny', 'Gabin', 'Hugo', 'Oscar', 'Pablo', 'Victor', 'Zoé', 'Yanis', 'Basile', 'Agathe', 'Paul',
 ];
+
+/** Les mêmes, pour une interface en anglais : des prénoms courants là-bas, groupés de la même façon. */
+export const QUI_NAMES_EN: readonly string[] = [
+  'Lily', 'Leo', 'Lucy', 'Liam', 'Luke', 'Lola', 'Leah', 'Logan',
+  'Mia', 'Max', 'Mila', 'Mason', 'Maya', 'Milo', 'Molly', 'Miles',
+  'Noah', 'Nora', 'Nina', 'Nate', 'Nick', 'Naomi',
+  'Sam', 'Sara', 'Sofia', 'Seth', 'Sadie', 'Simon',
+  'Tom', 'Tess', 'Theo', 'Tara', 'Tyler',
+  'Ivy', 'Ian', 'Isla', 'Iris', 'Isaac',
+  'Jack', 'Jade', 'Jake', 'Julia', 'Jonas',
+  'Ava', 'Adam', 'Alice', 'Amy', 'Alex', 'Anna',
+  'Chloe', 'Cole', 'Clara', 'Carl', 'Cody',
+  'Rose', 'Ryan', 'Ruby', 'Rex', 'Riley',
+  'Emma', 'Eli', 'Ella', 'Ethan', 'Evan',
+  'Finn', 'Grace', 'Hugo', 'Oscar', 'Paul', 'Victor', 'Zoe', 'Owen', 'Ben', 'Hazel', 'Kate', 'Gus',
+];
+
+/** Les prénoms de la langue de l'interface (tirés au début de chaque manche). */
+export function quiNames(): readonly string[] {
+  return lang() === 'en' ? QUI_NAMES_EN : QUI_NAMES;
+}
 
 export interface Person {
   character: CharacterId;
@@ -118,10 +146,11 @@ export interface QuiRound {
 }
 
 function pickNames(rng: Rng, count: number, lookAlike: boolean): string[] {
-  if (!lookAlike) return rng.shuffle(QUI_NAMES).slice(0, count);
+  const pool = quiNames();
+  if (!lookAlike) return rng.shuffle(pool).slice(0, count);
   // Deux ou trois initiales seulement : Léa, Léo, Lina… se bousculent.
   const byInitial = new Map<string, string[]>();
-  for (const name of QUI_NAMES) byInitial.set(name[0], [...(byInitial.get(name[0]) ?? []), name]);
+  for (const name of pool) byInitial.set(name[0], [...(byInitial.get(name[0]) ?? []), name]);
   const groups = rng.shuffle([...byInitial.values()].filter((g) => g.length >= 4));
   const names: string[] = [];
   for (const group of groups) {

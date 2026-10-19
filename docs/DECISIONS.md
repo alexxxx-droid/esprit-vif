@@ -214,6 +214,25 @@ Elevate, Peak, NeuroNation, CogniFit) :
   les trophées se rangent du plus avancé au moins avancé.
 - **Série qui pardonne** : la pression des séries est la plainte la plus fréquente sur ces applis.
 
+## Version anglaise (v2.7)
+
+- **Choix** dans les réglages (Apparence) : Auto (la langue du téléphone : français s'il est en
+  français, anglais sinon), Français ou English. Le réglage est propre à chaque joueur.
+- **Technique** (`src/core/lang.ts`, détail dans `docs/TRADUCTION.md`) : chaque texte s'écrit à
+  côté de sa traduction, `tr('Réglages', 'Settings')`, le français faisant foi. Les tables de
+  textes (jeux, trophées, saisons…) passent par des accesseurs, jamais figées au chargement. Au
+  changement de langue, l'appli repart d'un écran neuf (`LanguageRoot`), sans recharger la page.
+- **Contenus propres à la langue**, pas traduits mot à mot : 829 mots pour les Anagrammes,
+  34 catégories anglaises (sans mot à double sens : ni « orange », ni « bat »…), 120 paires de
+  phrases pour Speed Reading, noms de couleurs (et reconnaissance vocale) pour Color Trap, formes,
+  conseils du coach, prénoms de Who's Who?. Dates et nombres suivent la langue (Intl).
+- **Hors de l'appli** : le widget affiche les textes que l'appli lui confie dans sa langue ; les
+  raccourcis de l'icône et la fiche du widget suivent la langue du téléphone (`values-en`).
+- **Vérifié** : un robot parcourt en anglais tous les écrans, les intros et les 28 jeux en cours
+  de partie et cherche les restes de français (aucun) ; les robots français repassent à
+  l'identique ; la bascule de langue tient au rechargement.
+- Un score déjà enregistré garde le résumé (« headline ») de la langue où il a été joué.
+
 ## Couleurs
 
 - Couleurs des domaines (Calcul bleu, Mémoire orange, Attention vert d'eau, Vitesse jaune,

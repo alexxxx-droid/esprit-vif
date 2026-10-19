@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { hasOfficialTest, streakHorizon } from './core/daily';
 import { sessionDone, sessionGames } from './core/modes';
 import type { Domain } from './core/types';
@@ -26,6 +26,9 @@ import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { TrainingScreen } from './ui/screens/TrainingScreen';
 
 const TABBED: Route['name'][] = ['home', 'training', 'progress', 'settings'];
+
+// Le transfert (QR codes, appareil photo) n'est chargé que si l'on s'en sert.
+const TransferScreen = lazy(() => import('./ui/screens/TransferScreen').then((m) => ({ default: m.TransferScreen })));
 
 function Screen({ route }: { route: Route }) {
   switch (route.name) {
@@ -55,6 +58,12 @@ function Screen({ route }: { route: Route }) {
       return <PartyScreen />;
     case 'challenge':
       return <ChallengeScreen code={route.code} />;
+    case 'transfer':
+      return (
+        <Suspense fallback={null}>
+          <TransferScreen />
+        </Suspense>
+      );
   }
 }
 

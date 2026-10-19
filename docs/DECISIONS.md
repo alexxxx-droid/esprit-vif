@@ -249,6 +249,28 @@ Elevate, Peak, NeuroNation, CogniFit) :
   compris), le test redevient « à faire » le lendemain sans ouvrir l'appli. Le prénom n'y figure
   que s'il a été choisi (ou s'il y a plusieurs joueurs). Les réglages proposent de l'ajouter.
 
+## Transfert par QR code
+
+Changer de téléphone, ou passer du site à l'appli, sans compte ni serveur (`src/core/transfer.ts`,
+`TransferScreen.tsx`, `#/transfert`) :
+
+- **Le code** : la sauvegarde habituelle et le profil (prénom, couleur, compagnon), compressés
+  (`deflate-raw`), écrits en **base 32**. Majuscules et chiffres tiennent dans le mode
+  alphanumérique des QR codes, environ 20 % plus dense que le texte ordinaire.
+- **Les images** : 700 caractères par QR code (environ 85 × 85 modules, lisibles sur un écran),
+  « EV1:ID:rang:total:… », qui défilent toutes les 300 ms. Le récepteur les ramasse dans
+  n'importe quel ordre et repart de zéro si un autre transfert commence. Mesures : 9 images pour
+  100 parties, 39 pour 500, 114 pour 1 500 (cas défavorable).
+- **La lecture** : le détecteur du navigateur s'il lit les QR codes, sinon jsQR, chargé à la
+  demande. Tout l'écran est chargé à part (31 Ko), l'appli principale ne grossit pas.
+- **Copier-coller** du code entier : un téléphone ne peut pas scanner son propre écran, or c'est
+  le cas du passage du site à l'appli sur un même téléphone.
+- **À l'arrivée**, rien n'est écrasé sans le dire : « Ajouter comme nouveau joueur » (tant qu'il
+  reste une place sur les 4) ou « Remplacer la progression de … ».
+- L'APK demande l'appareil photo seulement au moment du scan (`CAMERA`, matériel facultatif).
+- Vérifié : bout en bout avec une caméra simulée qui filme les codes de l'autre appareil (5 s
+  pour 12 images, avec des images ratées), copier-coller, autorisation et caméra dans l'APK.
+
 ## Rappel quotidien
 
 Sans serveur, une PWA ne peut pas déclencher une notification à heure fixe de façon fiable.

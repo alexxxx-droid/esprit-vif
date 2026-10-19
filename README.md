@@ -30,6 +30,8 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 - **Ce que disent tes parties** : tes tendances en clair (domaine qui progresse, meilleur moment
   de la journée, régularité), et après chaque partie, où tu te situes par rapport à ta moyenne.
 - **Une série qui pardonne** : un jour de repos par semaine ne casse pas ta série.
+- **Transfert par QR code** : ta progression passe d'un téléphone à l'autre, ou du site à l'appli,
+  par une suite de QR codes (ou un code à copier-coller), sans compte ni serveur.
 - **Écrire au doigt** : dans les jeux de nombres, tu peux écrire ta réponse au lieu de toucher le
   pavé ; le chiffre est reconnu sur le téléphone, sans connexion.
 

@@ -13,6 +13,7 @@ import { platform } from '../platform';
 import { useProfileManager, useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { promptInstall, usePwa } from '../pwa';
+import { navigate } from '../router';
 
 const TEXT_SIZES: { value: TextSize; label: string }[] = [
   { value: 'normal', label: 'Normal' },
@@ -330,6 +331,7 @@ export function SettingsScreen() {
       <Section title="Mes données">
         <p className="hint">Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.</p>
         <div className="data-actions">
+          <ActionRow icon="share" label="Transférer vers un autre appareil (QR code)" onClick={() => navigate({ name: 'transfer' })} />
           <ActionRow icon="download" label="Exporter ma progression" onClick={() => void exportData()} />
           <ActionRow icon="upload" label="Importer une sauvegarde" onClick={() => fileInput.current?.click()} />
           <ActionRow icon="trash" label="Tout effacer" danger onClick={() => setPending({ kind: 'reset' })} />

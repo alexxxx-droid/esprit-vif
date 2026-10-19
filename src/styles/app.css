@@ -3903,3 +3903,141 @@
   flex-direction: column;
   gap: 2px;
 }
+
+/* ---------- Transfert par QR code ---------- */
+
+.tabs--two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.transfer__panel {
+  gap: 14px;
+}
+
+.transfer__what {
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.transfer__qr-wrap {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  padding: 10px;
+  border-radius: var(--radius-l);
+  /* Toujours du blanc autour du code, même en thème sombre : les lecteurs en ont besoin. */
+  background: #ffffff;
+  box-shadow: var(--shadow-1);
+}
+
+.transfer__qr {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.transfer__wait {
+  color: #5c5966;
+  font-weight: 650;
+}
+
+.transfer__count {
+  color: var(--ink-3);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.transfer__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--ink-2);
+}
+
+.transfer__camera {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 140px;
+  overflow: hidden;
+  border-radius: var(--radius-l);
+  background: var(--surface-2);
+}
+
+.transfer__camera video {
+  display: none;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.transfer__camera.is-on video {
+  display: block;
+}
+
+.transfer__frame {
+  position: absolute;
+  inset: 12%;
+  border: 3px solid #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 0 0 999px rgb(0 0 0 / 0.25);
+  pointer-events: none;
+}
+
+.transfer__progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--ink-2);
+  font-weight: 650;
+}
+
+.transfer__bar {
+  flex: 1 0 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+.transfer__bar span {
+  display: block;
+  height: 100%;
+  background: var(--good);
+  transform-origin: left;
+  transition: transform 200ms;
+}
+
+.transfer__paste {
+  min-height: 84px;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  resize: vertical;
+}
+
+.transfer__done {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-m);
+  background: color-mix(in oklab, var(--good) 12%, var(--surface));
+  color: var(--ink);
+}
+
+.transfer__done svg {
+  flex: none;
+  color: var(--good);
+}
+
+.transfer .danger-text {
+  color: var(--bad);
+}

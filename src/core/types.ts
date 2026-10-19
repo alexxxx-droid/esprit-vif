@@ -24,7 +24,10 @@ export type GameId =
   | 'mots'
   | 'lettre'
   | 'categories'
-  | 'paires';
+  | 'paires'
+  | 'coupdoeil'
+  | 'quiestqui'
+  | 'lecture';
 
 export type PlayMode = 'free' | 'daily';
 

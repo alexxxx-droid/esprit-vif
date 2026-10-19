@@ -7,6 +7,7 @@ import { BalanceGame } from './BalanceGame';
 import { CalculGame } from './CalculGame';
 import { CategoriesGame } from './CategoriesGame';
 import { CorrespondanceGame } from './CorrespondanceGame';
+import { CoupGame } from './CoupGame';
 import { DiableGame } from './DiableGame';
 import {
   AnagrammesDemo,
@@ -15,9 +16,11 @@ import {
   CalculDemo,
   CategoriesDemo,
   CorrespondanceDemo,
+  CoupDemo,
   DiableDemo,
   FlechesDemo,
   HorlogesDemo,
+  LectureDemo,
   LettreDemo,
   IntrusDemo,
   MatriceDemo,
@@ -27,6 +30,7 @@ import {
   OrdreDemo,
   PairesDemo,
   PluieDemo,
+  QuiDemo,
   ReflexeDemo,
   RotationDemo,
   SchulteDemo,
@@ -37,6 +41,7 @@ import {
 import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
+import { LectureGame } from './LectureGame';
 import { LettreGame } from './LettreGame';
 import { MatriceGame } from './MatriceGame';
 import { MonnaieGame } from './MonnaieGame';
@@ -45,6 +50,7 @@ import { NBackGame } from './NBackGame';
 import { OrdreGame } from './OrdreGame';
 import { PairesGame } from './PairesGame';
 import { PluieGame } from './PluieGame';
+import { QuiGame } from './QuiGame';
 import { ReflexeGame } from './ReflexeGame';
 import { RotationGame } from './RotationGame';
 import { SchulteGame } from './SchulteGame';
@@ -77,6 +83,9 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   lettre: LettreGame,
   categories: CategoriesGame,
   paires: PairesGame,
+  coupdoeil: CoupGame,
+  quiestqui: QuiGame,
+  lecture: LectureGame,
 };
 
 /** Jeux où l'on répond avec le pavé numérique : on peut aussi y écrire au doigt. */
@@ -108,4 +117,7 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   lettre: LettreDemo,
   categories: CategoriesDemo,
   paires: PairesDemo,
+  coupdoeil: CoupDemo,
+  quiestqui: QuiDemo,
+  lecture: LectureDemo,
 };

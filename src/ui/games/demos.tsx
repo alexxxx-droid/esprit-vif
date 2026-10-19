@@ -4,10 +4,13 @@ import { Icon } from '../components/Icon';
 import { Shape } from '../components/Shape';
 import { ScaleView } from './BalanceGame';
 import { BALANCE_LOOKS } from './balance-looks';
+import { COUP_GROUPS } from './coup-groups';
+import { DotField } from './CoupGame';
 import { Arrow } from './FlechesGame';
 import { ClockFace } from './HorlogesGame';
 import { WordTiles } from './LettreGame';
 import { PairCard } from './PairesGame';
+import { PersonFace } from './QuiGame';
 import { PieceView } from './RotationGame';
 import { useLoop, useReducedMotion } from '../hooks';
 
@@ -612,6 +615,103 @@ export function SchulteDemo() {
         ))}
       </div>
       <p className="demo__caption">1, 2, 3… jusqu’au bout&nbsp;!</p>
+    </div>
+  );
+}
+
+const COUP_DEMO = [
+  [
+    { x: 22, y: 20, r: 6 },
+    { x: 70, y: 16, r: 5 },
+    { x: 46, y: 42, r: 6 },
+    { x: 15, y: 62, r: 5 },
+    { x: 80, y: 55, r: 6 },
+    { x: 58, y: 80, r: 5 },
+    { x: 30, y: 86, r: 6 },
+  ],
+  [
+    { x: 45, y: 14, r: 8 },
+    { x: 20, y: 40, r: 7 },
+    { x: 72, y: 34, r: 8 },
+    { x: 82, y: 82, r: 7 },
+  ],
+];
+
+export function CoupDemo() {
+  const frame = useDemoFrame(3, 1100, 2);
+  return (
+    <div className="demo">
+      <div className="demo-coup">
+        <DotField groups={COUP_DEMO} hidden={frame > 0} />
+      </div>
+      <div className="demo-coup__options">
+        {COUP_GROUPS.map((g, i) => (
+          <span key={g.name} className={frame === 2 && i === 0 ? 'is-picked' : undefined}>
+            <i style={{ background: g.color }} />
+            {g.more}
+          </span>
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame === 0 ? 'Regarde, sans compter…' : frame === 1 ? 'Bleus ou orange ?' : '7 bleus contre 4 orange'}
+        <Tick show={frame === 2} />
+      </p>
+    </div>
+  );
+}
+
+const QUI_DEMO = [
+  { character: 'pomme' as const, color: 1, name: 'Léa' },
+  { character: 'citron' as const, color: 0, name: 'Hugo' },
+  { character: 'raisin' as const, color: 2, name: 'Nina' },
+];
+
+export function QuiDemo() {
+  const frame = useDemoFrame(3, 1300, 2);
+  return (
+    <div className="demo">
+      <div className="demo-qui">
+        {QUI_DEMO.map((p, i) => (
+          <div key={p.name} className={`qui-person${frame === 2 && i === 0 ? ' is-picked' : ''}`}>
+            <PersonFace person={p} size={54} />
+            <span className="qui-person__name">{frame === 0 ? p.name : ' '}</span>
+          </div>
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame === 0 ? 'Retiens les prénoms…' : frame === 1 ? 'Qui est Léa ?' : 'La pomme sur fond orange !'}
+        <Tick show={frame === 2} />
+      </p>
+    </div>
+  );
+}
+
+const LECTURE_DEMO = [
+  { sentence: 'Un chat a quatre pattes.', truth: true },
+  { sentence: 'La mer est sucrée.', truth: false },
+];
+
+export function LectureDemo() {
+  const frame = useDemoFrame(4, 1100, 1);
+  const q = LECTURE_DEMO[frame >> 1];
+  const answered = frame % 2 === 1;
+  return (
+    <div className="demo">
+      <p className="demo-lecture">{q.sentence}</p>
+      <div className="demo-lecture__options">
+        <span className={answered && q.truth ? 'is-picked' : undefined}>
+          <Icon name="check" size={16} strokeWidth={3} />
+          Vrai
+        </span>
+        <span className={answered && !q.truth ? 'is-picked' : undefined}>
+          <Icon name="close" size={16} strokeWidth={3} />
+          Faux
+        </span>
+      </div>
+      <p className="demo__caption">
+        {answered ? (q.truth ? 'Vrai, bien sûr' : 'Faux : elle est salée') : 'Vrai ou faux ?'}
+        <Tick show={answered} />
+      </p>
     </div>
   );
 }

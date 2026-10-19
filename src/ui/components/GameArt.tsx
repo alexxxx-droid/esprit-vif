@@ -206,6 +206,42 @@ const ART: Record<GameId, ReactNode> = {
       <circle className="bg" cx="12.5" cy="16.5" r="2.6" />
     </>
   ),
+  quiestqui: (
+    <>
+      <circle className="s" cx="16" cy="18" r="9.5" />
+      <circle className="k" cx="13" cy="17" r="1.6" />
+      <circle className="k" cx="19" cy="17" r="1.6" />
+      <circle className="k" cx="32" cy="21" r="9.5" />
+      <circle className="bg" cx="29" cy="20" r="1.6" />
+      <circle className="bg" cx="35" cy="20" r="1.6" />
+      <rect className="s" x="9" y="33.5" width="30" height="8.5" rx="4.25" />
+      <text className="t" x="24" y="40.6" fontSize="8" textAnchor="middle">
+        ?
+      </text>
+    </>
+  ),
+  lecture: (
+    <>
+      <rect className="s" x="5" y="9" width="38" height="5" rx="2.5" />
+      <rect className="s" x="5" y="18" width="30" height="5" rx="2.5" />
+      <rect className="s" x="5" y="27" width="20" height="5" rx="2.5" />
+      <circle className="k" cx="35.5" cy="34.5" r="8.5" />
+      <path className="ss" d="M31.5 34.8l2.8 2.8 5.2-5.6" strokeWidth={2.6} />
+    </>
+  ),
+  coupdoeil: (
+    <>
+      <circle className="k" cx="13" cy="12" r="4.2" />
+      <circle className="k" cx="31" cy="9" r="3.6" />
+      <circle className="k" cx="22" cy="23" r="4.2" />
+      <circle className="k" cx="9" cy="31" r="3.6" />
+      <circle className="k" cx="36" cy="27" r="4.2" />
+      <circle className="k" cx="27" cy="38" r="3.6" />
+      <circle className="s" cx="40" cy="14" r="5" />
+      <circle className="s" cx="14" cy="41" r="5" />
+      <circle className="s" cx="40" cy="40" r="4.4" />
+    </>
+  ),
   rotation: (
     <>
       {[

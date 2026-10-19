@@ -131,7 +131,7 @@ Dans les six jeux de nombres, on peut écrire sa réponse chiffre par chiffre au
 pavé (réglage `handwriting`, aussi proposé à l'intro du jeu). La reconnaissance se fait **sur
 l'appareil** (`src/core/handwriting.ts`) par la méthode du nuage de points (Vatavu, Anthony &
 Wobbrock, 2012, dite $P) : le tracé est rééchantillonné en 32 points, mis à l'échelle en gardant
-ses proportions, centré, puis comparé à 33 modèles dessinés en code (plusieurs façons d'écrire
+ses proportions, centré, puis comparé à 32 modèles dessinés en code (plusieurs façons d'écrire
 chaque chiffre : 1 à drapeau, 4 ouvert ou fermé, 7 barré…). Ni le sens ni l'ordre des traits ne
 comptent. Pas de réseau de neurones : il aurait fallu l'entraîner sur des données tierces, à la
 licence incertaine, et l'embarquer.

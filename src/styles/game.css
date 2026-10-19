@@ -3666,3 +3666,379 @@
   gap: 6px;
   min-height: 42px;
 }
+
+/* ---------- Coup d'œil ---------- */
+
+.coup {
+  gap: 14px;
+}
+
+.coup__frame {
+  display: grid;
+  place-items: center;
+  width: min(100%, 44dvh, 340px);
+  aspect-ratio: 1;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.coup__field {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 6%;
+}
+
+.coup__mask {
+  fill: var(--ink-3);
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.coup__cross {
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+
+.coup__cross::before,
+.coup__cross::after {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 2px;
+  background: var(--ink-3);
+  content: '';
+}
+
+.coup__cross::before {
+  width: 22px;
+  height: 3px;
+}
+
+.coup__cross::after {
+  width: 3px;
+  height: 22px;
+}
+
+.coup__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.coup__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 72px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 760;
+}
+
+.coup__option:disabled {
+  opacity: 0.55;
+}
+
+.coup__swatch {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+
+.demo-coup {
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.demo-coup .coup__field {
+  padding: 8%;
+}
+
+.demo-coup__options {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-coup__options span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition:
+    background-color 200ms,
+    color 200ms;
+}
+
+.demo-coup__options span.is-picked {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.demo-coup__options i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* ---------- Qui est qui ? ---------- */
+
+.qui {
+  gap: 14px;
+}
+
+.qui__round {
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.qui-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  justify-content: center;
+  gap: 10px 8px;
+  width: 100%;
+}
+
+.qui-grid--3,
+.qui-grid--4 {
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 120px));
+}
+
+.qui-grid--3 {
+  --cols: 3;
+}
+
+.qui-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: card-in 320ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.qui-person__name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 780;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qui-face {
+  box-shadow: var(--shadow-1);
+}
+
+.qui__timer {
+  width: min(100%, 260px);
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+
+.qui__timer span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--dom, var(--accent));
+  transform-origin: left;
+  animation: qui-timer linear both;
+}
+
+@keyframes qui-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.qui__ready {
+  width: 100%;
+}
+
+.qui__prompt {
+  font-size: 1.5rem;
+  font-weight: 650;
+  text-align: center;
+  animation: pop 260ms var(--ease-spring) both;
+}
+
+.qui__prompt strong {
+  color: var(--accent);
+  font-weight: 820;
+}
+
+.qui-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 92px;
+  padding: 10px 4px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  transition:
+    opacity 200ms,
+    transform 80ms;
+}
+
+.qui-pick .qui-face {
+  box-shadow: none;
+}
+
+.qui-pick.is-answer,
+.qui-name.is-answer {
+  box-shadow:
+    inset 0 0 0 3px var(--good),
+    var(--shadow-1);
+}
+
+.qui-pick.is-wrong,
+.qui-name.is-wrong {
+  box-shadow:
+    inset 0 0 0 3px var(--bad),
+    var(--shadow-1);
+}
+
+.qui-pick.is-dim,
+.qui-name.is-dim {
+  opacity: 0.45;
+}
+
+.qui-names {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.qui-name {
+  font-size: 1.25rem;
+}
+
+.demo-qui {
+  display: flex;
+  gap: 18px;
+}
+
+.demo-qui .qui-person {
+  animation: none;
+}
+
+.demo-qui .is-picked .qui-face {
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 6px var(--good);
+}
+
+/* ---------- Lecture éclair ---------- */
+
+.lecture {
+  gap: 20px;
+}
+
+.lecture__sentence {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 9.5em;
+  padding: 22px 20px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: clamp(1.2rem, 5.2vw, 1.5rem);
+  font-weight: 680;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+.lecture__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.lecture__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 76px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.lecture__option--true {
+  color: var(--good);
+}
+
+.lecture__option--false {
+  color: var(--bad);
+}
+
+.demo-lecture {
+  padding: 14px 16px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-weight: 700;
+  text-align: center;
+}
+
+.demo-lecture__options {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-lecture__options span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition:
+    background-color 200ms,
+    color 200ms;
+}
+
+.demo-lecture__options span.is-picked {
+  background: var(--accent);
+  color: var(--accent-ink);
+}

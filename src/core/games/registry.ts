@@ -10,7 +10,10 @@ import { diableLevel, diableLevelLabel } from './diable';
 import { flechesLevel, flechesLevelLabel } from './fleches';
 import { horlogesLevel, horlogesLevelLabel } from './horloges';
 import { intrusLevelLabel } from './intrus';
+import { coupLevelLabel } from './coupdoeil';
+import { lectureLevel, lectureLevelLabel } from './lecture';
 import { lettreLevel, lettreLevelLabel } from './lettre';
+import { quiLevel, quiLevelLabel } from './quiestqui';
 import { matriceLevel, matriceLevelLabel } from './matrice';
 import { monnaieLevel, monnaieLevelLabel } from './monnaie';
 import { motsLevel, motsLevelLabel } from './mots';
@@ -369,6 +372,42 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: pairesLevelLabel,
   },
+  coupdoeil: {
+    id: 'coupdoeil',
+    name: 'Coup d’œil',
+    domain: 'vitesse',
+    rule: () => 'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: coupLevelLabel,
+  },
+  quiestqui: {
+    id: 'quiestqui',
+    name: 'Qui est qui ?',
+    domain: 'memoire',
+    rule: (level) =>
+      quiLevel(level).nameQuestions > 0
+        ? 'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.'
+        : 'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.',
+    duration: '≈ 2 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: quiLevelLabel,
+  },
+  lecture: {
+    id: 'lecture',
+    name: 'Lecture éclair',
+    domain: 'langage',
+    rule: (level) =>
+      lectureLevel(level).tiers.includes(3)
+        ? 'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 60 secondes.'
+        : 'Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: lectureLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -383,6 +422,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'ordre',
   'mots',
   'paires',
+  'quiestqui',
   'stroop',
   'intrus',
   'boutique',
@@ -390,9 +430,11 @@ export const GAME_ORDER: readonly GameId[] = [
   'schulte',
   'correspondance',
   'reflexe',
+  'coupdoeil',
   'anagrammes',
   'lettre',
   'categories',
+  'lecture',
   'rotation',
   'balance',
   'horloges',
@@ -423,6 +465,9 @@ export const DAILY_ROTATION: readonly GameId[] = [
   'lettre',
   'categories',
   'paires',
+  'coupdoeil',
+  'quiestqui',
+  'lecture',
 ];
 
 export function isGameId(value: string): value is GameId {

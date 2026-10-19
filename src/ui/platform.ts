@@ -2,12 +2,22 @@
  * Ce qui diffère entre le navigateur et l'appli Android : enregistrement de fichiers et rappel quotidien.
  * La version web est installée par défaut ; l'APK installe la sienne au démarrage.
  */
+export interface ReminderOptions {
+  /** Le test du jour est déjà fait : pas de rappel aujourd'hui. */
+  skipToday: boolean;
+  /** Demander l'autorisation si besoin (seulement quand l'utilisateur active le rappel). */
+  ask: boolean;
+}
+
 export interface Platform {
   native: boolean;
   /** Propose le fichier à l'utilisateur (téléchargement ou partage). */
   saveFile(name: string, text: string): Promise<void>;
-  /** Programme (heure « HH:MM ») ou annule (null) la notification quotidienne. Absent sur le web. */
-  scheduleReminder?: (time: string | null) => Promise<boolean>;
+  /**
+   * Programme (heure « HH:MM ») ou annule (null) la notification quotidienne.
+   * Renvoie faux si les notifications sont refusées. Absent sur le web.
+   */
+  scheduleReminder?: (time: string | null, options: ReminderOptions) => Promise<boolean>;
 }
 
 const webPlatform: Platform = {

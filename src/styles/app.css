@@ -11,6 +11,22 @@
   min-height: 100dvh;
 }
 
+/* Appli installée en plein écran : un voile sous la barre d'état, pour que le contenu qui défile
+   ne passe pas sous l'heure et les icônes. Invisible dans un navigateur (marge nulle). */
+.app::before {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 25;
+  height: env(safe-area-inset-top, 0px);
+  background: color-mix(in oklab, var(--bg) 90%, transparent);
+  content: '';
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
 .screen {
   display: flex;
   flex-direction: column;
@@ -366,7 +382,7 @@
 
 .toast--action .btn {
   flex: none;
-  min-height: 44px;
+  min-height: 48px;
 }
 
 .install-card {
@@ -1051,7 +1067,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 44px;
+  min-height: 48px;
   color: var(--ink-2);
   font-weight: 650;
   cursor: pointer;

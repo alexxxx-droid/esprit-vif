@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
+import { hasOfficialTest } from './core/daily';
 import type { Settings } from './store/progress';
 import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
 import { setSoundEnabled } from './ui/fx/sound';
+import { useToday } from './ui/hooks';
+import { platform } from './ui/platform';
 import { useProgress } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { HomeScreen } from './ui/screens/HomeScreen';
@@ -53,10 +56,21 @@ function useApplySettings(settings: Settings) {
   }, [settings.sound, settings.vibration]);
 }
 
+/** Appli Android : les rappels sont reprogrammés à l'ouverture, et sautent le jour où le test est fait. */
+function useReminderSync(settings: Settings, doneToday: boolean) {
+  useEffect(() => {
+    const schedule = platform().scheduleReminder;
+    if (!schedule || !settings.reminder) return;
+    void schedule(settings.reminderTime, { skipToday: doneToday, ask: false });
+  }, [settings.reminder, settings.reminderTime, doneToday]);
+}
+
 export function App() {
   const route = useRoute();
-  const { settings } = useProgress();
+  const { settings, tests } = useProgress();
+  const today = useToday();
   useApplySettings(settings);
+  useReminderSync(settings, hasOfficialTest(tests, today));
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
 

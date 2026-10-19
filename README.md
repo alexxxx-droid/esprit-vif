@@ -59,13 +59,50 @@ version est publiée, une bannière propose de mettre à jour (jamais en pleine 
 Le bouton **Installer Esprit Vif sur cet appareil** apparaît aussi dans les Réglages quand le
 navigateur le permet.
 
+## Appli Android (APK)
+
+Esprit Vif existe aussi en APK, construit avec Capacitor à partir du même code. Par rapport à
+la PWA, il ajoute un **vrai rappel quotidien par notification** (uniquement les jours où le test
+n’est pas encore fait) et des vibrations natives.
+
+### Installer l’APK
+
+1. Sur le téléphone, ouvre https://github.com/alexxxx-droid/esprit-vif/releases/tag/android
+   et télécharge **esprit-vif.apk**.
+2. Ouvre le fichier. Android demande d’autoriser l’installation depuis le navigateur
+   (« sources inconnues ») : accepte.
+3. Les versions suivantes s’installent par-dessus, sans perdre la progression : elles sont
+   signées avec la même clé.
+
+La PWA et l’APK gardent chacun leur propre progression : pour passer de l’un à l’autre, utilise
+**Réglages → Exporter**, puis **Importer** de l’autre côté.
+
+### Construire l’APK
+
+- **Automatiquement** : à chaque `push` sur `main`, le workflow `.github/workflows/android.yml`
+  construit l’APK signé, le joint au run (artefact) et le publie dans la release « android ».
+  La clé de signature vient des secrets du dépôt.
+- **En local** (JDK 21 et SDK Android nécessaires) :
+
+  ```bash
+  npm run build:android            # site en mode Android, puis cap sync
+  cd android
+  ./gradlew assembleDebug          # APK de test : app/build/outputs/apk/debug/
+  ./gradlew assembleRelease        # APK signé, si les variables ANDROID_KEYSTORE_* sont définies
+  ```
+
+  Les icônes et écrans de démarrage Android se régénèrent avec `npm run icons:android`.
+
 ## Organisation du code
 
 ```
 src/core/     logique pure, sans interface : générateurs, scores, âge cérébral, test du jour
 src/store/    stockage local (IndexedDB) et progression, export/import JSON
 src/ui/       interface React : écrans, déroulé de partie, jeux, sons et vibrations
+src/native.ts ce que l'APK ajoute : notifications, vibrations natives, bouton retour, partage
 src/styles/   jetons de design (clair/sombre) et feuilles de style
+android/      projet Android généré par Capacitor (icônes, signature, version)
+scripts/      génération des icônes Android
 docs/         décisions de conception
 ```
 

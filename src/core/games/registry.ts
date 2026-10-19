@@ -91,7 +91,7 @@ export const GAMES: Record<GameId, GameMeta> = {
     duration: '≈ 1 min',
     maxLevel: 3,
     dailyLevel: 1,
-    levelLabel: (level) => ['Petits nombres, rythme posé', 'Nombres jusqu’à 15', 'Nombres jusqu’à 25, rapide'][level - 1] ?? '',
+    levelLabel: (level) => ['Nombres jusqu’à 9', 'Nombres jusqu’à 15', 'Jusqu’à 25, plus vite'][level - 1] ?? '',
   },
   intrus: {
     id: 'intrus',

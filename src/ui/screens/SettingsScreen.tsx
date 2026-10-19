@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react';
-import { dayKey } from '../../core/daily';
+import { dayKey, hasOfficialTest } from '../../core/daily';
 import type { ThemeChoice } from '../../store/progress';
 import { ConfirmDialog, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
@@ -18,7 +18,7 @@ const THEMES: { value: ThemeChoice; label: string }[] = [
 type Pending = { kind: 'import'; text: string } | { kind: 'reset' } | null;
 
 export function SettingsScreen() {
-  const { settings } = useProgress();
+  const { settings, tests } = useProgress();
   const store = useStore();
   const fileInput = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<Pending>(null);
@@ -36,7 +36,7 @@ export function SettingsScreen() {
     await store.updateSettings({ reminder, reminderTime });
     const schedule = platform().scheduleReminder;
     if (schedule) {
-      const ok = await schedule(reminder ? reminderTime : null);
+      const ok = await schedule(reminder ? reminderTime : null, { skipToday: hasOfficialTest(tests, dayKey()), ask: true });
       if (reminder && !ok) {
         await store.updateSettings({ reminder: false });
         say('Les notifications sont refusées : autorise-les dans les réglages du téléphone.');
@@ -97,7 +97,9 @@ export function SettingsScreen() {
           description={
             voiceSupported()
               ? 'Dis « rouge », « bleu »… Selon le navigateur, la voix peut être analysée par un service en ligne (celui de Google sur Chrome).'
-              : 'Ce navigateur ne propose pas la reconnaissance vocale : les boutons restent là.'
+              : native
+                ? 'Pas de réponse à la voix dans l’appli Android : les boutons restent là.'
+                : 'Ce navigateur ne propose pas la reconnaissance vocale : les boutons restent là.'
           }
           checked={settings.voice && voiceSupported()}
           disabled={!voiceSupported()}
@@ -129,7 +131,7 @@ export function SettingsScreen() {
           label="Me rappeler le test du jour"
           description={
             native
-              ? 'Une notification chaque jour à l’heure choisie.'
+              ? 'Une notification à l’heure choisie, les jours où le test n’est pas encore fait.'
               : 'Un bandeau sur l’accueil à partir de l’heure choisie. Pour une vraie notification, installe l’appli Android.'
           }
           checked={settings.reminder}

@@ -103,6 +103,21 @@ Sans serveur, une PWA ne peut pas déclencher une notification à heure fixe de 
 Dans le navigateur, le rappel prend la forme d'un **bandeau sur l'accueil** à partir de l'heure
 choisie ; l'appli Android programme une **vraie notification locale**.
 
+Dans l'APK, les rappels sont programmés **jour par jour sur les 14 jours suivants** plutôt qu'en
+répétition infinie : on peut ainsi sauter le jour où le test est déjà fait (reprogrammation à
+chaque ouverture et à la fin de chaque test). Sans ouverture de l'appli pendant deux semaines,
+les rappels s'arrêtent d'eux-mêmes : encourager, jamais harceler.
+
+## Appli Android
+
+- Capacitor 8, identifiant `io.github.alexxxxdroid.espritvif`. Le site est construit en mode
+  `android` (chemins relatifs, pas de service worker : les fichiers sont déjà dans l'APK).
+- APK **signé avec une clé stable** (secrets GitHub en CI, copie locale hors du dépôt) : sans
+  cela, chaque build aurait sa propre clé de débogage et une mise à jour exigerait de désinstaller,
+  donc de perdre la progression. `versionCode` = numéro de build GitHub.
+- Bouton retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
+- Export de la sauvegarde : feuille de partage Android (enregistrer dans Fichiers, envoyer…).
+
 ## Voix
 
 La reconnaissance vocale (Web Speech) est **désactivée par défaut** : sur Chrome, l'audio est

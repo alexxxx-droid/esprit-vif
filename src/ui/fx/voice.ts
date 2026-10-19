@@ -1,3 +1,5 @@
+import { platform } from '../platform';
+
 /**
  * Reconnaissance vocale (Web Speech API), utilisée en option par Couleurs piégées.
  * Selon le navigateur, l'audio peut être traité par un service en ligne : l'option est donc désactivée par défaut.
@@ -28,8 +30,12 @@ function recognitionCtor(): RecognitionCtor | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
+/**
+ * Dans l'appli Android, la WebView annonce la reconnaissance vocale sans la fournir réellement
+ * (et l'APK ne demande pas le micro) : l'option n'y est donc pas proposée.
+ */
 export function voiceSupported(): boolean {
-  return recognitionCtor() !== null;
+  return !platform().native && recognitionCtor() !== null;
 }
 
 export interface VoiceSession {

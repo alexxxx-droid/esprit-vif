@@ -9,6 +9,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 /** Pièce ou billet stylisé : la valeur est toujours écrite dessus. */
 export function Money({ cents, hidden = false }: { cents: number; hidden?: boolean }) {
@@ -64,7 +65,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
   // Mode mémoire : les pièces se retournent au bout de quelques secondes.
   useEffect(() => {
     if (!config.hideMs) return;
-    const id = window.setTimeout(() => setHidden(true), config.hideMs);
+    const id = window.setTimeout(() => setHidden(true), slow(config.hideMs));
     return () => window.clearTimeout(id);
   }, [index, config.hideMs]);
 

@@ -7,8 +7,9 @@ import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
 import { setSoundEnabled } from './ui/fx/sound';
-import { useToday } from './ui/hooks';
+import { MOTION_EVENT, useToday } from './ui/hooks';
 import { platform } from './ui/platform';
+import { setGenerousTime } from './ui/tempo';
 import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { HomeScreen } from './ui/screens/HomeScreen';
@@ -63,6 +64,21 @@ function useApplySettings(settings: Settings) {
     setSoundEnabled(settings.sound);
     setHapticsEnabled(settings.vibration);
   }, [settings.sound, settings.vibration]);
+
+  // Accessibilité : des attributs sur la racine, que les feuilles de style suivent.
+  useEffect(() => {
+    const root = document.documentElement;
+    const flag = (name: string, value: string | null) => {
+      if (value) root.dataset[name] = value;
+      else delete root.dataset[name];
+    };
+    flag('text', settings.textSize === 'normal' ? null : settings.textSize);
+    flag('contrast', settings.highContrast ? 'high' : null);
+    flag('hand', settings.leftHanded ? 'left' : null);
+    flag('motion', settings.reduceMotion ? 'reduce' : null);
+    window.dispatchEvent(new Event(MOTION_EVENT));
+    setGenerousTime(settings.generousTime);
+  }, [settings.textSize, settings.highContrast, settings.leftHanded, settings.reduceMotion, settings.generousTime]);
 }
 
 /** Appli Android : les rappels sont reprogrammés à l'ouverture, et sautent le jour où le test est fait. */

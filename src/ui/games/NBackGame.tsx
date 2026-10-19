@@ -19,6 +19,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 type Channel = 'letter' | 'position';
 
@@ -33,7 +34,7 @@ function describe(t: NBackTally): string {
 
 export function NBackGame({ seed, level, onFinish }: GameProps) {
   const sequence = useMemo(() => generateNBack(createRng(seed), level), [seed, level]);
-  const { stepMs } = nbackLevel(level);
+  const stepMs = slow(nbackLevel(level).stepMs);
   const { n, length } = sequence;
   const channels = (['letter', 'position'] as const).filter((c) => sequence[c] !== null);
   const [index, setIndex] = useState(0);

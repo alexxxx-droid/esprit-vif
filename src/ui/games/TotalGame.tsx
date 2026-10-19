@@ -17,6 +17,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'show' | 'answer' | 'feedback';
 
@@ -27,7 +28,8 @@ interface Tally {
 }
 
 export function TotalGame({ seed, level, onFinish }: GameProps) {
-  const { stepMs, start } = totalLevel(level);
+  const { stepMs: baseStepMs, start } = totalLevel(level);
+  const stepMs = slow(baseStepMs);
   const [round, setRound] = useState(0);
   const [length, setLength] = useState(start);
   const [phase, setPhase] = useState<Phase>('show');

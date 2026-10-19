@@ -16,6 +16,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useGridFocus, useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'show' | 'input' | 'success' | 'fail';
 
@@ -23,7 +24,8 @@ type Phase = 'show' | 'input' | 'success' | 'fail';
 const KEY_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyZ', 'KeyX', 'KeyC', 'KeyV'];
 
 export function MatriceGame({ seed, level, onFinish }: GameProps) {
-  const { size, flashMs, reverse } = matriceLevel(level);
+  const { size, flashMs: baseFlashMs, reverse } = matriceLevel(level);
+  const flashMs = slow(baseFlashMs);
   const cellCount = size * size;
   const [game, setGame] = useState<MatriceState>(initialMatrice);
   const [phase, setPhase] = useState<Phase>('show');

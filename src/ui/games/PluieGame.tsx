@@ -10,6 +10,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 interface Pop {
   id: number;
@@ -19,6 +20,7 @@ interface Pop {
 
 export function PluieGame({ seed, level, onFinish }: GameProps) {
   const config = pluieLevel(level);
+  const fallMs = slow(config.fallMs);
   const drops = useMemo(() => generatePluie(createRng(seed), level), [seed, level]);
   const [clock] = useState(() => new GameClock());
   const [spawned, setSpawned] = useState(0);
@@ -54,7 +56,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     let next = spawned;
     while (next < drops.length && drops[next].spawnAt <= t) next++;
     if (next !== spawned) setSpawned(next);
-    const fallen = drops.slice(0, next).filter((d) => !solved.has(d.id) && !missed.has(d.id) && d.spawnAt + config.fallMs <= t);
+    const fallen = drops.slice(0, next).filter((d) => !solved.has(d.id) && !missed.has(d.id) && d.spawnAt + fallMs <= t);
     let missedSet = missed;
     if (fallen.length) {
       missedSet = new Set([...missed, ...fallen.map((d) => d.id)]);
@@ -81,7 +83,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     if (match) {
       fx.good();
       setSolved(new Set([...solved, match.id]));
-      const top = Math.min(100, ((clock.elapsed() - match.spawnAt) / config.fallMs) * 100);
+      const top = Math.min(100, ((clock.elapsed() - match.spawnAt) / fallMs) * 100);
       setPops([...pops.slice(-4), { id: match.id, lane: match.lane, top }]);
       setTyped('');
       return;
@@ -125,7 +127,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
             <span
               key={drop.id}
               className="drop"
-              style={{ left: `${drop.lane * laneWidth + laneWidth / 2}%`, '--fall': `${config.fallMs}ms` } as CSSProperties}
+              style={{ left: `${drop.lane * laneWidth + laneWidth / 2}%`, '--fall': `${fallMs}ms` } as CSSProperties}
             >
               {formatCalc(drop.question)}
             </span>

@@ -9,6 +9,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown, useReducedMotion } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'start' | 'events' | 'answer' | 'feedback';
 
@@ -41,6 +42,7 @@ function Cat({ index, duration }: { index: number; duration: number }) {
 
 export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
   const config = boutiqueLevel(level);
+  const stepMs = slow(config.stepMs);
   const [round, setRound] = useState(0);
   const [phase, setPhase] = useState<Phase>('start');
   const [step, setStep] = useState(0);
@@ -77,7 +79,7 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
           setStep(step + 1);
           fx.tick();
         } else setPhase('answer');
-      }, config.stepMs + 250);
+      }, stepMs + 250);
       return () => window.clearTimeout(id);
     }
     if (phase === 'feedback') {
@@ -92,7 +94,7 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
       }, 1500);
       return () => window.clearTimeout(id);
     }
-  }, [phase, step, round, correct, current, config.stepMs]);
+  }, [phase, step, round, correct, current, stepMs]);
 
   const submit = () => {
     if (phase !== 'answer' || !typed) return;
@@ -124,7 +126,7 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
     else if (e.key === 'Enter') submit();
   }, phase === 'answer');
 
-  const duration = config.stepMs;
+  const duration = stepMs;
   const describe =
     phase === 'events'
       ? [event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`, event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`]

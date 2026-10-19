@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
 import { DOMAIN_ORDER } from '../../core/games/registry';
-import type { ThemeChoice } from '../../store/progress';
+import type { TextSize, ThemeChoice } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { ConfirmDialog, DomainBadge, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
@@ -13,6 +13,12 @@ import { platform } from '../platform';
 import { useProfileManager, useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { promptInstall, usePwa } from '../pwa';
+
+const TEXT_SIZES: { value: TextSize; label: string }[] = [
+  { value: 'normal', label: 'Normal' },
+  { value: 'large', label: 'Grand' },
+  { value: 'xlarge', label: 'Très grand' },
+];
 
 const THEMES: { value: ThemeChoice; label: string }[] = [
   { value: 'auto', label: 'Auto' },
@@ -184,6 +190,52 @@ export function SettingsScreen() {
           ))}
         </div>
         <p className="hint">« Auto » suit le réglage clair ou sombre de ton appareil.</p>
+      </Section>
+
+      <Section title="Accessibilité">
+        <p className="setting-label">Taille du texte</p>
+        <div className="segmented segmented--tight" role="radiogroup" aria-label="Taille du texte">
+          {TEXT_SIZES.map((size) => (
+            <button
+              key={size.value}
+              type="button"
+              role="radio"
+              aria-checked={settings.textSize === size.value}
+              className="segmented__option"
+              onClick={() => void store.updateSettings({ textSize: size.value })}
+            >
+              {size.label}
+            </button>
+          ))}
+        </div>
+        <Toggle
+          icon="contrast"
+          label="Contraste renforcé"
+          description="Textes plus foncés et contours nets autour des cartes et des boutons."
+          checked={settings.highContrast}
+          onChange={(highContrast) => void store.updateSettings({ highContrast })}
+        />
+        <Toggle
+          icon="clock"
+          label="Temps généreux"
+          description="Les éléments restent affichés plus longtemps et le temps pour réagir s’allonge de moitié."
+          checked={settings.generousTime}
+          onChange={(generousTime) => void store.updateSettings({ generousTime })}
+        />
+        <Toggle
+          icon="hand"
+          label="Mode gaucher"
+          description="La touche Effacer du pavé numérique passe à gauche, sous le pouce."
+          checked={settings.leftHanded}
+          onChange={(leftHanded) => void store.updateSettings({ leftHanded })}
+        />
+        <Toggle
+          icon="pause"
+          label="Moins d’animations"
+          description="Plus de mouvements décoratifs (confettis, glissements). Suit aussi le réglage du téléphone."
+          checked={settings.reduceMotion}
+          onChange={(reduceMotion) => void store.updateSettings({ reduceMotion })}
+        />
       </Section>
 
       <Section title="Rappel quotidien">

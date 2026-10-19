@@ -3,16 +3,23 @@ import { dayKey } from '../core/daily';
 
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
 
+/** Le réglage « Moins d'animations » de l'appli s'ajoute à celui du système. */
+export const MOTION_EVENT = 'esprit-vif:motion';
+
 function subscribeReducedMotion(callback: () => void) {
   const media = window.matchMedia(reducedMotionQuery);
   media.addEventListener('change', callback);
-  return () => media.removeEventListener('change', callback);
+  window.addEventListener(MOTION_EVENT, callback);
+  return () => {
+    media.removeEventListener('change', callback);
+    window.removeEventListener(MOTION_EVENT, callback);
+  };
 }
 
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(
     subscribeReducedMotion,
-    () => window.matchMedia(reducedMotionQuery).matches,
+    () => window.matchMedia(reducedMotionQuery).matches || document.documentElement.dataset.motion === 'reduce',
     () => false,
   );
 }

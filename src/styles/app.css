@@ -832,10 +832,13 @@
 }
 
 .game-card__name {
+  max-width: 100%;
   font-size: 1.125rem;
   font-weight: 740;
   line-height: 1.15;
   letter-spacing: -0.015em;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .game-card__domain {
@@ -2786,4 +2789,68 @@
   font-size: 2.4rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Accessibilité (réglages du joueur) ---------- */
+
+.setting-label {
+  padding-top: 14px;
+  font-weight: 700;
+}
+
+.segmented--tight {
+  margin: 8px 0 6px;
+}
+
+:root[data-text='large'] {
+  font-size: 112.5%;
+}
+
+:root[data-text='xlarge'] {
+  font-size: 125%;
+}
+
+/* Contraste renforcé : textes secondaires plus foncés, ombres remplacées par de vrais contours. */
+:root[data-contrast='high'] {
+  --ink-2: var(--ink);
+  --ink-3: color-mix(in oklab, var(--ink) 80%, var(--bg));
+  --line: color-mix(in oklab, var(--ink) 45%, var(--bg));
+  --shadow-1: 0 0 0 1.5px color-mix(in oklab, var(--ink) 55%, transparent);
+  --shadow-2: 0 0 0 2px color-mix(in oklab, var(--ink) 65%, transparent);
+}
+
+:root[data-contrast='high'] :focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Moins d'animations, demandé dans l'appli plutôt que dans le système. */
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  scroll-behavior: auto !important;
+}
+
+:root[data-motion='reduce'] .drop {
+  animation-duration: var(--fall) !important;
+}
+
+:root[data-motion='reduce'] .confetti {
+  display: none;
+}
+
+/* Mode gaucher : la touche Effacer (ou OK) passe sous le pouce gauche. */
+:root[data-hand='left'] .numpad > :nth-child(10) {
+  order: 3;
+}
+
+:root[data-hand='left'] .numpad > :nth-child(11) {
+  order: 2;
+}
+
+:root[data-hand='left'] .numpad > :nth-child(12) {
+  order: 1;
 }

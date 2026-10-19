@@ -88,7 +88,7 @@ function Home() {
         <button type="button" className="player-chip" onClick={() => setPlayersOpen(true)} aria-label={`${profileName(active, profiles)} joue. Changer de joueur`}>
           <ProfileAvatar profile={active} profiles={profiles} size={42} />
           <span className="player-chip__text">
-            <span className="player-chip__hello">Bonjour{active.name ? ',' : ' !'}</span>
+            {active.name && <span className="player-chip__hello">Bonjour,</span>}
             <span className="player-chip__name">{active.name || 'Esprit Vif'}</span>
           </span>
         </button>

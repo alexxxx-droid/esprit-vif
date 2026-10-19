@@ -9,6 +9,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'gap' | 'stim' | 'fb';
 
@@ -67,7 +68,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
       return () => window.clearTimeout(id);
     }
     if (phase === 'stim') {
-      const id = window.setTimeout(() => expire(), config.windowMs);
+      const id = window.setTimeout(() => expire(), slow(config.windowMs));
       return () => window.clearTimeout(id);
     }
     const id = window.setTimeout(() => {

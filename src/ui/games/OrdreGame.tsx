@@ -8,6 +8,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useGridFocus } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'show' | 'input' | 'success' | 'fail';
 
@@ -35,10 +36,10 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
         const id = window.setTimeout(() => setPhase('input'), 200);
         return () => window.clearTimeout(id);
       }
-      const id = window.setTimeout(() => setStep(step + 1), config.showMs);
+      const id = window.setTimeout(() => setStep(step + 1), slow(config.showMs));
       return () => window.clearTimeout(id);
     }
-    const id = window.setTimeout(() => setPhase('input'), 500 + config.showMs * round.cells.length);
+    const id = window.setTimeout(() => setPhase('input'), 500 + slow(config.showMs) * round.cells.length);
     return () => window.clearTimeout(id);
   }, [phase, step, round, config.sequential, config.showMs]);
 

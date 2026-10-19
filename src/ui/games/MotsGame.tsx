@@ -10,6 +10,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 interface Tally {
   hits: number;
@@ -20,6 +21,7 @@ interface Tally {
 
 export function MotsGame({ seed, level, onFinish }: GameProps) {
   const config = motsLevel(level);
+  const studyMs = slow(config.studyMs);
   const round = useMemo(() => generateMots(createRng(seed), level), [seed, level]);
   const [clock] = useState(() => new GameClock());
   const [studying, setStudying] = useState(true);
@@ -39,7 +41,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
     if (!studying) return;
     clock.start();
     const id = window.setInterval(() => {
-      if (clock.total() >= config.studyMs) {
+      if (clock.total() >= studyMs) {
         window.clearInterval(id);
         clock.stop();
         setStudying(false);
@@ -49,7 +51,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       window.clearInterval(id);
       clock.stop();
     };
-  }, [clock, studying, config.studyMs]);
+  }, [clock, studying, studyMs]);
 
   const answer = (seen: boolean) => {
     if (studying || done) return;
@@ -96,7 +98,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
     return (
       <div className="game">
         <GameHud>
-          <TimeLeft clock={clock} durationMs={config.studyMs} />
+          <TimeLeft clock={clock} durationMs={studyMs} />
         </GameHud>
         <div className="game__stage mots">
           <p className="mots__ask">Retiens ces {config.count} mots</p>

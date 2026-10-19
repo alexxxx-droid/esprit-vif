@@ -9,6 +9,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
 
 type Phase = 'fix' | 'stim' | 'fb';
 
@@ -74,7 +75,7 @@ export function FlechesGame({ seed, level, onFinish }: GameProps) {
       return () => window.clearTimeout(id);
     }
     if (phase === 'stim') {
-      const id = window.setTimeout(() => timeout(), config.windowMs);
+      const id = window.setTimeout(() => timeout(), slow(config.windowMs));
       return () => window.clearTimeout(id);
     }
     const id = window.setTimeout(() => {

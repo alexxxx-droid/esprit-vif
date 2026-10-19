@@ -55,6 +55,7 @@ export interface GameProgress {
 }
 
 export type ThemeChoice = 'auto' | 'light' | 'dark';
+export type TextSize = 'normal' | 'large' | 'xlarge';
 
 export interface Settings {
   sound: boolean;
@@ -70,6 +71,12 @@ export interface Settings {
   placementDone: boolean;
   /** Domaines que le joueur veut travailler en priorité (3 au plus). */
   goals: Domain[];
+  /** Accessibilité : taille du texte, contraste, temps, main, animations. */
+  textSize: TextSize;
+  highContrast: boolean;
+  generousTime: boolean;
+  leftHanded: boolean;
+  reduceMotion: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -82,6 +89,11 @@ export const DEFAULT_SETTINGS: Settings = {
   onboarded: false,
   placementDone: false,
   goals: [],
+  textSize: 'normal',
+  highContrast: false,
+  generousTime: false,
+  leftHanded: false,
+  reduceMotion: false,
 };
 
 export interface MarathonRecord {

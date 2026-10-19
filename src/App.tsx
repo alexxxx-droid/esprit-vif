@@ -1,15 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { hasOfficialTest } from './core/daily';
-import type { Settings } from './store/progress';
+import { sessionDone, sessionGames } from './core/modes';
+import type { PlayRecord, Settings } from './store/progress';
 import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
 import { setSoundEnabled } from './ui/fx/sound';
 import { useToday } from './ui/hooks';
 import { platform } from './ui/platform';
-import { useProgress } from './ui/progress-context';
+import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
 import { HomeScreen } from './ui/screens/HomeScreen';
+import { DuelScreen, MarathonScreen, SessionScreen } from './ui/screens/ModeScreens';
 import { DailyTestScreen, PlayScreen } from './ui/screens/PlayScreens';
 import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
@@ -34,6 +36,12 @@ function Screen({ route }: { route: Route }) {
       return <DailyTestScreen />;
     case 'report':
       return <ReportScreen testId={route.testId} />;
+    case 'session':
+      return <SessionScreen />;
+    case 'marathon':
+      return <MarathonScreen domain={route.domain} />;
+    case 'duel':
+      return <DuelScreen />;
   }
 }
 
@@ -65,12 +73,24 @@ function useReminderSync(settings: Settings, doneToday: boolean) {
   }, [settings.reminder, settings.reminderTime, doneToday]);
 }
 
+/** Les quatre jeux de la séance joués, d'une façon ou d'une autre : la séance compte, même hors de son écran. */
+function useSessionAutoComplete(plays: readonly PlayRecord[], sessions: readonly string[], today: string) {
+  const store = useStore();
+  const picks = useMemo(() => sessionGames(today, plays), [today, plays]);
+  const allDone = sessionDone(picks, plays, today).size === picks.length;
+  const completed = sessions.includes(today);
+  useEffect(() => {
+    if (allDone && !completed) void store.completeSession(today);
+  }, [allDone, completed, store, today]);
+}
+
 export function App() {
   const route = useRoute();
-  const { settings, tests } = useProgress();
+  const { settings, tests, plays, extras } = useProgress();
   const today = useToday();
   useApplySettings(settings);
   useReminderSync(settings, hasOfficialTest(tests, today));
+  useSessionAutoComplete(plays, extras.sessions, today);
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
 

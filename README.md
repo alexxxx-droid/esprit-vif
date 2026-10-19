@@ -8,6 +8,33 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 
 > L’âge cérébral est un indicateur ludique, pas une mesure médicale.
 
+## Au programme
+
+**24 mini-jeux** répartis en six domaines, chacun avec **20 niveaux** :
+
+| Domaine | Jeux |
+| --- | --- |
+| Calcul | Calcul éclair, Total cumulé, Calcul du diable, Monnaie, Pluie de calculs |
+| Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires |
+| Attention | Couleurs piégées, L’intrus, La boutique, Flèches |
+| Vitesse | Table de Schulte, Correspondance express, Réflexe |
+| Langage | Anagrammes, Lettre manquante, Catégories |
+| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku |
+
+- **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
+- **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20.
+- **Rang et XP** : chaque partie rapporte de l’expérience ; les rangs vont d’« Esprit curieux » à
+  « Esprit légendaire ». **35 trophées** récompensent la régularité, la curiosité et les exploits.
+- **Carte du cerveau** : les six domaines sur un radar, d’après les dernières parties.
+- **Le mot du coach** : un conseil différent chaque jour.
+
+Quatre façons de jouer :
+
+- **Test du jour** : trois jeux à niveau fixe et l’âge cérébral indicatif.
+- **Séance du jour** : quatre jeux choisis pour toi, tes domaines les plus fragiles d’abord.
+- **Marathon** : tous les jeux d’un domaine à la suite, pour battre ton record de points.
+- **Duel à deux** : trois manches sur le même téléphone, la même partie pour les deux joueurs.
+
 ## Lancer en local
 
 Il faut Node.js 22 ou plus récent.

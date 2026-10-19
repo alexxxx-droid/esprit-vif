@@ -28,6 +28,35 @@ export function TrainingScreen() {
     <div className="screen screen-in">
       <ScreenHeader title="Entraînement" subtitle="Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants." />
 
+      <section className="modes" aria-labelledby="modes-title">
+        <h2 className="domain-section__title" id="modes-title">
+          Modes de jeu
+        </h2>
+        <div className="modes__grid">
+          <button type="button" className="mode-tile" onClick={() => navigate({ name: 'session' })}>
+            <span className="mode-tile__icon">
+              <Icon name="target" />
+            </span>
+            <span className="mode-tile__title">Séance du jour</span>
+            <span className="mode-tile__sub">4 jeux sur mesure</span>
+          </button>
+          <button type="button" className="mode-tile" onClick={() => navigate({ name: 'marathon', domain: null })}>
+            <span className="mode-tile__icon">
+              <Icon name="flame" />
+            </span>
+            <span className="mode-tile__title">Marathon</span>
+            <span className="mode-tile__sub">Tout un domaine d’affilée</span>
+          </button>
+          <button type="button" className="mode-tile" onClick={() => navigate({ name: 'duel' })}>
+            <span className="mode-tile__icon">
+              <Icon name="duel" />
+            </span>
+            <span className="mode-tile__title">Duel à deux</span>
+            <span className="mode-tile__sub">Même partie, même téléphone</span>
+          </button>
+        </div>
+      </section>
+
       {DOMAIN_ORDER.map((domain) => {
         const games = gamesOfDomain(domain);
         if (games.length === 0) return null;

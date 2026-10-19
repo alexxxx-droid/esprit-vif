@@ -1,6 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import { isGameId } from '../core/games/registry';
-import type { GameId } from '../core/types';
+import { DOMAIN_ORDER } from '../core/games/registry';
+import type { Domain, GameId } from '../core/types';
 
 /** Routage par le fragment d'URL (#/…) : fonctionne tel quel sur GitHub Pages et dans l'APK. */
 export type Route =
@@ -10,7 +11,12 @@ export type Route =
   | { name: 'settings' }
   | { name: 'play'; gameId: GameId }
   | { name: 'test' }
-  | { name: 'report'; testId: string };
+  | { name: 'report'; testId: string }
+  | { name: 'session' }
+  | { name: 'marathon'; domain: Domain | null }
+  | { name: 'duel' };
+
+const isDomain = (value: string | undefined): value is Domain => DOMAIN_ORDER.includes(value as Domain);
 
 export function parseHash(hash: string): Route {
   const [head, arg] = hash
@@ -33,6 +39,12 @@ export function parseHash(hash: string): Route {
       return arg && isGameId(arg) ? { name: 'play', gameId: arg } : { name: 'training' };
     case 'bilan':
       return arg ? { name: 'report', testId: arg } : { name: 'home' };
+    case 'seance':
+      return { name: 'session' };
+    case 'marathon':
+      return { name: 'marathon', domain: isDomain(arg) ? arg : null };
+    case 'duel':
+      return { name: 'duel' };
     default:
       return { name: 'home' };
   }
@@ -54,6 +66,12 @@ export function routeHash(route: Route): string {
       return `#/jeu/${route.gameId}`;
     case 'report':
       return `#/bilan/${encodeURIComponent(route.testId)}`;
+    case 'session':
+      return '#/seance';
+    case 'marathon':
+      return route.domain ? `#/marathon/${route.domain}` : '#/marathon';
+    case 'duel':
+      return '#/duel';
   }
 }
 

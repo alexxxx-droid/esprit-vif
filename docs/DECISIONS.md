@@ -26,25 +26,38 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
 - Le test du jour ne fait pas bouger les niveaux d'entraînement, mais ses scores comptent
   pour les records et pour le profil par domaine.
 
-## Difficulté adaptative
+## Niveaux, étoiles et progression
 
-- Après une partie d'entraînement libre : **score ≥ 75 → niveau + 1**, **score < 40 → niveau − 1**
-  (`LEVEL_UP_AT`, `LEVEL_DOWN_BELOW` dans `src/core/scoring.ts`). Trois niveaux par jeu.
-- Chaque niveau a ses propres seuils de score, pour qu'un 100 reste atteignable à tous les niveaux.
+- **20 niveaux par jeu** (`MAX_LEVEL`, `src/core/levels.ts`). Le niveau 1 reprend la spec ; chaque
+  jeu décrit ses 20 niveaux dans une table (`*_LEVELS` dans `src/core/games/`) et l'intro affiche
+  ce qui change (« 6 × 6 brouillée », « 2 lettres manquantes »…).
+- **Étoiles** : 1 dès 60 pts, 2 dès 80, 3 dès 95 (`STAR_THRESHOLDS`). La première étoile
+  **débloque le niveau suivant** ; on rejoue librement tout niveau débloqué.
+- Difficulté adaptative en entraînement libre : score ≥ 60 → niveau + 1, score < 40 → niveau − 1
+  (`LEVEL_UP_AT`, `LEVEL_DOWN_BELOW`), sans jamais dépasser le niveau débloqué.
+- **Médailles par jeu** : bronze au niveau 5 réussi, argent au 10, or au 15, platine avec
+  3 étoiles au 20.
+- **XP** : `round((5 + 0,45 × score) × (1 + 5 % par niveau au-delà du 1er))` par partie, plus des
+  bonus (test du jour 40, étoile 10, séance 30, marathon 30, duel 10 : `XP_BONUS`). Rang n :
+  `100(n−1) + 25(n−1)(n−2)/2` XP ; titres d'« Esprit curieux » à « Esprit légendaire ».
+- **Tout se déduit de l'historique** (parties, tests, meilleurs scores) : rangs, médailles et
+  35 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
+  ont leur petite mémoire (`extras`), exportée avec le reste.
 
 ## Barèmes par jeu
 
-| Jeu | Niveau 1 (spec) | Niveau 2 | Niveau 3 |
-|---|---|---|---|
-| Calcul éclair | 100 pts ≤ 20 s, 0 ≥ 80 s ; +, −, × à un chiffre | 35 s / 110 s ; deux chiffres, divisions exactes | 45 s / 130 s ; jusqu'à 100, tables de 12 |
-| Couleurs piégées | 18 s / 60 s ; boutons fixes | 21 s / 66 s ; boutons qui changent de place | 24 s / 72 s ; libellés des boutons piégés eux aussi |
-| Table de Schulte | 14 s / 60 s ; 5 × 5 | 24 s / 90 s ; 6 × 6 | 28 s / 100 s ; 6 × 6 brouillée (nombres inclinés) |
+Les seuils du niveau 1 (la spec) ; les niveaux suivants sont dans les tables de chaque jeu.
 
-| Matrice | 3 cases retenues = 0, 9 = 100 ; 0,8 s par case | 0,62 s par case | 0,46 s par case |
-| Double retour | N = 1, 70 pts au mieux | N = 2, 100 pts au mieux | N = 3, 100 pts dès 80 % de précision utile |
-| Total cumulé | nombres de 1 à 9, un toutes les 1,5 s | jusqu'à 15, toutes les 1,15 s | jusqu'à 25, toutes les 0,85 s |
-| L'intrus | grille de 3 × 3 à 6 × 6, symboles faciles ; 20 trouvés = 100 | départ 4 × 4, tous les symboles ; 18 = 100 | départ 4 × 4, symboles trompeurs ; 16 = 100 |
-| Anagrammes | mots de 5 lettres ; 8 mots = 100 | 5 ou 6 lettres ; 7 mots = 100 | 6 ou 7 lettres ; 6 mots = 100 |
+| Jeu | Niveau 1 |
+|---|---|
+| Calcul éclair | 100 pts ≤ 20 s, 0 ≥ 80 s ; +, −, × à un chiffre |
+| Couleurs piégées | 18 s / 60 s ; boutons fixes |
+| Table de Schulte | 14 s / 60 s ; 5 × 5 |
+| Matrice | 3 cases retenues = 0, 9 = 100 ; 0,8 s par case |
+| Double retour | N = 1, 70 pts au mieux |
+| Total cumulé | nombres de 1 à 9, un toutes les 1,5 s |
+| L'intrus | grille de 3 × 3 à 6 × 6, symboles faciles ; 20 trouvés = 100 |
+| Anagrammes | mots de 5 lettres ; 8 mots = 100 |
 
 - Calcul éclair : les soustractions ne donnent jamais de résultat négatif ; une division part
   toujours du quotient, elle tombe donc juste. Une erreur affiche la bonne réponse et passe à la suite.
@@ -67,6 +80,39 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   lettres (CHIEN / NICHE, SIGNE / SINGE). Le mélange n'est jamais un mot de la liste. Passer
   (bouton ou Entrée) montre la solution. Clavier : taper les lettres, Retour arrière pour effacer.
 
+## Les 16 nouveaux jeux
+
+- Ils reprennent des **mécaniques classiques** de l'entraînement cérébral (calcul en chaîne,
+  rotation mentale, go/no-go, flanker, paires…) avec des **noms, des visuels et des sons
+  originaux** : rien n'est repris d'un jeu existant.
+- Un 6e domaine, **Logique**, accueille Rotation mentale, Balance, Horloges et Mini-sudoku.
+  Sa couleur (vert franc) a été validée avec les cinq autres.
+- Jeux à durée fixe (60 s) : une erreur annule une bonne réponse, pour que répondre au hasard
+  ne rapporte rien. Jeux à quantité fixe : la justesse compte d'abord, la vitesse module
+  (`0,6 + 0,4 × vitesse`).
+- **Rotation mentale** : pièces sans symétrie dès qu'un reflet sert de piège ; la bonne pièce est
+  toujours visiblement tournée.
+- **Mini-sudoku** : grilles 4 × 4 puis 6 × 6 à **solution unique** (vérifiée par un solveur) ;
+  un chiffre faux est refusé et coûte 5 s.
+- **Balance** : la réponse se déduit **sans calcul** (un contre un, ou un objet seul plus lourd que
+  deux autres). Les « balances inutiles » des niveaux avancés sont vraies mais n'aident pas.
+- **Lexique** (`lexique.ts`) : 496 mots en 25 catégories, **aucun mot dans deux catégories** et
+  aucun double sens gênant (pas d'« orange », d'« avocat », de « rose »…). *Lettre manquante*
+  donne la catégorie en indice, et aucun leurre ne forme un mot connu.
+- **Paires** : les faces se distinguent toujours par la forme (et le remplissage), la couleur ne
+  fait qu'aider ; 70 % du score pour les paires trouvées, 30 % pour l'économie de coups.
+
+## Modes de jeu
+
+- **Séance du jour** (`src/core/modes.ts`) : 4 jeux de 4 domaines, les deux domaines les plus
+  faibles d'abord (un domaine jamais joué passe en tête), puis deux autres tirés au sort. Calculée
+  sur les parties d'**avant aujourd'hui** : elle ne change pas en cours de journée. Elle compte
+  comme terminée dès que ses 4 jeux ont été joués en entraînement libre, par son écran ou non.
+- **Marathon** : tous les jeux d'un domaine à la suite, chacun au niveau du joueur ; le total des
+  scores fait le record du domaine. Les parties comptent comme de l'entraînement libre.
+- **Duel à deux** : 3 manches de 3 domaines différents, la **même graine** pour les deux joueurs ;
+  niveau 1, 5 ou 10 au choix. Rien n'est enregistré, sauf le nombre de duels (trophée, XP).
+
 ## Partie interrompue
 
 Si l'appli passe en arrière-plan pendant une partie, la partie est annulée et reprend de
@@ -80,7 +126,7 @@ reste valable jusqu'à la fin de la journée suivante.
 ## Couleurs
 
 - Couleurs des domaines (Calcul bleu, Mémoire orange, Attention vert d'eau, Vitesse jaune,
-  Langage rose) validées pour les daltonismes dans cet ordre, en clair et en sombre.
+  Langage rose, Logique vert) validées pour les daltonismes dans cet ordre, en clair et en sombre.
   Elles accompagnent toujours un nom et une icône : jamais d'information portée par la couleur seule.
 - *Couleurs piégées* se joue sur une scène sombre dans les deux thèmes, pour que les quatre
   encres restent lisibles (le jaune disparaît sur fond clair).
@@ -88,7 +134,7 @@ reste valable jusqu'à la fin de la journée suivante.
 ## Hors ligne et installation
 
 - Service worker Workbox (`vite-plugin-pwa`) : toute l'appli est mise en cache à la première
-  visite (16 fichiers, environ 530 Kio, polices comprises), puis elle marche sans réseau.
+  visite (22 fichiers, environ 730 Kio, polices comprises), puis elle marche sans réseau.
 - Seuls les jeux de caractères utiles au français sont gardés hors ligne (latin et latin étendu).
 - Mise à jour **proposée** (bannière « Mettre à jour ») plutôt qu'automatique : un rechargement
   imposé pourrait couper une partie. La bannière n'apparaît que sur les écrans hors jeu.

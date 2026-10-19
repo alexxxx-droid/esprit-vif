@@ -1936,3 +1936,350 @@
 .trophy.is-won .trophy__state {
   color: var(--good);
 }
+
+/* ---------- Modes : séance, marathon, duel ---------- */
+
+.modes__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 132px;
+  padding: 14px 12px;
+  border: 0;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  text-align: left;
+  transition: transform 140ms var(--ease-out);
+}
+
+.mode-tile:active {
+  transform: scale(0.97);
+}
+
+.mode-tile__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 6px;
+  border-radius: 13px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.mode-tile__title {
+  font-weight: 740;
+  line-height: 1.15;
+}
+
+.mode-tile__sub {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.session-card__dots {
+  display: flex;
+  gap: 5px;
+}
+
+.session-card__dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--c);
+}
+
+.session-card__dots span.is-done {
+  background: var(--c);
+}
+
+.mode-screen {
+  min-height: 100dvh;
+}
+
+.mode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mode-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 68px;
+  padding: 12px 14px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+}
+
+.mode-item--button {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  transition: transform 140ms var(--ease-out);
+}
+
+.mode-item--button:active {
+  transform: scale(0.98);
+}
+
+.mode-item.is-done {
+  background: color-mix(in oklab, var(--good) 8%, var(--surface));
+}
+
+.mode-item__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mode-item__name {
+  font-weight: 720;
+}
+
+.mode-item__sub {
+  color: var(--ink-3);
+  font-size: 0.88rem;
+}
+
+.mode-item__rank {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-weight: 750;
+}
+
+.mode-item__score {
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mode-item__check {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--good);
+  color: var(--on-good);
+}
+
+.reason {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.reason--weak {
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.reason--new {
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.reason--variety {
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
+.mode-cta {
+  margin-top: auto;
+}
+
+.mode-done {
+  align-self: flex-start;
+}
+
+.mode-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.mode-domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.mode-total {
+  font-variant-numeric: tabular-nums;
+}
+
+.mode-total small {
+  color: var(--ink-3);
+  font-size: 0.45em;
+  letter-spacing: 0;
+}
+
+.mode-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+
+.duel-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field__input {
+  min-height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 650;
+}
+
+.field__input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.duel-setup__levels {
+  margin-top: 0;
+}
+
+.duel-setup__levels .segmented__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+}
+
+.duel-setup__levels small {
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.duel-handoff__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.duel-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  color: var(--badge-ink);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* Les deux joueurs : deux couleurs de la palette des domaines, toujours avec leur initiale. */
+.duel-avatar--0 {
+  background: var(--d-calcul);
+}
+
+.duel-avatar--1 {
+  background: var(--d-memoire);
+}
+
+.duel-handoff .duel-avatar,
+.duel-avatar--big {
+  width: 92px;
+  height: 92px;
+  font-size: 2.4rem;
+  animation: pop 360ms var(--ease-spring) both;
+}
+
+.duel-final {
+  align-items: center;
+  text-align: center;
+}
+
+.duel-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.duel-board__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.duel-board__side.is-winner {
+  box-shadow: inset 0 0 0 3px var(--good), var(--shadow-1);
+}
+
+.duel-board__name {
+  overflow: hidden;
+  max-width: 100%;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.duel-board__score {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}

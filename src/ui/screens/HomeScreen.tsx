@@ -3,6 +3,7 @@ import { coachTip } from '../../core/coach';
 import { addDays, currentStreak, dailyGames, hasOfficialTest } from '../../core/daily';
 import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
@@ -127,6 +128,8 @@ export function HomeScreen() {
 
       {!doneToday && <Programme games={programme} test={inProgress} />}
 
+      <SessionCard />
+
       <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
 
       <section className="coach" aria-labelledby="coach-title">
@@ -143,6 +146,34 @@ export function HomeScreen() {
 
       <InstallCard />
     </div>
+  );
+}
+
+/** La séance du jour sur mesure : quatre jeux, une pastille par domaine qui se remplit une fois joué. */
+function SessionCard() {
+  const data = useProgress();
+  const today = useToday();
+  const picks = sessionGames(today, data.plays);
+  const done = sessionDone(picks, data.plays, today);
+  const completed = data.extras.sessions.includes(today);
+  return (
+    <button type="button" className="card card--action session-card" onClick={() => navigate({ name: 'session' })}>
+      <span className="card__icon">
+        <Icon name="target" />
+      </span>
+      <span className="card__text">
+        <span className="card__title">Séance du jour</span>
+        <span className="card__sub">
+          {completed ? 'Terminée : bravo, à demain !' : done.size ? `${done.size} jeux sur ${picks.length} · on continue ?` : `${picks.length} jeux choisis pour toi · ≈ 6 min`}
+        </span>
+      </span>
+      <span className="session-card__dots" aria-hidden="true">
+        {picks.map((pick) => (
+          <span key={pick.gameId} className={done.has(pick.gameId) ? 'is-done' : undefined} style={{ '--c': `var(--d-${pick.domain})` } as CSSProperties} />
+        ))}
+      </span>
+      <Icon name="arrow" />
+    </button>
   );
 }
 

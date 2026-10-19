@@ -62,6 +62,16 @@ export function TrainingScreen() {
             <span className="mode-tile__title">Mode fête</span>
             <span className="mode-tile__sub">2 à 4 joueurs en même temps</span>
           </button>
+          <button type="button" className="mode-tile mode-tile--wide" onClick={() => navigate({ name: 'challenge', code: null })}>
+            <span className="mode-tile__icon">
+              <Icon name="share" />
+            </span>
+            <span className="mode-tile__text">
+              <span className="mode-tile__title">Défis entre amies</span>
+              <span className="mode-tile__sub">Un lien, les mêmes parties chacune chez soi, et votre classement par catégorie</span>
+            </span>
+            <Icon name="arrow" />
+          </button>
         </div>
       </section>
 

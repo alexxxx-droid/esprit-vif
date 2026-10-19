@@ -24,19 +24,22 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
 - **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20.
 - **Rang et XP** : chaque partie rapporte de l’expérience ; les rangs vont d’« Esprit curieux » à
-  « Esprit légendaire ». **35 trophées** récompensent la régularité, la curiosité et les exploits.
+  « Esprit légendaire ». **43 trophées** récompensent la régularité, la curiosité et les exploits.
 - **Carte du cerveau** : les six domaines sur un radar, d’après les dernières parties.
 - **Le mot du coach** : un conseil différent chaque jour.
 - **Ce que disent tes parties** : tes tendances en clair (domaine qui progresse, meilleur moment
   de la journée, régularité), et après chaque partie, où tu te situes par rapport à ta moyenne.
 - **Une série qui pardonne** : un jour de repos par semaine ne casse pas ta série.
 
-Quatre façons de jouer :
+Six façons de jouer :
 
 - **Test du jour** : trois jeux à niveau fixe et l’âge cérébral indicatif.
 - **Séance du jour** : quatre jeux choisis pour toi, tes domaines les plus fragiles d’abord.
 - **Marathon** : tous les jeux d’un domaine à la suite, pour battre ton record de points.
 - **Duel à deux** : trois manches sur le même téléphone, la même partie pour les deux joueurs.
+- **Mode fête** : de 2 à 4 joueurs en même temps sur un seul écran, chacun dans son coin.
+- **Défis entre amies** : un lien, les mêmes parties chacune sur son téléphone, et un classement
+  par catégorie gardé sur chaque appareil. Sans compte ni serveur : tout tient dans le lien.
 
 ## Lancer en local
 

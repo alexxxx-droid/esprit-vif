@@ -21,4 +21,5 @@ export const TROPHY_ICONS: Record<TrophyIcon, IconName> = {
   pumpkin: 'pumpkin',
   snow: 'snow',
   flower: 'flower',
+  users: 'users',
 };

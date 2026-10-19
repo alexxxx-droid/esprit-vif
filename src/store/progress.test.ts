@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
-import type { PlayOutcome } from '../core/types';
+import type { GameId, PlayOutcome } from '../core/types';
 import { gameLevel, gameUnlocked, officialTests, parseBackup, progressionInput, ProgressStore, testInProgress } from './progress';
 import { createMemoryStorage, openIndexedDbStorage } from './storage';
 
@@ -130,8 +130,25 @@ describe('séances, marathons et duels', () => {
       sessions: ['2026-10-19'],
       marathons: { calcul: { best: 180, count: 2 } },
       duels: 1,
+      challenges: [],
+      friends: [],
     });
     expect(progressionInput(other.getSnapshot()).marathons).toBe(2);
+  });
+
+  it('gardent les défis entre amies, sans doublon, et les restaurent', async () => {
+    const store = await freshStore();
+    const link = { id: 'd1', seed: 9, level: 5, games: ['calcul', 'matrice', 'rotation'] as GameId[], from: 'Léa', scores: [70, 80, 90], day: '2026-10-19' };
+    const lea = link.games.map((gameId, i) => ({ challenge: 'd1', name: 'Léa', me: false, gameId, score: link.scores[i], day: link.day }));
+    const mine = link.games.map((gameId) => ({ challenge: 'd1', name: 'Alex', me: true, gameId, score: 60, day: link.day }));
+    await store.recordChallenge(link, lea);
+    await store.recordChallenge(link, [...lea, ...mine]);
+    const other = await freshStore();
+    await other.importJson(store.exportJson());
+    const extras = other.getSnapshot().extras;
+    expect(extras.challenges).toEqual([{ id: 'd1', seed: 9, level: 5, games: link.games, from: 'Léa', day: '2026-10-19' }]);
+    expect(extras.friends).toHaveLength(6);
+    expect(progressionInput(other.getSnapshot()).challenges).toBe(1);
   });
 
   it('ne conseille jamais un niveau encore verrouillé', async () => {

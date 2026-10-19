@@ -13,6 +13,7 @@ import { platform } from './ui/platform';
 import { setGenerousTime } from './ui/tempo';
 import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
+import { ChallengeScreen } from './ui/screens/ChallengeScreen';
 import { HomeScreen } from './ui/screens/HomeScreen';
 import { DuelScreen, MarathonScreen, SessionScreen } from './ui/screens/ModeScreens';
 import { PartyScreen } from './ui/screens/PartyScreen';
@@ -48,6 +49,8 @@ function Screen({ route }: { route: Route }) {
       return <DuelScreen />;
     case 'party':
       return <PartyScreen />;
+    case 'challenge':
+      return <ChallengeScreen code={route.code} />;
   }
 }
 

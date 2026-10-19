@@ -9,12 +9,26 @@ export interface ReminderOptions {
   ask: boolean;
 }
 
+export type ShareResult = 'shared' | 'copied' | 'cancelled' | 'failed';
+
+/** Copie dans le presse-papiers ; faux si le navigateur refuse. */
+export async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export interface Platform {
   native: boolean;
   /** Propose le fichier à l'utilisateur (téléchargement ou partage). */
   saveFile(name: string, text: string): Promise<void>;
   /** Partage une image (feuille de partage du téléphone), ou la télécharge à défaut. */
   shareImage(name: string, image: Blob, text: string): Promise<void>;
+  /** Envoie un lien (feuille de partage), ou le copie quand le partage n'existe pas. */
+  shareLink(text: string, url: string): Promise<ShareResult>;
   /**
    * Programme (heure « HH:MM ») ou annule (null) la notification quotidienne.
    * Renvoie faux si les notifications sont refusées. Absent sur le web.
@@ -50,6 +64,18 @@ const webPlatform: Platform = {
       }
     }
     download(name, image);
+  },
+  async shareLink(text, url) {
+    if (navigator.share) {
+      try {
+        await navigator.share({ text, url });
+        return 'shared';
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return 'cancelled';
+      }
+    }
+    return (await copyText(`${text}
+${url}`)) ? 'copied' : 'failed';
   },
 };
 

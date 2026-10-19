@@ -112,6 +112,18 @@ Les seuils du niveau 1 (la spec) ; les niveaux suivants sont dans les tables de 
   scores fait le record du domaine. Les parties comptent comme de l'entraînement libre.
 - **Duel à deux** : 3 manches de 3 domaines différents, la **même graine** pour les deux joueurs ;
   niveau 1, 5 ou 10 au choix. Rien n'est enregistré, sauf le nombre de duels (trophée, XP).
+- **Mode fête** (`src/core/party.ts`) : 2 à 4 joueurs sur un écran, la même question pour tous ;
+  le premier qui répond juste marque, une erreur gèle jusqu'à la question suivante. Que des
+  entiers et des réponses à toucher, aucune saisie.
+- **Défis entre amies** (`src/core/challenges.ts`) : le jeu en ligne demanderait un serveur, que
+  le cahier des charges exclut. Un défi tient donc **tout entier dans le lien** (`#/defi/<code>`,
+  JSON en base64url, ~180 caractères) : identifiant, graine, niveau, 3 jeux, prénom et scores de
+  qui l'envoie. Chacune joue la même graine chez elle, puis renvoie le lien avec ses scores ; les
+  résultats reçus sont gardés dans la progression (`extras.friends`, 60 défis au plus) et font un
+  classement par catégorie (moyenne des parties de défi). Une seule tentative ; les niveaux ne
+  bougent pas (un défi au niveau 10 ne doit pas débloquer le 11). Le prénom est demandé avant de
+  jouer s'il manque, sinon le score reviendrait signé « Joueur 1 ». Les liens pointent vers le
+  site public : ils s'ouvrent même chez qui n'a pas l'appli ; dans l'APK, on peut coller le lien.
 
 ## Partie interrompue
 

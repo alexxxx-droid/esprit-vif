@@ -15,7 +15,7 @@ import {
   type ProgressionPlay,
 } from './progression';
 
-const empty: ProgressionInput = { plays: [], tests: [], bests: {}, sessions: [], marathons: 0, duels: 0 };
+const empty: ProgressionInput = { plays: [], tests: [], bests: {}, sessions: [], marathons: 0, duels: 0, challenges: 0 };
 const bestsUpTo = (top: number, score = 70) => Object.fromEntries(Array.from({ length: top }, (_, i) => [i + 1, { score }]));
 
 describe('étoiles et niveaux débloqués', () => {
@@ -63,15 +63,16 @@ describe('XP et rang', () => {
     expect(twice).toBe(2 * playXp(96, 1) + 30);
   });
 
-  it('compte tests, séances, marathons et duels', () => {
+  it('compte tests, séances, marathons, duels et défis entre amies', () => {
     const xp = totalXp({
       ...empty,
       tests: [{ day: '2026-10-01', official: true, done: true, brainAge: 40, startedAt: '2026-10-01T08:00:00Z' }],
       sessions: ['2026-10-01'],
       marathons: 1,
       duels: 1,
+      challenges: 2,
     });
-    expect(xp).toBe(40 + 30 + 30 + 10);
+    expect(xp).toBe(40 + 30 + 30 + 10 + 2 * 20);
   });
 
   it('demande 100 XP pour le niveau 2, puis 25 de plus à chaque palier', () => {

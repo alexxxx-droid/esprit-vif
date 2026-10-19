@@ -1240,6 +1240,10 @@
   color: var(--ink-2);
 }
 
+.empty > svg {
+  flex: none;
+}
+
 .calendar__head {
   display: flex;
   align-items: center;
@@ -3665,4 +3669,237 @@
 .party-bar .icon-btn {
   width: 36px;
   height: 36px;
+}
+
+/* ---------- Défis entre amies ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.challenge-new {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.challenge-new .section-title {
+  margin-bottom: 0;
+}
+
+.challenge-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Le classement : une ligne qui défile plutôt que des puces sur trois rangs. */
+.challenge-chips--scroll {
+  flex-wrap: nowrap;
+  margin: 0 -16px 12px;
+  padding: 2px 16px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.challenge-chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 4px 14px 4px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 680;
+  transition:
+    background-color 160ms,
+    color 160ms;
+}
+
+.challenge-chip .domain-badge {
+  border-radius: 50%;
+}
+
+.challenge-chip[aria-checked='true'],
+.challenge-chip[aria-selected='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-accent);
+}
+
+.challenge-chips--scroll .challenge-chip:not([aria-selected='true']) {
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.challenge-chip__mix {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.challenge-ranking .is-me,
+.challenge-table__row.is-me {
+  background: color-mix(in oklab, var(--accent) 9%, var(--surface));
+}
+
+.challenge-me {
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.challenge-ranking .mode-item__score small {
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.challenge-arts {
+  display: flex;
+  flex: none;
+}
+
+.challenge-arts > * + * {
+  margin-left: -10px;
+}
+
+.challenge-arts > * {
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.challenge-hidden {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-3);
+  font-weight: 800;
+}
+
+.challenge-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.challenge-table__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, 44px) 54px;
+  align-items: center;
+  gap: 6px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.challenge-table__head {
+  min-height: 0;
+  padding-block: 4px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.challenge-table__row.is-top {
+  box-shadow:
+    inset 0 0 0 2px var(--warm),
+    var(--shadow-1);
+}
+
+.challenge-table__who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.challenge-table__name {
+  overflow: hidden;
+  font-weight: 720;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.challenge-table__game,
+.challenge-table__score,
+.challenge-table__total {
+  display: grid;
+  justify-items: center;
+}
+
+.challenge-table__score {
+  color: var(--ink-2);
+  font-weight: 650;
+}
+
+.challenge-table__total {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.challenge-paste {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.challenge-paste .section-title {
+  margin-bottom: 0;
+}
+
+.challenge-paste__row {
+  display: flex;
+  gap: 8px;
+}
+
+.challenge-paste__row .field__input {
+  flex: 1;
+  min-width: 0;
+}
+
+.challenge-paste__error {
+  color: var(--bad);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+/* Tuile large : les défis entre amies, sous les quatre modes. */
+.mode-tile--wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  min-height: 0;
+}
+
+.mode-tile--wide .mode-tile__icon {
+  margin-bottom: 0;
+}
+
+.mode-tile--wide .mode-tile__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
 }

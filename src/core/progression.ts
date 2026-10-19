@@ -37,6 +37,8 @@ export interface ProgressionInput {
   sessions: readonly string[];
   marathons: number;
   duels: number;
+  /** Défis entre amies relevés (joués sur cet appareil). */
+  challenges: number;
 }
 
 // ---------- Niveaux, étoiles, médailles ----------
@@ -90,7 +92,7 @@ export function medalRank(medal: Medal | null): number {
 
 // ---------- XP et rang ----------
 
-export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, weekly: WEEKLY_XP };
+export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP };
 
 /** XP d'une partie : de 5 à 50 selon le score, jusqu'à presque ×2 au niveau 20. */
 export function playXp(score: number, level: number): number {
@@ -112,6 +114,7 @@ export function totalXp(input: ProgressionInput): number {
   xp += input.sessions.length * XP_BONUS.session;
   xp += input.marathons * XP_BONUS.marathon;
   xp += input.duels * XP_BONUS.duel;
+  xp += input.challenges * XP_BONUS.challenge;
   xp += weekliesDone(input.plays, input.sessions) * XP_BONUS.weekly;
   return xp;
 }
@@ -173,7 +176,8 @@ export type TrophyIcon =
   | 'target'
   | 'pumpkin'
   | 'snow'
-  | 'flower';
+  | 'flower'
+  | 'users';
 
 interface TrophyContext {
   plays: readonly ProgressionPlay[];
@@ -191,6 +195,7 @@ interface TrophyContext {
   sessions: number;
   marathons: number;
   duels: number;
+  challenges: number;
   earlyTest: boolean;
   lateGame: boolean;
   weeklies: number;
@@ -264,6 +269,8 @@ export const TROPHIES: readonly TrophyDef[] = [
   t('assidu', 'Assidu', 'Terminer 20 séances du jour.', 'training', (c) => c.sessions, 20),
   t('marathon', 'Marathonien', 'Terminer un marathon.', 'flame', (c) => c.marathons),
   t('duel', 'Premier duel', 'Jouer un duel à deux.', 'duel', (c) => c.duels),
+  t('amies', 'Entre amies', 'Relever un défi entre amies.', 'users', (c) => c.challenges),
+  t('amies-10', 'La bande au complet', 'Relever 10 défis entre amies.', 'users', (c) => c.challenges, 10),
   t('leve-tot', 'Lève-tôt', 'Faire le test du jour avant 8 h.', 'sun', (c) => has(c.earlyTest)),
   t('nuit', 'Oiseau de nuit', 'Jouer une partie après 23 h.', 'moon', (c) => has(c.lateGame)),
   t('defi', 'Défi relevé', 'Relever un défi de la semaine.', 'target', (c) => c.weeklies),
@@ -309,6 +316,7 @@ export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(i
     sessions: input.sessions.length,
     marathons: input.marathons,
     duels: input.duels,
+    challenges: input.challenges,
     earlyTest: official.some((test) => new Date(test.startedAt).getHours() < 8),
     lateGame: input.plays.some((p) => new Date(p.at).getHours() >= 23),
     weeklies: weekliesDone(input.plays, input.sessions),

@@ -1,3 +1,4 @@
+import { mergeResults, type ChallengeLink, type FriendResult } from '../core/challenges';
 import { dayKey, hasOfficialTest } from '../core/daily';
 import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
 import { unlockedLevel, type ProgressionInput } from '../core/progression';
@@ -117,9 +118,17 @@ export interface Extras {
   sessions: string[];
   marathons: Partial<Record<Domain, MarathonRecord>>;
   duels: number;
+  /** Défis entre amies : les parties (graine, niveau, jeux) et les scores reçus ou joués ici. */
+  challenges: ChallengeInfo[];
+  friends: FriendResult[];
 }
 
-export const EMPTY_EXTRAS: Extras = { sessions: [], marathons: {}, duels: 0 };
+export type ChallengeInfo = Omit<ChallengeLink, 'scores'>;
+
+/** Assez pour des mois de défis, sans laisser grossir la base indéfiniment. */
+const MAX_CHALLENGES = 60;
+
+export const EMPTY_EXTRAS: Extras = { sessions: [], marathons: {}, duels: 0, challenges: [], friends: [] };
 
 export interface ProgressData {
   plays: PlayRecord[];
@@ -175,6 +184,7 @@ export function progressionInput(data: ProgressData): ProgressionInput {
     sessions: data.extras.sessions,
     marathons: Object.values(data.extras.marathons).reduce((sum, m) => sum + (m?.count ?? 0), 0),
     duels: data.extras.duels,
+    challenges: new Set(data.extras.friends.filter((r) => r.me).map((r) => r.challenge)).size,
   };
 }
 
@@ -350,6 +360,23 @@ export class ProgressStore {
     await this.saveExtras({ ...this.data.extras, duels: this.data.extras.duels + 1 });
   }
 
+  /** Défi entre amies : garde la partie et ses résultats (les plus anciens défis s'effacent au-delà de 60). */
+  async recordChallenge(link: ChallengeLink, results: readonly FriendResult[]): Promise<void> {
+    // Une réponse reçue garde la fiche d'origine (qui a lancé le défi) ; elle remonte seulement en tête.
+    const info: ChallengeInfo = this.data.extras.challenges.find((c) => c.id === link.id) ?? {
+      id: link.id,
+      seed: link.seed,
+      level: link.level,
+      games: link.games,
+      from: link.from,
+      day: link.day,
+    };
+    const challenges = [...this.data.extras.challenges.filter((c) => c.id !== info.id), info].slice(-MAX_CHALLENGES);
+    const kept = new Set(challenges.map((c) => c.id));
+    const friends = mergeResults(this.data.extras.friends, results).filter((r) => kept.has(r.challenge));
+    await this.saveExtras({ ...this.data.extras, challenges, friends });
+  }
+
   /** Bilan de départ : ouvre d'emblée les premiers niveaux des jeux où le joueur est déjà à l'aise. */
   async placeLevels(starts: Partial<Record<GameId, number>>): Promise<void> {
     const games = { ...this.data.games };
@@ -408,7 +435,35 @@ function normalizeExtras(raw: unknown): Extras {
     sessions: Array.isArray(raw.sessions) ? raw.sessions.filter((d): d is string => typeof d === 'string') : [],
     marathons,
     duels: Number(raw.duels) || 0,
+    challenges: Array.isArray(raw.challenges) ? raw.challenges.filter(isChallengeInfo) : [],
+    friends: Array.isArray(raw.friends) ? raw.friends.filter(isFriendResult) : [],
   };
+}
+
+function isChallengeInfo(v: unknown): v is ChallengeInfo {
+  return (
+    isObject(v) &&
+    typeof v.id === 'string' &&
+    Number.isInteger(v.seed) &&
+    Number.isInteger(v.level) &&
+    typeof v.from === 'string' &&
+    typeof v.day === 'string' &&
+    Array.isArray(v.games) &&
+    v.games.every((g) => typeof g === 'string' && isGameId(g))
+  );
+}
+
+function isFriendResult(v: unknown): v is FriendResult {
+  return (
+    isObject(v) &&
+    typeof v.challenge === 'string' &&
+    typeof v.name === 'string' &&
+    typeof v.me === 'boolean' &&
+    typeof v.gameId === 'string' &&
+    isGameId(v.gameId) &&
+    Number.isInteger(v.score) &&
+    typeof v.day === 'string'
+  );
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);

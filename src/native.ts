@@ -4,7 +4,7 @@ import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Share } from '@capacitor/share';
 import { setNativeHaptics, type HapticKind } from './ui/fx/haptics';
-import { setPlatform, type ReminderOptions } from './ui/platform';
+import { setPlatform, type ReminderOptions, type ShareResult } from './ui/platform';
 
 /**
  * Ce que l'appli Android fait de plus que le site : vraies notifications, vibrations natives,
@@ -70,6 +70,16 @@ async function shareImage(name: string, image: Blob, text: string) {
   await Share.share({ title: 'Esprit Vif', text, files: [uri], dialogTitle: 'Partager' });
 }
 
+async function shareLink(text: string, url: string): Promise<ShareResult> {
+  try {
+    await Share.share({ title: 'Esprit Vif', text, url, dialogTitle: 'Envoyer le défi' });
+    return 'shared';
+  } catch {
+    // Feuille fermée sans choisir d'appli.
+    return 'cancelled';
+  }
+}
+
 function vibrate(kind: HapticKind) {
   const effect =
     kind === 'tap'
@@ -81,7 +91,7 @@ function vibrate(kind: HapticKind) {
 }
 
 export async function setupNative() {
-  setPlatform({ native: true, saveFile, shareImage, scheduleReminder });
+  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder });
   setNativeHaptics(vibrate);
   // Retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
   await App.addListener('backButton', ({ canGoBack }) => {

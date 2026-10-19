@@ -2,8 +2,10 @@ import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DOMAINS } from '../../core/games/registry';
 import type { Domain } from '../../core/types';
 import { useCountUp } from '../hooks';
+import { useProgress, useStore } from '../progress-context';
 import { Icon, type IconName } from './Icon';
 import { TapButton } from './TapButton';
+import { WritePad } from './WritePad';
 
 export function DomainBadge({ domain, size = 40 }: { domain: Domain; size?: number }) {
   return (
@@ -43,6 +45,11 @@ interface NumPadProps {
 }
 
 export function NumPad({ onDigit, onErase, onSubmit, disabled }: NumPadProps) {
+  const { settings } = useProgress();
+  const store = useStore();
+  if (settings.handwriting) {
+    return <WritePad onDigit={onDigit} onErase={onErase} onSubmit={onSubmit} disabled={disabled} onUseKeys={() => void store.updateSettings({ handwriting: false })} />;
+  }
   const erase = (
     <TapButton className="numpad__key numpad__key--muted" onTap={onErase} aria-label="Effacer" disabled={disabled}>
       <Icon name="erase" size={28} />

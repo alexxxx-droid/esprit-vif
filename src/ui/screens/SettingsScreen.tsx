@@ -253,6 +253,13 @@ export function SettingsScreen() {
           onChange={(leftHanded) => void store.updateSettings({ leftHanded })}
         />
         <Toggle
+          icon="pen"
+          label="Écrire les chiffres au doigt"
+          description="Dans les jeux de nombres, tu écris ta réponse chiffre par chiffre au lieu de toucher le pavé. Le choix existe aussi à l’intro de chaque jeu."
+          checked={settings.handwriting}
+          onChange={(handwriting) => void store.updateSettings({ handwriting })}
+        />
+        <Toggle
           icon="pause"
           label="Moins d’animations"
           description="Plus de mouvements décoratifs (confettis, glissements). Suit aussi le réglage du téléphone."

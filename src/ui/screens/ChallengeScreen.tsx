@@ -386,7 +386,7 @@ function ChallengeRun({ link }: { link: ChallengeLink }) {
       <Header onBack={back} badge={`niveau ${link.level}`} />
       <div className="intro__head duel-final">
         {author ? <Mascot mood="cheer" size={110} /> : <FriendAvatar name={link.from} me={false} size={96} />}
-        <h1 className="intro__title">{author ? 'Ton défi est prêt' : `${link.from} te défie !`}</h1>
+        <h1 className="intro__title">{author ? 'Ton défi est prêt' : `${link.from} te défie\u00a0!`}</h1>
         <p className="intro__rule">
           {author
             ? 'Joue les trois parties, puis envoie le lien : tes amies auront exactement les mêmes à jouer.'
@@ -473,7 +473,7 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
         ) : (
           <>
             {tied ? <Mascot mood="happy" size={110} /> : top.me ? <Mascot mood="cheer" size={110} /> : <FriendAvatar name={top.name} me={false} size={96} />}
-            <h1 className="intro__title">{tied ? 'Égalité au sommet !' : top.me ? 'Tu remportes le défi !' : `${top.name} remporte le défi !`}</h1>
+            <h1 className="intro__title">{tied ? 'Égalité au sommet\u00a0!' : top.me ? 'Tu remportes le défi\u00a0!' : `${top.name} remporte le défi\u00a0!`}</h1>
             <p className="intro__rule">
               Ton score : {mine.total} / {SCORE_MAX}. Renvoie le lien pour que tes amies voient le tien.
             </p>

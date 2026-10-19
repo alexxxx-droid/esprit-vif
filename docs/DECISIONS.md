@@ -125,6 +125,24 @@ Les seuils du niveau 1 (la spec) ; les niveaux suivants sont dans les tables de 
   jouer s'il manque, sinon le score reviendrait signé « Joueur 1 ». Les liens pointent vers le
   site public : ils s'ouvrent même chez qui n'a pas l'appli ; dans l'APK, on peut coller le lien.
 
+## Écriture au doigt
+
+Dans les six jeux de nombres, on peut écrire sa réponse chiffre par chiffre au lieu de toucher le
+pavé (réglage `handwriting`, aussi proposé à l'intro du jeu). La reconnaissance se fait **sur
+l'appareil** (`src/core/handwriting.ts`) par la méthode du nuage de points (Vatavu, Anthony &
+Wobbrock, 2012, dite $P) : le tracé est rééchantillonné en 32 points, mis à l'échelle en gardant
+ses proportions, centré, puis comparé à 33 modèles dessinés en code (plusieurs façons d'écrire
+chaque chiffre : 1 à drapeau, 4 ouvert ou fermé, 7 barré…). Ni le sens ni l'ordre des traits ne
+comptent. Pas de réseau de neurones : il aurait fallu l'entraîner sur des données tierces, à la
+licence incertaine, et l'embarquer.
+
+- Le chiffre est lu après **420 ms** sans nouveau trait (le temps de barrer un 7, de finir un 4).
+- Mesures (tests) : 99 % de bonnes lectures sur des chiffres tracés autrement que les modèles,
+  penchés, étirés et tremblés ; une partie complète de Calcul éclair écrite au doigt par le robot
+  de test : 20 sur 20. Au-delà d'une distance de **1,9**, le tracé est refusé (« Pas reconnu ») :
+  les vrais chiffres restent sous 1,6, traits et gribouillis dépassent 2.
+- Le barème ne change pas : écrire est plus lent que toucher, c'est un choix de confort.
+
 ## Partie interrompue
 
 Si l'appli passe en arrière-plan pendant une partie, la partie est annulée et reprend de

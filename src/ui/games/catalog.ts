@@ -79,6 +79,9 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   paires: PairesGame,
 };
 
+/** Jeux où l'on répond avec le pavé numérique : on peut aussi y écrire au doigt. */
+export const NUMBER_GAMES: ReadonlySet<GameId> = new Set(['calcul', 'total', 'diable', 'monnaie', 'pluie', 'boutique']);
+
 /** Mini-démonstrations animées de l'écran d'intro. */
 export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   calcul: CalculDemo,

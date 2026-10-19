@@ -84,6 +84,8 @@ export interface Settings {
   effectsVolume: number;
   /** Décorations de saison (Halloween, Noël…) et accessoires des compagnons. */
   seasonal: boolean;
+  /** Jeux de nombres : écrire la réponse au doigt plutôt que toucher le pavé. */
+  handwriting: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -105,6 +107,7 @@ export const DEFAULT_SETTINGS: Settings = {
   musicVolume: 0.5,
   effectsVolume: 0.9,
   seasonal: true,
+  handwriting: false,
 };
 
 export interface MarathonRecord {

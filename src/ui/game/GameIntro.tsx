@@ -5,8 +5,8 @@ import { DomainChip } from '../components/bits';
 import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { LevelPicker } from '../components/progress-bits';
-import { GAME_DEMOS } from '../games/catalog';
-import { useProgress } from '../progress-context';
+import { GAME_DEMOS, NUMBER_GAMES } from '../games/catalog';
+import { useProgress, useStore } from '../progress-context';
 
 interface GameIntroProps {
   meta: GameMeta;
@@ -22,6 +22,7 @@ interface GameIntroProps {
 
 export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabel, onStart, onQuit }: GameIntroProps) {
   const data = useProgress();
+  const store = useStore();
   const best = bestFor(data, meta.id, level);
   const Demo = GAME_DEMOS[meta.id];
   return (
@@ -60,6 +61,29 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
           <dd>{best ? `${best.score} pts` : '—'}</dd>
         </div>
       </dl>
+
+      {NUMBER_GAMES.has(meta.id) && (
+        <div className="answer-mode">
+          <span className="answer-mode__label" id="answer-mode">
+            Répondre avec
+          </span>
+          <div className="segmented segmented--tight answer-mode__options" role="radiogroup" aria-labelledby="answer-mode">
+            {([false, true] as const).map((handwriting) => (
+              <button
+                key={String(handwriting)}
+                type="button"
+                role="radio"
+                aria-checked={data.settings.handwriting === handwriting}
+                className="segmented__option"
+                onClick={() => void store.updateSettings({ handwriting })}
+              >
+                <Icon name={handwriting ? 'pen' : 'keypad'} size={18} />
+                {handwriting ? 'Le doigt' : 'Le pavé'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {notice && (
         <p className="notice" role="status">

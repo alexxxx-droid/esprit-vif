@@ -5,13 +5,11 @@ import {
   generateTotalRound,
   nextTotalLength,
   scoreTotal,
-  TOTAL_PERFECT_POINTS,
+  totalLevel,
+  totalPerfectPoints,
   TOTAL_ROUNDS,
-  TOTAL_START_LENGTH,
-  TOTAL_STEP_MS,
 } from '../../core/games/total';
 import { createRng, deriveSeed } from '../../core/rng';
-import { clampLevel } from '../../core/scoring';
 import { NumPad } from '../components/bits';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -29,9 +27,9 @@ interface Tally {
 }
 
 export function TotalGame({ seed, level, onFinish }: GameProps) {
-  const stepMs = TOTAL_STEP_MS[clampLevel(level, 3)];
+  const { stepMs, start } = totalLevel(level);
   const [round, setRound] = useState(0);
-  const [length, setLength] = useState(TOTAL_START_LENGTH);
+  const [length, setLength] = useState(start);
   const [phase, setPhase] = useState<Phase>('show');
   const [step, setStep] = useState(-1);
   const [typed, setTyped] = useState('');
@@ -59,13 +57,13 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
 
   const finish = useEffectEvent((final: Tally) => {
     onFinish({
-      score: scoreTotal(final.points),
+      score: scoreTotal(final.points, level),
       stats: { ...final },
       headline: `${final.won}/${TOTAL_ROUNDS} manches · suite de ${final.longest}`,
       lines: [
         { label: 'Manches réussies', value: `${final.won} / ${TOTAL_ROUNDS}` },
         { label: 'Plus longue suite réussie', value: final.longest ? plural(final.longest, 'nombre') : '—' },
-        { label: 'Points', value: `${final.points} / ${TOTAL_PERFECT_POINTS}` },
+        { label: 'Points', value: `${final.points} / ${totalPerfectPoints(level)}` },
       ],
     });
   });

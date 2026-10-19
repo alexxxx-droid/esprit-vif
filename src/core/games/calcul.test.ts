@@ -1,31 +1,19 @@
 import { describe, expect, it } from 'vitest';
+import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { answerLength, CALCUL_COUNT, formatCalc, generateCalcul, scoreCalcul, type CalcQuestion } from './calcul';
+import { answerLength, CALCUL_COUNT, evaluate, formatCalc, generateCalcul, scoreCalcul } from './calcul';
 
-const SEEDS = Array.from({ length: 150 }, (_, i) => i * 7919 + 1);
-const LEVELS = [1, 2, 3];
-
-function expected(q: CalcQuestion): number {
-  switch (q.op) {
-    case '+':
-      return q.a + q.b;
-    case '−':
-      return q.a - q.b;
-    case '×':
-      return q.a * q.b;
-    case '÷':
-      return q.a / q.b;
-  }
-}
+const SEEDS = Array.from({ length: 60 }, (_, i) => i * 7919 + 1);
+const LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 
 describe('générateur de Calcul éclair', () => {
-  it('produit 20 questions aux réponses justes, entières et positives', () => {
+  it('produit 20 questions aux réponses justes, entières et positives, à tous les niveaux', () => {
     for (const level of LEVELS) {
       for (const seed of SEEDS) {
         const questions = generateCalcul(createRng(seed), level);
         expect(questions).toHaveLength(CALCUL_COUNT);
         for (const q of questions) {
-          expect(q.answer).toBe(expected(q));
+          expect(q.answer).toBe(evaluate(q.operands, q.ops, q.paren));
           expect(Number.isInteger(q.answer)).toBe(true);
           expect(q.answer).toBeGreaterThanOrEqual(0);
         }
@@ -35,40 +23,54 @@ describe('générateur de Calcul éclair', () => {
 
   it('ne pose que des divisions exactes', () => {
     let divisions = 0;
-    for (const level of [2, 3]) {
+    for (const level of LEVELS) {
       for (const seed of SEEDS) {
-        for (const q of generateCalcul(createRng(seed), level).filter((x) => x.op === '÷')) {
-          divisions++;
-          expect(q.b).toBeGreaterThan(0);
-          expect(q.a % q.b).toBe(0);
-          expect(q.answer).toBe(q.a / q.b);
+        for (const q of generateCalcul(createRng(seed), level)) {
+          q.ops.forEach((op, i) => {
+            if (op !== '÷') return;
+            divisions++;
+            expect(q.operands[i + 1]).toBeGreaterThan(0);
+            expect(q.operands[i] % q.operands[i + 1]).toBe(0);
+          });
         }
       }
     }
-    expect(divisions).toBeGreaterThan(100);
+    expect(divisions).toBeGreaterThan(500);
   });
 
-  it('reste à un chiffre et sans division au niveau 1', () => {
+  it('respecte la spec au niveau 1 : +, −, × à un chiffre', () => {
     for (const seed of SEEDS) {
       for (const q of generateCalcul(createRng(seed), 1)) {
-        expect(['+', '−', '×']).toContain(q.op);
-        expect(q.a).toBeLessThanOrEqual(9);
-        expect(q.b).toBeLessThanOrEqual(9);
-        expect(q.a).toBeGreaterThanOrEqual(1);
-        expect(q.b).toBeGreaterThanOrEqual(1);
+        expect(q.ops).toHaveLength(1);
+        expect(['+', '−', '×']).toContain(q.ops[0]);
+        for (const n of q.operands) {
+          expect(n).toBeGreaterThanOrEqual(1);
+          expect(n).toBeLessThanOrEqual(9);
+        }
       }
     }
   });
 
-  it('respecte les plafonds du niveau 3 (jusqu’à 100, tables de 12)', () => {
+  it('respecte la spec au niveau 2 (deux chiffres, divisions) et au niveau 3 (jusqu’à 100, tables de 12)', () => {
     for (const seed of SEEDS) {
+      const level2 = generateCalcul(createRng(seed), 2);
+      expect(level2.every((q) => Math.max(...q.operands) <= 99)).toBe(true);
       for (const q of generateCalcul(createRng(seed), 3)) {
-        if (q.op === '+') expect(q.answer).toBeLessThanOrEqual(100);
-        if (q.op === '−') expect(q.a).toBeLessThanOrEqual(100);
-        if (q.op === '×') expect(Math.max(q.a, q.b)).toBeLessThanOrEqual(12);
-        if (q.op === '÷') expect(Math.max(q.b, q.answer)).toBeLessThanOrEqual(12);
+        const [a, b] = q.operands;
+        if (q.ops[0] === '+') expect(q.answer).toBeLessThanOrEqual(100);
+        if (q.ops[0] === '−') expect(a).toBeLessThanOrEqual(100);
+        if (q.ops[0] === '×') expect(Math.max(a, b)).toBeLessThanOrEqual(12);
+        if (q.ops[0] === '÷') expect(Math.max(b, q.answer)).toBeLessThanOrEqual(12);
       }
     }
+  });
+
+  it('applique la priorité des opérations et les parenthèses', () => {
+    expect(evaluate([3, 4, 5], ['×', '+'])).toBe(17);
+    expect(evaluate([20, 3, 4], ['−', '×'])).toBe(8);
+    expect(evaluate([2, 3, 4], ['+', '×'], true)).toBe(20);
+    expect(evaluate([2, 3, 4, 5], ['×', '+', '×'])).toBe(26);
+    expect(formatCalc({ operands: [2, 3, 4], ops: ['+', '×'], paren: true, answer: 20 })).toBe('(2 + 3) × 4');
   });
 
   it('n’enchaîne jamais deux calculs identiques', () => {
@@ -79,14 +81,13 @@ describe('générateur de Calcul éclair', () => {
   });
 
   it('rejoue la même partie avec la même graine', () => {
-    expect(generateCalcul(createRng(99), 2)).toEqual(generateCalcul(createRng(99), 2));
+    expect(generateCalcul(createRng(99), 12)).toEqual(generateCalcul(createRng(99), 12));
   });
 
   it('compte les chiffres attendus pour la validation automatique', () => {
     expect(answerLength(0)).toBe(1);
-    expect(answerLength(7)).toBe(1);
     expect(answerLength(42)).toBe(2);
-    expect(answerLength(144)).toBe(3);
+    expect(answerLength(1444)).toBe(4);
   });
 });
 
@@ -95,13 +96,13 @@ describe('score de Calcul éclair', () => {
     expect(scoreCalcul(20_000, 0, 1)).toBe(100);
     expect(scoreCalcul(80_000, 0, 1)).toBe(0);
     expect(scoreCalcul(50_000, 0, 1)).toBe(50);
-    expect(scoreCalcul(44_000, 2, 1)).toBe(50); // 44 + 6 = 50 s
+    expect(scoreCalcul(44_000, 2, 1)).toBe(50);
   });
 
-  it('reste entre 0 et 100', () => {
+  it('reste entre 0 et 100 à tous les niveaux', () => {
     const rng = createRng(5);
     for (let i = 0; i < 500; i++) {
-      const score = scoreCalcul(rng.int(0, 300_000), rng.int(0, 20), rng.int(1, 3));
+      const score = scoreCalcul(rng.int(0, 400_000), rng.int(0, 20), rng.int(1, MAX_LEVEL));
       expect(score).toBeGreaterThanOrEqual(0);
       expect(score).toBeLessThanOrEqual(100);
     }

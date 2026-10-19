@@ -95,12 +95,25 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
           aria-label="Trouve le symbole différent"
         >
           {Array.from({ length: count }, (_, cell) => {
-            const symbol = cell === board.oddIndex ? board.odd : board.base;
+            const isOdd = cell === board.oddIndex;
+            const symbol = isOdd ? board.odd : board.base;
+            const flipped = isOdd && board.mirrored;
             const shaking = wrong?.cell === cell;
             return (
-              <TapButton key={cell} {...cellProps(cell)} className="intrus__cell" onTap={() => tap(cell)} aria-label={symbol}>
+              <TapButton
+                key={cell}
+                {...cellProps(cell)}
+                className="intrus__cell"
+                onTap={() => tap(cell)}
+                aria-label={flipped ? `${symbol} retourné` : symbol}
+              >
                 <span key={shaking ? wrong.id : 0} className={shaking ? 'shake' : undefined}>
-                  {symbol}
+                  <span
+                    className="intrus__symbol"
+                    style={{ transform: `rotate(${board.tilts[cell]}deg)${flipped ? ' scaleX(-1)' : ''}` }}
+                  >
+                    {symbol}
+                  </span>
                 </span>
               </TapButton>
             );

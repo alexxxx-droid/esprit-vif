@@ -772,6 +772,49 @@
   box-shadow: 0 0 0 2px rgb(255 255 255 / 16%);
 }
 
+.stroop__answers--wide {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stroop__answers--wide .stroop__answer {
+  min-height: 64px;
+  font-size: 1.05rem;
+}
+
+/* Consigne qui change : « Couleur de l'encre » ou « Lis le mot » (le texte porte l'info, pas la couleur). */
+.stroop__ask {
+  position: absolute;
+  top: 54px;
+  padding: 6px 14px;
+  border: 2px solid var(--stage-ink-2);
+  border-radius: 999px;
+  color: var(--stage-ink);
+  font-size: 0.95rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  animation: pop 220ms var(--ease-spring);
+}
+
+.stroop__ask--word {
+  border-color: var(--stage-ink);
+  background: var(--stage-ink);
+  color: var(--stage);
+}
+
+.ink--orange {
+  color: var(--ink-orange);
+}
+.ink--violet {
+  color: var(--ink-violet);
+}
+.swatch--orange {
+  background: var(--ink-orange);
+}
+.swatch--violet {
+  background: var(--ink-violet);
+}
+
 .ink--rouge {
   color: var(--ink-rouge);
 }
@@ -856,8 +899,13 @@
   animation: flash-bad 450ms var(--ease-out);
 }
 
-.schulte__num {
+.schulte__num,
+.intrus__symbol {
   display: inline-block;
+}
+
+.schulte--moved {
+  animation: board-in 260ms var(--ease-out);
 }
 
 .shake {
@@ -916,7 +964,7 @@
 
 .matrice {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--size, 4), minmax(0, 1fr));
   gap: 10px;
   width: min(100%, 420px, calc(100dvh - 300px));
   aspect-ratio: 1;
@@ -1019,6 +1067,45 @@
     opacity: 0;
     transform: scale(0.8);
   }
+}
+
+/* Positions : grille 3 × 3, la case allumée porte la lettre en mode double. */
+.nback__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: min(72vw, 270px);
+  aspect-ratio: 1;
+}
+
+.nback__cell {
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transition: background-color 120ms;
+}
+
+.nback__cell.is-lit {
+  background: var(--d-memoire);
+  color: var(--badge-ink);
+}
+
+.nback__small-letter {
+  font-size: 2.6rem;
+  font-weight: 800;
+  animation: letter-in 200ms var(--ease-out) both;
+}
+
+.nback__buttons--dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.nback__buttons--dual .big-answer {
+  font-size: 1.25rem;
 }
 
 .nback__hint {

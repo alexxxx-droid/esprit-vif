@@ -1,16 +1,15 @@
-import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { plural } from '../../core/format';
 import {
   generateSequence,
   initialMatrice,
-  MATRICE_CELLS,
   MATRICE_MAX_FAILURES,
-  MATRICE_SIZE,
-  matriceFlashMs,
+  matriceLevel,
   nextMatrice,
   scoreMatrice,
   type MatriceState,
 } from '../../core/games/matrice';
+import { secondsLabel } from '../../core/levels';
 import { createRng, deriveSeed } from '../../core/rng';
 import { TapButton } from '../components/TapButton';
 import { fx } from '../fx/fx';
@@ -24,7 +23,8 @@ type Phase = 'show' | 'input' | 'success' | 'fail';
 const KEY_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyZ', 'KeyX', 'KeyC', 'KeyV'];
 
 export function MatriceGame({ seed, level, onFinish }: GameProps) {
-  const flashMs = matriceFlashMs(level);
+  const { size, flashMs, reverse } = matriceLevel(level);
+  const cellCount = size * size;
   const [game, setGame] = useState<MatriceState>(initialMatrice);
   const [phase, setPhase] = useState<Phase>('show');
   const [step, setStep] = useState(0);
@@ -32,10 +32,12 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
   const [entered, setEntered] = useState<number[]>([]);
   const [wrongCell, setWrongCell] = useState<number | null>(null);
   const sequence = useMemo(
-    () => generateSequence(createRng(deriveSeed(seed, game.rounds)), game.span),
-    [seed, game.rounds, game.span],
+    () => generateSequence(createRng(deriveSeed(seed, game.rounds)), game.span, cellCount),
+    [seed, game.rounds, game.span, cellCount],
   );
-  const cellProps = useGridFocus(MATRICE_SIZE, MATRICE_CELLS);
+  // À l'envers : on retouche la séquence en partant de la dernière case.
+  const expected = useMemo(() => (reverse ? [...sequence].reverse() : sequence), [sequence, reverse]);
+  const cellProps = useGridFocus(size, cellCount);
 
   // Présentation : les cases s'allument une à une.
   useEffect(() => {
@@ -68,7 +70,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
       lines: [
         { label: 'Plus longue séquence', value: best ? plural(best, 'case') : '—' },
         { label: 'Séquences réussies', value: String(final.rounds - final.failures) },
-        { label: 'Rythme', value: `${(flashMs / 1000).toLocaleString('fr-FR')} s par case` },
+        { label: 'Rythme', value: `${secondsLabel(flashMs)} par case` },
       ],
     });
   });
@@ -96,7 +98,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
 
   const tap = (cell: number) => {
     if (phase !== 'input' || entered.includes(cell)) return;
-    if (cell !== sequence[entered.length]) {
+    if (cell !== expected[entered.length]) {
       fx.bad();
       setWrongCell(cell);
       setPhase('fail');
@@ -105,7 +107,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
     fx.note(cell);
     const next = [...entered, cell];
     setEntered(next);
-    if (next.length === sequence.length) {
+    if (next.length === expected.length) {
       fx.good();
       setPhase('success');
     }
@@ -113,7 +115,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
 
   useKeyDown((event) => {
     const cell = KEY_CODES.indexOf(event.code);
-    if (cell >= 0) {
+    if (size === 4 && cell >= 0) {
       event.preventDefault();
       tap(cell);
     }
@@ -122,7 +124,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
   const triesLeft = MATRICE_MAX_FAILURES - game.failures - (phase === 'fail' ? 1 : 0);
   const status: Record<Phase, string> = {
     show: 'Regarde bien…',
-    input: `À toi ! ${entered.length} / ${sequence.length}`,
+    input: `${reverse ? 'À l’envers ! ' : 'À toi ! '}${entered.length} / ${sequence.length}`,
     success: 'Bravo, une case de plus !',
     fail: 'Raté : voici le bon ordre.',
   };
@@ -136,9 +138,14 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
         <p className={`matrice__status matrice__status--${phase}`} aria-live="polite">
           {status[phase]}
         </p>
-        <div className={`matrice matrice--${phase}`} role="group" aria-label="Grille de 16 cases">
-          {Array.from({ length: MATRICE_CELLS }, (_, cell) => {
-            const order = sequence.indexOf(cell);
+        <div
+          className={`matrice matrice--${phase}`}
+          style={{ '--size': size } as CSSProperties}
+          role="group"
+          aria-label={`Grille de ${cellCount} cases`}
+        >
+          {Array.from({ length: cellCount }, (_, cell) => {
+            const order = expected.indexOf(cell);
             const classes = [
               'matrice__cell',
               lit === cell && 'is-lit',

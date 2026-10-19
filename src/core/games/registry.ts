@@ -1,4 +1,13 @@
+import { MAX_LEVEL, pickLevel } from '../levels';
 import type { Domain, GameId } from '../types';
+import { anagramLevel, anagramLevelLabel } from './anagrammes';
+import { CALCUL_LEVELS } from './calcul';
+import { intrusLevelLabel } from './intrus';
+import { matriceLevel, matriceLevelLabel } from './matrice';
+import { nbackLevel, nbackLevelLabel } from './nback';
+import { SCHULTE_LEVELS, schulteLevelLabel } from './schulte';
+import { STROOP_LEVELS, stroopLevelLabel } from './stroop';
+import { totalLevelLabel } from './total';
 
 export interface DomainMeta {
   name: string;
@@ -10,15 +19,17 @@ export const DOMAINS: Record<Domain, DomainMeta> = {
   attention: { name: 'Attention' },
   vitesse: { name: 'Vitesse' },
   langage: { name: 'Langage' },
+  logique: { name: 'Logique' },
 };
 
-export const DOMAIN_ORDER: readonly Domain[] = ['calcul', 'memoire', 'attention', 'vitesse', 'langage'];
+/** Ordre fixe des domaines : il porte aussi l'ordre des couleurs validé pour les daltonismes. */
+export const DOMAIN_ORDER: readonly Domain[] = ['calcul', 'memoire', 'attention', 'vitesse', 'langage', 'logique'];
 
 export interface GameMeta {
   id: GameId;
   name: string;
   domain: Domain;
-  /** La règle en une phrase, affichée à l'intro. */
+  /** La règle en une phrase, affichée à l'intro (elle peut changer avec le niveau). */
   rule: (level: number) => string;
   /** Durée indicative d'une partie. */
   duration: string;
@@ -29,59 +40,83 @@ export interface GameMeta {
   levelLabel: (level: number) => string;
 }
 
+const CHAIN_KINDS = ['chainAddSub', 'chainMulAdd', 'chainMulMul', 'chainBig'];
+
 export const GAMES: Record<GameId, GameMeta> = {
   calcul: {
     id: 'calcul',
     name: 'Calcul éclair',
     domain: 'calcul',
-    rule: () => 'Résous 20 calculs le plus vite possible : ta réponse se valide toute seule.',
+    rule: (level) =>
+      pickLevel(CALCUL_LEVELS, level).kinds.some((k) => CHAIN_KINDS.includes(k))
+        ? 'Résous 20 calculs le plus vite possible. Rappel : × et ÷ passent avant + et −.'
+        : 'Résous 20 calculs le plus vite possible : ta réponse se valide toute seule.',
     duration: '≈ 40 s',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) =>
-      ['Tables à un chiffre', 'Deux chiffres et divisions', 'Jusqu’à 100, tables de 12'][level - 1] ?? '',
+    levelLabel: (level) => pickLevel(CALCUL_LEVELS, level).label,
   },
   stroop: {
     id: 'stroop',
     name: 'Couleurs piégées',
     domain: 'attention',
-    rule: () => 'Touche la couleur de l’encre, pas celle du mot écrit.',
+    rule: (level) =>
+      pickLevel(STROOP_LEVELS, level).switchRatio
+        ? 'Touche la couleur de l’encre… sauf quand la consigne dit « le mot » : là, lis le mot.'
+        : 'Touche la couleur de l’encre, pas celle du mot écrit.',
     duration: '≈ 30 s',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) =>
-      ['Boutons fixes', 'Boutons qui changent de place', 'Boutons piégés eux aussi'][level - 1] ?? '',
+    levelLabel: stroopLevelLabel,
   },
   schulte: {
     id: 'schulte',
     name: 'Table de Schulte',
     domain: 'vitesse',
-    rule: (level) => `Touche les nombres de 1 à ${level === 1 ? 25 : 36} dans l’ordre, le plus vite possible.`,
+    rule: (level) => {
+      const c = pickLevel(SCHULTE_LEVELS, level);
+      const count = c.size * c.size;
+      const base = {
+        asc: `Touche les nombres de 1 à ${count} dans l’ordre, le plus vite possible.`,
+        desc: `Touche les nombres de ${count} à 1, à rebours, le plus vite possible.`,
+        alpha: 'Touche les lettres de A à Y dans l’ordre, le plus vite possible.',
+        alt: 'Alterne nombres et lettres : 1, A, 2, B, 3, C… le plus vite possible.',
+      }[c.order];
+      return c.reshuffleEvery ? `${base} La grille se mélange en cours de route !` : base;
+    },
     duration: '≈ 30 s',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) => ['Grille 5 × 5', 'Grille 6 × 6', 'Grille 6 × 6 brouillée'][level - 1] ?? '',
+    levelLabel: schulteLevelLabel,
   },
   matrice: {
     id: 'matrice',
     name: 'Matrice',
     domain: 'memoire',
-    rule: () => 'Regarde les cases s’allumer, puis touche-les dans le même ordre.',
+    rule: (level) =>
+      matriceLevel(level).reverse
+        ? 'Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.'
+        : 'Regarde les cases s’allumer, puis touche-les dans le même ordre.',
     duration: '≈ 1 min',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) => ['Rythme posé', 'Rythme vif', 'Rythme rapide'][level - 1] ?? '',
+    levelLabel: matriceLevelLabel,
   },
   nback: {
     id: 'nback',
     name: 'Double retour',
     domain: 'memoire',
-    rule: (level) =>
-      `Touche « Identique » quand la lettre est la même que ${level === 1 ? 'la précédente' : `celle d’il y a ${level} lettres`}.`,
+    rule: (level) => {
+      const { n, mode } = nbackLevel(level);
+      const back = n === 1 ? 'au coup précédent' : `il y a ${n} coups`;
+      if (mode === 'letter') return `Touche « Même lettre » quand la lettre est la même qu’${n === 1 ? 'au coup précédent' : `il y a ${n} lettres`}.`;
+      if (mode === 'position') return `Touche « Même place » quand la case allumée est la même qu’${back}.`;
+      return `Deux questions à la fois : même lettre et même place qu’${back} ?`;
+    },
     duration: '≈ 55 s',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 2,
-    levelLabel: (level) => ['1 lettre en arrière', '2 lettres en arrière', '3 lettres en arrière'][level - 1] ?? '',
+    levelLabel: nbackLevelLabel,
   },
   total: {
     id: 'total',
@@ -89,29 +124,32 @@ export const GAMES: Record<GameId, GameMeta> = {
     domain: 'calcul',
     rule: () => 'Additionne de tête les nombres qui défilent, puis donne le total final.',
     duration: '≈ 1 min',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) => ['Nombres jusqu’à 9', 'Nombres jusqu’à 15', 'Jusqu’à 25, plus vite'][level - 1] ?? '',
+    levelLabel: totalLevelLabel,
   },
   intrus: {
     id: 'intrus',
     name: 'L’intrus',
     domain: 'attention',
-    rule: () => 'Trouve le symbole différent des autres, le plus de fois possible en 45 secondes.',
+    rule: () => 'Trouve le symbole différent des autres (parfois retourné en miroir), le plus de fois possible en 45 s.',
     duration: '45 s',
-    maxLevel: 3,
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) => ['Symboles faciles', 'Symboles variés', 'Symboles trompeurs'][level - 1] ?? '',
+    levelLabel: intrusLevelLabel,
   },
   anagrammes: {
     id: 'anagrammes',
     name: 'Anagrammes',
     domain: 'langage',
-    rule: () => 'Remets les lettres dans l’ordre pour retrouver le mot caché.',
-    duration: '75 s',
-    maxLevel: 3,
+    rule: (level) =>
+      anagramLevel(level).decoys
+        ? 'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !'
+        : 'Remets les lettres dans l’ordre pour retrouver le mot caché.',
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
     dailyLevel: 1,
-    levelLabel: (level) => ['Mots de 5 lettres', 'Mots de 5 ou 6 lettres', 'Mots de 6 ou 7 lettres'][level - 1] ?? '',
+    levelLabel: anagramLevelLabel,
   },
 };
 
@@ -132,4 +170,8 @@ export const DAILY_ROTATION: readonly GameId[] = ['schulte', 'matrice', 'nback',
 
 export function isGameId(value: string): value is GameId {
   return Object.hasOwn(GAMES, value);
+}
+
+export function gamesOfDomain(domain: Domain): GameId[] {
+  return GAME_ORDER.filter((id) => GAMES[id].domain === domain);
 }

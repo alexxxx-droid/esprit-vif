@@ -1,8 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { plural } from '../../core/format';
-import { ANAGRAM_DURATION_MS, ANAGRAM_TARGET, anagramDeck, isAnagramAnswer, scoreAnagrammes } from '../../core/games/anagrammes';
+import { anagramDeck, anagramLevel, isAnagramAnswer, scoreAnagrammes } from '../../core/games/anagrammes';
 import { createRng } from '../../core/rng';
-import { clampLevel } from '../../core/scoring';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
 import { Icon } from '../components/Icon';
@@ -25,7 +24,8 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
   const [mark, showMark] = useFeedback();
   const puzzle = deck[position % deck.length];
   const letters = [...puzzle.letters];
-  const target = ANAGRAM_TARGET[clampLevel(level, 3)];
+  const wordLength = puzzle.word.length;
+  const { target, durationMs } = anagramLevel(level);
 
   const finish = useEffectEvent(() => {
     setOver(true);
@@ -44,7 +44,7 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
   useEffect(() => {
     clock.start();
     const id = window.setInterval(() => {
-      if (clock.total() >= ANAGRAM_DURATION_MS) {
+      if (clock.total() >= durationMs) {
         window.clearInterval(id);
         clock.stop();
         finish();
@@ -54,7 +54,7 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
       window.clearInterval(id);
       clock.stop();
     };
-  }, [clock]);
+  }, [clock, durationMs]);
 
   const nextWord = () => {
     setPosition(position + 1);
@@ -64,13 +64,13 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
   const pick = (i: number) => {
     if (over || picked.includes(i)) return;
     const next = [...picked, i];
-    if (next.length < letters.length) {
+    if (next.length < wordLength) {
       fx.tap();
       setPicked(next);
       return;
     }
     const attempt = next.map((j) => letters[j]).join('');
-    if (isAnagramAnswer(attempt, puzzle.word)) {
+    if (isAnagramAnswer(attempt, puzzle)) {
       fx.good();
       showMark('good', attempt === puzzle.word ? undefined : `${attempt} : bien vu !`);
       setFound(found + 1);
@@ -115,14 +115,14 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
   return (
     <div className="game">
       <GameHud>
-        <TimeLeft clock={clock} durationMs={ANAGRAM_DURATION_MS} />
+        <TimeLeft clock={clock} durationMs={durationMs} />
       </GameHud>
       <div className="game__stage anagram">
         <p className="anagram__found">
           <strong>{found}</strong> / {target} mots
         </p>
         <div key={shake} className={`anagram__slots${shake ? ' shake' : ''}`} aria-live="polite" aria-label={`Ta réponse : ${picked.map((j) => letters[j]).join('') || 'vide'}`}>
-          {letters.map((_, i) => (
+          {Array.from({ length: wordLength }, (_, i) => (
             <span key={i} className={`anagram__slot${picked[i] !== undefined ? ' is-filled' : ''}`}>
               {picked[i] !== undefined ? letters[picked[i]] : ''}
             </span>

@@ -37,6 +37,7 @@
   --d-attention: #1baf7a;
   --d-vitesse: #eda100;
   --d-langage: #e87ba4;
+  --d-logique: #008300;
   --badge-ink: #18171c;
 
   /* Scène sombre des Couleurs piégées : les quatre encres y restent lisibles dans les deux thèmes. */
@@ -48,6 +49,8 @@
   --ink-bleu: #4f8dff;
   --ink-vert: #34c972;
   --ink-jaune: #ffd23f;
+  --ink-orange: #ff9a3d;
+  --ink-violet: #b98cff;
 
   --shadow-1: 0 1px 2px rgb(30 24 60 / 6%), 0 6px 20px -6px rgb(30 24 60 / 12%);
   --shadow-2: 0 2px 6px rgb(30 24 60 / 8%), 0 18px 40px -12px rgb(30 24 60 / 24%);
@@ -100,6 +103,7 @@
     --d-attention: #199e70;
     --d-vitesse: #c98500;
     --d-langage: #d55181;
+    --d-logique: #008300;
     --badge-ink: #111015;
 
     --stage: #0c0b10;
@@ -144,6 +148,7 @@
   --d-attention: #199e70;
   --d-vitesse: #c98500;
   --d-langage: #d55181;
+  --d-logique: #008300;
   --badge-ink: #111015;
 
   --stage: #0c0b10;

@@ -56,9 +56,9 @@ describe('countScore et clampScore', () => {
 
 describe('adaptLevel', () => {
   it('monte après un bon score, descend après un score faible, sans sortir des bornes', () => {
-    expect(adaptLevel(1, 80, 3)).toBe(2);
+    expect(adaptLevel(1, 60, 3)).toBe(2);
     expect(adaptLevel(3, 95, 3)).toBe(3);
-    expect(adaptLevel(2, 60, 3)).toBe(2);
+    expect(adaptLevel(2, 55, 3)).toBe(2);
     expect(adaptLevel(2, 20, 3)).toBe(1);
     expect(adaptLevel(1, 0, 3)).toBe(1);
   });

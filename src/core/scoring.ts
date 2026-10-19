@@ -7,8 +7,8 @@ export interface TimeThresholds {
 export const MIN_BRAIN_AGE = 20;
 export const MAX_BRAIN_AGE = 80;
 
-/** Seuils de la difficulté adaptative. */
-export const LEVEL_UP_AT = 75;
+/** Seuils de la difficulté adaptative : on monte dès la première étoile (60 pts). */
+export const LEVEL_UP_AT = 60;
 export const LEVEL_DOWN_BELOW = 40;
 
 /** Ramène n'importe quelle valeur à un score entier entre 0 et 100. */

@@ -1,5 +1,5 @@
 /** Espace insécable : l'unité ne se retrouve jamais seule en début de ligne. */
-const NBSP = String.fromCharCode(0xa0);
+export const NBSP = String.fromCharCode(0xa0);
 
 const oneDecimal = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const longDay = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });

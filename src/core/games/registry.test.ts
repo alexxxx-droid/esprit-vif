@@ -1,0 +1,30 @@
+import { describe, expect, it } from 'vitest';
+import { MAX_LEVEL } from '../levels';
+import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES, gamesOfDomain } from './registry';
+
+describe('catalogue des jeux', () => {
+  it('donne à chaque jeu 20 niveaux, chacun avec un libellé et une règle', () => {
+    for (const id of GAME_ORDER) {
+      const game = GAMES[id];
+      expect(game.maxLevel).toBe(MAX_LEVEL);
+      expect(game.dailyLevel).toBeGreaterThanOrEqual(1);
+      for (let level = 1; level <= MAX_LEVEL; level++) {
+        expect(game.levelLabel(level).length).toBeGreaterThan(2);
+        expect(game.rule(level).length).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('liste chaque jeu une seule fois et le range dans un domaine connu', () => {
+    expect(new Set(GAME_ORDER).size).toBe(GAME_ORDER.length);
+    expect(GAME_ORDER.length).toBe(Object.keys(GAMES).length);
+    for (const id of GAME_ORDER) expect(DOMAIN_ORDER).toContain(GAMES[id].domain);
+    expect(DOMAIN_ORDER.flatMap(gamesOfDomain).sort()).toEqual([...GAME_ORDER].sort());
+  });
+
+  it('fait tourner le 3e jeu du test du jour parmi les autres jeux', () => {
+    expect(DAILY_ROTATION).not.toContain('calcul');
+    expect(DAILY_ROTATION).not.toContain('stroop');
+    for (const id of DAILY_ROTATION) expect(GAME_ORDER).toContain(id);
+  });
+});

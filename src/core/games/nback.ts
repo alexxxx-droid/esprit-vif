@@ -1,38 +1,105 @@
+import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
-import { clampLevel, clampScore } from '../scoring';
+import { clampScore } from '../scoring';
 
 /** Consonnes seulement : pas de mot qui se forme par hasard, pas de confusion O/0. */
 export const NBACK_LETTERS = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V'];
+/** Cases de la grille 3 × 3 des positions. */
+export const NBACK_POSITIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 export const NBACK_TRIALS = 20;
-export const NBACK_TARGETS = 6; // 30 % des essais
-export const NBACK_STEP_MS = 2500;
-export const NBACK_SHOW_MS = 2000;
-export const NBACK_MAX_LEVEL = 3;
+export const NBACK_TARGETS = 6; // 30 % des essais, dans chaque flux
+/** Blanc entre deux stimuli, pour qu'une répétition se voie. */
+export const NBACK_GAP_MS = 500;
 
-export interface NBackSequence {
+/** Lettres seules, positions seules, ou les deux à la fois (« double » retour). */
+export type NBackMode = 'letter' | 'position' | 'dual';
+
+export interface NBackLevel {
   n: number;
-  /** n lettres d'amorce, puis les 20 essais notés. */
-  letters: string[];
-  /** Vrai si la lettre est identique à celle d'il y a n positions. */
+  mode: NBackMode;
+  /** Durée d'un essai (stimulus + blanc). */
+  stepMs: number;
+  /** Points pour une précision utile parfaite (plafonnés à 100) : plafond selon N et le mode. */
+  gain: number;
+}
+
+const L = (n: number, mode: NBackMode, stepMs: number, gain: number): NBackLevel => ({ n, mode, stepMs, gain });
+
+/** Niveau 1 : N = 1 (70 pts au mieux). Niveau 2 : N = 2, celui du test du jour (100 pts au mieux). */
+export const NBACK_LEVELS: readonly NBackLevel[] = [
+  L(1, 'letter', 2500, 70),
+  L(2, 'letter', 2500, 100),
+  L(2, 'letter', 2200, 105),
+  L(1, 'position', 2500, 80),
+  L(2, 'position', 2500, 105),
+  L(3, 'letter', 2500, 120),
+  L(1, 'dual', 2700, 100),
+  L(2, 'letter', 1900, 115),
+  L(3, 'position', 2500, 125),
+  L(2, 'dual', 2800, 125),
+  L(3, 'letter', 2100, 130),
+  L(4, 'letter', 2500, 140),
+  L(2, 'dual', 2400, 135),
+  L(3, 'position', 2100, 135),
+  L(3, 'dual', 2800, 150),
+  L(4, 'letter', 2100, 150),
+  L(4, 'position', 2500, 155),
+  L(3, 'dual', 2400, 160),
+  L(4, 'dual', 2800, 170),
+  L(4, 'dual', 2400, 180),
+];
+
+const MODE_LABELS: Record<NBackMode, string> = { letter: 'lettres', position: 'positions', dual: 'lettres et positions' };
+
+export function nbackLevel(level: number): NBackLevel {
+  return pickLevel(NBACK_LEVELS, level);
+}
+
+export function nbackLevelLabel(level: number): string {
+  const c = nbackLevel(level);
+  return [`${c.n} en arrière`, MODE_LABELS[c.mode], c.stepMs < 2500 && 'rapide'].filter(Boolean).join(' · ');
+}
+
+export interface NBackStream<T> {
+  values: T[];
+  /** Vrai si la valeur est identique à celle d'il y a n positions. */
   targets: boolean[];
 }
 
-export function generateNBack(rng: Rng, level: number): NBackSequence {
-  const n = clampLevel(level, NBACK_MAX_LEVEL);
+export interface NBackSequence {
+  n: number;
+  mode: NBackMode;
+  /** n stimuli d'amorce, puis les 20 essais notés. */
+  length: number;
+  letter: NBackStream<string> | null;
+  position: NBackStream<number> | null;
+}
+
+/** Un flux de stimuli avec exactement 6 cibles parmi les 20 essais notés. */
+export function generateStream<T>(rng: Rng, n: number, pool: readonly T[]): NBackStream<T> {
   const total = n + NBACK_TRIALS;
   const scored = Array.from({ length: NBACK_TRIALS }, (_, i) => i + n);
   const targetPositions = new Set(rng.shuffle(scored).slice(0, NBACK_TARGETS));
-  const letters: string[] = [];
+  const values: T[] = [];
   for (let i = 0; i < total; i++) {
-    if (targetPositions.has(i)) {
-      letters.push(letters[i - n]);
-    } else {
-      const avoid = i >= n ? letters[i - n] : null;
-      letters.push(rng.pick(NBACK_LETTERS.filter((l) => l !== avoid)));
+    if (targetPositions.has(i)) values.push(values[i - n]);
+    else {
+      const avoid = i >= n ? values[i - n] : undefined;
+      values.push(rng.pick(pool.filter((v) => v !== avoid)));
     }
   }
-  const targets = letters.map((letter, i) => i >= n && letter === letters[i - n]);
-  return { n, letters, targets };
+  return { values, targets: values.map((v, i) => i >= n && v === values[i - n]) };
+}
+
+export function generateNBack(rng: Rng, level: number): NBackSequence {
+  const { n, mode } = nbackLevel(level);
+  return {
+    n,
+    mode,
+    length: n + NBACK_TRIALS,
+    letter: mode === 'position' ? null : generateStream(rng, n, NBACK_LETTERS),
+    position: mode === 'letter' ? null : generateStream(rng, n, NBACK_POSITIONS),
+  };
 }
 
 export interface NBackTally {
@@ -42,12 +109,12 @@ export interface NBackTally {
   correctRejections: number;
 }
 
-/** Compte bonnes réponses et bonnes abstentions sur les essais notés. */
-export function tallyNBack(sequence: NBackSequence, responses: readonly boolean[]): NBackTally {
+/** Compte bonnes réponses et bonnes abstentions d'un flux, sur les essais notés. */
+export function tallyStream(stream: NBackStream<unknown>, n: number, responses: readonly boolean[]): NBackTally {
   const tally: NBackTally = { hits: 0, misses: 0, falseAlarms: 0, correctRejections: 0 };
-  for (let i = sequence.n; i < sequence.letters.length; i++) {
+  for (let i = n; i < stream.values.length; i++) {
     const pressed = responses[i] === true;
-    if (sequence.targets[i]) {
+    if (stream.targets[i]) {
       if (pressed) tally.hits++;
       else tally.misses++;
     } else if (pressed) tally.falseAlarms++;
@@ -65,14 +132,13 @@ export function balancedAccuracy(t: NBackTally): number {
   return (hitRate + rejectRate) / 2;
 }
 
-/**
- * Plafond selon N : 70 pts au mieux à N = 1, 100 à N = 2 ;
- * à N = 3, les 100 pts sont atteints dès 80 % de précision utile.
- */
-export const NBACK_GAIN: Record<number, number> = { 1: 70, 2: 100, 3: 125 };
+/** 50 % de précision équilibrée = répondre au hasard, ou toujours pareil : 0 pt. */
+export function usefulAccuracy(tallies: readonly NBackTally[]): number {
+  if (tallies.length === 0) return 0;
+  const mean = tallies.reduce((sum, t) => sum + balancedAccuracy(t), 0) / tallies.length;
+  return Math.max(0, (mean - 0.5) / 0.5);
+}
 
-export function scoreNBack(tally: NBackTally, level: number): number {
-  // 50 % de précision équilibrée = répondre au hasard (ou toujours pareil) : 0 pt.
-  const useful = Math.max(0, (balancedAccuracy(tally) - 0.5) / 0.5);
-  return clampScore(useful * NBACK_GAIN[clampLevel(level, NBACK_MAX_LEVEL)]);
+export function scoreNBack(tallies: readonly NBackTally[], level: number): number {
+  return clampScore(usefulAccuracy(tallies) * nbackLevel(level).gain);
 }

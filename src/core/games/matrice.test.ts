@@ -1,20 +1,29 @@
 import { describe, expect, it } from 'vitest';
+import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { generateSequence, initialMatrice, MATRICE_CELLS, nextMatrice, scoreMatrice } from './matrice';
+import { generateSequence, initialMatrice, matriceLevel, nextMatrice, scoreMatrice } from './matrice';
 
 describe('générateur de la Matrice', () => {
-  it('donne des cases distinctes, toutes dans la grille 4 × 4', () => {
-    for (let seed = 1; seed <= 200; seed++) {
-      for (const length of [3, 6, 9, 12]) {
-        const sequence = generateSequence(createRng(seed), length);
-        expect(sequence).toHaveLength(length);
-        expect(new Set(sequence).size).toBe(length);
-        for (const cell of sequence) {
-          expect(cell).toBeGreaterThanOrEqual(0);
-          expect(cell).toBeLessThan(MATRICE_CELLS);
+  it('donne des cases distinctes, toutes dans la grille du niveau', () => {
+    for (let level = 1; level <= MAX_LEVEL; level++) {
+      const cells = matriceLevel(level).size ** 2;
+      for (let seed = 1; seed <= 40; seed++) {
+        for (const length of [3, 6, 9, 12]) {
+          const sequence = generateSequence(createRng(seed), length, cells);
+          expect(sequence).toHaveLength(length);
+          expect(new Set(sequence).size).toBe(length);
+          for (const cell of sequence) {
+            expect(cell).toBeGreaterThanOrEqual(0);
+            expect(cell).toBeLessThan(cells);
+          }
         }
       }
     }
+  });
+
+  it('respecte la spec au niveau 1 : grille 4 × 4', () => {
+    expect(matriceLevel(1).size).toBe(4);
+    expect(matriceLevel(1).reverse).toBe(false);
   });
 });
 

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { generateSchulte, SCHULTE_PENALTY_MS, scoreSchulte } from '../../core/games/schulte';
+import { pickLevel } from '../../core/levels';
+import { generateSchulte, SCHULTE_LEVELS, SCHULTE_PENALTY_MS, scoreSchulte } from '../../core/games/schulte';
 import { timedOutcome } from '../../core/outcome';
-import { createRng } from '../../core/rng';
+import { createRng, deriveSeed } from '../../core/rng';
 import { TapButton } from '../components/TapButton';
 import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
@@ -10,14 +11,19 @@ import { GameHud, Stopwatch } from '../game/Hud';
 import { useGridFocus } from '../hooks';
 
 export function SchulteGame({ seed, level, onFinish }: GameProps) {
+  const config = pickLevel(SCHULTE_LEVELS, level);
   const board = useMemo(() => generateSchulte(createRng(seed), level), [seed, level]);
-  const total = board.numbers.length;
+  const { sequence } = board;
+  const total = sequence.length;
   const [clock] = useState(() => new GameClock());
-  const [next, setNext] = useState(1);
+  const [cells, setCells] = useState(board.cells);
+  const [next, setNext] = useState(0);
   const [errors, setErrors] = useState(0);
   const [wrong, setWrong] = useState<{ cell: number; id: number } | null>(null);
+  const [moved, setMoved] = useState(0);
   const cellProps = useGridFocus(board.size, total);
-  const done = next > total;
+  const done = next >= total;
+  const found = new Set(sequence.slice(0, next));
 
   useEffect(() => {
     clock.start();
@@ -26,9 +32,9 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
 
   const tap = (cell: number) => {
     if (done) return;
-    const value = board.numbers[cell];
-    if (value < next) return; // déjà trouvé
-    if (value !== next) {
+    const label = cells[cell];
+    if (found.has(label)) return;
+    if (label !== sequence[next]) {
       fx.bad();
       clock.addPenalty(SCHULTE_PENALTY_MS);
       setErrors(errors + 1);
@@ -36,8 +42,15 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
       return;
     }
     fx.tap();
-    setNext(next + 1);
-    if (next === total) {
+    const count = next + 1;
+    setNext(count);
+    setWrong(null);
+    // Grille mouvante : tout se mélange à nouveau toutes les N trouvailles.
+    if (config.reshuffleEvery && count < total && count % config.reshuffleEvery === 0) {
+      setCells(createRng(deriveSeed(seed, count)).shuffle(cells));
+      setMoved(moved + 1);
+    }
+    if (count === total) {
       clock.stop();
       const elapsedMs = clock.elapsed();
       onFinish(
@@ -54,31 +67,37 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
 
   return (
     <div className="game">
-      <GameHud progress={(next - 1) / total}>
+      <GameHud progress={next / total}>
         <Stopwatch clock={clock} />
       </GameHud>
       <div className="game__stage schulte-stage">
         <p className="schulte__target" aria-live="polite">
-          Touche le <strong>{Math.min(next, total)}</strong>
+          Touche le <strong>{sequence[Math.min(next, total - 1)]}</strong>
         </p>
-        <div className="schulte" style={{ '--size': board.size } as CSSProperties} role="group" aria-label="Grille de nombres">
-          {board.numbers.map((value, cell) => {
-            const found = value < next;
+        <div
+          key={moved}
+          className={`schulte${moved ? ' schulte--moved' : ''}`}
+          style={{ '--size': board.size } as CSSProperties}
+          role="group"
+          aria-label="Grille de symboles"
+        >
+          {cells.map((label, cell) => {
+            const isFound = found.has(label);
             const shaking = wrong?.cell === cell;
             return (
               <TapButton
                 key={cell}
                 {...cellProps(cell)}
-                className={`schulte__cell${found ? ' is-found' : ''}`}
+                className={`schulte__cell${isFound && config.mark ? ' is-found' : ''}`}
                 onTap={() => tap(cell)}
-                aria-label={found ? `${value}, trouvé` : String(value)}
+                aria-label={isFound && config.mark ? `${label}, trouvé` : label}
               >
                 <span key={shaking ? wrong.id : 0} className={shaking ? 'shake' : undefined}>
                   <span
                     className="schulte__num"
                     style={{ transform: `rotate(${board.tilts[cell]}deg) scale(${board.scales[cell]})` }}
                   >
-                    {value}
+                    {label}
                   </span>
                 </span>
               </TapButton>

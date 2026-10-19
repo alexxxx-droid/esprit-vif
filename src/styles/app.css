@@ -273,6 +273,10 @@
 .domain-badge--langage {
   background: var(--d-langage);
 }
+.domain-badge--logique {
+  background: var(--d-logique);
+  color: #ffffff;
+}
 
 .domain-chip {
   display: inline-flex;
@@ -921,6 +925,9 @@
 }
 .bar__fill--langage {
   background: var(--d-langage);
+}
+.bar__fill--logique {
+  background: var(--d-logique);
 }
 
 /* ---------- Progrès ---------- */

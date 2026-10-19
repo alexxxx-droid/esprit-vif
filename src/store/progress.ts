@@ -1,7 +1,8 @@
 import { dayKey, hasOfficialTest } from '../core/daily';
-import { GAMES, isGameId } from '../core/games/registry';
+import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
+import { unlockedLevel, type ProgressionInput } from '../core/progression';
 import { adaptLevel, brainAge, clampLevel } from '../core/scoring';
-import type { GameId, PlayMode, PlayOutcome } from '../core/types';
+import type { Domain, GameId, PlayMode, PlayOutcome } from '../core/types';
 import type { Storage, StoredData } from './storage';
 
 export interface PlayRecord {
@@ -72,11 +73,27 @@ export const DEFAULT_SETTINGS: Settings = {
   reminderTime: '18:30',
 };
 
+export interface MarathonRecord {
+  best: number;
+  count: number;
+}
+
+/** Ce qui ne se déduit pas des parties : séances du jour terminées, marathons, duels. */
+export interface Extras {
+  /** Jours où la séance du jour a été terminée. */
+  sessions: string[];
+  marathons: Partial<Record<Domain, MarathonRecord>>;
+  duels: number;
+}
+
+export const EMPTY_EXTRAS: Extras = { sessions: [], marathons: {}, duels: 0 };
+
 export interface ProgressData {
   plays: PlayRecord[];
   tests: TestRecord[];
   settings: Settings;
   games: Partial<Record<GameId, GameProgress>>;
+  extras: Extras;
 }
 
 export type RecordKind = 'first' | 'new' | null;
@@ -102,8 +119,28 @@ export function newId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
+/** Niveau conseillé pour la prochaine partie (jamais au-delà du dernier niveau débloqué). */
 export function gameLevel(data: ProgressData, gameId: GameId): number {
-  return clampLevel(data.games[gameId]?.level ?? 1, GAMES[gameId].maxLevel);
+  return Math.min(clampLevel(data.games[gameId]?.level ?? 1, GAMES[gameId].maxLevel), gameUnlocked(data, gameId));
+}
+
+/** Dernier niveau débloqué d'un jeu. */
+export function gameUnlocked(data: ProgressData, gameId: GameId): number {
+  return unlockedLevel(data.games[gameId]?.bests);
+}
+
+/** Données utiles au calcul de la progression (XP, rang, trophées). */
+export function progressionInput(data: ProgressData): ProgressionInput {
+  const bests: ProgressionInput['bests'] = {};
+  for (const [id, progress] of Object.entries(data.games)) bests[id as GameId] = progress.bests;
+  return {
+    plays: data.plays,
+    tests: data.tests,
+    bests,
+    sessions: data.extras.sessions,
+    marathons: Object.values(data.extras.marathons).reduce((sum, m) => sum + (m?.count ?? 0), 0),
+    duels: data.extras.duels,
+  };
 }
 
 export function bestFor(data: ProgressData, gameId: GameId, level: number): BestRecord | null {
@@ -187,14 +224,13 @@ export class ProgressStore {
     const progress = this.data.games[input.gameId] ?? { level: 1, bests: {} };
     const previousBest = progress.bests[level] ?? null;
     const record: RecordKind = !previousBest ? 'first' : play.score > previousBest.score ? 'new' : null;
+    const bests = record
+      ? { ...progress.bests, [level]: { score: play.score, headline: play.headline, day: play.day } }
+      : progress.bests;
     // Seul l'entraînement libre fait bouger le niveau : le test du jour reste à niveau fixe.
-    const nextLevel = input.mode === 'free' ? adaptLevel(level, play.score, meta.maxLevel) : progress.level;
-    const updated: GameProgress = {
-      level: nextLevel,
-      bests: record
-        ? { ...progress.bests, [level]: { score: play.score, headline: play.headline, day: play.day } }
-        : progress.bests,
-    };
+    const nextLevel =
+      input.mode === 'free' ? Math.min(adaptLevel(level, play.score, meta.maxLevel), unlockedLevel(bests)) : progress.level;
+    const updated: GameProgress = { level: nextLevel, bests };
     const games = { ...this.data.games, [input.gameId]: updated };
 
     await this.storage.put('plays', play);
@@ -250,6 +286,35 @@ export class ProgressStore {
     return test;
   }
 
+  private async saveExtras(extras: Extras) {
+    await this.storage.setKv('extras', extras);
+    this.commit({ ...this.data, extras });
+  }
+
+  /** Séance du jour terminée (une fois par jour). */
+  async completeSession(day: string): Promise<void> {
+    if (this.data.extras.sessions.includes(day)) return;
+    await this.saveExtras({ ...this.data.extras, sessions: [...this.data.extras.sessions, day] });
+  }
+
+  /** Marathon terminé : renvoie vrai si c'est un nouveau record pour ce domaine. */
+  async recordMarathon(domain: Domain, total: number): Promise<boolean> {
+    const previous = this.data.extras.marathons[domain];
+    const isRecord = !previous || total > previous.best;
+    await this.saveExtras({
+      ...this.data.extras,
+      marathons: {
+        ...this.data.extras.marathons,
+        [domain]: { best: Math.max(previous?.best ?? 0, total), count: (previous?.count ?? 0) + 1 },
+      },
+    });
+    return isRecord;
+  }
+
+  async recordDuel(): Promise<void> {
+    await this.saveExtras({ ...this.data.extras, duels: this.data.extras.duels + 1 });
+  }
+
   async updateSettings(patch: Partial<Settings>): Promise<void> {
     const settings = { ...this.data.settings, ...patch };
     await this.storage.setKv('settings', settings);
@@ -257,9 +322,9 @@ export class ProgressStore {
   }
 
   exportJson(now = new Date()): string {
-    const { plays, tests, settings, games } = this.data;
+    const { plays, tests, settings, games, extras } = this.data;
     return JSON.stringify(
-      { app: BACKUP_APP, format: BACKUP_FORMAT, exportedAt: now.toISOString(), plays, tests, settings, games },
+      { app: BACKUP_APP, format: BACKUP_FORMAT, exportedAt: now.toISOString(), plays, tests, settings, games, extras },
       null,
       2,
     );
@@ -280,7 +345,23 @@ export class ProgressStore {
 }
 
 function toStored(data: ProgressData): StoredData {
-  return { plays: data.plays, tests: data.tests, kv: { settings: data.settings, games: data.games } };
+  return { plays: data.plays, tests: data.tests, kv: { settings: data.settings, games: data.games, extras: data.extras } };
+}
+
+function normalizeExtras(raw: unknown): Extras {
+  if (!isObject(raw)) return { ...EMPTY_EXTRAS };
+  const marathons: Extras['marathons'] = {};
+  if (isObject(raw.marathons)) {
+    for (const domain of DOMAIN_ORDER) {
+      const m = raw.marathons[domain];
+      if (isObject(m)) marathons[domain] = { best: Number(m.best) || 0, count: Number(m.count) || 0 };
+    }
+  }
+  return {
+    sessions: Array.isArray(raw.sessions) ? raw.sessions.filter((d): d is string => typeof d === 'string') : [],
+    marathons,
+    duels: Number(raw.duels) || 0,
+  };
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -324,6 +405,7 @@ function normalize(raw: StoredData): ProgressData {
     tests: raw.tests.filter(isTest),
     settings,
     games,
+    extras: normalizeExtras(raw.kv.extras),
   };
 }
 
@@ -343,5 +425,9 @@ export function parseBackup(text: string): ProgressData {
   if (!Array.isArray(parsed.plays) || !Array.isArray(parsed.tests)) {
     throw new Error('Cette sauvegarde est incomplète.');
   }
-  return normalize({ plays: parsed.plays, tests: parsed.tests, kv: { settings: parsed.settings, games: parsed.games } });
+  return normalize({
+    plays: parsed.plays,
+    tests: parsed.tests,
+    kv: { settings: parsed.settings, games: parsed.games, extras: parsed.extras },
+  });
 }

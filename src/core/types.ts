@@ -1,4 +1,4 @@
-export type Domain = 'calcul' | 'memoire' | 'attention' | 'vitesse' | 'langage';
+export type Domain = 'calcul' | 'memoire' | 'attention' | 'vitesse' | 'langage' | 'logique';
 
 export type GameId = 'calcul' | 'stroop' | 'schulte' | 'matrice' | 'nback' | 'total' | 'intrus' | 'anagrammes';
 

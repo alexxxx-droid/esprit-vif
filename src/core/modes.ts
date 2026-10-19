@@ -7,7 +7,7 @@ import type { Domain, GameId } from './types';
 
 export const SESSION_SIZE = 4;
 
-export type SessionReason = 'weak' | 'new' | 'variety';
+export type SessionReason = 'goal' | 'weak' | 'new' | 'variety';
 
 export interface SessionPick {
   gameId: GameId;
@@ -16,6 +16,7 @@ export interface SessionPick {
 }
 
 export const SESSION_REASONS: Record<SessionReason, string> = {
+  goal: 'Ton objectif',
   weak: 'À renforcer',
   new: 'À découvrir',
   variety: 'Pour varier',
@@ -26,12 +27,14 @@ export const SESSION_REASONS: Record<SessionReason, string> = {
  * (un domaine jamais joué passe en tête : c'est l'occasion de le découvrir), puis deux autres pour varier.
  * Seules les parties d'avant aujourd'hui comptent : la séance ne change pas en cours de journée.
  */
-export function sessionGames(day: string, plays: readonly (ScoredPlay & { day: string })[]): SessionPick[] {
+export function sessionGames(day: string, plays: readonly (ScoredPlay & { day: string })[], goals: readonly Domain[] = []): SessionPick[] {
   const before = plays.filter((p) => p.day < day);
   const profile = domainProfile(before);
   const rng = createRng(hashSeed(`esprit-vif:seance:${day}`));
   const ranked = rng.shuffle(DOMAIN_ORDER).sort((a, b) => (profile[a] ?? -1) - (profile[b] ?? -1));
-  const domains = [...ranked.slice(0, 2), ...rng.shuffle(ranked.slice(2)).slice(0, SESSION_SIZE - 2)];
+  // Les objectifs du joueur passent devant (les plus fragiles d'abord), puis les domaines faibles.
+  const focus = [...ranked.filter((d) => goals.includes(d)).slice(0, 2), ...ranked.filter((d) => !goals.includes(d))].slice(0, 2);
+  const domains = [...focus, ...rng.shuffle(ranked.filter((d) => !focus.includes(d))).slice(0, SESSION_SIZE - 2)];
   const lastPlayed = new Map<GameId, string>();
   for (const p of before) if ((lastPlayed.get(p.gameId) ?? '') < p.at) lastPlayed.set(p.gameId, p.at);
   return domains.map((domain, i) => {
@@ -39,7 +42,7 @@ export function sessionGames(day: string, plays: readonly (ScoredPlay & { day: s
     const fresh = games.filter((g) => !lastPlayed.has(g));
     // Dans le domaine : un jeu jamais essayé, sinon celui qui attend depuis le plus longtemps.
     const gameId = fresh.length ? rng.pick(fresh) : [...games].sort((a, b) => (lastPlayed.get(a) ?? '').localeCompare(lastPlayed.get(b) ?? ''))[0];
-    const reason: SessionReason = i >= 2 ? 'variety' : profile[domain] === null ? 'new' : 'weak';
+    const reason: SessionReason = i >= 2 ? 'variety' : goals.includes(domain) ? 'goal' : profile[domain] === null ? 'new' : 'weak';
     return { gameId, domain, reason };
   });
 }

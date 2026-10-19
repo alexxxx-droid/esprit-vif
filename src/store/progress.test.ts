@@ -143,3 +143,21 @@ describe('séances, marathons et duels', () => {
     expect(gameUnlocked(store.getSnapshot(), 'calcul')).toBe(2);
   });
 });
+
+describe('bilan de départ', () => {
+  it('ouvre d’emblée les niveaux placés, sans médaille ni étoile offerte', async () => {
+    const store = await freshStore();
+    await store.placeLevels({ calcul: 3, total: 3 });
+    const data = store.getSnapshot();
+    expect(gameUnlocked(data, 'calcul')).toBe(3);
+    expect(gameLevel(data, 'calcul')).toBe(3);
+    expect(gameUnlocked(data, 'stroop')).toBe(1);
+    expect(progressionInput(data).bests.calcul).toEqual({});
+    // Un mauvais score ne referme pas ce que le bilan a ouvert.
+    await store.recordPlay({ gameId: 'calcul', level: 3, mode: 'free', seed: 1, outcome: outcome(10) });
+    expect(gameUnlocked(store.getSnapshot(), 'calcul')).toBe(3);
+    expect(gameLevel(store.getSnapshot(), 'calcul')).toBe(2);
+    const reloaded = parseBackup(store.exportJson());
+    expect(reloaded.games.calcul?.start).toBe(3);
+  });
+});

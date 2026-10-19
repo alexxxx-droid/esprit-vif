@@ -42,7 +42,7 @@ export function SessionScreen() {
   const data = useProgress();
   const store = useStore();
   const today = useToday();
-  const picks = useMemo(() => sessionGames(today, data.plays), [today, data.plays]);
+  const picks = useMemo(() => sessionGames(today, data.plays, data.settings.goals), [today, data.plays, data.settings.goals]);
   const done = sessionDone(picks, data.plays, today);
   const completed = data.extras.sessions.includes(today);
   const [playing, setPlaying] = useState<GameId | null>(null);

@@ -50,6 +50,8 @@ export interface GameProgress {
   level: number;
   /** Meilleur score par niveau. */
   bests: Record<string, BestRecord>;
+  /** Niveau de départ donné par le bilan : les niveaux jusqu'à lui sont ouverts d'emblée. */
+  start?: number;
 }
 
 export type ThemeChoice = 'auto' | 'light' | 'dark';
@@ -62,6 +64,12 @@ export interface Settings {
   reminder: boolean;
   /** Heure du rappel, « HH:MM ». */
   reminderTime: string;
+  /** Accueil du premier lancement passé (ou écarté). */
+  onboarded: boolean;
+  /** Niveaux de départ déjà placés par le bilan. */
+  placementDone: boolean;
+  /** Domaines que le joueur veut travailler en priorité (3 au plus). */
+  goals: Domain[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -71,6 +79,9 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'auto',
   reminder: false,
   reminderTime: '18:30',
+  onboarded: false,
+  placementDone: false,
+  goals: [],
 };
 
 export interface MarathonRecord {
@@ -121,12 +132,14 @@ export function newId(): string {
 
 /** Niveau conseillé pour la prochaine partie (jamais au-delà du dernier niveau débloqué). */
 export function gameLevel(data: ProgressData, gameId: GameId): number {
-  return Math.min(clampLevel(data.games[gameId]?.level ?? 1, GAMES[gameId].maxLevel), gameUnlocked(data, gameId));
+  const progress = data.games[gameId];
+  return Math.min(clampLevel(progress?.level ?? progress?.start ?? 1, GAMES[gameId].maxLevel), gameUnlocked(data, gameId));
 }
 
-/** Dernier niveau débloqué d'un jeu. */
+/** Dernier niveau débloqué d'un jeu (par les étoiles, ou d'emblée par le bilan de départ). */
 export function gameUnlocked(data: ProgressData, gameId: GameId): number {
-  return unlockedLevel(data.games[gameId]?.bests);
+  const progress = data.games[gameId];
+  return Math.min(GAMES[gameId].maxLevel, Math.max(unlockedLevel(progress?.bests), progress?.start ?? 1));
 }
 
 /** Données utiles au calcul de la progression (XP, rang, trophées). */
@@ -228,9 +241,9 @@ export class ProgressStore {
       ? { ...progress.bests, [level]: { score: play.score, headline: play.headline, day: play.day } }
       : progress.bests;
     // Seul l'entraînement libre fait bouger le niveau : le test du jour reste à niveau fixe.
-    const nextLevel =
-      input.mode === 'free' ? Math.min(adaptLevel(level, play.score, meta.maxLevel), unlockedLevel(bests)) : progress.level;
-    const updated: GameProgress = { level: nextLevel, bests };
+    const unlocked = Math.max(unlockedLevel(bests), progress.start ?? 1);
+    const nextLevel = input.mode === 'free' ? Math.min(adaptLevel(level, play.score, meta.maxLevel), unlocked) : progress.level;
+    const updated: GameProgress = { level: nextLevel, bests, ...(progress.start ? { start: progress.start } : {}) };
     const games = { ...this.data.games, [input.gameId]: updated };
 
     await this.storage.put('plays', play);
@@ -315,6 +328,18 @@ export class ProgressStore {
     await this.saveExtras({ ...this.data.extras, duels: this.data.extras.duels + 1 });
   }
 
+  /** Bilan de départ : ouvre d'emblée les premiers niveaux des jeux où le joueur est déjà à l'aise. */
+  async placeLevels(starts: Partial<Record<GameId, number>>): Promise<void> {
+    const games = { ...this.data.games };
+    for (const [id, start] of Object.entries(starts) as [GameId, number][]) {
+      const current = games[id] ?? { level: 1, bests: {} };
+      const placed = clampLevel(Math.max(current.start ?? 1, start), GAMES[id].maxLevel);
+      games[id] = { ...current, start: placed, level: Math.max(current.level, placed) };
+    }
+    await this.storage.setKv('games', games);
+    this.commit({ ...this.data, games });
+  }
+
   async updateSettings(patch: Partial<Settings>): Promise<void> {
     const settings = { ...this.data.settings, ...patch };
     await this.storage.setKv('settings', settings);
@@ -392,11 +417,17 @@ function isTest(v: unknown): v is TestRecord {
 /** Remet d'aplomb des données lues (stockage ou sauvegarde) : tout ce qui est illisible est écarté. */
 function normalize(raw: StoredData): ProgressData {
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
+  settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   const games: Partial<Record<GameId, GameProgress>> = {};
   if (isObject(raw.kv.games)) {
     for (const [id, value] of Object.entries(raw.kv.games)) {
       if (isGameId(id) && isObject(value) && isObject(value.bests)) {
-        games[id] = { level: Number(value.level) || 1, bests: value.bests as Record<string, BestRecord> };
+        const start = Number(value.start);
+        games[id] = {
+          level: Number(value.level) || 1,
+          bests: value.bests as Record<string, BestRecord>,
+          ...(Number.isInteger(start) && start > 1 ? { start } : {}),
+        };
       }
     }
   }

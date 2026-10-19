@@ -2027,6 +2027,164 @@
   color: var(--good);
 }
 
+/* ---------- Premier lancement et objectifs ---------- */
+
+.welcome {
+  min-height: 100dvh;
+}
+
+/* Pendant l'accueil du premier lancement, pas de barre d'onglets : une seule chose à faire. */
+.app:has(.welcome) .tabbar {
+  display: none;
+}
+
+.app--tabbed:has(.welcome) .screen {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+
+.welcome__steps {
+  display: flex;
+  gap: 6px;
+}
+
+.welcome__steps span {
+  width: 28px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  transition: background-color 240ms;
+}
+
+.welcome__steps span.is-on {
+  background: var(--accent);
+}
+
+/* Un éventail de vignettes de jeux, pour donner envie d'un coup d'œil. */
+.welcome__fan {
+  display: flex;
+  justify-content: center;
+  height: 112px;
+  margin: 8px 0 0;
+}
+
+.welcome__fan span {
+  margin: 0 -10px;
+  transform: translateY(calc(var(--i) * var(--i) * 6px)) rotate(calc(var(--i) * 9deg));
+  animation: fan-in 520ms var(--ease-spring) both;
+  animation-delay: calc((var(--i) + 2) * 60ms);
+}
+
+.welcome__fan .game-art {
+  box-shadow:
+    inset 0 -3px 0 rgb(0 0 0 / 10%),
+    var(--shadow-2);
+}
+
+@keyframes fan-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(0) scale(0.7);
+  }
+}
+
+.welcome__cta,
+.welcome__actions {
+  margin-top: auto;
+}
+
+.welcome__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.goal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 64px;
+  padding: 12px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+  transition:
+    box-shadow 160ms,
+    transform 120ms;
+}
+
+.goal.is-on {
+  box-shadow: inset 0 0 0 2.5px var(--accent);
+}
+
+.goal:disabled {
+  opacity: 0.45;
+}
+
+.goal:active {
+  transform: scale(0.97);
+}
+
+.goal__check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.goals--compact {
+  padding-bottom: 12px;
+}
+
+.goals--compact .goal {
+  min-height: 52px;
+  background: var(--surface-2);
+  box-shadow: none;
+  font-size: 0.92rem;
+}
+
+.goals--compact .goal.is-on {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.placement__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.placement__list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ink-2);
+}
+
+.placement__list strong {
+  color: var(--ink);
+}
+
 /* ---------- Joueurs ---------- */
 
 .avatar {
@@ -2441,6 +2599,11 @@
 .reason--weak {
   background: var(--warm-soft);
   color: var(--warm-ink);
+}
+
+.reason--goal {
+  background: var(--good-soft);
+  color: var(--good);
 }
 
 .reason--new {

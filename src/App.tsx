@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { hasOfficialTest } from './core/daily';
 import { sessionDone, sessionGames } from './core/modes';
+import type { Domain } from './core/types';
 import type { PlayRecord, Settings } from './store/progress';
 import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
@@ -74,9 +75,9 @@ function useReminderSync(settings: Settings, doneToday: boolean) {
 }
 
 /** Les quatre jeux de la séance joués, d'une façon ou d'une autre : la séance compte, même hors de son écran. */
-function useSessionAutoComplete(plays: readonly PlayRecord[], sessions: readonly string[], today: string) {
+function useSessionAutoComplete(plays: readonly PlayRecord[], sessions: readonly string[], goals: readonly Domain[], today: string) {
   const store = useStore();
-  const picks = useMemo(() => sessionGames(today, plays), [today, plays]);
+  const picks = useMemo(() => sessionGames(today, plays, goals), [today, plays, goals]);
   const allDone = sessionDone(picks, plays, today).size === picks.length;
   const completed = sessions.includes(today);
   useEffect(() => {
@@ -90,7 +91,7 @@ export function App() {
   const today = useToday();
   useApplySettings(settings);
   useReminderSync(settings, hasOfficialTest(tests, today));
-  useSessionAutoComplete(plays, extras.sessions, today);
+  useSessionAutoComplete(plays, extras.sessions, settings.goals, today);
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
 

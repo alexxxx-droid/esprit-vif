@@ -17,6 +17,7 @@ import { useProgress, useStore } from '../progress-context';
 import { useProgression } from '../progression';
 import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
+import { WelcomeScreen } from './WelcomeScreen';
 
 function minutesOf(time: string): number {
   const [h, m] = time.split(':').map(Number);
@@ -24,6 +25,13 @@ function minutesOf(time: string): number {
 }
 
 export function HomeScreen() {
+  const data = useProgress();
+  // Tout premier lancement de ce joueur : on fait connaissance avant tout.
+  if (!data.settings.onboarded && data.plays.length === 0 && data.tests.length === 0) return <WelcomeScreen />;
+  return <Home />;
+}
+
+function Home() {
   const data = useProgress();
   const store = useStore();
   const today = useToday();
@@ -169,7 +177,7 @@ export function HomeScreen() {
 function SessionCard() {
   const data = useProgress();
   const today = useToday();
-  const picks = sessionGames(today, data.plays);
+  const picks = sessionGames(today, data.plays, data.settings.goals);
   const done = sessionDone(picks, data.plays, today);
   const completed = data.extras.sessions.includes(today);
   return (

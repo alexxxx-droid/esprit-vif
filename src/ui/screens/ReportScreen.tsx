@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
+import { placement } from '../../core/placement';
 import { formatLongDay, plural } from '../../core/format';
-import { DOMAINS, GAMES } from '../../core/games/registry';
+import { DOMAINS, GAMES, gamesOfDomain } from '../../core/games/registry';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 import { officialTests, type TestRecord } from '../../store/progress';
 import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
-import { useCountUp } from '../hooks';
-import { useProgress } from '../progress-context';
+import { useCountUp, useToday } from '../hooks';
+import { useProgress, useStore } from '../progress-context';
 import { navigate } from '../router';
 
 function verdict(age: number, previous: number | undefined): string {
@@ -19,8 +20,17 @@ function verdict(age: number, previous: number | undefined): string {
 
 export function ReportScreen({ testId }: { testId: string }) {
   const data = useProgress();
+  const store = useStore();
+  const today = useToday();
   const test = data.tests.find((t) => t.id === testId && t.done && t.brainAge !== undefined) ?? null;
   const shown = useCountUp(test?.brainAge ?? MAX_BRAIN_AGE, 1100);
+  const firstOfficial = Boolean(test?.official) && !officialTests(data).some((t) => test && t.id !== test.id && t.startedAt < test.startedAt);
+
+  // Le tout premier test officiel sert de bilan de départ : il place les niveaux, une seule fois.
+  useEffect(() => {
+    if (!test || !firstOfficial || data.settings.placementDone || test.day !== today) return;
+    void store.placeLevels(placement(test.results)).then(() => store.updateSettings({ placementDone: true }));
+  }, [test, firstOfficial, data.settings.placementDone, today, store]);
 
   useEffect(() => {
     if (!test) navigate({ name: 'home' }, { replace: true });
@@ -91,6 +101,26 @@ export function ReportScreen({ testId }: { testId: string }) {
           })}
         </ul>
       </section>
+
+      {firstOfficial && data.settings.placementDone && (
+        <section className="card placement" aria-labelledby="placement-title">
+          <h2 className="section-title" id="placement-title">
+            Tes niveaux de départ
+          </h2>
+          <ul className="placement__list">
+            {[...new Set(test.results.map((r) => GAMES[r.gameId].domain))].map((domain) => {
+              const start = data.games[gamesOfDomain(domain)[0]]?.start ?? 1;
+              return (
+                <li key={domain}>
+                  <strong>{DOMAINS[domain].name}</strong>
+                  <span>{start > 1 ? `niveaux 1 à ${start} ouverts d’emblée` : 'on commence au niveau 1'}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="card__sub">Les autres domaines démarrent au niveau 1 : chaque étoile ouvre la suite.</p>
+        </section>
+      )}
 
       {!test.official && (
         <p className="notice">

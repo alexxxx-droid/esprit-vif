@@ -1,11 +1,13 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
+import { DOMAIN_ORDER } from '../../core/games/registry';
 import type { ThemeChoice } from '../../store/progress';
 import { profileName } from '../../store/profiles';
-import { ConfirmDialog, ScreenHeader, Toggle } from '../components/bits';
+import { ConfirmDialog, DomainBadge, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
 import { ColorPicker, PlayersDialog, ProfileAvatar } from '../components/Players';
 import { hapticsSupported } from '../fx/haptics';
+import { GOAL_LABELS, MAX_GOALS, toggleGoal } from '../goals';
 import { voiceSupported } from '../fx/voice';
 import { platform } from '../platform';
 import { useProfileManager, useProfiles } from '../profiles-context';
@@ -107,6 +109,28 @@ export function SettingsScreen() {
           {profiles.length > 1 && <ActionRow icon="trash" label={`Supprimer le joueur ${playerName}`} danger onClick={() => setPending({ kind: 'remove-player' })} />}
         </div>
         <p className="hint">Jusqu’à 4 joueurs sur cet appareil, chacun avec ses niveaux, ses tests et ses réglages.</p>
+      </Section>
+
+      <Section title="Mes objectifs">
+        <p className="hint">Jusqu’à {MAX_GOALS} domaines que ta séance du jour mettra en avant.</p>
+        <div className="goals goals--compact" role="group" aria-label="Objectifs">
+          {DOMAIN_ORDER.map((domain) => {
+            const on = settings.goals.includes(domain);
+            return (
+              <button
+                key={domain}
+                type="button"
+                className={`goal${on ? ' is-on' : ''}`}
+                aria-pressed={on}
+                disabled={!on && settings.goals.length >= MAX_GOALS}
+                onClick={() => void store.updateSettings({ goals: toggleGoal(settings.goals, domain) })}
+              >
+                <DomainBadge domain={domain} size={30} />
+                <span>{GOAL_LABELS[domain]}</span>
+              </button>
+            );
+          })}
+        </div>
       </Section>
 
       <Section title="Sons et vibrations">

@@ -34,6 +34,13 @@ describe('Séance du jour', () => {
     expect(picks[0].gameId).not.toBe('anagrammes');
   });
 
+  it('fait passer les objectifs du joueur en tête', () => {
+    const picks = sessionGames('2026-10-19', [], ['logique', 'langage']);
+    expect(picks.slice(0, 2).map((p) => p.domain).sort()).toEqual(['langage', 'logique']);
+    expect(picks[0].reason).toBe('goal');
+    expect(new Set(picks.map((p) => p.domain)).size).toBe(SESSION_SIZE);
+  });
+
   it('ne change pas quand on joue dans la journée, et sait ce qui est fait', () => {
     const day = '2026-10-19';
     const picks = sessionGames(day, []);

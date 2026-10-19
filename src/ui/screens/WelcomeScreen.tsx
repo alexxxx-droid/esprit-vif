@@ -1,12 +1,13 @@
 import { useState, type CSSProperties } from 'react';
 import { dailyGames } from '../../core/daily';
 import { DAILY_ROTATION, DOMAIN_ORDER, GAMES } from '../../core/games/registry';
+import type { CharacterId } from '../../core/characters';
 import type { Domain, GameId } from '../../core/types';
 import { DomainBadge } from '../components/bits';
 import { GameArt } from '../components/GameArt';
 import { Mascot } from '../components/Mascot';
 import { Icon } from '../components/Icon';
-import { ColorPicker } from '../components/Players';
+import { CharacterPicker, ColorPicker } from '../components/Players';
 import { GOAL_LABELS, MAX_GOALS, toggleGoal } from '../goals';
 import { useToday } from '../hooks';
 import { useProfileManager, useProfiles } from '../profiles-context';
@@ -25,12 +26,13 @@ export function WelcomeScreen() {
   const [step, setStep] = useState(0);
   const [name, setName] = useState(active.name);
   const [color, setColor] = useState(active.color);
+  const [character, setCharacter] = useState<CharacterId>(active.character);
   const [goals, setGoals] = useState<Domain[]>(data.settings.goals);
   const [busy, setBusy] = useState(false);
   const games = dailyGames(today, DAILY_ROTATION);
 
   const saveProfile = async () => {
-    if (name.trim() !== active.name || color !== active.color) await manager.update(active.id, { name, color });
+    if (name.trim() !== active.name || color !== active.color || character !== active.character) await manager.update(active.id, { name, color, character });
     setStep(1);
   };
 
@@ -59,18 +61,20 @@ export function WelcomeScreen() {
                 <GameArt gameId={id} size={74} />
               </span>
             ))}
-            <Mascot mood="hello" size={96} className="welcome__vif" />
+            <Mascot key={character} character={character} mood="hello" size={96} className="welcome__vif" />
           </div>
           <div className="intro__head">
             <h1 className="intro__title">Bienvenue sur Esprit Vif&nbsp;!</h1>
             <p className="intro__rule">
-              Moi, c’est Vif. Quelques minutes par jour, 24 mini-jeux et ton âge cérébral pour suivre tes progrès. Commençons par faire connaissance&nbsp;!
+              Quelques minutes par jour, 24 mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance&nbsp;!
             </p>
           </div>
           <label className="field">
             <span className="field__label">Ton prénom</span>
             <input className="field__input" value={name} maxLength={16} placeholder="Prénom" onChange={(e) => setName(e.target.value)} />
           </label>
+          <span className="field__label">Ton compagnon</span>
+          <CharacterPicker value={character} onChange={setCharacter} />
           <span className="field__label">Ta couleur</span>
           <ColorPicker value={color} onChange={setColor} label="Couleur de ton avatar" />
           <button type="button" className="cta welcome__cta" onClick={() => void saveProfile()}>

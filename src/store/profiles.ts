@@ -1,3 +1,4 @@
+import { isCharacterId, type CharacterId } from '../core/characters';
 import { newId, ProgressStore } from './progress';
 import type { Storage } from './storage';
 
@@ -17,6 +18,8 @@ export interface Profile {
   name: string;
   /** Indice de couleur de l'avatar (0 à 5, les couleurs des domaines). */
   color: number;
+  /** Le compagnon choisi : avatar du joueur et commentateur de ses parties. */
+  character: CharacterId;
   /** Nom de la base qui contient sa progression. */
   db: string;
   createdAt: string;
@@ -57,10 +60,12 @@ export class ProfileManager {
   static async open(backend: ProfileBackend, now = new Date()): Promise<ProfileManager> {
     const registry = await backend.open(REGISTRY_DB);
     const { kv } = await registry.readAll();
-    let profiles = Array.isArray(kv.profiles) ? kv.profiles.filter(isProfile) : [];
+    let profiles: Profile[] = Array.isArray(kv.profiles)
+      ? kv.profiles.filter(isProfile).map((p) => ({ ...p, character: isCharacterId(p.character) ? p.character : 'vif' }))
+      : [];
     if (profiles.length === 0) {
       // Première ouverture : le joueur existant (ou le tout premier) devient le profil principal.
-      profiles = [{ id: 'principal', name: '', color: 0, db: MAIN_DB, createdAt: now.toISOString() }];
+      profiles = [{ id: 'principal', name: '', color: 0, character: 'vif', db: MAIN_DB, createdAt: now.toISOString() }];
       await registry.setKv('profiles', profiles);
     }
     const active = profiles.find((p) => p.id === kv.active) ?? profiles[0];
@@ -94,18 +99,25 @@ export class ProfileManager {
   }
 
   /** Nouveau joueur, qui devient aussitôt le profil actif. */
-  async add(name: string, color: number, now = new Date()): Promise<Profile> {
+  async add(name: string, color: number, character: CharacterId = 'vif', now = new Date()): Promise<Profile> {
     if (this.state.profiles.length >= MAX_PROFILES) throw new Error(`${MAX_PROFILES} profils au maximum.`);
     const id = newId();
-    const profile: Profile = { id, name: cleanName(name), color: color % PROFILE_COLORS, db: `${MAIN_DB}-${id}`, createdAt: now.toISOString() };
+    const profile: Profile = { id, name: cleanName(name), color: color % PROFILE_COLORS, character, db: `${MAIN_DB}-${id}`, createdAt: now.toISOString() };
     const store = await ProgressStore.load(await this.backend.open(profile.db));
     await this.saveProfiles([...this.state.profiles, profile], profile, store);
     return profile;
   }
 
-  async update(id: string, patch: { name?: string; color?: number }): Promise<void> {
+  async update(id: string, patch: { name?: string; color?: number; character?: CharacterId }): Promise<void> {
     const profiles = this.state.profiles.map((p) =>
-      p.id === id ? { ...p, ...(patch.name !== undefined ? { name: cleanName(patch.name) } : {}), ...(patch.color !== undefined ? { color: patch.color % PROFILE_COLORS } : {}) } : p,
+      p.id === id
+        ? {
+            ...p,
+            ...(patch.name !== undefined ? { name: cleanName(patch.name) } : {}),
+            ...(patch.color !== undefined ? { color: patch.color % PROFILE_COLORS } : {}),
+            ...(patch.character !== undefined ? { character: patch.character } : {}),
+          }
+        : p,
     );
     const active = profiles.find((p) => p.id === this.state.active.id) ?? profiles[0];
     await this.saveProfiles(profiles, active);

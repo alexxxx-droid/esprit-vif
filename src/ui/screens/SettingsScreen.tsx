@@ -5,7 +5,7 @@ import type { TextSize, ThemeChoice } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { ConfirmDialog, DomainBadge, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
-import { ColorPicker, PlayersDialog, ProfileAvatar } from '../components/Players';
+import { CharacterPicker, ColorPicker, PlayersDialog, ProfileAvatar } from '../components/Players';
 import { hapticsSupported } from '../fx/haptics';
 import { GOAL_LABELS, MAX_GOALS, toggleGoal } from '../goals';
 import { voiceSupported } from '../fx/voice';
@@ -109,6 +109,9 @@ export function SettingsScreen() {
             />
           </label>
         </div>
+        <p className="setting-label">Compagnon</p>
+        <CharacterPicker value={active.character} onChange={(character) => void manager.update(active.id, { character })} />
+        <p className="setting-label">Couleur</p>
         <ColorPicker value={active.color} onChange={(color) => void manager.update(active.id, { color })} label="Couleur de l’avatar" />
         <div className="data-actions">
           <ActionRow icon="users" label={profiles.length > 1 ? 'Changer de joueur ou en ajouter un' : 'Ajouter un joueur'} onClick={() => setPlayersOpen(true)} />

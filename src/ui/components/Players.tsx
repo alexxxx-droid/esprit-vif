@@ -1,15 +1,30 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { CHARACTERS, type CharacterId } from '../../core/characters';
 import { MAX_PROFILES, PROFILE_COLORS, profileName, type Profile } from '../../store/profiles';
 import { useProfileManager, useProfiles } from '../profiles-context';
 import { Icon } from './Icon';
+import { Mascot } from './Mascot';
 
-/** Avatar d'un joueur : son initiale sur une couleur choisie. */
-export function ProfileAvatar({ profile, profiles, size = 40 }: { profile: Profile; profiles: readonly Profile[]; size?: number }) {
-  const name = profileName(profile, profiles);
+/** Avatar d'un joueur : la tête de son compagnon, sur la couleur qu'il a choisie. */
+export function ProfileAvatar({ profile, size = 40 }: { profile: Profile; profiles?: readonly Profile[]; size?: number }) {
   return (
-    <span className={`avatar avatar--c${profile.color}`} style={{ width: size, height: size, fontSize: size * 0.44 }} aria-hidden="true">
-      {profile.name ? name.charAt(0).toUpperCase() : profiles.indexOf(profile) + 1}
+    <span className={`avatar avatar--c${profile.color}`} style={{ width: size, height: size }} aria-hidden="true">
+      <Mascot character={profile.character} mood="happy" size={size * 0.92} still />
     </span>
+  );
+}
+
+/** Choix du compagnon : Vif ou l'un des fruits. */
+export function CharacterPicker({ value, onChange }: { value: CharacterId; onChange: (character: CharacterId) => void }) {
+  return (
+    <div className="characters" role="radiogroup" aria-label="Compagnon">
+      {CHARACTERS.map((c) => (
+        <button key={c.id} type="button" role="radio" aria-checked={value === c.id} className="character" onClick={() => onChange(c.id)}>
+          <Mascot character={c.id} mood={value === c.id ? 'cheer' : 'happy'} size={54} still={value !== c.id} />
+          <span>{c.name}</span>
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -43,6 +58,7 @@ export function PlayersDialog({ open, onClose }: { open: boolean; onClose: () =>
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState('');
   const [color, setColor] = useState(1);
+  const [character, setCharacter] = useState<CharacterId>('pomme');
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -68,7 +84,7 @@ export function PlayersDialog({ open, onClose }: { open: boolean; onClose: () =>
   const create = async () => {
     if (!name.trim()) return;
     setBusy(true);
-    await manager.add(name, color);
+    await manager.add(name, color, character);
     setBusy(false);
     close();
   };
@@ -98,6 +114,8 @@ export function PlayersDialog({ open, onClose }: { open: boolean; onClose: () =>
             <span className="field__label">Prénom</span>
             <input className="field__input" value={name} maxLength={16} autoFocus onChange={(e) => setName(e.target.value)} placeholder="Prénom" />
           </label>
+          <span className="field__label">Compagnon</span>
+          <CharacterPicker value={character} onChange={setCharacter} />
           <span className="field__label">Couleur</span>
           <ColorPicker value={color} onChange={setColor} label="Couleur de l’avatar" />
           <div className="dialog__actions">

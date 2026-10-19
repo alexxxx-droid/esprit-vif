@@ -6,6 +6,7 @@ import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/reg
 import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
+import { characterName } from '../../core/characters';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
@@ -168,7 +169,7 @@ function Home() {
           <Mascot mood="hello" size={58} className="coach__vif" />
           <div>
             <h2 className="coach__title" id="coach-title">
-              Le mot de Vif, ton coach
+              Le mot de {characterName(active.character)}, ton coach
             </h2>
             <p className="coach__tip">{coachTip(today)}</p>
           </div>

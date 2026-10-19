@@ -25,6 +25,7 @@ describe('Profils famille', () => {
     const { profiles, active } = manager.getSnapshot();
     expect(profiles).toHaveLength(1);
     expect(active.db).toBe(MAIN_DB);
+    expect(active.character).toBe('vif');
     expect(profileName(active, profiles)).toBe('Joueur 1');
   });
 
@@ -52,7 +53,7 @@ describe('Profils famille', () => {
     await manager.remove(added[2].id);
     expect(removed).toEqual([added[2].db]);
     expect(manager.getSnapshot().active.id).toBe('principal');
-    await manager.update(added[0].id, { name: 'Tom', color: 9 });
-    expect(manager.getSnapshot().profiles[1]).toMatchObject({ name: 'Tom', color: 3 });
+    await manager.update(added[0].id, { name: 'Tom', color: 9, character: 'fraise' });
+    expect(manager.getSnapshot().profiles[1]).toMatchObject({ name: 'Tom', color: 3, character: 'fraise' });
   });
 });

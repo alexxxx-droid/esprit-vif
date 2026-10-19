@@ -3004,10 +3004,6 @@
   fill: var(--d-vitesse);
 }
 
-.vif__body {
-  fill: var(--accent);
-}
-
 .vif__glow {
   fill: #ffffff;
   opacity: 0.22;
@@ -3046,7 +3042,7 @@
 
 .vif__arm {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--vif-body);
   stroke-linecap: round;
   stroke-width: 8;
 }
@@ -3131,4 +3127,134 @@
   width: 100%;
   min-height: 32px;
   accent-color: var(--accent);
+}
+
+/* ---------- Compagnons : Vif et la bande de fruits ---------- */
+
+.vif {
+  --vif-body: var(--accent);
+}
+
+.vif__body {
+  fill: var(--vif-body);
+}
+
+.vif__body-dark {
+  fill: color-mix(in oklab, var(--vif-body) 72%, #000000);
+}
+
+.vif__stem {
+  fill: none;
+  stroke: #7a4a2a;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.vif__leaf {
+  fill: #3fae49;
+  stroke: #3fae49;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.vif__nub {
+  fill: #7a4a2a;
+}
+
+.vif__nub--green {
+  fill: #2b7a35;
+}
+
+.vif__dimples {
+  fill: none;
+  stroke: color-mix(in oklab, var(--vif-body) 80%, #8a3d00);
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.vif__seeds {
+  fill: none;
+  stroke: #ffe28a;
+  stroke-linecap: round;
+  stroke-width: 2.6;
+}
+
+.vif__stripes {
+  fill: none;
+  stroke: #2b7a35;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.vif--pomme {
+  --vif-body: #e5484b;
+}
+
+.vif--orange {
+  --vif-body: #f6922f;
+}
+
+.vif--citron {
+  --vif-body: #f2cf37;
+}
+
+.vif--fraise {
+  --vif-body: #e8414f;
+}
+
+.vif--raisin {
+  --vif-body: #8e55c9;
+}
+
+.vif--poire {
+  --vif-body: #b4cf45;
+}
+
+.vif--pasteque {
+  --vif-body: #46a552;
+}
+
+.vif--still .vif__bob,
+.vif--still .vif__eyes,
+.vif--still .vif__arm--wave {
+  animation: none;
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 4px 0 8px;
+}
+
+.character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 84px;
+  padding: 6px 2px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition:
+    box-shadow 160ms,
+    transform 120ms;
+}
+
+.character[aria-checked='true'] {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2.5px var(--accent);
+  color: var(--ink);
+}
+
+.character:active {
+  transform: scale(0.95);
+}
+
+.avatar {
+  overflow: hidden;
 }

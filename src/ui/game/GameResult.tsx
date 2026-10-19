@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
 import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from '../../core/levels';
@@ -8,6 +8,7 @@ import type { PlayMode } from '../../core/types';
 import { gameUnlocked } from '../../store/progress';
 import { ScoreRing } from '../components/bits';
 import { GameArt } from '../components/GameArt';
+import { fx } from '../fx/fx';
 import { Mascot } from '../components/Mascot';
 import { moodForScore } from '../mascot-mood';
 import { Icon } from '../components/Icon';
@@ -30,6 +31,16 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
   const newMedal = delta && delta.medalAfter && medalRank(delta.medalAfter) > medalRank(delta.medalBefore);
   const newThreeStars = starsFor(outcome.score) === 3 && (delta ? delta.starsBefore < 3 : false);
   const celebrate = Boolean(saved?.record === 'new' || levelUp || newMedal || newThreeStars);
+  const starsNow = starsFor(outcome.score);
+  const starsBefore = delta ? delta.starsBefore : 0;
+
+  // Un tintement par étoile nouvellement gagnée, au rythme de leur apparition.
+  useEffect(() => {
+    const timers = Array.from({ length: Math.max(0, starsNow - starsBefore) }, (_, k) =>
+      window.setTimeout(() => fx.star(starsBefore + k), 300 + k * 180),
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, [starsNow, starsBefore]);
   // Sans serveur, on se compare à soi-même : les parties précédentes de ce jeu, la plus récente d'abord.
   const comparison = saved
     ? compareToHistory(

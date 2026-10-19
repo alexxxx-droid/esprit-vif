@@ -6,7 +6,8 @@ import type { PlayRecord, Settings } from './store/progress';
 import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
-import { setSoundEnabled } from './ui/fx/sound';
+import { setMusicEnabled, setMusicVolume } from './ui/fx/music';
+import { setEffectsVolume, setSoundEnabled } from './ui/fx/sound';
 import { MOTION_EVENT, useToday } from './ui/hooks';
 import { platform } from './ui/platform';
 import { setGenerousTime } from './ui/tempo';
@@ -63,7 +64,10 @@ function useApplySettings(settings: Settings) {
   useEffect(() => {
     setSoundEnabled(settings.sound);
     setHapticsEnabled(settings.vibration);
-  }, [settings.sound, settings.vibration]);
+    setEffectsVolume(settings.effectsVolume);
+    setMusicEnabled(settings.music);
+    setMusicVolume(settings.musicVolume);
+  }, [settings.sound, settings.vibration, settings.effectsVolume, settings.music, settings.musicVolume]);
 
   // Accessibilité : des attributs sur la racine, que les feuilles de style suivent.
   useEffect(() => {

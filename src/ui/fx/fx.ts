@@ -15,6 +15,9 @@ export const fx = {
     sound.bad();
     haptic('bad');
   },
+  /** Début d'une partie : la série de bonnes réponses repart de zéro. */
+  start: () => sound.resetStreak(),
+  star: (index: number) => sound.star(index),
   tick: () => sound.tick(),
   go: () => sound.go(),
   note: (index: number) => sound.note(index),

@@ -3105,3 +3105,30 @@
     transform: rotate(-18deg);
   }
 }
+
+/* ---------- Réglettes de volume ---------- */
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0 14px 58px;
+}
+
+.slider__label {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.slider__value {
+  font-variant-numeric: tabular-nums;
+}
+
+.slider input {
+  width: 100%;
+  min-height: 32px;
+  accent-color: var(--accent);
+}

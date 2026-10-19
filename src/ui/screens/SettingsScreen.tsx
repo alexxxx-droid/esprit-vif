@@ -148,6 +148,19 @@ export function SettingsScreen() {
           onChange={(sound) => void store.updateSettings({ sound })}
         />
         <Toggle
+          icon="music"
+          label="Musique d’ambiance"
+          description="Une musique douce pendant les parties, différente pour chaque domaine, composée sur l’appareil."
+          checked={settings.music}
+          onChange={(music) => void store.updateSettings({ music })}
+        />
+        {settings.music && (
+          <Slider label="Volume de la musique" value={settings.musicVolume} onChange={(musicVolume) => void store.updateSettings({ musicVolume })} />
+        )}
+        {settings.sound && (
+          <Slider label="Volume des effets" value={settings.effectsVolume} onChange={(effectsVolume) => void store.updateSettings({ effectsVolume })} />
+        )}
+        <Toggle
           icon="vibrate"
           label="Vibrations"
           description={hapticsSupported() ? 'Un léger retour à chaque toucher.' : 'Cet appareil ne vibre pas depuis le navigateur.'}
@@ -337,6 +350,19 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       <h2 className="section-title">{title}</h2>
       <div className="settings__card">{children}</div>
     </section>
+  );
+}
+
+/** Réglette de volume, de 0 à 100 %. */
+function Slider({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {
+  return (
+    <label className="slider">
+      <span className="slider__label">
+        {label}
+        <span className="slider__value">{Math.round(value * 100)}&nbsp;%</span>
+      </span>
+      <input type="range" min={0} max={1} step={0.1} value={value} onChange={(event) => onChange(Number(event.target.value))} />
+    </label>
   );
 }
 

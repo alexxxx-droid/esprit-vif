@@ -77,6 +77,10 @@ export interface Settings {
   generousTime: boolean;
   leftHanded: boolean;
   reduceMotion: boolean;
+  /** Musique d'ambiance pendant les parties, et volumes (0 à 1). */
+  music: boolean;
+  musicVolume: number;
+  effectsVolume: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -94,6 +98,9 @@ export const DEFAULT_SETTINGS: Settings = {
   generousTime: false,
   leftHanded: false,
   reduceMotion: false,
+  music: true,
+  musicVolume: 0.5,
+  effectsVolume: 0.9,
 };
 
 export interface MarathonRecord {

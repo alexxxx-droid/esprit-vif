@@ -5,6 +5,7 @@ import { randomSeed } from '../../core/rng';
 import type { PlayMode, PlayOutcome } from '../../core/types';
 import { progressionInput, type SavedPlay } from '../../store/progress';
 import { fx } from '../fx/fx';
+import { startMusic, stopMusic } from '../fx/music';
 import { GAME_COMPONENTS } from '../games/catalog';
 import { useStore } from '../progress-context';
 import { GameChromeContext } from './chrome';
@@ -85,6 +86,14 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, [phase]);
+
+  // L'ambiance du domaine accompagne la partie, puis s'efface au résultat (ou si l'on quitte).
+  useEffect(() => {
+    if (phase !== 'play') return;
+    fx.start();
+    startMusic(meta.domain);
+    return () => stopMusic();
+  }, [phase, meta.domain, run.id]);
 
   const finish = async (outcome: PlayOutcome) => {
     setPhase('saving');

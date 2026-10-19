@@ -4,6 +4,7 @@ import { DAILY_ROTATION, DOMAIN_ORDER, GAMES } from '../../core/games/registry';
 import type { Domain, GameId } from '../../core/types';
 import { DomainBadge } from '../components/bits';
 import { GameArt } from '../components/GameArt';
+import { Mascot } from '../components/Mascot';
 import { Icon } from '../components/Icon';
 import { ColorPicker } from '../components/Players';
 import { GOAL_LABELS, MAX_GOALS, toggleGoal } from '../goals';
@@ -58,10 +59,13 @@ export function WelcomeScreen() {
                 <GameArt gameId={id} size={74} />
               </span>
             ))}
+            <Mascot mood="hello" size={96} className="welcome__vif" />
           </div>
           <div className="intro__head">
             <h1 className="intro__title">Bienvenue sur Esprit Vif&nbsp;!</h1>
-            <p className="intro__rule">Quelques minutes par jour, 24 mini-jeux et ton âge cérébral pour suivre tes progrès. Commençons par faire connaissance.</p>
+            <p className="intro__rule">
+              Moi, c’est Vif. Quelques minutes par jour, 24 mini-jeux et ton âge cérébral pour suivre tes progrès. Commençons par faire connaissance&nbsp;!
+            </p>
           </div>
           <label className="field">
             <span className="field__label">Ton prénom</span>

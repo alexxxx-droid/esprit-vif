@@ -9,6 +9,7 @@ import type { GameId } from '../../core/types';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
+import { Mascot } from '../components/Mascot';
 import { PlayersDialog, ProfileAvatar } from '../components/Players';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
@@ -136,7 +137,7 @@ function Home() {
 
       {restedYesterday && (
         <p className="notice notice--warm" role="status">
-          <Icon name="flame" size={20} />
+          <Mascot mood="sleep" size={34} />
           Hier était ton jour de repos. Une partie aujourd’hui et ta série de {plural(streak, 'jour')} continue&nbsp;!
         </p>
       )}
@@ -164,12 +165,10 @@ function Home() {
         <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
 
         <section className="coach" aria-labelledby="coach-title">
-          <span className="coach__icon" aria-hidden="true">
-            <Icon name="spark" size={20} />
-          </span>
+          <Mascot mood="hello" size={58} className="coach__vif" />
           <div>
             <h2 className="coach__title" id="coach-title">
-              Le mot du coach
+              Le mot de Vif, ton coach
             </h2>
             <p className="coach__tip">{coachTip(today)}</p>
           </div>

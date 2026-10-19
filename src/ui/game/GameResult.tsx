@@ -8,6 +8,8 @@ import type { PlayMode } from '../../core/types';
 import { gameUnlocked } from '../../store/progress';
 import { ScoreRing } from '../components/bits';
 import { GameArt } from '../components/GameArt';
+import { Mascot } from '../components/Mascot';
+import { moodForScore } from '../mascot-mood';
 import { Icon } from '../components/Icon';
 import { MedalBadge, RankBar, Stars } from '../components/progress-bits';
 import { useProgress } from '../progress-context';
@@ -45,7 +47,10 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
         <GameArt gameId={meta.id} size={30} />
         {meta.name} · niveau {level}
       </p>
-      <ScoreRing score={outcome.score} />
+      <div className="result__ring">
+        <ScoreRing score={outcome.score} />
+        <Mascot mood={celebrate ? 'cheer' : moodForScore(outcome.score)} size={70} className="result__vif" />
+      </div>
       <Stars count={starsFor(outcome.score)} size={30} animateFrom={delta ? delta.starsBefore : 0} />
       <h1 className="result__cheer">{cheer(outcome.score)}</h1>
       {comparison && <CompareLine comparison={comparison} />}

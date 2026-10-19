@@ -537,6 +537,19 @@
   color: var(--ink-3);
 }
 
+/* Vif commente la partie, assis contre l'anneau de score. */
+.result__ring {
+  position: relative;
+}
+
+.result__vif {
+  position: absolute;
+  right: -46px;
+  bottom: -8px;
+  filter: drop-shadow(0 8px 14px rgb(30 24 60 / 20%));
+  animation: art-in 480ms var(--ease-spring) 400ms both;
+}
+
 /* Confettis : partent du haut de l'anneau de score, retombent et s'effacent. */
 .result {
   position: relative;

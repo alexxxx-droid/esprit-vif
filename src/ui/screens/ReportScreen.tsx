@@ -5,6 +5,7 @@ import { DOMAINS, GAMES, gamesOfDomain } from '../../core/games/registry';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 import { officialTests, type TestRecord } from '../../store/progress';
 import { GameArt } from '../components/GameArt';
+import { Mascot } from '../components/Mascot';
 import { Icon } from '../components/Icon';
 import { useCountUp, useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
@@ -46,6 +47,7 @@ export function ReportScreen({ testId }: { testId: string }) {
   const official = officialTests(data).filter((t) => t.id !== test.id && t.startedAt < test.startedAt);
   const previous: TestRecord | undefined = official.at(-1);
   const scoreBefore = (gameId: string) => previous?.results.find((r) => r.gameId === gameId)?.score;
+  const previousAge = previous?.brainAge;
 
   return (
     <div className="screen screen-in report">
@@ -61,7 +63,10 @@ export function ReportScreen({ testId }: { testId: string }) {
           <span className="hero__unit">ans</span>
         </p>
         <AgeScale age={test.brainAge} previous={previous?.brainAge} />
-        <p className="report__verdict">{verdict(test.brainAge, previous?.brainAge)}</p>
+        <p className="report__verdict">
+          <Mascot mood={previousAge === undefined || test.brainAge < previousAge ? 'cheer' : test.brainAge === previousAge ? 'happy' : 'gentle'} size={52} />
+          <span>{verdict(test.brainAge, previous?.brainAge)}</span>
+        </p>
       </section>
 
       <section className="card" aria-labelledby="scores-title">

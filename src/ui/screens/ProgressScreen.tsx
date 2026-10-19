@@ -11,6 +11,7 @@ import { BrainMap } from '../components/BrainMap';
 import { DomainBadge, ScreenHeader } from '../components/bits';
 import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
+import { Mascot } from '../components/Mascot';
 import { MedalBadge, RankBar } from '../components/progress-bits';
 import { useToday } from '../hooks';
 import { useProgress } from '../progress-context';
@@ -125,7 +126,10 @@ export function ProgressScreen() {
                 ))}
               </ul>
             ) : (
-              <Empty text="Joue quelques parties : tes tendances apparaîtront ici." />
+              <p className="empty empty--vif">
+                <Mascot mood="think" size={48} />
+                Joue quelques parties : je te dirai ce que j’y remarque.
+              </p>
             )}
           </section>
 

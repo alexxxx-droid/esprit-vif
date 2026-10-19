@@ -4,15 +4,19 @@ import { anagramLevel, anagramLevelLabel } from './anagrammes';
 import { balanceLevelLabel } from './balance';
 import { boutiqueLevel, boutiqueLevelLabel } from './boutique';
 import { CALCUL_LEVELS } from './calcul';
+import { categoriesLevelLabel } from './categories';
 import { correspondanceLevel, correspondanceLevelLabel } from './correspondance';
 import { diableLevel, diableLevelLabel } from './diable';
 import { flechesLevel, flechesLevelLabel } from './fleches';
 import { horlogesLevel, horlogesLevelLabel } from './horloges';
 import { intrusLevelLabel } from './intrus';
+import { lettreLevel, lettreLevelLabel } from './lettre';
 import { matriceLevel, matriceLevelLabel } from './matrice';
 import { monnaieLevel, monnaieLevelLabel } from './monnaie';
+import { motsLevel, motsLevelLabel } from './mots';
 import { nbackLevel, nbackLevelLabel } from './nback';
 import { ordreLevel, ordreLevelLabel } from './ordre';
+import { pairesLevelLabel } from './paires';
 import { pluieLevelLabel } from './pluie';
 import { describeRule, reflexeLevel, reflexeLevelLabel } from './reflexe';
 import { rotationLevel, rotationLevelLabel } from './rotation';
@@ -317,6 +321,54 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: horlogesLevelLabel,
   },
+  mots: {
+    id: 'mots',
+    name: 'Mots à retenir',
+    domain: 'memoire',
+    rule: (level) => {
+      const { count, lures } = motsLevel(level);
+      return lures === 'category'
+        ? `Mémorise ${count} mots, puis dis si chaque mot était dans la liste. Attention : les nouveaux mots leur ressemblent !`
+        : `Mémorise ${count} mots, puis dis pour chaque mot s’il était dans la liste.`;
+    },
+    duration: '≈ 1 min 30',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: motsLevelLabel,
+  },
+  lettre: {
+    id: 'lettre',
+    name: 'Lettre manquante',
+    domain: 'langage',
+    rule: (level) =>
+      lettreLevel(level).missing === 1
+        ? 'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 60 secondes.'
+        : 'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: lettreLevelLabel,
+  },
+  categories: {
+    id: 'categories',
+    name: 'Catégories',
+    domain: 'langage',
+    rule: () => 'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: categoriesLevelLabel,
+  },
+  paires: {
+    id: 'paires',
+    name: 'Paires',
+    domain: 'memoire',
+    rule: () => 'Retourne les cartes deux par deux et retrouve toutes les paires, en le moins de coups possible.',
+    duration: '≈ 1 min 30',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: pairesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -329,6 +381,8 @@ export const GAME_ORDER: readonly GameId[] = [
   'matrice',
   'nback',
   'ordre',
+  'mots',
+  'paires',
   'stroop',
   'intrus',
   'boutique',
@@ -337,6 +391,8 @@ export const GAME_ORDER: readonly GameId[] = [
   'correspondance',
   'reflexe',
   'anagrammes',
+  'lettre',
+  'categories',
   'rotation',
   'balance',
   'horloges',
@@ -363,6 +419,10 @@ export const DAILY_ROTATION: readonly GameId[] = [
   'balance',
   'horloges',
   'sudoku',
+  'mots',
+  'lettre',
+  'categories',
+  'paires',
 ];
 
 export function isGameId(value: string): value is GameId {

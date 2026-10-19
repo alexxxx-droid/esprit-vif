@@ -6,6 +6,8 @@ import { ScaleView } from './BalanceGame';
 import { BALANCE_LOOKS } from './balance-looks';
 import { Arrow } from './FlechesGame';
 import { ClockFace } from './HorlogesGame';
+import { WordTiles } from './LettreGame';
+import { PairCard } from './PairesGame';
 import { PieceView } from './RotationGame';
 import { useLoop, useReducedMotion } from '../hooks';
 
@@ -493,6 +495,104 @@ export function HorlogesDemo() {
       <p className="demo__caption">
         {frame === 0 ? 'Quelle heure est-il ?' : '2 h 15'}
         <Tick show={frame === 1} />
+      </p>
+    </div>
+  );
+}
+
+const MOTS_SCRIPT = [
+  { probe: null, caption: 'Retiens la liste…' },
+  { probe: 'pomme', caption: 'pomme ? Vu !' },
+  { probe: 'lion', caption: 'lion ? Pas vu !' },
+];
+
+export function MotsDemo() {
+  const frame = useDemoFrame(MOTS_SCRIPT.length, 1200, 1);
+  const step = MOTS_SCRIPT[frame];
+  return (
+    <div className="demo">
+      {step.probe ? (
+        <span key={frame} className="demo-probe">
+          {step.probe}
+        </span>
+      ) : (
+        <span className="demo-words">
+          <span>vélo</span>
+          <span>pomme</span>
+          <span>violon</span>
+        </span>
+      )}
+      <p className="demo__caption">
+        {step.caption}
+        <Tick show={frame > 0} />
+      </p>
+    </div>
+  );
+}
+
+export function LettreDemo() {
+  const frame = useDemoFrame(3, 1000, 2);
+  return (
+    <div className="demo">
+      <span className="demo-hint">Animal de la ferme</span>
+      <WordTiles question={{ word: 'CHEVAL', positions: [3] }} filled={frame === 2 ? 'V' : undefined} />
+      <p className="demo__caption">
+        {frame === 0 ? 'Quelle lettre manque ?' : frame === 1 ? 'B, V ou R…' : 'V : CHEVAL'}
+        <Tick show={frame === 2} />
+      </p>
+    </div>
+  );
+}
+
+const CATEGORIES_DEMO = ['pomme', 'poire', 'violon', 'cerise'];
+
+export function CategoriesDemo() {
+  const frame = useDemoFrame(2, 1300, 1);
+  return (
+    <div className="demo">
+      <div className="demo-cats">
+        {CATEGORIES_DEMO.map((word) => (
+          <span key={word} className={frame === 1 && word === 'violon' ? 'is-picked' : undefined}>
+            {word}
+          </span>
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame === 0 ? 'Trois fruits et…' : 'un intrus : le violon !'}
+        <Tick show={frame === 1} />
+      </p>
+    </div>
+  );
+}
+
+const PAIRS_DEMO = [0, 1, 0, 1];
+const PAIRS_FACES = [
+  { shape: 'star' as const, filled: true, color: 3 },
+  { shape: 'heart' as const, filled: true, color: 4 },
+];
+const PAIRS_COLORS = ['var(--d-vitesse)', 'var(--d-langage)'];
+
+export function PairesDemo() {
+  const frame = useDemoFrame(5, 750, 4);
+  // 0 : tout caché · 1-2 : deux étoiles · 3-4 : la paire reste visible, puis les cœurs.
+  const up = [[], [0], [0, 2], [0, 2, 1], [0, 2, 1, 3]][frame];
+  return (
+    <div className="demo">
+      <div className="demo-pairs">
+        {PAIRS_DEMO.map((face, card) => (
+          <PairCard
+            key={card}
+            face={PAIRS_FACES[face]}
+            up={up.includes(card)}
+            found={false}
+            color={PAIRS_COLORS[face]}
+            label=""
+          />
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame < 2 ? 'Retourne deux cartes…' : 'Deux pareilles : une paire !'}
+        <Tick show={frame === 2 || frame === 4} />
       </p>
     </div>
   );

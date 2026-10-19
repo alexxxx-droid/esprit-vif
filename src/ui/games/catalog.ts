@@ -5,6 +5,7 @@ import { AnagrammesGame } from './AnagrammesGame';
 import { BoutiqueGame } from './BoutiqueGame';
 import { BalanceGame } from './BalanceGame';
 import { CalculGame } from './CalculGame';
+import { CategoriesGame } from './CategoriesGame';
 import { CorrespondanceGame } from './CorrespondanceGame';
 import { DiableGame } from './DiableGame';
 import {
@@ -12,15 +13,19 @@ import {
   BoutiqueDemo,
   BalanceDemo,
   CalculDemo,
+  CategoriesDemo,
   CorrespondanceDemo,
   DiableDemo,
   FlechesDemo,
   HorlogesDemo,
+  LettreDemo,
   IntrusDemo,
   MatriceDemo,
   MonnaieDemo,
+  MotsDemo,
   NBackDemo,
   OrdreDemo,
+  PairesDemo,
   PluieDemo,
   ReflexeDemo,
   RotationDemo,
@@ -32,10 +37,13 @@ import {
 import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
+import { LettreGame } from './LettreGame';
 import { MatriceGame } from './MatriceGame';
 import { MonnaieGame } from './MonnaieGame';
+import { MotsGame } from './MotsGame';
 import { NBackGame } from './NBackGame';
 import { OrdreGame } from './OrdreGame';
+import { PairesGame } from './PairesGame';
 import { PluieGame } from './PluieGame';
 import { ReflexeGame } from './ReflexeGame';
 import { RotationGame } from './RotationGame';
@@ -65,6 +73,10 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   sudoku: SudokuGame,
   balance: BalanceGame,
   horloges: HorlogesGame,
+  mots: MotsGame,
+  lettre: LettreGame,
+  categories: CategoriesGame,
+  paires: PairesGame,
 };
 
 /** Mini-démonstrations animées de l'écran d'intro. */
@@ -89,4 +101,8 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   sudoku: SudokuDemo,
   balance: BalanceDemo,
   horloges: HorlogesDemo,
+  mots: MotsDemo,
+  lettre: LettreDemo,
+  categories: CategoriesDemo,
+  paires: PairesDemo,
 };

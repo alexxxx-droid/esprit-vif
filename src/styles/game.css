@@ -3092,3 +3092,321 @@
 .demo-balance .scale {
   width: 100%;
 }
+
+/* ---------- Mots à retenir ---------- */
+
+.mots {
+  gap: 16px;
+}
+
+.mots__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.mots__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mots__list li {
+  padding: 12px 14px;
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  animation: card-in 260ms var(--ease-out) both;
+}
+
+.mots__list--dense li {
+  padding: 8px 10px;
+  font-size: 1rem;
+}
+
+.mots__ready {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.mots__probe {
+  padding: 26px 34px;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  font-size: clamp(2rem, 10vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  animation: card-in 240ms var(--ease-out) both;
+}
+
+/* ---------- Lettre manquante ---------- */
+
+.lettre {
+  gap: 16px;
+}
+
+.lettre__hint {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-weight: 750;
+  animation: pop 260ms var(--ease-spring) both;
+}
+
+.lettre__word {
+  max-width: 100%;
+  animation: card-in 240ms var(--ease-out) both;
+}
+
+.word-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+.word-tile {
+  display: grid;
+  place-items: center;
+  width: clamp(26px, 7.4vw, 36px);
+  height: clamp(36px, 10vw, 48px);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: clamp(1.15rem, 5vw, 1.55rem);
+  font-weight: 800;
+}
+
+.word-tile--blank {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--accent);
+  color: var(--accent);
+}
+
+.word-tile--blank.is-filled {
+  background: var(--accent-soft);
+  animation: pop 220ms var(--ease-spring);
+}
+
+.lettre__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.lettre__options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.lettre__options--4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.lettre__option {
+  min-height: 68px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.6rem;
+  font-weight: 800;
+  transition: transform 80ms;
+}
+
+.lettre__option:active {
+  background: var(--accent-soft);
+  transform: scale(0.96);
+}
+
+/* ---------- Catégories ---------- */
+
+.categories {
+  gap: 14px;
+}
+
+.categories__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+}
+
+.categories__words {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  animation: card-in 240ms var(--ease-out) both;
+}
+
+.categories__word {
+  min-height: 64px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  transition: transform 80ms;
+}
+
+.categories__words--dense .categories__word {
+  min-height: 54px;
+  font-size: 1.02rem;
+}
+
+.categories__word:active {
+  background: var(--accent-soft);
+  transform: scale(0.96);
+}
+
+.categories__last {
+  min-height: 1.4em;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- Paires ---------- */
+
+.paires-stage {
+  gap: 10px;
+}
+
+.paires {
+  display: grid;
+  flex: 1;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+}
+
+.paire {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  perspective: 700px;
+}
+
+.paire__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 320ms var(--ease-out);
+}
+
+.paire.is-up .paire__inner {
+  transform: rotateY(180deg);
+}
+
+.paire__back,
+.paire__front {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-s);
+  backface-visibility: hidden;
+}
+
+/* Dos des cartes : un motif de points, le même pour toutes. */
+.paire__back {
+  background:
+    radial-gradient(circle, color-mix(in oklab, var(--accent) 30%, transparent) 2px, transparent 2.5px) 0 0 / 14px 14px,
+    var(--accent-soft);
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--accent) 25%, transparent);
+}
+
+.paire__front {
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transform: rotateY(180deg);
+}
+
+.paire__front svg {
+  width: 58%;
+  height: auto;
+  max-height: 72%;
+}
+
+.paire.is-found .paire__front {
+  box-shadow: inset 0 0 0 3px var(--good);
+  opacity: 0.55;
+}
+
+.paire:disabled {
+  cursor: default;
+}
+
+/* ---------- Démos des mots ---------- */
+
+.demo-words {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-words span,
+.demo-cats span,
+.demo-probe {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-weight: 700;
+}
+
+.demo-probe {
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  animation: card-in 240ms var(--ease-out) both;
+}
+
+.demo-hint {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.demo-cats {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8px;
+}
+
+.demo-cats span {
+  text-align: center;
+  transition: box-shadow 160ms;
+}
+
+.demo-cats .is-picked {
+  box-shadow: inset 0 0 0 3px var(--good);
+}
+
+.demo-pairs {
+  display: grid;
+  grid-template-columns: repeat(4, 48px);
+  grid-auto-rows: 60px;
+  gap: 8px;
+}

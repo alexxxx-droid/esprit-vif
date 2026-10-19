@@ -20,7 +20,11 @@ export type GameId =
   | 'rotation'
   | 'sudoku'
   | 'balance'
-  | 'horloges';
+  | 'horloges'
+  | 'mots'
+  | 'lettre'
+  | 'categories'
+  | 'paires';
 
 export type PlayMode = 'free' | 'daily';
 

@@ -1,4 +1,5 @@
 import { bestStreak } from './daily';
+import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type SeasonId } from './events';
 import { DOMAIN_ORDER, GAME_ORDER, gamesOfDomain } from './games/registry';
 import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from './levels';
 import type { GameId } from './types';
@@ -89,7 +90,7 @@ export function medalRank(medal: Medal | null): number {
 
 // ---------- XP et rang ----------
 
-export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10 };
+export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, weekly: WEEKLY_XP };
 
 /** XP d'une partie : de 5 à 50 selon le score, jusqu'à presque ×2 au niveau 20. */
 export function playXp(score: number, level: number): number {
@@ -111,6 +112,7 @@ export function totalXp(input: ProgressionInput): number {
   xp += input.sessions.length * XP_BONUS.session;
   xp += input.marathons * XP_BONUS.marathon;
   xp += input.duels * XP_BONUS.duel;
+  xp += weekliesDone(input.plays, input.sessions) * XP_BONUS.weekly;
   return xp;
 }
 
@@ -153,7 +155,25 @@ export function rankFor(xp: number): Rank {
 
 // ---------- Trophées ----------
 
-export type TrophyIcon = 'check' | 'calendar' | 'flame' | 'training' | 'replay' | 'star' | 'spark' | 'progress' | 'medal' | 'trophy' | 'crown' | 'duel' | 'sun' | 'moon';
+export type TrophyIcon =
+  | 'check'
+  | 'calendar'
+  | 'flame'
+  | 'training'
+  | 'replay'
+  | 'star'
+  | 'spark'
+  | 'progress'
+  | 'medal'
+  | 'trophy'
+  | 'crown'
+  | 'duel'
+  | 'sun'
+  | 'moon'
+  | 'target'
+  | 'pumpkin'
+  | 'snow'
+  | 'flower';
 
 interface TrophyContext {
   plays: readonly ProgressionPlay[];
@@ -173,6 +193,7 @@ interface TrophyContext {
   duels: number;
   earlyTest: boolean;
   lateGame: boolean;
+  weeklies: number;
 }
 
 interface TrophyDef {
@@ -184,6 +205,8 @@ interface TrophyDef {
   value: (c: TrophyContext) => number;
   target: number;
   counter?: boolean;
+  /** Trophée de saison : on ne le gagne que pendant sa fenêtre. */
+  season?: SeasonId;
 }
 
 const t = (id: string, name: string, description: string, icon: TrophyIcon, value: TrophyDef['value'], target = 1, counter = target > 1): TrophyDef => ({
@@ -197,6 +220,7 @@ const t = (id: string, name: string, description: string, icon: TrophyIcon, valu
 });
 
 const has = (condition: boolean) => (condition ? 1 : 0);
+const SEASON_ICONS: Record<SeasonId, TrophyIcon> = { halloween: 'pumpkin', noel: 'snow', printemps: 'flower', ete: 'sun' };
 const medalsAtLeast = (c: TrophyContext, medal: Medal) => c.medals.filter((m) => medalRank(m) >= medalRank(medal)).length;
 
 export const TROPHIES: readonly TrophyDef[] = [
@@ -242,6 +266,12 @@ export const TROPHIES: readonly TrophyDef[] = [
   t('duel', 'Premier duel', 'Jouer un duel à deux.', 'duel', (c) => c.duels),
   t('leve-tot', 'Lève-tôt', 'Faire le test du jour avant 8 h.', 'sun', (c) => has(c.earlyTest)),
   t('nuit', 'Oiseau de nuit', 'Jouer une partie après 23 h.', 'moon', (c) => has(c.lateGame)),
+  t('defi', 'Défi relevé', 'Relever un défi de la semaine.', 'target', (c) => c.weeklies),
+  t('defis-5', 'Toujours partant', 'Relever 5 défis de la semaine.', 'target', (c) => c.weeklies, 5),
+  ...SEASONS.map((season) => ({
+    ...t(season.trophy.id, season.trophy.name, season.trophy.description, SEASON_ICONS[season.id], (c: TrophyContext) => seasonPlays(c.plays, season), SEASON_PLAYS),
+    season: season.id,
+  })),
 ];
 
 export interface TrophyStatus {
@@ -252,6 +282,8 @@ export interface TrophyStatus {
   unlocked: boolean;
   /** Compteur affichable (ex. 4 / 7), ou null pour un trophée « tout ou rien ». */
   progress: [number, number] | null;
+  /** Trophée de saison : il ne se gagne que pendant sa fenêtre. */
+  season?: SeasonId;
 }
 
 export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(input)).level): TrophyStatus[] {
@@ -279,6 +311,7 @@ export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(i
     duels: input.duels,
     earlyTest: official.some((test) => new Date(test.startedAt).getHours() < 8),
     lateGame: input.plays.some((p) => new Date(p.at).getHours() >= 23),
+    weeklies: weekliesDone(input.plays, input.sessions),
   };
   return TROPHIES.map((def) => {
     const value = def.value(context);
@@ -289,6 +322,7 @@ export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(i
       icon: def.icon,
       unlocked: value >= def.target,
       progress: def.counter ? [Math.min(value, def.target), def.target] : null,
+      ...(def.season ? { season: def.season } : {}),
     };
   });
 }

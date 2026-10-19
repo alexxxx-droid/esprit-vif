@@ -206,6 +206,13 @@ export function SettingsScreen() {
           ))}
         </div>
         <p className="hint">« Auto » suit le réglage clair ou sombre de ton appareil.</p>
+        <Toggle
+          icon="pumpkin"
+          label="Thèmes de saison"
+          description="Halloween, Noël, printemps, été : un accueil décoré, un accessoire pour ton compagnon et un trophée de saison."
+          checked={settings.seasonal}
+          onChange={(seasonal) => void store.updateSettings({ seasonal })}
+        />
       </Section>
 
       <Section title="Accessibilité">

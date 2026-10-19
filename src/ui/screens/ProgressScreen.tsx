@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
-import { formatMonth, formatWeekday, plural } from '../../core/format';
+import { formatLongDay, formatMonth, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
+import { seasonOf, SEASONS } from '../../core/events';
 import { insights } from '../../core/insights';
 import { domainProfile } from '../../core/stats';
 import { bestOverall, gameUnlocked, officialTests } from '../../store/progress';
@@ -217,8 +218,11 @@ export function ProgressScreen() {
                   </span>
                   <span className="trophy__name">{trophy.name}</span>
                   <span className="trophy__desc">{trophy.description}</span>
+                  {trophy.season && <span className="trophy__season">{SEASONS.find((s) => s.id === trophy.season)?.name}</span>}
                   {trophy.unlocked ? (
                     <span className="trophy__state">Débloqué</span>
+                  ) : trophy.season && seasonOf(today)?.id !== trophy.season ? (
+                    <span className="trophy__state">De retour le {seasonReturn(trophy.season, today)}</span>
                   ) : (
                     trophy.progress && (
                       <span className="trophy__state">
@@ -265,6 +269,16 @@ export function ProgressScreen() {
       )}
     </div>
   );
+}
+
+/** Prochaine ouverture d'une saison, en toutes lettres (« 15 octobre »). */
+function seasonReturn(id: string, today: string): string {
+  const season = SEASONS.find((s) => s.id === id);
+  if (!season) return '';
+  const year = Number(today.slice(0, 4));
+  const thisYear = `${year}-${season.from}`;
+  const next = thisYear > today ? thisYear : `${year + 1}-${season.from}`;
+  return formatLongDay(next).split(' ').slice(1).join(' ');
 }
 
 function StatTile({ label, value, unit, icon }: { label: string; value: number; unit: string; icon: 'flame' | 'star' | 'calendar' }) {

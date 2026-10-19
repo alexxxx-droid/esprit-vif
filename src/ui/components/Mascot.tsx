@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import type { CharacterId } from '../../core/characters';
 import { useActiveCharacter } from '../characters-context';
+import type { SeasonId } from '../../core/events';
 import type { Mood } from '../mascot-mood';
+import { useSeason } from '../season';
 
 /*
  * Vif, la mascotte maison (une boule coiffée de quatre pointes d'étincelle, le symbole de l'appli),
@@ -117,6 +119,36 @@ function Arms({ mood }: { mood: Mood }) {
   return null;
 }
 
+/** Les accessoires de saison, posés sur la tête (ou sur les yeux, l'été). */
+const ACCESSORIES: Record<SeasonId, ReactNode> = {
+  halloween: (
+    <g className="acc acc--halloween">
+      <path className="acc__hat" d="M30 34c8-3 20-4 30-4s22 1 30 4c4 2 2 5-4 6-8 1-17 2-26 2s-18-1-26-2c-6-1-8-4-4-6z" />
+      <path className="acc__hat" d="M44 33c2-10 6-20 14-28 4-4 10-2 12 2-6 2-8 8-6 26z" />
+      <path className="acc__band" d="M45 30c10 1.5 20 1.5 30 0l1 4c-11 1.5-21 1.5-32 0z" />
+    </g>
+  ),
+  noel: (
+    <g className="acc acc--noel">
+      <path className="acc__santa" d="M32 36c6-14 18-24 34-22 10 2 18 10 22 18-8-4-16-4-22 2z" />
+      <path className="acc__fur" d="M28 36c10-4 24-6 34-6s24 2 30 6c2 3 0 6-3 6-9-2-18-3-27-3s-21 1-30 3c-3 0-6-3-4-6z" />
+      <circle className="acc__fur" cx="90" cy="34" r="6" />
+    </g>
+  ),
+  printemps: (
+    <g className="acc acc--printemps">
+      <path className="acc__petal" d="M34 30c-6-6-4-14 2-14 4 0 6 4 6 8 2-4 8-6 10-2 3 5-3 10-9 10 4 2 6 8 2 10-5 3-9-3-9-8-2 4-8 6-10 2-3-5 3-9 8-6z" />
+      <circle className="acc__heart" cx="40" cy="30" r="4" />
+    </g>
+  ),
+  ete: (
+    <g className="acc acc--ete">
+      <path className="acc__lens" d="M36 53h20a3 3 0 0 1 3 3c0 7-5 12-12 12s-12-5-12-12a3 3 0 0 1 1-3zM64 53h20a3 3 0 0 1 1 3c0 7-5 12-12 12s-12-5-12-12a3 3 0 0 1 3-3z" />
+      <path className="acc__frame" d="M56 57c2.5-2 5.5-2 8 0M35 56l-8-3M85 56l8-3" />
+    </g>
+  ),
+};
+
 interface MascotProps {
   mood?: Mood;
   size?: number;
@@ -130,6 +162,7 @@ interface MascotProps {
 /** Un compagnon, dans l'humeur demandée. Décoratif : le texte voisin dit toujours l'essentiel. */
 export function Mascot({ mood = 'happy', size = 64, className, character, still }: MascotProps) {
   const active = useActiveCharacter();
+  const season = useSeason();
   const who = character ?? active;
   return (
     <svg
@@ -153,6 +186,7 @@ export function Mascot({ mood = 'happy', size = 64, className, character, still 
           </text>
         )}
         {mood === 'think' && <path className="vif__dots" d="M96 30h.1M103 22h.1M110 14h.1" />}
+        {season && !still && ACCESSORIES[season.id]}
       </g>
     </svg>
   );

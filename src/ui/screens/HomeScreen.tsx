@@ -1,12 +1,13 @@
 import { useState, type CSSProperties } from 'react';
 import { coachTip } from '../../core/coach';
-import { addDays, currentStreakDetail, dailyGames, hasOfficialTest } from '../../core/daily';
+import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
 import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
 import { characterName } from '../../core/characters';
+import { challengeProgress, SEASON_PLAYS, seasonPlays, WEEKLY_XP, weeklyChallenge } from '../../core/events';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
@@ -19,6 +20,7 @@ import { useProgress, useStore } from '../progress-context';
 import { useProgression } from '../progression';
 import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
+import { useSeason } from '../season';
 import { WelcomeScreen } from './WelcomeScreen';
 
 function minutesOf(time: string): number {
@@ -161,6 +163,8 @@ function Home() {
       </div>
 
       <div className="home__side">
+        <SeasonCard />
+        <WeeklyCard />
         <SessionCard />
 
         <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
@@ -179,6 +183,57 @@ function Home() {
       </div>
       <PlayersDialog open={playersOpen} onClose={() => setPlayersOpen(false)} />
     </div>
+  );
+}
+
+/** La saison en cours : un mot de bienvenue décoré et le trophée éphémère à gagner. */
+function SeasonCard() {
+  const data = useProgress();
+  const today = useToday();
+  const season = useSeason();
+  if (!season) return null;
+  const count = Math.min(SEASON_PLAYS, seasonPlays(data.plays, season, today.slice(0, 4)));
+  return (
+    <section className={`season season--${season.id}`} aria-label={`Saison : ${season.name}`}>
+      <Mascot mood="hello" size={60} />
+      <div className="season__text">
+        <p className="season__greeting">{season.greeting}</p>
+        <p className="season__progress">
+          {count >= SEASON_PLAYS ? `Trophée « ${season.trophy.name} » gagné !` : `${count} / ${SEASON_PLAYS} parties`}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/** Le défi de la semaine : une consigne, une jauge, 60 XP à la clé. */
+function WeeklyCard() {
+  const data = useProgress();
+  const today = useToday();
+  const challenge = weeklyChallenge(today);
+  const progress = Math.min(challenge.target, challengeProgress(challenge, data.plays, data.extras.sessions));
+  const done = progress >= challenge.target;
+  const daysLeft = dayIndex(addDays(challenge.week, 6)) - dayIndex(today) + 1;
+  return (
+    <section className={`weekly${done ? ' is-done' : ''}`} aria-labelledby="weekly-title">
+      <span className="weekly__icon" aria-hidden="true">
+        <Icon name={done ? 'check' : 'target'} size={20} />
+      </span>
+      <div className="weekly__text">
+        <h2 className="weekly__title" id="weekly-title">
+          Défi de la semaine
+        </h2>
+        <p className="weekly__label">{challenge.label}</p>
+        <span className="mini-bar" aria-hidden="true">
+          <span style={{ transform: `scaleX(${progress / challenge.target})` }} />
+        </span>
+        <p className="weekly__meta">
+          {done
+            ? `Relevé ! +${WEEKLY_XP} XP`
+            : `${progress} / ${challenge.target} · +${WEEKLY_XP} XP · ${daysLeft === 1 ? 'dernier jour' : `encore ${plural(daysLeft, 'jour')}`}`}
+        </p>
+      </div>
+    </section>
   );
 }
 

@@ -17,4 +17,8 @@ export const TROPHY_ICONS: Record<TrophyIcon, IconName> = {
   duel: 'duel',
   sun: 'sun',
   moon: 'moon',
+  target: 'target',
+  pumpkin: 'pumpkin',
+  snow: 'snow',
+  flower: 'flower',
 };

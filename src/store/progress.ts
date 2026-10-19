@@ -81,6 +81,8 @@ export interface Settings {
   music: boolean;
   musicVolume: number;
   effectsVolume: number;
+  /** Décorations de saison (Halloween, Noël…) et accessoires des compagnons. */
+  seasonal: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -101,6 +103,7 @@ export const DEFAULT_SETTINGS: Settings = {
   music: true,
   musicVolume: 0.5,
   effectsVolume: 0.9,
+  seasonal: true,
 };
 
 export interface MarathonRecord {

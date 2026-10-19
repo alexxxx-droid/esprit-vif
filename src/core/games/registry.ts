@@ -1,10 +1,14 @@
 import { MAX_LEVEL, pickLevel } from '../levels';
 import type { Domain, GameId } from '../types';
 import { anagramLevel, anagramLevelLabel } from './anagrammes';
+import { boutiqueLevel, boutiqueLevelLabel } from './boutique';
 import { CALCUL_LEVELS } from './calcul';
+import { diableLevel, diableLevelLabel } from './diable';
 import { intrusLevelLabel } from './intrus';
 import { matriceLevel, matriceLevelLabel } from './matrice';
+import { monnaieLevel, monnaieLevelLabel } from './monnaie';
 import { nbackLevel, nbackLevelLabel } from './nback';
+import { ordreLevel, ordreLevelLabel } from './ordre';
 import { SCHULTE_LEVELS, schulteLevelLabel } from './schulte';
 import { STROOP_LEVELS, stroopLevelLabel } from './stroop';
 import { totalLevelLabel } from './total';
@@ -151,22 +155,89 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: anagramLevelLabel,
   },
+  boutique: {
+    id: 'boutique',
+    name: 'La boutique',
+    domain: 'attention',
+    rule: (level) =>
+      boutiqueLevel(level).cats
+        ? 'Des clients entrent et sortent : combien sont dans la boutique à la fin ? Les chats ne comptent pas !'
+        : 'Des clients entrent et sortent : combien sont dans la boutique à la fin ?',
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: boutiqueLevelLabel,
+  },
+  diable: {
+    id: 'diable',
+    name: 'Calcul du diable',
+    domain: 'calcul',
+    rule: (level) => {
+      const { n } = diableLevel(level);
+      return `Les calculs défilent : donne le résultat de celui d’il y a ${n === 1 ? 'un coup' : `${n} coups`}, pas du calcul affiché.`;
+    },
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: diableLevelLabel,
+  },
+  ordre: {
+    id: 'ordre',
+    name: 'Du plus petit au plus grand',
+    domain: 'memoire',
+    rule: (level) =>
+      ordreLevel(level).descending
+        ? 'Retiens où sont les nombres, puis touche leurs cases du plus grand au plus petit.'
+        : 'Retiens où sont les nombres, puis touche leurs cases du plus petit au plus grand.',
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: ordreLevelLabel,
+  },
+  monnaie: {
+    id: 'monnaie',
+    name: 'Monnaie',
+    domain: 'calcul',
+    rule: (level) =>
+      monnaieLevel(level).mode === 'change'
+        ? 'Calcule la monnaie à rendre, le plus de fois possible en 60 secondes.'
+        : 'Compte les pièces et les billets, le plus de fois possible en 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: monnaieLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
 export const GAME_ORDER: readonly GameId[] = [
   'calcul',
   'total',
+  'diable',
+  'monnaie',
   'matrice',
   'nback',
+  'ordre',
   'stroop',
   'intrus',
+  'boutique',
   'schulte',
   'anagrammes',
 ];
 
 /** Jeux qui tournent sur le 3e emplacement du test du jour. */
-export const DAILY_ROTATION: readonly GameId[] = ['schulte', 'matrice', 'nback', 'total', 'intrus', 'anagrammes'];
+export const DAILY_ROTATION: readonly GameId[] = [
+  'schulte',
+  'matrice',
+  'nback',
+  'total',
+  'intrus',
+  'anagrammes',
+  'boutique',
+  'diable',
+  'ordre',
+  'monnaie',
+];
 
 export function isGameId(value: string): value is GameId {
   return Object.hasOwn(GAMES, value);

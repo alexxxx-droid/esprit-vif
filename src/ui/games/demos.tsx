@@ -214,6 +214,113 @@ export function AnagrammesDemo() {
   );
 }
 
+const BOUTIQUE_SCRIPT = [
+  { text: 'Dans la boutique : 2', delta: '' },
+  { text: 'Dans la boutique : ?', delta: '+1 entre' },
+  { text: 'Dans la boutique : ?', delta: '−2 sortent' },
+  { text: 'Il en reste 1', delta: '' },
+];
+
+export function BoutiqueDemo() {
+  const frame = useDemoFrame(BOUTIQUE_SCRIPT.length + 1, 900, 3);
+  const step = BOUTIQUE_SCRIPT[Math.min(frame, BOUTIQUE_SCRIPT.length - 1)];
+  return (
+    <div className="demo">
+      <div className="demo-shop">
+        <span className="demo-shop__house">BOUTIQUE</span>
+        {step.delta && (
+          <span key={frame} className={`demo-shop__delta${step.delta.startsWith('+') ? ' is-in' : ' is-out'}`}>
+            {step.delta}
+          </span>
+        )}
+      </div>
+      <p className="demo__caption">
+        {step.text}
+        <Tick show={frame >= 3} />
+      </p>
+    </div>
+  );
+}
+
+const DIABLE_SCRIPT = [
+  { card: '3 + 4', ask: 'Retiens…', answer: '' },
+  { card: '5 × 2', ask: 'Résultat d’avant ?', answer: '' },
+  { card: '5 × 2', ask: 'Résultat d’avant ?', answer: '7' },
+  { card: '9 − 6', ask: 'Résultat d’avant ?', answer: '10' },
+];
+
+export function DiableDemo() {
+  const frame = useDemoFrame(DIABLE_SCRIPT.length + 1, 1000, 2);
+  const step = DIABLE_SCRIPT[Math.min(frame, DIABLE_SCRIPT.length - 1)];
+  return (
+    <div className="demo">
+      <div className="demo__screen">
+        <span key={step.card} className="demo__big">
+          {step.card}
+        </span>
+      </div>
+      <p className="demo__caption">
+        {step.ask} {step.answer && <strong>{step.answer}</strong>}
+        <Tick show={Boolean(step.answer)} />
+      </p>
+    </div>
+  );
+}
+
+const ORDRE_DEMO = [
+  { cell: 0, value: 7 },
+  { cell: 4, value: 2 },
+  { cell: 8, value: 5 },
+];
+
+export function OrdreDemo() {
+  // 0 : nombres visibles ; 1 : cachés ; 2-4 : on les touche du plus petit au plus grand.
+  const frame = useDemoFrame(6, 800, 4);
+  const revealed = [2, 5, 7].slice(0, Math.max(0, frame - 1));
+  return (
+    <div className="demo">
+      <div className="demo__grid">
+        {Array.from({ length: 9 }, (_, cell) => {
+          const item = ORDRE_DEMO.find((d) => d.cell === cell);
+          const visible = item && (frame === 0 || revealed.includes(item.value));
+          return (
+            <span key={cell} className={`demo__cell${item ? '' : ' is-blank'}${item && revealed.includes(item.value) ? ' is-pressed' : ''}`}>
+              {visible ? item.value : ''}
+            </span>
+          );
+        })}
+      </div>
+      <p className="demo__caption">
+        {frame === 0 ? 'Retiens…' : 'Du plus petit au plus grand'}
+        <Tick show={frame >= 4} />
+      </p>
+    </div>
+  );
+}
+
+export function MonnaieDemo() {
+  const frame = useDemoFrame(4, 900, 3);
+  return (
+    <div className="demo">
+      <div className="money-tray money-tray--demo">
+        <span className="money money--coin money--v200">
+          <span className="money__label">2 €</span>
+        </span>
+        <span className="money money--coin money--v100">
+          <span className="money__label">1 €</span>
+        </span>
+        <span className="money money--coin money--v50">
+          <span className="money__label">50 c</span>
+        </span>
+      </div>
+      <p className="demo__caption">
+        {frame >= 2 ? '= 3,50 €' : 'Combien en tout ?'}
+        <Tick show={frame >= 3} />
+      </p>
+    </div>
+  );
+}
+
 const SCHULTE_DEMO = [5, 1, 8, 3, 9, 2, 7, 4, 6];
 
 export function SchulteDemo() {

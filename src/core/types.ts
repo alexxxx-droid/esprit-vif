@@ -1,6 +1,18 @@
 export type Domain = 'calcul' | 'memoire' | 'attention' | 'vitesse' | 'langage' | 'logique';
 
-export type GameId = 'calcul' | 'stroop' | 'schulte' | 'matrice' | 'nback' | 'total' | 'intrus' | 'anagrammes';
+export type GameId =
+  | 'calcul'
+  | 'stroop'
+  | 'schulte'
+  | 'matrice'
+  | 'nback'
+  | 'total'
+  | 'intrus'
+  | 'anagrammes'
+  | 'boutique'
+  | 'diable'
+  | 'ordre'
+  | 'monnaie';
 
 export type PlayMode = 'free' | 'daily';
 

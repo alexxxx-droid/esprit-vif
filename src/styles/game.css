@@ -1620,3 +1620,542 @@
 .result > .stars {
   margin-top: -6px;
 }
+
+/* ---------- La boutique ---------- */
+
+.boutique {
+  gap: 12px;
+}
+
+.boutique__prompt {
+  min-height: 1.5em;
+  color: var(--ink-2);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.boutique__prompt strong {
+  color: var(--ink);
+}
+
+.shop {
+  position: relative;
+  width: min(100%, 360px);
+  aspect-ratio: 1.25;
+  overflow: hidden;
+}
+
+.shop::before {
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  bottom: 22%;
+  left: 10%;
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  content: '';
+}
+
+.shop::after {
+  position: absolute;
+  right: 0;
+  bottom: 20%;
+  left: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line);
+  content: '';
+}
+
+.shop__roof {
+  position: absolute;
+  top: 8%;
+  right: 6%;
+  left: 6%;
+  height: 15%;
+  border-radius: 14px 14px 6px 6px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 22px, var(--accent-soft) 22px 44px);
+  box-shadow: var(--shadow-1);
+}
+
+.shop__sign {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  z-index: 1;
+  padding: 3px 12px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  translate: -50% 0;
+}
+
+.shop__window {
+  position: absolute;
+  top: 39%;
+  left: 16%;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  justify-content: center;
+  gap: 4px;
+  width: 32%;
+  height: 32%;
+  padding: 6px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(135deg, var(--surface-3) 0 8px, var(--surface-2) 8px 16px);
+}
+
+.shop__window.is-open {
+  background: color-mix(in oklab, var(--accent-soft) 70%, var(--surface));
+}
+
+.shop__shopper {
+  position: relative;
+  width: 12px;
+  height: 22px;
+  border-radius: 6px 6px 2px 2px;
+  background: hsl(var(--hue) 55% 50%);
+  animation: pop 300ms var(--ease-spring) both;
+}
+
+.shop__shopper::before {
+  position: absolute;
+  top: -10px;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(var(--hue) 50% 75%);
+  content: '';
+}
+
+.shop__door {
+  position: absolute;
+  top: 42%;
+  bottom: 22%;
+  left: 56%;
+  z-index: 1;
+  width: 22%;
+  border-radius: 10px 10px 0 0;
+  background: color-mix(in oklab, var(--ink) 72%, var(--bg));
+}
+
+.shop__street {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.walker {
+  position: absolute;
+  bottom: 21%;
+  left: -12%;
+  width: 22px;
+  height: 46px;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+.walker::before {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: hsl(var(--hue) 50% 75%);
+  content: '';
+}
+
+.walker::after {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  width: 22px;
+  height: 29px;
+  border-radius: 10px 10px 4px 4px;
+  background: hsl(var(--hue) 58% 48%);
+  content: '';
+}
+
+.walker--in {
+  animation-name: walk-in;
+}
+
+.walker--out {
+  animation-name: walk-out;
+}
+
+.walker--cat {
+  bottom: 6%;
+  width: 40px;
+  height: 28px;
+  color: var(--ink-2);
+  animation-name: walk-by;
+}
+
+.walker--cat::before,
+.walker--cat::after {
+  display: none;
+}
+
+@keyframes walk-in {
+  0% {
+    left: -12%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    left: 63%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: 63%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+}
+
+@keyframes walk-out {
+  0% {
+    left: 63%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  25% {
+    left: 63%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: 110%;
+    opacity: 1;
+  }
+}
+
+@keyframes walk-by {
+  from {
+    left: -14%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+.shop__badge {
+  position: absolute;
+  bottom: 30%;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.shop__badge--in {
+  left: 20%;
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.shop__badge--out {
+  right: 2%;
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+/* ---------- Calcul du diable ---------- */
+
+.diable {
+  gap: 18px;
+}
+
+.diable__memory {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.diable__ghost {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 44px;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  color: var(--ink-3);
+  font-weight: 800;
+}
+
+.diable__ghost.is-full {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.diable__card {
+  padding: 22px 30px;
+  border-radius: 26px;
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  font-size: clamp(2.6rem, 13vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  animation: card-in 280ms var(--ease-out) both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateX(36px);
+  }
+}
+
+.diable__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+/* ---------- Du plus petit au plus grand ---------- */
+
+.ordre__cell.is-empty {
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.ordre__value {
+  font-size: clamp(1.2rem, 6vw, 1.8rem);
+  font-weight: 800;
+  animation: pop 220ms var(--ease-spring);
+}
+
+/* ---------- Monnaie ---------- */
+
+.monnaie {
+  gap: 14px;
+}
+
+.money-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 340px;
+  min-height: 120px;
+  animation: board-in 220ms var(--ease-out);
+}
+
+.money-tray--demo {
+  min-height: 0;
+}
+
+.money {
+  display: grid;
+  flex: none;
+  place-items: center;
+  color: #1d1608;
+  font-weight: 800;
+  transition: transform 300ms var(--ease-spring);
+}
+
+.money__label {
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.money--coin {
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -3px 0 rgb(0 0 0 / 16%),
+    0 2px 6px rgb(0 0 0 / 15%);
+}
+
+.money--v1 {
+  width: 30px;
+  height: 30px;
+}
+.money--v2 {
+  width: 34px;
+  height: 34px;
+}
+.money--v5 {
+  width: 38px;
+  height: 38px;
+}
+.money--v1,
+.money--v2,
+.money--v5 {
+  background: #c8794a;
+}
+.money--v10 {
+  width: 37px;
+  height: 37px;
+}
+.money--v20 {
+  width: 41px;
+  height: 41px;
+}
+.money--v50 {
+  width: 45px;
+  height: 45px;
+}
+.money--v10,
+.money--v20,
+.money--v50 {
+  background: #e4b442;
+}
+.money--v100 {
+  width: 47px;
+  height: 47px;
+  background: radial-gradient(circle, #cfd4db 0 56%, #e4b442 58%);
+}
+.money--v200 {
+  width: 51px;
+  height: 51px;
+  background: radial-gradient(circle, #e4b442 0 56%, #cfd4db 58%);
+}
+
+.money--note {
+  width: 92px;
+  height: 50px;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 3px rgb(255 255 255 / 35%),
+    0 2px 6px rgb(0 0 0 / 15%);
+}
+
+.money--note .money__label {
+  font-size: 1.05rem;
+}
+
+.money--v500 {
+  background: #a7b8ad;
+}
+.money--v1000 {
+  background: #e39a86;
+}
+.money--v2000 {
+  background: #8fb2e3;
+}
+.money--v5000 {
+  background: #f0b46a;
+}
+.money--v10000 {
+  background: #8fd0a4;
+}
+
+.money.is-hidden {
+  background: repeating-linear-gradient(45deg, var(--surface-3) 0 6px, var(--surface-2) 6px 12px);
+  transform: rotateY(180deg);
+}
+
+.change {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: board-in 220ms var(--ease-out);
+}
+
+.change__tag {
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+  font-size: 1.1rem;
+}
+
+.change__tag strong {
+  font-size: 1.6rem;
+}
+
+.change__paid {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  font-weight: 650;
+}
+
+.monnaie__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+}
+
+.money-entry {
+  padding: 6px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.money-entry.is-filled {
+  box-shadow: inset 0 0 0 2px var(--accent);
+  color: var(--ink);
+}
+
+/* ---------- Démos des Classiques ---------- */
+
+.demo-shop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 90px;
+}
+
+.demo-shop__house {
+  padding: 18px 22px 22px;
+  border-top: 8px solid var(--accent);
+  border-radius: 10px 10px 4px 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.demo-shop__delta {
+  position: absolute;
+  bottom: 2px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  animation: pop 300ms var(--ease-spring);
+}
+
+.demo-shop__delta.is-in {
+  left: 6px;
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.demo-shop__delta.is-out {
+  right: 6px;
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.demo__cell.is-blank {
+  background: transparent;
+}

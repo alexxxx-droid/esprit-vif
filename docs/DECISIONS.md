@@ -85,6 +85,18 @@ reste valable jusqu'à la fin de la journée suivante.
 - *Couleurs piégées* se joue sur une scène sombre dans les deux thèmes, pour que les quatre
   encres restent lisibles (le jaune disparaît sur fond clair).
 
+## Hors ligne et installation
+
+- Service worker Workbox (`vite-plugin-pwa`) : toute l'appli est mise en cache à la première
+  visite (16 fichiers, environ 530 Kio, polices comprises), puis elle marche sans réseau.
+- Seuls les jeux de caractères utiles au français sont gardés hors ligne (latin et latin étendu).
+- Mise à jour **proposée** (bannière « Mettre à jour ») plutôt qu'automatique : un rechargement
+  imposé pourrait couper une partie. La bannière n'apparaît que sur les écrans hors jeu.
+- L'invitation du navigateur à installer l'appli est remplacée par une carte discrète sur
+  l'accueil (que l'on peut écarter) et une ligne dans les Réglages.
+- Icônes générées une fois depuis `public/favicon.svg` (`npm run icons`), version « maskable »
+  comprise pour Android.
+
 ## Rappel quotidien
 
 Sans serveur, une PWA ne peut pas déclencher une notification à heure fixe de façon fiable.

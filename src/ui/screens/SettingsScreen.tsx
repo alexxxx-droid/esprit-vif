@@ -7,6 +7,7 @@ import { hapticsSupported } from '../fx/haptics';
 import { voiceSupported } from '../fx/voice';
 import { platform } from '../platform';
 import { useProgress, useStore } from '../progress-context';
+import { promptInstall, usePwa } from '../pwa';
 
 const THEMES: { value: ThemeChoice; label: string }[] = [
   { value: 'auto', label: 'Auto' },
@@ -23,6 +24,7 @@ export function SettingsScreen() {
   const [pending, setPending] = useState<Pending>(null);
   const [toast, setToast] = useState<{ text: string; id: number } | null>(null);
   const native = platform().native;
+  const { canInstall } = usePwa();
 
   const say = (text: string) => {
     const id = Date.now();
@@ -145,6 +147,18 @@ export function SettingsScreen() {
           </label>
         )}
       </Section>
+
+      {canInstall && (
+        <Section title="Appli">
+          <ActionRow
+            icon="download"
+            label="Installer Esprit Vif sur cet appareil"
+            onClick={async () => {
+              if (await promptInstall()) say('Esprit Vif est installée. À bientôt sur ton écran d’accueil !');
+            }}
+          />
+        </Section>
+      )}
 
       <Section title="Mes données">
         <p className="hint">Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.</p>

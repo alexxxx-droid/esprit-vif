@@ -9,6 +9,7 @@ import { DomainBadge } from '../components/bits';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
+import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
 
 function minutesOf(time: string): number {
@@ -107,7 +108,57 @@ export function HomeScreen() {
       {!doneToday && <Programme games={programme} test={inProgress} />}
 
       <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
+
+      <InstallCard />
     </div>
+  );
+}
+
+const INSTALL_DISMISSED = 'esprit-vif:install-dismissed';
+
+/** Proposition d'installation, tant que le navigateur l'autorise et qu'elle n'a pas été écartée. */
+function InstallCard() {
+  const { canInstall } = usePwa();
+  const [dismissed, setDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(INSTALL_DISMISSED) === '1';
+    } catch {
+      return false;
+    }
+  });
+  if (!canInstall || dismissed) return null;
+  return (
+    <section className="card install-card" aria-labelledby="install-title">
+      <span className="card__icon">
+        <Icon name="download" />
+      </span>
+      <span className="card__text">
+        <span className="card__title" id="install-title">
+          Installe Esprit Vif
+        </span>
+        <span className="card__sub">Une icône sur ton écran d’accueil, et ça marche même sans réseau.</span>
+      </span>
+      <span className="install-card__actions">
+        <button type="button" className="btn btn--primary" onClick={() => void promptInstall()}>
+          Installer
+        </button>
+        <button
+          type="button"
+          className="icon-btn icon-btn--flat"
+          aria-label="Plus tard"
+          onClick={() => {
+            setDismissed(true);
+            try {
+              localStorage.setItem(INSTALL_DISMISSED, '1');
+            } catch {
+              // Stockage indisponible : la carte reviendra à la prochaine visite, rien de grave.
+            }
+          }}
+        >
+          <Icon name="close" />
+        </button>
+      </span>
+    </section>
   );
 }
 

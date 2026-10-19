@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { Settings } from './store/progress';
+import { PwaNotices } from './ui/components/PwaNotices';
 import { TabBar } from './ui/components/TabBar';
 import { setHapticsEnabled } from './ui/fx/haptics';
 import { setSoundEnabled } from './ui/fx/sound';
@@ -69,6 +70,7 @@ export function App() {
         <Screen route={route} />
       </main>
       {tabbed && <TabBar current={route.name} />}
+      {tabbed && <PwaNotices />}
     </div>
   );
 }

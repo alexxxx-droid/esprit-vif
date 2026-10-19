@@ -10,7 +10,9 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { ProgressStore } from './store/progress';
 import { createMemoryStorage, openIndexedDbStorage, type Storage } from './store/storage';
+import { platform } from './ui/platform';
 import { ProgressContext } from './ui/progress-context';
+import { setupPwa } from './ui/pwa';
 
 async function openStorage(): Promise<Storage> {
   try {
@@ -22,6 +24,7 @@ async function openStorage(): Promise<Storage> {
 }
 
 async function boot() {
+  if (!platform().native) setupPwa();
   const store = await ProgressStore.load(await openStorage());
   createRoot(document.getElementById('root')!).render(
     <StrictMode>

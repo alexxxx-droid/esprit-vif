@@ -54,6 +54,11 @@ export function hashSeed(text: string): number {
   return hash >>> 0;
 }
 
+/** Graine d'une manche : dépend de la graine de la partie et du numéro de manche, rien d'autre. */
+export function deriveSeed(seed: number, index: number): number {
+  return hashSeed(`${seed}:${index}`);
+}
+
 export function randomSeed(): number {
   const buffer = new Uint32Array(1);
   crypto.getRandomValues(buffer);

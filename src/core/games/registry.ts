@@ -62,13 +62,73 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: (level) => ['Grille 5 × 5', 'Grille 6 × 6', 'Grille 6 × 6 brouillée'][level - 1] ?? '',
   },
+  matrice: {
+    id: 'matrice',
+    name: 'Matrice',
+    domain: 'memoire',
+    rule: () => 'Regarde les cases s’allumer, puis touche-les dans le même ordre.',
+    duration: '≈ 1 min',
+    maxLevel: 3,
+    dailyLevel: 1,
+    levelLabel: (level) => ['Rythme posé', 'Rythme vif', 'Rythme rapide'][level - 1] ?? '',
+  },
+  nback: {
+    id: 'nback',
+    name: 'Double retour',
+    domain: 'memoire',
+    rule: (level) =>
+      `Touche « Identique » quand la lettre est la même que ${level === 1 ? 'la précédente' : `celle d’il y a ${level} lettres`}.`,
+    duration: '≈ 55 s',
+    maxLevel: 3,
+    dailyLevel: 2,
+    levelLabel: (level) => ['1 lettre en arrière', '2 lettres en arrière', '3 lettres en arrière'][level - 1] ?? '',
+  },
+  total: {
+    id: 'total',
+    name: 'Total cumulé',
+    domain: 'calcul',
+    rule: () => 'Additionne de tête les nombres qui défilent, puis donne le total final.',
+    duration: '≈ 1 min',
+    maxLevel: 3,
+    dailyLevel: 1,
+    levelLabel: (level) => ['Petits nombres, rythme posé', 'Nombres jusqu’à 15', 'Nombres jusqu’à 25, rapide'][level - 1] ?? '',
+  },
+  intrus: {
+    id: 'intrus',
+    name: 'L’intrus',
+    domain: 'attention',
+    rule: () => 'Trouve le symbole différent des autres, le plus de fois possible en 45 secondes.',
+    duration: '45 s',
+    maxLevel: 3,
+    dailyLevel: 1,
+    levelLabel: (level) => ['Symboles faciles', 'Symboles variés', 'Symboles trompeurs'][level - 1] ?? '',
+  },
+  anagrammes: {
+    id: 'anagrammes',
+    name: 'Anagrammes',
+    domain: 'langage',
+    rule: () => 'Remets les lettres dans l’ordre pour retrouver le mot caché.',
+    duration: '75 s',
+    maxLevel: 3,
+    dailyLevel: 1,
+    levelLabel: (level) => ['Mots de 5 lettres', 'Mots de 5 ou 6 lettres', 'Mots de 6 ou 7 lettres'][level - 1] ?? '',
+  },
 };
 
-/** Ordre d'affichage dans l'entraînement. */
-export const GAME_ORDER: readonly GameId[] = ['calcul', 'stroop', 'schulte'];
+/** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
+export const GAME_ORDER: readonly GameId[] = [
+  'calcul',
+  'total',
+  'matrice',
+  'nback',
+  'stroop',
+  'intrus',
+  'schulte',
+  'anagrammes',
+];
 
 /** Jeux qui tournent sur le 3e emplacement du test du jour. */
-export const DAILY_ROTATION: readonly GameId[] = ['schulte'];
+export const DAILY_ROTATION: readonly GameId[] = ['schulte', 'matrice', 'nback', 'total', 'intrus', 'anagrammes'];
 
 export function isGameId(value: string): value is GameId {
   return Object.hasOwn(GAMES, value);

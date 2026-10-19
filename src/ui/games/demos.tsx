@@ -91,6 +91,129 @@ export function StroopDemo() {
   );
 }
 
+const MATRICE_DEMO = [5, 10, 3];
+
+export function MatriceDemo() {
+  // 0-2 : les cases s'allument ; 3 : pause ; 4-6 : le joueur les retouche ; 7 : réussi.
+  const frame = useDemoFrame(9, 600, 7);
+  const lit = frame < 3 ? MATRICE_DEMO[frame] : -1;
+  const entered = frame >= 4 ? MATRICE_DEMO.slice(0, Math.min(3, frame - 3)) : [];
+  return (
+    <div className="demo demo--matrice">
+      <div className="demo__matrix">
+        {Array.from({ length: 16 }, (_, cell) => (
+          <span
+            key={cell}
+            className={`demo__mcell${lit === cell ? ' is-lit' : ''}${entered.includes(cell) ? ' is-entered' : ''}`}
+          />
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame < 3 ? 'Regarde…' : frame === 3 ? 'À toi !' : frame < 7 ? 'Même ordre…' : 'Bravo !'}
+        <Tick show={frame >= 7} />
+      </p>
+    </div>
+  );
+}
+
+export function NBackDemo({ level }: { level: number }) {
+  const n = Math.min(3, Math.max(1, level));
+  const stream = n === 1 ? ['K', 'R', 'R'] : n === 2 ? ['K', 'R', 'K'] : ['K', 'R', 'T', 'K'];
+  const frame = useDemoFrame(stream.length + 2, 800, stream.length);
+  const shown = Math.min(frame + 1, stream.length);
+  const match = frame >= stream.length - 1;
+  return (
+    <div className="demo demo--nback">
+      <div className="demo__stream">
+        {stream.slice(0, shown).map((letter, i) => (
+          <span
+            key={i}
+            className={`demo__letter${i === shown - 1 ? ' is-current' : ''}${match && (i === stream.length - 1 || i === stream.length - 1 - n) ? ' is-match' : ''}`}
+          >
+            {letter}
+          </span>
+        ))}
+      </div>
+      <span className={`demo__button${frame >= stream.length ? ' is-pressed' : ''}`}>
+        Identique
+        <Tick show={frame >= stream.length} />
+      </span>
+    </div>
+  );
+}
+
+const TOTAL_SCRIPT = ['+5', '+3', '−2', '= ?', '= 6'];
+
+export function TotalDemo() {
+  const frame = useDemoFrame(TOTAL_SCRIPT.length + 1, 800, 4);
+  const shown = TOTAL_SCRIPT[Math.min(frame, TOTAL_SCRIPT.length - 1)];
+  return (
+    <div className="demo demo--total">
+      <div className="demo__screen">
+        <span key={frame} className="demo__big">
+          {shown}
+        </span>
+        <Tick show={frame >= 4} />
+      </div>
+      <p className="demo__caption">5 + 3 − 2 = 6</p>
+    </div>
+  );
+}
+
+const INTRUS_DEMO = [
+  { base: 'b', odd: 'd', at: 5 },
+  { base: 'O', odd: 'Q', at: 1 },
+];
+
+export function IntrusDemo() {
+  const frame = useDemoFrame(6, 700, 1);
+  const board = INTRUS_DEMO[frame < 3 ? 0 : 1];
+  const pressed = frame % 3 >= 1;
+  return (
+    <div className="demo demo--intrus">
+      <div className="demo__grid">
+        {Array.from({ length: 9 }, (_, cell) => (
+          <span key={cell} className={`demo__cell${cell === board.at && pressed ? ' is-pressed' : ''}`}>
+            {cell === board.at ? board.odd : board.base}
+          </span>
+        ))}
+      </div>
+      <p className="demo__caption">
+        Le « {board.odd} » se cache parmi les « {board.base} »
+        <Tick show={frame % 3 === 2} />
+      </p>
+    </div>
+  );
+}
+
+const ANAGRAM_TILES = ['H', 'C', 'I', 'N', 'E'];
+const ANAGRAM_ORDER = [1, 0, 2, 4, 3]; // C H I E N
+
+export function AnagrammesDemo() {
+  const frame = useDemoFrame(8, 550, 6);
+  const count = Math.min(5, Math.max(0, frame - 1));
+  const picked = ANAGRAM_ORDER.slice(0, count);
+  return (
+    <div className="demo demo--anagram">
+      <div className="demo__slots">
+        {ANAGRAM_ORDER.map((tile, i) => (
+          <span key={i} className="demo__slot">
+            {i < count ? ANAGRAM_TILES[tile] : ''}
+          </span>
+        ))}
+        <Tick show={count === 5} />
+      </div>
+      <div className="demo__tiles">
+        {ANAGRAM_TILES.map((letter, i) => (
+          <span key={i} className={`demo__tile${picked.includes(i) ? ' is-used' : ''}`}>
+            {letter}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const SCHULTE_DEMO = [5, 1, 8, 3, 9, 2, 7, 4, 6];
 
 export function SchulteDemo() {

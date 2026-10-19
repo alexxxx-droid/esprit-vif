@@ -40,11 +40,32 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
 | Couleurs piégées | 18 s / 60 s ; boutons fixes | 21 s / 66 s ; boutons qui changent de place | 24 s / 72 s ; libellés des boutons piégés eux aussi |
 | Table de Schulte | 14 s / 60 s ; 5 × 5 | 24 s / 90 s ; 6 × 6 | 28 s / 100 s ; 6 × 6 brouillée (nombres inclinés) |
 
+| Matrice | 3 cases retenues = 0, 9 = 100 ; 0,8 s par case | 0,62 s par case | 0,46 s par case |
+| Double retour | N = 1, 70 pts au mieux | N = 2, 100 pts au mieux | N = 3, 100 pts dès 80 % de précision utile |
+| Total cumulé | nombres de 1 à 9, un toutes les 1,5 s | jusqu'à 15, toutes les 1,15 s | jusqu'à 25, toutes les 0,85 s |
+| L'intrus | grille de 3 × 3 à 6 × 6, symboles faciles ; 20 trouvés = 100 | départ 4 × 4, tous les symboles ; 18 = 100 | départ 4 × 4, symboles trompeurs ; 16 = 100 |
+| Anagrammes | mots de 5 lettres ; 8 mots = 100 | 5 ou 6 lettres ; 7 mots = 100 | 6 ou 7 lettres ; 6 mots = 100 |
+
 - Calcul éclair : les soustractions ne donnent jamais de résultat négatif ; une division part
   toujours du quotient, elle tombe donc juste. Une erreur affiche la bonne réponse et passe à la suite.
 - Couleurs piégées : exactement 5 mots sur 20 concordent (25 %), jamais deux fois la même encre
   de suite. Clavier : R, B, V, J (ou 1 à 4 selon la position).
 - Table de Schulte : la consigne « Touche le 7 » reste affichée ; une erreur ajoute 1 s.
+- Matrice : la séquence repart à la même longueur après un échec, avec de nouvelles cases ;
+  après une erreur, l'appli montre le bon ordre. Clavier : touches 1-4 / A-R / Q-F / W-V
+  (positions physiques, quelle que soit la disposition du clavier).
+- Double retour : consonnes uniquement ; lettre affichée 2 s puis 0,5 s de blanc ; exactement
+  6 cibles sur 20. Le score repose sur la **précision équilibrée**, la moyenne du taux de bonnes
+  réponses et du taux de bonnes abstentions : répondre toujours, ou jamais, rapporte 0. Une cible
+  ratée est signalée à la fin de l'essai. Clavier : Espace ou Entrée.
+- Total cumulé : la réponse se valide avec **OK** (ou Entrée) et non automatiquement, car le
+  nombre de chiffres trahirait le total. Points = somme des longueurs des manches réussies ;
+  5 manches parfaites depuis 4 nombres (4 + 5 + 6 + 7 + 8 = 30) = 100. La longueur reprend +1
+  après une réussite, −1 après un échec (3 au minimum).
+- L'intrus : −2 s par erreur ; la grille grandit toutes les 5 trouvailles au niveau 1.
+- Anagrammes : une réponse est acceptée si c'est **n'importe quel mot de la liste** formé des mêmes
+  lettres (CHIEN / NICHE, SIGNE / SINGE). Le mélange n'est jamais un mot de la liste. Passer
+  (bouton ou Entrée) montre la solution. Clavier : taper les lettres, Retour arrière pour effacer.
 
 ## Partie interrompue
 

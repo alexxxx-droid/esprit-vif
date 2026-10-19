@@ -34,21 +34,38 @@ export function ScreenHeader({ title, subtitle, children }: { title: string; sub
   );
 }
 
-export function NumPad({ onDigit, onErase }: { onDigit: (digit: string) => void; onErase: () => void }) {
+interface NumPadProps {
+  onDigit: (digit: string) => void;
+  onErase: () => void;
+  /** Avec une touche « OK » (quand la réponse ne se valide pas toute seule). */
+  onSubmit?: () => void;
+  disabled?: boolean;
+}
+
+export function NumPad({ onDigit, onErase, onSubmit, disabled }: NumPadProps) {
+  const erase = (
+    <TapButton className="numpad__key numpad__key--muted" onTap={onErase} aria-label="Effacer" disabled={disabled}>
+      <Icon name="erase" size={28} />
+    </TapButton>
+  );
   return (
     <div className="numpad" role="group" aria-label="Pavé numérique">
       {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
-        <TapButton key={d} className="numpad__key" onTap={() => onDigit(d)}>
+        <TapButton key={d} className="numpad__key" onTap={() => onDigit(d)} disabled={disabled}>
           {d}
         </TapButton>
       ))}
-      <span aria-hidden="true" />
-      <TapButton className="numpad__key" onTap={() => onDigit('0')}>
+      {onSubmit ? erase : <span aria-hidden="true" />}
+      <TapButton className="numpad__key" onTap={() => onDigit('0')} disabled={disabled}>
         0
       </TapButton>
-      <TapButton className="numpad__key numpad__key--muted" onTap={onErase} aria-label="Effacer">
-        <Icon name="erase" size={28} />
-      </TapButton>
+      {onSubmit ? (
+        <TapButton className="numpad__key numpad__key--ok" onTap={onSubmit} disabled={disabled}>
+          OK
+        </TapButton>
+      ) : (
+        erase
+      )}
     </div>
   );
 }

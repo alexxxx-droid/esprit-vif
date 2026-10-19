@@ -8,20 +8,28 @@ import './styles/game.css';
 import { Capacitor } from '@capacitor/core';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './App';
-import { ProgressStore } from './store/progress';
-import { createMemoryStorage, openIndexedDbStorage, type Storage } from './store/storage';
-import { ProgressContext } from './ui/progress-context';
+import { ProfileManager, type ProfileBackend } from './store/profiles';
+import { createMemoryStorage, deleteIndexedDb, openIndexedDbStorage } from './store/storage';
+import { ProfilesRoot } from './ui/ProfilesRoot';
 import { setupPwa } from './ui/pwa';
 
-async function openStorage(): Promise<Storage> {
-  try {
-    return await openIndexedDbStorage();
-  } catch {
-    // Navigation privée stricte, stockage bloqué… l'appli reste jouable, sans sauvegarde.
-    return createMemoryStorage();
-  }
-}
+const backend: ProfileBackend = {
+  async open(name) {
+    try {
+      return await openIndexedDbStorage(name);
+    } catch {
+      // Navigation privée stricte, stockage bloqué… l'appli reste jouable, sans sauvegarde.
+      return createMemoryStorage();
+    }
+  },
+  async remove(name) {
+    try {
+      await deleteIndexedDb(name);
+    } catch {
+      // Base déjà absente : rien à faire.
+    }
+  },
+};
 
 async function boot() {
   if (Capacitor.isNativePlatform()) {
@@ -30,12 +38,10 @@ async function boot() {
   } else {
     setupPwa();
   }
-  const store = await ProgressStore.load(await openStorage());
+  const manager = await ProfileManager.open(backend);
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <ProgressContext value={store}>
-        <App />
-      </ProgressContext>
+      <ProfilesRoot manager={manager} />
     </StrictMode>,
   );
 }

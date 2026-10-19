@@ -1,11 +1,14 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
 import type { ThemeChoice } from '../../store/progress';
+import { profileName } from '../../store/profiles';
 import { ConfirmDialog, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
+import { ColorPicker, PlayersDialog, ProfileAvatar } from '../components/Players';
 import { hapticsSupported } from '../fx/haptics';
 import { voiceSupported } from '../fx/voice';
 import { platform } from '../platform';
+import { useProfileManager, useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { promptInstall, usePwa } from '../pwa';
 
@@ -15,7 +18,7 @@ const THEMES: { value: ThemeChoice; label: string }[] = [
   { value: 'dark', label: 'Sombre' },
 ];
 
-type Pending = { kind: 'import'; text: string } | { kind: 'reset' } | null;
+type Pending = { kind: 'import'; text: string } | { kind: 'reset' } | { kind: 'remove-player' } | null;
 
 export function SettingsScreen() {
   const { settings, tests } = useProgress();
@@ -25,6 +28,10 @@ export function SettingsScreen() {
   const [toast, setToast] = useState<{ text: string; id: number } | null>(null);
   const native = platform().native;
   const { canInstall } = usePwa();
+  const manager = useProfileManager();
+  const { profiles, active } = useProfiles();
+  const [playersOpen, setPlayersOpen] = useState(false);
+  const playerName = profileName(active, profiles);
 
   const say = (text: string) => {
     const id = Date.now();
@@ -55,6 +62,11 @@ export function SettingsScreen() {
   const confirm = async () => {
     if (!pending) return;
     try {
+      if (pending.kind === 'remove-player') {
+        setPending(null);
+        await manager.remove(active.id);
+        return;
+      }
       if (pending.kind === 'import') {
         await store.importJson(pending.text);
         say('Sauvegarde importée. Bon retour !');
@@ -71,6 +83,31 @@ export function SettingsScreen() {
   return (
     <div className="screen screen-in settings">
       <ScreenHeader title="Réglages" />
+
+      <Section title="Joueur">
+        <div className="player-edit">
+          <ProfileAvatar profile={active} profiles={profiles} size={52} />
+          <label className="field player-edit__name">
+            <span className="field__label">Prénom</span>
+            <input
+              key={active.id}
+              className="field__input"
+              defaultValue={active.name}
+              maxLength={16}
+              placeholder={playerName}
+              onBlur={(event) => {
+                if (event.target.value.trim() !== active.name) void manager.update(active.id, { name: event.target.value });
+              }}
+            />
+          </label>
+        </div>
+        <ColorPicker value={active.color} onChange={(color) => void manager.update(active.id, { color })} label="Couleur de l’avatar" />
+        <div className="data-actions">
+          <ActionRow icon="users" label={profiles.length > 1 ? 'Changer de joueur ou en ajouter un' : 'Ajouter un joueur'} onClick={() => setPlayersOpen(true)} />
+          {profiles.length > 1 && <ActionRow icon="trash" label={`Supprimer le joueur ${playerName}`} danger onClick={() => setPending({ kind: 'remove-player' })} />}
+        </div>
+        <p className="hint">Jusqu’à 4 joueurs sur cet appareil, chacun avec ses niveaux, ses tests et ses réglages.</p>
+      </Section>
 
       <Section title="Sons et vibrations">
         <Toggle
@@ -194,16 +231,20 @@ export function SettingsScreen() {
 
       <ConfirmDialog
         open={pending !== null}
-        title={pending?.kind === 'import' ? 'Importer cette sauvegarde ?' : 'Tout effacer ?'}
-        confirmLabel={pending?.kind === 'import' ? 'Importer' : 'Effacer'}
-        danger={pending?.kind === 'reset'}
+        title={pending?.kind === 'import' ? 'Importer cette sauvegarde ?' : pending?.kind === 'remove-player' ? `Supprimer ${playerName} ?` : 'Tout effacer ?'}
+        confirmLabel={pending?.kind === 'import' ? 'Importer' : pending?.kind === 'remove-player' ? 'Supprimer' : 'Effacer'}
+        danger={pending?.kind === 'reset' || pending?.kind === 'remove-player'}
         onConfirm={() => void confirm()}
         onCancel={() => setPending(null)}
       >
         {pending?.kind === 'import'
           ? 'Ta progression actuelle sera remplacée par celle du fichier.'
-          : 'Parties, tests, records et niveaux seront supprimés de cet appareil. Pense à exporter une sauvegarde avant.'}
+          : pending?.kind === 'remove-player'
+            ? `Le profil de ${playerName} et toute sa progression seront supprimés de cet appareil.`
+            : 'Parties, tests, records et niveaux seront supprimés de cet appareil. Pense à exporter une sauvegarde avant.'}
       </ConfirmDialog>
+
+      <PlayersDialog open={playersOpen} onClose={() => setPlayersOpen(false)} />
 
       {toast && (
         <p className="toast" role="status" key={toast.id}>

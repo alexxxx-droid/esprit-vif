@@ -2027,6 +2027,164 @@
   color: var(--good);
 }
 
+/* ---------- Joueurs ---------- */
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--badge-ink);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.avatar--c0 {
+  background: var(--d-calcul);
+}
+
+.avatar--c1 {
+  background: var(--d-memoire);
+}
+
+.avatar--c2 {
+  background: var(--d-attention);
+}
+
+.avatar--c3 {
+  background: var(--d-vitesse);
+}
+
+.avatar--c4 {
+  background: var(--d-langage);
+}
+
+.avatar--c5 {
+  background: var(--d-logique);
+  color: #ffffff;
+}
+
+.player-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 8px 0 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+
+.player-chip__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.15;
+}
+
+.player-chip__hello {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.player-chip__name {
+  overflow: hidden;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 0 4px;
+}
+
+.color-swatch {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  transition: transform 120ms;
+}
+
+.color-swatch[aria-checked='true'] {
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 5px var(--ink);
+}
+
+.color-swatch:active {
+  transform: scale(0.92);
+}
+
+.players__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+  color: var(--ink);
+  text-align: left;
+}
+
+.player-row.is-active {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.player-row__name {
+  flex: 1;
+  font-weight: 720;
+}
+
+.player-row__now {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.players__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.player-edit {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.player-edit__name {
+  flex: 1;
+}
+
 /* ---------- Progrès : onglets et constats ---------- */
 
 .tabs {

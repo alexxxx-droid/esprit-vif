@@ -1,4 +1,4 @@
-import { openDB, type DBSchema } from 'idb';
+import { deleteDB, openDB, type DBSchema } from 'idb';
 
 /**
  * Petite couche d'abstraction au-dessus du stockage local : le reste de l'appli
@@ -78,6 +78,11 @@ export async function openIndexedDbStorage(name = DB_NAME): Promise<Storage> {
       await tx.done;
     },
   };
+}
+
+/** Supprime une base IndexedDB (profil effacé). */
+export async function deleteIndexedDb(name: string): Promise<void> {
+  await deleteDB(name);
 }
 
 /** Stockage volatil : pour les tests, ou en secours si IndexedDB est indisponible. */

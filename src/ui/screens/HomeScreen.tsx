@@ -7,9 +7,12 @@ import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
+import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
+import { PlayersDialog, ProfileAvatar } from '../components/Players';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
+import { useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { useProgression } from '../progression';
 import { promptInstall, usePwa } from '../pwa';
@@ -26,6 +29,8 @@ export function HomeScreen() {
   const today = useToday();
   const minute = useMinuteOfDay();
   const [starting, setStarting] = useState(false);
+  const [playersOpen, setPlayersOpen] = useState(false);
+  const { profiles, active } = useProfiles();
   const { rank } = useProgression();
   const rankProgress = (rank.xp - rank.levelStart) / (rank.nextAt - rank.levelStart);
 
@@ -72,12 +77,13 @@ export function HomeScreen() {
   return (
     <div className="screen screen-in home">
       <header className="home__top">
-        <div className="brand">
-          <span className="brand__mark">
-            <Icon name="spark" size={20} />
+        <button type="button" className="player-chip" onClick={() => setPlayersOpen(true)} aria-label={`${profileName(active, profiles)} joue. Changer de joueur`}>
+          <ProfileAvatar profile={active} profiles={profiles} size={42} />
+          <span className="player-chip__text">
+            <span className="player-chip__hello">Bonjour{active.name ? ',' : ' !'}</span>
+            <span className="player-chip__name">{active.name || 'Esprit Vif'}</span>
           </span>
-          <span className="brand__name">Esprit Vif</span>
-        </div>
+        </button>
         <span className="home__chips">
           {streak > 0 && (
             <span className="streak" title="Jours d’entraînement d’affilée">
@@ -154,6 +160,7 @@ export function HomeScreen() {
       </section>
 
       <InstallCard />
+      <PlayersDialog open={playersOpen} onClose={() => setPlayersOpen(false)} />
     </div>
   );
 }

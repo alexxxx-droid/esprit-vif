@@ -54,8 +54,7 @@ function Home() {
   // Hier a servi de jour de repos : un mot gentil, pas une alarme.
   const restedYesterday = streak > 0 && rests[0] === addDays(today, -1) && !data.plays.some((p) => p.day === today);
   const programme = inProgress?.games ?? dailyGames(today, DAILY_ROTATION);
-  const reminderDue =
-    data.settings.reminder && !doneToday && !inProgress && minute >= minutesOf(data.settings.reminderTime);
+  const reminderDue = data.settings.reminder && !doneToday && !inProgress && minute >= minutesOf(data.settings.reminderTime);
 
   const startTest = async () => {
     setStarting(true);
@@ -85,7 +84,12 @@ function Home() {
   return (
     <div className="screen screen-in home">
       <header className="home__top">
-        <button type="button" className="player-chip" onClick={() => setPlayersOpen(true)} aria-label={`${profileName(active, profiles)} joue. Changer de joueur`}>
+        <button
+          type="button"
+          className="player-chip"
+          onClick={() => setPlayersOpen(true)}
+          aria-label={`${profileName(active, profiles)} joue. Changer de joueur`}
+        >
           <ProfileAvatar profile={active} profiles={profiles} size={42} />
           <span className="player-chip__text">
             {active.name && <span className="player-chip__hello">Bonjour,</span>}
@@ -137,37 +141,42 @@ function Home() {
         </p>
       )}
 
-      {last ? <AgeHero last={last} previous={previous} doneToday={doneToday} /> : <WelcomeHero />}
+      {/* Deux colonnes sur grand écran ; sur téléphone, ces deux blocs s'effacent et tout s'empile. */}
+      <div className="home__main">
+        {last ? <AgeHero last={last} previous={previous} doneToday={doneToday} /> : <WelcomeHero />}
 
-      <button type="button" className="cta cta--hero" onClick={cta.action} disabled={starting}>
-        <span className="cta__text">
-          <span className="cta__label">{cta.label}</span>
-          <span className="cta__sub">{cta.sub}</span>
-        </span>
-        <span className="cta__icon">
-          <Icon name={doneToday && !inProgress ? 'arrow' : 'play'} />
-        </span>
-      </button>
+        <button type="button" className="cta cta--hero" onClick={cta.action} disabled={starting}>
+          <span className="cta__text">
+            <span className="cta__label">{cta.label}</span>
+            <span className="cta__sub">{cta.sub}</span>
+          </span>
+          <span className="cta__icon">
+            <Icon name={doneToday && !inProgress ? 'arrow' : 'play'} />
+          </span>
+        </button>
 
-      {!doneToday && <Programme games={programme} test={inProgress} />}
+        {!doneToday && <Programme games={programme} test={inProgress} />}
+      </div>
 
-      <SessionCard />
+      <div className="home__side">
+        <SessionCard />
 
-      <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
+        <WeekStrip playedDays={new Set(data.plays.map((p) => p.day))} today={today} />
 
-      <section className="coach" aria-labelledby="coach-title">
-        <span className="coach__icon" aria-hidden="true">
-          <Icon name="spark" size={20} />
-        </span>
-        <div>
-          <h2 className="coach__title" id="coach-title">
-            Le mot du coach
-          </h2>
-          <p className="coach__tip">{coachTip(today)}</p>
-        </div>
-      </section>
+        <section className="coach" aria-labelledby="coach-title">
+          <span className="coach__icon" aria-hidden="true">
+            <Icon name="spark" size={20} />
+          </span>
+          <div>
+            <h2 className="coach__title" id="coach-title">
+              Le mot du coach
+            </h2>
+            <p className="coach__tip">{coachTip(today)}</p>
+          </div>
+        </section>
 
-      <InstallCard />
+        <InstallCard />
+      </div>
       <PlayersDialog open={playersOpen} onClose={() => setPlayersOpen(false)} />
     </div>
   );
@@ -188,12 +197,20 @@ function SessionCard() {
       <span className="card__text">
         <span className="card__title">Séance du jour</span>
         <span className="card__sub">
-          {completed ? 'Terminée : bravo, à demain !' : done.size ? `${done.size} jeux sur ${picks.length} · on continue ?` : `${picks.length} jeux choisis pour toi · ≈ 6 min`}
+          {completed
+            ? 'Terminée : bravo, à demain !'
+            : done.size
+              ? `${done.size} jeux sur ${picks.length} · on continue ?`
+              : `${picks.length} jeux choisis pour toi · ≈ 6 min`}
         </span>
       </span>
       <span className="session-card__dots" aria-hidden="true">
         {picks.map((pick) => (
-          <span key={pick.gameId} className={done.has(pick.gameId) ? 'is-done' : undefined} style={{ '--c': `var(--d-${pick.domain})` } as CSSProperties} />
+          <span
+            key={pick.gameId}
+            className={done.has(pick.gameId) ? 'is-done' : undefined}
+            style={{ '--c': `var(--d-${pick.domain})` } as CSSProperties}
+          />
         ))}
       </span>
       <Icon name="arrow" />

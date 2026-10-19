@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { generateNBack, nbackLevel, NBACK_TARGETS, NBACK_TRIALS, scoreNBack, tallyStream } from './nback';
+import { generateNBack, nbackLevel, NBACK_TARGETS, NBACK_TRIALS, scoreNBack, tallyStream, tutorialTrials } from './nback';
 
 describe('générateur du Double retour', () => {
   it('produit 20 essais notés par flux, dont exactement 30 % de cibles', () => {
@@ -64,5 +64,21 @@ describe('score du Double retour', () => {
       expect(score).toBeGreaterThanOrEqual(0);
       expect(score).toBeLessThanOrEqual(100);
     }
+  });
+});
+
+describe('essai guidé de Double retour', () => {
+  it('propose des « pareil » et des « différent », et un piège à 2 en arrière', () => {
+    for (const n of [1, 2] as const) {
+      for (const channel of ['letter', 'position'] as const) {
+        const t = tutorialTrials(n, channel);
+        const scored = t.targets.slice(n);
+        expect(scored.length).toBeGreaterThanOrEqual(10);
+        expect(scored.filter(Boolean).length).toBeGreaterThanOrEqual(3);
+        expect(scored.filter((x) => !x).length).toBeGreaterThanOrEqual(5);
+      }
+    }
+    const two = tutorialTrials(2, 'letter');
+    expect(two.values.some((v, i) => i >= 2 && v === two.values[i - 1] && !two.targets[i])).toBe(true);
   });
 });

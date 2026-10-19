@@ -17,14 +17,17 @@ interface GameIntroProps {
   notice: string | null;
   startLabel?: string;
   onStart: () => void;
+  /** Présent quand le jeu a un essai guidé. */
+  onTutorial?: () => void;
   onQuit: () => void;
 }
 
-export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabel, onStart, onQuit }: GameIntroProps) {
+export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabel, onStart, onTutorial, onQuit }: GameIntroProps) {
   const data = useProgress();
   const store = useStore();
   const best = bestFor(data, meta.id, level);
   const Demo = GAME_DEMOS[meta.id];
+  const firstTime = !data.plays.some((p) => p.gameId === meta.id);
   return (
     <div className="intro screen-in">
       <header className="intro__top">
@@ -92,6 +95,13 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
         </p>
       )}
 
+      {onTutorial && firstTime && (
+        <p className="notice notice--warm">
+          <Icon name="info" size={20} />
+          Première fois&nbsp;? L’essai guidé t’explique le jeu en une minute, sans chrono.
+        </p>
+      )}
+
       <button type="button" className="cta intro__start" onClick={onStart} autoFocus>
         <span className="cta__text">
           <span className="cta__label">{startLabel ?? 'C’est parti'}</span>
@@ -101,6 +111,12 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
           <Icon name="play" />
         </span>
       </button>
+      {onTutorial && (
+        <button type="button" className="btn btn--lg btn--ghost intro__tutorial" onClick={onTutorial}>
+          <Icon name="training" />
+          Essai guidé, sans chrono
+        </button>
+      )}
     </div>
   );
 }

@@ -125,6 +125,22 @@ Quatre jeux de plus, un par domaine qui en manquait le plus, tous en **entiers e
   d'arrivée sur le départ. Dès le niveau 10, les flèches défilent une par une. Après une erreur,
   le bon trajet est tracé. Barème : trajets retrouvés sur 8.
 
+## Contenu et prise en main (v2.6)
+
+- **Mots** : 648 mots pour les Anagrammes (275 avant), tous sans accent ni cédille dans leur
+  orthographe correcte (« ECOLE » n'y est pas, il s'écrit « école »), sans mots-outils comme
+  « autre » ou « avant ». Toute réponse de la liste est acceptée : plus elle est riche, moins on
+  entend « mais c'est un vrai mot ! ».
+- **Catégories** : 34 au lieu de 25 (épices et herbes, fromages, fournitures scolaires, jouets,
+  paysages, espace, formes, jours et mois, émotions). Écartés parce qu'ils rendraient une énigme
+  de Catégories ambiguë : « ciseaux » et « compas » (des outils ?), « robot » (un ustensile de
+  cuisine ?), les animaux marins (un requin en est un aussi).
+- **Essai guidé** (Double retour, `GAME_TUTORIALS`) : sans chrono, l'historique affiché et
+  l'élément « d'il y a N coups » entouré pendant 3 essais, l'historique seul pendant 3 autres,
+  puis plus rien. Deux boutons « Pareil / Différent » pour apprendre à décider, puis le rappel
+  qu'en vrai on ne touche que quand c'est pareil. À 2 en arrière, un piège voulu : la lettre du
+  coup d'avant. Proposé en avant tant qu'on n'a jamais joué au jeu.
+
 ## Modes de jeu
 
 - **Séance du jour** (`src/core/modes.ts`) : 4 jeux de 4 domaines, les deux domaines les plus

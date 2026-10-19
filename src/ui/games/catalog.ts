@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import type { GameId } from '../../core/types';
-import type { GameProps } from '../game/chrome';
+import type { GameProps, TutorialProps } from '../game/chrome';
 import { AnagrammesGame } from './AnagrammesGame';
 import { BoutiqueGame } from './BoutiqueGame';
 import { BalanceGame } from './BalanceGame';
@@ -49,6 +49,7 @@ import { MatriceGame } from './MatriceGame';
 import { MonnaieGame } from './MonnaieGame';
 import { MotsGame } from './MotsGame';
 import { NBackGame } from './NBackGame';
+import { NBackTutorial } from './NBackTutorial';
 import { OrdreGame } from './OrdreGame';
 import { PairesGame } from './PairesGame';
 import { PluieGame } from './PluieGame';
@@ -89,6 +90,11 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+};
+
+/** Essais guidés, sans chrono, pour les jeux les moins évidents à saisir. */
+export const GAME_TUTORIALS: Partial<Record<GameId, ComponentType<TutorialProps>>> = {
+  nback: NBackTutorial,
 };
 
 /** Jeux où l'on répond avec le pavé numérique : on peut aussi y écrire au doigt. */

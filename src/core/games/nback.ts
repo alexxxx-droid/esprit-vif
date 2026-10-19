@@ -142,3 +142,28 @@ export function usefulAccuracy(tallies: readonly NBackTally[]): number {
 export function scoreNBack(tallies: readonly NBackTally[], level: number): number {
   return clampScore(usefulAccuracy(tallies) * nbackLevel(level).gain);
 }
+
+// ---------- Essai guidé ----------
+
+/**
+ * Séquences fixes de l'essai guidé (sans chrono) : environ un tiers de « pareil ». À 2 en arrière,
+ * un piège : la lettre est la même qu'au coup d'avant, mais pas qu'il y a deux coups.
+ */
+const TUTORIAL_LETTERS: Record<1 | 2, string[]> = {
+  1: ['K', 'R', 'R', 'T', 'T', 'B', 'K', 'K', 'M', 'M', 'S'],
+  2: ['K', 'R', 'K', 'T', 'T', 'D', 'B', 'T', 'B', 'M', 'S', 'M'],
+};
+const LETTER_CELLS: Record<string, number> = { K: 4, R: 0, T: 8, D: 2, B: 6, M: 3, S: 1 };
+
+export interface TutorialTrials {
+  n: 1 | 2;
+  values: (string | number)[];
+  /** Vrai si la valeur est la même qu'il y a n coups. */
+  targets: boolean[];
+}
+
+export function tutorialTrials(n: 1 | 2, channel: 'letter' | 'position'): TutorialTrials {
+  const letters = TUTORIAL_LETTERS[n];
+  const values = channel === 'letter' ? letters : letters.map((l) => LETTER_CELLS[l]);
+  return { n, values, targets: values.map((v, i) => i >= n && v === values[i - n]) };
+}

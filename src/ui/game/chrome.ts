@@ -8,6 +8,12 @@ export interface GameProps {
   onFinish: (outcome: PlayOutcome) => void;
 }
 
+/** Ce que reçoit un essai guidé : le niveau visé, et de quoi en sortir (en lançant la partie ou non). */
+export interface TutorialProps {
+  level: number;
+  onDone: (play: boolean) => void;
+}
+
 /** Habillage commun fourni par le déroulé de partie : titre et bouton pour quitter. */
 export interface GameChrome {
   title: string;

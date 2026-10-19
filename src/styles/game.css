@@ -4195,3 +4195,137 @@
 .demo-iti .iti-cell {
   border-radius: 6px;
 }
+
+/* ---------- Essai guidé ---------- */
+
+.intro__tutorial {
+  width: 100%;
+}
+
+.tuto {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 100dvh;
+}
+
+.tuto__stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.tuto__history {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  min-height: 74px;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.tuto__past {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+}
+
+.tuto__past.is-back {
+  opacity: 1;
+}
+
+.tuto__past.is-back > :first-child {
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 6px var(--accent);
+}
+
+.tuto__past small {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.tuto__current {
+  animation: pop 260ms var(--ease-spring) both;
+}
+
+.tuto-letter {
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-weight: 820;
+}
+
+.tuto-letter--big {
+  width: 128px;
+  height: 128px;
+  font-size: 4rem;
+}
+
+.tuto-letter--small {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+}
+
+.tuto-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.tuto-grid span {
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+.tuto-grid span.is-lit {
+  background: var(--dom, var(--accent));
+}
+
+.tuto-grid--big {
+  gap: 6px;
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+}
+
+.tuto-grid--small {
+  gap: 2px;
+  width: 44px;
+  height: 44px;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.tuto__ask {
+  max-width: 34ch;
+  min-height: 3em;
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.tuto__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tuto__buttons > .btn {
+  grid-column: 1 / -1;
+}

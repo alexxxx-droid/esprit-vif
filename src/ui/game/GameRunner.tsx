@@ -6,14 +6,14 @@ import type { PlayMode, PlayOutcome } from '../../core/types';
 import { progressionInput, type SavedPlay } from '../../store/progress';
 import { fx } from '../fx/fx';
 import { startMusic, stopMusic } from '../fx/music';
-import { GAME_COMPONENTS } from '../games/catalog';
+import { GAME_COMPONENTS, GAME_TUTORIALS } from '../games/catalog';
 import { useStore } from '../progress-context';
 import { GameChromeContext } from './chrome';
 import { Countdown } from './Countdown';
 import { GameIntro } from './GameIntro';
 import { GameResult } from './GameResult';
 
-type Phase = 'intro' | 'countdown' | 'play' | 'saving' | 'result';
+type Phase = 'intro' | 'tutorial' | 'countdown' | 'play' | 'saving' | 'result';
 
 interface Run {
   id: number;
@@ -118,6 +118,10 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     </div>
   );
 
+  const Tutorial = GAME_TUTORIALS[meta.id];
+  if (phase === 'tutorial' && Tutorial) {
+    return tinted(<Tutorial level={chosen} onDone={(play) => (play ? begin() : setPhase('intro'))} />);
+  }
   if (phase === 'intro') {
     return tinted(
       <GameIntro
@@ -128,6 +132,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
         notice={notice}
         startLabel={startLabel}
         onStart={() => begin()}
+        onTutorial={Tutorial ? () => setPhase('tutorial') : undefined}
         onQuit={onQuit}
       />,
     );

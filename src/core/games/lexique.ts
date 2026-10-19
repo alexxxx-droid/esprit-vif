@@ -51,6 +51,15 @@ export const CATEGORIES: readonly Category[] = [
   C('corps', 'Corps humain', 'des parties du corps', 'divers', 'bras jambe main pied tête genou coude épaule doigt nez bouche oreille œil cheville poignet cou dos ventre front menton joue orteil hanche nuque'),
   C('pays', 'Pays', 'des pays', 'divers', 'France Espagne Italie Japon Brésil Canada Maroc Chine Inde Mexique Pérou Égypte Suède Grèce Portugal Norvège Kenya Argentine Irlande Australie Allemagne Belgique Suisse'),
   C('couleurs', 'Couleur', 'des couleurs', 'divers', 'rouge bleu vert jaune noir blanc gris violet beige turquoise indigo pourpre écarlate ocre cyan magenta vermillon'),
+  C('epices', 'Épice ou herbe', 'des épices ou des herbes', 'nourriture', 'cannelle vanille safran cumin curry paprika muscade gingembre curcuma thym basilic persil ciboulette romarin origan estragon coriandre aneth sauge cardamome'),
+  C('fromages', 'Fromage', 'des fromages', 'nourriture', 'camembert brie roquefort emmental gruyère reblochon munster mozzarella parmesan feta beaufort morbier mimolette maroilles ricotta gorgonzola cheddar gouda mascarpone tomme livarot saint-nectaire'),
+  C('ecole', 'Fourniture scolaire', 'des fournitures scolaires', 'objets', 'crayon cahier gomme stylo trousse cartable classeur feutre surligneur agrafeuse taille-crayon ardoise craie calculatrice buvard agenda'),
+  C('jouets', 'Jouet', 'des jouets', 'objets', 'poupée ballon toupie peluche puzzle yoyo cerf-volant dînette billes dominos osselets marionnette hochet kaléidoscope bilboquet figurine maquette diabolo'),
+  C('paysages', 'Paysage', 'des paysages', 'nature', 'montagne colline vallée plaine falaise volcan désert forêt lac rivière fleuve océan île cascade dune canyon marais prairie plage grotte golfe'),
+  C('espace', 'Espace', 'des mots de l’espace', 'nature', 'planète étoile comète galaxie astéroïde satellite nébuleuse météorite lune univers constellation éclipse orbite cratère Jupiter Saturne Vénus Neptune Uranus'),
+  C('formes', 'Forme', 'des formes', 'divers', 'cercle carré triangle rectangle losange ovale trapèze hexagone pentagone octogone cube sphère cylindre cône pyramide parallélogramme demi-cercle'),
+  C('calendrier', 'Jour ou mois', 'des jours ou des mois', 'divers', 'lundi mardi mercredi jeudi vendredi samedi dimanche janvier février avril mai juin juillet août septembre octobre novembre décembre'),
+  C('emotions', 'Émotion', 'des émotions', 'divers', 'joie tristesse colère peur surprise dégoût fierté honte jalousie ennui tendresse gratitude nostalgie frayeur enthousiasme timidité'),
 ];
 
 export function categoryOf(word: string): Category | undefined {

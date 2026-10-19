@@ -13,6 +13,8 @@ export interface Platform {
   native: boolean;
   /** Propose le fichier à l'utilisateur (téléchargement ou partage). */
   saveFile(name: string, text: string): Promise<void>;
+  /** Partage une image (feuille de partage du téléphone), ou la télécharge à défaut. */
+  shareImage(name: string, image: Blob, text: string): Promise<void>;
   /**
    * Programme (heure « HH:MM ») ou annule (null) la notification quotidienne.
    * Renvoie faux si les notifications sont refusées. Absent sur le web.
@@ -20,17 +22,34 @@ export interface Platform {
   scheduleReminder?: (time: string | null, options: ReminderOptions) => Promise<boolean>;
 }
 
+function download(name: string, blob: Blob) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = name;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
 const webPlatform: Platform = {
   native: false,
   async saveFile(name, text) {
-    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = name;
-    document.body.append(link);
-    link.click();
-    link.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+    download(name, new Blob([text], { type: 'application/json' }));
+  },
+  async shareImage(name, image, text) {
+    const file = new File([image], name, { type: image.type });
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text });
+        return;
+      } catch (error) {
+        // Partage annulé par le joueur : rien d'autre à faire.
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+      }
+    }
+    download(name, image);
   },
 };
 

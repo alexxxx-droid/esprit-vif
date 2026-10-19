@@ -59,6 +59,17 @@ async function saveFile(name: string, text: string) {
   await Share.share({ title: 'Sauvegarde Esprit Vif', files: [uri], dialogTitle: 'Enregistrer ou envoyer la sauvegarde' });
 }
 
+async function shareImage(name: string, image: Blob, text: string) {
+  const data = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1] ?? '');
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(image);
+  });
+  const { uri } = await Filesystem.writeFile({ path: name, data, directory: Directory.Cache });
+  await Share.share({ title: 'Esprit Vif', text, files: [uri], dialogTitle: 'Partager' });
+}
+
 function vibrate(kind: HapticKind) {
   const effect =
     kind === 'tap'
@@ -70,7 +81,7 @@ function vibrate(kind: HapticKind) {
 }
 
 export async function setupNative() {
-  setPlatform({ native: true, saveFile, scheduleReminder });
+  setPlatform({ native: true, saveFile, shareImage, scheduleReminder });
   setNativeHaptics(vibrate);
   // Retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
   await App.addListener('backButton', ({ canGoBack }) => {

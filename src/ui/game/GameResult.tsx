@@ -10,6 +10,10 @@ import { ScoreRing } from '../components/bits';
 import { GameArt } from '../components/GameArt';
 import { fx } from '../fx/fx';
 import { Mascot } from '../components/Mascot';
+import { ShareButton } from '../components/ShareButton';
+import { formatLongDay } from '../../core/format';
+import { dayKey } from '../../core/daily';
+import { renderCard } from '../share-card';
 import { moodForScore } from '../mascot-mood';
 import { Icon } from '../components/Icon';
 import { MedalBadge, RankBar, Stars } from '../components/progress-bits';
@@ -126,6 +130,30 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
           </div>
         </section>
       )}
+
+      <ShareButton
+        label="Partager mon score"
+        build={async () => {
+          const color = getComputedStyle(document.documentElement).getPropertyValue(`--d-${meta.domain}`).trim();
+          const line =
+            comparison?.kind === 'first'
+              ? 'Ma première partie !'
+              : comparison?.kind === 'above'
+                ? `+${comparison.diff} pts au-dessus de ma moyenne`
+                : comparison?.kind === 'level'
+                  ? 'Dans ma moyenne'
+                  : undefined;
+          const image = await renderCard(
+            { kind: 'result', game: meta.name, level, score: outcome.score, stars: starsFor(outcome.score), color, line, mascot: document.querySelector<SVGSVGElement>('.result__vif') },
+            formatLongDay(dayKey()),
+          );
+          return {
+            image,
+            name: `esprit-vif-${meta.id}-${outcome.score}.png`,
+            text: `J’ai fait ${outcome.score}/100 à ${meta.name} (niveau ${level}) sur Esprit Vif. À ton tour ! https://alexxxx-droid.github.io/esprit-vif/`,
+          };
+        }}
+      />
 
       <div className="result__actions">{children}</div>
     </div>

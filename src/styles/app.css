@@ -3418,3 +3418,13 @@
   stroke-linecap: round;
   stroke-width: 3;
 }
+
+/* ---------- Partage ---------- */
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}

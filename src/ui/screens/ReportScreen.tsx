@@ -6,6 +6,8 @@ import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 import { officialTests, type TestRecord } from '../../store/progress';
 import { GameArt } from '../components/GameArt';
 import { Mascot } from '../components/Mascot';
+import { ShareButton } from '../components/ShareButton';
+import { renderCard } from '../share-card';
 import { Icon } from '../components/Icon';
 import { useCountUp, useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
@@ -133,6 +135,18 @@ export function ReportScreen({ testId }: { testId: string }) {
           Le test officiel du jour était déjà fait : celui-ci ne compte pas dans tes progrès.
         </p>
       )}
+
+      <ShareButton
+        label="Partager mon âge cérébral"
+        build={async () => ({
+          image: await renderCard(
+            { kind: 'age', age: test.brainAge ?? 0, verdict: verdict(test.brainAge ?? 0, previousAge), mascot: document.querySelector<SVGSVGElement>('.report__verdict .vif') },
+            formatLongDay(test.day),
+          ),
+          name: `esprit-vif-age-${test.day}.png`,
+          text: `Mon âge cérébral du jour sur Esprit Vif : ${test.brainAge} ans (indicateur ludique). Et toi ? https://alexxxx-droid.github.io/esprit-vif/`,
+        })}
+      />
 
       <p className="disclaimer">
         <Icon name="info" size={18} />

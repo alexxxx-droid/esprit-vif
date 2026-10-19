@@ -1,11 +1,13 @@
 import { MAX_LEVEL, pickLevel } from '../levels';
 import type { Domain, GameId } from '../types';
 import { anagramLevel, anagramLevelLabel } from './anagrammes';
+import { balanceLevelLabel } from './balance';
 import { boutiqueLevel, boutiqueLevelLabel } from './boutique';
 import { CALCUL_LEVELS } from './calcul';
 import { correspondanceLevel, correspondanceLevelLabel } from './correspondance';
 import { diableLevel, diableLevelLabel } from './diable';
 import { flechesLevel, flechesLevelLabel } from './fleches';
+import { horlogesLevel, horlogesLevelLabel } from './horloges';
 import { intrusLevelLabel } from './intrus';
 import { matriceLevel, matriceLevelLabel } from './matrice';
 import { monnaieLevel, monnaieLevelLabel } from './monnaie';
@@ -13,8 +15,10 @@ import { nbackLevel, nbackLevelLabel } from './nback';
 import { ordreLevel, ordreLevelLabel } from './ordre';
 import { pluieLevelLabel } from './pluie';
 import { describeRule, reflexeLevel, reflexeLevelLabel } from './reflexe';
+import { rotationLevel, rotationLevelLabel } from './rotation';
 import { SCHULTE_LEVELS, schulteLevelLabel } from './schulte';
 import { STROOP_LEVELS, stroopLevelLabel } from './stroop';
+import { sudokuLevel, sudokuLevelLabel } from './sudoku';
 import { totalLevelLabel } from './total';
 
 export interface DomainMeta {
@@ -264,6 +268,55 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: reflexeLevelLabel,
   },
+  rotation: {
+    id: 'rotation',
+    name: 'Rotation mentale',
+    domain: 'logique',
+    rule: (level) =>
+      rotationLevel(level).mirrors
+        ? 'Retrouve la pièce du modèle, simplement tournée. Méfie-toi de son reflet dans un miroir : il ne compte pas !'
+        : 'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: rotationLevelLabel,
+  },
+  sudoku: {
+    id: 'sudoku',
+    name: 'Mini-sudoku',
+    domain: 'logique',
+    rule: (level) => {
+      const { size } = sudokuLevel(level);
+      return `Chaque chiffre de 1 à ${size} une seule fois par ligne, par colonne et par bloc. Un chiffre faux coûte 5 secondes.`;
+    },
+    duration: '≈ 2 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: sudokuLevelLabel,
+  },
+  balance: {
+    id: 'balance',
+    name: 'Balance',
+    domain: 'logique',
+    rule: () => 'Une balance penche du côté le plus lourd. D’après toutes les balances, trouve l’objet le plus lourd… ou le plus léger.',
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: balanceLevelLabel,
+  },
+  horloges: {
+    id: 'horloges',
+    name: 'Horloges',
+    domain: 'logique',
+    rule: (level) =>
+      horlogesLevel(level).modes.length === 1 && horlogesLevel(level).modes[0] === 'read'
+        ? 'Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 60 secondes.'
+        : 'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 60 secondes.',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: horlogesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -284,6 +337,10 @@ export const GAME_ORDER: readonly GameId[] = [
   'correspondance',
   'reflexe',
   'anagrammes',
+  'rotation',
+  'balance',
+  'horloges',
+  'sudoku',
 ];
 
 /** Jeux qui tournent sur le 3e emplacement du test du jour. */
@@ -302,6 +359,10 @@ export const DAILY_ROTATION: readonly GameId[] = [
   'correspondance',
   'fleches',
   'reflexe',
+  'rotation',
+  'balance',
+  'horloges',
+  'sudoku',
 ];
 
 export function isGameId(value: string): value is GameId {

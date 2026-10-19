@@ -16,7 +16,11 @@ export type GameId =
   | 'pluie'
   | 'correspondance'
   | 'fleches'
-  | 'reflexe';
+  | 'reflexe'
+  | 'rotation'
+  | 'sudoku'
+  | 'balance'
+  | 'horloges';
 
 export type PlayMode = 'free' | 'daily';
 

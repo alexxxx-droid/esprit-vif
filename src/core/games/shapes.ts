@@ -25,6 +25,13 @@ export function fillWord(shape: ShapeKind, filled: boolean, plural = false): str
   return plural && !word.endsWith('x') ? `${word}s` : word;
 }
 
+/** Le nom avec son article : « le rond », « l’étoile », « la croix ». */
+export function theShape(shape: ShapeKind): string {
+  const name = SHAPE_NAMES[shape];
+  if (/^[aeiouyéh]/.test(name)) return `l’${name}`;
+  return `${FEMININE.has(shape) ? 'la' : 'le'} ${name}`;
+}
+
 export interface ShapeCard {
   shape: ShapeKind;
   filled: boolean;

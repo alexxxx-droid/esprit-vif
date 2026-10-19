@@ -36,3 +36,12 @@ export function Shape({ card, size = 96, className }: { card: ShapeCard; size?: 
     </svg>
   );
 }
+
+/** La même forme, pleine, à placer dans un dessin SVG plus grand (plateaux de la balance…). */
+export function ShapeGlyph({ shape, x, y, size, color }: { shape: ShapeKind; x: number; y: number; size: number; color: string }) {
+  return (
+    <svg x={x} y={y} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" overflow="visible">
+      <path d={PATHS[shape]} fill={color} />
+    </svg>
+  );
+}

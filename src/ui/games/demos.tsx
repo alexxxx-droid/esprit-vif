@@ -1,7 +1,12 @@
+import { mirror, rotate, type Piece } from '../../core/games/rotation';
 import type { ShapeKind } from '../../core/games/shapes';
 import { Icon } from '../components/Icon';
 import { Shape } from '../components/Shape';
+import { ScaleView } from './BalanceGame';
+import { BALANCE_LOOKS } from './balance-looks';
 import { Arrow } from './FlechesGame';
+import { ClockFace } from './HorlogesGame';
+import { PieceView } from './RotationGame';
 import { useLoop, useReducedMotion } from '../hooks';
 
 /**
@@ -399,6 +404,95 @@ export function ReflexeDemo() {
       <p className="demo__caption">
         {shape === 'circle' ? (frame % 2 === 1 ? 'Rond : je touche !' : 'Un rond…') : frame % 2 === 1 ? 'Carré : je me retiens' : 'Un carré…'}
         <Tick show={frame % 2 === 1} />
+      </p>
+    </div>
+  );
+}
+
+const DEMO_PIECE: Piece = [
+  [0, 0],
+  [0, 1],
+  [0, 2],
+  [1, 2],
+];
+
+export function RotationDemo() {
+  const frame = useDemoFrame(3, 1000, 2);
+  return (
+    <div className="demo">
+      <div className="demo-rotation">
+        <span className="demo-rotation__model">
+          <PieceView piece={DEMO_PIECE} span={4} size={58} />
+        </span>
+        <span className={`demo-rotation__option${frame === 2 ? ' is-picked' : ''}`}>
+          <PieceView piece={rotate(DEMO_PIECE, 1)} span={4} size={50} />
+        </span>
+        <span className="demo-rotation__option">
+          <PieceView piece={rotate(mirror(DEMO_PIECE), 1)} span={4} size={50} />
+        </span>
+      </div>
+      <p className="demo__caption">
+        {frame < 2 ? 'Tournée, pas retournée…' : 'Celle-ci : l’autre est un reflet'}
+        <Tick show={frame === 2} />
+      </p>
+    </div>
+  );
+}
+
+const SUDOKU_DEMO = [1, 2, 3, 4, 3, 4, 1, 2, 2, 1, 4, 3, 4, 3, 2, 1];
+
+export function SudokuDemo() {
+  const frame = useDemoFrame(3, 900, 2);
+  return (
+    <div className="demo">
+      <div className="demo-sudoku">
+        {SUDOKU_DEMO.map((v, i) => (
+          <span
+            key={i}
+            className={[
+              'demo-sudoku__cell',
+              i === 15 && frame >= 1 && 'is-selected',
+              i % 4 === 1 && 'is-box-right',
+              Math.floor(i / 4) === 1 && 'is-box-bottom',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {i === 15 && frame < 2 ? '' : v}
+          </span>
+        ))}
+      </div>
+      <p className="demo__caption">
+        {frame < 2 ? 'Il ne manque que…' : 'le 1 !'}
+        <Tick show={frame === 2} />
+      </p>
+    </div>
+  );
+}
+
+export function BalanceDemo() {
+  const frame = useDemoFrame(2, 1300, 1);
+  return (
+    <div className="demo">
+      <div className="demo-balance">
+        <ScaleView clue={{ left: [0], right: [1], heavier: 'left' }} look={(i) => BALANCE_LOOKS[i]} />
+      </div>
+      <p className="demo__caption">
+        {frame === 0 ? 'Le côté qui descend…' : '…porte le plus lourd'}
+        <Tick show={frame === 1} />
+      </p>
+    </div>
+  );
+}
+
+export function HorlogesDemo() {
+  const frame = useDemoFrame(2, 1300, 1);
+  return (
+    <div className="demo">
+      <ClockFace time={135} numerals="all" size={104} />
+      <p className="demo__caption">
+        {frame === 0 ? 'Quelle heure est-il ?' : '2 h 15'}
+        <Tick show={frame === 1} />
       </p>
     </div>
   );

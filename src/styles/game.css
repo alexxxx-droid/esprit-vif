@@ -2628,3 +2628,467 @@
 .pluie .mark {
   top: 52px;
 }
+
+/* ---------- Rotation mentale ---------- */
+
+.rotation {
+  gap: 14px;
+}
+
+.piece rect {
+  fill: currentColor;
+}
+
+.rotation__model {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 14px 18px 10px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  color: var(--d-logique);
+  animation: card-in 260ms var(--ease-out) both;
+}
+
+.rotation__model figcaption {
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rotation__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.rotation__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.rotation__options--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.rotation__option {
+  display: grid;
+  place-items: center;
+  min-height: 104px;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  transition: transform 80ms;
+}
+
+.rotation__option:active {
+  background: var(--accent-soft);
+  transform: scale(0.97);
+}
+
+/* ---------- Mini-sudoku ---------- */
+
+.sudoku-stage {
+  gap: 12px;
+}
+
+.sudoku {
+  display: grid;
+  width: min(100%, 380px, 52dvh);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2.5px solid var(--ink-2);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  animation: pop 320ms var(--ease-spring) both;
+}
+
+.sudoku.is-solved {
+  border-color: var(--good);
+}
+
+.sudoku__cell {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 1.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 120ms;
+}
+
+.sudoku--6 .sudoku__cell {
+  font-size: 1.45rem;
+}
+
+.sudoku--4 .sudoku__cell:nth-child(4n),
+.sudoku--6 .sudoku__cell:nth-child(6n) {
+  border-right: 0;
+}
+
+.sudoku--4 .sudoku__cell:nth-child(n + 13),
+.sudoku--6 .sudoku__cell:nth-child(n + 31) {
+  border-bottom: 0;
+}
+
+.sudoku__cell.is-box-right {
+  border-right: 2.5px solid var(--ink-2);
+}
+
+.sudoku__cell.is-box-bottom {
+  border-bottom: 2.5px solid var(--ink-2);
+}
+
+.sudoku__cell.is-given {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.sudoku__cell.is-peer {
+  background: var(--surface-2);
+}
+
+.sudoku__cell.is-same {
+  background: color-mix(in oklab, var(--accent) 16%, var(--surface));
+}
+
+.sudoku__cell.is-selected {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.sudoku__cell.is-wrong {
+  animation: flash-bad 450ms var(--ease-out);
+}
+
+.sudoku__pad {
+  display: grid;
+  gap: 8px;
+}
+
+.sudoku__pad--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.sudoku__pad--6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.sudoku__digit {
+  position: relative;
+  min-height: 68px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.7rem;
+  font-weight: 750;
+  transition: transform 80ms;
+}
+
+.sudoku__digit:active {
+  background: var(--accent-soft);
+  transform: scale(0.96);
+}
+
+.sudoku__digit:disabled {
+  background: var(--surface-2);
+  box-shadow: none;
+  color: var(--ink-3);
+}
+
+.sudoku__left {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  color: var(--ink-3);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* La croix d'erreur se pose sous la grille pour ne jamais cacher une ligne. */
+.sudoku-stage .mark {
+  top: auto;
+  bottom: -6px;
+}
+
+/* ---------- Balance ---------- */
+
+.balance {
+  gap: 14px;
+}
+
+.balance__ask {
+  font-size: 1.25rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.balance__ask strong {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.balance__clues {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Deux balances par ligne, trois quand il y en a beaucoup ; la dernière reste centrée. */
+.balance__clues > .scale {
+  width: calc((100% - 10px) / 2);
+}
+
+.balance__clues--3 > .scale {
+  width: calc((100% - 20px) / 3);
+}
+
+.scale {
+  display: block;
+  height: auto;
+  padding: 6px 4px 2px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  animation: card-in 300ms var(--ease-out) both;
+}
+
+.scale__post,
+.scale__pivot {
+  fill: var(--ink-3);
+}
+
+.scale__beam {
+  stroke: var(--ink-2);
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.scale__string {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-opacity: 0.55;
+  stroke-width: 1.2;
+}
+
+.scale__pan {
+  fill: var(--surface-3);
+  stroke: var(--ink-3);
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.balance__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 8px;
+}
+
+.balance__item {
+  display: grid;
+  place-items: center;
+  min-height: 68px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transition: transform 80ms;
+}
+
+.balance__item:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Horloges ---------- */
+
+.horloges {
+  gap: 14px;
+}
+
+.horloges__clocks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--ink-3);
+  animation: card-in 260ms var(--ease-out) both;
+}
+
+.clock {
+  flex: none;
+  filter: drop-shadow(0 8px 18px rgb(30 24 60 / 14%));
+}
+
+.clock__face {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 2;
+}
+
+.clock__tick {
+  stroke: var(--ink-3);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.clock__tick--hour {
+  stroke: var(--ink-2);
+  stroke-width: 3.5;
+}
+
+.clock__numeral {
+  fill: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.clock__hand {
+  stroke-linecap: round;
+}
+
+.clock__hand--hour {
+  stroke: var(--ink);
+  stroke-width: 8;
+}
+
+.clock__hand--minute {
+  stroke: var(--accent);
+  stroke-width: 4.5;
+}
+
+.clock__center {
+  fill: var(--ink);
+}
+
+.horloges__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.horloges__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.horloges__option {
+  min-height: 68px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  transition: transform 80ms;
+}
+
+.horloges__option:active {
+  background: var(--accent-soft);
+  transform: scale(0.97);
+}
+
+/* ---------- Démos de la Réflexion ---------- */
+
+.demo-rotation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.demo-rotation__model,
+.demo-rotation__option {
+  display: grid;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--surface);
+  transition: box-shadow 160ms;
+}
+
+.demo-rotation__model {
+  box-shadow: var(--shadow-1);
+  color: var(--d-logique);
+}
+
+.demo-rotation__option {
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink-2);
+}
+
+.demo-rotation__option.is-picked {
+  box-shadow: inset 0 0 0 3px var(--good);
+}
+
+.demo-sudoku {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 124px;
+  overflow: hidden;
+  border: 2px solid var(--ink-2);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.demo-sudoku__cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+  font-weight: 750;
+}
+
+.demo-sudoku__cell:nth-child(4n) {
+  border-right: 0;
+}
+
+.demo-sudoku__cell:nth-child(n + 13) {
+  border-bottom: 0;
+}
+
+.demo-sudoku__cell.is-box-right {
+  border-right: 2px solid var(--ink-2);
+}
+
+.demo-sudoku__cell.is-box-bottom {
+  border-bottom: 2px solid var(--ink-2);
+}
+
+.demo-sudoku__cell.is-selected {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.demo-balance {
+  width: 180px;
+}
+
+.demo-balance .scale {
+  width: 100%;
+}

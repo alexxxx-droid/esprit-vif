@@ -2159,3 +2159,472 @@
 .demo__cell.is-blank {
   background: transparent;
 }
+
+/* ---------- Pluie de calculs ---------- */
+
+.pluie {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.pluie__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--ink-2);
+  font-size: 1.1rem;
+}
+
+.pluie__score strong {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 1.6rem;
+}
+
+.pluie__lives {
+  display: flex;
+  gap: 6px;
+}
+
+/* Une vie = une goutte : pleine tant qu'elle reste, creuse une fois perdue. */
+.pluie__lives span {
+  width: 16px;
+  height: 16px;
+  border-radius: 0 50% 50%;
+  box-shadow: inset 0 0 0 2px var(--line);
+  transform: rotate(45deg);
+  transition:
+    background-color 300ms,
+    box-shadow 300ms;
+}
+
+.pluie__lives span.is-left {
+  background: var(--d-calcul);
+  box-shadow: none;
+}
+
+.rain {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-l);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.drop {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in oklab, var(--d-calcul) 55%, transparent),
+    var(--shadow-1);
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  white-space: nowrap;
+  translate: -50% 0;
+  animation: drop-fall var(--fall) linear forwards;
+}
+
+@keyframes drop-fall {
+  from {
+    top: 1.5%;
+  }
+
+  to {
+    top: 86%;
+  }
+}
+
+.drop-pop {
+  position: absolute;
+  z-index: 0;
+  width: 56px;
+  height: 56px;
+  margin: -6px 0 0 -28px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px var(--good);
+  animation: drop-pop 420ms var(--ease-out) forwards;
+}
+
+@keyframes drop-pop {
+  from {
+    opacity: 1;
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.rain__water {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 9%;
+  background: color-mix(in oklab, var(--d-calcul) 32%, transparent);
+  box-shadow: 0 -2px 0 color-mix(in oklab, var(--d-calcul) 60%, transparent);
+}
+
+.rain__entry {
+  min-width: 7ch;
+  padding: 6px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--ink-3);
+  font-size: 1.05rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.rain__entry.is-filled {
+  box-shadow: inset 0 0 0 2px var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* La chute est le cœur du jeu (le temps qu'il reste) : elle garde sa vraie durée même en mouvement réduit. */
+@media (prefers-reduced-motion: reduce) {
+  .drop {
+    animation-duration: var(--fall) !important;
+  }
+}
+
+/* ---------- Correspondance express ---------- */
+
+.correspondance {
+  gap: 18px;
+}
+
+.match-card {
+  display: grid;
+  place-items: center;
+  width: min(56vw, 210px);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  color: var(--d-vitesse);
+  animation: match-in 220ms var(--ease-out) both;
+}
+
+@keyframes match-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px) rotate(4deg);
+  }
+}
+
+.match-card__text {
+  color: var(--ink);
+  font-size: clamp(3.6rem, 18vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.match-card--demo {
+  width: 84px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-1);
+}
+
+.correspondance__ask {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.yes-no {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.yes-no > :only-child {
+  grid-column: 1 / -1;
+}
+
+.yes-no .big-answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.big-answer--no,
+.big-answer--yes {
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+}
+
+.big-answer--no svg {
+  color: var(--bad);
+}
+
+.big-answer--yes svg {
+  color: var(--good);
+}
+
+/* ---------- Flèches ---------- */
+
+.fleches {
+  gap: 22px;
+}
+
+.fleches__ask {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 750;
+  animation: pop 260ms var(--ease-spring) both;
+}
+
+.fleches__ask--center {
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.fleches__ask--flank {
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.fleches__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 64px;
+  color: var(--ink);
+}
+
+.arrow {
+  display: inline-grid;
+  place-items: center;
+}
+
+.fleches__fix {
+  color: var(--ink-3);
+  font-size: 2.6rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.fleches__hint {
+  color: var(--ink-2);
+  font-weight: 650;
+  text-align: center;
+}
+
+.fleches__pad {
+  display: grid;
+  gap: 10px;
+}
+
+.fleches__pad--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Quatre sens : la croix du clavier (haut au-dessus, gauche-bas-droite dessous). */
+.fleches__pad--4 {
+  grid-template-areas:
+    '. up .'
+    'left down right';
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dir-btn {
+  display: grid;
+  place-items: center;
+  min-height: 72px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  transition: transform 80ms;
+}
+
+.dir-btn:active {
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  transform: scale(0.96);
+}
+
+.fleches__pad--4 .dir-btn {
+  min-height: 64px;
+}
+
+.fleches__pad--4 .dir-btn--up {
+  grid-area: up;
+}
+
+.fleches__pad--4 .dir-btn--down {
+  grid-area: down;
+}
+
+.fleches__pad--4 .dir-btn--left {
+  grid-area: left;
+}
+
+.fleches__pad--4 .dir-btn--right {
+  grid-area: right;
+}
+
+/* ---------- Réflexe ---------- */
+
+.reflexe__rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 10px;
+  align-self: center;
+  padding: 8px 16px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-weight: 700;
+  text-align: center;
+}
+
+.reflexe__rule.is-new {
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+  animation: pop 320ms var(--ease-spring) both;
+}
+
+.reflexe__rule-shapes {
+  display: inline-flex;
+  gap: 4px;
+  color: var(--d-vitesse);
+}
+
+.reflexe-stage {
+  justify-content: stretch;
+}
+
+.reflexe {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--d-vitesse);
+  transition: background-color 120ms;
+}
+
+.reflexe:active {
+  background: var(--surface-2);
+}
+
+.reflexe__shape {
+  display: grid;
+  animation: reflex-in 120ms var(--ease-out) both;
+}
+
+@keyframes reflex-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+/* ---------- Démos de l'Arcade ---------- */
+
+.demo-rain {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--surface-2);
+}
+
+.demo-rain__drop {
+  position: absolute;
+  left: 50%;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in oklab, var(--d-calcul) 55%, transparent),
+    var(--shadow-1);
+  font-family: var(--mono);
+  font-weight: 700;
+  white-space: nowrap;
+  translate: -50% 0;
+  transition: top 700ms linear;
+}
+
+.demo-rain__pop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px var(--good);
+  animation: drop-pop 500ms var(--ease-out) forwards;
+}
+
+.demo-rain__water {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 14px;
+  background: color-mix(in oklab, var(--d-calcul) 32%, transparent);
+}
+
+.demo-arrows {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--ink-3);
+}
+
+.demo-arrows .is-center {
+  color: var(--ink);
+}
+
+.demo-reflex {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--d-vitesse);
+  transition:
+    transform 120ms,
+    box-shadow 120ms;
+}
+
+.demo-reflex.is-tapped {
+  box-shadow: inset 0 0 0 3px var(--good);
+  transform: scale(0.94);
+}
+
+/* Au-dessus de la pluie, la coche ne cache ni le score ni les vies. */
+.pluie .mark {
+  top: 52px;
+}

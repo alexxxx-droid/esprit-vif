@@ -12,7 +12,11 @@ export type GameId =
   | 'boutique'
   | 'diable'
   | 'ordre'
-  | 'monnaie';
+  | 'monnaie'
+  | 'pluie'
+  | 'correspondance'
+  | 'fleches'
+  | 'reflexe';
 
 export type PlayMode = 'free' | 'daily';
 

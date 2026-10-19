@@ -3,12 +3,16 @@ import type { Domain, GameId } from '../types';
 import { anagramLevel, anagramLevelLabel } from './anagrammes';
 import { boutiqueLevel, boutiqueLevelLabel } from './boutique';
 import { CALCUL_LEVELS } from './calcul';
+import { correspondanceLevel, correspondanceLevelLabel } from './correspondance';
 import { diableLevel, diableLevelLabel } from './diable';
+import { flechesLevel, flechesLevelLabel } from './fleches';
 import { intrusLevelLabel } from './intrus';
 import { matriceLevel, matriceLevelLabel } from './matrice';
 import { monnaieLevel, monnaieLevelLabel } from './monnaie';
 import { nbackLevel, nbackLevelLabel } from './nback';
 import { ordreLevel, ordreLevelLabel } from './ordre';
+import { pluieLevelLabel } from './pluie';
+import { describeRule, reflexeLevel, reflexeLevelLabel } from './reflexe';
 import { SCHULTE_LEVELS, schulteLevelLabel } from './schulte';
 import { STROOP_LEVELS, stroopLevelLabel } from './stroop';
 import { totalLevelLabel } from './total';
@@ -207,6 +211,59 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: monnaieLevelLabel,
   },
+  pluie: {
+    id: 'pluie',
+    name: 'Pluie de calculs',
+    domain: 'calcul',
+    rule: () => 'Tape le résultat de chaque goutte avant qu’elle ne tombe à l’eau. Trois gouttes perdues et c’est fini !',
+    duration: '60 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: pluieLevelLabel,
+  },
+  correspondance: {
+    id: 'correspondance',
+    name: 'Correspondance express',
+    domain: 'vitesse',
+    rule: (level) =>
+      correspondanceLevel(level).back === 1
+        ? 'Chaque nouvelle carte est-elle pareille à la précédente ? Réponds vite : 45 secondes.'
+        : 'Chaque nouvelle carte est-elle pareille à celle d’il y a deux cartes ? 45 secondes.',
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: correspondanceLevelLabel,
+  },
+  fleches: {
+    id: 'fleches',
+    name: 'Flèches',
+    domain: 'attention',
+    rule: (level) => {
+      const { rule } = flechesLevel(level);
+      if (rule === 'flank') return 'Donne le sens des flèches voisines, pas de celle du milieu.';
+      if (rule === 'switch') return 'Selon la consigne, donne le sens de la flèche du milieu ou de ses voisines.';
+      return 'Donne le sens de la flèche du milieu, sans te laisser distraire par ses voisines.';
+    },
+    duration: '≈ 50 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: flechesLevelLabel,
+  },
+  reflexe: {
+    id: 'reflexe',
+    name: 'Réflexe',
+    domain: 'vitesse',
+    rule: (level) => {
+      const { rules } = reflexeLevel(level);
+      return rules.length > 1
+        ? `${describeRule(rules[0])}… mais la règle va changer en cours de route !`
+        : `${describeRule(rules[0])}, le plus vite possible. Pour les autres formes, ne touche rien.`;
+    },
+    duration: '≈ 45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: reflexeLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -215,13 +272,17 @@ export const GAME_ORDER: readonly GameId[] = [
   'total',
   'diable',
   'monnaie',
+  'pluie',
   'matrice',
   'nback',
   'ordre',
   'stroop',
   'intrus',
   'boutique',
+  'fleches',
   'schulte',
+  'correspondance',
+  'reflexe',
   'anagrammes',
 ];
 
@@ -237,6 +298,10 @@ export const DAILY_ROTATION: readonly GameId[] = [
   'diable',
   'ordre',
   'monnaie',
+  'pluie',
+  'correspondance',
+  'fleches',
+  'reflexe',
 ];
 
 export function isGameId(value: string): value is GameId {

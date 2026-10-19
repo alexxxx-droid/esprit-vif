@@ -4,26 +4,34 @@ import type { GameProps } from '../game/chrome';
 import { AnagrammesGame } from './AnagrammesGame';
 import { BoutiqueGame } from './BoutiqueGame';
 import { CalculGame } from './CalculGame';
+import { CorrespondanceGame } from './CorrespondanceGame';
 import { DiableGame } from './DiableGame';
 import {
   AnagrammesDemo,
   BoutiqueDemo,
   CalculDemo,
+  CorrespondanceDemo,
   DiableDemo,
+  FlechesDemo,
   IntrusDemo,
   MatriceDemo,
   MonnaieDemo,
   NBackDemo,
   OrdreDemo,
+  PluieDemo,
+  ReflexeDemo,
   SchulteDemo,
   StroopDemo,
   TotalDemo,
 } from './demos';
+import { FlechesGame } from './FlechesGame';
 import { IntrusGame } from './IntrusGame';
 import { MatriceGame } from './MatriceGame';
 import { MonnaieGame } from './MonnaieGame';
 import { NBackGame } from './NBackGame';
 import { OrdreGame } from './OrdreGame';
+import { PluieGame } from './PluieGame';
+import { ReflexeGame } from './ReflexeGame';
 import { SchulteGame } from './SchulteGame';
 import { StroopGame } from './StroopGame';
 import { TotalGame } from './TotalGame';
@@ -41,6 +49,10 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   diable: DiableGame,
   ordre: OrdreGame,
   monnaie: MonnaieGame,
+  pluie: PluieGame,
+  correspondance: CorrespondanceGame,
+  fleches: FlechesGame,
+  reflexe: ReflexeGame,
 };
 
 /** Mini-démonstrations animées de l'écran d'intro. */
@@ -57,4 +69,8 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   diable: DiableDemo,
   ordre: OrdreDemo,
   monnaie: MonnaieDemo,
+  pluie: PluieDemo,
+  correspondance: CorrespondanceDemo,
+  fleches: FlechesDemo,
+  reflexe: ReflexeDemo,
 };

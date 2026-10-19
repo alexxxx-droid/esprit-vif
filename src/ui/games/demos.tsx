@@ -1,4 +1,7 @@
+import type { ShapeKind } from '../../core/games/shapes';
 import { Icon } from '../components/Icon';
+import { Shape } from '../components/Shape';
+import { Arrow } from './FlechesGame';
 import { useLoop, useReducedMotion } from '../hooks';
 
 /**
@@ -316,6 +319,86 @@ export function MonnaieDemo() {
       <p className="demo__caption">
         {frame >= 2 ? '= 3,50 €' : 'Combien en tout ?'}
         <Tick show={frame >= 3} />
+      </p>
+    </div>
+  );
+}
+
+export function PluieDemo() {
+  const frame = useDemoFrame(5, 750, 3);
+  return (
+    <div className="demo">
+      <div className="demo-rain">
+        {frame < 3 && (
+          <span className="demo-rain__drop" style={{ top: `${8 + frame * 22}%` }}>
+            3 + 4
+          </span>
+        )}
+        {frame >= 3 && <span className="demo-rain__pop" />}
+        <span className="demo-rain__water" />
+      </div>
+      <p className="demo__caption">
+        {frame < 2 ? 'Tape le résultat avant l’eau' : frame === 2 ? '7…' : 'Plouf, résolue !'}
+        <Tick show={frame >= 3} />
+      </p>
+    </div>
+  );
+}
+
+const MATCH_SCRIPT: { shape: ShapeKind; answer: string }[] = [
+  { shape: 'circle', answer: '' },
+  { shape: 'circle', answer: 'Oui' },
+  { shape: 'square', answer: 'Non' },
+  { shape: 'square', answer: 'Oui' },
+];
+
+export function CorrespondanceDemo() {
+  const frame = useDemoFrame(MATCH_SCRIPT.length, 1000, 1);
+  const step = MATCH_SCRIPT[frame];
+  return (
+    <div className="demo">
+      <div key={frame} className="match-card match-card--demo">
+        <Shape card={{ shape: step.shape, filled: true, rotation: 0 }} size={64} />
+      </div>
+      <p className="demo__caption">
+        {step.answer ? `Pareille qu’avant ? ${step.answer}` : 'Retiens la carte'}
+        <Tick show={Boolean(step.answer)} />
+      </p>
+    </div>
+  );
+}
+
+export function FlechesDemo() {
+  const frame = useDemoFrame(4, 900, 2);
+  const row: ('left' | 'right')[] = frame < 2 ? ['left', 'left', 'right', 'left', 'left'] : ['right', 'right', 'right', 'right', 'right'];
+  return (
+    <div className="demo">
+      <div className="demo-arrows">
+        {row.map((dir, i) => (
+          <span key={i} className={i === 2 ? 'is-center' : undefined}>
+            <Arrow dir={dir} size={28} />
+          </span>
+        ))}
+      </div>
+      <p className="demo__caption">
+        Celle du milieu : à droite
+        <Tick show={frame % 2 === 1} />
+      </p>
+    </div>
+  );
+}
+
+export function ReflexeDemo() {
+  const frame = useDemoFrame(4, 900, 1);
+  const shape: ShapeKind = frame < 2 ? 'circle' : 'square';
+  return (
+    <div className="demo">
+      <div className={`demo-reflex${frame % 2 === 1 && shape === 'circle' ? ' is-tapped' : ''}`}>
+        <Shape card={{ shape, filled: true, rotation: 0 }} size={60} />
+      </div>
+      <p className="demo__caption">
+        {shape === 'circle' ? (frame % 2 === 1 ? 'Rond : je touche !' : 'Un rond…') : frame % 2 === 1 ? 'Carré : je me retiens' : 'Un carré…'}
+        <Tick show={frame % 2 === 1} />
       </p>
     </div>
   );

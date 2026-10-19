@@ -121,7 +121,29 @@ l'intro, sans pénalité : un chrono qui tourne pendant un appel fausserait le s
 ## Série et tampons
 
 Un jour compte dès qu'**une partie**, quelle qu'elle soit, a été terminée. La série en cours
-reste valable jusqu'à la fin de la journée suivante.
+reste valable jusqu'à la fin de la journée suivante. **Un jour de repos est pardonné, au plus une
+fois tous les 7 jours** (`REST_DAY_EVERY`) ; deux jours manqués d'affilée rompent la série. Le
+lendemain d'un repos, l'accueil le dit gentiment. Les trophées de série suivent la même règle.
+
+## Confort et plaisir (v2.1)
+
+Inspiré de ce que les joueurs saluent ou reprochent aux grandes applis du genre (Lumosity,
+Elevate, Peak, NeuroNation, CogniFit) :
+
+- **Une vignette par jeu** (`GameArt.tsx`) : les applis les plus appréciées donnent à chaque jeu
+  une image reconnaissable ; ici 24 dessins originaux, deux encres sur la couleur du domaine.
+- **Ambiance du domaine** : un halo discret et la barre de progression à la couleur du domaine,
+  de l'intro au résultat. Purement décoratif : aucune information ne passe par la seule couleur.
+- **Se comparer à soi** : sans serveur, pas de classement mondial ; le résultat situe la partie
+  par rapport aux 10 précédentes du même jeu (`compare.ts`, ±3 pts = « dans ta moyenne »).
+- **Célébrer** : confettis pour un record, trois étoiles, une médaille ou un nouveau rang ; rien
+  quand le système demande moins d'animations.
+- **Des constats, pas seulement des chiffres** (`insights.ts`) : un score sans interprétation
+  n'aide personne. Chaque constat exige assez de parties (3 par période, 6 par moment de la
+  journée) ; le « meilleur moment » compare chaque partie à la moyenne de son jeu.
+- **Progrès en onglets** (Résumé, Trophées, Records) : l'écran faisait près de 15 000 px ;
+  les trophées se rangent du plus avancé au moins avancé.
+- **Série qui pardonne** : la pression des séries est la plainte la plus fréquente sur ces applis.
 
 ## Couleurs
 

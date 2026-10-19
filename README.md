@@ -27,6 +27,9 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
   « Esprit légendaire ». **35 trophées** récompensent la régularité, la curiosité et les exploits.
 - **Carte du cerveau** : les six domaines sur un radar, d’après les dernières parties.
 - **Le mot du coach** : un conseil différent chaque jour.
+- **Ce que disent tes parties** : tes tendances en clair (domaine qui progresse, meilleur moment
+  de la journée, régularité), et après chaque partie, où tu te situes par rapport à ta moyenne.
+- **Une série qui pardonne** : un jour de repos par semaine ne casse pas ta série.
 
 Quatre façons de jouer :
 

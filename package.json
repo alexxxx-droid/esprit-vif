@@ -1,7 +1,7 @@
 {
   "name": "esprit-vif",
   "private": true,
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Esprit Vif — quelques minutes par jour pour garder l'esprit vif.",
   "type": "module",
   "engines": {

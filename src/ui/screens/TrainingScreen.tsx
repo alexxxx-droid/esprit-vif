@@ -5,6 +5,7 @@ import { MAX_LEVEL } from '../../core/levels';
 import { gameStars, medalFor } from '../../core/progression';
 import { gameUnlocked } from '../../store/progress';
 import { DomainBadge, ScreenHeader } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { MedalBadge } from '../components/progress-bits';
 import { useToday } from '../hooks';
@@ -101,7 +102,7 @@ function GameCard({ meta }: { meta: GameMeta }) {
   return (
     <button type="button" className="game-card" onClick={() => navigate({ name: 'play', gameId: meta.id })}>
       <span className="game-card__top">
-        <DomainBadge domain={meta.domain} />
+        <GameArt gameId={meta.id} size={52} />
         {medal && <MedalBadge medal={medal} />}
       </span>
       <span className="game-card__name">{meta.name}</span>

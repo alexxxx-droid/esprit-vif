@@ -195,6 +195,26 @@
   gap: 12px;
 }
 
+.intro__hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.intro__art {
+  box-shadow:
+    inset 0 -3px 0 rgb(0 0 0 / 10%),
+    0 14px 28px -14px var(--art-bg);
+  animation: art-in 420ms var(--ease-spring) both;
+}
+
+@keyframes art-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-8deg);
+  }
+}
+
 .intro__title {
   font-size: clamp(2.25rem, 11vw, 3rem);
   font-weight: 800;

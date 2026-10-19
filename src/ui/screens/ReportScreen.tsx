@@ -3,7 +3,7 @@ import { formatLongDay, plural } from '../../core/format';
 import { DOMAINS, GAMES } from '../../core/games/registry';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 import { officialTests, type TestRecord } from '../../store/progress';
-import { DomainBadge } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { useCountUp } from '../hooks';
 import { useProgress } from '../progress-context';
@@ -68,7 +68,7 @@ export function ReportScreen({ testId }: { testId: string }) {
             return (
               <li key={gameId} className="score-bar">
                 <div className="score-bar__head">
-                  <DomainBadge domain={meta.domain} size={32} />
+                  <GameArt gameId={gameId} size={36} />
                   <span className="score-bar__name">
                     {DOMAINS[meta.domain].name}
                     <span className="score-bar__game">{meta.name}</span>

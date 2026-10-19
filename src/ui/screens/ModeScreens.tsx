@@ -18,6 +18,7 @@ import { randomSeed } from '../../core/rng';
 import type { Domain, GameId } from '../../core/types';
 import { gameLevel } from '../../store/progress';
 import { DomainBadge } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { GameRunner } from '../game/GameRunner';
 import { useToday } from '../hooks';
@@ -92,7 +93,7 @@ export function SessionScreen() {
       <ol className="mode-list">
         {picks.map((pick) => (
           <li key={pick.gameId} className={`mode-item${done.has(pick.gameId) ? ' is-done' : ''}`}>
-            <DomainBadge domain={pick.domain} />
+            <GameArt gameId={pick.gameId} size={44} />
             <span className="mode-item__text">
               <span className="mode-item__name">{GAMES[pick.gameId].name}</span>
               <span className="mode-item__sub">
@@ -256,9 +257,11 @@ function MarathonRun({ domain }: { domain: Domain }) {
       <ol className="mode-list">
         {games.map((gameId, i) => (
           <li key={gameId} className={`mode-item${scores[i] !== undefined ? ' is-done' : ''}`}>
-            <span className="mode-item__rank">{i + 1}</span>
+            <GameArt gameId={gameId} size={44} />
             <span className="mode-item__text">
-              <span className="mode-item__name">{GAMES[gameId].name}</span>
+              <span className="mode-item__name">
+                {i + 1}. {GAMES[gameId].name}
+              </span>
               <span className="mode-item__sub">niveau {gameLevel(data, gameId)}</span>
             </span>
             {scores[i] !== undefined && <span className="mode-item__score">{scores[i]} pts</span>}
@@ -507,9 +510,11 @@ export function DuelScreen() {
           const w = roundWinner(s);
           return (
             <li key={i} className="mode-item">
-              <span className="mode-item__rank">{i + 1}</span>
+              <GameArt gameId={r.gameId} size={44} />
               <span className="mode-item__text">
-                <span className="mode-item__name">{GAMES[r.gameId].name}</span>
+                <span className="mode-item__name">
+                  Manche {i + 1} · {GAMES[r.gameId].name}
+                </span>
                 <span className="mode-item__sub">{w === null ? 'égalité' : `pour ${nameOf(w)}`}</span>
               </span>
               <span className="mode-item__score">

@@ -7,7 +7,7 @@ import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
 import { officialTests, testInProgress, type TestRecord } from '../../store/progress';
-import { DomainBadge } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
@@ -306,7 +306,7 @@ function Programme({ games, test }: { games: GameId[]; test: TestRecord | null }
           const done = test?.results.some((r) => r.gameId === id);
           return (
             <li key={id} className={`programme__item${done ? ' is-done' : ''}`}>
-              <DomainBadge domain={GAMES[id].domain} size={36} />
+              <GameArt gameId={id} size={40} />
               <span className="programme__text">
                 <span className="programme__name">{GAMES[id].name}</span>
                 <span className="programme__domain">{DOMAINS[GAMES[id].domain].name}</span>

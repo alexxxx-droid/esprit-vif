@@ -2,6 +2,7 @@ import type { GameMeta } from '../../core/games/registry';
 import { MAX_LEVEL } from '../../core/levels';
 import { bestFor } from '../../store/progress';
 import { DomainChip } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { LevelPicker } from '../components/progress-bits';
 import { GAME_DEMOS } from '../games/catalog';
@@ -33,7 +34,10 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       </header>
 
       <div className="intro__head">
-        <DomainChip domain={meta.domain} />
+        <div className="intro__hero">
+          <GameArt gameId={meta.id} size={76} className="intro__art" />
+          <DomainChip domain={meta.domain} />
+        </div>
         <h1 className="intro__title">{meta.name}</h1>
         <p className="intro__rule">{meta.rule(level)}</p>
       </div>

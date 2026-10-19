@@ -8,6 +8,7 @@ import { bestOverall, gameUnlocked, officialTests } from '../../store/progress';
 import { BrainAgeChart } from '../components/BrainAgeChart';
 import { BrainMap } from '../components/BrainMap';
 import { DomainBadge, ScreenHeader } from '../components/bits';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { MedalBadge, RankBar } from '../components/progress-bits';
 import { useToday } from '../hooks';
@@ -165,7 +166,7 @@ export function ProgressScreen() {
             return (
               <li key={id}>
                 <button type="button" className="record" onClick={() => navigate({ name: 'play', gameId: id })}>
-                  <DomainBadge domain={GAMES[id].domain} size={36} />
+                  <GameArt gameId={id} size={40} />
                   <span className="record__text">
                     <span className="record__name">{GAMES[id].name}</span>
                     <span className="record__detail">

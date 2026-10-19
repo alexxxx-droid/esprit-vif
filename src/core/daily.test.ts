@@ -6,6 +6,7 @@ import {
   bestStreak,
   monthGrid,
   currentStreak,
+  currentStreakDetail,
   dailyGames,
   dailySeed,
   dayIndex,
@@ -93,6 +94,16 @@ describe('séries de jours', () => {
 
   it('traverse les changements de mois et ignore les doublons', () => {
     expect(currentStreak(['2026-09-30', '2026-10-01', '2026-10-01'], '2026-10-01')).toBe(2);
+  });
+
+  it('pardonne un jour de repos par semaine, jamais deux jours d’affilée', () => {
+    expect(currentStreak(['2026-10-16', '2026-10-17', '2026-10-19'], '2026-10-19')).toBe(3);
+    // Hier manqué, aujourd'hui pas encore joué : la série tient encore.
+    expect(currentStreakDetail(['2026-10-16', '2026-10-17'], '2026-10-19')).toEqual({ count: 2, rests: ['2026-10-18'] });
+    // Deux repos à moins de 7 jours : la série s'arrête au second.
+    expect(currentStreak(['2026-10-10', '2026-10-11', '2026-10-13', '2026-10-14', '2026-10-16'], '2026-10-16')).toBe(3);
+    expect(currentStreak(['2026-10-06', '2026-10-07', '2026-10-09', '2026-10-10', '2026-10-11', '2026-10-12', '2026-10-13', '2026-10-14', '2026-10-16'], '2026-10-16')).toBe(9);
+    expect(bestStreak(['2026-10-01', '2026-10-02', '2026-10-04', '2026-10-05'])).toBe(4);
   });
 
   it('retrouve la meilleure série', () => {

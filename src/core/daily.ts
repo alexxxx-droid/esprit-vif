@@ -51,19 +51,48 @@ export function hasOfficialTest(tests: readonly TestLike[], day: string): boolea
   return tests.some((t) => t.done && t.official && t.day === day);
 }
 
-/**
- * Série de jours consécutifs avec au moins un entraînement. Tant que la journée
- * n'est pas finie, la série d'hier reste valable.
- */
-export function currentStreak(days: Iterable<string>, today: string): number {
-  const set = new Set(days);
-  let cursor = set.has(today) ? today : addDays(today, -1);
+/** Un jour de repos est pardonné, au plus une fois tous les 7 jours : encourager, jamais culpabiliser. */
+export const REST_DAY_EVERY = 7;
+
+export interface StreakDetail {
+  /** Jours joués dans la série. */
+  count: number;
+  /** Jours manqués pardonnés à l'intérieur de la série. */
+  rests: string[];
+}
+
+/** Remonte le temps depuis `start` tant que la série tient (deux jours manqués d'affilée la rompent). */
+function walkBack(set: ReadonlySet<string>, start: string, leadingRest: boolean): StreakDetail {
+  let cursor = start;
   let count = 0;
-  while (set.has(cursor)) {
-    count++;
-    cursor = addDays(cursor, -1);
+  const rests: string[] = [];
+  for (;;) {
+    if (set.has(cursor)) {
+      count++;
+      cursor = addDays(cursor, -1);
+      continue;
+    }
+    const before = addDays(cursor, -1);
+    const lastRest = rests.at(-1);
+    const restAllowed = (count > 0 || leadingRest) && set.has(before) && (!lastRest || dayIndex(lastRest) - dayIndex(cursor) >= REST_DAY_EVERY);
+    if (!restAllowed) break;
+    rests.push(cursor);
+    cursor = before;
   }
-  return count;
+  return { count, rests };
+}
+
+/**
+ * Série en cours : jours d'entraînement à la suite, un jour de repos par semaine toléré.
+ * Tant que la journée n'est pas finie, la série d'hier reste valable (et hier peut être le jour de repos).
+ */
+export function currentStreakDetail(days: Iterable<string>, today: string): StreakDetail {
+  const set = new Set(days);
+  return set.has(today) ? walkBack(set, today, false) : walkBack(set, addDays(today, -1), true);
+}
+
+export function currentStreak(days: Iterable<string>, today: string): number {
+  return currentStreakDetail(days, today).count;
 }
 
 /**
@@ -87,14 +116,9 @@ export function addMonths(year: number, month: number, delta: number): [number, 
 }
 
 export function bestStreak(days: Iterable<string>): number {
-  const sorted = [...new Set(days)].sort();
+  const set = new Set(days);
   let best = 0;
-  let run = 0;
-  let previous: string | null = null;
-  for (const day of sorted) {
-    run = previous !== null && addDays(previous, 1) === day ? run + 1 : 1;
-    best = Math.max(best, run);
-    previous = day;
-  }
+  // Une série se termine forcément sur un jour joué dont le lendemain ne l'est pas.
+  for (const day of set) if (!set.has(addDays(day, 1))) best = Math.max(best, walkBack(set, day, false).count);
   return best;
 }

@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { coachTip } from '../../core/coach';
-import { addDays, currentStreak, dailyGames, hasOfficialTest } from '../../core/daily';
+import { addDays, currentStreakDetail, dailyGames, hasOfficialTest } from '../../core/daily';
 import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { sessionDone, sessionGames } from '../../core/modes';
@@ -34,10 +34,12 @@ export function HomeScreen() {
   const tests = officialTests(data);
   const last = tests.at(-1);
   const previous = tests.at(-2);
-  const streak = currentStreak(
+  const { count: streak, rests } = currentStreakDetail(
     data.plays.map((p) => p.day),
     today,
   );
+  // Hier a servi de jour de repos : un mot gentil, pas une alarme.
+  const restedYesterday = streak > 0 && rests[0] === addDays(today, -1) && !data.plays.some((p) => p.day === today);
   const programme = inProgress?.games ?? dailyGames(today, DAILY_ROTATION);
   const reminderDue =
     data.settings.reminder && !doneToday && !inProgress && minute >= minutesOf(data.settings.reminderTime);
@@ -111,6 +113,13 @@ export function HomeScreen() {
         <p className="notice notice--accent" role="status">
           <Icon name="bell" size={20} />
           C’est l’heure de ton test du jour. Cinq minutes suffisent&nbsp;!
+        </p>
+      )}
+
+      {restedYesterday && (
+        <p className="notice notice--warm" role="status">
+          <Icon name="flame" size={20} />
+          Hier était ton jour de repos. Une partie aujourd’hui et ta série de {plural(streak, 'jour')} continue&nbsp;!
         </p>
       )}
 

@@ -1,0 +1,173 @@
+import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { DIRS, generateIti, ITI_TRIALS, itiLevel, scoreIti, type Cell, type ItiTrial, type Move } from '../../core/games/itineraire';
+import { createRng } from '../../core/rng';
+import { FeedbackMark } from '../components/Feedback';
+import { useFeedback } from '../components/feedback-state';
+import { Icon } from '../components/Icon';
+import { Mascot } from '../components/Mascot';
+import { TapButton } from '../components/TapButton';
+import { fx } from '../fx/fx';
+import { useProfiles } from '../profiles-context';
+import type { GameProps } from '../game/chrome';
+import { GameHud } from '../game/Hud';
+import { slow } from '../tempo';
+
+const ROTATION = { right: 0, down: 90, left: 180, up: -90 } as const;
+
+/** Un déplacement : la flèche, et le nombre de cases s'il y en a plusieurs. */
+export function MoveChip({ move, big }: { move: Move; big?: boolean }) {
+  return (
+    <span className={`iti-move${big ? ' iti-move--big' : ''}`} aria-label={`${move.steps} case${move.steps > 1 ? 's' : ''} ${DIRS[move.dir].label}`}>
+      <span style={{ transform: `rotate(${ROTATION[move.dir]}deg)` }} aria-hidden="true">
+        <Icon name="arrow" size={big ? 44 : 24} strokeWidth={big ? 3 : 2.6} />
+      </span>
+      {move.steps > 1 && <b aria-hidden="true">{move.steps}</b>}
+    </span>
+  );
+}
+
+const same = (a: Cell | null, b: Cell) => a !== null && a.col === b.col && a.row === b.row;
+
+interface GridProps {
+  trial: Pick<ItiTrial, 'size' | 'start' | 'path' | 'end'>;
+  picked: Cell | null;
+  showPath: boolean;
+  disabled?: boolean;
+  onPick?: (cell: Cell) => void;
+}
+
+export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps) {
+  // Le compagnon du joueur marque le départ.
+  const { active } = useProfiles();
+  const cells = Array.from({ length: trial.size * trial.size }, (_, i) => ({ col: i % trial.size, row: Math.floor(i / trial.size) }));
+  return (
+    <div className="iti-grid" style={{ gridTemplateColumns: `repeat(${trial.size}, 1fr)` }}>
+      {cells.map((cell) => {
+        const start = same(trial.start, cell);
+        const state = picked ? (same(picked, cell) ? (same(trial.end, cell) ? ' is-right' : ' is-wrong') : showPath && same(trial.end, cell) ? ' is-answer' : '') : '';
+        return (
+          <TapButton
+            key={`${cell.col}-${cell.row}`}
+            className={`iti-cell${start ? ' is-start' : ''}${state}`}
+            onTap={() => onPick?.(cell)}
+            disabled={disabled || !onPick}
+            aria-label={`Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}`}
+          >
+            {start && <Mascot character={active.character} mood="happy" size={30} still />}
+          </TapButton>
+        );
+      })}
+      {showPath && (
+        <svg className="iti-path" viewBox={`0 0 ${trial.size} ${trial.size}`} aria-hidden="true">
+          <polyline points={trial.path.map((c) => `${c.col + 0.5},${c.row + 0.5}`).join(' ')} />
+          <circle cx={trial.end.col + 0.5} cy={trial.end.row + 0.5} r={0.14} />
+        </svg>
+      )}
+    </div>
+  );
+}
+
+type Phase = 'show' | 'answer' | 'reveal';
+
+export function ItiGame({ seed, level, onFinish }: GameProps) {
+  const config = itiLevel(level);
+  const trials = useMemo(() => generateIti(createRng(seed), level), [seed, level]);
+  const [index, setIndex] = useState(0);
+  const [phase, setPhase] = useState<Phase>('show');
+  const [step, setStep] = useState(0);
+  const [picked, setPicked] = useState<Cell | null>(null);
+  const [correct, setCorrect] = useState(0);
+  const [mark, showMark] = useFeedback();
+  const trial = trials[index];
+  const right = picked !== null && same(picked, trial.end);
+
+  const finish = useEffectEvent(() => {
+    onFinish({
+      score: scoreIti(correct),
+      stats: { correct, trials: ITI_TRIALS },
+      headline: `${correct} trajet${correct > 1 ? 's' : ''} sur ${ITI_TRIALS}`,
+      lines: [
+        { label: 'Trajets retrouvés', value: `${correct} / ${ITI_TRIALS}` },
+        { label: 'Déplacements par trajet', value: String(config.moves) },
+      ],
+    });
+  });
+
+  // Les flèches : toutes ensemble un moment, ou une par une ; puis on cherche l'arrivée de tête.
+  useEffect(() => {
+    if (phase !== 'show') return;
+    if (!config.oneByOne) {
+      const id = window.setTimeout(() => setPhase('answer'), slow(config.showMs));
+      return () => window.clearTimeout(id);
+    }
+    const id = window.setTimeout(() => {
+      if (step + 1 < trial.moves.length) setStep(step + 1);
+      else setPhase('answer');
+    }, slow(config.showMs));
+    return () => window.clearTimeout(id);
+  }, [phase, step, config.oneByOne, config.showMs, trial.moves.length]);
+
+  // Révélation, puis trajet suivant.
+  useEffect(() => {
+    if (phase !== 'reveal') return;
+    const id = window.setTimeout(
+      () => {
+        if (index + 1 >= trials.length) {
+          finish();
+          return;
+        }
+        setIndex(index + 1);
+        setStep(0);
+        setPicked(null);
+        setPhase('show');
+      },
+      right ? 900 : 1900,
+    );
+    return () => window.clearTimeout(id);
+  }, [phase, index, trials.length, right]);
+
+  const pick = (cell: Cell) => {
+    if (phase === 'reveal' || (phase === 'show' && config.oneByOne)) return;
+    setPicked(cell);
+    setPhase('reveal');
+    if (same(cell, trial.end)) {
+      fx.good();
+      showMark('good');
+      setCorrect(correct + 1);
+    } else {
+      fx.bad();
+      showMark('bad', 'Voici le trajet');
+    }
+  };
+
+  return (
+    <div className="game">
+      <GameHud progress={(index + (phase === 'reveal' ? 1 : 0)) / trials.length} />
+      <div className="game__stage iti">
+        <div className={`iti__moves${phase === 'show' && config.oneByOne ? ' iti__moves--one' : ''}`} aria-live="polite">
+          {phase === 'show' ? (
+            config.oneByOne ? (
+              <>
+                <MoveChip key={step} move={trial.moves[step]} big />
+                <span className="iti__count">
+                  {step + 1} / {trial.moves.length}
+                </span>
+              </>
+            ) : (
+              trial.moves.map((move, i) => <MoveChip key={i} move={move} />)
+            )
+          ) : phase === 'answer' ? (
+            <p className="lettre__ask">Où arrives-tu&nbsp;? Touche la case.</p>
+          ) : (
+            trial.moves.map((move, i) => <MoveChip key={i} move={move} />)
+          )}
+        </div>
+        <ItiGrid trial={trial} picked={picked} showPath={phase === 'reveal' && !right} disabled={phase === 'reveal' || (phase === 'show' && config.oneByOne)} onPick={pick} />
+        <p className="qui__round">
+          Trajet {index + 1}/{trials.length}
+        </p>
+        <FeedbackMark mark={mark} />
+      </div>
+    </div>
+  );
+}

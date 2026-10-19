@@ -4042,3 +4042,156 @@
   background: var(--accent);
   color: var(--accent-ink);
 }
+
+/* ---------- Itinéraire ---------- */
+
+.iti {
+  gap: 16px;
+}
+
+.iti__moves {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 92px;
+}
+
+.iti__moves--one {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.iti-move {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--accent);
+  animation: pop 220ms var(--ease-spring) both;
+}
+
+.iti-move > span {
+  display: grid;
+  place-items: center;
+}
+
+.iti-move b {
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 820;
+}
+
+.iti-move--big {
+  gap: 6px;
+  padding: 16px 20px;
+  border-radius: 22px;
+}
+
+.iti-move--big b {
+  font-size: 2rem;
+}
+
+.iti__count {
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.iti-grid {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  width: min(100%, 46dvh, 360px);
+  aspect-ratio: 1;
+}
+
+.iti-cell {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transition:
+    background-color 160ms,
+    transform 80ms;
+}
+
+.iti-cell:disabled {
+  opacity: 1;
+}
+
+.iti-cell:not(:disabled):active {
+  transform: scale(0.94);
+}
+
+.iti-cell.is-start {
+  box-shadow:
+    inset 0 0 0 3px var(--accent),
+    var(--shadow-1);
+}
+
+.iti-cell.is-right {
+  background: var(--good);
+}
+
+.iti-cell.is-wrong {
+  background: var(--bad);
+}
+
+.iti-cell.is-answer {
+  box-shadow:
+    inset 0 0 0 3px var(--good),
+    var(--shadow-1);
+}
+
+.iti-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.iti-path polyline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-dasharray: 0.12 0.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.1;
+  opacity: 0.85;
+}
+
+.iti-path circle {
+  fill: var(--good);
+}
+
+.demo-iti {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.demo-iti .iti__moves {
+  min-height: 0;
+}
+
+.demo-iti .iti-grid {
+  width: 150px;
+  gap: 3px;
+}
+
+.demo-iti .iti-cell {
+  border-radius: 6px;
+}

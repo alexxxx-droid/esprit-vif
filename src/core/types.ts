@@ -27,7 +27,8 @@ export type GameId =
   | 'paires'
   | 'coupdoeil'
   | 'quiestqui'
-  | 'lecture';
+  | 'lecture'
+  | 'itineraire';
 
 export type PlayMode = 'free' | 'daily';
 

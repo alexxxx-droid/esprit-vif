@@ -102,6 +102,29 @@ Les seuils du niveau 1 (la spec) ; les niveaux suivants sont dans les tables de 
 - **Paires** : les faces se distinguent toujours par la forme (et le remplissage), la couleur ne
   fait qu'aider ; 70 % du score pour les paires trouvées, 30 % pour l'économie de coups.
 
+## Le 5e pack (v2.5)
+
+Quatre jeux de plus, un par domaine qui en manquait le plus, tous en **entiers et sans saisie** :
+
+- **Coup d'œil** (Vitesse, `coupdoeil.ts`) : deux nuées mêlées, bleue et orange (teintes que les
+  daltoniens distinguent), montrées un instant. Le rapport entre les nuées descend de 2 à 1,1 et
+  l'affichage de 1,5 s à 0,45 s. Une fois sur deux, la nuée la plus nombreuse a les plus petits
+  points : la surface d'encre ne dit rien de la réponse (test : moins de 75 % de « bons indices »).
+  Barème : bonnes réponses moins erreurs, le hasard rapporte 0.
+- **Qui est qui ?** (Mémoire, `quiestqui.ts`) : des compagnons (fruit × couleur de fond) et leurs
+  prénoms, 3 manches. Plus haut : jusqu'à 10 visages, le même fruit sur plusieurs fonds, des
+  prénoms à la même initiale, et la question inverse (« Quel est son prénom ? »). Aucun fruit
+  sur un fond où il se verrait mal (`CLASHING_COLORS`). Barème : part de bonnes réponses.
+- **Lecture éclair** (Langage, `lecture.ts`) : 120 idées écrites à la main, chacune en version
+  vraie et fausse (on ne peut pas retenir « cette phrase est fausse »), en trois paliers :
+  courtes, longues, puis négations et petits raisonnements. Pas de tournure ambiguë (« Tous les
+  chiens ne sont pas noirs » est devenu « Les chiens ne sont pas tous noirs »). Barème : bonnes
+  réponses moins erreurs.
+- **Itinéraire** (Logique, `itineraire.ts`) : une suite de flèches sur une grille, qui disparaît ;
+  toucher la case d'arrivée. Jamais de demi-tour immédiat (il annulerait le pas précédent) ni
+  d'arrivée sur le départ. Dès le niveau 10, les flèches défilent une par une. Après une erreur,
+  le bon trajet est tracé. Barème : trajets retrouvés sur 8.
+
 ## Modes de jeu
 
 - **Séance du jour** (`src/core/modes.ts`) : 4 jeux de 4 domaines, les deux domaines les plus
@@ -161,7 +184,7 @@ Inspiré de ce que les joueurs saluent ou reprochent aux grandes applis du genre
 Elevate, Peak, NeuroNation, CogniFit) :
 
 - **Une vignette par jeu** (`GameArt.tsx`) : les applis les plus appréciées donnent à chaque jeu
-  une image reconnaissable ; ici 24 dessins originaux, deux encres sur la couleur du domaine.
+  une image reconnaissable ; ici 28 dessins originaux, deux encres sur la couleur du domaine.
 - **Ambiance du domaine** : un halo discret et la barre de progression à la couleur du domaine,
   de l'intro au résultat. Purement décoratif : aucune information ne passe par la seule couleur.
 - **Se comparer à soi** : sans serveur, pas de classement mondial ; le résultat situe la partie

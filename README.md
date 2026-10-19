@@ -10,16 +10,16 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 
 ## Au programme
 
-**24 mini-jeux** répartis en six domaines, chacun avec **20 niveaux** :
+**28 mini-jeux** répartis en six domaines, chacun avec **20 niveaux** :
 
 | Domaine | Jeux |
 | --- | --- |
 | Calcul | Calcul éclair, Total cumulé, Calcul du diable, Monnaie, Pluie de calculs |
-| Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires |
+| Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires, Qui est qui ? |
 | Attention | Couleurs piégées, L’intrus, La boutique, Flèches |
-| Vitesse | Table de Schulte, Correspondance express, Réflexe |
-| Langage | Anagrammes, Lettre manquante, Catégories |
-| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku |
+| Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil |
+| Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair |
+| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
 - **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20.

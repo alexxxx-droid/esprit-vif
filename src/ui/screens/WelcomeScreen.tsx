@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { dailyGames } from '../../core/daily';
-import { DAILY_ROTATION, DOMAIN_ORDER, GAMES } from '../../core/games/registry';
+import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES } from '../../core/games/registry';
 import type { CharacterId } from '../../core/characters';
 import type { Domain, GameId } from '../../core/types';
 import { DomainBadge } from '../components/bits';
@@ -66,7 +66,7 @@ export function WelcomeScreen() {
           <div className="intro__head">
             <h1 className="intro__title">Bienvenue sur Esprit Vif&nbsp;!</h1>
             <p className="intro__rule">
-              Quelques minutes par jour, 24 mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance&nbsp;!
+              Quelques minutes par jour, {GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance&nbsp;!
             </p>
           </div>
           <label className="field">

@@ -220,6 +220,16 @@ const ART: Record<GameId, ReactNode> = {
       </text>
     </>
   ),
+  itineraire: (
+    <>
+      {[6, 18, 30].flatMap((y) =>
+        [6, 18, 30].map((x) => <rect key={`${x}-${y}`} className="s" x={x} y={y} width="11" height="11" rx="3" />),
+      )}
+      <path className="ks" d="M11.5 35.5h24V11.5" strokeWidth={3} />
+      <path className="ks" d="M31 16l4.5-4.5L40 16" strokeWidth={3} />
+      <circle className="k" cx="11.5" cy="35.5" r="4" />
+    </>
+  ),
   lecture: (
     <>
       <rect className="s" x="5" y="9" width="38" height="5" rx="2.5" />

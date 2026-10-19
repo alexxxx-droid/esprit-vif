@@ -8,6 +8,7 @@ import { COUP_GROUPS } from './coup-groups';
 import { DotField } from './CoupGame';
 import { Arrow } from './FlechesGame';
 import { ClockFace } from './HorlogesGame';
+import { ItiGrid, MoveChip } from './ItiGame';
 import { WordTiles } from './LettreGame';
 import { PairCard } from './PairesGame';
 import { PersonFace } from './QuiGame';
@@ -711,6 +712,38 @@ export function LectureDemo() {
       <p className="demo__caption">
         {answered ? (q.truth ? 'Vrai, bien sûr' : 'Faux : elle est salée') : 'Vrai ou faux ?'}
         <Tick show={answered} />
+      </p>
+    </div>
+  );
+}
+
+const ITI_DEMO = {
+  size: 4,
+  start: { col: 0, row: 3 },
+  moves: [
+    { dir: 'right' as const, steps: 2 },
+    { dir: 'up' as const, steps: 1 },
+  ],
+  path: [
+    { col: 0, row: 3 },
+    { col: 1, row: 3 },
+    { col: 2, row: 3 },
+    { col: 2, row: 2 },
+  ],
+  end: { col: 2, row: 2 },
+};
+
+export function ItiDemo() {
+  const frame = useDemoFrame(3, 1300, 2);
+  return (
+    <div className="demo demo-iti">
+      <div className="iti__moves">
+        {frame === 1 ? <span className="demo__caption">Où arrive-t-on ?</span> : ITI_DEMO.moves.map((m, i) => <MoveChip key={i} move={m} />)}
+      </div>
+      <ItiGrid trial={ITI_DEMO} picked={frame === 2 ? ITI_DEMO.end : null} showPath={false} />
+      <p className="demo__caption">
+        {frame === 0 ? 'Deux à droite, un en haut…' : frame === 1 ? 'Les flèches ont disparu' : 'Ici !'}
+        <Tick show={frame === 2} />
       </p>
     </div>
   );

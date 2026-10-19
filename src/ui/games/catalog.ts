@@ -23,6 +23,7 @@ import {
   LectureDemo,
   LettreDemo,
   IntrusDemo,
+  ItiDemo,
   MatriceDemo,
   MonnaieDemo,
   MotsDemo,
@@ -41,6 +42,7 @@ import {
 import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
+import { ItiGame } from './ItiGame';
 import { LectureGame } from './LectureGame';
 import { LettreGame } from './LettreGame';
 import { MatriceGame } from './MatriceGame';
@@ -86,6 +88,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   coupdoeil: CoupGame,
   quiestqui: QuiGame,
   lecture: LectureGame,
+  itineraire: ItiGame,
 };
 
 /** Jeux où l'on répond avec le pavé numérique : on peut aussi y écrire au doigt. */
@@ -120,4 +123,5 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   coupdoeil: CoupDemo,
   quiestqui: QuiDemo,
   lecture: LectureDemo,
+  itineraire: ItiDemo,
 };

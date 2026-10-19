@@ -11,6 +11,7 @@ import { flechesLevel, flechesLevelLabel } from './fleches';
 import { horlogesLevel, horlogesLevelLabel } from './horloges';
 import { intrusLevelLabel } from './intrus';
 import { coupLevelLabel } from './coupdoeil';
+import { itiLevel, itiLevelLabel } from './itineraire';
 import { lectureLevel, lectureLevelLabel } from './lecture';
 import { lettreLevel, lettreLevelLabel } from './lettre';
 import { quiLevel, quiLevelLabel } from './quiestqui';
@@ -408,6 +409,19 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: lectureLevelLabel,
   },
+  itineraire: {
+    id: 'itineraire',
+    name: 'Itinéraire',
+    domain: 'logique',
+    rule: (level) =>
+      itiLevel(level).oneByOne
+        ? 'Les flèches défilent une par une : suis le trajet de tête depuis ton compagnon, puis touche la case d’arrivée. Huit trajets.'
+        : 'Lis les flèches (« → 2 » : deux cases à droite) : elles vont disparaître. Touche la case où l’on arrive. Huit trajets.',
+    duration: '≈ 1 min 30',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: itiLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -439,6 +453,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'balance',
   'horloges',
   'sudoku',
+  'itineraire',
 ];
 
 /** Jeux qui tournent sur le 3e emplacement du test du jour. */
@@ -468,6 +483,7 @@ export const DAILY_ROTATION: readonly GameId[] = [
   'coupdoeil',
   'quiestqui',
   'lecture',
+  'itineraire',
 ];
 
 export function isGameId(value: string): value is GameId {

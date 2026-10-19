@@ -106,20 +106,22 @@ describe('Monnaie', () => {
           expect(q.items.length).toBeLessThanOrEqual(config.maxItems);
           for (const item of q.items) expect(config.values).toContain(item);
           expect(q.answer).toBe(q.items.reduce((sum, v) => sum + v, 0));
+          for (const item of q.items) expect(item % 100).toBe(0);
         } else {
           expect(config.paidWith).toContain(q.paid);
           expect(q.price).toBeGreaterThan(0);
           expect(q.price).toBeLessThanOrEqual(config.maxPrice);
           expect(q.answer).toBe(q.paid - q.price);
           expect(q.answer).toBeGreaterThan(0);
+          expect(q.price % 100).toBe(0);
         }
       }
     }
   });
 
-  it('écrit les montants à la française', () => {
+  it('écrit les montants à la française, sans centimes quand il n’y en a pas', () => {
+    expect(formatEuros(1200)).toBe(`12${NBSP}€`);
     expect(formatEuros(1245)).toBe(`12,45${NBSP}€`);
-    expect(formatEuros(5)).toBe(`0,05${NBSP}€`);
   });
 
   it('reste entre 0 et 100', () => {

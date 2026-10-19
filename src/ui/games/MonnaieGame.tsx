@@ -71,7 +71,8 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
 
   const submit = () => {
     if (over || !typed) return;
-    if (Number(typed) === question.answer) {
+    // La réponse se tape en euros entiers.
+    if (Number(typed) * 100 === question.answer) {
       fx.good();
       showMark('good');
       setCorrect(correct + 1);
@@ -86,7 +87,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
   };
 
   const press = (digit: string) => {
-    if (over || typed.length >= 5) return;
+    if (over || typed.length >= 4) return;
     fx.tap();
     setTyped(typed === '0' ? digit : typed + digit);
   };
@@ -129,7 +130,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
         )}
         <p className="monnaie__ask">{question.mode === 'total' ? 'Combien en tout ?' : 'Combien faut-il rendre ?'}</p>
         <p className={`money-entry${typed ? ' is-filled' : ''}`} aria-live="polite">
-          {formatEuros(Number(typed || 0))}
+          {formatEuros(Number(typed || 0) * 100)}
         </p>
         <FeedbackMark mark={mark} />
       </div>

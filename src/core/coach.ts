@@ -53,7 +53,7 @@ export const COACH_TIPS: readonly string[] = [
   'Réflexe : pas de précipitation ! Une fausse alerte coûte plus cher qu’un léger retard.',
   'Pluie de calculs : commence toujours par la goutte la plus basse.',
   'Calcul du diable : garde en tête le résultat, pas le calcul.',
-  'Monnaie : additionne d’abord les billets, puis les grosses pièces, puis les centimes.',
+  'Monnaie : additionne d’abord les billets, du plus gros au plus petit, puis les pièces.',
   'Les émotions positives aident à mémoriser : amuse-toi, c’est fait pour ça !',
 ];
 

@@ -319,12 +319,12 @@ export function MonnaieDemo() {
         <span className="money money--coin money--v100">
           <span className="money__label">1 €</span>
         </span>
-        <span className="money money--coin money--v50">
-          <span className="money__label">50 c</span>
+        <span className="money money--note money--v500">
+          <span className="money__label">5 €</span>
         </span>
       </div>
       <p className="demo__caption">
-        {frame >= 2 ? '= 3,50 €' : 'Combien en tout ?'}
+        {frame >= 2 ? '= 8 €' : 'Combien en tout ?'}
         <Tick show={frame >= 3} />
       </p>
     </div>

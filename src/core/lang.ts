@@ -15,7 +15,7 @@ export type ExtraLang = Exclude<Lang, 'fr' | 'en'>;
 export const LANGS: readonly Lang[] = ['fr', 'en', 'es', 'de', 'it', 'pt'];
 /**
  * Les langues proposées aux joueurs : une langue n'apparaît (et « Auto » ne la choisit) qu'une fois
- * son dictionnaire et son contenu de jeux complets. Les traductions en cours attendent dans `src/i18n/wip/`.
+ * son dictionnaire et son contenu de jeux complets (`node scripts/i18n.mjs check <langue>`, `src/core/content/<langue>.ts`).
  */
 export const PUBLISHED_LANGS: readonly Lang[] = ['fr', 'en'];
 

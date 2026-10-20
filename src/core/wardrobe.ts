@@ -2,6 +2,7 @@ import { localized, tr, type Translations } from './lang';
 import { MAX_LEVEL } from './levels';
 import { achievements, medalsAtLeast, type AchievementContext, type ProgressionInput } from './progression';
 import { sparksEarned } from './objectives';
+import { isSeasonHatId, type SeasonHatId } from './seasons';
 
 /**
  * Le vestiaire de Vif : des chapeaux à acheter avec les étincelles gagnées en jouant, et des
@@ -156,14 +157,19 @@ export const HATS: readonly HatDef[] = [
   premiumHat('pharaon', 'Coiffe de pharaon', 'Pharaoh headdress'),
 ];
 
-export const isPremiumHat = (id: HatId) => HATS.some((h) => h.id === id && h.premium);
+export const isPremiumHat = (id: WornHat) => HATS.some((h) => h.id === id && h.premium);
 
 /** Un chapeau de la collection Premium ne se porte qu'avec Premium (le choix est gardé, pas effacé). */
-export function hatWearable(id: HatId, premium: boolean): boolean {
+export function hatWearable(id: WornHat, premium: boolean): boolean {
   return premium || !isPremiumHat(id);
 }
 
 export const isHatId = (value: unknown): value is HatId => HATS.some((h) => h.id === value);
+
+/** Ce qu'un compagnon peut porter : un chapeau du vestiaire, ou un chapeau de saison gagné. */
+export type WornHat = HatId | SeasonHatId;
+
+export const isWornHat = (value: unknown): value is WornHat => isHatId(value) || isSeasonHatId(value);
 
 export function hatName(id: HatId): string {
   return localized(HATS.find((h) => h.id === id)?.name ?? { fr: id, en: id });

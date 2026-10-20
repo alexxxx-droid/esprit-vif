@@ -1,6 +1,7 @@
 import { addDays } from './daily';
 import { weekliesDone } from './events';
 import { legendDays } from './legend';
+import { seasonsEarned } from './seasons';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from './games/registry';
 import { tr } from './lang';
 import { starsFor } from './levels';
@@ -261,6 +262,8 @@ export const SPARKS = {
   weekly: 20,
   /** Défi Légende : la première partie de la journée. */
   legende: 15,
+  /** Saison de défis réussie (3 chapitres sur 4). */
+  season: 40,
 } as const;
 
 /** Étincelles d'une partie : de 1 à 5 selon le score. */
@@ -284,5 +287,7 @@ export function sparksEarned({ plays, tests, sessions }: SparksInput): number {
   total += objectivesDone(plays, tests).length * SPARKS.objective;
   total += weekliesDone(plays, sessions) * SPARKS.weekly;
   total += legendDays(plays).size * SPARKS.legende;
+  const last = [...plays.map((p) => p.day), ...sessions].sort().at(-1);
+  if (last) total += seasonsEarned(plays, sessions, last).length * SPARKS.season;
   return total;
 }

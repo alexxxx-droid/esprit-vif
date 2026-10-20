@@ -23,6 +23,7 @@ export type Route =
   | { name: 'premium'; focus?: string }
   | { name: 'month' }
   | { name: 'legend' }
+  | { name: 'season' }
   | { name: 'history'; gameId: GameId };
 
 const isDomain = (value: string | undefined): value is Domain => DOMAIN_ORDER.includes(value as Domain);
@@ -70,6 +71,8 @@ export function parseHash(hash: string): Route {
       return { name: 'month' };
     case 'legende':
       return { name: 'legend' };
+    case 'saison':
+      return { name: 'season' };
     case 'historique':
       return arg && isGameId(arg) ? { name: 'history', gameId: arg } : { name: 'progress' };
     default:
@@ -115,6 +118,8 @@ export function routeHash(route: Route): string {
       return '#/bilan-du-mois';
     case 'legend':
       return '#/legende';
+    case 'season':
+      return '#/saison';
     case 'history':
       return `#/historique/${route.gameId}`;
   }

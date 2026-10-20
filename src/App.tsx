@@ -33,6 +33,7 @@ import { WardrobeScreen } from './ui/screens/WardrobeScreen';
 import { HistoryScreen } from './ui/screens/HistoryScreen';
 import { PremiumScreen } from './ui/screens/PremiumScreen';
 import { MonthScreen } from './ui/screens/MonthScreen';
+import { SeasonScreen } from './ui/screens/SeasonScreen';
 import { premiumController } from './ui/premium';
 import { track } from './analytics/journal';
 
@@ -77,6 +78,8 @@ function Screen({ route }: { route: Route }) {
       return <MonthScreen />;
     case 'legend':
       return <LegendScreen />;
+    case 'season':
+      return <SeasonScreen />;
     case 'history':
       return <HistoryScreen gameId={route.gameId} />;
     case 'transfer':

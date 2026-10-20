@@ -1,13 +1,13 @@
 import { useState, type ReactNode } from 'react';
 import type { CharacterId } from '../../core/characters';
-import type { HatId } from '../../core/wardrobe';
+import type { WornHat } from '../../core/wardrobe';
 import type { AuraId } from '../../core/progression';
 import { useActiveAura, useActiveCharacter, useActiveHat } from '../characters-context';
 import { fx } from '../fx/fx';
 import type { SeasonId } from '../../core/events';
 import type { Mood } from '../mascot-mood';
 import { useSeason } from '../season';
-import { HAT_ART } from './hats';
+import { renderHat } from './hats';
 
 /*
  * Vif, la mascotte maison (une boule coiffée de quatre pointes d'étincelle, le symbole de l'appli),
@@ -198,7 +198,7 @@ interface MascotProps {
    * Chapeau à montrer (aperçu du vestiaire) ; null : aucun. Par défaut, le compagnon du joueur en
    * cours porte le chapeau choisi, et un compagnon précis (`character`) n'en porte pas.
    */
-  hat?: HatId | null;
+  hat?: WornHat | null;
   /** Aura à montrer (aperçu) ; par défaut, celle du joueur en cours pour son compagnon. */
   aura?: AuraId | null;
 }
@@ -250,7 +250,7 @@ export function Mascot({ mood = 'happy', size = 64, className, character, still,
           )}
           {mood === 'think' && <path className="vif__dots" d="M96 30h.1M103 22h.1M110 14h.1" />}
           {/* Un chapeau choisi remplace l'accessoire de saison. */}
-          {worn ? <g className={`hat hat--${worn}`}>{HAT_ART[worn]}</g> : season && !still && ACCESSORIES[season.id]}
+          {worn ? renderHat(worn) : season && !still && ACCESSORIES[season.id]}
         </g>
       </g>
     </svg>

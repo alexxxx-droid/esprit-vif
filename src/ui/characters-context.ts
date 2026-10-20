@@ -1,7 +1,7 @@
 import { useContext, useSyncExternalStore } from 'react';
 import { shownCharacter, type CharacterId } from '../core/characters';
 import { isAuraId, type AuraId } from '../core/progression';
-import { hatWearable, type HatId } from '../core/wardrobe';
+import { hatWearable, type WornHat } from '../core/wardrobe';
 import { isPremium, subscribePremium } from '../premium/entitlement';
 import { ProfilesContext } from './profiles-context';
 import { ProgressContext } from './progress-context';
@@ -18,7 +18,7 @@ export function useActiveCharacter(): CharacterId {
 }
 
 /** Le chapeau que porte le compagnon du joueur en cours (null : aucun). */
-export function useActiveHat(): HatId | null {
+export function useActiveHat(): WornHat | null {
   const store = useContext(ProgressContext);
   const hat = useSyncExternalStore(store?.subscribe ?? noSubscribe, () => store?.getSnapshot().settings.hat ?? '');
   const premium = usePremiumFlag();

@@ -3,7 +3,9 @@ import { characterName } from '../../core/characters';
 import { localized, tr } from '../../core/lang';
 import { AURAS } from '../../core/progression';
 import { SPARKS } from '../../core/objectives';
-import { purchaseBlocker, type HatId, type HatStatus } from '../../core/wardrobe';
+import { purchaseBlocker, type HatId, type HatStatus, type WornHat } from '../../core/wardrobe';
+import { isSeasonHatId, seasonArc, seasonHatId, seasonHatName, seasonsEarned, seasonStatus, SEASON_REQUIRED, type SeasonHatId } from '../../core/seasons';
+import { useToday } from '../hooks';
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { fx } from '../fx/fx';
@@ -24,14 +26,14 @@ export function WardrobeScreen() {
   const store = useStore();
   const status = useWardrobe();
   const worn = data.settings.hat || null;
-  const [selected, setSelected] = useState<HatId | null>(worn ?? status.nextShop?.id ?? null);
+  const [selected, setSelected] = useState<WornHat | null>(worn ?? status.nextShop?.id ?? null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cheer, setCheer] = useState(false);
   const hat = status.hats.find((h) => h.id === selected) ?? null;
   const name = characterName(useActiveCharacter());
 
-  const wear = async (id: HatId | '') => {
+  const wear = async (id: WornHat | '') => {
     await store.updateSettings({ hat: id });
     fx.tap();
   };
@@ -77,6 +79,7 @@ export function WardrobeScreen() {
           <strong>{status.balance}</strong> {tr('étincelles', 'sparks')}
         </p>
         {hat && <HatActions hat={hat} worn={worn === hat.id} balance={status.balance} busy={busy} onWear={wear} onBuy={buy} blocker={purchaseBlocker(status, hat.id)} />}
+        {selected && isSeasonHatId(selected) && <SeasonHatActions id={selected} worn={worn === selected} onWear={wear} />}
         {error && (
           <p className="notice" role="alert">
             <Icon name="info" size={20} />
@@ -100,6 +103,8 @@ export function WardrobeScreen() {
         onSelect={setSelected}
       />
 
+      <SeasonHats selected={selected} worn={worn} onSelect={setSelected} />
+
       <AuraPicker />
 
       <section className="wardrobe__how" aria-labelledby="how-title">
@@ -111,6 +116,8 @@ export function WardrobeScreen() {
           <li>{tr(`Test du jour : ${SPARKS.test}`, `Daily test: ${SPARKS.test}`)}</li>
           <li>{tr(`Chaque objectif du jour : ${SPARKS.objective}`, `Each daily goal: ${SPARKS.objective}`)}</li>
           <li>{tr(`Défi de la semaine : ${SPARKS.weekly}`, `Weekly challenge: ${SPARKS.weekly}`)}</li>
+          <li>{tr(`Saison de défis réussie : ${SPARKS.season}`, `Challenge season completed: ${SPARKS.season}`)}</li>
+          <li>{tr(`Défi Légende du jour : ${SPARKS.legende}`, `Daily Legend challenge: ${SPARKS.legende}`)}</li>
         </ul>
         <p className="wardrobe__note">{tr('Les étincelles ne s’achètent pas et ne se perdent jamais.', 'Sparks can’t be bought and are never lost.')}</p>
       </section>
@@ -171,8 +178,8 @@ interface HatGridProps {
   title: string;
   subtitle?: string;
   hats: HatStatus[];
-  selected: HatId | null;
-  worn: HatId | null;
+  selected: WornHat | null;
+  worn: WornHat | null;
   onSelect: (id: HatId) => void;
 }
 
@@ -267,5 +274,73 @@ function AuraPicker() {
         })}
       </div>
     </section>
+  );
+}
+
+/** Les chapeaux des saisons de défis : ceux gagnés, et celui de la saison en cours. */
+function SeasonHats({ selected, worn, onSelect }: { selected: WornHat | null; worn: WornHat | null; onSelect: (id: SeasonHatId) => void }) {
+  const data = useProgress();
+  const today = useToday();
+  const earned = seasonsEarned(data.plays, data.extras.sessions, today);
+  const current = seasonStatus(seasonArc(today), data.plays, data.extras.sessions);
+  const currentId = seasonHatId(current.arc);
+  const hats: { id: SeasonHatId; owned: boolean; meta: string }[] = [
+    ...earned.map((s) => ({ id: seasonHatId(s.arc), owned: true, meta: tr('À toi', 'Yours') })),
+    ...(current.earned ? [] : [{ id: currentId, owned: false, meta: `${current.done.filter(Boolean).length}/${SEASON_REQUIRED}` }]),
+  ];
+  return (
+    <section aria-labelledby="season-hats-title">
+      <h2 className="section-title" id="season-hats-title">
+        {tr('Chapeaux de saison', 'Season hats')} <span className="wardrobe__count">{earned.length}</span>
+      </h2>
+      <p className="wardrobe__sub">
+        {tr(
+          'Un par saison de défis réussie (3 chapitres sur 4) ; chaque retour d’une histoire apporte une nouvelle édition.',
+          'One per completed challenge season (3 chapters out of 4); each time a story comes back, a new edition.',
+        )}
+      </p>
+      <div className="hat-grid">
+        {hats.map((h) => (
+          <button
+            key={h.id}
+            type="button"
+            className={`hat-tile${h.owned ? ' is-owned' : ' is-locked'}${selected === h.id ? ' is-selected' : ''}`}
+            aria-pressed={selected === h.id}
+            aria-label={`${seasonHatName(h.id)}, ${worn === h.id ? tr('porté', 'worn') : h.owned ? tr('à toi', 'yours') : tr(`saison en cours, ${h.meta} chapitres`, `current season, ${h.meta} chapters`)}`}
+            onClick={() => onSelect(h.id)}
+          >
+            <Mascot size={58} hat={h.id} still />
+            <span className="hat-tile__name">{seasonHatName(h.id)}</span>
+            <span className="hat-tile__meta" aria-hidden="true">
+              {worn === h.id ? tr('Porté', 'Worn') : h.owned ? h.meta : (
+                <>
+                  <Icon name="lock" size={12} /> {h.meta}
+                </>
+              )}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SeasonHatActions({ id, worn, onWear }: { id: SeasonHatId; worn: boolean; onWear: (id: WornHat | '') => void }) {
+  const data = useProgress();
+  const today = useToday();
+  const owned = seasonsEarned(data.plays, data.extras.sessions, today).some((s) => seasonHatId(s.arc) === id);
+  return (
+    <div className="wardrobe__actions">
+      <p className="wardrobe__name">{seasonHatName(id)}</p>
+      {owned ? (
+        <button type="button" className={`btn btn--lg ${worn ? 'btn--ghost' : 'btn--primary'}`} onClick={() => onWear(worn ? '' : id)}>
+          {worn ? tr('Retirer', 'Take off') : tr('Porter', 'Wear')}
+        </button>
+      ) : (
+        <button type="button" className="btn btn--lg" onClick={() => navigate({ name: 'season' })}>
+          {tr('Voir la saison en cours', 'See the current season')}
+        </button>
+      )}
+    </div>
   );
 }

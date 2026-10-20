@@ -81,6 +81,14 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   d'avant la journée : le défi ne change pas si l'on progresse dans la journée. On peut le retenter ; la
   première partie du jour rapporte 15 étincelles et 25 XP (une seule fois), le meilleur score du jour
   s'affiche sur l'accueil. Le niveau du jeu ne bouge pas (comme au test du jour).
+- **Saisons de défis** (`src/core/seasons.ts`, `#/saison`) : quatre semaines qui racontent une histoire
+  (six histoires qui tournent : expédition polaire, voyage en mer, forêt enchantée, désert des mirages,
+  cité des étoiles, cœur du volcan), une semaine = un chapitre, validé par le défi de la semaine. Trois
+  chapitres sur quatre suffisent pour gagner le chapeau de la saison et 40 étincelles : manquer une semaine
+  ne fait rien perdre. Première saison : 19 octobre 2026 (`SEASONS_EPOCH`). Quand une histoire revient,
+  son chapeau revient dans une nouvelle édition, d'une autre teinte (`editionHue`) : une collection qui
+  ne s'arrête jamais, gardée au vestiaire (« Chapeaux de saison »). L'accueil montre la saison et le
+  chapitre de la semaine au-dessus du défi de la semaine.
 
 ## Premium à vie (v2.9, décision d'Alex du 20-10-2026)
 

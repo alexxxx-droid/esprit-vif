@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import type { HatId } from '../../core/wardrobe';
+import { editionHue, parseSeasonHat, type StoryId } from '../../core/seasons';
+import type { HatId, WornHat } from '../../core/wardrobe';
 
 /*
  * Les chapeaux du vestiaire, dessinés dans le repère 120 × 120 des compagnons : le haut de la
@@ -444,3 +445,79 @@ export const HAT_ART: Record<HatId, ReactNode> = {
     </>
   ),
 };
+
+/** Les chapeaux des saisons de défis : un par histoire ; les éditions suivantes changent de teinte. */
+export const SEASON_HAT_ART: Record<StoryId, ReactNode> = {
+  polaire: (
+    <>
+      <path d="M26 44c-2 8-2 16 0 22 4 2 8 1 10-2 0-7 0-14 2-20z" fill="#8a5a3c" />
+      <path d="M94 44c2 8 2 16 0 22-4 2-8 1-10-2 0-7 0-14-2-20z" fill="#8a5a3c" />
+      <path d="M28 42c0-18 14-30 32-30s32 12 32 30z" fill="#a8744f" />
+      <path d="M30 40c6-6 18-10 30-10s24 4 30 10v6c-8-4-18-6-30-6s-22 2-30 6z" fill="#f4ead5" />
+      <circle cx="60" cy="24" r="5" fill="#f4ead5" />
+    </>
+  ),
+  mer: (
+    <>
+      <ellipse cx="60" cy="22" rx="30" ry="11" fill="#ffffff" stroke="#d8d4e0" strokeWidth="2" />
+      <path d="M36 26h48l-4 10H40z" fill="#1d2b5c" />
+      <path d="M38 33c8 2 16 3 22 3s14-1 22-3" stroke="#ffd34d" strokeWidth="2.6" fill="none" />
+      <path d="M40 36c6 6 14 8 20 8s14-2 20-8c2 3 1 6-2 7-6 3-12 4-18 4s-12-1-18-4c-3-1-4-4-2-7z" fill="#111a3a" />
+      <path d="M60 15v12M56 19h8M55 25c2 3 8 3 10 0" stroke="#1d2b5c" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </>
+  ),
+  foret: (
+    <>
+      <path d="M22 38c2-18 18-30 38-30s36 12 38 30c-12-3-25-4-38-4s-26 1-38 4z" fill="#e63946" />
+      {[
+        [40, 22, 4.5],
+        [60, 16, 5],
+        [80, 22, 4.5],
+        [50, 30, 3],
+        [71, 30, 3],
+        [32, 32, 2.6],
+        [88, 32, 2.6],
+      ].map(([x, y, r]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill="#ffffff" />
+      ))}
+    </>
+  ),
+  desert: (
+    <>
+      <path d="M32 36c0-14 12-24 28-24s28 10 28 24z" fill="#e3c99a" />
+      <path d="M32 31h56v5H32z" fill="#7a5a32" />
+      <path d="M18 38c10-4 26-6 42-6s32 2 42 6c3 2 1 6-3 6-12-1-25-2-39-2s-27 1-39 2c-4 0-6-4-3-6z" fill="#d4b47e" />
+      <path d="M60 12v6" stroke="#c9ad7c" strokeWidth="3" strokeLinecap="round" />
+    </>
+  ),
+  etoiles: (
+    <>
+      <circle cx="60" cy="18" r="13" fill="#ff9a3d" />
+      <path d="M50 12c4-2 9-2 13 0M53 22c4 2 8 2 12 0" stroke="#e8742c" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+      <ellipse cx="60" cy="20" rx="26" ry="6" fill="none" stroke="#b98cff" strokeWidth="3.4" transform="rotate(-12 60 20)" />
+      <path d="M36 30c8 6 16 8 24 8s16-2 24-8" stroke="#7fd3ff" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <g className="hat__twinkle">{sparkle(90, 8, 3.4, '#ffffff')}</g>
+    </>
+  ),
+  volcan: (
+    <>
+      <path d="M30 38c-2-8 2-14 6-18 0 6 2 8 4 9-1-9 3-16 9-20-1 8 2 12 5 14 0-8 3-15 6-20 3 5 6 12 6 20 3-2 6-6 5-14 6 4 10 11 9 20 2-1 4-3 4-9 4 4 8 10 6 18z" fill="#ff5a1f" />
+      <path d="M40 38c0-5 2-8 4-10 0 4 2 6 3 6 0-6 3-10 6-13 0 5 2 8 4 9 1-6 2-10 3-13 2 3 4 8 4 13 2-1 3-4 3-8 3 3 5 8 4 13 2-1 3-2 3-5 2 3 3 6 2 9z" fill="#ffd34d" />
+      <rect x="30" y="35" width="60" height="6" rx="3" fill="#b8341a" />
+    </>
+  ),
+};
+
+/** Le dessin d'un chapeau porté : du vestiaire, ou de saison (teinté selon son édition). */
+export function renderHat(id: WornHat): ReactNode {
+  const season = parseSeasonHat(id);
+  if (season) {
+    const hue = editionHue(season.edition);
+    return (
+      <g className={`hat hat--saison-${season.story}`} style={hue ? { filter: `hue-rotate(${hue}deg)` } : undefined}>
+        {SEASON_HAT_ART[season.story]}
+      </g>
+    );
+  }
+  return <g className={`hat hat--${id}`}>{HAT_ART[id as HatId]}</g>;
+}

@@ -7,7 +7,7 @@ import { isAuraId, unlockedLevel, type AuraId, type ProgressionInput } from '../
 import { adaptLevel, brainAge, clampLevel } from '../core/scoring';
 import type { Domain, GameId, PlayMode, PlayOutcome } from '../core/types';
 import { isPaletteChoice, type PaletteChoice } from '../core/themes';
-import { isHatId, purchaseBlocker, wardrobe, type HatId, type WardrobeEntry } from '../core/wardrobe';
+import { isHatId, isWornHat, purchaseBlocker, wardrobe, type HatId, type WardrobeEntry, type WornHat } from '../core/wardrobe';
 import type { Storage, StoredData } from './storage';
 
 export interface PlayRecord {
@@ -97,7 +97,7 @@ export interface Settings {
   /** Sauvegarde Google Drive (facultative) : liée ou non, le compte, la dernière synchro (ISO). */
   cloud: CloudLink;
   /** Chapeau que porte le compagnon (vide : aucun, les accessoires de saison reprennent leur place). */
-  hat: HatId | '';
+  hat: WornHat | '';
   /** Thème de l'appli : « auto » suit les saisons, sinon un thème débloqué. */
   palette: PaletteChoice;
   /** Montrer la série de jours (accueil, Progrès, widget) ; elle continue d'être comptée sans être affichée. */
@@ -631,7 +631,7 @@ function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boole
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
-  if (settings.hat !== '' && !isHatId(settings.hat)) settings.hat = '';
+  if (settings.hat !== '' && !isWornHat(settings.hat)) settings.hat = '';
   if (!isPaletteChoice(settings.palette)) settings.palette = 'auto';
   if (settings.aura !== '' && !isAuraId(settings.aura)) settings.aura = '';
   const cloud: Record<string, unknown> = isObject(settings.cloud) ? settings.cloud : {};

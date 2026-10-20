@@ -3,7 +3,8 @@ import { coachTip } from '../../core/coach';
 import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
 import { byCount, formatLongDay, formatWeekday, formatWeekdayShort, plural } from '../../core/format';
 import { DAILY_POOL, DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
-import { tr } from '../../core/lang';
+import { localized, tr } from '../../core/lang';
+import { seasonArc, seasonHatId, seasonStatus } from '../../core/seasons';
 import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
@@ -531,6 +532,7 @@ function WeekCard() {
           );
         })}
       </ol>
+      <SeasonLine />
       <div className={`weekly${done ? ' is-done' : ''}`}>
         <span className="weekly__icon" aria-hidden="true">
           <Icon name={done ? 'check' : 'target'} size={20} />
@@ -553,6 +555,32 @@ function WeekCard() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** La saison de défis en cours : son histoire, le chapitre de la semaine et le chapeau à gagner. */
+function SeasonLine() {
+  const data = useProgress();
+  const today = useToday();
+  const status = seasonStatus(seasonArc(today), data.plays, data.extras.sessions);
+  const { arc } = status;
+  return (
+    <button type="button" className="season-line" onClick={() => navigate({ name: 'season' })}>
+      <Mascot size={44} hat={seasonHatId(arc)} still />
+      <span className="season-line__text">
+        <span className="season-line__title">{localized(arc.story.name)}</span>
+        <span className="season-line__sub">
+          {status.earned
+            ? tr('Saison réussie : chapeau gagné !', 'Season complete: hat earned!')
+            : tr(`Chapitre ${arc.chapter + 1}/4 · ${localized(arc.story.chapters[arc.chapter].title)}`, `Chapter ${arc.chapter + 1}/4 · ${localized(arc.story.chapters[arc.chapter].title)}`)}
+        </span>
+      </span>
+      <span className="season-line__dots" aria-hidden="true">
+        {status.done.map((d, i) => (
+          <span key={i} className={d ? 'is-done' : i === arc.chapter ? 'is-current' : undefined} />
+        ))}
+      </span>
+    </button>
   );
 }
 

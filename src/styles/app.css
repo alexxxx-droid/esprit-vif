@@ -5596,3 +5596,14 @@
 .level-best--sx .level-best__score {
   color: var(--ink-3);
 }
+
+/* Très petits écrans : l'anneau suffit à dire le niveau, le prénom garde sa place. */
+@media (max-width: 359px) {
+  .rank-chip__label {
+    display: none;
+  }
+
+  .player-chip__name {
+    font-size: 1.05rem;
+  }
+}

@@ -55,10 +55,19 @@ Règle de chaque phase : tests, lint et types verts, captures vérifiées sur 36
 
 ## Phase 5 — Rétention et lancement
 
-- [ ] Journal d'événements local (jamais envoyé), indicateurs définis (`docs/METRIQUES.md`)
-- [ ] Rappels : revérifier l'opt-in, le texte, la fréquence
-- [ ] Confidentialité et fiche Play mises à jour (achats intégrés, aucune collecte)
-- [ ] Version 2.9.0 : tests, build web, APK et AAB signés
+- [x] Journal d'événements local (jamais envoyé), indicateurs définis (`docs/METRIQUES.md`)
+- [x] Rappels : revérifier l'opt-in, le texte, la fréquence
+- [x] Confidentialité et fiche Play mises à jour (achats intégrés, aucune collecte)
+- [x] Version 2.9.0 : tests, build web, APK et AAB signés
+
+Bilan complet (tests, procédure sur téléphone, maintenance, suite) : [`BILAN_V2.9.md`](BILAN_V2.9.md).
+
+## Reste à faire par Alex
+
+- [ ] Play Console : profil de paiement, produit `premium_lifetime`, clé publique, testeurs
+      (`GOOGLE_PLAY_BILLING.md`) ; secret GitHub `PLAY_BILLING_PUBLIC_KEY`
+- [ ] Tester l'achat réel sur le canal de test interne
+- [ ] (déjà noté) `gh auth refresh -s workflow` pour publier `.github/workflows/`
 
 ## Reporté volontairement
 

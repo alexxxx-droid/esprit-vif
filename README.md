@@ -3,6 +3,8 @@
 Quelques minutes par jour pour garder l’esprit vif : un test du jour en trois mini-jeux,
 un âge cérébral indicatif et un entraînement libre qui s’adapte à ton niveau.
 Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
+Tout est gratuit ; dans l’appli Android, un **Premium à vie** facultatif (achat unique, pas
+d’abonnement) ajoute trois thèmes exclusifs et l’historique détaillé de chaque jeu.
 
 **Jouer :** https://alexxxx-droid.github.io/esprit-vif/
 
@@ -31,7 +33,18 @@ Confirmé, Expert, Maître, Légende), soit **1 400 niveaux** :
 - **Le mot du coach** : un conseil différent chaque jour.
 - **Ce que disent tes parties** : tes tendances en clair (domaine qui progresse, meilleur moment
   de la journée, régularité), et après chaque partie, où tu te situes par rapport à ta moyenne.
-- **Une série qui pardonne** : un jour de repos par semaine ne casse pas ta série.
+- **Une série qui pardonne** : un jour de repos par semaine ne casse pas ta série (et on peut la
+  masquer).
+- **Objectifs du jour** : trois petits objectifs chaque jour (jouer, varier, réussir), choisis selon
+  ton niveau, qui rapportent XP et étincelles.
+- **Le vestiaire de Vif** : 20 chapeaux à offrir avec les étincelles gagnées en jouant, 11 chapeaux
+  de prestige réservés aux exploits (paliers, médailles, séries, niveaux de joueur).
+- **Vif vivant** : il traverse l’accueil, se pose sur le bouton principal et le montre du doigt,
+  et réagit à tes résultats.
+- **Thèmes** : un thème par saison (neige, pétales, lucioles, feuilles), six thèmes à gagner en
+  montant de niveau, trois de plus avec Premium.
+- **Progrès en clair** : ta semaine comparée à la précédente, temps de jeu, précision, temps de
+  réaction, dernières parties, prochaines récompenses.
 - **En français ou en anglais** : la langue suit le téléphone, ou se choisit dans les réglages.
 - **Transfert par QR code** : ta progression passe d'un téléphone à l'autre, ou du site à l'appli,
   par une suite de QR codes (ou un code à copier-coller), sans compte ni serveur.
@@ -40,7 +53,8 @@ Confirmé, Expert, Maître, Légende), soit **1 400 niveaux** :
 
 Six façons de jouer :
 
-- **Test du jour** : trois jeux à niveau fixe et l’âge cérébral indicatif.
+- **Test du jour** : trois jeux de trois domaines, qui changent chaque jour, et l’âge cérébral
+  indicatif.
 - **Séance du jour** : quatre jeux choisis pour toi, tes domaines les plus fragiles d’abord.
 - **Marathon** : tous les jeux d’un domaine à la suite, pour battre ton record de points.
 - **Duel à deux** : trois manches sur le même téléphone, la même partie pour les deux joueurs.
@@ -136,7 +150,10 @@ La PWA et l’APK gardent chacun leur propre progression : pour passer de l’un
 ## Organisation du code
 
 ```
-src/core/     logique pure, sans interface : générateurs, scores, âge cérébral, test du jour
+src/core/     logique pure, sans interface : générateurs, scores, âge cérébral, test du jour,
+              objectifs, étincelles, vestiaire, thèmes, statistiques
+src/premium/  Premium à vie : catalogue, client de facturation, droits
+src/analytics/ journal d'utilisation local (jamais envoyé)
 src/store/    stockage local (IndexedDB) et progression, export/import JSON
 src/ui/       interface React : écrans, déroulé de partie, jeux, sons et vibrations
 src/native.ts ce que l'APK ajoute : notifications, vibrations natives, bouton retour, partage
@@ -147,4 +164,6 @@ docs/         décisions de conception
 ```
 
 Les choix faits là où la spécification laissait une marge sont notés dans
-[`docs/DECISIONS.md`](docs/DECISIONS.md).
+[`docs/DECISIONS.md`](docs/DECISIONS.md). Voir aussi [`docs/ROADMAP.md`](docs/ROADMAP.md) (feuille de
+route), [`docs/AUDIT.md`](docs/AUDIT.md), [`docs/GOOGLE_PLAY_BILLING.md`](docs/GOOGLE_PLAY_BILLING.md)
+(Premium) et [`docs/METRIQUES.md`](docs/METRIQUES.md) (indicateurs).

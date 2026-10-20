@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import {
@@ -134,7 +134,7 @@ export function SessionScreen() {
           <span className="cta__text">
             <span className="cta__label">{done.size ? tr('Continuer la séance', 'Continue the session') : tr('Commencer', 'Start')}</span>
             <span className="cta__sub">
-              {done.size ? tr(`${done.size} jeu${done.size > 1 ? 'x' : ''} sur ${picks.length} · `, `${done.size} of ${picks.length} games · `) : ''}
+              {done.size ? tr(byCount(done.size, `${done.size} jeu sur ${picks.length} · `, `${done.size} jeux sur ${picks.length} · `), `${done.size} of ${picks.length} games · `) : ''}
               {GAMES[pending[0].gameId].name}
             </span>
           </span>
@@ -275,9 +275,10 @@ function MarathonRun({ domain }: { domain: Domain }) {
         ) : (
           <p className="intro__rule">
             {tr(
-              `${plural(games.length, 'jeu', 'jeux')} à la suite, sans pause obligatoire. ${best ? `Record à battre : ${best} / ${max}.` : 'Premier marathon : pose ton record !'}`,
-              `${plural(games.length, 'game')} back to back, no required breaks. ${best ? `Best to beat: ${best} / ${max}.` : 'First marathon: set your best score!'}`,
-            )}
+              byCount(games.length, `${games.length}\u00a0jeu à la suite, sans pause obligatoire.`, `${games.length}\u00a0jeux à la suite, sans pause obligatoire.`),
+              `${plural(games.length, 'game')} back to back, no required breaks.`,
+            )}{' '}
+            {best ? tr(`Record à battre : ${best} / ${max}.`, `Best to beat: ${best} / ${max}.`) : tr('Premier marathon : pose ton record !', 'First marathon: set your best score!')}
           </p>
         )}
       </div>
@@ -546,7 +547,11 @@ export function DuelScreen() {
         </h1>
         <p className="intro__rule">
           {tr(
-            `${wins[0]} manche${wins[0] > 1 ? 's' : ''} à ${wins[1]} · ${totals[0]} contre ${totals[1]} points au total`,
+            byCount(
+              wins[0],
+              `${wins[0]} manche à ${wins[1]} · ${totals[0]} contre ${totals[1]} points au total`,
+              `${wins[0]} manches à ${wins[1]} · ${totals[0]} contre ${totals[1]} points au total`,
+            ),
             `${wins[0]} to ${wins[1]} in rounds · ${totals[0]} to ${totals[1]} points in total`,
           )}
         </p>

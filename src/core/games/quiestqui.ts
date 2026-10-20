@@ -1,5 +1,6 @@
 import { CHARACTERS, type CharacterId } from '../characters';
-import { lang, tr } from '../lang';
+import { byLang } from '../content';
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -193,7 +194,7 @@ export const QUI_NAMES_EN: readonly string[] = [
 
 /** Les prénoms de la langue de l'interface (tirés au début de chaque manche). */
 export function quiNames(): readonly string[] {
-  return lang() === 'en' ? QUI_NAMES_EN : QUI_NAMES;
+  return byLang(QUI_NAMES, QUI_NAMES_EN, (c) => c.quiNames);
 }
 
 export interface Person {

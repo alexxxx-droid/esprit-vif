@@ -1,5 +1,5 @@
+import { byLang } from './content';
 import { dayIndex } from './daily';
-import { lang } from './lang';
 
 /**
  * Le mot du coach : un conseil ou une anecdote par jour, toujours bienveillant.
@@ -114,7 +114,7 @@ export const COACH_TIPS_EN: readonly string[] = [
 
 /** Les conseils de la langue en cours. */
 export function coachTips(): readonly string[] {
-  return lang() === 'en' ? COACH_TIPS_EN : COACH_TIPS;
+  return byLang(COACH_TIPS, COACH_TIPS_EN, (c) => c.coachTips);
 }
 
 /** Le conseil du jour, le même toute la journée. */

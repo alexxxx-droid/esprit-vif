@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
-import { lang, tr } from '../../core/lang';
+import { tr } from '../../core/lang';
 import { generateQui, quiLevel, scoreQui, type Person } from '../../core/games/quiestqui';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -10,6 +10,7 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { rich } from '../rich';
 import { slow } from '../tempo';
 
 /** Un visage : le compagnon sur sa couleur de fond. */
@@ -176,15 +177,7 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
         <>
           <div className="game__stage qui">
             <p className="qui__prompt" key={`${round}-${index}`}>
-              {lang() === 'en' ? (
-                <>
-                  Who is <strong>{people[question.target].name}</strong>?
-                </>
-              ) : (
-                <>
-                  Qui est <strong>{people[question.target].name}</strong>&nbsp;?
-                </>
-              )}
+              {rich(tr('Qui est {name}\u00a0?', 'Who is {name}?'), { name: <strong>{people[question.target].name}</strong> })}
             </p>
             <FeedbackMark mark={mark} />
           </div>

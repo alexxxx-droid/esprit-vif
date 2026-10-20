@@ -19,9 +19,26 @@ function files(dir) {
 
 const isText = (n) => ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n) || ts.isTemplateExpression(n) || ts.isCallExpression(n);
 
+/** Du texte caché dans une variable (`${n > 1 ? 's' : ''}`, `${ok ? 'pareil' : 'différent'}`) : un dictionnaire ne peut pas le traduire. */
+function hiddenWords(node) {
+  const found = [];
+  const deep = (n) => {
+    if ((ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) && /\p{L}/u.test(n.text)) found.push(n.getText());
+    ts.forEachChild(n, deep);
+  };
+  const scan = (n) => {
+    if (ts.isTemplateExpression(n)) n.templateSpans.forEach((span) => deep(span.expression));
+    else if (ts.isCallExpression(n)) n.arguments.forEach(scan);
+  };
+  scan(node);
+  return found;
+}
+
 function extract() {
   const entries = new Map();
   const dynamic = [];
+  const hidden = [];
+  const apart = [];
   for (const file of files(SRC)) {
     const code = readFileSync(file, 'utf8');
     const source = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true, file.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
@@ -31,11 +48,18 @@ function extract() {
       const entry = entries.get(key) ?? { key, en: enNode.getText(source), at: [] };
       entry.at.push(where(frNode));
       entries.set(key, entry);
+      // Le français et l'anglais doivent glisser les mêmes variables (sinon `${back}` / `${backEn}` : une variable par langue).
+      const fr = slots(key).found.filter((s) => !/^\{/.test(s));
+      const en = slots(enNode.getText(source)).found.filter((s) => !/^\{/.test(s));
+      if (isText(enNode) && fr.some((s) => !en.includes(s))) apart.push(`${where(frNode)}  ${fr.filter((s) => !en.includes(s)).join(' ')}`);
     };
     const visit = (node) => {
       if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === 'tr' && node.arguments.length >= 2) {
-        if (isText(node.arguments[0])) add(node.arguments[0], node.arguments[1]);
-        else dynamic.push(`${where(node)}  ${node.getText(source).slice(0, 80)}`);
+        if (isText(node.arguments[0])) {
+          add(node.arguments[0], node.arguments[1]);
+          const words = hiddenWords(node.arguments[0]);
+          if (words.length) hidden.push(`${where(node)}  ${words.join(' ')}`);
+        } else if (!file.endsWith('lang.ts')) dynamic.push(`${where(node)}  ${node.getText(source).slice(0, 80)}`);
       }
       if (ts.isObjectLiteralExpression(node)) {
         const props = node.properties.filter(ts.isPropertyAssignment);
@@ -52,11 +76,13 @@ function extract() {
   writeFileSync(join(SRC, 'i18n', 'source.json'), JSON.stringify(list, null, 2) + '\n');
   console.log(`${list.length} textes → src/i18n/source.json`);
   if (dynamic.length) console.log(`${dynamic.length} appels tr() à arguments calculés (non traduisibles par dictionnaire) :\n  ${dynamic.join('\n  ')}`);
+  if (hidden.length) console.log(`${hidden.length} textes avec des mots dans une variable (à sortir dans leur propre tr()) :\n  ${hidden.join('\n  ')}`);
+  if (apart.length) console.log(`${apart.length} textes dont le français glisse une variable que l'anglais n'a pas :\n  ${apart.join('\n  ')}`);
 }
 
-/** Les expressions `${…}` et les appels d'un texte source : une traduction doit garder les mêmes. */
+/** Les expressions `${…}`, les appels et les `{morceaux}` (voir `rich()`) d'un texte source : une traduction doit garder les mêmes. */
 function slots(text) {
-  const found = [];
+  const found = [...(text.match(/(?<!\$)\{\w+\}/g) ?? [])];
   const source = ts.createSourceFile('x.ts', `const x = (${text});`, ts.ScriptTarget.Latest, true);
   let broken = source.parseDiagnostics?.length > 0;
   const visit = (node) => {

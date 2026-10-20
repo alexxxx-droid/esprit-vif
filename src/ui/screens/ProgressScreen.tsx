@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
-import { formatLongDay, formatMonth, formatWeekday, plural } from '../../core/format';
+import { byCount, formatLongDay, formatMonth, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
-import { tr } from '../../core/lang';
+import { localized, tr } from '../../core/lang';
 import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
 import { seasonOf, SEASONS } from '../../core/events';
 import { insights } from '../../core/insights';
@@ -88,7 +88,7 @@ export function ProgressScreen() {
             className="tabs__tab"
             onClick={() => setTab(t.id)}
           >
-            {tr(t.fr, t.en)}
+            {localized(t)}
             {t.id === 'trophees' && <span className="tabs__count">{trophiesWon}</span>}
           </button>
         ))}
@@ -101,7 +101,7 @@ export function ProgressScreen() {
             <div className="rank-card__stats">
               <span>
                 <Icon name="star" size={16} />
-                <strong>{stars}</strong> {tr('étoiles', stars === 1 ? 'star' : 'stars')}
+                <strong>{stars}</strong> {tr(byCount(stars, 'étoile', 'étoiles'), byCount(stars, 'star', 'stars'))}
               </span>
               <span>
                 <Icon name="trophy" size={16} />
@@ -360,7 +360,7 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
           </h2>
           <p className="card__sub">
             {playedThisMonth
-              ? tr(`${plural(playedThisMonth, 'jour')} d’entraînement`, plural(playedThisMonth, 'training day'))
+              ? tr(byCount(playedThisMonth, `${playedThisMonth}\u00a0jour d’entraînement`, `${playedThisMonth}\u00a0jours d’entraînement`), plural(playedThisMonth, 'training day'))
               : tr('Aucun entraînement ce mois-ci', 'No training this month')}
           </p>
         </div>
@@ -386,10 +386,11 @@ function Calendar({ playedDays, today }: { playedDays: Set<string>; today: strin
               key={day}
               role="listitem"
               className={`calendar__day${playedDays.has(day) ? ' is-played' : ''}${day === today ? ' is-today' : ''}${day > today ? ' is-future' : ''}`}
-              aria-label={tr(
-                `${formatWeekday(day)} : ${playedDays.has(day) ? 'entraînement fait' : 'pas d’entraînement'}`,
-                `${formatWeekday(day)}: ${playedDays.has(day) ? 'trained' : 'no training'}`,
-              )}
+              aria-label={
+                playedDays.has(day)
+                  ? tr(`${formatWeekday(day)} : entraînement fait`, `${formatWeekday(day)}: trained`)
+                  : tr(`${formatWeekday(day)} : pas d’entraînement`, `${formatWeekday(day)}: no training`)
+              }
             >
               {Number(day.slice(8))}
             </span>

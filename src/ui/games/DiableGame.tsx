@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
-import { formatSeconds } from '../../core/format';
+import { byCount, formatSeconds } from '../../core/format';
 import { answerLength, formatCalc, formatSolved } from '../../core/games/calcul';
 import { diableLevel, generateDiable, generateDiableBacks, scoreDiable } from '../../core/games/diable';
 import { createRng, deriveSeed } from '../../core/rng';
@@ -65,7 +65,7 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
           { label: tr('Temps', 'Time'), value: formatSeconds(elapsedMs) },
           {
             label: tr('En arrière', 'How far back'),
-            value: varying ? tr(`1 à ${n} calculs`, `1 to ${n} sums`) : tr(`${n} calcul${n > 1 ? 's' : ''}`, `${n} sum${n === 1 ? '' : 's'}`),
+            value: varying ? tr(`1 à ${n} calculs`, `1 to ${n} sums`) : tr(byCount(n, `${n} calcul`, `${n} calculs`), byCount(n, `${n} sum`, `${n} sums`)),
           },
         ],
       });
@@ -135,10 +135,13 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
         <p className="diable__ask">
           {memorizing
             ? tr('Retiens ce calcul, puis touche « Retenu ».', 'Remember this sum, then tap “Got it”.')
-            : tr(`Résultat du calcul d’il y a ${back === 1 ? '1 coup' : `${back} coups`} ?`, `Answer to the sum from ${back === 1 ? '1 turn' : `${back} turns`} ago?`)}
+            : tr(
+                byCount(back, 'Résultat du calcul d’il y a 1 coup ?', `Résultat du calcul d’il y a ${back} coups ?`),
+                byCount(back, 'Answer to the sum from 1 turn ago?', `Answer to the sum from ${back} turns ago?`),
+              )}
         </p>
         {!memorizing && target && (
-          <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>
+          <div className="calc__answer" aria-label={typed ? tr(`Ta réponse : ${typed}`, `Your answer: ${typed}`) : tr('Ta réponse : vide', 'Your answer: empty')}>
             {Array.from({ length: answerLength(target.answer) }, (_, i) => (
               <span key={i} className={`slot${typed[i] ? ' slot--filled' : ''}`}>
                 {typed[i] ?? ''}

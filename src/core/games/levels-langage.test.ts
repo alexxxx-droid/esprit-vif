@@ -26,7 +26,7 @@ import { hasRudeWord, LONG_WORDS, LONG_WORDS_EN } from './words';
  * inchangés (records et test du jour en dépendent).
  */
 
-const LANGS: readonly Lang[] = ['fr', 'en'];
+const LANGS: readonly ('fr' | 'en')[] = ['fr', 'en'];
 const LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 const NEW_LEVELS = LEVELS.filter((level) => level > 20);
 const SEEDS = [3, 77, 1234];
@@ -36,7 +36,7 @@ type LangGame = (typeof GAME_IDS)[number];
 afterEach(() => setLang('fr'));
 
 /** `fn` tourne dans chaque langue ; on revient toujours au français. */
-function inEachLang(fn: (lang: Lang) => void) {
+function inEachLang(fn: (lang: 'fr' | 'en') => void) {
   for (const l of LANGS) {
     setLang(l);
     try {
@@ -75,7 +75,7 @@ describe('niveaux 1 à 20 inchangés', () => {
   const SNAP_SEEDS = [1, 42, 2024];
   const digest = (value: unknown) => hashSeed(JSON.stringify(value)).toString(16).padStart(8, '0');
 
-  const BEFORE: Record<Lang, Record<LangGame, Record<'1' | '10' | '20' | 'all', string>>> = {
+  const BEFORE: Record<'fr' | 'en', Record<LangGame, Record<'1' | '10' | '20' | 'all', string>>> = {
     fr: {
       anagrammes: { 1: 'b9a120b7', 10: '8e12d01f', 20: 'b46870ed', all: 'c3708c39' },
       lettre: { 1: '8a0ba248', 10: '7301f5f6', 20: '07781cf4', all: '59d0382d' },

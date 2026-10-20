@@ -141,7 +141,11 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
                 key={wrong?.cell === i ? `${i}-${wrong.id}` : i}
                 className={classes.filter(Boolean).join(' ')}
                 onTap={() => setSelected(i)}
-                aria-label={tr(`Ligne ${r + 1}, colonne ${c + 1} : ${value || 'vide'}`, `Row ${r + 1}, column ${c + 1}: ${value || 'empty'}`)}
+                aria-label={
+                  value
+                    ? tr(`Ligne ${r + 1}, colonne ${c + 1} : ${value}`, `Row ${r + 1}, column ${c + 1}: ${value}`)
+                    : tr(`Ligne ${r + 1}, colonne ${c + 1} : vide`, `Row ${r + 1}, column ${c + 1}: empty`)
+                }
                 aria-selected={i === selected}
                 role="gridcell"
               >

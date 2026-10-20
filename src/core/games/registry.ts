@@ -1,3 +1,4 @@
+import { byCount } from '../format';
 import { tr } from '../lang';
 import { MAX_LEVEL, pickLevel, secondsLabel } from '../levels';
 import type { Domain, GameId } from '../types';
@@ -164,22 +165,21 @@ export const GAMES: Record<GameId, GameMeta> = {
     domain: 'memoire',
     rule: (level) => {
       const { n, mode, lures } = nbackLevel(level);
-      const back = n === 1 ? 'au coup précédent' : `il y a ${n} coups`;
-      const backEn = n === 1 ? 'the previous one' : `the one from ${n} turns ago`;
+      const back = tr(byCount(n, 'au coup précédent', `il y a ${n} coups`), byCount(n, 'the previous one', `the one from ${n} turns ago`));
       const traps = lures
         ? tr(' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.', ' Watch for traps: a repeat one turn too early or too late doesn’t count.')
         : '';
       if (mode === 'letter') {
         return (
           tr(
-            `Touche « Même lettre » quand la lettre est la même qu’${n === 1 ? 'au coup précédent' : `il y a ${n} lettres`}.`,
-            `Tap “Same letter” when the letter matches ${n === 1 ? 'the previous one' : `the one ${n} letters back`}.`,
+            byCount(n, 'Touche « Même lettre » quand la lettre est la même qu’au coup précédent.', `Touche « Même lettre » quand la lettre est la même qu’il y a ${n} lettres.`),
+            byCount(n, 'Tap “Same letter” when the letter matches the previous one.', `Tap “Same letter” when the letter matches the one ${n} letters back.`),
           ) + traps
         );
       }
       if (mode === 'position')
-        return tr(`Touche « Même place » quand la case allumée est la même qu’${back}.`, `Tap “Same spot” when the lit square matches ${backEn}.`) + traps;
-      return tr(`Deux questions à la fois : même lettre et même place qu’${back} ?`, `Two questions at once: same letter and same spot as ${backEn}?`) + traps;
+        return tr(`Touche « Même place » quand la case allumée est la même qu’${back}.`, `Tap “Same spot” when the lit square matches ${back}.`) + traps;
+      return tr(`Deux questions à la fois : même lettre et même place qu’${back} ?`, `Two questions at once: same letter and same spot as ${back}?`) + traps;
     },
     duration: '≈ 55 s',
     maxLevel: MAX_LEVEL,

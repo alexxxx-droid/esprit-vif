@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import { coachTip } from '../../core/coach';
 import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
-import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayShort, plural } from '../../core/format';
+import { byCount, formatLongDay, formatShortDay, formatWeekday, formatWeekdayShort, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { sessionDone, sessionGames } from '../../core/modes';
@@ -149,7 +149,11 @@ function Home() {
         <p className="notice notice--warm" role="status">
           <Mascot mood="sleep" size={34} />
           {tr(
-            `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${plural(streak, 'jour')} continue\u00a0!`,
+            byCount(
+              streak,
+              `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${streak}\u00a0jour continue\u00a0!`,
+              `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${streak}\u00a0jours continue\u00a0!`,
+            ),
             `Yesterday was your rest day. Play one game today and your ${streak}-day streak keeps going!`,
           )}
         </p>
@@ -243,7 +247,7 @@ function WeeklyCard() {
           {done
             ? tr(`Relevé ! +${WEEKLY_XP} XP`, `Done! +${WEEKLY_XP} XP`)
             : `${progress} / ${challenge.target} · +${WEEKLY_XP} XP · ${
-                daysLeft === 1 ? tr('dernier jour', 'last day') : tr(`encore ${plural(daysLeft, 'jour')}`, `${plural(daysLeft, 'day')} left`)
+                daysLeft === 1 ? tr('dernier jour', 'last day') : tr(byCount(daysLeft, `encore ${daysLeft}\u00a0jour`, `encore ${daysLeft}\u00a0jours`), `${plural(daysLeft, 'day')} left`)
               }`}
         </p>
       </div>
@@ -357,10 +361,9 @@ function WeekStrip({ playedDays, today }: { playedDays: Set<string>; today: stri
                 {played ? <Icon name="check" size={18} strokeWidth={3} /> : Number(day.slice(8))}
               </span>
               <span className="sr-only">
-                {tr(
-                  `${formatWeekday(day)} : ${played ? 'entraînement fait' : 'pas d’entraînement'}`,
-                  `${formatWeekday(day)}: ${played ? 'trained' : 'no training'}`,
-                )}
+                {played
+                  ? tr(`${formatWeekday(day)} : entraînement fait`, `${formatWeekday(day)}: trained`)
+                  : tr(`${formatWeekday(day)} : pas d’entraînement`, `${formatWeekday(day)}: no training`)}
               </span>
             </li>
           );

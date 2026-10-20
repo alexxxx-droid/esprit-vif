@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { anagramDeck, anagramLevel, isAnagramAnswer, scoreAnagrammes } from '../../core/games/anagrammes';
 import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
@@ -33,7 +33,7 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreAnagrammes(found, level),
       stats: { found, skipped, target },
-      headline: tr(`${plural(found, 'mot')} ${found < 2 ? 'trouvé' : 'trouvés'}`, `${plural(found, 'word')} found`),
+      headline: tr(byCount(found, `${found}\u00a0mot trouvé`, `${found}\u00a0mots trouvés`), `${plural(found, 'word')} found`),
       lines: [
         { label: tr('Mots trouvés', 'Words found'), value: String(found) },
         { label: tr('Mots passés', 'Words skipped'), value: String(skipped) },
@@ -128,7 +128,7 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
           key={shake}
           className={`anagram__slots${wordLength >= 8 ? ' anagram__slots--long' : ''}${shake ? ' shake' : ''}`}
           aria-live="polite"
-          aria-label={tr(`Ta réponse : ${answerSoFar || 'vide'}`, `Your answer: ${answerSoFar || 'empty'}`)}
+          aria-label={answerSoFar ? tr(`Ta réponse : ${answerSoFar}`, `Your answer: ${answerSoFar}`) : tr('Ta réponse : vide', 'Your answer: empty')}
         >
           {Array.from({ length: wordLength }, (_, i) => (
             <span key={i} className={`anagram__slot${picked[i] !== undefined ? ' is-filled' : ''}`}>

@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
 import {
   CORRESPONDANCE_DURATION_MS,
@@ -112,8 +113,8 @@ export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
       score: scoreCorrespondance(correct, errors, level),
       stats: { correct, errors },
       headline: tr(
-        `${correct} bonnes réponses · ${errors} erreur${errors > 1 ? 's' : ''}`,
-        `${correct} correct · ${errors} error${errors === 1 ? '' : 's'}`,
+        byCount(errors, `${correct} bonnes réponses · ${errors} erreur`, `${correct} bonnes réponses · ${errors} erreurs`),
+        byCount(errors, `${correct} correct · ${errors} error`, `${correct} correct · ${errors} errors`),
       ),
       lines: [
         { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },

@@ -11,6 +11,7 @@ import {
   type PartyPlayer,
   type PartyQuestion,
 } from '../../core/party';
+import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
 import { randomSeed } from '../../core/rng';
 import { Icon } from '../components/Icon';
@@ -196,7 +197,7 @@ export function PartyScreen() {
                 <span className="mode-item__name">{player.name}</span>
               </span>
               <span className="mode-item__score">
-                {tr(`${player.score} point${player.score > 1 ? 's' : ''}`, `${player.score} point${player.score === 1 ? '' : 's'}`)}
+                {tr(byCount(player.score, `${player.score} point`, `${player.score} points`), byCount(player.score, `${player.score} point`, `${player.score} points`))}
               </span>
             </li>
           ))}

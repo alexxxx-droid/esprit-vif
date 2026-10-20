@@ -1,6 +1,6 @@
 import { addDays, dayIndex } from './daily';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES, gamesOfDomain } from './games/registry';
-import { tr } from './lang';
+import { localized, tr, type Translations } from './lang';
 import { createRng, hashSeed } from './rng';
 import type { GameId } from './types';
 
@@ -34,14 +34,11 @@ export interface Season {
 
 export const SEASON_PLAYS = 3;
 
-/** Un texte dans les deux langues : [français, anglais]. */
-type Bilingual = readonly [fr: string, en: string];
-
 interface SeasonTexts {
-  name: Bilingual;
-  trophyName: Bilingual;
-  trophyDescription: Bilingual;
-  greeting: Bilingual;
+  name: Translations;
+  trophyName: Translations;
+  trophyDescription: Translations;
+  greeting: Translations;
 }
 
 function season(id: SeasonId, from: string, to: string, trophyId: string, texts: SeasonTexts): Season {
@@ -50,47 +47,47 @@ function season(id: SeasonId, from: string, to: string, trophyId: string, texts:
     from,
     to,
     get name() {
-      return tr(...texts.name);
+      return localized(texts.name);
     },
     trophy: {
       id: trophyId,
       get name() {
-        return tr(...texts.trophyName);
+        return localized(texts.trophyName);
       },
       get description() {
-        return tr(...texts.trophyDescription);
+        return localized(texts.trophyDescription);
       },
     },
     get greeting() {
-      return tr(...texts.greeting);
+      return localized(texts.greeting);
     },
   };
 }
 
 export const SEASONS: readonly Season[] = [
   season('halloween', '10-15', '11-02', 'saison-halloween', {
-    name: ['Halloween', 'Halloween'],
-    trophyName: ['Citrouille futée', 'Clever Pumpkin'],
-    trophyDescription: ['Jouer 3 parties pendant Halloween (15 oct. – 2 nov.).', 'Play 3 games during Halloween (Oct 15 – Nov 2).'],
-    greeting: ['C’est Halloween ! Trois parties d’ici le 2 novembre pour la Citrouille futée.', 'It’s Halloween! Play three games by November 2 to win the Clever Pumpkin.'],
+    name: { fr: 'Halloween', en: 'Halloween' },
+    trophyName: { fr: 'Citrouille futée', en: 'Clever Pumpkin' },
+    trophyDescription: { fr: 'Jouer 3 parties pendant Halloween (15 oct. – 2 nov.).', en: 'Play 3 games during Halloween (Oct 15 – Nov 2).' },
+    greeting: { fr: 'C’est Halloween ! Trois parties d’ici le 2 novembre pour la Citrouille futée.', en: 'It’s Halloween! Play three games by November 2 to win the Clever Pumpkin.' },
   }),
   season('noel', '12-01', '12-31', 'saison-noel', {
-    name: ['Noël', 'Christmas'],
-    trophyName: ['Lutin malin', 'Smart Elf'],
-    trophyDescription: ['Jouer 3 parties en décembre.', 'Play 3 games in December.'],
-    greeting: ['C’est bientôt Noël ! Trois parties en décembre pour le Lutin malin.', 'Christmas is coming! Play three games in December to win the Smart Elf.'],
+    name: { fr: 'Noël', en: 'Christmas' },
+    trophyName: { fr: 'Lutin malin', en: 'Smart Elf' },
+    trophyDescription: { fr: 'Jouer 3 parties en décembre.', en: 'Play 3 games in December.' },
+    greeting: { fr: 'C’est bientôt Noël ! Trois parties en décembre pour le Lutin malin.', en: 'Christmas is coming! Play three games in December to win the Smart Elf.' },
   }),
   season('printemps', '03-20', '04-20', 'saison-printemps', {
-    name: ['Printemps', 'Spring'],
-    trophyName: ['Premier bourgeon', 'First Bud'],
-    trophyDescription: ['Jouer 3 parties au printemps (20 mars – 20 avril).', 'Play 3 games in spring (March 20 – April 20).'],
-    greeting: ['Le printemps est là ! Trois parties d’ici le 20 avril pour le Premier bourgeon.', 'Spring is here! Play three games by April 20 to win the First Bud.'],
+    name: { fr: 'Printemps', en: 'Spring' },
+    trophyName: { fr: 'Premier bourgeon', en: 'First Bud' },
+    trophyDescription: { fr: 'Jouer 3 parties au printemps (20 mars – 20 avril).', en: 'Play 3 games in spring (March 20 – April 20).' },
+    greeting: { fr: 'Le printemps est là ! Trois parties d’ici le 20 avril pour le Premier bourgeon.', en: 'Spring is here! Play three games by April 20 to win the First Bud.' },
   }),
   season('ete', '07-01', '08-31', 'saison-ete', {
-    name: ['Été', 'Summer'],
-    trophyName: ['Coup de soleil', 'Sun-Kissed'],
-    trophyDescription: ['Jouer 3 parties en juillet ou en août.', 'Play 3 games in July or August.'],
-    greeting: ['C’est l’été ! Trois parties d’ici fin août pour le Coup de soleil.', 'It’s summer! Play three games by the end of August to win the Sun-Kissed trophy.'],
+    name: { fr: 'Été', en: 'Summer' },
+    trophyName: { fr: 'Coup de soleil', en: 'Sun-Kissed' },
+    trophyDescription: { fr: 'Jouer 3 parties en juillet ou en août.', en: 'Play 3 games in July or August.' },
+    greeting: { fr: 'C’est l’été ! Trois parties d’ici fin août pour le Coup de soleil.', en: 'It’s summer! Play three games by the end of August to win the Sun-Kissed trophy.' },
   }),
 ];
 

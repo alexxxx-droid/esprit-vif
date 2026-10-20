@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
-import { lang, tr } from '../../core/lang';
-import { plural } from '../../core/format';
+import { tr } from '../../core/lang';
+import { byCount, plural } from '../../core/format';
 import { BOUTIQUE_ROUNDS, boutiqueLevel, generateBoutiqueRound, scoreBoutique, type BoutiqueEvent, type BoutiqueRound } from '../../core/games/boutique';
 import { createRng, deriveSeed } from '../../core/rng';
 import { NumPad } from '../components/bits';
@@ -77,22 +77,20 @@ function correction(round: BoutiqueRound): string {
 }
 
 /** Les mouvements d'un instant, pour les lecteurs d'écran. */
-function describeEvent(event: BoutiqueEvent): string {
-  if (lang() === 'en') {
-    return [
-      event.enter && `${plural(event.enter, 'customer')} ${event.enter === 1 ? 'comes' : 'come'} in`,
-      event.leave && `${plural(event.leave, 'customer')} ${event.leave === 1 ? 'leaves' : 'leave'}`,
-      event.bakeryIn && `${plural(event.bakeryIn, 'customer')} ${event.bakeryIn === 1 ? 'goes' : 'go'} into the bakery`,
-      event.bakeryOut && `${plural(event.bakeryOut, 'customer')} ${event.bakeryOut === 1 ? 'leaves' : 'leave'} the bakery`,
-    ]
-      .filter(Boolean)
-      .join(', ');
-  }
+function describeEvent({ enter, leave, bakeryIn, bakeryOut }: BoutiqueEvent): string {
   return [
-    event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`,
-    event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`,
-    event.bakeryIn && `${plural(event.bakeryIn, 'client')} entre${event.bakeryIn > 1 ? 'nt' : ''} à la boulangerie`,
-    event.bakeryOut && `${plural(event.bakeryOut, 'client')} sor${event.bakeryOut > 1 ? 'tent' : 't'} de la boulangerie`,
+    enter && tr(byCount(enter, `${enter}\u00a0client entre`, `${enter}\u00a0clients entrent`), byCount(enter, `${enter}\u00a0customer comes in`, `${enter}\u00a0customers come in`)),
+    leave && tr(byCount(leave, `${leave}\u00a0client sort`, `${leave}\u00a0clients sortent`), byCount(leave, `${leave}\u00a0customer leaves`, `${leave}\u00a0customers leave`)),
+    bakeryIn &&
+      tr(
+        byCount(bakeryIn, `${bakeryIn}\u00a0client entre à la boulangerie`, `${bakeryIn}\u00a0clients entrent à la boulangerie`),
+        byCount(bakeryIn, `${bakeryIn}\u00a0customer goes into the bakery`, `${bakeryIn}\u00a0customers go into the bakery`),
+      ),
+    bakeryOut &&
+      tr(
+        byCount(bakeryOut, `${bakeryOut}\u00a0client sort de la boulangerie`, `${bakeryOut}\u00a0clients sortent de la boulangerie`),
+        byCount(bakeryOut, `${bakeryOut}\u00a0customer leaves the bakery`, `${bakeryOut}\u00a0customers leave the bakery`),
+      ),
   ]
     .filter(Boolean)
     .join(', ');
@@ -189,9 +187,8 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
   }, phase === 'answer');
 
   const duration = stepMs;
-  const en = lang() === 'en';
   const badge = (n: number, out: boolean) =>
-    out ? (en ? `${n} out` : `${n} sor${n > 1 ? 'tent' : 't'}`) : en ? `+${n} in` : `+${n} entre${n > 1 ? 'nt' : ''}`;
+    out ? tr(byCount(n, `${n} sort`, `${n} sortent`), `${n} out`) : tr(byCount(n, `+${n} entre`, `+${n} entrent`), `+${n} in`);
 
   return (
     <div className="game">
@@ -204,11 +201,11 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
         <p className="boutique__prompt" aria-live="polite">
           {phase === 'start' && (
             <>
-              {en ? 'In the shop: ' : 'Dans la boutique : '}
-              <strong>{en ? plural(current.start, 'customer') : plural(current.start, 'client')}</strong>
+              {tr('Dans la boutique : ', 'In the shop: ')}
+              <strong>{tr(plural(current.start, 'client'), plural(current.start, 'customer'))}</strong>
               {config.askBakery > 0 && current.bakeryStart !== null && (
                 <>
-                  {en ? ' · bakery: ' : ' · boulangerie : '}
+                  {tr(' · boulangerie : ', ' · bakery: ')}
                   <strong>{current.bakeryStart}</strong>
                 </>
               )}

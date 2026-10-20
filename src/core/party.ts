@@ -1,4 +1,4 @@
-import { tr } from './lang';
+import { localized, tr, type Translations } from './lang';
 import { createRng, deriveSeed } from './rng';
 import { STROOP_COLORS, STROOP_LABELS, type StroopColor } from './games/stroop';
 
@@ -17,22 +17,22 @@ export interface PartyRound {
   readonly rule: string;
 }
 
-const partyRound = (kind: PartyKind, title: readonly [fr: string, en: string], rule: readonly [fr: string, en: string]): PartyRound => ({
+const partyRound = (kind: PartyKind, title: Translations, rule: Translations): PartyRound => ({
   kind,
   get title() {
-    return tr(...title);
+    return localized(title);
   },
   get rule() {
-    return tr(...rule);
+    return localized(rule);
   },
 });
 
 export const PARTY_ROUNDS: readonly PartyRound[] = [
-  partyRound('calcul', ['Calcul express', 'Quick Math'], ['Touche le bon résultat avant les autres.', 'Tap the right answer before the others.']),
-  partyRound('couleur', ['Couleur piégée', 'Color Trap'], ['Touche la couleur de l’encre, pas le mot écrit.', 'Tap the ink color, not the written word.']),
-  partyRound('grand', ['Le plus grand', 'The Bigger One'], ['Touche le plus grand des deux nombres.', 'Tap the bigger of the two numbers.']),
-  partyRound('combien', ['Combien de points ?', 'How Many Dots?'], ['Compte les points, vite !', 'Count the dots, fast!']),
-  partyRound('calcul', ['Finale : calcul', 'Final: Math'], ['Dernière manche, tout se joue maintenant !', 'Last round, it all comes down to this!']),
+  partyRound('calcul', { fr: 'Calcul express', en: 'Quick Math' }, { fr: 'Touche le bon résultat avant les autres.', en: 'Tap the right answer before the others.' }),
+  partyRound('couleur', { fr: 'Couleur piégée', en: 'Color Trap' }, { fr: 'Touche la couleur de l’encre, pas le mot écrit.', en: 'Tap the ink color, not the written word.' }),
+  partyRound('grand', { fr: 'Le plus grand', en: 'The Bigger One' }, { fr: 'Touche le plus grand des deux nombres.', en: 'Tap the bigger of the two numbers.' }),
+  partyRound('combien', { fr: 'Combien de points ?', en: 'How Many Dots?' }, { fr: 'Compte les points, vite !', en: 'Count the dots, fast!' }),
+  partyRound('calcul', { fr: 'Finale : calcul', en: 'Final: Math' }, { fr: 'Dernière manche, tout se joue maintenant !', en: 'Last round, it all comes down to this!' }),
 ];
 
 export const QUESTIONS_PER_ROUND = 5;

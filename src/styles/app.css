@@ -2826,6 +2826,15 @@
   margin: 8px 0 6px;
 }
 
+/* Six langues : « Auto » sur toute la largeur, puis deux colonnes. */
+.segmented--langs {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.segmented--langs > :first-child {
+  grid-column: 1 / -1;
+}
+
 :root[data-text='large'] {
   font-size: 112.5%;
 }

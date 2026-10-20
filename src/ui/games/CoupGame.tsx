@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
-import { tr } from '../../core/lang';
+import { localized, tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import { COUP_DURATION_MS, coupExpected, coupLevel, generateCoupTrial, scoreCoup, type Dot } from '../../core/games/coupdoeil';
 import { createRng } from '../../core/rng';
@@ -59,10 +59,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreCoup(correct, errors, level),
       stats: { correct, errors },
-      headline: tr(
-        `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
-        `${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`,
-      ),
+      headline: `${tr(plural(correct, 'bonne réponse', 'bonnes réponses'), plural(correct, 'correct answer'))} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },
@@ -138,8 +135,8 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
         <p className={`lettre__ask${fewer ? ' coup__ask--fewer' : ''}`} aria-live="polite">
           {phase === 'ask'
             ? fewer
-              ? tr('Quelle couleur était la MOINS nombreuse ?', 'Which color had FEWER dots?')
-              : tr('Quelle couleur était la plus nombreuse ?', 'Which color had more dots?')
+              ? tr('Quelle couleur était la MOINS nombreuse\u00a0?', 'Which color had FEWER dots?')
+              : tr('Quelle couleur était la plus nombreuse\u00a0?', 'Which color had more dots?')
             : flips
               ? fewer
                 ? tr('Cherche la MOINS nombreuse…', 'Find the one with FEWER…')
@@ -154,7 +151,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
         {COUP_GROUPS.map((g, i) => (
           <TapButton key={g.name} className="coup__option" onTap={() => choose(i as 0 | 1)} disabled={phase === 'fix'} aria-keyshortcuts={i ? 'ArrowRight' : 'ArrowLeft'}>
             <span className="coup__swatch" style={{ background: g.color }} aria-hidden="true" />
-            {fewer ? tr(g.fewer.fr, g.fewer.en) : tr(g.more.fr, g.more.en)}
+            {localized(fewer ? g.fewer : g.more)}
           </TapButton>
         ))}
       </div>

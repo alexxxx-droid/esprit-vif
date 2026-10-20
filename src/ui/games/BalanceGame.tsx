@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { lang, tr } from '../../core/lang';
-import { formatSeconds } from '../../core/format';
+import { tr } from '../../core/lang';
+import { byCount, formatSeconds } from '../../core/format';
 import { balanceLevel, generateBalance, scoreBalance, type BalanceClue } from '../../core/games/balance';
-import { SHAPE_NAMES, theShape, type ShapeKind } from '../../core/games/shapes';
+import { countShapes, SHAPE_NAMES, theShape, type ShapeKind } from '../../core/games/shapes';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -13,6 +13,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { rich } from '../rich';
 import { BALANCE_LOOKS, BALANCE_LOOKS_XL } from './balance-looks';
 
 const W = 160;
@@ -36,9 +37,7 @@ function groupsOf(items: readonly number[]): { item: number; count: number }[] {
 
 /** « 3 triangles » (« 3 triangles », « 2 crosses ») : plusieurs exemplaires, pour les lecteurs d'écran. */
 function countName(shape: ShapeKind, count: number): string {
-  const name = SHAPE_NAMES[shape];
-  if (lang() === 'en') return `${count} ${/(s|x)$/.test(name) ? `${name}es` : `${name}s`}`;
-  return `${count} ${name.endsWith('x') ? name : name.endsWith('eau') ? `${name}x` : `${name}s`}`;
+  return countShapes(shape, count);
 }
 
 /** Une balance dessinée : le plateau le plus lourd descend. */
@@ -58,8 +57,8 @@ export function ScaleView({ clue, look }: { clue: BalanceClue; look: (item: numb
   const light = clue.heavier === 'left' ? clue.right : clue.left;
   return (
     <svg className="scale" viewBox={`0 0 ${W} 92`} role="img" aria-label={tr(
-        `${describe(heavy)} ${heavy.length > 1 ? 'pèsent' : 'pèse'} plus que ${describe(light)}`,
-        `${describe(heavy)} ${heavy.length > 1 ? 'weigh' : 'weighs'} more than ${describe(light)}`,
+        byCount(heavy.length, `${describe(heavy)} pèse plus que ${describe(light)}`, `${describe(heavy)} pèsent plus que ${describe(light)}`),
+        byCount(heavy.length, `${describe(heavy)} weighs more than ${describe(light)}`, `${describe(heavy)} weigh more than ${describe(light)}`),
       )}>
       <rect className="scale__post" x={PIVOT.x - 2} y={PIVOT.y} width={4} height={60} rx={2} />
       <rect className="scale__post" x={PIVOT.x - 22} y={86} width={44} height={5} rx={2.5} />
@@ -168,15 +167,9 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage balance">
         <p className="balance__ask">
-          {lang() === 'en' ? (
-            <>
-              Which one is the <strong>{puzzle.ask === 'heaviest' ? 'heaviest' : 'lightest'}</strong>?
-            </>
-          ) : (
-            <>
-              Lequel est le plus <strong>{puzzle.ask === 'heaviest' ? 'lourd' : 'léger'}</strong>&nbsp;?
-            </>
-          )}
+          {puzzle.ask === 'heaviest'
+            ? rich(tr('Lequel est le plus {which}\u00a0?', 'Which one is the {which}?'), { which: <strong>{tr('lourd', 'heaviest')}</strong> })
+            : rich(tr('Lequel est le plus {which}\u00a0?', 'Which one is the {which}?'), { which: <strong>{tr('léger', 'lightest')}</strong> })}
         </p>
         <div key={index} className={`balance__clues${puzzle.clues.length > 6 ? ' balance__clues--3' : ''}`}>
           {puzzle.clues.map((clue, i) => (

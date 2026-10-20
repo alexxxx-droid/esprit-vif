@@ -1,4 +1,4 @@
-import { tr } from '../lang';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -141,12 +141,12 @@ export const SCHULTE_LEVELS: readonly SchulteLevel[] = [
 ];
 
 /** [français, anglais], choisis à l'affichage. */
-const ORDER_LABELS: Record<SchulteOrder, readonly [string, string]> = {
-  asc: ['dans l’ordre', 'in order'],
-  desc: ['à rebours', 'countdown'],
-  alpha: ['lettres A à Y', 'letters A to Y'],
-  alt: ['1-A-2-B…', '1-A-2-B…'],
-  gorbov: ['bleus montants, orange descendants', 'blue up, orange down'],
+const ORDER_LABELS: Record<SchulteOrder, Translations> = {
+  asc: { fr: 'dans l’ordre', en: 'in order' },
+  desc: { fr: 'à rebours', en: 'countdown' },
+  alpha: { fr: 'lettres A à Y', en: 'letters A to Y' },
+  alt: { fr: '1-A-2-B…', en: '1-A-2-B…' },
+  gorbov: { fr: 'bleus montants, orange descendants', en: 'blue up, orange down' },
 };
 
 export function schulteLevelLabel(level: number): string {
@@ -157,7 +157,7 @@ export function schulteLevelLabel(level: number): string {
     c.tilt && tr('brouillée', 'scrambled'),
     c.reshuffleEvery && tr('mouvante', 'shifting'),
   ].filter(Boolean);
-  return [`${c.size} × ${c.size}`, tr(...ORDER_LABELS[c.order]), ...flags].join(' · ');
+  return [`${c.size} × ${c.size}`, localized(ORDER_LABELS[c.order]), ...flags].join(' · ');
 }
 
 /** La règle affichée à l'intro. */

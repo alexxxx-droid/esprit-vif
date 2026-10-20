@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { setLang, type Lang } from '../lang';
+import { setLang } from '../lang';
 import { MAX_LEVEL, TIERS } from '../levels';
 import { createRng, hashSeed } from '../rng';
 import {
@@ -67,7 +67,7 @@ import {
 
 const ALL_LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 const NEW_LEVELS = ALL_LEVELS.filter((l) => l > 20);
-const LANGS: Lang[] = ['fr', 'en'];
+const LANGS: ('fr' | 'en')[] = ['fr', 'en'];
 
 afterEach(() => setLang('fr'));
 
@@ -151,7 +151,7 @@ const SAME_IN_BOTH = {
     3627631073, 2871990587, 152079515, 3716663538, 924138701, 298405147,
   ],
 };
-const BEFORE: Record<Lang, Record<string, number[]>> = {
+const BEFORE: Record<'fr' | 'en', Record<string, number[]>> = {
   fr: {
     ...SAME_IN_BOTH,
     horloges: [

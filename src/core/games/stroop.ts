@@ -1,4 +1,5 @@
-import { lang, tr, type Lang } from '../lang';
+import { byLang } from '../content';
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -45,8 +46,8 @@ export const STROOP_KEYS: Record<string, StroopColor> = { r: 'rouge', b: 'bleu',
 export const STROOP_KEYS_EN: Record<string, StroopColor> = { r: 'rouge', b: 'bleu', g: 'vert', y: 'jaune', o: 'orange', p: 'violet' };
 
 /** Les touches de la langue en cours. */
-export function stroopKeys(): Record<string, StroopColor> {
-  return lang() === 'en' ? STROOP_KEYS_EN : STROOP_KEYS;
+export function stroopKeys(): Readonly<Record<string, StroopColor>> {
+  return byLang(STROOP_KEYS, STROOP_KEYS_EN, (c) => c.stroop.keys);
 }
 
 export interface StroopItem {
@@ -336,7 +337,10 @@ const SPOKEN_EN: Record<string, StroopColor> = {
   whites: 'blanc',
 };
 
-const SPOKEN: Record<Lang, Record<string, StroopColor>> = { fr: SPOKEN_FR, en: SPOKEN_EN };
+/** Les mots reconnus à la voix dans la langue en cours. */
+export function spokenColors(): Readonly<Record<string, StroopColor>> {
+  return byLang(SPOKEN_FR, SPOKEN_EN, (c) => c.stroop.spoken);
+}
 
 /** Reconnaissance vocale : retrouve la dernière couleur prononcée dans une transcription. */
 export function matchSpokenColor(transcript: string): StroopColor | null {
@@ -344,9 +348,10 @@ export function matchSpokenColor(transcript: string): StroopColor | null {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
+    .replace(/ß/g, 'ss')
     .split(/[^a-z]+/)
     .filter(Boolean);
-  const spoken = SPOKEN[lang()];
+  const spoken = spokenColors();
   for (let i = words.length - 1; i >= 0; i--) {
     const color = spoken[words[i]];
     if (color) return color;

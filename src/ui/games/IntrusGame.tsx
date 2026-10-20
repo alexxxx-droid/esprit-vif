@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useState, type CSSProperties } from 'react';
 import { tr } from '../../core/lang';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import {
   generateIntrus,
   INTRUS_DURATION_MS,
@@ -66,7 +66,7 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreIntrus(found, level),
       stats: { found, errors, size: board.size },
-      headline: tr(`${plural(found, 'intrus')} · ${plural(errors, 'erreur')}`, `${found} found · ${plural(errors, 'error')}`),
+      headline: `${tr(plural(found, 'intrus'), `${found} found`)} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Intrus trouvés', 'Odd ones found'), value: String(found) },
         { label: tr('Erreurs', 'Errors'), value: errors ? `${errors} (−${(errors * INTRUS_PENALTY_MS) / 1000} s)` : tr('Aucune', 'None') },
@@ -113,7 +113,7 @@ export function IntrusGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage intrus-stage">
         <p className="intrus__found" aria-live="polite">
-          <strong>{found}</strong> {tr(found < 2 ? 'trouvé' : 'trouvés', 'found')}
+          <strong>{found}</strong> {tr(byCount(found, 'trouvé', 'trouvés'), 'found')}
           {wrong && (
             <span key={wrong.id} className="penalty">
               −2&nbsp;s

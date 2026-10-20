@@ -1,6 +1,6 @@
 /**
  * Les deux nuées de Coup d'œil : bleue et orange, deux teintes que les daltoniens distinguent aussi.
- * Le libellé porte ses deux langues et se choisit à l'affichage : `tr(g.more.fr, g.more.en)`
+ * Le libellé porte ses langues et se choisit à l'affichage : `localized(g.more)`
  * (`g.fewer` quand la question s'inverse).
  */
 export const COUP_GROUPS = [

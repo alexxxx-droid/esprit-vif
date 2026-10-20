@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { generatePaires, PAIRES_PEEK_MS, pairesLevel, scorePaires, swapSlots, type PairFace } from '../../core/games/paires';
 import { describeShape } from '../../core/games/shapes';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { Shape } from '../components/Shape';
@@ -207,8 +207,8 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
             <>
               <strong>{pairsFound}</strong>{' '}
               {tr(
-                `/ ${config.pairs} paires · ${attempts} coup${attempts > 1 ? 's' : ''}`,
-                `/ ${config.pairs} pairs · ${attempts} move${attempts === 1 ? '' : 's'}`,
+                byCount(attempts, `/ ${config.pairs} paires · ${attempts} coup`, `/ ${config.pairs} paires · ${attempts} coups`),
+                byCount(attempts, `/ ${config.pairs} pairs · ${attempts} move`, `/ ${config.pairs} pairs · ${attempts} moves`),
               )}
             </>
           )}

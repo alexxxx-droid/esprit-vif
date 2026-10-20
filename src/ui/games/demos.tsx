@@ -1,4 +1,5 @@
 import { useMemo, type CSSProperties } from 'react';
+import { demoContent } from '../../core/content/demos';
 import { balanceLevel } from '../../core/games/balance';
 import { demoViews, solidFrame, type Solid } from '../../core/games/cubes';
 import { formatClock, formatDuration, horlogesLevel } from '../../core/games/horloges';
@@ -7,7 +8,8 @@ import { denominationLabel, formatEuros } from '../../core/games/monnaie';
 import { nbackLevel } from '../../core/games/nback';
 import { mirror, rotate, rotationLevel, type Piece } from '../../core/games/rotation';
 import type { ShapeKind } from '../../core/games/shapes';
-import { lang, tr } from '../../core/lang';
+import { STROOP_LABELS } from '../../core/games/stroop';
+import { localized, tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
 import { Shape } from '../components/Shape';
 import { ScaleView } from './BalanceGame';
@@ -88,17 +90,7 @@ const STROOP_SCRIPT = [
 ] as const;
 
 /** Les quatre couleurs de la démo : nom en français et en anglais, choisi à l'affichage. */
-const STROOP_BUTTONS = [
-  ['rouge', 'Rouge', 'Red'],
-  ['bleu', 'Bleu', 'Blue'],
-  ['vert', 'Vert', 'Green'],
-  ['jaune', 'Jaune', 'Yellow'],
-] as const;
-
-function stroopName(color: (typeof STROOP_BUTTONS)[number][0]): string {
-  const [, fr, en] = STROOP_BUTTONS.find(([c]) => c === color)!;
-  return tr(fr, en);
-}
+const STROOP_BUTTONS = ['rouge', 'bleu', 'vert', 'jaune'] as const;
 
 /** Niveaux Expert et plus : un cadre coloré autour du mot, et la consigne qui dit quoi regarder. */
 const STROOP_FRAME_SCRIPT = [
@@ -124,15 +116,15 @@ export function StroopDemo({ level }: { level: number }) {
           className={`demo__word ink--${step.ink}${framed ? ' demo__word--framed' : ''}`}
           style={framed ? ({ '--frame': `var(--ink-${framed.frame})` } as CSSProperties) : undefined}
         >
-          {stroopName(step.word).toUpperCase()}
+          {STROOP_LABELS[step.word].toUpperCase()}
         </span>
         <Tick show={step.ok} />
       </div>
       <div className="demo__answers">
-        {STROOP_BUTTONS.map(([color, fr, en]) => (
+        {STROOP_BUTTONS.map((color) => (
           <span key={color} className={`demo__answer${step.press === color ? ' is-pressed' : ''}`}>
             <span className={`swatch swatch--${color}`} />
-            {tr(fr, en)}
+            {STROOP_LABELS[color]}
           </span>
         ))}
       </div>
@@ -258,29 +250,16 @@ export function IntrusDemo({ level }: { level: number }) {
         ))}
       </div>
       <p className="demo__caption">
-        {lang() === 'en' ? (
-          <>
-            The “{board.odd}” is hiding among the “{board.base}”s
-          </>
-        ) : (
-          <>
-            Le « {board.odd} » se cache parmi les « {board.base} »
-          </>
-        )}
+        {tr(`Le «\u00a0${board.odd}\u00a0» se cache parmi les «\u00a0${board.base}\u00a0»`, `The “${board.odd}” is hiding among the “${board.base}”s`)}
         <Tick show={frame % 3 === 2} />
       </p>
     </div>
   );
 }
 
-/** Un mot de cinq lettres par langue : les lettres mélangées, puis l'ordre où on les touche. */
-const ANAGRAM_DEMO = {
-  fr: { tiles: ['H', 'C', 'I', 'N', 'E'], order: [1, 0, 2, 4, 3] }, // C H I E N
-  en: { tiles: ['G', 'T', 'I', 'R', 'E'], order: [1, 2, 0, 4, 3] }, // T I G E R
-};
-
+/** Un mot de cinq lettres dans la langue en cours : les lettres mélangées, puis l'ordre où on les touche. */
 export function AnagrammesDemo() {
-  const { tiles: ANAGRAM_TILES, order: ANAGRAM_ORDER } = ANAGRAM_DEMO[lang()];
+  const { tiles: ANAGRAM_TILES, order: ANAGRAM_ORDER } = demoContent().anagram;
   const frame = useDemoFrame(8, 550, 6);
   const count = Math.min(5, Math.max(0, frame - 1));
   const picked = ANAGRAM_ORDER.slice(0, count);
@@ -463,7 +442,9 @@ export function CorrespondanceDemo() {
       </div>
       <p className="demo__caption">
         {step.answer
-          ? tr(`Pareille qu’avant ? ${step.answer === 'yes' ? 'Oui' : 'Non'}`, `Same as before? ${step.answer === 'yes' ? 'Yes' : 'No'}`)
+          ? step.answer === 'yes'
+            ? tr('Pareille qu’avant ? Oui', 'Same as before? Yes')
+            : tr('Pareille qu’avant ? Non', 'Same as before? No')
           : tr('Retiens la carte', 'Remember the card')}
         <Tick show={Boolean(step.answer)} />
       </p>
@@ -726,14 +707,9 @@ export function HorlogesDemo({ level }: { level: number }) {
   );
 }
 
-/** La liste à retenir et les deux mots montrés ensuite (le premier était dans la liste), par langue. */
-const MOTS_DEMO = {
-  fr: { words: ['vélo', 'pomme', 'violon'], seen: 'pomme', unseen: 'lion' },
-  en: { words: ['bike', 'apple', 'violin'], seen: 'apple', unseen: 'lion' },
-};
-
+/** La liste à retenir et les deux mots montrés ensuite (le premier était dans la liste), dans la langue en cours. */
 function motsScript() {
-  const { seen, unseen } = MOTS_DEMO[lang()];
+  const { seen, unseen } = demoContent().mots;
   return [
     { probe: null, caption: tr('Retiens la liste…', 'Remember the list…') },
     { probe: seen, caption: tr(`${seen} ? Vu !`, `${seen}? Seen!`) },
@@ -753,7 +729,7 @@ export function MotsDemo() {
         </span>
       ) : (
         <span className="demo-words">
-          {MOTS_DEMO[lang()].words.map((word) => (
+          {demoContent().mots.words.map((word) => (
             <span key={word}>{word}</span>
           ))}
         </span>
@@ -766,14 +742,9 @@ export function MotsDemo() {
   );
 }
 
-/** Un mot à trou par langue : l'indice, le mot, la lettre qui manque, les lettres hésitées. */
-const LETTRE_DEMO = {
-  fr: { hint: 'Animal de la ferme', word: 'CHEVAL', position: 3, letter: 'V', guess: 'B, V ou R…', answer: 'V : CHEVAL' },
-  en: { hint: 'Farm animal', word: 'HORSE', position: 2, letter: 'R', guess: 'R, N or T…', answer: 'R: HORSE' },
-};
-
+/** Un mot à trou dans la langue en cours : l'indice, le mot, la lettre qui manque, les lettres hésitées. */
 export function LettreDemo() {
-  const demo = LETTRE_DEMO[lang()];
+  const demo = demoContent().lettre;
   const frame = useDemoFrame(3, 1000, 2);
   return (
     <div className="demo">
@@ -787,14 +758,9 @@ export function LettreDemo() {
   );
 }
 
-/** Trois fruits et un intrus (le troisième mot), par langue. */
-const CATEGORIES_DEMO = {
-  fr: ['pomme', 'poire', 'violon', 'cerise'],
-  en: ['apple', 'pear', 'violin', 'cherry'],
-};
-
+/** Trois fruits et un intrus (le troisième mot), dans la langue en cours. */
 export function CategoriesDemo() {
-  const words = CATEGORIES_DEMO[lang()];
+  const words = demoContent().categories;
   const frame = useDemoFrame(2, 1300, 1);
   return (
     <div className="demo">
@@ -893,7 +859,7 @@ export function CoupDemo() {
         {COUP_GROUPS.map((g, i) => (
           <span key={g.name} className={frame === 2 && i === 0 ? 'is-picked' : undefined}>
             <i style={{ background: g.color }} />
-            {tr(g.more.fr, g.more.en)}
+            {localized(g.more)}
           </span>
         ))}
       </div>
@@ -911,13 +877,14 @@ export function CoupDemo() {
 
 /** Trois visages ; les prénoms suivent la langue (le premier est celui qu'on cherche). */
 const QUI_DEMO = [
-  { character: 'pomme' as const, color: 1, names: { fr: 'Léa', en: 'Lucy' } },
-  { character: 'citron' as const, color: 0, names: { fr: 'Hugo', en: 'Jack' } },
-  { character: 'raisin' as const, color: 2, names: { fr: 'Nina', en: 'Nina' } },
+  { character: 'pomme' as const, color: 1 },
+  { character: 'citron' as const, color: 0 },
+  { character: 'raisin' as const, color: 2 },
 ];
 
 export function QuiDemo() {
-  const people = QUI_DEMO.map((p) => ({ ...p, name: p.names[lang()] }));
+  const names = demoContent().qui;
+  const people = QUI_DEMO.map((p, i) => ({ ...p, name: names[i] }));
   const frame = useDemoFrame(3, 1300, 2);
   return (
     <div className="demo">
@@ -933,7 +900,7 @@ export function QuiDemo() {
         {frame === 0
           ? tr('Retiens les prénoms…', 'Remember the names…')
           : frame === 1
-            ? tr('Qui est Léa ?', `Who is ${people[0].name}?`)
+            ? tr(`Qui est ${people[0].name} ?`, `Who is ${people[0].name}?`)
             : tr('La pomme sur fond orange !', 'The apple on orange!')}
         <Tick show={frame === 2} />
       </p>
@@ -941,18 +908,14 @@ export function QuiDemo() {
   );
 }
 
-const LECTURE_DEMO = [
-  { sentence: { fr: 'Un chat a quatre pattes.', en: 'A cat has four legs.' }, truth: true },
-  { sentence: { fr: 'La mer est sucrée.', en: 'The sea is sweet.' }, truth: false },
-];
-
 export function LectureDemo() {
   const frame = useDemoFrame(4, 1100, 1);
-  const q = LECTURE_DEMO[frame >> 1];
+  // Une phrase vraie, puis une fausse (`demoContent().lecture`).
+  const q = { sentence: demoContent().lecture[frame >> 1], truth: frame >> 1 === 0 };
   const answered = frame % 2 === 1;
   return (
     <div className="demo">
-      <p className="demo-lecture">{q.sentence[lang()]}</p>
+      <p className="demo-lecture">{q.sentence}</p>
       <div className="demo-lecture__options">
         <span className={answered && q.truth ? 'is-picked' : undefined}>
           <Icon name="check" size={16} strokeWidth={3} />

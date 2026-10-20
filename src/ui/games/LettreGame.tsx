@@ -44,10 +44,7 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreLettre(correct, errors, level),
       stats: { correct, errors },
-      headline: tr(
-        `${plural(correct, 'mot complété', 'mots complétés')} · ${plural(errors, 'erreur')}`,
-        `${plural(correct, 'word completed', 'words completed')} · ${plural(errors, 'error')}`,
-      ),
+      headline: `${tr(plural(correct, 'mot complété', 'mots complétés'), plural(correct, 'word completed', 'words completed'))} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Mots complétés', 'Words completed'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },

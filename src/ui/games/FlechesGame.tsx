@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { tr } from '../../core/lang';
+import { localized, tr } from '../../core/lang';
 import {
   flechesCount,
   flechesLevel,
@@ -32,7 +32,7 @@ const DIR_NAMES: Record<Dir, { fr: string; en: string }> = {
   down: { fr: 'bas', en: 'down' },
 };
 /** Nom d'une direction dans la langue en cours. */
-const dirName = (dir: Dir) => tr(DIR_NAMES[dir].fr, DIR_NAMES[dir].en);
+const dirName = (dir: Dir) => localized(DIR_NAMES[dir]);
 const KEYS: Record<string, Dir> = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' };
 
 export function Arrow({ dir, size = 44, className }: { dir: Dir; size?: number; className?: string }) {

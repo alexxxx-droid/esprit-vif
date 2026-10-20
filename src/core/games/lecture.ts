@@ -1,4 +1,5 @@
-import { lang, tr } from '../lang';
+import { byLang } from '../content';
+import { localized, tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -456,7 +457,7 @@ export const SENTENCES_EN: readonly (readonly SentencePair[])[] = [
 
 /** Les phrases de la langue en cours. */
 export function sentences(): readonly (readonly SentencePair[])[] {
-  return lang() === 'en' ? SENTENCES_EN : SENTENCES;
+  return byLang(SENTENCES, SENTENCES_EN, (c) => c.sentences);
 }
 
 export type LectureTier = 1 | 2 | 3 | 4 | 5;
@@ -567,19 +568,20 @@ export function lectureRule(level: number): string | null {
 }
 
 const TIER_LABELS = {
-  1: ['phrases courtes', 'short sentences'],
-  2: ['phrases longues', 'long sentences'],
-  3: ['négations', 'negations'],
-  4: ['phrases à rallonge', 'very long sentences'],
-  5: ['logique', 'logic'],
-} as const;
+  1: { fr: 'phrases courtes', en: 'short sentences' },
+  2: { fr: 'phrases longues', en: 'long sentences' },
+  3: { fr: 'négations', en: 'negations' },
+  4: { fr: 'phrases à rallonge', en: 'very long sentences' },
+  5: { fr: 'logique', en: 'logic' },
+};
 
 export function lectureLevelLabel(level: number): string {
   const c = lectureLevel(level);
-  const names = c.tiers.map((t) => tr(TIER_LABELS[t][0], TIER_LABELS[t][1]));
+  const names = c.tiers.map((t) => localized(TIER_LABELS[t]));
   // Les niveaux 1 à 20 gardent leur libellé (« … et … et … ») ; au-delà, une vraie énumération.
   const fr = c.tiers.some((t) => t > 3) && names.length > 2 ? `${names.slice(0, -1).join(', ')} et ${names.at(-1)}` : names.join(' et ');
-  const tiers = tr(fr, names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]);
+  const en = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0];
+  const tiers = byLang(fr, en, (content) => content.grammar.list(names));
   const flash = c.flashMsPerChar ? tr(' · phrases qui s’effacent', ' · sentences fade out') : '';
   return tr(`${tiers} · objectif ${c.target}${flash}`, `${tiers} · target ${c.target}${flash}`);
 }

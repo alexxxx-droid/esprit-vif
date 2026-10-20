@@ -1,5 +1,5 @@
 import { NBSP } from '../format';
-import { tr } from '../lang';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { timeScore, type TimeThresholds } from '../scoring';
@@ -332,10 +332,10 @@ export interface CalcLevel extends TimeThresholds {
   kinds: CalcKind[];
 }
 
-/** Un niveau et son libellé dans les deux langues, choisi à la lecture. */
-const C = (fr: string, en: string, kinds: CalcKind[], best: number, worst: number): CalcLevel => ({
+/** Un niveau et son libellé dans chaque langue, choisi à la lecture. */
+const C = (label: Translations, kinds: CalcKind[], best: number, worst: number): CalcLevel => ({
   get label() {
-    return tr(fr, en);
+    return localized(label);
   },
   kinds,
   best,
@@ -344,59 +344,59 @@ const C = (fr: string, en: string, kinds: CalcKind[], best: number, worst: numbe
 
 /** Niveaux 1 à 3 : ceux de la spec. Au-delà, chaînes, centaines, carrés, produits à deux chiffres. */
 export const CALCUL_LEVELS: readonly CalcLevel[] = [
-  C('Tables à un chiffre', 'Single-digit facts', ['add1', 'sub1', 'mul1'], 20, 80),
-  C('Deux chiffres et divisions', 'Two digits and division', ['add2', 'sub2', 'mulTeen', 'divTwo'], 35, 110),
-  C('Jusqu’à 100, tables de 12', 'Up to 100, times tables to 12', ['add100', 'sub100', 'mul12', 'div12'], 45, 130),
-  C('Centaines', 'Hundreds', ['add3', 'sub3', 'mul12', 'div12'], 48, 135),
-  C('Calculs en chaîne', 'Chained problems', ['chainAddSub', 'mul12', 'div12'], 50, 140),
-  C('Grandes multiplications', 'Bigger multiplication', ['mul2x1', 'divTwo', 'add100', 'sub100'], 50, 140),
-  C('Chaînes et centaines', 'Chains and hundreds', ['chainMulAdd', 'add3', 'div12'], 52, 145),
-  C('Divisions de centaines', 'Dividing hundreds', ['div3', 'mul2x1', 'sub3'], 55, 150),
-  C('Parenthèses', 'Parentheses', ['chainParen', 'chainAddSub', 'mul12'], 55, 150),
-  C('Carrés', 'Squares', ['square', 'mul2x1', 'div3'], 58, 155),
-  C('Centaines doubles', 'Three digits and three digits', ['add33', 'sub33', 'mul12'], 58, 155),
-  C('Double produit', 'Double products', ['chainMulMul', 'chainMulAdd'], 60, 160),
-  C('Deux chiffres × deux chiffres', 'Two digits × two digits', ['mul2x2', 'div3'], 62, 165),
-  C('Carrés et parenthèses', 'Squares and parentheses', ['square', 'chainParen', 'sub33'], 62, 165),
-  C('Grand mélange', 'Big mix', ['mul2x2', 'chainMulMul', 'add33'], 64, 170),
-  C('Mélange expert', 'Expert mix', ['square', 'mul2x1', 'div3', 'add33', 'sub33', 'chainMulMul', 'mul2x2'], 66, 175),
-  C('Produits géants', 'Giant products', ['mul2x2', 'square', 'div3', 'chainMulMul'], 68, 180),
-  C('Divisions à deux chiffres', 'Two-digit division', ['div4', 'mul2x2'], 70, 185),
-  C('Presque génie', 'Almost a genius', ['chainBig', 'div4', 'square'], 72, 190),
-  C('Génie du calcul', 'Math genius', ['chainBig', 'div4', 'mul2x2', 'square', 'chainMulMul', 'sub33'], 75, 200),
+  C({ fr: 'Tables à un chiffre', en: 'Single-digit facts' }, ['add1', 'sub1', 'mul1'], 20, 80),
+  C({ fr: 'Deux chiffres et divisions', en: 'Two digits and division' }, ['add2', 'sub2', 'mulTeen', 'divTwo'], 35, 110),
+  C({ fr: 'Jusqu’à 100, tables de 12', en: 'Up to 100, times tables to 12' }, ['add100', 'sub100', 'mul12', 'div12'], 45, 130),
+  C({ fr: 'Centaines', en: 'Hundreds' }, ['add3', 'sub3', 'mul12', 'div12'], 48, 135),
+  C({ fr: 'Calculs en chaîne', en: 'Chained problems' }, ['chainAddSub', 'mul12', 'div12'], 50, 140),
+  C({ fr: 'Grandes multiplications', en: 'Bigger multiplication' }, ['mul2x1', 'divTwo', 'add100', 'sub100'], 50, 140),
+  C({ fr: 'Chaînes et centaines', en: 'Chains and hundreds' }, ['chainMulAdd', 'add3', 'div12'], 52, 145),
+  C({ fr: 'Divisions de centaines', en: 'Dividing hundreds' }, ['div3', 'mul2x1', 'sub3'], 55, 150),
+  C({ fr: 'Parenthèses', en: 'Parentheses' }, ['chainParen', 'chainAddSub', 'mul12'], 55, 150),
+  C({ fr: 'Carrés', en: 'Squares' }, ['square', 'mul2x1', 'div3'], 58, 155),
+  C({ fr: 'Centaines doubles', en: 'Three digits and three digits' }, ['add33', 'sub33', 'mul12'], 58, 155),
+  C({ fr: 'Double produit', en: 'Double products' }, ['chainMulMul', 'chainMulAdd'], 60, 160),
+  C({ fr: 'Deux chiffres × deux chiffres', en: 'Two digits × two digits' }, ['mul2x2', 'div3'], 62, 165),
+  C({ fr: 'Carrés et parenthèses', en: 'Squares and parentheses' }, ['square', 'chainParen', 'sub33'], 62, 165),
+  C({ fr: 'Grand mélange', en: 'Big mix' }, ['mul2x2', 'chainMulMul', 'add33'], 64, 170),
+  C({ fr: 'Mélange expert', en: 'Expert mix' }, ['square', 'mul2x1', 'div3', 'add33', 'sub33', 'chainMulMul', 'mul2x2'], 66, 175),
+  C({ fr: 'Produits géants', en: 'Giant products' }, ['mul2x2', 'square', 'div3', 'chainMulMul'], 68, 180),
+  C({ fr: 'Divisions à deux chiffres', en: 'Two-digit division' }, ['div4', 'mul2x2'], 70, 185),
+  C({ fr: 'Presque génie', en: 'Almost a genius' }, ['chainBig', 'div4', 'square'], 72, 190),
+  C({ fr: 'Génie du calcul', en: 'Math genius' }, ['chainBig', 'div4', 'mul2x2', 'square', 'chainMulMul', 'sub33'], 75, 200),
   // Expert : nouvelles familles mêlées aux plus dures des niveaux précédents.
-  C('Grands facteurs', 'Big factors', ['mulBig1', 'div4', 'chainBig', 'mul2x2'], 77, 210),
-  C('Milliers', 'Thousands', ['add4', 'sub4', 'mulBig1', 'mul2x2'], 78, 214),
-  C('Parenthèses à droite', 'Brackets on the right', ['parenRight', 'chainBig', 'square', 'div4'], 79, 217),
-  C('Pourcentages', 'Percentages', ['percent', 'mulBig1', 'mul2x2', 'div4'], 81, 220),
-  C('Nombre manquant', 'Missing number', ['hole', 'sub4', 'mul2x2', 'chainBig'], 82, 224),
-  C('Quatre termes', 'Four terms', ['chain4', 'divMul', 'chainMulMul', 'mul2x2'], 83, 227),
-  C('Carrés jusqu’à 35', 'Squares up to 35', ['squareMid', 'mulBig1', 'percent', 'div4'], 84, 231),
-  C('Diviser puis multiplier', 'Divide, then multiply', ['divMul', 'parenRight', 'sub4', 'squareMid'], 86, 234),
-  C('Trous et pourcentages', 'Gaps and percentages', ['hole', 'percent', 'chain4', 'add4', 'squareMid'], 87, 237),
-  C('Expert accompli', 'Seasoned expert', ['mulBig1', 'add4', 'sub4', 'parenRight', 'percent', 'hole', 'chain4', 'divMul', 'squareMid'], 88, 241),
+  C({ fr: 'Grands facteurs', en: 'Big factors' }, ['mulBig1', 'div4', 'chainBig', 'mul2x2'], 77, 210),
+  C({ fr: 'Milliers', en: 'Thousands' }, ['add4', 'sub4', 'mulBig1', 'mul2x2'], 78, 214),
+  C({ fr: 'Parenthèses à droite', en: 'Brackets on the right' }, ['parenRight', 'chainBig', 'square', 'div4'], 79, 217),
+  C({ fr: 'Pourcentages', en: 'Percentages' }, ['percent', 'mulBig1', 'mul2x2', 'div4'], 81, 220),
+  C({ fr: 'Nombre manquant', en: 'Missing number' }, ['hole', 'sub4', 'mul2x2', 'chainBig'], 82, 224),
+  C({ fr: 'Quatre termes', en: 'Four terms' }, ['chain4', 'divMul', 'chainMulMul', 'mul2x2'], 83, 227),
+  C({ fr: 'Carrés jusqu’à 35', en: 'Squares up to 35' }, ['squareMid', 'mulBig1', 'percent', 'div4'], 84, 231),
+  C({ fr: 'Diviser puis multiplier', en: 'Divide, then multiply' }, ['divMul', 'parenRight', 'sub4', 'squareMid'], 86, 234),
+  C({ fr: 'Trous et pourcentages', en: 'Gaps and percentages' }, ['hole', 'percent', 'chain4', 'add4', 'squareMid'], 87, 237),
+  C({ fr: 'Expert accompli', en: 'Seasoned expert' }, ['mulBig1', 'add4', 'sub4', 'parenRight', 'percent', 'hole', 'chain4', 'divMul', 'squareMid'], 88, 241),
   // Maître : produits à trois chiffres, deux paires de parenthèses, trous à deux chiffres.
-  C('Centaines × un chiffre', 'Hundreds × one digit', ['mul3x1', 'div5', 'sub4', 'squareMid'], 91, 247),
-  C('Deux parenthèses', 'Two sets of brackets', ['parenBoth', 'parenRight', 'chain4', 'mul3x1'], 93, 254),
-  C('Produits moyens', 'Medium products', ['mul2x2b', 'squareMid', 'div5'], 95, 261),
-  C('Pourcentages fins', 'Trickier percentages', ['percent2', 'mul3x1', 'mul2x2b'], 98, 268),
-  C('Trous difficiles', 'Harder gaps', ['holeHard', 'parenBoth', 'div5'], 100, 275),
-  C('Carrés jusqu’à 60', 'Squares up to 60', ['squareBig', 'mul2x2b', 'holeHard'], 103, 281),
-  C('Doubles produits géants', 'Giant double products', ['chainMulMul2', 'parenBoth', 'div2d'], 105, 288),
-  C('Divisions longues', 'Long division', ['div2d', 'div5', 'mul3x1', 'squareBig'], 108, 295),
-  C('Presque légende', 'Almost a legend', ['holeHard', 'percent2', 'squareBig', 'mul2x2b', 'chainMulMul2', 'div2d'], 110, 302),
-  C('Maître du calcul', 'Math master', ['mul3x1', 'div5', 'parenBoth', 'mul2x2b', 'percent2', 'holeHard', 'squareBig', 'chainMulMul2', 'div2d'], 113, 308),
+  C({ fr: 'Centaines × un chiffre', en: 'Hundreds × one digit' }, ['mul3x1', 'div5', 'sub4', 'squareMid'], 91, 247),
+  C({ fr: 'Deux parenthèses', en: 'Two sets of brackets' }, ['parenBoth', 'parenRight', 'chain4', 'mul3x1'], 93, 254),
+  C({ fr: 'Produits moyens', en: 'Medium products' }, ['mul2x2b', 'squareMid', 'div5'], 95, 261),
+  C({ fr: 'Pourcentages fins', en: 'Trickier percentages' }, ['percent2', 'mul3x1', 'mul2x2b'], 98, 268),
+  C({ fr: 'Trous difficiles', en: 'Harder gaps' }, ['holeHard', 'parenBoth', 'div5'], 100, 275),
+  C({ fr: 'Carrés jusqu’à 60', en: 'Squares up to 60' }, ['squareBig', 'mul2x2b', 'holeHard'], 103, 281),
+  C({ fr: 'Doubles produits géants', en: 'Giant double products' }, ['chainMulMul2', 'parenBoth', 'div2d'], 105, 288),
+  C({ fr: 'Divisions longues', en: 'Long division' }, ['div2d', 'div5', 'mul3x1', 'squareBig'], 108, 295),
+  C({ fr: 'Presque légende', en: 'Almost a legend' }, ['holeHard', 'percent2', 'squareBig', 'mul2x2b', 'chainMulMul2', 'div2d'], 110, 302),
+  C({ fr: 'Maître du calcul', en: 'Math master' }, ['mul3x1', 'div5', 'parenBoth', 'mul2x2b', 'percent2', 'holeHard', 'squareBig', 'chainMulMul2', 'div2d'], 113, 308),
   // Légende : deux chiffres × deux chiffres jusqu'à 99, carrés jusqu'à 99, milliers divisés.
-  C('Grands produits', 'Big products', ['mul2x2c', 'mul3x1b', 'squareBig'], 118, 322),
-  C('Carrés jusqu’à 99', 'Squares up to 99', ['squareHuge', 'mul2x2b', 'div6'], 123, 336),
-  C('Milliers divisés', 'Dividing thousands', ['div6', 'div2d', 'percentHard', 'mul3x1b'], 128, 349),
-  C('Trous géants', 'Giant gaps', ['holeMul', 'holeHard', 'mul2x2c'], 133, 363),
-  C('Pourcentages experts', 'Expert percentages', ['percentHard', 'parenBoth2', 'mul3x1b', 'squareHuge'], 138, 376),
-  C('Parenthèses géantes', 'Giant brackets', ['parenBoth2', 'chainMulMul2', 'squareHuge', 'holeMul'], 143, 390),
-  C('Tout en grand', 'Everything big', ['mul2x2c', 'div6', 'holeMul', 'percentHard'], 148, 403),
-  C('Le grand chelem', 'Grand slam', ['squareHuge', 'mul2x2c', 'parenBoth2', 'holeMul', 'div6'], 153, 417),
-  C('Aux portes de la légende', 'At the gates of legend', ['mul2x2c', 'squareHuge', 'div6', 'holeMul', 'percentHard', 'mul3x1b'], 157, 431),
-  C('Légende du calcul', 'Math legend', ['mul2x2c', 'squareHuge', 'div6', 'holeMul', 'percentHard', 'parenBoth2', 'mul3x1b', 'chainMulMul2'], 162, 444),
+  C({ fr: 'Grands produits', en: 'Big products' }, ['mul2x2c', 'mul3x1b', 'squareBig'], 118, 322),
+  C({ fr: 'Carrés jusqu’à 99', en: 'Squares up to 99' }, ['squareHuge', 'mul2x2b', 'div6'], 123, 336),
+  C({ fr: 'Milliers divisés', en: 'Dividing thousands' }, ['div6', 'div2d', 'percentHard', 'mul3x1b'], 128, 349),
+  C({ fr: 'Trous géants', en: 'Giant gaps' }, ['holeMul', 'holeHard', 'mul2x2c'], 133, 363),
+  C({ fr: 'Pourcentages experts', en: 'Expert percentages' }, ['percentHard', 'parenBoth2', 'mul3x1b', 'squareHuge'], 138, 376),
+  C({ fr: 'Parenthèses géantes', en: 'Giant brackets' }, ['parenBoth2', 'chainMulMul2', 'squareHuge', 'holeMul'], 143, 390),
+  C({ fr: 'Tout en grand', en: 'Everything big' }, ['mul2x2c', 'div6', 'holeMul', 'percentHard'], 148, 403),
+  C({ fr: 'Le grand chelem', en: 'Grand slam' }, ['squareHuge', 'mul2x2c', 'parenBoth2', 'holeMul', 'div6'], 153, 417),
+  C({ fr: 'Aux portes de la légende', en: 'At the gates of legend' }, ['mul2x2c', 'squareHuge', 'div6', 'holeMul', 'percentHard', 'mul3x1b'], 157, 431),
+  C({ fr: 'Légende du calcul', en: 'Math legend' }, ['mul2x2c', 'squareHuge', 'div6', 'holeMul', 'percentHard', 'parenBoth2', 'mul3x1b', 'chainMulMul2'], 162, 444),
 ];
 
 /** Familles où la priorité de × et ÷ sur + et − compte (rappelée à l'intro). */

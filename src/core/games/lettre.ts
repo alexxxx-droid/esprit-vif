@@ -1,9 +1,10 @@
-import { lang, tr, type Lang } from '../lang';
+import { byLang, extraContent, memoByLang } from '../content';
+import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { clampLevel, countScore } from '../scoring';
 import { categories, CATEGORIES, type Category } from './lexique';
-import { anagramWords, COMMON_WORDS_EN, hasRudeWord, longAnagramWords } from './words';
+import { anagramWords, extraKnownWords, hasRudeWord, longAnagramWords } from './words';
 
 /**
  * Lettre manquante : « Fruit : CER_SE ». La catégorie sert d'indice et lève toute ambiguïté ;
@@ -128,17 +129,21 @@ export function lettreRule(level: number): string | null {
       ? tr('Il manque une lettre : choisis celle qui complète le mot.', 'One letter is missing: pick the one that completes the word.')
       : c.missing === 2
         ? tr('Il manque deux lettres : choisis la paire qui complète le mot.', 'Two letters are missing: pick the pair that completes the word.')
-        : tr(
-            `Il manque ${c.missing === 3 ? 'trois' : 'quatre'} lettres : choisis le groupe qui complète le mot.`,
-            `${c.missing === 3 ? 'Three' : 'Four'} letters are missing: pick the set that completes the word.`,
-          );
+        : c.missing === 3
+          ? tr('Il manque trois lettres : choisis le groupe qui complète le mot.', 'Three letters are missing: pick the set that completes the word.')
+          : tr('Il manque quatre lettres : choisis le groupe qui complète le mot.', 'Four letters are missing: pick the set that completes the word.');
   const hint = c.noHint ? tr('Pas de catégorie pour t’aider.', 'No category to help you.') : tr('La catégorie te met sur la piste.', 'The category gives you a hint.');
   const twins = c.twins ? tr(' Méfie-toi des lettres sosies (M ou N, B ou P…).', ' Watch out for look-alike letters (M or N, B or P…).') : '';
   return `${what} ${hint}${twins} ${tr('60 secondes.', '60 seconds.')}`;
 }
 
 const VOWELS = 'AEIOUY';
-const CONSONANTS: Record<Lang, string> = { fr: 'BCDFGLMNPRSTV', en: 'BCDFGHKLMNPRSTVW' };
+const CONSONANTS = { fr: 'BCDFGLMNPRSTV', en: 'BCDFGHKLMNPRSTVW' };
+
+/** Les consonnes leurres de la langue en cours. */
+export function lettreConsonants(): string {
+  return byLang(CONSONANTS.fr, CONSONANTS.en, (c) => c.lettre.consonants);
+}
 
 export interface LettreWord {
   word: string;
@@ -163,27 +168,22 @@ interface LettreLexicon {
   knownPlus: ReadonlySet<string>;
 }
 
-/** Réserve et mots connus de chaque langue, calculés une fois, à la première partie. */
-const lexicons = new Map<Lang, LettreLexicon>();
+/** Un mot sans ses accents, ß compris : « PAPÁ » → « PAPA », « GRÖßE » → « GROSSE ». */
+const plain = (word: string) => word.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ß/g, 'SS');
 
+/** Réserve et mots connus de chaque langue, calculés une fois, à la première partie. */
 function lettreLexicon(): LettreLexicon {
-  const current = lang();
-  let lex = lexicons.get(current);
-  if (!lex) {
+  return memoByLang('lettre', () => {
     const cats = categories();
-    const known = new Set([
-      ...anagramWords(),
-      ...(current === 'en' ? COMMON_WORDS_EN : []),
-      ...cats.flatMap((c) => c.words.map((w) => w.toUpperCase())),
-    ]);
-    lex = {
-      words: current === 'fr' ? LETTRE_WORDS : lettreWordsOf(cats),
+    const known = new Set([...anagramWords(), ...extraKnownWords(), ...cats.flatMap((c) => c.words.map((w) => w.toUpperCase()))]);
+    // Autres langues : un leurre ne forme pas non plus un mot connu privé de ses accents (PAPA pour PAPÁ).
+    if (extraContent()) for (const word of [...known]) known.add(plain(word));
+    return {
+      words: cats === CATEGORIES ? LETTRE_WORDS : lettreWordsOf(cats),
       known,
       knownPlus: new Set([...known, ...longAnagramWords()]),
     };
-    lexicons.set(current, lex);
-  }
-  return lex;
+  });
 }
 
 /** La réserve de mots dans la langue en cours. */
@@ -233,6 +233,11 @@ export const LOOKALIKES: Readonly<Record<string, string>> = {
   Z: 'S',
 };
 
+/** Les lettres sosies de la langue en cours (la table commune, sauf si la langue a la sienne). */
+export function lettreLookalikes(): Readonly<Record<string, string>> {
+  return byLang(LOOKALIKES, LOOKALIKES, (c) => c.lettre.lookalikes ?? LOOKALIKES);
+}
+
 export interface LettreQuestion {
   word: string;
   hint: string;
@@ -252,7 +257,7 @@ const fill = (word: string, positions: number[], letters: string) => {
 export function generateLettreQuestion(rng: Rng, level: number): LettreQuestion {
   const c = lettreLevel(level);
   const { words, known } = lettreLexicon();
-  const consonants = CONSONANTS[lang()];
+  const consonants = lettreConsonants();
   const pool = words.filter(({ word }) => word.length >= c.minLength && word.length <= c.maxLength);
   for (;;) {
     const { word, hint } = rng.pick(pool);
@@ -286,7 +291,14 @@ export function generateLettreQuestion(rng: Rng, level: number): LettreQuestion 
  * Ni « la seule lettre différente », ni « la lettre la plus fréquente » ne trahit la réponse : il faut
  * reconnaître le mot.
  */
-function questionFor(rng: Rng, c: LettreLevel, { word, hint }: LettreWord, known: ReadonlySet<string>, consonants: string): LettreQuestion | null {
+function questionFor(
+  rng: Rng,
+  c: LettreLevel,
+  { word, hint }: LettreWord,
+  known: ReadonlySet<string>,
+  consonants: string,
+  lookalikes: Readonly<Record<string, string>>,
+): LettreQuestion | null {
   const positions = rng.shuffle([...word].map((_, i) => i)).slice(0, c.missing).sort((a, b) => a - b);
   const answer = positions.map((p) => word[p]).join('');
   // Lettres par blanc : 1 blanc → tous les choix ; 2 → 3 × 3 ; 3 → 3 × 2 × 2 (le blanc large au hasard) ; 4 → 2 × 2 × 2 × 2.
@@ -295,7 +307,7 @@ function questionFor(rng: Rng, c: LettreLevel, { word, hint }: LettreWord, known
   const sets = positions.map((p, i) => {
     const letter = word[p];
     const sameKind = [...(VOWELS.includes(letter) ? VOWELS : consonants)].filter((x) => x !== letter);
-    const twins = c.twins ? rng.shuffle([...(LOOKALIKES[letter] ?? '')].filter((x) => x !== letter)) : [];
+    const twins = c.twins ? rng.shuffle([...(lookalikes[letter] ?? '')].filter((x) => x !== letter)) : [];
     const others = rng.shuffle(sameKind.filter((x) => !twins.includes(x)));
     return [letter, ...[...twins, ...others].slice(0, size(i) - 1)];
   });
@@ -318,13 +330,14 @@ export function generateLettre(rng: Rng, level: number, count = 40): LettreQuest
   // Niveaux 21 et plus : on fait le tour de la réserve avant de revoir un mot.
   const c = lettreLevel(level);
   const { words, knownPlus } = lettreLexicon();
-  const consonants = CONSONANTS[lang()];
+  const consonants = lettreConsonants();
+  const lookalikes = lettreLookalikes();
   const pool = words.filter(({ word }) => word.length >= c.minLength && word.length <= c.maxLength);
   const questions: LettreQuestion[] = [];
   let queue: LettreWord[] = [];
   for (let attempts = 0; questions.length < count && attempts < count * 20; attempts++) {
     if (!queue.length) queue = rng.shuffle(pool);
-    const question = questionFor(rng, c, queue.pop()!, knownPlus, consonants);
+    const question = questionFor(rng, c, queue.pop()!, knownPlus, consonants, lookalikes);
     if (question) questions.push(question);
   }
   return questions;

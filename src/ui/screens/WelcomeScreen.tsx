@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from 'react';
 import { dailyGames } from '../../core/daily';
 import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES } from '../../core/games/registry';
 import type { CharacterId } from '../../core/characters';
+import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
 import type { Domain, GameId } from '../../core/types';
 import { DomainBadge } from '../components/bits';
@@ -131,7 +132,7 @@ export function WelcomeScreen() {
               <span className="cta__label">{goals.length ? tr('Continuer', 'Continue') : tr('Passer', 'Skip')}</span>
               <span className="cta__sub">
                 {goals.length
-                  ? tr(`${goals.length} objectif${goals.length > 1 ? 's' : ''}`, `${goals.length} goal${goals.length === 1 ? '' : 's'}`)
+                  ? tr(byCount(goals.length, `${goals.length} objectif`, `${goals.length} objectifs`), byCount(goals.length, `${goals.length} goal`, `${goals.length} goals`))
                   : tr('Tout travailler un peu', 'A bit of everything')}
               </span>
             </span>

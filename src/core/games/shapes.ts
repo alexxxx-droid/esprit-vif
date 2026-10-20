@@ -1,4 +1,5 @@
-import { lang, tr } from '../lang';
+import { contentLang, extraGrammar } from '../content';
+import { tr } from '../lang';
 
 /** Formes utilisées par plusieurs jeux (Réflexe, Correspondance express…). */
 export const SHAPES = ['circle', 'square', 'triangle', 'star', 'diamond', 'cross', 'hexagon', 'octagon', 'pentagon', 'heart', 'moon', 'flag'] as const;
@@ -46,12 +47,16 @@ export const SHAPE_NAMES: Record<ShapeKind, string> = {
 
 const FEMININE: ReadonlySet<ShapeKind> = new Set(['star', 'cross', 'moon']);
 
+// Les autres langues ont leur grammaire (`LangGrammar`) ; une langue qui n'en a pas encore suit l'anglais.
+
 /**
  * « plein » ou « creux », accordé au nom de la forme (une étoile pleine, un rond creux).
  * En anglais, l'adjectif ne s'accorde pas : « filled » ou « hollow ».
  */
 export function fillWord(shape: ShapeKind, filled: boolean, plural = false): string {
-  if (lang() === 'en') return filled ? 'filled' : 'hollow';
+  const grammar = extraGrammar();
+  if (grammar) return grammar.fillWord(shape, filled, plural);
+  if (contentLang() === 'en') return filled ? 'filled' : 'hollow';
   const word = FEMININE.has(shape) ? (filled ? 'pleine' : 'creuse') : filled ? 'plein' : 'creux';
   return plural && !word.endsWith('x') ? `${word}s` : word;
 }
@@ -59,9 +64,20 @@ export function fillWord(shape: ShapeKind, filled: boolean, plural = false): str
 /** Le nom avec son article : « le rond », « l’étoile », « la croix » (« the circle »). */
 export function theShape(shape: ShapeKind): string {
   const name = SHAPE_NAMES[shape];
-  if (lang() === 'en') return `the ${name}`;
+  const grammar = extraGrammar();
+  if (grammar) return grammar.theShape(shape, name);
+  if (contentLang() === 'en') return `the ${name}`;
   if (/^[aeiouyéh]/.test(name)) return `l’${name}`;
   return `${FEMININE.has(shape) ? 'la' : 'le'} ${name}`;
+}
+
+/** « 3 triangles », « 2 croix » (« 2 crosses ») : plusieurs exemplaires d'une forme (Balance). */
+export function countShapes(shape: ShapeKind, count: number): string {
+  const name = SHAPE_NAMES[shape];
+  const grammar = extraGrammar();
+  if (grammar) return grammar.countShapes(shape, name, count);
+  if (contentLang() === 'en') return `${count} ${/(s|x)$/.test(name) ? `${name}es` : `${name}s`}`;
+  return `${count} ${name.endsWith('x') ? name : name.endsWith('eau') ? `${name}x` : `${name}s`}`;
 }
 
 export interface ShapeCard {
@@ -78,8 +94,10 @@ export function sameCard(a: ShapeCard, b: ShapeCard): boolean {
 /** « étoile creuse, tourné de 90° » ; en anglais, l'adjectif d'abord : « hollow star, rotated 90° ». */
 export function describeShape(card: ShapeCard): string {
   const name = SHAPE_NAMES[card.shape];
+  const grammar = extraGrammar();
+  if (grammar) return grammar.describeShape(card, name);
   const fill = fillWord(card.shape, card.filled);
-  if (lang() === 'en') return card.rotation ? `${fill} ${name}, rotated ${card.rotation}°` : `${fill} ${name}`;
+  if (contentLang() === 'en') return card.rotation ? `${fill} ${name}, rotated ${card.rotation}°` : `${fill} ${name}`;
   const base = `${name} ${fill}`;
   return card.rotation ? `${base}, tourné de ${card.rotation}°` : base;
 }

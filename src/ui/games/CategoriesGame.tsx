@@ -29,10 +29,7 @@ export function CategoriesGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreCategories(correct, errors, level),
       stats: { correct, errors },
-      headline: tr(
-        `${plural(correct, 'intrus trouvé', 'intrus trouvés')} · ${plural(errors, 'erreur')}`,
-        `${plural(correct, 'odd one found', 'odd ones found')} · ${plural(errors, 'error')}`,
-      ),
+      headline: `${tr(plural(correct, 'intrus trouvé', 'intrus trouvés'), plural(correct, 'odd one found', 'odd ones found'))} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Intrus trouvés', 'Odd ones found'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },

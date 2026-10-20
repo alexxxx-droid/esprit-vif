@@ -1,4 +1,5 @@
-import { tr } from '../lang';
+import { byCount } from '../format';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore, type TimeThresholds } from '../scoring';
@@ -95,22 +96,22 @@ export const DIABLE_LEVELS: readonly DiableLevel[] = [
 ];
 
 /** Familles nommées dans le libellé : [français, anglais], choisis à l'affichage. */
-const KIND_LABELS: Partial<Record<CalcKind, readonly [string, string]>> = {
-  add1: ['additions', 'addition'],
-  sub1: ['soustractions', 'subtraction'],
-  mul1: ['tables', 'times tables'],
-  add2: ['deux chiffres', 'two digits'],
-  mul12: ['tables de 12', 'tables to 12'],
-  add100: ['jusqu’à 100', 'up to 100'],
-  mulTeen: ['grands produits', 'big products'],
+const KIND_LABELS: Partial<Record<CalcKind, Translations>> = {
+  add1: { fr: 'additions', en: 'addition' },
+  sub1: { fr: 'soustractions', en: 'subtraction' },
+  mul1: { fr: 'tables', en: 'times tables' },
+  add2: { fr: 'deux chiffres', en: 'two digits' },
+  mul12: { fr: 'tables de 12', en: 'tables to 12' },
+  add100: { fr: 'jusqu’à 100', en: 'up to 100' },
+  mulTeen: { fr: 'grands produits', en: 'big products' },
   // Familles des niveaux 21 et plus (absentes des niveaux 1 à 20, dont les libellés ne bougent pas).
-  add3: ['centaines', 'hundreds'],
-  sub3: ['centaines', 'hundreds'],
-  mul2x1: ['produits à deux chiffres', 'two-digit products'],
-  div3: ['divisions de centaines', 'dividing hundreds'],
-  chainAddSub: ['chaînes', 'chains'],
-  chainMulAdd: ['chaînes', 'chains'],
-  square: ['carrés', 'squares'],
+  add3: { fr: 'centaines', en: 'hundreds' },
+  sub3: { fr: 'centaines', en: 'hundreds' },
+  mul2x1: { fr: 'produits à deux chiffres', en: 'two-digit products' },
+  div3: { fr: 'divisions de centaines', en: 'dividing hundreds' },
+  chainAddSub: { fr: 'chaînes', en: 'chains' },
+  chainMulAdd: { fr: 'chaînes', en: 'chains' },
+  square: { fr: 'carrés', en: 'squares' },
 };
 
 export function diableLevel(level: number): DiableLevel {
@@ -119,10 +120,10 @@ export function diableLevel(level: number): DiableLevel {
 
 export function diableLevelLabel(level: number): string {
   const c = diableLevel(level);
-  const kinds = [...new Set(c.kinds.map((k) => KIND_LABELS[k]).filter((label) => label !== undefined).map((label) => tr(...label)))].join(', ');
+  const kinds = [...new Set(c.kinds.map((k) => KIND_LABELS[k]).filter((label) => label !== undefined).map((label) => localized(label)))].join(', ');
   const back = c.varying
     ? tr(`1 à ${c.n} calculs en arrière`, `1 to ${c.n} sums back`)
-    : tr(`${c.n} calcul${c.n > 1 ? 's' : ''} en arrière`, `${c.n} sum${c.n > 1 ? 's' : ''} back`);
+    : tr(byCount(c.n, `${c.n} calcul en arrière`, `${c.n} calculs en arrière`), byCount(c.n, `${c.n} sum back`, `${c.n} sums back`));
   return [
     back,
     kinds,
@@ -142,8 +143,16 @@ export function diableRule(level: number): string {
         `The sums keep coming: give the answer to the one you’re asked for, 1 to ${n} turns back.`,
       )
     : tr(
-        `Les calculs défilent : donne le résultat de celui d’il y a ${n === 1 ? 'un coup' : `${n} coups`}, pas du calcul affiché.`,
-        `The sums keep coming: give the answer to the one from ${n === 1 ? '1 turn' : `${n} turns`} ago, not the one on screen.`,
+        byCount(
+          n,
+          'Les calculs défilent : donne le résultat de celui d’il y a un coup, pas du calcul affiché.',
+          `Les calculs défilent : donne le résultat de celui d’il y a ${n} coups, pas du calcul affiché.`,
+        ),
+        byCount(
+          n,
+          'The sums keep coming: give the answer to the one from 1 turn ago, not the one on screen.',
+          `The sums keep coming: give the answer to the one from ${n} turns ago, not the one on screen.`,
+        ),
       );
   return hideMs ? `${base} ${tr('Chaque calcul s’efface vite : calcule-le tout de suite.', 'Each sum vanishes quickly: work it out right away.')}` : base;
 }

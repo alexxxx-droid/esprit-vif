@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react';
 import { nbackLevel, tutorialTrials } from '../../core/games/nback';
-import { lang, tr } from '../../core/lang';
+import { byCount } from '../../core/format';
+import { tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { fx } from '../fx/fx';
 import type { TutorialProps } from '../game/chrome';
+import { rich } from '../rich';
 
 /** Combien d'essais avec l'aide entourée, puis avec l'historique seul ; ensuite, sans rien. */
 const OUTLINED = 3;
 const WITH_HISTORY = 6;
 
-const coups = (n: number) => tr(n === 1 ? 'au coup d’avant' : `il y a ${n} coups`, n === 1 ? 'one turn ago' : `${n} turns ago`);
+const coups = (n: number) => tr(byCount(n, 'au coup d’avant', `il y a ${n} coups`), byCount(n, 'one turn ago', `${n} turns ago`));
 
 function Item({ value, channel, size = 'big' }: { value: string | number; channel: 'letter' | 'position'; size?: 'big' | 'small' }) {
   if (channel === 'letter') return <span className={`tuto-letter tuto-letter--${size}`}>{value}</span>;
@@ -32,26 +34,26 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
   const [index, setIndex] = useState(-1);
   const [answer, setAnswer] = useState<boolean | null>(null);
   const [right, setRight] = useState(0);
-  const thing = channel === 'letter' ? tr('lettre', 'letter') : tr('case allumée', 'lit square');
-  const en = lang() === 'en';
+  const letters = channel === 'letter';
 
   if (index < 0) {
+    const ago = coups(n);
     return (
       <div className="screen screen-in tuto">
         <div className="intro__head duel-final">
           <Mascot mood="think" size={96} />
           <h1 className="intro__title">{tr('Essai guidé', 'Guided practice')}</h1>
-          {en ? (
-            <p className="intro__rule">
-              {channel === 'letter' ? 'Letters' : 'Squares'} will appear one at a time. Each time, ask yourself: is it the same {thing} as {coups(n)}?
-              There’s no timer here: take your time.
-            </p>
-          ) : (
-            <p className="intro__rule">
-              Des {channel === 'letter' ? 'lettres' : 'cases'} vont apparaître une à une. À chaque fois, demande-toi&nbsp;: est-ce la même {thing} {coups(n)}&nbsp;?
-              Ici, pas de chrono&nbsp;: prends ton temps.
-            </p>
-          )}
+          <p className="intro__rule">
+            {letters
+              ? tr(
+                  `Des lettres vont apparaître une à une. À chaque fois, demande-toi\u00a0: est-ce la même lettre ${ago}\u00a0? Ici, pas de chrono\u00a0: prends ton temps.`,
+                  `Letters will appear one at a time. Each time, ask yourself: is it the same letter as ${ago}? There’s no timer here: take your time.`,
+                )
+              : tr(
+                  `Des cases vont apparaître une à une. À chaque fois, demande-toi\u00a0: est-ce la même case allumée ${ago}\u00a0? Ici, pas de chrono\u00a0: prends ton temps.`,
+                  `Squares will appear one at a time. Each time, ask yourself: is it the same lit square as ${ago}? There’s no timer here: take your time.`,
+                )}
+          </p>
         </div>
         <button type="button" className="btn btn--primary btn--lg mode-cta" onClick={() => setIndex(0)} autoFocus>
           {tr('Commencer l’essai', 'Start the practice')}
@@ -62,28 +64,30 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
   }
 
   if (index >= trials.values.length) {
+    const total = trials.values.length - n;
     return (
       <div className="screen screen-in tuto">
         <div className="intro__head duel-final">
           <Mascot mood="cheer" size={96} />
           <h1 className="intro__title">{tr('Tu as compris le principe\u00a0!', 'You’ve got the idea!')}</h1>
-          {en ? (
-            <p className="intro__rule">
-              {right} correct answer{right === 1 ? '' : 's'} out of {trials.values.length - n}. In the real game, everything moves on by itself, without
-              waiting: tap the button <strong>only when it’s the same</strong>, otherwise do nothing.
-              {config.n > 2 && ` At this level, it’s ${config.n} back: same idea, just further back.`}
-              {config.mode === 'dual' && ' At this level, letters and squares at once: one button for each.'}
-              {config.lures > 0 && ' Watch out for traps: a repeat from one turn too early or too late doesn’t count.'}
-            </p>
-          ) : (
-            <p className="intro__rule">
-              {right} bonne{right > 1 ? 's' : ''} réponse{right > 1 ? 's' : ''} sur {trials.values.length - n}. Pour de vrai, tout défile seul, sans attendre&nbsp;: touche le
-              bouton <strong>seulement quand c’est pareil</strong>, sinon ne fais rien.
-              {config.n > 2 && ` À ce niveau, c’est ${config.n} en arrière\u00a0: même principe, en remontant plus loin.`}
-              {config.mode === 'dual' && ' À ce niveau, lettres et cases à la fois\u00a0: un bouton pour chacune.'}
-              {config.lures > 0 && ' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.'}
-            </p>
-          )}
+          <p className="intro__rule">
+            {tr(
+              byCount(right, `${right} bonne réponse sur ${total}.`, `${right} bonnes réponses sur ${total}.`),
+              byCount(right, `${right} correct answer out of ${total}.`, `${right} correct answers out of ${total}.`),
+            )}{' '}
+            {rich(
+              tr(
+                'Pour de vrai, tout défile seul, sans attendre\u00a0: touche le bouton {only}, sinon ne fais rien.',
+                'In the real game, everything moves on by itself, without waiting: tap the button {only}, otherwise do nothing.',
+              ),
+              { only: <strong>{tr('seulement quand c’est pareil', 'only when it’s the same')}</strong> },
+            )}
+            {config.n > 2 &&
+              tr(` À ce niveau, c’est ${config.n} en arrière\u00a0: même principe, en remontant plus loin.`, ` At this level, it’s ${config.n} back: same idea, just further back.`)}
+            {config.mode === 'dual' && tr(' À ce niveau, lettres et cases à la fois\u00a0: un bouton pour chacune.', ' At this level, letters and squares at once: one button for each.')}
+            {config.lures > 0 &&
+              tr(' Gare aux pièges\u00a0: ce qui revient un coup trop tôt ou trop tard ne compte pas.', ' Watch out for traps: a repeat from one turn too early or too late doesn’t count.')}
+          </p>
         </div>
         <div className="mode-actions">
           <button type="button" className="btn btn--primary btn--lg" onClick={() => onDone(true)} autoFocus>
@@ -132,6 +136,9 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
   const lure = n === 2 && !target && value === trials.values[index - 1];
   const ago = coups(n);
   const Ago = ago.charAt(0).toUpperCase() + ago.slice(1);
+  const verdict = target ? tr('pareil', 'same') : tr('différent', 'different');
+  const was = letters ? String(back) : tr('cette case-là', 'that square');
+  const other = letters ? String(back) : tr('une autre case', 'another square');
 
   return (
     <div className="screen screen-in tuto">
@@ -163,16 +170,12 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
           {warmup
             ? tr(`Retiens-la, puis passe à la suivante.`, 'Remember it, then go on to the next one.')
             : answer === null
-              ? tr(`Même ${thing} ${ago}\u00a0?`, `Same ${thing} as ${ago}?`)
+              ? letters
+                ? tr(`Même lettre ${ago}\u00a0?`, `Same letter as ${ago}?`)
+                : tr(`Même case allumée ${ago}\u00a0?`, `Same lit square as ${ago}?`)
               : answer === target
-                ? tr(
-                    `Oui\u00a0! ${Ago}, c’était ${channel === 'letter' ? back : 'cette case-là'}\u00a0: ${target ? 'pareil' : 'différent'}.`,
-                    `Yes! ${Ago}, it was ${channel === 'letter' ? back : 'that square'}: ${target ? 'same' : 'different'}.`,
-                  )
-                : tr(
-                    `Pas tout à fait\u00a0: ${ago}, c’était ${channel === 'letter' ? back : 'une autre case'}, donc ${target ? 'pareil' : 'différent'}.`,
-                    `Not quite: ${ago}, it was ${channel === 'letter' ? back : 'another square'}, so ${target ? 'same' : 'different'}.`,
-                  )}
+                ? tr(`Oui\u00a0! ${Ago}, c’était ${was}\u00a0: ${verdict}.`, `Yes! ${Ago}, it was ${was}: ${verdict}.`)
+                : tr(`Pas tout à fait\u00a0: ${ago}, c’était ${other}, donc ${verdict}.`, `Not quite: ${ago}, it was ${other}, so ${verdict}.`)}
           {answer !== null &&
             lure &&
             tr(

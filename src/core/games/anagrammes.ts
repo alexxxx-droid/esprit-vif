@@ -1,4 +1,5 @@
-import { lang, tr, type Lang } from '../lang';
+import { byLang, memoByLang } from '../content';
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -132,22 +133,21 @@ interface Lexicon {
   decoys: string;
 }
 
-/** Lettres les plus courantes, par langue. */
-const DECOY_LETTERS: Record<Lang, string> = { fr: 'EASITNRULODCMP', en: 'ETAOINSRHLDCUM' };
+/** Lettres les plus courantes, en français et en anglais. */
+const DECOY_LETTERS = { fr: 'EASITNRULODCMP', en: 'ETAOINSRHLDCUM' };
+
+/** Les lettres leurres de la langue en cours. */
+export function anagramDecoyLetters(): string {
+  return byLang(DECOY_LETTERS.fr, DECOY_LETTERS.en, (c) => c.anagrams.decoyLetters);
+}
 
 /** Liste, index et leurres de chaque langue, calculés une fois, à la première partie. */
-const lexicons = new Map<Lang, Lexicon>();
-
 function lexicon(): Lexicon {
-  const current = lang();
-  let lex = lexicons.get(current);
-  if (!lex) {
+  return memoByLang('anagrammes', () => {
     // Les mots de 8 lettres viennent après : le tirage des niveaux 1 à 20 (5 à 7 lettres) ne change pas.
     const words = [...anagramWords(), ...longAnagramWords()];
-    lex = { words, index: buildAnagramIndex(words), set: new Set(words), decoys: DECOY_LETTERS[current] };
-    lexicons.set(current, lex);
-  }
-  return lex;
+    return { words, index: buildAnagramIndex(words), set: new Set(words), decoys: anagramDecoyLetters() };
+  });
 }
 
 /** Mélange les lettres sans jamais retomber sur un mot valable (ni le mot de départ, ni un autre). */

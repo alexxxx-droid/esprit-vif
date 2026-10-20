@@ -1,7 +1,7 @@
 import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
-import { lang, tr } from '../../core/lang';
+import { tr } from '../../core/lang';
 import { MAX_LEVEL, starsFor, tierName, tierOf, TIERS, UNLOCK_SCORE } from '../../core/levels';
 import { cheer } from '../../core/outcome';
 import { MEDAL_NAMES, medalRank } from '../../core/progression';
@@ -19,6 +19,7 @@ import { moodForScore } from '../mascot-mood';
 import { Icon } from '../components/Icon';
 import { MedalBadge, RankBar, Stars } from '../components/progress-bits';
 import { useProgress } from '../progress-context';
+import { rich } from '../rich';
 import { TROPHY_ICONS } from '../trophy-icons';
 import type { RunResult } from './GameRunner';
 
@@ -74,15 +75,8 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       {saved?.record === 'new' && (
         <p className="badge badge--record">
           <Icon name="star" size={18} />
-          {lang() === 'en' ? (
-            <>
-              New best! <span className="badge__aside">before: {saved.previousBest?.score} pts</span>
-            </>
-          ) : (
-            <>
-              Nouveau record&nbsp;! <span className="badge__aside">avant&nbsp;: {saved.previousBest?.score} pts</span>
-            </>
-          )}
+          {tr('Nouveau record\u00a0!', 'New best!')}{' '}
+          <span className="badge__aside">{tr(`avant\u00a0: ${saved.previousBest?.score} pts`, `before: ${saved.previousBest?.score} pts`)}</span>
         </p>
       )}
 
@@ -110,7 +104,7 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
             <p className="gain gain--level">
               <Icon name="crown" size={22} />
               <span>
-                {lang() === 'en' ? `Level ${delta.rankAfter.level}!` : `Niveau ${delta.rankAfter.level}\u00a0!`}{' '}
+                {tr(`Niveau ${delta.rankAfter.level}\u00a0!`, `Level ${delta.rankAfter.level}!`)}{' '}
                 <strong>{delta.rankAfter.title}</strong>
               </span>
             </p>
@@ -119,15 +113,10 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
             <p className="gain gain--medal">
               <MedalBadge medal={delta.medalAfter} size={30} />
               <span>
-                {lang() === 'en' ? (
-                  <>
-                    <strong>{MEDAL_NAMES[delta.medalAfter]}</strong> medal in {meta.name}!
-                  </>
-                ) : (
-                  <>
-                    Médaille <strong>{MEDAL_NAMES[delta.medalAfter]}</strong> en {meta.name}&nbsp;!
-                  </>
-                )}
+                {rich(tr('Médaille {medal} en {game}\u00a0!', '{medal} medal in {game}!'), {
+                  medal: <strong>{MEDAL_NAMES[delta.medalAfter]}</strong>,
+                  game: meta.name,
+                })}
               </span>
             </p>
           )}
@@ -260,18 +249,10 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
       <p className="level-change level-change--up">
         <Icon name="up" size={20} />
         <span>
-          {lang() === 'en' ? (
-            <>
-              Level <strong>{level + 1}</strong> unlocked!
-            </>
-          ) : (
-            <>
-              Niveau <strong>{level + 1}</strong> débloqué&nbsp;!
-            </>
-          )}
+          {rich(tr('Niveau {level} débloqué\u00a0!', 'Level {level} unlocked!'), { level: <strong>{level + 1}</strong> })}
           {TIERS.some((t) => t.from === level + 1) && (
             <span className="level-change__tier">
-              {tr('Nouveau palier : ', 'New tier: ')}
+              {tr('Nouveau palier\u00a0: ', 'New tier: ')}
               <strong>{tierName(tierOf(level + 1))}</strong>
             </span>
           )}
@@ -284,15 +265,9 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
     <p className="level-change">
       <Icon name="lock" size={20} />
       <span>
-        {lang() === 'en' ? (
-          <>
-            <strong>{UNLOCK_SCORE - score}&nbsp;more pts</strong> to earn a star and unlock the next level.
-          </>
-        ) : (
-          <>
-            Encore <strong>{UNLOCK_SCORE - score}&nbsp;pts</strong> pour gagner une étoile et débloquer le niveau suivant.
-          </>
-        )}
+        {rich(tr('Encore {points} pour gagner une étoile et débloquer le niveau suivant.', '{points} to earn a star and unlock the next level.'), {
+          points: <strong>{tr(`${UNLOCK_SCORE - score}\u00a0pts`, `${UNLOCK_SCORE - score}\u00a0more pts`)}</strong>,
+        })}
       </span>
     </p>
   );

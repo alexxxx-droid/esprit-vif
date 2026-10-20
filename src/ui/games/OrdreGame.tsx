@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { tr } from '../../core/lang';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { initialMatrice, MATRICE_MAX_FAILURES, nextMatrice, type MatriceState } from '../../core/games/matrice';
 import { generateOrdreRound, ordreLevel, ordreMaxSpan, scoreOrdre } from '../../core/games/ordre';
 import { createRng, deriveSeed } from '../../core/rng';
@@ -50,7 +50,7 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
       score: scoreOrdre(final.best, level),
       stats: { best: final.best, rounds: final.rounds },
       headline: final.best
-        ? tr(`${plural(final.best, 'nombre')} retenus`, `${plural(final.best, 'number')} remembered`)
+        ? tr(byCount(final.best, `${final.best}\u00a0nombre retenu`, `${final.best}\u00a0nombres retenus`), `${plural(final.best, 'number')} remembered`)
         : tr('Aucune série retenue', 'No series remembered'),
       lines: [
         { label: tr('Plus longue série', 'Longest series'), value: final.best ? tr(plural(final.best, 'nombre'), plural(final.best, 'number')) : '—' },
@@ -158,7 +158,7 @@ export function OrdreGame({ seed, level, onFinish }: GameProps) {
         <p
           className="tries"
           aria-label={tr(
-            `${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`,
+            byCount(triesLeft, `${Math.max(0, triesLeft)}\u00a0essai restant`, `${Math.max(0, triesLeft)}\u00a0essais restants`),
             `${plural(Math.max(0, triesLeft), 'try', 'tries')} left`,
           )}
         >

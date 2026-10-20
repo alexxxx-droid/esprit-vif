@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import {
   formatTotalStep,
   generateTotalRound,
@@ -144,7 +144,7 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
         </span>
       </GameHud>
       <div className="game__stage total">
-        <p className="total__info">{tr(`${plural(length, 'nombre')} à additionner`, `${plural(length, 'number')} to add up`)}</p>
+        <p className="total__info">{tr(byCount(length, `${length}\u00a0nombre à additionner`, `${length}\u00a0nombres à additionner`), `${plural(length, 'number')} to add up`)}</p>
         <div className="total__screen" aria-live="polite">
           {phase === 'show' && step === -1 && <span className="total__ready">{tr('Prêt\u00a0?', 'Ready?')}</span>}
           {showing && (

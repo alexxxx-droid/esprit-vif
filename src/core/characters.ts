@@ -1,4 +1,4 @@
-import { tr } from './lang';
+import { localized, type Translations } from './lang';
 
 /** Les compagnons au choix : Vif, l'étincelle maison, et sa bande de fruits. */
 export type CharacterId = 'vif' | 'pomme' | 'orange' | 'citron' | 'fraise' | 'raisin' | 'poire' | 'pasteque';
@@ -9,23 +9,23 @@ export interface Character {
   name: string;
 }
 
-/** Un compagnon et son nom dans les deux langues, choisi à la lecture. */
-const character = (id: CharacterId, fr: string, en: string): Character => ({
+/** Un compagnon et son nom dans chaque langue, choisi à la lecture. */
+const character = (id: CharacterId, name: Translations): Character => ({
   id,
   get name() {
-    return tr(fr, en);
+    return localized(name);
   },
 });
 
 export const CHARACTERS: readonly Character[] = [
-  character('vif', 'Vif', 'Vif'),
-  character('pomme', 'Pomme', 'Apple'),
-  character('orange', 'Orange', 'Orange'),
-  character('citron', 'Citron', 'Lemon'),
-  character('fraise', 'Fraise', 'Strawberry'),
-  character('raisin', 'Raisin', 'Grape'),
-  character('poire', 'Poire', 'Pear'),
-  character('pasteque', 'Pastèque', 'Watermelon'),
+  character('vif', { fr: 'Vif', en: 'Vif' }),
+  character('pomme', { fr: 'Pomme', en: 'Apple' }),
+  character('orange', { fr: 'Orange', en: 'Orange' }),
+  character('citron', { fr: 'Citron', en: 'Lemon' }),
+  character('fraise', { fr: 'Fraise', en: 'Strawberry' }),
+  character('raisin', { fr: 'Raisin', en: 'Grape' }),
+  character('poire', { fr: 'Poire', en: 'Pear' }),
+  character('pasteque', { fr: 'Pastèque', en: 'Watermelon' }),
 ];
 
 export const isCharacterId = (value: unknown): value is CharacterId => CHARACTERS.some((c) => c.id === value);

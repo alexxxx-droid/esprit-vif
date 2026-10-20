@@ -1,4 +1,4 @@
-import { tr } from '../lang';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -106,10 +106,10 @@ export const NBACK_LEVELS: readonly NBackLevel[] = [
 ];
 
 /** [français, anglais], choisis à l'affichage. */
-const MODE_LABELS: Record<NBackMode, readonly [string, string]> = {
-  letter: ['lettres', 'letters'],
-  position: ['positions', 'positions'],
-  dual: ['lettres et positions', 'letters and positions'],
+const MODE_LABELS: Record<NBackMode, Translations> = {
+  letter: { fr: 'lettres', en: 'letters' },
+  position: { fr: 'positions', en: 'positions' },
+  dual: { fr: 'lettres et positions', en: 'letters and positions' },
 };
 
 export function nbackLevel(level: number): NBackLevel {
@@ -119,7 +119,7 @@ export function nbackLevel(level: number): NBackLevel {
 export function nbackLevelLabel(level: number): string {
   const c = nbackLevel(level);
   const pace = c.stepMs <= 1800 ? tr('très rapide', 'very fast') : c.stepMs < 2500 && tr('rapide', 'fast');
-  return [tr(`${c.n} en arrière`, `${c.n} back`), tr(...MODE_LABELS[c.mode]), pace, c.lures > 0 && tr('pièges', 'traps')].filter(Boolean).join(' · ');
+  return [tr(`${c.n} en arrière`, `${c.n} back`), localized(MODE_LABELS[c.mode]), pace, c.lures > 0 && tr('pièges', 'traps')].filter(Boolean).join(' · ');
 }
 
 export interface NBackStream<T> {

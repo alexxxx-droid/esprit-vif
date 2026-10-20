@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { tr } from '../../core/lang';
 import { answerLength, formatCalc } from '../../core/games/calcul';
 import { generatePluie, PLUIE_DURATION_MS, PLUIE_LIVES, pluieLevel, pluieTarget, scorePluie } from '../../core/games/pluie';
@@ -137,7 +137,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
           <span className="pluie__score">
             <strong>{solved.size}</strong> / {pluieTarget(level)}
           </span>
-          <span className="pluie__lives" aria-label={tr(`${lives} vie${lives > 1 ? 's' : ''}`, `${lives} ${lives === 1 ? 'life' : 'lives'}`)}>
+          <span className="pluie__lives" aria-label={tr(byCount(lives, `${lives} vie`, `${lives} vies`), byCount(lives, `${lives} life`, `${lives} lives`))}>
             {Array.from({ length: PLUIE_LIVES }, (_, i) => (
               <span key={i} className={i < lives ? 'is-left' : undefined} aria-hidden="true" />
             ))}

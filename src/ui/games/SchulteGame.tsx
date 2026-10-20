@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { lang, tr } from '../../core/lang';
+import { tr } from '../../core/lang';
 import { pickLevel } from '../../core/levels';
 import {
   generateSchulte,
@@ -19,6 +19,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useGridFocus } from '../hooks';
+import { rich } from '../rich';
 
 export function SchulteGame({ seed, level, onFinish }: GameProps) {
   const config = pickLevel(SCHULTE_LEVELS, level);
@@ -87,9 +88,12 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage schulte-stage">
         <p className="schulte__target" aria-live="polite">
-          {tr('Touche le', 'Tap')} {twoTone && lang() === 'en' && <span className={`schulte__tone${toneClass(target)}`}>{toneWord}</span>}
-          <strong className={twoTone ? `schulte__tone${toneClass(target)}` : undefined}>{schulteText(target)}</strong>
-          {twoTone && lang() === 'fr' && <span className={`schulte__tone${toneClass(target)}`}> {toneWord}</span>}
+          {twoTone
+            ? rich(tr('Touche le {target} {tone}', 'Tap {tone} {target}'), {
+                target: <strong className={`schulte__tone${toneClass(target)}`}>{schulteText(target)}</strong>,
+                tone: <span className={`schulte__tone${toneClass(target)}`}>{toneWord}</span>,
+              })
+            : rich(tr('Touche le {target}', 'Tap {target}'), { target: <strong>{schulteText(target)}</strong> })}
         </p>
         <div
           key={moved}

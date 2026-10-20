@@ -1,4 +1,5 @@
-import { lang, tr } from '../lang';
+import { contentLang, extraGrammar } from '../content';
+import { tr } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { clampScore } from '../scoring';
@@ -190,7 +191,9 @@ function describeRuleEn(rule: ReflexeRule): string {
 
 /** Règle en mots : « Touche les ronds pleins », « Touche tout sauf les étoiles ». */
 export function describeRule(rule: ReflexeRule): string {
-  if (lang() === 'en') return describeRuleEn(rule);
+  const grammar = extraGrammar();
+  if (grammar) return grammar.describeRule(rule.go.map((shape, i) => ({ shape, name: SHAPE_NAMES[shape], fill: fillOf(rule, i) })), rule.inverted);
+  if (contentLang() === 'en') return describeRuleEn(rule);
   const names = rule.go.map((s, i) => {
     const fill = fillOf(rule, i);
     return `${SHAPE_NAMES[s]}s${fill ? ` ${fillWord(s, fill === 'filled', true)}` : ''}`.replace('croixs', 'croix');

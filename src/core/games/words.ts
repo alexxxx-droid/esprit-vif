@@ -1,4 +1,4 @@
-import { lang } from '../lang';
+import { byLang } from '../content';
 
 /**
  * Mots français courants de 5 à 7 lettres, dont l'orthographe ne comporte aucun accent ni cédille.
@@ -225,7 +225,7 @@ export const COMMON_WORDS_EN: readonly string[] = [
 
 /** La liste des Anagrammes dans la langue en cours. */
 export function anagramWords(): readonly string[] {
-  return lang() === 'en' ? WORDS_EN : WORDS;
+  return byLang(WORDS, WORDS_EN, (c) => c.anagrams.words);
 }
 
 /**
@@ -301,11 +301,19 @@ export const LONG_WORDS_EN: readonly string[] = [
 
 /** Les mots de 8 lettres des Anagrammes dans la langue en cours. */
 export function longAnagramWords(): readonly string[] {
-  return lang() === 'en' ? LONG_WORDS_EN : LONG_WORDS;
+  return byLang(LONG_WORDS, LONG_WORDS_EN, (c) => c.anagrams.longWords);
+}
+
+/** Aucun mot de plus, aucune grossièreté à écarter : le français s'en passe. */
+const NONE: readonly string[] = [];
+
+/** Les autres mots connus de la langue en cours (jamais des réponses) : aucun en français. */
+export function extraKnownWords(): readonly string[] {
+  return byLang(NONE, COMMON_WORDS_EN, (c) => c.knownWords);
 }
 
 /**
- * Suites de lettres grossières qu'un mélange au hasard ne doit jamais afficher (anglais seulement :
+ * Suites de lettres grossières qu'un mélange au hasard ne doit jamais afficher (pas en français :
  * la liste française et ses tirages restent tels quels).
  */
 const RUDE_EN: readonly string[] = [
@@ -313,7 +321,12 @@ const RUDE_EN: readonly string[] = [
   'PISS', 'PORN', 'RAPE', 'SEX', 'SHIT', 'SLUT', 'TITS', 'TWAT', 'WHORE',
 ];
 
+/** Les suites grossières de la langue en cours. */
+export function rudeSequences(): readonly string[] {
+  return byLang(NONE, RUDE_EN, (c) => c.rude);
+}
+
 /** Une suite de lettres contient-elle un mot grossier (dans la langue en cours) ? */
 export function hasRudeWord(letters: string): boolean {
-  return lang() === 'en' && RUDE_EN.some((rude) => letters.includes(rude));
+  return rudeSequences().some((rude) => letters.includes(rude));
 }

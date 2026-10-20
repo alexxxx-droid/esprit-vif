@@ -1,4 +1,4 @@
-import { lang, locale, type Lang } from './lang';
+import { isSingular, lang, locale, type Lang } from './lang';
 
 /** Espace insécable : l'unité ne se retrouve jamais seule en début de ligne. */
 export const NBSP = String.fromCharCode(0xa0);
@@ -50,12 +50,19 @@ export function formatDecimal(value: number): string {
 }
 
 /**
- * Accord en nombre : en français, 0 et 1 restent au singulier ; en anglais, seul 1.
+ * Accord en nombre : en français (et en portugais du Brésil), 0 et 1 restent au singulier ; ailleurs, seul 1.
  * Les mots viennent de la même langue : `tr(plural(n, 'partie'), plural(n, 'game'))`.
  */
 export function plural(count: number, singular: string, pluralForm = `${singular}s`): string {
-  const one = lang() === 'en' ? Math.abs(count) === 1 : Math.abs(count) < 2;
-  return `${count}${NBSP}${one ? singular : pluralForm}`;
+  return `${count}${NBSP}${isSingular(count) ? singular : pluralForm}`;
+}
+
+/**
+ * La forme qui va avec le nombre, phrase entière : `byCount(n, `${n} client entre`, `${n} clients entrent`)`.
+ * Dans un `tr()`, chaque langue garde sa propre règle d'accord (0 au singulier en français, au pluriel en anglais).
+ */
+export function byCount(count: number, one: string, many: string): string {
+  return isSingular(count) ? one : many;
 }
 
 function fromDayKey(day: string): Date {
@@ -81,6 +88,10 @@ export function formatWeekdayInitial(day: string): string {
 const SHORT_DAYS: Record<Lang, string[]> = {
   fr: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
   en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  es: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+  de: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+  it: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
+  pt: ['Do', '2ª', '3ª', '4ª', '5ª', '6ª', 'Sá'],
 };
 
 /** « 2026-10-19 » → « Lu » : deux lettres, sans confondre mardi et mercredi. */

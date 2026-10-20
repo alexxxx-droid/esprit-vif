@@ -1,4 +1,4 @@
-import { tr } from '../lang';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -107,19 +107,19 @@ export const CORRESPONDANCE_LEVELS: readonly CorrespondanceLevel[] = [
 ];
 
 /** Libellés des jeux de cartes : [français, anglais], choisis à l'affichage. */
-const SET_LABELS: Record<CardSet, readonly [string, string]> = {
-  shapes: ['formes', 'shapes'],
-  shapesFill: ['formes pleines ou creuses', 'filled or hollow shapes'],
-  similar: ['formes qui se ressemblent', 'look-alike shapes'],
-  letters: ['lettres', 'letters'],
-  similarLetters: ['lettres jumelles (b, d, p, q…)', 'twin letters (b, d, p, q…)'],
-  digits: ['nombres', 'numbers'],
-  rotated: ['flèches orientées', 'arrows facing different ways'],
-  mixed: ['tout mélangé', 'all mixed up'],
-  rotatedFill: ['flèches orientées, pleines ou creuses', 'filled or hollow arrows, facing different ways'],
-  caseLetters: ['lettres, A = a', 'letters, A = a'],
-  dice: ['dés et chiffres, ⚂ = 3', 'dice and digits, ⚂ = 3'],
-  mixedHard: ['mélange expert', 'expert mix'],
+const SET_LABELS: Record<CardSet, Translations> = {
+  shapes: { fr: 'formes', en: 'shapes' },
+  shapesFill: { fr: 'formes pleines ou creuses', en: 'filled or hollow shapes' },
+  similar: { fr: 'formes qui se ressemblent', en: 'look-alike shapes' },
+  letters: { fr: 'lettres', en: 'letters' },
+  similarLetters: { fr: 'lettres jumelles (b, d, p, q…)', en: 'twin letters (b, d, p, q…)' },
+  digits: { fr: 'nombres', en: 'numbers' },
+  rotated: { fr: 'flèches orientées', en: 'arrows facing different ways' },
+  mixed: { fr: 'tout mélangé', en: 'all mixed up' },
+  rotatedFill: { fr: 'flèches orientées, pleines ou creuses', en: 'filled or hollow arrows, facing different ways' },
+  caseLetters: { fr: 'lettres, A = a', en: 'letters, A = a' },
+  dice: { fr: 'dés et chiffres, ⚂ = 3', en: 'dice and digits, ⚂ = 3' },
+  mixedHard: { fr: 'mélange expert', en: 'expert mix' },
 };
 
 /** « il y a deux cartes » (« two cards back »). */
@@ -134,7 +134,7 @@ export function correspondanceLevel(level: number): CorrespondanceLevel {
 
 export function correspondanceLevelLabel(level: number): string {
   const c = correspondanceLevel(level);
-  const parts = [tr(...SET_LABELS[c.set]), backLabel(c.back)];
+  const parts = [localized(SET_LABELS[c.set]), backLabel(c.back)];
   if (c.lures) parts.push(tr('pièges', 'traps'));
   return parts.join(' · ');
 }

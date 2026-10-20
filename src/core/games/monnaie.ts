@@ -151,18 +151,24 @@ export function monnaieLevel(level: number): MonnaieLevel {
   return pickLevel(MONNAIE_LEVELS, level);
 }
 
-/** 1200 → « 12 € » (« €12 » en anglais ; des centimes ne s'affichent que s'il y en a). */
+/**
+ * 1200 → « 12 € » (« €12 » en anglais, « € 12 » en portugais du Brésil ; des centimes ne s'affichent
+ * que s'il y en a). L'espagnol, l'allemand et l'italien écrivent comme le français.
+ */
 export function formatEuros(cents: number): string {
   const euros = Math.floor(cents / 100);
   const rest = String(cents % 100).padStart(2, '0');
   if (lang() === 'en') return cents % 100 ? `€${euros}.${rest}` : `€${euros}`;
+  if (lang() === 'pt') return cents % 100 ? `€${NBSP}${euros},${rest}` : `€${NBSP}${euros}`;
   return cents % 100 ? `${euros},${rest}${NBSP}€` : `${euros}${NBSP}€`;
 }
 
 /** Libellé court d'une pièce ou d'un billet : « 2 € », « 50 € » (« €2 », « €50 » en anglais). */
 export function denominationLabel(cents: number): string {
-  if (lang() === 'en') return cents >= 100 ? `€${cents / 100}` : `${cents}${NBSP}c`;
-  return cents >= 100 ? `${cents / 100}${NBSP}€` : `${cents}${NBSP}c`;
+  if (cents < 100) return `${cents}${NBSP}c`;
+  if (lang() === 'en') return `€${cents / 100}`;
+  if (lang() === 'pt') return `€${NBSP}${cents / 100}`;
+  return `${cents / 100}${NBSP}€`;
 }
 
 export function monnaieLevelLabel(level: number): string {

@@ -95,7 +95,7 @@ export function CalculGame({ seed, level, onFinish }: GameProps) {
         <p ref={questionRef} className="calc__question" aria-live="polite">
           {text}
         </p>
-        <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>
+        <div className="calc__answer" aria-label={typed ? tr(`Ta réponse : ${typed}`, `Your answer: ${typed}`) : tr('Ta réponse : vide', 'Your answer: empty')}>
           {Array.from({ length }, (_, i) => (
             <span key={i} className={`slot${typed[i] ? ' slot--filled' : ''}`}>
               {typed[i] ?? ''}

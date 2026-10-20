@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
+import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
 import { generateIti, heading, ITI_TRIALS, itiLevel, scoreIti, type Cell, type ItiTrial, type Move } from '../../core/games/itineraire';
 import { createRng } from '../../core/rng';
@@ -19,8 +20,8 @@ const ROTATION = { right: 0, down: 90, left: 180, up: -90, downRight: 45, downLe
 export function MoveChip({ move, big }: { move: Move; big?: boolean }) {
   return (
     <span className={`iti-move${big ? ' iti-move--big' : ''}`} aria-label={tr(
-        `${move.steps} case${move.steps > 1 ? 's' : ''} ${heading(move.dir).label}`,
-        `${move.steps} square${move.steps === 1 ? '' : 's'} ${heading(move.dir).label}`,
+        byCount(move.steps, `${move.steps} case ${heading(move.dir).label}`, `${move.steps} cases ${heading(move.dir).label}`),
+        byCount(move.steps, `${move.steps} square ${heading(move.dir).label}`, `${move.steps} squares ${heading(move.dir).label}`),
       )}>
       <span style={{ transform: `rotate(${ROTATION[move.dir]}deg)` }} aria-hidden="true">
         <Icon name="arrow" size={big ? 44 : 24} strokeWidth={big ? 3 : 2.6} />
@@ -63,10 +64,11 @@ export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps
             className={`iti-cell${start ? ' is-start' : ''}${rock ? ' is-rock' : ''}${state}`}
             onTap={() => onPick?.(cell)}
             disabled={disabled || !onPick || rock}
-            aria-label={tr(
-              `Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}${rock ? ', rocher' : ''}`,
-              `Row ${cell.row + 1}, column ${cell.col + 1}${start ? ', start' : ''}${rock ? ', rock' : ''}`,
-            )}
+            aria-label={
+              tr(`Ligne ${cell.row + 1}, colonne ${cell.col + 1}`, `Row ${cell.row + 1}, column ${cell.col + 1}`) +
+              (start ? tr(', départ', ', start') : '') +
+              (rock ? tr(', rocher', ', rock') : '')
+            }
           >
             {start && <Mascot character={active.character} mood="happy" size={30} still />}
           </TapButton>
@@ -100,7 +102,7 @@ export function ItiGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreIti(correct),
       stats: { correct, trials: ITI_TRIALS },
-      headline: tr(`${correct} trajet${correct > 1 ? 's' : ''} sur ${ITI_TRIALS}`, `${correct} of ${ITI_TRIALS} routes`),
+      headline: tr(byCount(correct, `${correct} trajet sur ${ITI_TRIALS}`, `${correct} trajets sur ${ITI_TRIALS}`), `${correct} of ${ITI_TRIALS} routes`),
       lines: [
         { label: tr('Trajets retrouvés', 'Routes found'), value: `${correct} / ${ITI_TRIALS}` },
         { label: tr('Déplacements par trajet', 'Moves per route'), value: String(config.moves) },

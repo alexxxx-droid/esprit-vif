@@ -1,5 +1,5 @@
 import { NBSP } from '../format';
-import { tr } from '../lang';
+import { localized, tr, type Translations } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -109,19 +109,19 @@ export function horlogesLevel(level: number): HorlogeLevel {
 }
 
 /** Noms des modes et des cadrans : [français, anglais], choisis à l'affichage. */
-const MODE_NAMES: Record<HorlogeMode, readonly [string, string]> = {
-  read: ['lire l’heure', 'tell the time'],
-  later: ['heure d’arrivée', 'time later'],
-  elapsed: ['temps écoulé', 'time elapsed'],
-  earlier: ['heure d’avant', 'time before'],
-  overnight: ['durées sur 24 h', '24-hour durations'],
+const MODE_NAMES: Record<HorlogeMode, Translations> = {
+  read: { fr: 'lire l’heure', en: 'tell the time' },
+  later: { fr: 'heure d’arrivée', en: 'time later' },
+  elapsed: { fr: 'temps écoulé', en: 'time elapsed' },
+  earlier: { fr: 'heure d’avant', en: 'time before' },
+  overnight: { fr: 'durées sur 24 h', en: '24-hour durations' },
 };
-const NUMERAL_NAMES: Record<Numerals, readonly [string, string]> = {
-  all: ['cadran chiffré', 'all numbers'],
-  quarters: ['4 chiffres', '4 numbers'],
-  none: ['sans chiffres', 'no numbers'],
-  roman: ['chiffres romains', 'Roman numerals'],
-  romanQuarters: ['4 chiffres romains', '4 Roman numerals'],
+const NUMERAL_NAMES: Record<Numerals, Translations> = {
+  all: { fr: 'cadran chiffré', en: 'all numbers' },
+  quarters: { fr: '4 chiffres', en: '4 numbers' },
+  none: { fr: 'sans chiffres', en: 'no numbers' },
+  roman: { fr: 'chiffres romains', en: 'Roman numerals' },
+  romanQuarters: { fr: '4 chiffres romains', en: '4 Roman numerals' },
 };
 
 function stepName(step: number): string {
@@ -138,7 +138,7 @@ function mirrorName(mirror: number): string {
 
 export function horlogesLevelLabel(level: number): string {
   const c = horlogesLevel(level);
-  const parts = [c.modes.map((m) => tr(...MODE_NAMES[m])).join(', '), stepName(c.step), tr(...NUMERAL_NAMES[c.numerals])];
+  const parts = [c.modes.map((m) => localized(MODE_NAMES[m])).join(', '), stepName(c.step), localized(NUMERAL_NAMES[c.numerals])];
   if (c.mirror) parts.push(mirrorName(c.mirror));
   const label = parts.join(' · ');
   return label.charAt(0).toUpperCase() + label.slice(1);

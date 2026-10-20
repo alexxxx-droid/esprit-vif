@@ -1,3 +1,4 @@
+import { byCount } from '../format';
 import { tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
@@ -123,7 +124,7 @@ export function balanceLevelLabel(level: number): string {
     tr(`${c.items} objets`, `${c.items} items`),
     c.asks.length > 1 ? tr('le plus lourd ou le plus léger', 'heaviest or lightest') : tr('le plus lourd', 'heaviest'),
     c.pairs && tr('balances à deux contre un', 'two-against-one scales'),
-    c.noise && tr(`${c.noise} balance${c.noise > 1 ? 's' : ''} inutile${c.noise > 1 ? 's' : ''}`, `${c.noise} useless scale${c.noise > 1 ? 's' : ''}`),
+    c.noise && tr(byCount(c.noise, `${c.noise} balance inutile`, `${c.noise} balances inutiles`), byCount(c.noise, `${c.noise} useless scale`, `${c.noise} useless scales`)),
     c.counts && tr('plusieurs exemplaires', 'several copies'),
     c.chain && tr(`chaînes de ${c.chain} étapes`, `${c.chain}-step chains`),
     c.trap && tr('pièges', 'traps'),

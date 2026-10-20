@@ -21,7 +21,7 @@ const LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 const OLD = LEVELS.slice(0, 20);
 /** Du niveau 20 au niveau 50 : la difficulté ne baisse jamais. */
 const NEW_FROM_20 = LEVELS.slice(19);
-const LANGS: readonly Lang[] = ['fr', 'en'];
+const LANGS: readonly ('fr' | 'en')[] = ['fr', 'en'];
 const SEEDS = [1, 7, 2024, 99991];
 const fp = (value: unknown) => hashSeed(JSON.stringify(value)).toString(16);
 
@@ -59,7 +59,7 @@ const OLD_PAIRES = [[6,3,3000,0,85000],[6,3,1500,0,85000],[8,4,3000,0,100000],[8
 const OLD_QUI = [[3,1,2600,0,0],[4,1,2500,0,0],[4,1,2200,0.25,0],[5,1,2300,0.25,0],[5,1,2000,0.5,0],[6,1,2100,0.5,0],[6,2,2100,0.5,0],[6,2,1900,0.5,0],[7,2,2000,0.5,0],[7,2,1800,0.5,1],[7,2,1700,0.5,1],[8,2,1800,0.5,1],[8,2,1700,0.5,1],[8,3,1700,0.5,1],[9,2,1700,0.5,1],[9,3,1600,0.5,1],[9,3,1500,0.5,1],[10,3,1500,0.5,1],[10,3,1400,0.5,1],[10,3,1300,0.5,1]];
 
 /** Empreintes des parties générées (4 graines) aux niveaux 1 à 20, relevées avant le passage à 50 niveaux. */
-const FINGERPRINTS: Record<Lang, Record<string, string[]>> = {
+const FINGERPRINTS: Record<'fr' | 'en', Record<string, string[]>> = {
   fr: {
     matrice: ['462fda22','462fda22','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','182d5f24'],
     nback: ['c6d8c7e2','20ae52cb','20ae52cb','ebaec421','4298f366','807b01b7','b3ff380d','20ae52cb','b3e5c0d6','b4b1fd6d','807b01b7','7e6dca18','b4b1fd6d','b3e5c0d6','9e87d665','7e6dca18','12a63ce1','9e87d665','57a3d16b','57a3d16b'],

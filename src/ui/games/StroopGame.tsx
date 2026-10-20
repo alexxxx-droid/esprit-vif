@@ -163,7 +163,7 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
             {Math.min(index + 1, items.length)} / {items.length}
           </p>
           {switching && (
-            <p key={index} className={`stroop__ask stroop__ask--${item.ask}`}>
+            <p key={`ask-${index}`} className={`stroop__ask stroop__ask--${item.ask}`}>
               {askLabel(item.ask)}
             </p>
           )}
@@ -176,7 +176,7 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
             {STROOP_LABELS[item.word].toUpperCase()}
           </p>
           {config.deadlineMs && !done && (
-            <span key={index} className="stroop__timer" style={{ animationDuration: `${slow(config.deadlineMs)}ms` }} aria-hidden="true" />
+            <span key={`timer-${index}`} className="stroop__timer" style={{ animationDuration: `${slow(config.deadlineMs)}ms` }} aria-hidden="true" />
           )}
           {voiceOn && (
             <p className="stroop__voice">

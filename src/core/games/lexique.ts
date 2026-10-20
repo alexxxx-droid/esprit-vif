@@ -1,10 +1,12 @@
-import { lang } from '../lang';
+import { byLang } from '../content';
+import { C } from '../content/helpers';
 
 /**
  * Mots rangés par catégorie, pour Catégories, Mots à retenir et Lettre manquante.
  * Règle d'or : un mot n'appartient qu'à une seule catégorie, sans double sens gênant
  * (pas d'« orange », d'« avocat » ni de « rose » : ils seraient à la fois deux choses).
- * Chaque langue a son lexique (`categories()` choisit celui de la langue en cours).
+ * Chaque langue a son lexique (`categories()` choisit celui de la langue en cours ; les autres
+ * langues que le français et l'anglais ont le leur dans `src/core/content/<langue>.ts`).
  */
 
 export type Family = 'nourriture' | 'animaux' | 'objets' | 'nature' | 'societe' | 'divers';
@@ -19,14 +21,6 @@ export interface Category {
   family: Family;
   words: readonly string[];
 }
-
-const C = (id: string, label: string, plural: string, family: Family, words: string): Category => ({
-  id,
-  label,
-  plural,
-  family,
-  words: words.split(' '),
-});
 
 export const CATEGORIES: readonly Category[] = [
   C('fruits', 'Fruit', 'des fruits', 'nourriture', 'pomme poire cerise fraise banane abricot ananas kiwi mangue prune raisin citron framboise myrtille melon pastèque figue groseille mandarine clémentine litchi papaye'),
@@ -110,7 +104,7 @@ export const CATEGORIES_EN: readonly Category[] = [
 
 /** Les catégories de la langue en cours. */
 export function categories(): readonly Category[] {
-  return lang() === 'en' ? CATEGORIES_EN : CATEGORIES;
+  return byLang(CATEGORIES, CATEGORIES_EN, (c) => c.categories);
 }
 
 /** La catégorie d'un mot, dans le lexique de la langue en cours. */

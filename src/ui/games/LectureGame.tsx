@@ -39,10 +39,7 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreLecture(correct, errors, level),
       stats: { correct, errors },
-      headline: tr(
-        `${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`,
-        `${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`,
-      ),
+      headline: `${tr(plural(correct, 'bonne réponse', 'bonnes réponses'), plural(correct, 'correct answer'))} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Phrases bien jugées', 'Sentences judged right'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },

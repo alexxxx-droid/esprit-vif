@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
 import {
   balancedAccuracy,
@@ -43,8 +44,8 @@ function channelLabels(channel: Channel): { button: string; miss: string; wrong:
 
 function describe(t: NBackTally): string {
   return tr(
-    `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausse${t.falseAlarms > 1 ? 's' : ''} alerte${t.falseAlarms > 1 ? 's' : ''}`,
-    `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} false alarm${t.falseAlarms === 1 ? '' : 's'}`,
+    byCount(t.falseAlarms, `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausse alerte`, `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausses alertes`),
+    byCount(t.falseAlarms, `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} false alarm`, `${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} false alarms`),
   );
 }
 

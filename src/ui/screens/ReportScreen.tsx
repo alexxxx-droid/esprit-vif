@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { placement } from '../../core/placement';
-import { formatLongDay, plural } from '../../core/format';
+import { byCount, formatLongDay, plural } from '../../core/format';
 import { DOMAINS, GAMES, gamesOfDomain } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
@@ -21,10 +21,18 @@ function verdict(age: number, previous: number | undefined): string {
       'First test: this is your starting point. Come back tomorrow to see your progress!',
     );
   const diff = age - previous;
-  if (diff < 0) return tr(`${plural(-diff, 'an')} de moins qu’au test précédent. Bravo !`, `${plural(-diff, 'year')} younger than your last test. Well done!`);
+  if (diff < 0)
+    return tr(
+      byCount(-diff, `${-diff}\u00a0an de moins qu’au test précédent. Bravo !`, `${-diff}\u00a0ans de moins qu’au test précédent. Bravo !`),
+      `${plural(-diff, 'year')} younger than your last test. Well done!`,
+    );
   if (diff === 0) return tr('Comme au test précédent. La régularité, c’est ce qui compte !', 'Same as your last test. Sticking with it is what counts!');
   return tr(
-    `${plural(diff, 'an')} de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`,
+    byCount(
+      diff,
+      `${diff}\u00a0an de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`,
+      `${diff}\u00a0ans de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`,
+    ),
     `${plural(diff, 'year')} older than your last test. Everyone has off days: see you tomorrow?`,
   );
 }

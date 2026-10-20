@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef } from 'react';
-import { lang, tr } from '../../core/lang';
+import { byCount } from '../../core/format';
+import { tr } from '../../core/lang';
 import { MAX_LEVEL, starsFor, tierName, TIERS } from '../../core/levels';
 import { MEDAL_NAMES, type Medal, type Rank } from '../../core/progression';
 import type { GameId } from '../../core/types';
@@ -9,7 +10,7 @@ import { Icon } from './Icon';
 
 /** « 2 étoiles » / « 2 stars » (en français, 0 et 1 au singulier). */
 function starsText(count: number): string {
-  return tr(`${count} étoile${count > 1 ? 's' : ''}`, `${count} star${count === 1 ? '' : 's'}`);
+  return tr(byCount(count, `${count} étoile`, `${count} étoiles`), byCount(count, `${count} star`, `${count} stars`));
 }
 
 /** 0 à 3 étoiles : pleines ou en creux (la forme porte l'info, pas seulement la couleur). */
@@ -31,7 +32,7 @@ export function Stars({ count, size = 16, animateFrom }: { count: number; size?:
 
 /** « Médaille Or » / « Gold medal ». */
 function medalTitle(medal: Medal): string {
-  return lang() === 'en' ? `${MEDAL_NAMES[medal]} medal` : `Médaille ${MEDAL_NAMES[medal]}`;
+  return tr(`Médaille ${MEDAL_NAMES[medal]}`, `${MEDAL_NAMES[medal]} medal`);
 }
 
 export function MedalBadge({ medal, size = 28, withName = false }: { medal: Medal; size?: number; withName?: boolean }) {

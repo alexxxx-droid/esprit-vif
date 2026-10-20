@@ -104,10 +104,7 @@ export function RotationGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreRotation(correct, errors, level),
       stats: { correct, errors },
-      headline: tr(
-        `${plural(correct, 'pièce trouvée', 'pièces trouvées')} · ${plural(errors, 'erreur')}`,
-        `${plural(correct, 'piece')} found · ${plural(errors, 'error')}`,
-      ),
+      headline: `${tr(plural(correct, 'pièce trouvée', 'pièces trouvées'), `${plural(correct, 'piece')} found`)} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Pièces trouvées', 'Pieces found'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },

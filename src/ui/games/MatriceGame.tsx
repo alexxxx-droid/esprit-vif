@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { tr } from '../../core/lang';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import {
   generateMatriceRound,
   initialMatrice,
@@ -75,7 +75,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
       score: scoreMatrice(best, level),
       stats: { best, rounds: final.rounds, failures: final.failures, flashMs },
       headline: best
-        ? tr(`${plural(best, 'case')} retenues`, `${plural(best, 'square')} remembered`)
+        ? tr(byCount(best, `${best}\u00a0case retenue`, `${best}\u00a0cases retenues`), `${plural(best, 'square')} remembered`)
         : tr('Aucune séquence retenue', 'No sequence remembered'),
       lines: [
         { label: tr('Plus longue séquence', 'Longest sequence'), value: best ? tr(plural(best, 'case'), plural(best, 'square')) : '—' },
@@ -193,7 +193,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
         <p
           className="tries"
           aria-label={tr(
-            `${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`,
+            byCount(triesLeft, `${Math.max(0, triesLeft)}\u00a0essai restant`, `${Math.max(0, triesLeft)}\u00a0essais restants`),
             `${plural(Math.max(0, triesLeft), 'try', 'tries')} left`,
           )}
         >

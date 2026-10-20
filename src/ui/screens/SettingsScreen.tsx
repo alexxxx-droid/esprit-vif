@@ -2,7 +2,7 @@ import { useRef, useState, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
 import { formatTime } from '../../core/format';
 import { DOMAIN_ORDER, GAMES } from '../../core/games/registry';
-import { resolveLang, tr, type LangChoice } from '../../core/lang';
+import { LANG_NAMES, localized, PUBLISHED_LANGS, resolveLang, tr, type LangChoice } from '../../core/lang';
 import type { TextSize, ThemeChoice } from '../../store/progress';
 import { cloudConfigured, revokeAccess } from '../../sync/google';
 import { profileName } from '../../store/profiles';
@@ -33,7 +33,6 @@ const THEMES: { value: ThemeChoice; fr: string; en: string }[] = [
 ];
 
 /** Le nom de chaque langue, écrit dans sa propre langue. */
-const LANGUAGE_NAMES = { fr: 'Français', en: 'English' } as const;
 
 type Pending = { kind: 'import'; text: string } | { kind: 'reset' } | { kind: 'remove-player' } | null;
 
@@ -49,11 +48,10 @@ export function SettingsScreen() {
   const { profiles, active } = useProfiles();
   const [playersOpen, setPlayersOpen] = useState(false);
   const playerName = profileName(active, profiles);
-  const detectedLanguage = LANGUAGE_NAMES[resolveLang('auto', navigator.language)];
+  const detectedLanguage = LANG_NAMES[resolveLang('auto', navigator.language)];
   const languages: { value: LangChoice; label: string; sub?: string }[] = [
     { value: 'auto', label: tr('Auto', 'Auto'), sub: detectedLanguage },
-    { value: 'fr', label: LANGUAGE_NAMES.fr },
-    { value: 'en', label: LANGUAGE_NAMES.en },
+    ...PUBLISHED_LANGS.map((value) => ({ value, label: LANG_NAMES[value] })),
   ];
 
   const say = (text: string) => {
@@ -255,13 +253,13 @@ export function SettingsScreen() {
               className="segmented__option"
               onClick={() => void store.updateSettings({ theme: theme.value })}
             >
-              {tr(theme.fr, theme.en)}
+              {localized(theme)}
             </button>
           ))}
         </div>
         <p className="hint">{tr('« Auto » suit le réglage clair ou sombre de ton appareil.', '“Auto” follows your device’s light or dark setting.')}</p>
         <p className="setting-label">{tr('Langue', 'Language')}</p>
-        <div className="segmented segmented--tight" role="radiogroup" aria-label={tr('Langue', 'Language')}>
+        <div className="segmented segmented--tight segmented--langs" role="radiogroup" aria-label={tr('Langue', 'Language')}>
           {languages.map((option) => (
             <button
               key={option.value}
@@ -300,7 +298,7 @@ export function SettingsScreen() {
               className="segmented__option"
               onClick={() => void store.updateSettings({ textSize: size.value })}
             >
-              {tr(size.fr, size.en)}
+              {localized(size)}
             </button>
           ))}
         </div>

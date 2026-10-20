@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { generateMots, motsLevel, scoreMots } from '../../core/games/mots';
-import { NBSP } from '../../core/format';
+import { byCount, NBSP } from '../../core/format';
 import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -106,8 +106,8 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
         score: scoreMots(next.hits, next.falseAlarms, level),
         stats: { ...next, count: config.count },
         headline: tr(
-          `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège${next.falseAlarms > 1 ? 's' : ''}`,
-          `${next.hits}/${config.count} recalled · ${next.falseAlarms} trap${next.falseAlarms === 1 ? '' : 's'}`,
+          byCount(next.falseAlarms, `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège`, `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} pièges`),
+          byCount(next.falseAlarms, `${next.hits}/${config.count} recalled · ${next.falseAlarms} trap`, `${next.hits}/${config.count} recalled · ${next.falseAlarms} traps`),
         ),
         lines: [
           { label: tr('Mots retrouvés', 'Words recalled'), value: `${next.hits} / ${config.count}` },

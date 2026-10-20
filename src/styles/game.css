@@ -55,12 +55,16 @@
   padding-bottom: 14px;
 }
 
+/* Un nom long (« Du plus petit au plus grand », ou en allemand) passe sur deux lignes plutôt que d'être coupé. */
 .hud__title {
+  display: -webkit-box;
   overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-weight: 700;
+  line-height: 1.15;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .hud__right {

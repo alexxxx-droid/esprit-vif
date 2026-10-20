@@ -333,6 +333,38 @@ Quatre jeux de plus, un par domaine qui en manquait le plus, tous en **entiers e
   d'arrivée sur le départ. Dès le niveau 10, les flèches défilent une par une. Après une erreur,
   le bon trajet est tracé. Barème : trajets retrouvés sur 8.
 
+## Le 6e pack (v2.10)
+
+Trois jeux de plus, un pour chacun des domaines qui n'en avaient que quatre (Attention, Vitesse,
+Langage), construits comme les autres : 50 niveaux en 5 paliers, une nouvelle façon de jouer à chaque
+palier, la maîtrise ensuite, en français et en anglais.
+
+- **Filature** (Attention, `filature.ts`) : suivi d'objets multiples, avec des noms et des visuels
+  maison. Quelques disques sont signalés 1,8 s, puis tous, identiques, bougent 4 à 6 s (rebonds sur les
+  bords et entre eux) ; à l'arrêt, on touche les disques suivis. 6 essais. Le mouvement est simulé à pas
+  fixe à partir de la graine : même graine, mêmes trajectoires sur tous les appareils. Le temps généreux
+  et la maîtrise ne jouent que sur le signalement : raccourcir le suivi le rendrait plus facile. Paliers :
+  2 à 3 disques à suivre (1-10), jusqu'à 4 parmi 10 (11-20), nuages sous lesquels les disques passent
+  cachés (21-30), à-coups de vitesse et de direction (31-40), leurres qui clignotent comme un
+  signalement (41-50). Barème : 100 × (justes − ½ faux) / (disques à suivre × 6).
+- **Lucioles** (Vitesse, `lucioles.ts`) : on touche les lucioles d'une grille avant qu'elles
+  s'éteignent, pendant 60 s. Paliers : grille 3 × 3 puis 4 × 4 (1-10), paires (11-20), rouges à éviter
+  marquées d'une croix (21-30), voyageuses qui sautent dans une case voisine (31-40), dorées à deux
+  appuis marquées « 2 », grille 5 × 5 (41-50). La forme distingue les sortes, pas la couleur seule.
+  L'objectif pour 100 points suit le rythme d'un joueur très rapide ; une ratée retire une demi-luciole,
+  un mauvais appui une entière. Le temps de réaction alimente les Progrès.
+- **Contraires** (Langage, `contraires.ts`, `contraires-words.ts`) : un mot, une consigne en badge
+  (« Le contraire de » ↔, « Le même sens que » =), quatre propositions ; 60 s, bonnes réponses moins
+  erreurs. Paliers : contraires courants sans piège (1-10), consigne qui alterne contraire / même sens
+  (11-20), pièges (un synonyme quand on demande le contraire, et inversement, 21-30), mots rares et
+  soutenus (31-40), puis deux mots à juger, contraires, même sens ou sans rapport, avant la fin d'une
+  mèche (41-50). Les listes sont écrites pour chaque langue et rangées en familles de sens : un mot
+  n'appartient qu'à une famille et les leurres viennent toujours d'autres familles, si bien qu'aucun ne
+  peut passer pour une bonne réponse. 245 contraires et 203 synonymes en français, 219 et 187 en
+  anglais. Les autres langues jouent en anglais tant qu'elles n'ont pas leur liste.
+- Les trois jeux entrent dans le test du jour (tous les jeux y participent) et dans les marathons de
+  leur domaine. Contrôlés au toucher réel : un appui, une réponse.
+
 ## Contenu et prise en main (v2.6)
 
 - **Mots** : 648 mots pour les Anagrammes (275 avant), tous sans accent ni cédille dans leur

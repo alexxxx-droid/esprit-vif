@@ -1,0 +1,284 @@
+/* ---------- Contraires ---------- */
+
+.contraires {
+  gap: 18px;
+}
+
+/* La carte du mot : un liseré de la couleur de la consigne (rose : le contraire, indigo : le même sens). */
+.contraires__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 190px;
+  padding: 22px 18px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  text-align: center;
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+.contraires__card--contraire {
+  box-shadow:
+    inset 0 0 0 3px var(--d-langage),
+    var(--shadow-1);
+}
+
+.contraires__card--synonyme {
+  box-shadow:
+    inset 0 0 0 3px var(--accent),
+    var(--shadow-1);
+}
+
+.contraires__card--judge {
+  gap: 10px;
+  padding-bottom: 30px;
+}
+
+/* La consigne : un badge de couleur, avec son pictogramme. */
+.contraires__ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.contraires__ask--contraire {
+  background: var(--d-langage);
+  color: var(--badge-ink);
+}
+
+.contraires__ask--synonyme {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.contraires__ask .contraires__glyph {
+  margin-left: -4px;
+}
+
+.contraires__glyph {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+
+.contraires__word {
+  display: inline-block;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 10vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.contraires__word--pair {
+  font-size: clamp(1.8rem, 8.5vw, 2.3rem);
+}
+
+.contraires__and {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-3);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+/* La mèche du palier Légende : elle se consume sous la paire. */
+.contraires__fuse {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  left: 18px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--d-langage);
+  transform-origin: left;
+  animation: contraires-fuse var(--fuse) linear both;
+}
+
+@keyframes contraires-fuse {
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* La mèche dit le temps qui reste : elle garde sa vraie durée même en mouvement réduit. */
+@media (prefers-reduced-motion: reduce) {
+  .contraires__fuse {
+    animation-duration: var(--fuse) !important;
+  }
+}
+
+:root[data-motion='reduce'] .contraires__fuse {
+  animation-duration: var(--fuse) !important;
+}
+
+/* Les quatre propositions. */
+.contraires__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.contraires__option {
+  min-width: 0;
+  min-height: 68px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 750;
+  transition: transform 80ms;
+  animation: card-in 240ms var(--ease-out) both;
+}
+
+.contraires__option:active {
+  background: var(--accent-soft);
+  transform: scale(0.96);
+}
+
+.contraires__fit {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Les trois réponses du palier Légende. */
+.contraires__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.contraires__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 84px;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 750;
+  line-height: 1.15;
+  transition: transform 80ms;
+}
+
+.contraires__link:active {
+  background: var(--accent-soft);
+  transform: scale(0.96);
+}
+
+.contraires__link .contraires__glyph {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.contraires__link .contraires__glyph--contraire {
+  background: var(--d-langage);
+  color: var(--badge-ink);
+}
+
+.contraires__link .contraires__glyph--synonyme {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.contraires__link .contraires__glyph--aucun {
+  background: var(--surface-3);
+  color: var(--ink-2);
+}
+
+/* Démo de l'intro. */
+.demo-contraires {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px var(--d-langage),
+    var(--shadow-1);
+}
+
+.demo-contraires--synonyme {
+  box-shadow:
+    inset 0 0 0 2px var(--accent),
+    var(--shadow-1);
+}
+
+.demo-contraires .contraires__ask {
+  padding: 4px 12px;
+  font-size: 0.85rem;
+}
+
+.demo-contraires__word {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.demo-contraires__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.demo-contraires--judge {
+  gap: 2px;
+  box-shadow: var(--shadow-1);
+}
+
+.demo-contraires__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.demo-contraires__options span,
+.demo-contraires__links span {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-weight: 700;
+  text-align: center;
+  transition: box-shadow 160ms;
+}
+
+.demo-contraires__links span {
+  padding: 6px 4px;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.demo-contraires__options .is-picked,
+.demo-contraires__links .is-picked {
+  box-shadow: inset 0 0 0 3px var(--good);
+}

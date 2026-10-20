@@ -24,13 +24,13 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 | Champ | Français | English |
 | --- | --- | --- |
 | Nom (30 car. max) | Esprit Vif – Jeux cérébraux | Esprit Vif – Brain Games |
-| Description courte (80 max) | 28 jeux, 1 400 niveaux, un défi chaque jour. Sans pub ni compte. | 28 games, 1,400 levels, a daily challenge. No ads, no account. |
+| Description courte (80 max) | 31 jeux, 1 550 niveaux, un défi chaque jour. Sans pub ni compte. | 31 games, 1,550 levels, a daily challenge. No ads, no account. |
 
 ### Description complète (français)
 
 > Quelques minutes par jour pour garder l’esprit vif.
 >
-> **28 mini-jeux, 1 400 niveaux** répartis en six domaines : calcul, mémoire, attention,
+> **31 mini-jeux, 1 550 niveaux** répartis en six domaines : calcul, mémoire, attention,
 > vitesse, langage et logique. Chaque jeu monte en difficulté sur 50 niveaux et 5 paliers,
 > de Débutant à Légende : de quoi progresser pendant des mois.
 >
@@ -52,7 +52,8 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > • Profils pour toute la famille, en français ou en anglais
 >
 > **Chaque jour, une raison de revenir**
-> • Trois objectifs du jour, des étincelles à gagner et 31 chapeaux pour habiller Vif
+> • Trois objectifs du jour, des étincelles à gagner et 36 chapeaux pour habiller Vif
+> • Après le niveau 50 : la maîtrise, le Défi Légende du jour et des saisons de défis en histoires
 > • Des thèmes de saison (neige, pétales, feuilles…) et des thèmes à débloquer
 > • Tes progrès en clair : ta semaine, ta précision, tes records
 >
@@ -69,7 +70,7 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 
 > A few minutes a day to keep your mind sharp.
 >
-> **28 mini-games, 1,400 levels** across six areas: math, memory, attention, speed, language
+> **31 mini-games, 1,550 levels** across six areas: math, memory, attention, speed, language
 > and logic. Every game gets harder over 50 levels and 5 tiers, from Beginner to Legend:
 > enough to keep improving for months.
 >
@@ -91,7 +92,8 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > • Profiles for the whole family, in English or French
 >
 > **A reason to come back every day**
-> • Three daily goals, sparks to earn and 31 hats to dress up Vif
+> • Three daily goals, sparks to earn and 36 hats to dress up Vif
+> • Beyond level 50: mastery, the daily Legend challenge and story-driven challenge seasons
 > • Seasonal themes (snow, petals, leaves…) and themes to unlock
 > • Your progress made clear: your week, your accuracy, your best scores
 >

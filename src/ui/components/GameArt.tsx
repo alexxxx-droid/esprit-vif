@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import { GAMES } from '../../core/games/registry';
 import type { GameId } from '../../core/types';
+import { CONTRAIRES_ART } from './art-contraires';
+import { FILATURE_ART } from './art-filature';
+import { LUCIOLES_ART } from './art-lucioles';
 
 /*
  * Une vignette par jeu, sur la couleur de son domaine : on reconnaît le jeu d'un coup d'œil.
@@ -8,6 +11,9 @@ import type { GameId } from '../../core/types';
  * bg = couleur du domaine (pour « percer » une forme), t = lettres et chiffres.
  */
 const ART: Record<GameId, ReactNode> = {
+  filature: FILATURE_ART,
+  lucioles: LUCIOLES_ART,
+  contraires: CONTRAIRES_ART,
   calcul: (
     <>
       <rect className="s" x="7" y="15" width="22" height="5.5" rx="2.75" />

@@ -13,16 +13,16 @@ de chaque jeu et un bilan du mois. Tout s’essaie avant d’acheter.
 
 ## Au programme
 
-**28 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
-Confirmé, Expert, Maître, Légende), soit **1 400 niveaux** :
+**31 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
+Confirmé, Expert, Maître, Légende), soit **1 550 niveaux**, puis dix crans de **maîtrise** :
 
 | Domaine | Jeux |
 | --- | --- |
 | Calcul | Calcul éclair, Total cumulé, Calcul du diable, Monnaie, Pluie de calculs |
 | Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires, Qui est qui ? |
-| Attention | Couleurs piégées, L’intrus, La boutique, Flèches |
-| Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil |
-| Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair |
+| Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature |
+| Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles |
+| Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires |
 | Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.

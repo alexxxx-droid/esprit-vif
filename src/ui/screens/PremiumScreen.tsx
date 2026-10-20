@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { track } from '../../analytics/journal';
 import { PREMIUM_CHARACTERS } from '../../core/characters';
 import { dayKey } from '../../core/daily';
-import { formatMonth } from '../../core/format';
-import { GAMES } from '../../core/games/registry';
+import { formatDecimal, formatMonth } from '../../core/format';
+import { GAME_ORDER, GAMES } from '../../core/games/registry';
+import { MAX_LEVEL } from '../../core/levels';
 import { tr } from '../../core/lang';
 import { monthlyReport } from '../../core/summary';
 import { THEMES, themeName, type ThemeId } from '../../core/themes';
@@ -29,6 +30,8 @@ function close() {
 
 const PREMIUM_THEMES = THEMES.filter((t) => t.unlock.kind === 'premium');
 const PREMIUM_HATS = HATS.filter((h) => h.premium).map((h) => h.id);
+/** Chapeaux qui se gagnent en jouant (boutique et prestige), hors saisons. */
+const EARNED_HATS = HATS.filter((h) => !h.premium).length;
 
 const NOTICES: Record<Exclude<Notice, null>, { tone: 'good' | 'info' | 'bad'; text: () => string }> = {
   purchased: { tone: 'good', text: () => tr('Merci ! Premium est activé sur cet appareil.', 'Thank you! Premium is now active on this device.') },
@@ -104,8 +107,8 @@ export function PremiumScreen({ focus }: { focus?: string }) {
         </h2>
         <p className="card__sub">
           {tr(
-            'Les 28 jeux et leurs 1 400 niveaux, le test du jour, les objectifs, le vestiaire et ses 31 chapeaux à gagner, les thèmes gagnés en jouant, tes statistiques et tes sauvegardes. Rien de ce qui est gratuit aujourd’hui ne deviendra payant, et il n’y aura jamais de publicité.',
-            'All 28 games and their 1,400 levels, the daily test, goals, the wardrobe and its 31 hats to earn, themes earned by playing, your stats and backups. Nothing free today will ever become paid, and there will never be ads.',
+            `Les ${GAME_ORDER.length} jeux, leurs ${formatDecimal(GAME_ORDER.length * MAX_LEVEL)} niveaux et la maîtrise, le test du jour, les objectifs, les défis et les saisons, le vestiaire et ses ${EARNED_HATS} chapeaux à gagner, les thèmes gagnés en jouant, tes statistiques et tes sauvegardes. Rien de ce qui est gratuit aujourd’hui ne deviendra payant, et il n’y aura jamais de publicité.`,
+            `All ${GAME_ORDER.length} games, their ${formatDecimal(GAME_ORDER.length * MAX_LEVEL)} levels and mastery, the daily test, goals, challenges and seasons, the wardrobe and its ${EARNED_HATS} hats to earn, themes earned by playing, your stats and backups. Nothing free today will ever become paid, and there will never be ads.`,
           )}
         </p>
       </section>

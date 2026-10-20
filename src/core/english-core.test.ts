@@ -49,6 +49,9 @@ const GLOSSARY: Record<GameId, string> = {
   quiestqui: "Who's Who?",
   lecture: 'Speed Reading',
   itineraire: 'Route Finder',
+  filature: 'Keep Track',
+  lucioles: 'Fireflies',
+  contraires: 'Opposites',
 };
 
 /** Jeux dont les libellés de niveau sont traduits ici (les autres le sont avec leurs contenus). */

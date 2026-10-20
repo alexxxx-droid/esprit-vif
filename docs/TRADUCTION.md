@@ -103,3 +103,6 @@ Raisin → Grape · Poire → Pear · Pastèque → Watermelon
 | quiestqui | Qui est qui ? | Who's Who? |
 | lecture | Lecture éclair | Speed Reading |
 | itineraire | Itinéraire | Route Finder |
+| filature | Filature | Keep Track |
+| lucioles | Lucioles | Fireflies |
+| contraires | Contraires | Opposites |

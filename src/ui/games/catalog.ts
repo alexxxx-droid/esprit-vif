@@ -8,6 +8,12 @@ import { CalculGame } from './CalculGame';
 import { CategoriesGame } from './CategoriesGame';
 import { CorrespondanceGame } from './CorrespondanceGame';
 import { CoupGame } from './CoupGame';
+import { ContrairesGame } from './ContrairesGame';
+import { ContrairesDemo } from './contraires-demo';
+import { FilatureGame } from './FilatureGame';
+import { FilatureDemo } from './filature-demo';
+import { LuciolesGame } from './LuciolesGame';
+import { LuciolesDemo } from './lucioles-demo';
 import { DiableGame } from './DiableGame';
 import {
   AnagrammesDemo,
@@ -87,6 +93,9 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   categories: CategoriesGame,
   paires: PairesGame,
   coupdoeil: CoupGame,
+  filature: FilatureGame,
+  lucioles: LuciolesGame,
+  contraires: ContrairesGame,
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
@@ -127,6 +136,9 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   categories: CategoriesDemo,
   paires: PairesDemo,
   coupdoeil: CoupDemo,
+  filature: FilatureDemo,
+  lucioles: LuciolesDemo,
+  contraires: ContrairesDemo,
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,

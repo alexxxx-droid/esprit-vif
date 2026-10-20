@@ -28,7 +28,10 @@ export type GameId =
   | 'coupdoeil'
   | 'quiestqui'
   | 'lecture'
-  | 'itineraire';
+  | 'itineraire'
+  | 'filature'
+  | 'lucioles'
+  | 'contraires';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

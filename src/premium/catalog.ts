@@ -15,7 +15,7 @@ export interface Benefit {
 
 /**
  * Ce que Premium apporte, et rien de plus : chaque ligne correspond à une fonction construite.
- * Tout le reste (28 jeux, 1 400 niveaux, test du jour, objectifs, vestiaire, thèmes gagnés en jouant,
+ * Tout le reste (tous les jeux et leurs niveaux, maîtrise, test du jour, objectifs, défis, saisons, vestiaire, thèmes gagnés en jouant,
  * statistiques) reste gratuit, pour toujours, et l'appli n'a pas de publicité.
  */
 export function premiumBenefits(): Benefit[] {

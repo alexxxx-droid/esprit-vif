@@ -4,6 +4,9 @@ import './styles/tokens.css';
 import './styles/base.css';
 import './styles/app.css';
 import './styles/game.css';
+import './styles/filature.css';
+import './styles/lucioles.css';
+import './styles/contraires.css';
 
 import { Capacitor } from '@capacitor/core';
 import { StrictMode } from 'react';

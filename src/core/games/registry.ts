@@ -30,6 +30,9 @@ import { schulteLevelLabel, schulteRule } from './schulte';
 import { stroopLevelLabel, stroopRule } from './stroop';
 import { sudokuDuration, sudokuLevel, sudokuLevelLabel } from './sudoku';
 import { totalLevelLabel, totalRule } from './total';
+import { filatureLevelLabel, filatureRule } from './filature';
+import { luciolesLevelLabel, luciolesRule } from './lucioles';
+import { contrairesLevelLabel, contrairesRule } from './contraires';
 
 export interface DomainMeta {
   /** Nom affiché, dans la langue de l'interface (accesseur : lu à l'affichage). */
@@ -96,6 +99,42 @@ export function durationFor(meta: GameMeta, level: number): string {
 }
 
 export const GAMES: Record<GameId, GameMeta> = {
+  filature: {
+    id: 'filature',
+    get name() {
+      return tr('Filature', 'Keep Track');
+    },
+    domain: 'attention',
+    rule: filatureRule,
+    duration: '≈ 1 min 30',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: filatureLevelLabel,
+  },
+  lucioles: {
+    id: 'lucioles',
+    get name() {
+      return tr('Lucioles', 'Fireflies');
+    },
+    domain: 'vitesse',
+    rule: luciolesRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: luciolesLevelLabel,
+  },
+  contraires: {
+    id: 'contraires',
+    get name() {
+      return tr('Contraires', 'Opposites');
+    },
+    domain: 'langage',
+    rule: contrairesRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: contrairesLevelLabel,
+  },
   calcul: {
     id: 'calcul',
     get name() {
@@ -696,14 +735,17 @@ export const GAME_ORDER: readonly GameId[] = [
   'intrus',
   'boutique',
   'fleches',
+  'filature',
   'schulte',
   'correspondance',
   'reflexe',
   'coupdoeil',
+  'lucioles',
   'anagrammes',
   'lettre',
   'categories',
   'lecture',
+  'contraires',
   'rotation',
   'balance',
   'horloges',

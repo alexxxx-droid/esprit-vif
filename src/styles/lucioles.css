@@ -1,0 +1,204 @@
+/* ---------- Lucioles : une grille dans la nuit, scène sombre dans les deux thèmes ---------- */
+
+.lucioles {
+  gap: 14px;
+}
+
+.lucioles__night {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 380px);
+  aspect-ratio: 1;
+  padding: 12px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(1.2px 1.2px at 18% 12%, #ffffff66, transparent),
+    radial-gradient(1px 1px at 72% 8%, #ffffff55, transparent),
+    radial-gradient(1.2px 1.2px at 88% 64%, #ffffff44, transparent),
+    linear-gradient(170deg, #1b2240, var(--stage) 70%);
+}
+
+.lucioles__night--5 {
+  gap: 6px;
+  padding: 10px;
+}
+
+.lucioles__cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--stage-2) 85%, #2a3a5a);
+  color: var(--stage-ink);
+  transition: transform 80ms;
+}
+
+.lucioles__cell:active {
+  transform: scale(0.95);
+}
+
+/* La luciole : un rond qui brille, et un halo. La forme distingue les sortes, pas la couleur seule. */
+.lucioles__fly {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fbffd6, #d9f75a 55%, #9fcf1f);
+  box-shadow:
+    0 0 10px 3px #d9f75a99,
+    0 0 26px 8px #d9f75a44;
+  animation:
+    luciole-in 160ms var(--ease-out) both,
+    luciole-glow 900ms ease-in-out 160ms infinite alternate;
+}
+
+.is-red .lucioles__fly {
+  border-radius: 22%;
+  background: radial-gradient(circle at 40% 35%, #ffd2cc, #ff5a52 60%, #c8322b);
+  box-shadow:
+    0 0 10px 3px #ff5a5299,
+    0 0 22px 6px #ff5a5244;
+}
+
+.lucioles__cross {
+  width: 56%;
+  height: 56%;
+  background:
+    linear-gradient(45deg, transparent 42%, #ffffff 42% 58%, transparent 58%),
+    linear-gradient(-45deg, transparent 42%, #ffffff 42% 58%, transparent 58%);
+}
+
+.is-gold .lucioles__fly {
+  width: 56%;
+  background: radial-gradient(circle at 40% 35%, #fff8d6, #ffd34d 55%, #e0a800);
+  box-shadow:
+    0 0 0 3px #fff3b0,
+    0 0 14px 5px #ffd34daa,
+    0 0 30px 10px #ffd34d44;
+}
+
+.is-half .lucioles__fly {
+  opacity: 0.75;
+  box-shadow:
+    0 0 0 3px #fff3b088,
+    0 0 10px 3px #ffd34d66;
+}
+
+.lucioles__two {
+  color: #3a2800;
+  font-size: clamp(0.9rem, 4.5vw, 1.3rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* Une voyageuse arrive dans sa nouvelle case : un petit bond. */
+.lucioles__fly.is-arrived {
+  animation:
+    luciole-hop 200ms var(--ease-spring) both,
+    luciole-glow 900ms ease-in-out 200ms infinite alternate;
+}
+
+.lucioles__flash {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: luciole-flash 420ms var(--ease-out) forwards;
+}
+
+.lucioles__flash--caught {
+  box-shadow: 0 0 0 3px var(--good), 0 0 18px 6px #4fd99a88;
+}
+
+.lucioles__flash--missed {
+  box-shadow: 0 0 0 3px #8a8fa3;
+}
+
+.lucioles .mark {
+  top: -4px;
+}
+
+@keyframes luciole-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes luciole-glow {
+  0% {
+    filter: brightness(1);
+  }
+
+  100% {
+    filter: brightness(1.18);
+  }
+}
+
+@keyframes luciole-hop {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.6) translateY(-6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes luciole-flash {
+  0% {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+/* Démo de l'intro. */
+.demo-lucioles {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  gap: 6px;
+  padding: 10px;
+  border-radius: 16px;
+  background: linear-gradient(170deg, #1b2240, var(--stage) 70%);
+}
+
+.demo-lucioles__cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--stage-2) 85%, #2a3a5a);
+  transition:
+    transform 120ms,
+    box-shadow 120ms;
+}
+
+.demo-lucioles__cell.is-pressed {
+  box-shadow: 0 0 0 2px var(--stage-ink);
+  transform: scale(0.92);
+}
+
+.demo-lucioles__cell .lucioles__fly {
+  width: 50%;
+  animation: none;
+}

@@ -1,0 +1,119 @@
+/* ---------- Filature : suivre des disques qui bougent ---------- */
+
+.filature {
+  gap: 10px;
+}
+
+.filature__arena {
+  width: min(100%, 360px, 54dvh);
+  aspect-ratio: 1;
+  overflow: visible;
+  border-radius: var(--radius-l);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+  touch-action: none;
+}
+
+.filature__body {
+  fill: color-mix(in oklab, var(--d-attention) 72%, var(--ink));
+  transition: fill 160ms;
+}
+
+.filature__ring {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2.2;
+}
+
+.filature__hit {
+  fill: transparent;
+}
+
+/* Signalement : les disques à suivre s'entourent et s'éclairent. Un leurre prend exactement le même air. */
+.filature__disc.is-cued .filature__ring,
+.filature__disc.is-lure .filature__ring {
+  stroke: var(--warm);
+}
+
+.filature__disc.is-cued .filature__body,
+.filature__disc.is-lure .filature__body {
+  fill: var(--warm);
+}
+
+.filature__disc.is-cued .filature__ring {
+  animation: filature-pulse 0.9s ease-in-out infinite;
+}
+
+.filature__arena.is-answer .filature__disc {
+  cursor: pointer;
+}
+
+.filature__disc.is-picked .filature__body {
+  fill: var(--accent);
+}
+
+.filature__disc.is-picked .filature__ring {
+  stroke: var(--accent);
+}
+
+.filature__disc.is-hit .filature__body {
+  fill: var(--good);
+}
+
+.filature__disc.is-hit .filature__ring {
+  stroke: var(--good);
+}
+
+.filature__disc.is-wrong .filature__body {
+  fill: var(--bad);
+}
+
+/* Un disque à suivre oublié : entouré en pointillé vert. */
+.filature__disc.is-missed .filature__ring {
+  stroke: var(--good);
+  stroke-dasharray: 3 2;
+}
+
+.filature__disc:focus {
+  outline: none;
+}
+
+.filature__disc:focus-visible .filature__ring {
+  stroke: var(--accent);
+}
+
+.filature__cloud {
+  /* Opaque et bien visible dans les deux thèmes : on doit voir où les disques disparaissent. */
+  fill: color-mix(in oklab, var(--ink) 22%, var(--surface-2));
+  filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 25%));
+  animation: filature-cloud-in 280ms ease-out both;
+}
+
+.filature__prompt {
+  min-height: 2.6em;
+  padding: 0 8px;
+}
+
+.demo-filature {
+  width: 100%;
+  max-width: 260px;
+  overflow: visible;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+}
+
+.demo-filature .filature__disc {
+  transition: transform 900ms cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes filature-pulse {
+  50% {
+    stroke-width: 3.6;
+  }
+}
+
+@keyframes filature-cloud-in {
+  from {
+    opacity: 0;
+  }
+}

@@ -11,8 +11,9 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
    gratuite (avec un achat intégré : Premium à vie, voir `docs/GOOGLE_PLAY_BILLING.md`).
    Accepter les règles du programme.
 3. Remplir les sections ci-dessous (copier-coller).
-4. Téléverser le paquet `esprit-vif.aab` (je le fabrique : même clé que l'APK actuel) dans
-   **Tests → Tests internes**, puis **Production**.
+4. Téléverser le paquet `esprit-vif.aab` (je le fabrique : même clé que l'APK actuel ; dernier en
+   date : `android/app/build/outputs/bundle/release/app-release.aab`) dans **Tests → Tests internes**,
+   puis **Production**.
 5. Activer la **signature d'application par Google Play** (proposée au premier envoi) ; ensuite,
    ajouter l'empreinte SHA-1 de la clé de signature Google Play dans le projet Google Cloud
    (voir `docs/GOOGLE_DRIVE.md`, étape 4) pour que la sauvegarde Drive marche dans l'appli
@@ -154,5 +155,5 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 | --- | --- |
 | Icône | 512 × 512 PNG (`public/pwa-512x512.png`) |
 | Image de présentation | 1024 × 500 PNG ou JPEG |
-| Captures téléphone | 2 à 8, 1080 × 1920 (9:16) |
+| Captures téléphone | 2 à 8, 1080 × 1920 (9:16) : `phone-fr-1…7.png` et `phone-en-1…7.png` (v2.9.1) — accueil, bilan du test, une partie (Rotation mentale), vestiaire, Progrès, Entraînement, objectifs du jour |
 | Captures tablette 7" et 10" | 2 à 8 chacune, recommandées |

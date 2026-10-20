@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef } from 'react';
 import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL, starsFor, tierName, TIERS } from '../../core/levels';
+import { ALL_TIERS, isMastery, masteryName, passScore, starsFor, tierName, TOP_LEVEL } from '../../core/levels';
 import { MEDAL_NAMES, type Medal, type Rank } from '../../core/progression';
 import type { GameId } from '../../core/types';
 import { gameUnlocked } from '../../store/progress';
@@ -60,11 +60,13 @@ export function LevelPicker({ gameId, selected, onSelect }: { gameId: GameId; se
 
   return (
     <div className="levels" ref={row} role="group" aria-label={tr('Choix du niveau', 'Choose a level')}>
-      {Array.from({ length: MAX_LEVEL }, (_, i) => {
+      {Array.from({ length: TOP_LEVEL }, (_, i) => {
         const level = i + 1;
         const locked = level > unlocked;
         const stars = starsFor(bests[level]?.score ?? 0);
-        const tier = TIERS.find((t) => t.from === level);
+        const tier = ALL_TIERS.find((t) => t.from === level);
+        const mastery = isMastery(level);
+        const passed = (bests[level]?.score ?? -1) >= passScore(level);
         return (
           <Fragment key={level}>
             {/* Un intitulé au début de chaque palier : Débutant, Confirmé, Expert… */}
@@ -76,13 +78,21 @@ export function LevelPicker({ gameId, selected, onSelect }: { gameId: GameId; se
               disabled={locked}
               onClick={() => onSelect(level)}
               aria-label={
-                locked
-                  ? tr(`Niveau ${level}, verrouillé`, `Level ${level}, locked`)
-                  : tr(`Niveau ${level}, ${starsText(stars)}`, `Level ${level}, ${starsText(stars)}`)
+                mastery
+                  ? `${masteryName(level)}, ${locked ? tr('verrouillée', 'locked') : passed ? tr('réussie', 'passed') : tr(`${passScore(level)} pts pour réussir`, `${passScore(level)} pts to pass`)}`
+                  : locked
+                    ? tr(`Niveau ${level}, verrouillé`, `Level ${level}, locked`)
+                    : tr(`Niveau ${level}, ${starsText(stars)}`, `Level ${level}, ${starsText(stars)}`)
               }
             >
-              <span className="level-chip__num">{locked ? <Icon name="lock" size={16} /> : level}</span>
-              <Stars count={locked ? 0 : stars} size={10} />
+              <span className="level-chip__num">{locked ? <Icon name="lock" size={16} /> : mastery ? masteryName(level, true) : level}</span>
+              {mastery ? (
+                <span className={`level-chip__crown${passed ? ' is-passed' : ''}`} aria-hidden="true">
+                  <Icon name="crown" size={11} />
+                </span>
+              ) : (
+                <Stars count={locked ? 0 : stars} size={10} />
+              )}
             </button>
           </Fragment>
         );

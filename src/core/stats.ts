@@ -32,7 +32,8 @@ export function domainProfile(plays: readonly ScoredPlay[], count = 5): Record<D
  */
 export function domainMastery(bests: Partial<Record<GameId, LevelBests>>): Record<Domain, number | null> {
   const reach = (levels: LevelBests): number =>
-    Math.max(0, ...Object.entries(levels).map(([level, best]) => (Number(level) - 1 + Math.min(100, best.score) / 100) / MAX_LEVEL));
+    // La maîtrise (niveaux 51-60) compte comme le niveau 50 réussi : la carte plafonne à 100.
+    Math.max(0, ...Object.entries(levels).map(([level, best]) => Math.min(1, (Math.min(Number(level), MAX_LEVEL) - 1 + Math.min(100, best.score) / 100) / MAX_LEVEL)));
   const mastery = {} as Record<Domain, number | null>;
   for (const domain of DOMAIN_ORDER) {
     const played = Object.entries(bests)

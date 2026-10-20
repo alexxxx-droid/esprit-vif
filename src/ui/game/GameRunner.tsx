@@ -6,6 +6,8 @@ import { randomSeed } from '../../core/rng';
 import type { PlayMode, PlayOutcome } from '../../core/types';
 import { progressionInput, type SavedPlay } from '../../store/progress';
 import { track } from '../../analytics/journal';
+import { masteryTempo, playedLevel } from '../../core/levels';
+import { setMasteryTempo } from '../tempo';
 import { fx } from '../fx/fx';
 import { startMusic, stopMusic } from '../fx/music';
 import { GAME_COMPONENTS, GAME_TUTORIALS } from '../games/catalog';
@@ -66,6 +68,11 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
   const [notice, setNotice] = useState<string | null>(null);
   // Début de la partie elle-même (après le 3-2-1) : sa durée nourrit le temps de jeu des Progrès.
   const playStart = useRef(0);
+  // Un cran de maîtrise accélère les fenêtres d'affichage le temps de la partie, puis tout revient.
+  useEffect(() => {
+    setMasteryTempo(phase === 'countdown' || phase === 'play' ? masteryTempo(run.level) : 1);
+    return () => setMasteryTempo(1);
+  }, [phase, run.level]);
   const chrome = useMemo(() => ({ title: meta.name, onQuit }), [meta.name, onQuit]);
   const chosen = selectable ? selected : level;
 
@@ -163,7 +170,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
   const Game = GAME_COMPONENTS[meta.id];
   return tinted(
     <GameChromeContext value={chrome}>
-      <Game key={run.id} seed={run.seed} level={run.level} onFinish={finish} />
+      <Game key={run.id} seed={run.seed} level={playedLevel(run.level)} onFinish={finish} />
     </GameChromeContext>,
   );
 }

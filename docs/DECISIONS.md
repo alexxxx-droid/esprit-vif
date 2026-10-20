@@ -58,6 +58,24 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   46 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
   ont leur petite mémoire (`extras`), exportée avec le reste.
 
+## Fin de jeu : maîtrise, rang sans fin (v2.10, demande d'Alex du 20-10-2026)
+
+« Une fois les 50 niveaux faits, il arrête ? » Ce qui s'ajoute pour les joueurs qui ont tout fini :
+
+- **Maîtrise** (`MASTERY_LEVELS`, `src/core/levels.ts`) : dix crans après le niveau 50, « Maîtrise I à
+  X » (niveaux 51 à 60 dans les données). Chaque cran rejoue la partie du niveau 50 (`playedLevel`) et
+  demande un meilleur score pour passer (`passScore` : 64 pour I, 4 de plus à chaque cran, 100 pour X) ;
+  dans les 16 jeux à fenêtres d'affichage, celles-ci raccourcissent de 2 % par cran (`masteryTempo`,
+  via `slow`). Choix générique et honnête : il marche pour les 28 jeux sans inventer 280 niveaux
+  bancals, et chaque cran est vraiment plus exigeant. Les crans ne donnent pas d'étoiles (elles
+  restent sur 50 niveaux) ; une couronne I-X s'affiche sur la carte du jeu. Un jeu est « maîtrisé » à
+  Maîtrise V : un chapeau de prestige tous les 5 jeux maîtrisés (bandeau de maître, heaume, couronne
+  de cristal, chapeau du grand sage, couronne solaire). Les niveaux 1 à 50 ne bougent pas.
+- **Rang sans fin** : un titre tous les 10 niveaux de joueur après 50 (céleste, stellaire, cosmique,
+  infini, éternel, puis « Esprit éternel II, III… »), 20 étincelles par niveau au-delà de 50
+  (`levelSparks`), et trois auras pour Vif aux niveaux 60, 75 et 100 (argent, or, arc-en-ciel), à
+  choisir au vestiaire.
+
 ## Premium à vie (v2.9, décision d'Alex du 20-10-2026)
 
 Le cahier des charges disait « sans publicité » et la fiche Play « achats numériques : non ». Alex a

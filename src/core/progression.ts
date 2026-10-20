@@ -2,7 +2,7 @@ import { bestStreak } from './daily';
 import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type Season, type SeasonId } from './events';
 import { DOMAIN_ORDER, GAME_ORDER, gamesOfDomain } from './games/registry';
 import { localized, tr, type Translations } from './lang';
-import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from './levels';
+import { MAX_LEVEL, masteryRank, passScore, starsFor, TOP_LEVEL } from './levels';
 import { OBJECTIVE_XP, objectivesDone, sparksEarned, type DailyObjective } from './objectives';
 import type { GameId } from './types';
 
@@ -45,22 +45,31 @@ export interface ProgressionInput {
 
 // ---------- Niveaux, étoiles, médailles ----------
 
-/** Plus haut niveau réussi (au moins une étoile), 0 si aucun. */
+/** Plus haut niveau réussi (au moins une étoile, ou le score demandé en maîtrise), 0 si aucun. */
 export function highestPassed(bests: LevelBests | undefined): number {
   let top = 0;
   for (const [level, best] of Object.entries(bests ?? {})) {
-    if (best.score >= UNLOCK_SCORE) top = Math.max(top, Number(level));
+    if (best.score >= passScore(Number(level))) top = Math.max(top, Number(level));
   }
   return top;
 }
 
-/** Dernier niveau jouable : celui qui suit le plus haut niveau réussi. */
+/** Dernier niveau jouable : celui qui suit le plus haut niveau réussi (jusqu'à Maîtrise X). */
 export function unlockedLevel(bests: LevelBests | undefined): number {
-  return Math.min(MAX_LEVEL, highestPassed(bests) + 1);
+  return Math.min(TOP_LEVEL, highestPassed(bests) + 1);
 }
 
+/** Cran de maîtrise atteint dans un jeu (0 à 10). */
+export function masteryOf(bests: LevelBests | undefined): number {
+  return masteryRank(highestPassed(bests));
+}
+
+/** Un jeu est « maîtrisé » à partir de Maîtrise V. */
+export const MASTERED_RANK = 5;
+
+/** Étoiles d'un jeu, sur ses 50 niveaux (la maîtrise se compte en crans, pas en étoiles). */
 export function gameStars(bests: LevelBests | undefined): number {
-  return Object.values(bests ?? {}).reduce((sum, best) => sum + starsFor(best.score), 0);
+  return Object.entries(bests ?? {}).reduce((sum, [level, best]) => sum + (Number(level) <= MAX_LEVEL ? starsFor(best.score) : 0), 0);
 }
 
 export function totalStars(bests: ProgressionInput['bests']): number {
@@ -146,7 +155,7 @@ export function totalXp(input: ProgressionInput): number {
     const key = `${play.gameId}:${play.level}`;
     const before = best.get(key);
     const gained = starsFor(play.score) - (before === undefined ? 0 : starsFor(before));
-    if (gained > 0) xp += gained * XP_BONUS.star;
+    if (gained > 0 && play.level <= MAX_LEVEL) xp += gained * XP_BONUS.star;
     if (before === undefined || play.score > before) best.set(key, play.score);
   }
   xp += input.tests.filter((t) => t.done && t.official).length * XP_BONUS.test;
@@ -176,13 +185,51 @@ export const TITLES: readonly (readonly [min: number, title: Translations])[] = 
   [30, { fr: 'Esprit lumineux', en: 'Radiant Mind' }],
   [40, { fr: 'Esprit étincelant', en: 'Dazzling Mind' }],
   [50, { fr: 'Esprit légendaire', en: 'Legendary Mind' }],
+  // Au-delà du niveau 50, le rang continue sans fin : un titre tous les 10 niveaux.
+  [60, { fr: 'Esprit céleste', en: 'Celestial Mind' }],
+  [70, { fr: 'Esprit stellaire', en: 'Stellar Mind' }],
+  [80, { fr: 'Esprit cosmique', en: 'Cosmic Mind' }],
+  [90, { fr: 'Esprit infini', en: 'Infinite Mind' }],
+  [100, { fr: 'Esprit éternel', en: 'Eternal Mind' }],
 ];
 
-/** Le titre du rang, dans la langue de l'interface. */
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+const roman = (n: number) => (n <= 10 ? ROMAN[n] : String(n));
+
+/** Le titre du rang, dans la langue de l'interface ; après 100, « Esprit éternel II, III… » tous les 10 niveaux. */
 export function titleFor(level: number): string {
+  const top = TITLES[TITLES.length - 1];
+  if (level >= top[0] + 10) return `${localized(top[1])} ${roman(Math.floor((level - top[0]) / 10) + 1)}`;
   const [, title] = [...TITLES].reverse().find(([min]) => level >= min) ?? TITLES[0];
   return localized(title);
 }
+
+/** Le prochain titre à gagner : niveau et nom (il y en a toujours un). */
+export function nextTitle(level: number): [number, string] {
+  const fixed = TITLES.find(([min]) => min > level);
+  if (fixed) return [fixed[0], localized(fixed[1])];
+  const next = (Math.floor(level / 10) + 1) * 10;
+  return [next, titleFor(next)];
+}
+
+/** Étincelles offertes à chaque niveau de joueur au-delà du 50 (le rang sans fin rapporte toujours). */
+export const LEVEL_SPARKS = 20;
+export const LEVEL_SPARKS_FROM = 50;
+
+export function levelSparks(level: number): number {
+  return Math.max(0, level - LEVEL_SPARKS_FROM) * LEVEL_SPARKS;
+}
+
+/** Les auras de Vif : un halo qui s'allume aux grands niveaux de joueur. */
+export type AuraId = 'argent' | 'or' | 'arc-en-ciel';
+
+export const AURAS: readonly { id: AuraId; level: number; name: Translations }[] = [
+  { id: 'argent', level: 60, name: { fr: 'Aura d’argent', en: 'Silver aura' } },
+  { id: 'or', level: 75, name: { fr: 'Aura dorée', en: 'Golden aura' } },
+  { id: 'arc-en-ciel', level: 100, name: { fr: 'Aura arc-en-ciel', en: 'Rainbow aura' } },
+];
+
+export const isAuraId = (value: unknown): value is AuraId => AURAS.some((a) => a.id === value);
 
 export interface Rank {
   level: number;
@@ -243,6 +290,8 @@ export interface AchievementContext {
   earlyTest: boolean;
   lateGame: boolean;
   weeklies: number;
+  /** Jeux maîtrisés (Maîtrise V au moins). */
+  mastered: number;
 }
 
 interface TrophyDef {
@@ -428,6 +477,7 @@ export function achievements(input: ProgressionInput, rank = rankFor(totalXp(inp
     earlyTest: official.some((test) => new Date(test.startedAt).getHours() < 8),
     lateGame: input.plays.some((p) => new Date(p.at).getHours() >= 23),
     weeklies: weekliesDone(input.plays, input.sessions),
+    mastered: GAME_ORDER.filter((id) => masteryOf(input.bests[id]) >= MASTERED_RANK).length,
   };
 }
 
@@ -480,7 +530,7 @@ export function progressionDelta(before: ProgressionInput, after: ProgressionInp
     medalAfter: medalFor(after.bests[gameId]),
     unlockedNext: unlockedLevel(after.bests[gameId]) > unlockedLevel(before.bests[gameId]),
     newTrophies: trophyStatuses(after, rankAfter.level).filter((s) => s.unlocked && !unlockedBefore.has(s.id)),
-    sparksGained: sparksEarned(after) - sparksEarned(before),
+    sparksGained: sparksEarned(after) + levelSparks(rankAfter.level) - sparksEarned(before) - levelSparks(rankBefore.level),
     objectivesCompleted: objectivesDone(after.plays, after.tests).filter((o) => !doneBefore.has(o.id)),
   };
 }
@@ -496,5 +546,5 @@ export interface ProgressionSummary {
 
 export function progressionSummary(input: ProgressionInput): ProgressionSummary {
   const rank = rankFor(totalXp(input));
-  return { rank, stars: totalStars(input.bests), trophies: trophyStatuses(input, rank.level), sparks: sparksEarned(input) };
+  return { rank, stars: totalStars(input.bests), trophies: trophyStatuses(input, rank.level), sparks: sparksEarned(input) + levelSparks(rank.level) };
 }

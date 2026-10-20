@@ -48,7 +48,12 @@ export type HatId =
   | 'lapin'
   | 'dragon'
   | 'arc-en-ciel'
-  | 'pharaon';
+  | 'pharaon'
+  | 'bandeau-maitre'
+  | 'heaume'
+  | 'couronne-cristal'
+  | 'chapeau-sage'
+  | 'couronne-solaire';
 
 interface Prestige {
   rule: Translations;
@@ -132,6 +137,15 @@ export const HATS: readonly HatDef[] = [
   prestige('haut-de-forme', 'Haut-de-forme', 'Top hat', { fr: 'Atteindre le niveau 10 de joueur', en: 'Reach player level 10' }, (c) => c.rank, 10),
   prestige('mortier', 'Mortier de diplômé', 'Graduation cap', { fr: 'Atteindre le niveau 25 de joueur', en: 'Reach player level 25' }, (c) => c.rank, 25),
   prestige('aureole', 'Auréole', 'Halo', { fr: 'Atteindre le niveau 50 de joueur', en: 'Reach player level 50' }, (c) => c.rank, MAX_LEVEL),
+  ...([
+    ['bandeau-maitre', 'Bandeau de maître', 'Master’s headband', 5],
+    ['heaume', 'Heaume de chevalier', 'Knight’s helm', 10],
+    ['couronne-cristal', 'Couronne de cristal', 'Crystal crown', 15],
+    ['chapeau-sage', 'Chapeau du grand sage', 'Grand sage’s hat', 20],
+    ['couronne-solaire', 'Couronne solaire', 'Sun crown', 25],
+  ] as const).map(([id, fr, en, n]) =>
+    prestige(id, fr, en, { fr: `Maîtriser ${n} jeux (Maîtrise V)`, en: `Master ${n} games (Mastery V)` }, (c) => c.mastered, n),
+  ),
   premiumHat('astronaute', 'Casque d’astronaute', 'Space helmet'),
   premiumHat('licorne', 'Corne de licorne', 'Unicorn horn'),
   premiumHat('mousquetaire', 'Chapeau de mousquetaire', 'Musketeer hat'),

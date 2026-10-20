@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { DOMAINS, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL, starsFor } from '../../core/levels';
+import { isMastery, MAX_LEVEL, masteryName, starsFor } from '../../core/levels';
 import { gameHistory } from '../../core/summary';
 import type { GameId } from '../../core/types';
 import { gameUnlocked } from '../../store/progress';
@@ -142,13 +142,13 @@ function Details({ gameId }: { gameId: GameId }) {
         <h2 className="section-title" id="levels-title">
           {tr('Niveau par niveau', 'Level by level')}
         </h2>
-        <p className="card__sub">{tr(`Meilleur score de chaque niveau ouvert (${unlocked} sur ${MAX_LEVEL}).`, `Best score on each unlocked level (${unlocked} of ${MAX_LEVEL}).`)}</p>
+        <p className="card__sub">{tr(`Meilleur score de chaque niveau ouvert (${Math.min(unlocked, MAX_LEVEL)} sur ${MAX_LEVEL}).`, `Best score on each unlocked level (${Math.min(unlocked, MAX_LEVEL)} of ${MAX_LEVEL}).`)}</p>
         <ol className="level-bests">
           {Array.from({ length: unlocked }, (_, i) => i + 1).map((level) => {
             const best = bests[level]?.score;
             return (
               <li key={level} className={`level-best level-best--s${best === undefined ? 'x' : starsFor(best)}`}>
-                <span className="level-best__n">{level}</span>
+                <span className="level-best__n">{isMastery(level) ? masteryName(level, true) : level}</span>
                 <span className="level-best__score">{best ?? '—'}</span>
               </li>
             );

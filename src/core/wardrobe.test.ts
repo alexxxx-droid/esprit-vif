@@ -49,4 +49,13 @@ describe('vestiaire de Vif', () => {
     expect(hatWearable('astronaute', true)).toBe(true);
     expect(hatWearable('casquette', false)).toBe(true);
   });
+
+  it('offre un chapeau de maîtrise tous les 5 jeux maîtrisés (Maîtrise V)', () => {
+    const mastered = Object.fromEntries(Array.from({ length: 55 }, (_, i) => [i + 1, { score: 100 }]));
+    const five = { calcul: mastered, stroop: mastered, schulte: mastered, matrice: mastered, nback: mastered };
+    const status = wardrobe({ ...empty, bests: five }, [], 0);
+    expect(status.hats.find((h) => h.id === 'bandeau-maitre')?.owned).toBe(true);
+    expect(status.hats.find((h) => h.id === 'heaume')?.progress).toEqual([5, 10]);
+  });
 });
+

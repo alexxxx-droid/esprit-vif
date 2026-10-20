@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { characterName } from '../../core/characters';
-import { tr } from '../../core/lang';
+import { localized, tr } from '../../core/lang';
+import { AURAS } from '../../core/progression';
 import { SPARKS } from '../../core/objectives';
 import { purchaseBlocker, type HatId, type HatStatus } from '../../core/wardrobe';
 import { Icon } from '../components/Icon';
@@ -8,6 +9,7 @@ import { Mascot } from '../components/Mascot';
 import { fx } from '../fx/fx';
 import { useProgress, useStore } from '../progress-context';
 import { navigate } from '../router';
+import { useProgression } from '../progression';
 import { useWardrobe } from '../wardrobe';
 import { useActiveCharacter } from '../characters-context';
 
@@ -97,6 +99,8 @@ export function WardrobeScreen() {
         worn={worn}
         onSelect={setSelected}
       />
+
+      <AuraPicker />
 
       <section className="wardrobe__how" aria-labelledby="how-title">
         <h2 className="section-title" id="how-title">
@@ -213,6 +217,48 @@ function HatGrid({ title, subtitle, hats, selected, worn, onSelect }: HatGridPro
                   <>
                     <Icon name="lock" size={12} />
                     {hat.progress ? ` ${hat.progress[0]}/${hat.progress[1]}` : ''}
+                  </>
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/** Les auras de Vif : un halo gagné aux grands niveaux de joueur (60, 75, 100). */
+function AuraPicker() {
+  const data = useProgress();
+  const store = useStore();
+  const { rank } = useProgression();
+  const current = data.settings.aura || null;
+  return (
+    <section aria-labelledby="aura-title">
+      <h2 className="section-title" id="aura-title">
+        {tr('Auras', 'Auras')} <span className="wardrobe__count">{`${AURAS.filter((a) => rank.level >= a.level).length} / ${AURAS.length}`}</span>
+      </h2>
+      <p className="wardrobe__sub">{tr('Elles s’allument aux grands niveaux de joueur, au-delà du 50.', 'They light up at high player levels, beyond 50.')}</p>
+      <div className="hat-grid">
+        {AURAS.map((a) => {
+          const owned = rank.level >= a.level;
+          const on = current === a.id;
+          return (
+            <button
+              key={a.id}
+              type="button"
+              className={`hat-tile${owned ? ' is-owned' : ' is-locked'}${on ? ' is-selected' : ''}`}
+              aria-pressed={on}
+              aria-label={`${localized(a.name)}, ${owned ? (on ? tr('portée', 'worn') : tr('à toi', 'yours')) : tr(`niveau ${a.level}`, `level ${a.level}`)}`}
+              onClick={() => owned && void store.updateSettings({ aura: on ? '' : a.id })}
+            >
+              <Mascot size={58} aura={a.id} hat={null} still={!owned} />
+              <span className="hat-tile__name">{localized(a.name)}</span>
+              <span className="hat-tile__meta" aria-hidden="true">
+                {on ? tr('Portée', 'Worn') : owned ? tr('À toi', 'Yours') : (
+                  <>
+                    <Icon name="lock" size={12} /> {tr(`Niv. ${a.level}`, `Lv. ${a.level}`)}
                   </>
                 )}
               </span>

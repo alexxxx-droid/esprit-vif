@@ -179,7 +179,8 @@ describe('Version anglaise du cœur', () => {
     expect(trophyStatuses(empty)[0].name).toBe('First Steps');
 
     expect(titleFor(1)).toBe('Curious Mind');
-    expect(titleFor(80)).toBe('Legendary Mind');
+    expect(titleFor(55)).toBe('Legendary Mind');
+    expect(titleFor(80)).toBe('Cosmic Mind');
     expect(rankFor(0).title).toBe('Curious Mind');
     expect(new Set(TITLES.map(([min]) => titleFor(min))).size).toBe(TITLES.length);
 

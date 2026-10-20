@@ -96,7 +96,8 @@ describe('Vitesse — 50 niveaux, en français et en anglais', () => {
     expect(CORRESPONDANCE_LEVELS).toHaveLength(MAX_LEVEL);
     expect(REFLEXE_LEVELS).toHaveLength(MAX_LEVEL);
     expect(COUP_LEVELS).toHaveLength(MAX_LEVEL);
-    for (const id of ['schulte', 'correspondance', 'reflexe', 'coupdoeil'] as const) expect(GAMES[id].maxLevel).toBe(MAX_LEVEL);
+    // Les tables ont 50 niveaux ; la maîtrise (51-60) rejoue le niveau 50.
+    for (const id of ['schulte', 'correspondance', 'reflexe', 'coupdoeil'] as const) expect(GAMES[id].maxLevel).toBe(MAX_LEVEL + 10);
   });
 
   it('a un libellé et une règle dans chaque langue, sans trou ni reste de français en anglais', () => {

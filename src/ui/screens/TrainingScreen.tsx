@@ -3,8 +3,8 @@ import { dailyGames, hasOfficialTest } from '../../core/daily';
 import { plural } from '../../core/format';
 import { DAILY_POOL, DOMAIN_ORDER, DOMAINS, durationFor, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL } from '../../core/levels';
-import { gameStars, medalFor } from '../../core/progression';
+import { MASTERY_LEVELS, MAX_LEVEL, masteryName } from '../../core/levels';
+import { gameStars, masteryOf, medalFor } from '../../core/progression';
 import type { Domain } from '../../core/types';
 import { gameLevel, gameUnlocked } from '../../store/progress';
 import { DomainBadge, ScreenHeader } from '../components/bits';
@@ -201,22 +201,30 @@ function GameCard({ meta, wide }: { meta: GameMeta; wide: boolean }) {
   const unlocked = gameUnlocked(data, meta.id);
   const medal = medalFor(bests);
   const stars = gameStars(bests);
+  const mastery = masteryOf(bests);
   const played = bests && Object.keys(bests).length > 0;
   return (
     <button type="button" className={`game-card${wide ? ' game-card--wide' : ''}`} onClick={() => navigate({ name: 'play', gameId: meta.id })}>
       <span className="game-card__top">
         <GameArt gameId={meta.id} size={52} />
-        {medal && <MedalBadge medal={medal} />}
+        {mastery > 0 ? (
+          <span className={`mastery-crown mastery-crown--${mastery >= MASTERY_LEVELS ? 'x' : mastery >= 5 ? 'v' : 'i'}`} title={masteryName(MAX_LEVEL + mastery)}>
+            <Icon name="crown" size={14} />
+            {masteryName(MAX_LEVEL + mastery, true)}
+          </span>
+        ) : (
+          medal && <MedalBadge medal={medal} />
+        )}
       </span>
       <span className={`game-card__name${longWord(meta.name) ? ' game-card__name--long' : ''}`}>{meta.name}</span>
       <span className="game-card__domain">{durationFor(meta, gameLevel(data, meta.id))}</span>
       {played ? (
         <span className="game-card__progress">
           <span className="mini-bar" aria-hidden="true">
-            <span style={{ transform: `scaleX(${unlocked / MAX_LEVEL})` }} />
+            <span style={{ transform: `scaleX(${Math.min(unlocked, MAX_LEVEL) / MAX_LEVEL})` }} />
           </span>
           <span className="game-card__meta">
-            <span>{tr(`Niv. ${unlocked}/${MAX_LEVEL}`, `Lv. ${unlocked}/${MAX_LEVEL}`)}</span>
+            <span>{mastery > 0 ? masteryName(MAX_LEVEL + mastery) : tr(`Niv. ${Math.min(unlocked, MAX_LEVEL)}/${MAX_LEVEL}`, `Lv. ${Math.min(unlocked, MAX_LEVEL)}/${MAX_LEVEL}`)}</span>
             <span className="game-card__stars">
               <Icon name="star" size={13} />
               {stars}

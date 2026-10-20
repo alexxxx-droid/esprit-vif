@@ -1,5 +1,6 @@
 import { useContext, useSyncExternalStore } from 'react';
 import { shownCharacter, type CharacterId } from '../core/characters';
+import { isAuraId, type AuraId } from '../core/progression';
 import { hatWearable, type HatId } from '../core/wardrobe';
 import { isPremium, subscribePremium } from '../premium/entitlement';
 import { ProfilesContext } from './profiles-context';
@@ -22,4 +23,11 @@ export function useActiveHat(): HatId | null {
   const hat = useSyncExternalStore(store?.subscribe ?? noSubscribe, () => store?.getSnapshot().settings.hat ?? '');
   const premium = usePremiumFlag();
   return hat && hatWearable(hat, premium) ? hat : null;
+}
+
+/** L'aura de Vif choisie par le joueur en cours (gagnée aux grands niveaux de joueur). */
+export function useActiveAura(): AuraId | null {
+  const store = useContext(ProgressContext);
+  const aura = useSyncExternalStore(store?.subscribe ?? noSubscribe, () => store?.getSnapshot().settings.aura ?? '');
+  return isAuraId(aura) ? aura : null;
 }

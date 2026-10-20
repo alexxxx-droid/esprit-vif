@@ -1,6 +1,6 @@
 import { byCount } from '../format';
 import { tr } from '../lang';
-import { MAX_LEVEL, pickLevel, secondsLabel } from '../levels';
+import { isMastery, MAX_LEVEL, masteryName, passScore, pickLevel, secondsLabel, TOP_LEVEL } from '../levels';
 import type { Domain, GameId } from '../types';
 import { anagramLevel, anagramLevelLabel } from './anagrammes';
 import { balanceLevel, balanceLevelLabel } from './balance';
@@ -665,6 +665,21 @@ export const GAMES: Record<GameId, GameMeta> = {
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
+/**
+ * La maîtrise prolonge chaque jeu jusqu'au niveau 60 : ses crans rejouent la partie du niveau 50
+ * (même règle, même durée), avec leur propre libellé et le score à atteindre.
+ */
+for (const meta of Object.values(GAMES)) {
+  const { levelLabel, durationAt } = meta;
+  meta.maxLevel = TOP_LEVEL;
+  meta.levelLabel = (level) =>
+    isMastery(level)
+      ? tr(`${masteryName(level)} · ${passScore(level)} pts pour réussir`, `${masteryName(level)} · ${passScore(level)} pts to pass`)
+      : levelLabel(level);
+  // La règle se lit au niveau joué (`playedLevel`) : l'intro la demande ainsi.
+  if (durationAt) meta.durationAt = (level) => durationAt(Math.min(level, MAX_LEVEL));
+}
+
 export const GAME_ORDER: readonly GameId[] = [
   'calcul',
   'total',

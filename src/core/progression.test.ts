@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { MAX_LEVEL, starsFor } from './levels';
+import { masteryTempo, MAX_LEVEL, passScore, playedLevel, starsFor } from './levels';
 import {
   gameStars,
+  masteryOf,
   medalFor,
   playXp,
   progressionDelta,
   rankFor,
+  nextTitle,
+  levelSparks,
+  LEVEL_SPARKS,
+  AURAS,
   titleFor,
   totalXp,
   trophyStatuses,
@@ -27,7 +32,12 @@ describe('étoiles et niveaux débloqués', () => {
     expect(unlockedLevel(undefined)).toBe(1);
     expect(unlockedLevel({ 1: { score: 50 } })).toBe(1);
     expect(unlockedLevel({ 1: { score: 60 }, 2: { score: 90 } })).toBe(3);
-    expect(unlockedLevel(bestsUpTo(MAX_LEVEL))).toBe(MAX_LEVEL);
+    // Le niveau 50 réussi ouvre la maîtrise (51) ; Maîtrise X (60) est le dernier cran.
+    expect(unlockedLevel(bestsUpTo(MAX_LEVEL))).toBe(MAX_LEVEL + 1);
+    expect(unlockedLevel({ ...bestsUpTo(MAX_LEVEL), 51: { score: 63 } })).toBe(MAX_LEVEL + 1);
+    expect(unlockedLevel({ ...bestsUpTo(MAX_LEVEL), 51: { score: 64 } })).toBe(MAX_LEVEL + 2);
+    expect(unlockedLevel(bestsUpTo(MAX_LEVEL + 10, 100))).toBe(MAX_LEVEL + 10);
+    expect(gameStars({ 50: { score: 96 }, 51: { score: 96 } })).toBe(3);
     expect(gameStars({ 1: { score: 60 }, 2: { score: 96 } })).toBe(4);
   });
 
@@ -89,7 +99,8 @@ describe('XP et rang', () => {
     expect(titleFor(1)).toBe('Esprit curieux');
     expect(titleFor(7)).toBe('Esprit éveillé');
     expect(titleFor(15)).toBe('Esprit vif');
-    expect(titleFor(80)).toBe('Esprit légendaire');
+    expect(titleFor(55)).toBe('Esprit légendaire');
+    expect(titleFor(80)).toBe('Esprit cosmique');
   });
 });
 
@@ -134,3 +145,41 @@ describe('ce qu’une partie fait gagner', () => {
     expect(delta.newTrophies.map((t) => t.id)).toContain('bronze');
   });
 });
+
+describe('rang sans fin', () => {
+  it('donne un titre tous les 10 niveaux au-delà de 50, puis des chiffres romains', () => {
+    expect(titleFor(55)).toBe('Esprit légendaire');
+    expect(titleFor(60)).toBe('Esprit céleste');
+    expect(titleFor(100)).toBe('Esprit éternel');
+    expect(titleFor(109)).toBe('Esprit éternel');
+    expect(titleFor(110)).toBe('Esprit éternel II');
+    expect(titleFor(130)).toBe('Esprit éternel IV');
+    expect(nextTitle(58)).toEqual([60, 'Esprit céleste']);
+    expect(nextTitle(104)).toEqual([110, 'Esprit éternel II']);
+  });
+
+  it('offre des étincelles à chaque niveau au-delà de 50, et des auras à 60, 75 et 100', () => {
+    expect(levelSparks(50)).toBe(0);
+    expect(levelSparks(53)).toBe(3 * LEVEL_SPARKS);
+    expect(AURAS.map((a) => a.level)).toEqual([60, 75, 100]);
+  });
+});
+
+describe('maîtrise (niveaux 51 à 60)', () => {
+  it('demande 64 points pour Maîtrise I, 4 de plus à chaque cran, 100 pour X, et accélère l’affichage', () => {
+    expect(passScore(50)).toBe(60);
+    expect(passScore(51)).toBe(64);
+    expect(passScore(55)).toBe(80);
+    expect(passScore(60)).toBe(100);
+    expect(masteryTempo(50)).toBe(1);
+    expect(masteryTempo(60)).toBeCloseTo(0.8);
+    expect(playedLevel(57)).toBe(50);
+  });
+
+  it('compte le cran atteint, sans étoiles en plus', () => {
+    const bests = { ...bestsUpTo(MAX_LEVEL), 51: { score: 70 }, 52: { score: 70 }, 53: { score: 70 } };
+    expect(masteryOf(bests)).toBe(2);
+    expect(gameStars(bests)).toBe(gameStars(bestsUpTo(MAX_LEVEL)));
+  });
+});
+

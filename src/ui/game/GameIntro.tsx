@@ -1,6 +1,6 @@
 import { durationFor, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL, tierName, tierOf } from '../../core/levels';
+import { isMastery, MASTERY_LEVELS, MAX_LEVEL, masteryRank, playedLevel, tierName, tierOf } from '../../core/levels';
 import { bestFor } from '../../store/progress';
 import { DomainChip } from '../components/bits';
 import { GameArt } from '../components/GameArt';
@@ -44,11 +44,11 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
           <DomainChip domain={meta.domain} />
         </div>
         <h1 className="intro__title">{meta.name}</h1>
-        <p className="intro__rule">{meta.rule(level)}</p>
+        <p className="intro__rule">{meta.rule(playedLevel(level))}</p>
       </div>
 
       <div className="intro__demo" aria-hidden="true">
-        <Demo level={level} />
+        <Demo level={playedLevel(level)} />
       </div>
 
       {onLevelChange && <LevelPicker gameId={meta.id} selected={level} onSelect={onLevelChange} />}
@@ -56,7 +56,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       <dl className="facts">
         <div className="facts__wide">
           <dt>
-            {tr('Niveau', 'Level')} {level}/{MAX_LEVEL}
+            {isMastery(level) ? tr(`Cran ${masteryRank(level)}/${MASTERY_LEVELS}`, `Step ${masteryRank(level)}/${MASTERY_LEVELS}`) : `${tr('Niveau', 'Level')} ${level}/${MAX_LEVEL}`}
             <span className={`tier-pill tier-pill--${tierOf(level)}`}>{tierName(tierOf(level))}</span>
           </dt>
           <dd>{meta.levelLabel(level)}</dd>

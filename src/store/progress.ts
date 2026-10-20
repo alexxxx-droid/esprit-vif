@@ -3,7 +3,7 @@ import { tr, type LangChoice } from '../core/lang';
 import { track } from '../analytics/journal';
 import { dayKey, hasOfficialTest } from '../core/daily';
 import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
-import { unlockedLevel, type ProgressionInput } from '../core/progression';
+import { isAuraId, unlockedLevel, type AuraId, type ProgressionInput } from '../core/progression';
 import { adaptLevel, brainAge, clampLevel } from '../core/scoring';
 import type { Domain, GameId, PlayMode, PlayOutcome } from '../core/types';
 import { isPaletteChoice, type PaletteChoice } from '../core/themes';
@@ -102,6 +102,8 @@ export interface Settings {
   palette: PaletteChoice;
   /** Montrer la série de jours (accueil, Progrès, widget) ; elle continue d'être comptée sans être affichée. */
   showStreak: boolean;
+  /** Aura de Vif choisie parmi celles gagnées (vide : aucune). */
+  aura: AuraId | '';
 }
 
 export interface CloudLink {
@@ -135,6 +137,7 @@ export const DEFAULT_SETTINGS: Settings = {
   hat: '',
   palette: 'auto',
   showStreak: true,
+  aura: '',
 };
 
 export interface MarathonRecord {
@@ -630,6 +633,7 @@ function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boole
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
   if (settings.hat !== '' && !isHatId(settings.hat)) settings.hat = '';
   if (!isPaletteChoice(settings.palette)) settings.palette = 'auto';
+  if (settings.aura !== '' && !isAuraId(settings.aura)) settings.aura = '';
   const cloud: Record<string, unknown> = isObject(settings.cloud) ? settings.cloud : {};
   settings.cloud = { linked: cloud.linked === true, email: typeof cloud.email === 'string' ? cloud.email : '', lastSync: typeof cloud.lastSync === 'string' ? cloud.lastSync : '' };
   const games: Partial<Record<GameId, GameProgress>> = {};

@@ -6100,3 +6100,64 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* Auras de Vif (niveaux de joueur 60, 75, 100) : un halo autour du compagnon. */
+.vif--aura-argent .vif__bob {
+  filter: drop-shadow(0 0 5px #e9eef6) drop-shadow(0 0 12px #b9c6d8);
+}
+
+.vif--aura-or .vif__bob {
+  filter: drop-shadow(0 0 5px #ffe17a) drop-shadow(0 0 14px #ffb300);
+}
+
+.vif--aura-arc-en-ciel .vif__bob {
+  animation:
+    vif-bob 3.4s ease-in-out infinite,
+    aura-rainbow 4.5s linear infinite;
+}
+
+.vif--still.vif--aura-arc-en-ciel .vif__bob {
+  animation: none;
+  filter: drop-shadow(0 0 6px #ff8fb8) drop-shadow(0 0 14px #7fd3ff);
+}
+
+@keyframes aura-rainbow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #ff5a52) drop-shadow(0 0 14px #ffd34d);
+  }
+
+  33% {
+    filter: drop-shadow(0 0 6px #34c972) drop-shadow(0 0 14px #4f8dff);
+  }
+
+  66% {
+    filter: drop-shadow(0 0 6px #b98cff) drop-shadow(0 0 14px #ff8fb8);
+  }
+}
+
+/* Couronne de maîtrise sur la carte d'un jeu : bronze (I-IV), or (V-IX), diamant (X). */
+.mastery-crown {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.mastery-crown--i {
+  background: #f1dcc4;
+  color: #6b3e12;
+}
+
+.mastery-crown--v {
+  background: linear-gradient(135deg, #f2b51d, #ffe17a);
+  color: #2a1700;
+}
+
+.mastery-crown--x {
+  background: linear-gradient(135deg, #7fd3ff, #e3f6ff 50%, #b98cff);
+  color: #12122a;
+}

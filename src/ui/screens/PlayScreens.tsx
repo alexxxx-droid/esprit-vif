@@ -2,7 +2,7 @@ import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react'
 import { dailyGames, dailySeed } from '../../core/daily';
 import { DAILY_POOL, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL } from '../../core/levels';
+import { isMastery, masteryName, TOP_LEVEL } from '../../core/levels';
 import type { GameId } from '../../core/types';
 import { gameLevel, gameUnlocked, officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { Icon } from '../components/Icon';
@@ -28,12 +28,12 @@ export function PlayScreen({ gameId }: { gameId: GameId }) {
       mode="free"
       save={(outcome, run) => store.recordPlay({ gameId, level: run.level, mode: 'free', seed: run.seed, outcome })}
       actions={({ result, replay }) => {
-        const next = result.level < Math.min(unlocked, MAX_LEVEL) ? result.level + 1 : null;
+        const next = result.level < Math.min(unlocked, TOP_LEVEL) ? result.level + 1 : null;
         return (
           <>
             {next && (
               <button type="button" className="btn btn--primary btn--lg" onClick={() => replay(next)} autoFocus>
-                {tr(`Niveau ${next}`, `Level ${next}`)}
+                {isMastery(next) ? masteryName(next) : tr(`Niveau ${next}`, `Level ${next}`)}
                 <Icon name="arrow" />
               </button>
             )}

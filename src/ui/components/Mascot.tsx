@@ -1,7 +1,8 @@
 import { useState, type ReactNode } from 'react';
 import type { CharacterId } from '../../core/characters';
 import type { HatId } from '../../core/wardrobe';
-import { useActiveCharacter, useActiveHat } from '../characters-context';
+import type { AuraId } from '../../core/progression';
+import { useActiveAura, useActiveCharacter, useActiveHat } from '../characters-context';
 import { fx } from '../fx/fx';
 import type { SeasonId } from '../../core/events';
 import type { Mood } from '../mascot-mood';
@@ -198,6 +199,8 @@ interface MascotProps {
    * cours porte le chapeau choisi, et un compagnon précis (`character`) n'en porte pas.
    */
   hat?: HatId | null;
+  /** Aura à montrer (aperçu) ; par défaut, celle du joueur en cours pour son compagnon. */
+  aura?: AuraId | null;
 }
 
 /** Durée de la réaction quand on touche Vif (voir `vif-poke` dans app.css). */
@@ -207,12 +210,14 @@ const POKE_MS = 650;
  * Un compagnon, dans l'humeur demandée. Décoratif : le texte voisin dit toujours l'essentiel.
  * Il bouge selon son humeur (saut de joie, tête penchée qui réfléchit…) et réagit quand on le touche.
  */
-export function Mascot({ mood = 'happy', size = 64, className, character, still, hat }: MascotProps) {
+export function Mascot({ mood = 'happy', size = 64, className, character, still, hat, aura }: MascotProps) {
   const active = useActiveCharacter();
   const activeHat = useActiveHat();
+  const activeAura = useActiveAura();
   const season = useSeason();
   const who = character ?? active;
   const worn = hat !== undefined ? hat : character ? null : activeHat;
+  const glow = aura !== undefined ? aura : character ? null : activeAura;
   const [poked, setPoked] = useState(false);
   const poke = () => {
     if (poked) return;
@@ -222,7 +227,7 @@ export function Mascot({ mood = 'happy', size = 64, className, character, still,
   };
   return (
     <svg
-      className={`vif vif--${mood} vif--${who}${still ? ' vif--still' : ''}${poked ? ' vif--poke' : ''}${className ? ` ${className}` : ''}`}
+      className={`vif vif--${mood} vif--${who}${still ? ' vif--still' : ''}${poked ? ' vif--poke' : ''}${glow ? ` vif--aura-${glow}` : ''}${className ? ` ${className}` : ''}`}
       width={size}
       height={size}
       viewBox="0 0 120 120"

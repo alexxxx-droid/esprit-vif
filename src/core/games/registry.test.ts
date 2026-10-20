@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { MAX_LEVEL } from '../levels';
+import { MAX_LEVEL, TOP_LEVEL } from '../levels';
 import { DAILY_POOL, DOMAIN_ORDER, GAME_ORDER, GAMES, gamesOfDomain } from './registry';
 
 describe('catalogue des jeux', () => {
   it('donne à chaque jeu 20 niveaux, chacun avec un libellé et une règle', () => {
     for (const id of GAME_ORDER) {
       const game = GAMES[id];
-      expect(game.maxLevel).toBe(MAX_LEVEL);
+      expect(game.maxLevel).toBe(TOP_LEVEL);
       expect(game.dailyLevel).toBeGreaterThanOrEqual(1);
-      for (let level = 1; level <= MAX_LEVEL; level++) {
+      expect(game.levelLabel(MAX_LEVEL + 3)).toMatch(/Maîtrise III · 72 pts/);
+      for (let level = 1; level <= TOP_LEVEL; level++) {
         expect(game.levelLabel(level).length).toBeGreaterThan(2);
         expect(game.rule(level).length).toBeGreaterThan(10);
       }

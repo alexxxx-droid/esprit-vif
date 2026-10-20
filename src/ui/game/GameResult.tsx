@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL, starsFor, tierName, tierOf, TIERS, UNLOCK_SCORE } from '../../core/levels';
+import { ALL_TIERS, isMastery, masteryName, passScore, starsFor, tierName, tierOf, TOP_LEVEL } from '../../core/levels';
 import { objectiveLabel } from '../../core/objectives';
 import { cheer } from '../../core/outcome';
 import { MEDAL_NAMES, medalRank } from '../../core/progression';
@@ -37,7 +37,10 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
   const levelUp = delta && delta.rankAfter.level > delta.rankBefore.level;
   const newMedal = delta && delta.medalAfter && medalRank(delta.medalAfter) > medalRank(delta.medalBefore);
   const newThreeStars = starsFor(outcome.score) === 3 && (delta ? delta.starsBefore < 3 : false);
-  const celebrate = Boolean(saved?.record === 'new' || levelUp || newMedal || newThreeStars);
+  const mastery = isMastery(level);
+  // Un cran de maîtrise réussi pour la première fois : un grand moment, lui aussi.
+  const masteryPassed = mastery && outcome.score >= passScore(level) && (saved?.previousBest?.score ?? -1) < passScore(level);
+  const celebrate = Boolean(saved?.record === 'new' || levelUp || newMedal || (!mastery && newThreeStars) || masteryPassed);
   const starsNow = starsFor(outcome.score);
   const starsBefore = delta ? delta.starsBefore : 0;
 
@@ -69,7 +72,16 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
         <ScoreRing score={outcome.score} />
         <ResultVif score={outcome.score} celebrate={celebrate} />
       </div>
-      <Stars count={starsFor(outcome.score)} size={30} animateFrom={delta ? delta.starsBefore : 0} />
+      {mastery ? (
+        <p className={`mastery-line${outcome.score >= passScore(level) ? ' is-passed' : ''}`}>
+          <Icon name="crown" size={20} />
+          {outcome.score >= passScore(level)
+            ? tr(`${masteryName(level)} réussie !`, `${masteryName(level)} passed!`)
+            : tr(`${masteryName(level)} : il fallait ${passScore(level)} pts`, `${masteryName(level)}: ${passScore(level)} pts needed`)}
+        </p>
+      ) : (
+        <Stars count={starsFor(outcome.score)} size={30} animateFrom={delta ? delta.starsBefore : 0} />
+      )}
       <h1 className="result__cheer">{cheer(outcome.score)}</h1>
       {comparison && <CompareLine comparison={comparison} />}
 
@@ -283,8 +295,10 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
       <p className="level-change level-change--up">
         <Icon name="up" size={20} />
         <span>
-          {rich(tr('Niveau {level} débloqué\u00a0!', 'Level {level} unlocked!'), { level: <strong>{level + 1}</strong> })}
-          {TIERS.some((t) => t.from === level + 1) && (
+          {isMastery(level + 1)
+            ? rich(tr('{level} ouverte\u00a0!', '{level} unlocked!'), { level: <strong>{masteryName(level + 1)}</strong> })
+            : rich(tr('Niveau {level} débloqué\u00a0!', 'Level {level} unlocked!'), { level: <strong>{level + 1}</strong> })}
+          {ALL_TIERS.some((t) => t.from === level + 1) && (
             <span className="level-change__tier">
               {tr('Nouveau palier\u00a0: ', 'New tier: ')}
               <strong>{tierName(tierOf(level + 1))}</strong>
@@ -294,13 +308,26 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
       </p>
     );
   }
-  if (alreadyOpen || level >= MAX_LEVEL || score >= UNLOCK_SCORE) return null;
+  if (alreadyOpen || level >= TOP_LEVEL || score >= passScore(level)) return null;
+  if (isMastery(level)) {
+    return (
+      <p className="level-change">
+        <Icon name="lock" size={20} />
+        <span>
+          {rich(tr('Encore {points} pour réussir {level} et ouvrir le cran suivant.', '{points} to pass {level} and open the next step.'), {
+            points: <strong>{tr(`${passScore(level) - score}\u00a0pts`, `${passScore(level) - score}\u00a0more pts`)}</strong>,
+            level: masteryName(level),
+          })}
+        </span>
+      </p>
+    );
+  }
   return (
     <p className="level-change">
       <Icon name="lock" size={20} />
       <span>
         {rich(tr('Encore {points} pour gagner une étoile et débloquer le niveau suivant.', '{points} to earn a star and unlock the next level.'), {
-          points: <strong>{tr(`${UNLOCK_SCORE - score}\u00a0pts`, `${UNLOCK_SCORE - score}\u00a0more pts`)}</strong>,
+          points: <strong>{tr(`${passScore(level) - score}\u00a0pts`, `${passScore(level) - score}\u00a0more pts`)}</strong>,
         })}
       </span>
     </p>

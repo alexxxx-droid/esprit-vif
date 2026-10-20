@@ -5,12 +5,18 @@
 export const GENEROUS_FACTOR = 1.5;
 
 let factor = 1;
+/** Rythme de la maîtrise (moins de 1 : plus vite), le temps d'une partie de maîtrise. */
+let mastery = 1;
 
 export function setGenerousTime(on: boolean) {
   factor = on ? GENEROUS_FACTOR : 1;
 }
 
-/** Une durée d'affichage ou de réaction, allongée si le joueur l'a demandé. */
+export function setMasteryTempo(value: number) {
+  mastery = value;
+}
+
+/** Une durée d'affichage ou de réaction, allongée si le joueur l'a demandé (raccourcie en maîtrise). */
 export function slow(ms: number): number {
-  return Math.round(ms * factor);
+  return Math.round(ms * factor * mastery);
 }

@@ -102,7 +102,8 @@ const SAMPLERS: Record<string, (level: number) => unknown> = {
 describe('Mémoire : les niveaux 1 à 20 ne changent pas', () => {
   it('a 50 niveaux par jeu', () => {
     for (const table of [MATRICE_LEVELS, NBACK_LEVELS, ORDRE_LEVELS, MOTS_LEVELS, PAIRES_LEVELS, QUI_LEVELS]) expect(table).toHaveLength(MAX_LEVEL);
-    for (const id of ['matrice', 'nback', 'ordre', 'mots', 'paires', 'quiestqui'] as const) expect(GAMES[id].maxLevel).toBe(50);
+    // Les tables ont 50 niveaux ; la maîtrise (51-60) rejoue le niveau 50.
+    for (const id of ['matrice', 'nback', 'ordre', 'mots', 'paires', 'quiestqui'] as const) expect(GAMES[id].maxLevel).toBe(60);
   });
 
   it('garde les réglages des niveaux 1 à 20, sans les nouveautés', () => {

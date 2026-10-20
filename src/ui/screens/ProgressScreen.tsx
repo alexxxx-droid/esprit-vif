@@ -3,8 +3,8 @@ import { addDays, addMonths, bestStreak, currentStreak, monthGrid } from '../../
 import { byCount, formatLongDay, formatMonth, formatShortDay, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { localized, tr } from '../../core/lang';
-import { MAX_LEVEL } from '../../core/levels';
-import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor, TITLES } from '../../core/progression';
+import { MAX_LEVEL, masteryName } from '../../core/levels';
+import { AURAS, masteryOf, MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor, nextTitle } from '../../core/progression';
 import { durationLabel, recentPlays, totals, weeklyRecap } from '../../core/summary';
 import { nextLevelTheme, themeName } from '../../core/themes';
 import { seasonOf, SEASONS } from '../../core/events';
@@ -299,8 +299,8 @@ export function ProgressScreen() {
                         <span className="record__detail">
                           {best
                             ? tr(
-                                `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/${MAX_LEVEL} ouverts`,
-                                `${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/${MAX_LEVEL} unlocked`,
+                                `${best.headline} · niveau ${best.level} · ${Math.min(gameUnlocked(data, id), MAX_LEVEL)}/${MAX_LEVEL} ouverts${masteryOf(data.games[id]?.bests) ? ` · ${masteryName(MAX_LEVEL + masteryOf(data.games[id]?.bests))}` : ''}`,
+                                `${best.headline} · level ${best.level} · ${Math.min(gameUnlocked(data, id), MAX_LEVEL)}/${MAX_LEVEL} unlocked${masteryOf(data.games[id]?.bests) ? ` · ${masteryName(MAX_LEVEL + masteryOf(data.games[id]?.bests))}` : ''}`,
                               )
                             : tr('Pas encore de record', 'No best score yet')}
                         </span>
@@ -333,10 +333,12 @@ export function ProgressScreen() {
 function NextRewards() {
   const { rank } = useProgression();
   const status = useWardrobe();
-  const title = TITLES.find(([min]) => min > rank.level);
+  const title = nextTitle(rank.level);
   const theme = nextLevelTheme(rank.level);
   const rows: { key: string; icon: IconName; text: string; meta: string }[] = [];
-  if (title) rows.push({ key: 'title', icon: 'crown', text: tr(`Titre « ${localized(title[1])} »`, `“${localized(title[1])}” title`), meta: tr(`niveau ${title[0]}`, `level ${title[0]}`) });
+  rows.push({ key: 'title', icon: 'crown', text: tr(`Titre « ${title[1]} »`, `“${title[1]}” title`), meta: tr(`niveau ${title[0]}`, `level ${title[0]}`) });
+  const aura = AURAS.find((a) => a.level > rank.level);
+  if (aura && rank.level >= 50) rows.push({ key: 'aura', icon: 'spark', text: localized(aura.name), meta: tr(`niveau ${aura.level}`, `level ${aura.level}`) });
   if (theme) rows.push({ key: 'theme', icon: 'sun', text: tr(`Thème ${themeName(theme.id)}`, `${themeName(theme.id)} theme`), meta: tr(`niveau ${theme.unlock.level}`, `level ${theme.unlock.level}`) });
   if (status.nextPrestige) {
     const p = status.nextPrestige;

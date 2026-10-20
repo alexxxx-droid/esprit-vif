@@ -392,4 +392,55 @@ export const HAT_ART: Record<HatId, ReactNode> = {
       <circle cx="60" cy="22" r="2" fill="#ff5a52" />
     </>
   ),
+  /* ---------- Chapeaux de maîtrise : un tous les 5 jeux maîtrisés ---------- */
+  'bandeau-maitre': (
+    <>
+      <path d="M27 36c9-7 20-10 33-10s24 3 33 10l-2 6c-9-5-19-8-31-8s-22 3-31 8z" fill="#c1272d" />
+      <path d="M91 38l12-2-4 8zM91 40l9 6-10 1z" fill="#9b1d23" />
+      <circle cx="60" cy="31" r="7" fill="#ffd34d" />
+      <path d="M60 26.5l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#e0a800" />
+    </>
+  ),
+  heaume: (
+    <>
+      <path d="M30 44c0-20 13-32 30-32s30 12 30 32v4H30z" fill="#aab4c0" />
+      <path d="M30 40h60v8H30z" fill="#7d8896" />
+      <path d="M57 40h6v16c0 2-6 2-6 0z" fill="#7d8896" />
+      <path d="M38 22c6-6 13-9 22-9" stroke="#e3e8ee" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M60 12c-2-8 4-12 10-10-4 2-6 6-6 10z" fill="#e63946" />
+      <path d="M62 12c4-9 14-10 18-5-6 0-11 2-14 6z" fill="#c1272d" />
+    </>
+  ),
+  'couronne-cristal': (
+    <>
+      <path d="M32 38l2-16 8 8 6-18 6 14 6-20 6 20 6-14 6 18 8-8 2 16z" fill="#bfe6ff" fillOpacity="0.85" />
+      <path d="M48 12l6 14-6 12zM66 12l6 18-6 8zM60 4l6 20-6 14-6-14z" fill="#ffffff" fillOpacity="0.55" />
+      <path d="M32 33h56v6H32z" fill="#7fb8e6" />
+      <g className="hat__twinkle">{sparkle(60, 4, 4, '#ffffff')}</g>
+      <g className="hat__twinkle hat__twinkle--late">{sparkle(86, 18, 3, '#ffffff')}</g>
+    </>
+  ),
+  'chapeau-sage': (
+    <>
+      <path d="M36 36c6-12 12-24 22-34 2 6 2 10 0 14 8 4 14 10 26 20z" fill="#1f7a5a" />
+      <path d="M58 2c4 0 6 2 6 5" stroke="#1f7a5a" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M66 20a6 6 0 1 0 4 9 5 5 0 1 1-4-9z" fill="#ffd34d" />
+      {sparkle(50, 24, 3.4)}
+      {sparkle(58, 31, 2.6)}
+      <path d="M22 36c10-3 24-5 38-5s28 2 38 5c2 2 0 6-3 6H25c-3 0-5-4-3-6z" fill="#145c43" />
+      <path d="M36 33c8 1 16 1.6 24 1.6s16-.6 24-1.6" stroke="#ffd34d" strokeWidth="2.4" fill="none" />
+    </>
+  ),
+  'couronne-solaire': (
+    <>
+      <g className="hat__sun">
+        {Array.from({ length: 9 }, (_, i) => (
+          <path key={i} d="M57.5 26 60 9l2.5 17z" fill="#ffb300" transform={`rotate(${-72 + i * 18} 60 44)`} />
+        ))}
+      </g>
+      <path d="M30 38c8-8 18-12 30-12s22 4 30 12l-3 4c-7-6-16-9-27-9s-20 3-27 9z" fill="#ffd34d" />
+      <circle cx="60" cy="27" r="6" fill="#ff8a3d" />
+      <circle cx="60" cy="27" r="3" fill="#fff3b0" />
+    </>
+  ),
 };

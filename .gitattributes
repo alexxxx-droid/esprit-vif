@@ -1,0 +1,4 @@
+# Fins de ligne LF dans le depot, quel que soit l editeur (les .bat restent en CRLF).
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf

@@ -62,6 +62,16 @@ Règle de chaque phase : tests, lint et types verts, captures vérifiées sur 36
 
 Bilan complet (tests, procédure sur téléphone, maintenance, suite) : [`BILAN_V2.9.md`](BILAN_V2.9.md).
 
+## v2.10 — fin de jeu et 6e pack (demandes d'Alex du 20-10)
+
+- [x] Contrôle des 28 jeux au toucher réel ; captures de la fiche Play Store (fr, en)
+- [x] Maîtrise I-X après le niveau 50, couronnes, chapeaux tous les 5 jeux maîtrisés
+- [x] Défi Légende du jour
+- [x] Rang sans fin : titres, étincelles, auras de Vif
+- [x] Saisons de défis (6 histoires de 4 semaines) et chapeaux de saison en éditions
+- [x] 3 nouveaux jeux : Filature (Attention), Lucioles (Vitesse), Contraires (Langage)
+- [ ] Traductions espagnol, allemand, italien, portugais (dictionnaires, contenus, Android, fiche)
+
 ## Reste à faire par Alex
 
 - [ ] Play Console : profil de paiement, produit `premium_lifetime`, clé publique, testeurs

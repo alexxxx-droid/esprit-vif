@@ -21,6 +21,8 @@ export interface PlayRecord {
   /** Jour local (AAAA-MM-JJ). */
   day: string;
   testId?: string;
+  /** Durée de la partie elle-même, sans l'intro ni le compte à rebours (mesurée depuis la v2.9). */
+  durationMs?: number;
 }
 
 export interface TestGameResult {
@@ -172,6 +174,17 @@ export interface PlayInput {
   testId?: string;
 }
 
+/**
+ * Version du schéma de la base. Historique des migrations (toutes additives, valeurs par défaut sûres) :
+ * - 1 (jusqu'à la v2.8, sans numéro enregistré) : parties, tests, réglages, jeux, extras ;
+ * - 2 (v2.9) : numéro de schéma enregistré, durée des parties (`durationMs`, facultative).
+ * Une base plus ancienne est lue, complétée par `normalize`, puis réécrite une fois au format actuel.
+ */
+export const SCHEMA_VERSION = 2;
+
+/** Au-delà, une durée n'a pas de sens (onglet oublié, horloge qui saute) : elle n'est pas gardée. */
+const MAX_PLAY_MS = 2 * 60 * 60 * 1000;
+
 export function newId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID();
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
@@ -246,7 +259,19 @@ export class ProgressStore {
   }
 
   static async load(storage: Storage): Promise<ProgressStore> {
-    return new ProgressStore(storage, normalize(await storage.readAll()));
+    const raw = await storage.readAll();
+    const { data, repaired } = normalizeStored(raw);
+    const schema = Number(raw.kv.schema) || 1;
+    // Base d'une version précédente, ou progression complétée : réécrite une fois au format actuel.
+    // Une base d'une version plus récente n'est jamais réécrite, pour ne rien lui faire perdre.
+    if ((schema < SCHEMA_VERSION || repaired) && schema <= SCHEMA_VERSION && storage.persistent) {
+      try {
+        await storage.replaceAll(toStored(data));
+      } catch {
+        // Écriture impossible : on continue avec la version réparée en mémoire, elle sera réécrite plus tard.
+      }
+    }
+    return new ProgressStore(storage, data);
   }
 
   get persistent(): boolean {
@@ -268,6 +293,7 @@ export class ProgressStore {
   async recordPlay(input: PlayInput, now = new Date()): Promise<SavedPlay> {
     const meta = GAMES[input.gameId];
     const level = clampLevel(input.level, meta.maxLevel);
+    const durationMs = validDuration(input.outcome.durationMs);
     const play: PlayRecord = {
       id: newId(),
       gameId: input.gameId,
@@ -280,6 +306,7 @@ export class ProgressStore {
       at: now.toISOString(),
       day: dayKey(now),
       ...(input.testId ? { testId: input.testId } : {}),
+      ...(durationMs !== undefined ? { durationMs } : {}),
     };
 
     const progress = this.data.games[input.gameId] ?? { level: 1, bests: {} };
@@ -324,24 +351,8 @@ export class ProgressStore {
   async addTestResult(testId: string, play: PlayRecord, now = new Date()): Promise<TestRecord> {
     const current = this.data.tests.find((t) => t.id === testId);
     if (!current) throw new Error(tr('Test introuvable', 'Test not found'));
-    const results = [
-      ...current.results.filter((r) => r.gameId !== play.gameId),
-      { gameId: play.gameId, playId: play.id, score: play.score },
-    ];
-    const done = current.games.every((g) => results.some((r) => r.gameId === g));
     const others = this.data.tests.filter((t) => t.id !== testId);
-    const test: TestRecord = {
-      ...current,
-      results,
-      done,
-      ...(done
-        ? {
-            finishedAt: now.toISOString(),
-            brainAge: brainAge(results.map((r) => r.score)),
-            official: current.official && !hasOfficialTest(others, current.day),
-          }
-        : {}),
-    };
+    const test = withResult(current, play, others, now.toISOString());
     await this.storage.put('tests', test);
     this.commit({ ...this.data, tests: [...others, test] });
     return test;
@@ -440,8 +451,62 @@ export class ProgressStore {
   }
 }
 
+/** Ajoute le résultat d'une partie à un test ; le test se termine (âge cérébral) avec son dernier jeu. */
+function withResult(current: TestRecord, play: PlayRecord, others: readonly TestRecord[], finishedAt: string): TestRecord {
+  const results = [...current.results.filter((r) => r.gameId !== play.gameId), { gameId: play.gameId, playId: play.id, score: play.score }];
+  const done = current.games.every((g) => results.some((r) => r.gameId === g));
+  return {
+    ...current,
+    results,
+    done,
+    ...(done
+      ? {
+          finishedAt,
+          brainAge: brainAge(results.map((r) => r.score)),
+          official: current.official && !hasOfficialTest(others, current.day),
+        }
+      : {}),
+  };
+}
+
+function validDuration(ms: unknown): number | undefined {
+  return typeof ms === 'number' && Number.isFinite(ms) && ms > 0 && ms <= MAX_PLAY_MS ? Math.round(ms) : undefined;
+}
+
 function toStored(data: ProgressData): StoredData {
-  return { plays: data.plays, tests: data.tests, kv: { settings: data.settings, games: data.games, extras: data.extras } };
+  return {
+    plays: data.plays,
+    tests: data.tests,
+    kv: { schema: SCHEMA_VERSION, settings: data.settings, games: data.games, extras: data.extras },
+  };
+}
+
+/**
+ * Les parties font foi. Une appli tuée entre deux écritures (la partie, puis les meilleurs scores ;
+ * puis le résultat du test du jour) laisserait une progression incomplète : on la complète ici.
+ * Renvoie vrai si quelque chose a été réparé.
+ */
+function reconcile(plays: readonly PlayRecord[], tests: TestRecord[], games: Partial<Record<GameId, GameProgress>>): boolean {
+  let repaired = false;
+  for (const play of plays) {
+    if (!Number.isInteger(play.level) || play.level < 1) continue;
+    const progress = games[play.gameId] ?? { level: 1, bests: {} };
+    const best = progress.bests[play.level];
+    if (best && best.score >= play.score) continue;
+    games[play.gameId] = { ...progress, bests: { ...progress.bests, [play.level]: { score: play.score, headline: play.headline, day: play.day } } };
+    repaired = true;
+  }
+  for (let i = 0; i < tests.length; i++) {
+    let test = tests[i];
+    if (test.done) continue;
+    for (const play of plays) {
+      if (play.testId !== test.id || !test.games.includes(play.gameId) || test.results.some((r) => r.playId === play.id)) continue;
+      test = withResult(test, play, tests.filter((t) => t.id !== test.id), play.at);
+      repaired = true;
+    }
+    tests[i] = test;
+  }
+  return repaired;
 }
 
 function normalizeExtras(raw: unknown): Extras {
@@ -515,6 +580,10 @@ function isTest(v: unknown): v is TestRecord {
 
 /** Remet d'aplomb des données lues (stockage ou sauvegarde) : tout ce qui est illisible est écarté. */
 function normalize(raw: StoredData): ProgressData {
+  return normalizeStored(raw).data;
+}
+
+function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boolean } {
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
@@ -533,13 +602,18 @@ function normalize(raw: StoredData): ProgressData {
       }
     }
   }
-  return {
-    plays: raw.plays.filter(isPlay).sort((a, b) => a.at.localeCompare(b.at)),
-    tests: raw.tests.filter(isTest),
-    settings,
-    games,
-    extras: normalizeExtras(raw.kv.extras),
-  };
+  const plays = raw.plays
+    .filter(isPlay)
+    .map((play) => {
+      if (play.durationMs === undefined) return play;
+      const { durationMs, ...rest } = play;
+      const valid = validDuration(durationMs);
+      return valid === undefined ? rest : { ...rest, durationMs: valid };
+    })
+    .sort((a, b) => a.at.localeCompare(b.at));
+  const tests = raw.tests.filter(isTest);
+  const repaired = reconcile(plays, tests, games);
+  return { data: { plays, tests, settings, games, extras: normalizeExtras(raw.kv.extras) }, repaired };
 }
 
 export function parseBackup(text: string): ProgressData {

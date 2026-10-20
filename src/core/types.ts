@@ -47,4 +47,6 @@ export interface PlayOutcome {
   headline: string;
   /** Détail affiché sur l'écran de résultat. */
   lines: StatLine[];
+  /** Durée de la partie, mesurée par le déroulé commun (pas par le jeu). */
+  durationMs?: number;
 }

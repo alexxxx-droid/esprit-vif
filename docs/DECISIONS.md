@@ -235,6 +235,20 @@ licence incertaine, et l'embarquer.
   les vrais chiffres restent sous 1,6, traits et gribouillis dépassent 2.
 - Le barème ne change pas : écrire est plus lent que toucher, c'est un choix de confort.
 
+## Fiabilité de la sauvegarde (v2.9)
+
+- **Les parties font foi.** Une partie s'écrit en deux temps (la partie, puis les meilleurs scores ;
+  au test du jour, encore le résultat du test). Si l'appli est tuée entre deux, le chargement suivant
+  complète ce qui manque depuis les parties (`reconcile` dans `src/store/progress.ts`) : meilleur
+  score retrouvé, test du jour terminé avec son âge cérébral. Comme tout le reste (XP, trophées…) se
+  recalcule depuis l'historique, aucune récompense ne peut être perdue ni comptée deux fois.
+- **Numéro de schéma** (`SCHEMA_VERSION`, clé `schema` de la base) : une base plus ancienne est lue,
+  complétée par des valeurs par défaut, puis réécrite une fois au format actuel. Une base venue d'une
+  version plus récente n'est jamais réécrite. Historique des versions en tête de `progress.ts`.
+- **Durée des parties** (`durationMs`) : mesurée par le déroulé commun, du « partez » au résultat
+  (ni l'intro ni le 3-2-1). Elle n'existe pas pour les parties d'avant la v2.9 : le temps de jeu
+  des Progrès le dit, il n'invente rien pour elles. Une durée de plus de 2 h est écartée.
+
 ## Partie interrompue
 
 Si l'appli passe en arrière-plan pendant une partie, la partie est annulée et reprend de

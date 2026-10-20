@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { progressionDelta, type ProgressionDelta } from '../../core/progression';
@@ -63,6 +63,8 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
   const [run, setRun] = useState<Run>({ id: 0, seed: 0, level });
   const [result, setResult] = useState<RunResult | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  // Début de la partie elle-même (après le 3-2-1) : sa durée nourrit le temps de jeu des Progrès.
+  const playStart = useRef(0);
   const chrome = useMemo(() => ({ title: meta.name, onQuit }), [meta.name, onQuit]);
   const chosen = selectable ? selected : level;
 
@@ -91,6 +93,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
   // L'ambiance du domaine accompagne la partie, puis s'efface au résultat (ou si l'on quitte).
   useEffect(() => {
     if (phase !== 'play') return;
+    playStart.current = performance.now();
     fx.start();
     startMusic(meta.domain);
     return () => stopMusic();
@@ -100,7 +103,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     setPhase('saving');
     try {
       const before = progressionInput(store.getSnapshot());
-      const saved = await save(outcome, { seed: run.seed, level: run.level });
+      const saved = await save({ ...outcome, durationMs: performance.now() - playStart.current }, { seed: run.seed, level: run.level });
       const delta = saved ? progressionDelta(before, progressionInput(store.getSnapshot()), meta.id, run.level) : null;
       if (delta && (delta.rankAfter.level > delta.rankBefore.level || delta.newTrophies.length || saved?.record === 'new')) fx.record();
       else fx.done();

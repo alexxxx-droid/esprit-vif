@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import type { GameId, PlayOutcome } from '../core/types';
-import { gameLevel, gameUnlocked, officialTests, parseBackup, progressionInput, ProgressStore, testInProgress } from './progress';
+import { gameLevel, gameUnlocked, officialTests, parseBackup, progressionInput, ProgressStore, SCHEMA_VERSION, testInProgress } from './progress';
 import { createMemoryStorage, openIndexedDbStorage } from './storage';
 
 const outcome = (score: number): PlayOutcome => ({ score, stats: { timeMs: 30_000 }, headline: `${score} pts`, lines: [] });
@@ -176,5 +176,78 @@ describe('bilan de départ', () => {
     expect(gameLevel(store.getSnapshot(), 'calcul')).toBe(2);
     const reloaded = parseBackup(store.exportJson());
     expect(reloaded.games.calcul?.start).toBe(3);
+  });
+});
+
+describe('fiabilité et migrations', () => {
+  /** Une base telle que l'écrivait la v2.0 (sans numéro de schéma, sans durée). */
+  const v20Base = () => ({
+    plays: [
+      { id: 'p1', gameId: 'calcul', level: 1, mode: 'free', seed: 1, score: 72, stats: {}, headline: '72 pts', at: '2026-10-01T08:00:00.000Z', day: '2026-10-01' },
+      { id: 'p2', gameId: 'calcul', level: 2, mode: 'free', seed: 2, score: 40, stats: {}, headline: '40 pts', at: '2026-10-01T08:05:00.000Z', day: '2026-10-01' },
+    ],
+    tests: [],
+    kv: {
+      settings: { sound: false, theme: 'dark' },
+      games: { calcul: { level: 2, bests: { 1: { score: 72, headline: '72 pts', day: '2026-10-01' }, 2: { score: 40, headline: '40 pts', day: '2026-10-01' } } } },
+      extras: { sessions: ['2026-10-01'], marathons: {}, duels: 1 },
+    },
+  });
+
+  it('lit une base de la v2.0 sans rien perdre, puis la réécrit au schéma actuel', async () => {
+    const storage = createMemoryStorage(v20Base());
+    Object.defineProperty(storage, 'persistent', { value: true });
+    const store = await ProgressStore.load(storage);
+    const data = store.getSnapshot();
+    expect(data.plays.map((p) => p.score)).toEqual([72, 40]);
+    expect(data.settings.sound).toBe(false);
+    expect(data.settings.language).toBe('auto');
+    expect(gameUnlocked(data, 'calcul')).toBe(2);
+    expect(data.extras.sessions).toEqual(['2026-10-01']);
+    expect(data.extras.challenges).toEqual([]);
+    expect((await storage.readAll()).kv.schema).toBe(SCHEMA_VERSION);
+  });
+
+  it('ne réécrit jamais une base venue d’une version plus récente', async () => {
+    const base = { ...v20Base(), kv: { ...v20Base().kv, schema: SCHEMA_VERSION + 1, futur: 'garder' } };
+    const storage = createMemoryStorage(base);
+    Object.defineProperty(storage, 'persistent', { value: true });
+    await ProgressStore.load(storage);
+    expect((await storage.readAll()).kv.futur).toBe('garder');
+  });
+
+  it('retrouve un meilleur score perdu entre deux écritures (appli tuée)', async () => {
+    const base = v20Base();
+    base.plays.push({ id: 'p3', gameId: 'calcul', level: 2, mode: 'free', seed: 3, score: 85, stats: {}, headline: '85 pts', at: '2026-10-02T08:00:00.000Z', day: '2026-10-02' });
+    const store = await ProgressStore.load(createMemoryStorage(base));
+    expect(store.getSnapshot().games.calcul?.bests[2]).toEqual({ score: 85, headline: '85 pts', day: '2026-10-02' });
+    expect(gameUnlocked(store.getSnapshot(), 'calcul')).toBe(3);
+  });
+
+  it('termine un test du jour dont le dernier résultat n’a pas été écrit', async () => {
+    const store = await freshStore();
+    const games: GameId[] = ['calcul', 'stroop', 'schulte'];
+    const test = await store.startTest(games, at(19));
+    for (const [i, gameId] of games.entries()) {
+      const saved = await store.recordPlay({ gameId, level: 1, mode: 'daily', seed: i, outcome: outcome(80), testId: test.id }, at(19));
+      // Le 3e résultat n'atteint jamais le test : l'appli s'est arrêtée juste avant.
+      if (i < 2) await store.addTestResult(test.id, saved.play, at(19));
+    }
+    const reloaded = parseBackup(store.exportJson());
+    const repaired = reloaded.tests.find((t) => t.id === test.id);
+    expect(repaired?.done).toBe(true);
+    expect(repaired?.official).toBe(true);
+    expect(repaired?.brainAge).toBe(32);
+    // Recharger une seconde fois ne change plus rien (aucune récompense comptée deux fois).
+    expect(parseBackup(JSON.stringify({ app: 'esprit-vif', format: 1, ...reloaded })).tests).toEqual(reloaded.tests);
+  });
+
+  it('garde la durée d’une partie, et écarte une durée absurde', async () => {
+    const store = await freshStore();
+    await store.recordPlay({ gameId: 'calcul', level: 1, mode: 'free', seed: 1, outcome: { ...outcome(50), durationMs: 41_234.6 } });
+    await store.recordPlay({ gameId: 'calcul', level: 1, mode: 'free', seed: 2, outcome: { ...outcome(50), durationMs: 9e9 } });
+    const plays = parseBackup(store.exportJson()).plays;
+    expect(plays[0].durationMs).toBe(41_235);
+    expect(plays[1].durationMs).toBeUndefined();
   });
 });

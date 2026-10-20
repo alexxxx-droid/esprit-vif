@@ -866,7 +866,9 @@ describe('Aiguillage des contenus', () => {
     expect(theShape('star')).toBe(inLang('en', () => theShape('star')));
     expect(countShapes('cross', 2)).toBe(inLang('en', () => countShapes('cross', 2)));
     expect(describeShape({ shape: 'flag', filled: true, rotation: 90 })).toBe(inLang('en', () => describeShape({ shape: 'flag', filled: true, rotation: 90 })));
-    expect(lectureLevelLabel(10)).toBe(inLang('en', () => lectureLevelLabel(10)));
+    // L'énumération des paliers suit l'anglais ; le reste du libellé vient du dictionnaire.
+    const tiersOf = (label: string) => label.split(' · ')[0];
+    expect(tiersOf(lectureLevelLabel(10))).toBe(tiersOf(inLang('en', () => lectureLevelLabel(10))));
     expect(coachTip('2026-10-20')).toBe(inLang('en', () => coachTip('2026-10-20')));
   });
 

@@ -1,4 +1,4 @@
-import { byLang } from '../content';
+import { byLang, contentLang } from '../content';
 import { localized, tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
@@ -577,7 +577,8 @@ const TIER_LABELS = {
 
 export function lectureLevelLabel(level: number): string {
   const c = lectureLevel(level);
-  const names = c.tiers.map((t) => localized(TIER_LABELS[t]));
+  // Une langue sans contenu énumère à l'anglaise : les noms aussi restent en anglais.
+  const names = c.tiers.map((t) => (contentLang() === 'en' ? TIER_LABELS[t].en : localized(TIER_LABELS[t])));
   // Les niveaux 1 à 20 gardent leur libellé (« … et … et … ») ; au-delà, une vraie énumération.
   const fr = c.tiers.some((t) => t > 3) && names.length > 2 ? `${names.slice(0, -1).join(', ')} et ${names.at(-1)}` : names.join(' et ');
   const en = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0];

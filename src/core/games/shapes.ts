@@ -50,6 +50,15 @@ const FEMININE: ReadonlySet<ShapeKind> = new Set(['star', 'cross', 'moon']);
 // Les autres langues ont leur grammaire (`LangGrammar`) ; une langue qui n'en a pas encore suit l'anglais.
 
 /**
+ * Le nom à glisser dans une phrase : celui de la langue en cours, ou l'anglais (l'identifiant de la
+ * forme) quand la phrase suit la grammaire anglaise, pour une langue qui n'a pas encore la sienne :
+ * « the star », jamais « the estrella ».
+ */
+function nameOf(shape: ShapeKind): string {
+  return contentLang() === 'en' ? shape : SHAPE_NAMES[shape];
+}
+
+/**
  * « plein » ou « creux », accordé au nom de la forme (une étoile pleine, un rond creux).
  * En anglais, l'adjectif ne s'accorde pas : « filled » ou « hollow ».
  */
@@ -63,7 +72,7 @@ export function fillWord(shape: ShapeKind, filled: boolean, plural = false): str
 
 /** Le nom avec son article : « le rond », « l’étoile », « la croix » (« the circle »). */
 export function theShape(shape: ShapeKind): string {
-  const name = SHAPE_NAMES[shape];
+  const name = nameOf(shape);
   const grammar = extraGrammar();
   if (grammar) return grammar.theShape(shape, name);
   if (contentLang() === 'en') return `the ${name}`;
@@ -73,7 +82,7 @@ export function theShape(shape: ShapeKind): string {
 
 /** « 3 triangles », « 2 croix » (« 2 crosses ») : plusieurs exemplaires d'une forme (Balance). */
 export function countShapes(shape: ShapeKind, count: number): string {
-  const name = SHAPE_NAMES[shape];
+  const name = nameOf(shape);
   const grammar = extraGrammar();
   if (grammar) return grammar.countShapes(shape, name, count);
   if (contentLang() === 'en') return `${count} ${/(s|x)$/.test(name) ? `${name}es` : `${name}s`}`;
@@ -93,7 +102,7 @@ export function sameCard(a: ShapeCard, b: ShapeCard): boolean {
 
 /** « étoile creuse, tourné de 90° » ; en anglais, l'adjectif d'abord : « hollow star, rotated 90° ». */
 export function describeShape(card: ShapeCard): string {
-  const name = SHAPE_NAMES[card.shape];
+  const name = nameOf(card.shape);
   const grammar = extraGrammar();
   if (grammar) return grammar.describeShape(card, name);
   const fill = fillWord(card.shape, card.filled);

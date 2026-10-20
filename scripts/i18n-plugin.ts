@@ -1,7 +1,9 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import ts from 'typescript';
 import type { Plugin } from 'vite';
+import type {} from 'vitest/config';
 
 /**
  * Langues venues des dictionnaires : au build, chaque `tr('français', 'English')` reçoit un
@@ -65,11 +67,20 @@ export function translateSource(code: string, fileName: string, dicts: Map<strin
   return out;
 }
 
+/** L'empreinte des dictionnaires : un module transformé avec d'autres traductions est à refaire. */
+const fingerprint = (dicts: Map<string, Dictionary>) => createHash('sha1').update(JSON.stringify([...dicts])).digest('hex');
+
 export function i18nPlugin(root: string): Plugin {
   let dicts = loadDictionaries(root);
   return {
     name: 'esprit-vif-i18n',
     enforce: 'pre',
+    // Vitest garde les modules transformés d'une exécution à l'autre (fsModuleCache) : sa clé
+    // ignore les dictionnaires, il faut donc y ajouter leur empreinte.
+    configureVitest(context) {
+      const key = fingerprint(loadDictionaries(root));
+      context.defineCacheKeyGenerator(() => key);
+    },
     buildStart() {
       dicts = loadDictionaries(root);
       for (const lang of EXTRA_LANGS) this.addWatchFile(resolve(root, `src/i18n/${lang}.json`));

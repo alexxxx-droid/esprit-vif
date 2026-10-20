@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { dailyGames, dailySeed } from '../../core/daily';
-import { DAILY_ROTATION, GAMES } from '../../core/games/registry';
+import { DAILY_POOL, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import type { GameId } from '../../core/types';
@@ -68,7 +68,7 @@ export function StartTestScreen() {
     if (testInProgress(data, today)) return navigate({ name: 'test' }, { replace: true });
     const done = officialTests(data).find((t) => t.day === today);
     if (done) return navigate({ name: 'report', testId: done.id }, { replace: true });
-    await store.startTest(dailyGames(today, DAILY_ROTATION));
+    await store.startTest(dailyGames(today, DAILY_POOL));
     navigate({ name: 'test' }, { replace: true });
   });
 

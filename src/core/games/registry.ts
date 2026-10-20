@@ -696,35 +696,8 @@ export const GAME_ORDER: readonly GameId[] = [
   'itineraire',
 ];
 
-/** Jeux qui tournent sur le 3e emplacement du test du jour. */
-export const DAILY_ROTATION: readonly GameId[] = [
-  'schulte',
-  'matrice',
-  'nback',
-  'total',
-  'intrus',
-  'anagrammes',
-  'boutique',
-  'diable',
-  'ordre',
-  'monnaie',
-  'pluie',
-  'correspondance',
-  'fleches',
-  'reflexe',
-  'rotation',
-  'balance',
-  'horloges',
-  'sudoku',
-  'mots',
-  'lettre',
-  'categories',
-  'paires',
-  'coupdoeil',
-  'quiestqui',
-  'lecture',
-  'itineraire',
-];
+/** Jeux du test du jour, par domaine (dans l'ordre des domaines) : tous les jeux y participent. */
+export const DAILY_POOL: readonly (readonly GameId[])[] = DOMAIN_ORDER.map((domain) => GAME_ORDER.filter((id) => GAMES[id].domain === domain));
 
 export function isGameId(value: string): value is GameId {
   return Object.hasOwn(GAMES, value);

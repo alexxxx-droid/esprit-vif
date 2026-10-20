@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
-import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES, gamesOfDomain } from './registry';
+import { DAILY_POOL, DOMAIN_ORDER, GAME_ORDER, GAMES, gamesOfDomain } from './registry';
 
 describe('catalogue des jeux', () => {
   it('donne à chaque jeu 20 niveaux, chacun avec un libellé et une règle', () => {
@@ -22,9 +22,8 @@ describe('catalogue des jeux', () => {
     expect(DOMAIN_ORDER.flatMap(gamesOfDomain).sort()).toEqual([...GAME_ORDER].sort());
   });
 
-  it('fait tourner le 3e jeu du test du jour parmi les autres jeux', () => {
-    expect(DAILY_ROTATION).not.toContain('calcul');
-    expect(DAILY_ROTATION).not.toContain('stroop');
-    for (const id of DAILY_ROTATION) expect(GAME_ORDER).toContain(id);
+  it('propose tous les jeux au test du jour, rangés par domaine', () => {
+    expect(DAILY_POOL).toHaveLength(DOMAIN_ORDER.length);
+    DOMAIN_ORDER.forEach((domain, i) => expect(DAILY_POOL[i]).toEqual(gamesOfDomain(domain)));
   });
 });

@@ -14,6 +14,7 @@ import {
   hasOfficialTest,
   streakHorizon,
 } from './daily';
+import { DAILY_POOL } from './games/registry';
 
 describe('dayKey et addDays', () => {
   it('formate le jour local', () => {
@@ -30,17 +31,43 @@ describe('dayKey et addDays', () => {
 });
 
 describe('dailyGames', () => {
-  const rotation = ['schulte', 'stroop', 'calcul'] as const;
+  const span = (from: string, days: number) => Array.from({ length: days }, (_, i) => addDays(from, i));
+  const domainOf = (id: string) => DAILY_POOL.findIndex((games) => games.includes(id as never));
 
-  it('contient toujours Calcul éclair et Couleurs piégées, puis un 3e jeu', () => {
-    const games = dailyGames('2026-10-19', rotation);
-    expect(games).toHaveLength(3);
-    expect(games.slice(0, 2)).toEqual(['calcul', 'stroop']);
+  it('tire 3 jeux de 3 domaines différents, toujours les mêmes pour une date donnée', () => {
+    for (const day of span('2026-10-01', 90)) {
+      const games = dailyGames(day, DAILY_POOL);
+      expect(games).toHaveLength(3);
+      expect(new Set(games.map(domainOf)).size).toBe(3);
+      expect(dailyGames(day, DAILY_POOL)).toEqual(games);
+    }
   });
 
-  it('fait tourner le 3e jeu d’un jour sur l’autre', () => {
-    const thirds = Array.from({ length: 3 }, (_, i) => dailyGames(addDays('2026-10-19', i), rotation)[2]);
-    expect(new Set(thirds).size).toBe(3);
+  it('ne repropose jamais un jeu le lendemain, et fait le tour d’un domaine avant d’y revenir', () => {
+    const days = span('2026-10-01', 400);
+    const picks = days.map((day) => dailyGames(day, DAILY_POOL));
+    for (let i = 1; i < picks.length; i++) for (const id of picks[i]) expect(picks[i - 1]).not.toContain(id);
+    DAILY_POOL.forEach((games, domain) => {
+      const sequence = picks.flat().filter((id) => domainOf(id) === domain);
+      for (let i = 1; i < sequence.length; i++) expect(sequence[i]).not.toBe(sequence[i - 1]);
+      // Sur n'importe quelle suite de 2 tours, chaque jeu du domaine revient au moins une fois.
+      for (let i = 0; i + 2 * games.length <= sequence.length; i += games.length) {
+        expect(new Set(sequence.slice(i, i + 2 * games.length)).size).toBe(games.length);
+      }
+    });
+  });
+
+  it('équilibre les domaines : chacun revient un jour sur deux', () => {
+    const counts = new Array(DAILY_POOL.length).fill(0);
+    // 10 cycles complets de 20 jours (les 20 trios de domaines).
+    let start = '2026-10-01';
+    while (dayIndex(start) % 20 !== 0) start = addDays(start, 1);
+    for (const day of span(start, 200)) for (const id of dailyGames(day, DAILY_POOL)) counts[domainOf(id)]++;
+    expect(counts.every((c) => c === 100)).toBe(true);
+  });
+
+  it('se contente de ce qui existe quand il manque des domaines', () => {
+    expect(dailyGames('2026-10-19', [['calcul'], [], ['stroop']])).toEqual(['calcul', 'stroop']);
   });
 
   it('donne une graine propre au jour et au jeu', () => {

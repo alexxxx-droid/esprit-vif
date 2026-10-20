@@ -15,8 +15,19 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
 
 ## Test du jour
 
-- Toujours *Calcul éclair* et *Couleurs piégées*, puis un 3e jeu qui tourne chaque jour
-  (`DAILY_ROTATION` dans `src/core/games/registry.ts`, indexé par le numéro du jour).
+- **Trois jeux de trois domaines différents, qui changent chaque jour** (choix d'Alex, 20-10-2026 ;
+  jusqu'à la v2.8, *Calcul éclair* et *Couleurs piégées* revenaient tous les jours). `dailyGames`
+  (`src/core/daily.ts`) déduit tout de la date : les 20 trios de domaines défilent dans un ordre
+  mélangé (chaque domaine revient un jour sur deux), et dans un domaine on fait le tour de ses jeux
+  avant d'en revoir un, jamais le même deux jours de suite. Tous les jeux y participent
+  (`DAILY_POOL`), tous sont ouverts dès le départ. Les tests passés gardent leurs jeux.
+- L'âge cérébral reste la moyenne des trois scores au niveau du test : il varie un peu plus d'un
+  jour à l'autre, puisque les jeux changent ; la courbe de l'onglet Progrès lisse cet effet.
+- **Date et fuseau** : le jour est celui du téléphone (`dayKey`, heure locale). Changer de fuseau
+  ou avancer l'horloge montre le test de cette date-là, mais ne rapporte rien de plus : un seul test
+  officiel compte par date, et les bonus se recalculent depuis les dates enregistrées. Revenir en
+  arrière ne permet pas de rejouer un test officiel déjà fait ce jour-là. Sans serveur, rien ne
+  garantit l'heure : c'est une limite assumée d'une appli sans compte.
 - Les jeux du test se jouent à **niveau fixe** (`dailyLevel`) : N = 2 pour le Double retour,
   niveau 1 ailleurs. Le test officiel utilise une **graine dérivée de la date** : tout le monde
   a le même test un jour donné, et une partie se rejoue à l'identique.

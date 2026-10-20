@@ -1,8 +1,5 @@
-import { hashSeed } from './rng';
+import { createRng, hashSeed } from './rng';
 import type { GameId } from './types';
-
-/** Les deux jeux présents à chaque test du jour. */
-export const DAILY_FIXED: readonly GameId[] = ['calcul', 'stroop'];
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
@@ -28,11 +25,52 @@ export function addDays(day: string, delta: number): string {
   return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
 }
 
-/** Les trois jeux du jour : les deux fixes, puis un troisième qui tourne chaque jour. */
-export function dailyGames(day: string, rotation: readonly GameId[]): GameId[] {
-  if (rotation.length === 0) return [...DAILY_FIXED];
-  const index = ((dayIndex(day) % rotation.length) + rotation.length) % rotation.length;
-  return [...DAILY_FIXED, rotation[index]];
+/** Jeux du test du jour, rangés par domaine : un tableau de jeux par domaine. */
+export type DailyPool = readonly (readonly GameId[])[];
+
+/** Nombre de jeux (et donc de domaines différents) dans un test du jour. */
+export const DAILY_SIZE = 3;
+
+function combinations(items: readonly number[], size: number): number[][] {
+  if (size === 0) return [[]];
+  return items.flatMap((item, i) => combinations(items.slice(i + 1), size - 1).map((rest) => [item, ...rest]));
+}
+
+const mod = (n: number, m: number) => ((n % m) + m) % m;
+
+/**
+ * Les trois jeux du jour, dans trois domaines différents. Tout se déduit de la date, rien n'est tiré
+ * au hasard au lancement : fermer et rouvrir l'appli redonne le même test.
+ * - Les domaines : les 20 trios possibles des six domaines défilent dans un ordre mélangé, renouvelé
+ *   tous les 20 jours ; chaque domaine revient ainsi un jour sur deux.
+ * - Dans un domaine, on fait le tour de tous ses jeux (dans un ordre mélangé) avant d'en revoir un,
+ *   et jamais le même deux fois de suite, même d'un tour à l'autre.
+ */
+export function dailyGames(day: string, pool: DailyPool): GameId[] {
+  const domains = pool.map((_, i) => i).filter((i) => pool[i].length > 0);
+  if (domains.length < DAILY_SIZE) return pool.flat().slice(0, DAILY_SIZE);
+  const trios = combinations(domains, DAILY_SIZE);
+  const index = dayIndex(day);
+  const cycle = Math.floor(index / trios.length);
+  const order = (c: number) => createRng(hashSeed(`esprit-vif:test:${c}`)).shuffle(trios);
+  const current = order(cycle);
+  const position = mod(index, trios.length);
+  // Chaque domaine figure dans le même nombre de trios : de quoi compter ses apparitions passées sans tout rejouer.
+  const perCycle = trios.filter((t) => t.includes(domains[0])).length;
+  const shuffled = (domain: number, n: number) => createRng(hashSeed(`esprit-vif:test:${domain}:${n}`)).shuffle(pool[domain]);
+  const lap = (domain: number, n: number): readonly GameId[] => {
+    // Deux jeux ou moins : ils alternent simplement.
+    if (pool[domain].length <= 2) return pool[domain];
+    const games = shuffled(domain, n);
+    // L'échange ne touche que les deux premiers : le dernier jeu du tour précédent est celui de son mélange.
+    if (n > 0 && games[0] === shuffled(domain, n - 1).at(-1)) [games[0], games[1]] = [games[1], games[0]];
+    return games;
+  };
+  return current[position].map((domain) => {
+    const seen = cycle * perCycle + current.slice(0, position).filter((t) => t.includes(domain)).length;
+    const size = pool[domain].length;
+    return lap(domain, Math.floor(seen / size))[mod(seen, size)];
+  });
 }
 
 /** Graine du test officiel : la même pour un jour et un jeu donnés. */

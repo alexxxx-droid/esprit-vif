@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { dailyGames } from '../../core/daily';
-import { DAILY_ROTATION, DOMAIN_ORDER, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { DAILY_POOL, DOMAIN_ORDER, GAME_ORDER, GAMES } from '../../core/games/registry';
 import type { CharacterId } from '../../core/characters';
 import { byCount } from '../../core/format';
 import { tr } from '../../core/lang';
@@ -31,7 +31,7 @@ export function WelcomeScreen() {
   const [character, setCharacter] = useState<CharacterId>(active.character);
   const [goals, setGoals] = useState<Domain[]>(data.settings.goals);
   const [busy, setBusy] = useState(false);
-  const games = dailyGames(today, DAILY_ROTATION);
+  const games = dailyGames(today, DAILY_POOL);
 
   const saveProfile = async () => {
     if (name.trim() !== active.name || color !== active.color || character !== active.character) await manager.update(active.id, { name, color, character });

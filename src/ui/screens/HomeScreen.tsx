@@ -2,7 +2,7 @@ import { useState, type CSSProperties } from 'react';
 import { coachTip } from '../../core/coach';
 import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
 import { byCount, formatLongDay, formatShortDay, formatWeekday, formatWeekdayShort, plural } from '../../core/format';
-import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
+import { DAILY_POOL, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { sessionDone, sessionGames } from '../../core/modes';
 import { suggestGame } from '../../core/stats';
@@ -58,12 +58,12 @@ function Home() {
   );
   // Hier a servi de jour de repos : un mot gentil, pas une alarme.
   const restedYesterday = streak > 0 && rests[0] === addDays(today, -1) && !data.plays.some((p) => p.day === today);
-  const programme = inProgress?.games ?? dailyGames(today, DAILY_ROTATION);
+  const programme = inProgress?.games ?? dailyGames(today, DAILY_POOL);
   const reminderDue = data.settings.reminder && !doneToday && !inProgress && minute >= minutesOf(data.settings.reminderTime);
 
   const startTest = async () => {
     setStarting(true);
-    await store.startTest(dailyGames(today, DAILY_ROTATION));
+    await store.startTest(dailyGames(today, DAILY_POOL));
     navigate({ name: 'test' });
   };
 

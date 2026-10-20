@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { dailyGames, hasOfficialTest } from '../../core/daily';
 import { plural } from '../../core/format';
-import { DAILY_ROTATION, DOMAIN_ORDER, DOMAINS, durationFor, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
+import { DAILY_POOL, DOMAIN_ORDER, DOMAINS, durationFor, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import { gameStars, medalFor } from '../../core/progression';
@@ -25,7 +25,7 @@ export function TrainingScreen({ domain }: { domain?: Domain }) {
 
   const retakeTest = async () => {
     setStarting(true);
-    await store.startTest(dailyGames(today, DAILY_ROTATION));
+    await store.startTest(dailyGames(today, DAILY_POOL));
     navigate({ name: 'test' });
   };
 

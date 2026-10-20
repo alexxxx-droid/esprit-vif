@@ -69,8 +69,8 @@ export function totalStars(bests: ProgressionInput['bests']): number {
 /** Un texte dans les deux langues : [français, anglais], choisi à l'affichage. */
 type Bilingual = readonly [fr: string, en: string];
 
-export type Medal = 'bronze' | 'argent' | 'or' | 'platine';
-export const MEDAL_ORDER: readonly Medal[] = ['bronze', 'argent', 'or', 'platine'];
+export type Medal = 'bronze' | 'argent' | 'or' | 'platine' | 'diamant' | 'legende';
+export const MEDAL_ORDER: readonly Medal[] = ['bronze', 'argent', 'or', 'platine', 'diamant', 'legende'];
 /** Noms des médailles (accesseurs : lus dans la langue de l'interface). */
 export const MEDAL_NAMES: Record<Medal, string> = {
   get bronze() {
@@ -84,6 +84,12 @@ export const MEDAL_NAMES: Record<Medal, string> = {
   },
   get platine() {
     return tr('Platine', 'Platinum');
+  },
+  get diamant() {
+    return tr('Diamant', 'Diamond');
+  },
+  get legende() {
+    return tr('Légende', 'Legend');
   },
 };
 
@@ -101,10 +107,18 @@ export const MEDAL_RULES: Record<Medal, string> = {
   get platine() {
     return tr('Trois étoiles au niveau 20', 'Three stars on level 20');
   },
+  get diamant() {
+    return tr('Réussir le niveau 35', 'Pass level 35');
+  },
+  get legende() {
+    return tr('Trois étoiles au niveau 50', 'Three stars on level 50');
+  },
 };
 
 export function medalFor(bests: LevelBests | undefined): Medal | null {
   const top = highestPassed(bests);
+  if (top >= 50 && starsFor(bests?.[50]?.score ?? 0) === 3) return 'legende';
+  if (top >= 35) return 'diamant';
   if (top >= 20 && starsFor(bests?.[20]?.score ?? 0) === 3) return 'platine';
   if (top >= 15) return 'or';
   if (top >= 10) return 'argent';
@@ -120,9 +134,9 @@ export function medalRank(medal: Medal | null): number {
 
 export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP };
 
-/** XP d'une partie : de 5 à 50 selon le score, jusqu'à presque ×2 au niveau 20. */
+/** XP d'une partie : de 5 à 50 selon le score, plus 5 % par niveau, plafonné au niveau 30 (×2,45). */
 export function playXp(score: number, level: number): number {
-  return Math.round((5 + score * 0.45) * (1 + (level - 1) * 0.05));
+  return Math.round((5 + score * 0.45) * (1 + Math.min(level - 1, 29) * 0.05));
 }
 
 export function totalXp(input: ProgressionInput): number {
@@ -344,9 +358,20 @@ export const TROPHIES: readonly TrophyDef[] = [
     ['Débloquer le niveau 20 d’un jeu.', 'Unlock level 20 in a game.'],
     'trophy',
     (c) => c.maxUnlocked,
+    20,
+    false,
+  ),
+  t(
+    'sommet',
+    ['Le sommet', 'The Summit'],
+    ['Débloquer le niveau 50 d’un jeu.', 'Unlock level 50 in a game.'],
+    'crown',
+    (c) => c.maxUnlocked,
     MAX_LEVEL,
     false,
   ),
+  t('diamant', ['Diamant', 'Diamond'], ['Gagner une médaille de diamant.', 'Earn a diamond medal.'], 'medal', (c) => medalsAtLeast(c, 'diamant')),
+  t('legende', ['Légende vivante', 'Living Legend'], ['Gagner une médaille légende.', 'Earn a legend medal.'], 'medal', (c) => medalsAtLeast(c, 'legende')),
   t('niveau-10', ['Niveau 10', 'Level 10'], ['Atteindre le niveau 10 de joueur.', 'Reach player level 10.'], 'crown', (c) => c.rank, 10, false),
   t('niveau-25', ['Niveau 25', 'Level 25'], ['Atteindre le niveau 25 de joueur.', 'Reach player level 25.'], 'crown', (c) => c.rank, 25, false),
   t('niveau-50', ['Niveau 50', 'Level 50'], ['Atteindre le niveau 50 de joueur.', 'Reach player level 50.'], 'crown', (c) => c.rank, 50, false),

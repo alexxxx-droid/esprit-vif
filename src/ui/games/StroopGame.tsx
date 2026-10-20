@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { tr } from '../../core/lang';
 import { pickLevel } from '../../core/levels';
 import {
@@ -11,6 +11,7 @@ import {
   STROOP_PENALTY_MS,
   stroopAnswer,
   type StroopColor,
+  type StroopItem,
 } from '../../core/games/stroop';
 import { timedOutcome } from '../../core/outcome';
 import { createRng } from '../../core/rng';
@@ -25,14 +26,37 @@ import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useKeyDown } from '../hooks';
 import { useProgress } from '../progress-context';
+import { slow } from '../tempo';
+
+/** La consigne affichée au-dessus du mot. */
+function askLabel(ask: StroopItem['ask']): string {
+  if (ask === 'frame') return tr('Couleur du cadre', 'Frame color');
+  return ask === 'ink' ? tr('Couleur de l’encre', 'Ink color') : tr('Lis le mot', 'Read the word');
+}
+
+/** Ce que voit un lecteur d'écran. */
+function describeItem(item: StroopItem): string {
+  const ink = STROOP_LABELS[item.ink].toLowerCase();
+  const frame = item.frame ? STROOP_LABELS[item.frame].toLowerCase() : '';
+  const prompt = item.ask === 'word' ? tr('Lis le mot. ', 'Read the word. ') : item.ask === 'frame' ? tr('Couleur du cadre. ', 'Frame color. ') : '';
+  return (
+    prompt +
+    tr(
+      `Le mot ${STROOP_LABELS[item.word]}, écrit en ${ink}${frame ? `, dans un cadre ${frame}` : ''}`,
+      `The word ${STROOP_LABELS[item.word]}, written in ${ink}${frame ? `, in a ${frame} frame` : ''}`,
+    )
+  );
+}
 
 export function StroopGame({ seed, level, onFinish }: GameProps) {
   const items = useMemo(() => generateStroop(createRng(seed), level), [seed, level]);
-  const switching = pickLevel(STROOP_LEVELS, level).switchRatio > 0;
+  const config = pickLevel(STROOP_LEVELS, level);
+  const switching = config.switchRatio > 0 || config.frame > 0;
   const { settings } = useProgress();
   const [clock] = useState(() => new GameClock());
   const [index, setIndex] = useState(0);
   const [errors, setErrors] = useState(0);
+  const [hiddenIndex, setHiddenIndex] = useState(-1);
   const [voiceFailed, setVoiceFailed] = useState(false);
   const [mark, showMark] = useFeedback();
   const done = index >= items.length;
@@ -44,7 +68,8 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
     return () => clock.stop();
   }, [clock]);
 
-  const answer = (color: StroopColor) => {
+  /** Une couleur touchée (ou dite), ou `null` quand le temps du mot est écoulé. */
+  const answer = (color: StroopColor | null) => {
     if (done) return;
     const expected = stroopAnswer(item);
     const correct = color === expected;
@@ -55,7 +80,16 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
     } else {
       fx.bad();
       const name = STROOP_LABELS[expected].toLowerCase();
-      showMark('bad', item.ask === 'ink' ? tr(`L’encre : ${name}`, `Ink: ${name}`) : tr(`Le mot : ${name}`, `Word: ${name}`));
+      showMark(
+        'bad',
+        color === null
+          ? tr(`Trop tard : ${name}`, `Too late: ${name}`)
+          : item.ask === 'ink'
+            ? tr(`L’encre : ${name}`, `Ink: ${name}`)
+            : item.ask === 'frame'
+              ? tr(`Le cadre : ${name}`, `Frame: ${name}`)
+              : tr(`Le mot : ${name}`, `Word: ${name}`),
+      );
       setErrors(totalErrors);
     }
     setIndex(index + 1);
@@ -75,6 +109,21 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
   };
 
   const onColorSpoken = useEffectEvent((color: StroopColor) => answer(color));
+  const onTimeUp = useEffectEvent(() => answer(null));
+
+  // Mot éclair : il s'efface après un instant (la consigne et les boutons restent).
+  useEffect(() => {
+    if (!config.flashMs || done) return;
+    const id = window.setTimeout(() => setHiddenIndex(index), slow(config.flashMs));
+    return () => window.clearTimeout(id);
+  }, [index, done, config.flashMs]);
+
+  // Temps limité par mot : au-delà, c'est une erreur et on passe au suivant.
+  useEffect(() => {
+    if (!config.deadlineMs || done) return;
+    const id = window.setTimeout(() => onTimeUp(), slow(config.deadlineMs));
+    return () => window.clearTimeout(id);
+  }, [index, done, config.deadlineMs]);
 
   useEffect(() => {
     if (!voiceOn || done) return;
@@ -100,6 +149,9 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
     else if (byPosition >= 1 && byPosition <= item.buttons.length) answer(item.buttons[byPosition - 1]);
   }, !done);
 
+  const gone = hiddenIndex === index;
+  const wordClass = ['stroop__word', `ink--${item.ink}`, item.frame && 'stroop__word--framed', gone && 'stroop__word--gone'].filter(Boolean).join(' ');
+
   return (
     <div className="game">
       <GameHud progress={index / items.length}>
@@ -112,19 +164,20 @@ export function StroopGame({ seed, level, onFinish }: GameProps) {
           </p>
           {switching && (
             <p key={index} className={`stroop__ask stroop__ask--${item.ask}`}>
-              {item.ask === 'ink' ? tr('Couleur de l’encre', 'Ink color') : tr('Lis le mot', 'Read the word')}
+              {askLabel(item.ask)}
             </p>
           )}
           <p
-            className={`stroop__word ink--${item.ink}`}
+            className={wordClass}
+            style={item.frame ? ({ '--frame': `var(--ink-${item.frame})` } as CSSProperties) : undefined}
             aria-live="polite"
-            aria-label={tr(
-              `${item.ask === 'word' ? 'Lis le mot. ' : ''}Le mot ${STROOP_LABELS[item.word]}, écrit en ${STROOP_LABELS[item.ink].toLowerCase()}`,
-              `${item.ask === 'word' ? 'Read the word. ' : ''}The word ${STROOP_LABELS[item.word]}, written in ${STROOP_LABELS[item.ink].toLowerCase()}`,
-            )}
+            aria-label={describeItem(item)}
           >
             {STROOP_LABELS[item.word].toUpperCase()}
           </p>
+          {config.deadlineMs && !done && (
+            <span key={index} className="stroop__timer" style={{ animationDuration: `${slow(config.deadlineMs)}ms` }} aria-hidden="true" />
+          )}
           {voiceOn && (
             <p className="stroop__voice">
               <Icon name="mic" size={18} />

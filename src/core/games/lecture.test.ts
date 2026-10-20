@@ -5,8 +5,9 @@ import { createRng } from '../rng';
 import { generateLecture, LECTURE_LEVELS, lectureLevel, lectureLevelLabel, scoreLecture, SENTENCES, SENTENCES_EN, sentences } from './lecture';
 
 describe('Lecture éclair', () => {
-  it('a 20 niveaux et trois paliers de 40 idées, chacune en version vraie et fausse', () => {
+  it('a MAX_LEVEL niveaux et cinq paliers de 40 idées, chacune en version vraie et fausse', () => {
     expect(LECTURE_LEVELS).toHaveLength(MAX_LEVEL);
+    expect(SENTENCES).toHaveLength(5);
     const all = SENTENCES.flat(2);
     expect(new Set(all).size).toBe(all.length);
     for (const tier of SENTENCES) {
@@ -45,9 +46,9 @@ describe('Lecture éclair en anglais', () => {
   beforeEach(() => setLang('en'));
   afterEach(() => setLang('fr'));
 
-  it('a trois paliers de 40 idées anglaises, chacune en version vraie et fausse', () => {
+  it('a cinq paliers de 40 idées anglaises, chacune en version vraie et fausse', () => {
     expect(sentences()).toBe(SENTENCES_EN);
-    expect(SENTENCES_EN).toHaveLength(3);
+    expect(SENTENCES_EN).toHaveLength(5);
     const all = SENTENCES_EN.flat(2);
     expect(new Set(all).size).toBe(all.length);
     for (const tier of SENTENCES_EN) {

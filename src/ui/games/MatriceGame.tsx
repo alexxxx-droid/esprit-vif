@@ -2,16 +2,18 @@ import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from
 import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
-  generateSequence,
+  generateMatriceRound,
   initialMatrice,
   MATRICE_MAX_FAILURES,
   matriceLevel,
   nextMatrice,
   scoreMatrice,
+  type MatriceFlash,
   type MatriceState,
 } from '../../core/games/matrice';
 import { secondsLabel } from '../../core/levels';
 import { createRng, deriveSeed } from '../../core/rng';
+import { Icon } from '../components/Icon';
 import { TapButton } from '../components/TapButton';
 import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
@@ -25,19 +27,20 @@ type Phase = 'show' | 'input' | 'success' | 'fail';
 const KEY_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyZ', 'KeyX', 'KeyC', 'KeyV'];
 
 export function MatriceGame({ seed, level, onFinish }: GameProps) {
-  const { size, flashMs: baseFlashMs, reverse } = matriceLevel(level);
+  const { size, flashMs: baseFlashMs, mixed, lureEvery } = matriceLevel(level);
   const flashMs = slow(baseFlashMs);
   const cellCount = size * size;
   const [game, setGame] = useState<MatriceState>(initialMatrice);
   const [phase, setPhase] = useState<Phase>('show');
   const [step, setStep] = useState(0);
-  const [lit, setLit] = useState<number | null>(null);
+  const [lit, setLit] = useState<MatriceFlash | null>(null);
   const [entered, setEntered] = useState<number[]>([]);
   const [wrongCell, setWrongCell] = useState<number | null>(null);
-  const sequence = useMemo(
-    () => generateSequence(createRng(deriveSeed(seed, game.rounds)), game.span, cellCount),
-    [seed, game.rounds, game.span, cellCount],
+  const round = useMemo(
+    () => generateMatriceRound(createRng(deriveSeed(seed, game.rounds)), game.span, level),
+    [seed, game.rounds, game.span, level],
   );
+  const { sequence, flashes, reverse } = round;
   // À l'envers : on retouche la séquence en partant de la dernière case.
   const expected = useMemo(() => (reverse ? [...sequence].reverse() : sequence), [sequence, reverse]);
   const cellProps = useGridFocus(size, cellCount);
@@ -45,14 +48,16 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
   // Présentation : les cases s'allument une à une.
   useEffect(() => {
     if (phase !== 'show') return;
-    if (step >= sequence.length) {
+    if (step >= flashes.length) {
       const id = window.setTimeout(() => setPhase('input'), 250);
       return () => window.clearTimeout(id);
     }
     const lead = step === 0 ? 700 : 170;
     const on = window.setTimeout(() => {
-      setLit(sequence[step]);
-      fx.note(sequence[step]);
+      const flash = flashes[step];
+      setLit(flash);
+      // Les pièges s'allument en silence : seules les cases à retenir chantent.
+      if (!flash.lure) fx.note(flash.cell);
     }, lead);
     const off = window.setTimeout(() => {
       setLit(null);
@@ -62,12 +67,12 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
       window.clearTimeout(on);
       window.clearTimeout(off);
     };
-  }, [phase, step, sequence, flashMs]);
+  }, [phase, step, flashes, flashMs]);
 
   const finish = useEffectEvent((final: MatriceState) => {
     const best = final.best;
     onFinish({
-      score: scoreMatrice(best),
+      score: scoreMatrice(best, level),
       stats: { best, rounds: final.rounds, failures: final.failures, flashMs },
       headline: best
         ? tr(`${plural(best, 'case')} retenues`, `${plural(best, 'square')} remembered`)
@@ -127,9 +132,15 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
   }, phase === 'input');
 
   const triesLeft = MATRICE_MAX_FAILURES - game.failures - (phase === 'fail' ? 1 : 0);
+  // Au niveau « sens donné après », la consigne tombe au moment de répondre.
+  const cue = mixed ? (reverse ? tr('À l’envers ! ', 'Backwards! ') : tr('Même ordre ! ', 'Same order! ')) : null;
   const status: Record<Phase, string> = {
-    show: tr('Regarde bien…', 'Watch closely…'),
-    input: `${reverse ? tr('À l’envers ! ', 'Backwards! ') : tr('À toi ! ', 'Your turn! ')}${entered.length} / ${sequence.length}`,
+    show: mixed
+      ? tr('Regarde… le sens viendra après', 'Watch… direction comes later')
+      : lureEvery
+        ? tr('Regarde… sauf les cases barrées', 'Watch… skip crossed-out squares')
+        : tr('Regarde bien…', 'Watch closely…'),
+    input: `${cue ?? (reverse ? tr('À l’envers ! ', 'Backwards! ') : tr('À toi ! ', 'Your turn! '))}${entered.length} / ${sequence.length}`,
     success: tr('Bravo, une case de plus !', 'Well done, one more square!'),
     fail: tr('Raté : voici le bon ordre.', 'Missed: here’s the right order.'),
   };
@@ -140,11 +151,15 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
         <span className="chip">{tr(plural(game.span, 'case'), plural(game.span, 'square'))}</span>
       </GameHud>
       <div className="game__stage matrice-stage">
-        <p className={`matrice__status matrice__status--${phase}`} aria-live="polite">
+        <p
+          key={cue && phase === 'input' ? 'cue' : 'status'}
+          className={`matrice__status matrice__status--${phase}${cue && phase === 'input' ? ' matrice__status--cue' : ''}`}
+          aria-live="polite"
+        >
           {status[phase]}
         </p>
         <div
-          className={`matrice matrice--${phase}`}
+          className={`matrice matrice--${phase}${size >= 6 ? ' matrice--dense' : ''}`}
           style={{ '--size': size } as CSSProperties}
           role="group"
           aria-label={tr(`Grille de ${cellCount} cases`, `Grid of ${cellCount} squares`)}
@@ -153,7 +168,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
             const order = expected.indexOf(cell);
             const classes = [
               'matrice__cell',
-              lit === cell && 'is-lit',
+              lit?.cell === cell && (lit.lure ? 'is-lure' : 'is-lit'),
               entered.includes(cell) && 'is-entered',
               wrongCell === cell && 'is-wrong',
               phase === 'fail' && order >= 0 && 'is-answer',
@@ -170,6 +185,7 @@ export function MatriceGame({ seed, level, onFinish }: GameProps) {
                 aria-disabled={phase !== 'input'}
               >
                 {phase === 'fail' && order >= 0 && <span className="matrice__order">{order + 1}</span>}
+                {lit?.cell === cell && lit.lure && <Icon name="close" size={22} strokeWidth={3} />}
               </TapButton>
             );
           })}

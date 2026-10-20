@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { generateMots, motsLevel, scoreMots } from '../../core/games/mots';
 import { NBSP } from '../../core/format';
 import { tr } from '../../core/lang';
@@ -24,10 +24,15 @@ interface Tally {
 export function MotsGame({ seed, level, onFinish }: GameProps) {
   const config = motsLevel(level);
   const studyMs = slow(config.studyMs);
+  const wordMs = slow(config.wordMs);
+  const answerMs = config.answerMs ? slow(config.answerMs) : 0;
+  const serial = config.wordMs > 0;
   const round = useMemo(() => generateMots(createRng(seed), level), [seed, level]);
   const [clock] = useState(() => new GameClock());
   const [studying, setStudying] = useState(true);
   const [index, setIndex] = useState(0);
+  // Défilé un par un : le mot montré.
+  const [shown, setShown] = useState(0);
   const [tally, setTally] = useState<Tally>({ hits: 0, misses: 0, falseAlarms: 0, rejections: 0 });
   const [mark, showMark] = useFeedback();
   const total = round.probes.length;
@@ -40,7 +45,7 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
   };
 
   useEffect(() => {
-    if (!studying) return;
+    if (!studying || serial) return;
     clock.start();
     const id = window.setInterval(() => {
       if (clock.total() >= studyMs) {
@@ -53,9 +58,19 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       window.clearInterval(id);
       clock.stop();
     };
-  }, [clock, studying, studyMs]);
+  }, [clock, studying, studyMs, serial]);
 
-  const answer = (seen: boolean) => {
+  // Un par un : chaque mot reste `wordMs`, puis le suivant ; après le dernier, les questions.
+  useEffect(() => {
+    if (!studying || !serial) return;
+    const id = window.setTimeout(() => {
+      if (shown + 1 < round.sequence.length) setShown(shown + 1);
+      else setStudying(false);
+    }, wordMs);
+    return () => window.clearTimeout(id);
+  }, [studying, serial, shown, wordMs, round.sequence.length]);
+
+  const answer = (seen: boolean, late = false) => {
     if (studying || done) return;
     const ok = seen === probe.seen;
     const next: Tally = {
@@ -64,12 +79,25 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
       falseAlarms: tally.falseAlarms + (seen && !probe.seen ? 1 : 0),
       rejections: tally.rejections + (!seen && !probe.seen ? 1 : 0),
     };
-    if (ok) {
+    if (late) {
+      // Trop tard : compté « pas vu » (une bonne abstention si le mot n'y était pas).
+      if (probe.seen) {
+        fx.bad();
+        showMark('bad', tr('Trop tard\u00a0: il était dans la liste', 'Too late: it was in the list'));
+      }
+    } else if (ok) {
       fx.good();
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', probe.seen ? tr('Il était dans la liste', 'It was in the list') : tr('Il n’y était pas', 'It wasn’t there'));
+      showMark(
+        'bad',
+        probe.seen
+          ? tr('Il était dans la liste', 'It was in the list')
+          : probe.forget
+            ? tr('Il était barré', 'It was crossed out')
+            : tr('Il n’y était pas', 'It wasn’t there'),
+      );
     }
     setTally(next);
     setIndex(index + 1);
@@ -90,14 +118,49 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
     }
   };
 
+  // Légende : chaque mot a son temps de réponse ; sans réponse, c'est « pas vu ».
+  const timeUp = useEffectEvent(() => answer(false, true));
+  useEffect(() => {
+    if (studying || done || !answerMs) return;
+    const id = window.setTimeout(() => timeUp(), answerMs);
+    return () => window.clearTimeout(id);
+  }, [studying, done, index, answerMs]);
+
   useKeyDown((e) => {
     const key = e.key.toLowerCase();
+    if (studying && serial) return;
     if (studying && key === 'enter') {
       e.preventDefault();
       endStudy();
     } else if (key === 'arrowleft' || key === 'n') answer(false);
     else if (key === 'arrowright' || key === tr('v', 'y')) answer(true);
   }, !done);
+
+  if (studying && serial) {
+    const item = round.sequence[shown];
+    return (
+      <div className="game">
+        <GameHud progress={shown / round.sequence.length}>
+          <span className="chip">
+            {shown + 1}/{round.sequence.length}
+          </span>
+        </GameHud>
+        <div className="game__stage mots">
+          <p className="mots__ask">
+            {config.decoys
+              ? tr('Retiens les mots, pas ceux qui sont barrés', 'Memorize the words, not the crossed-out ones')
+              : tr(`Retiens ces ${config.count} mots`, `Memorize these ${config.count} words`)}
+          </p>
+          <div key={shown} className={`mots__probe mots__flash${item.forget ? ' is-forget' : ''}`} aria-live="polite">
+            {item.word}
+          </div>
+          <p className="mots__tag" aria-hidden={!item.forget}>
+            {item.forget ? tr('À oublier', 'Forget it') : '\u00a0'}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (studying) {
     return (
@@ -136,6 +199,11 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
         <div key={index} className="mots__probe" aria-live="polite">
           {probe.word}
         </div>
+        {answerMs > 0 && (
+          <span className="qui__timer" aria-hidden="true">
+            <span key={index} style={{ animationDuration: `${answerMs}ms` }} />
+          </span>
+        )}
         <p className="mots__ask">{tr(`Était-il dans la liste${NBSP}?`, 'Was it in the list?')}</p>
         <FeedbackMark mark={mark} />
       </div>

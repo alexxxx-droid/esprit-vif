@@ -6,7 +6,7 @@ import { COUP_LEVELS, coupLevel, generateCoupTrial, scoreCoup } from './coupdoei
 const area = (dots: { r: number }[]) => dots.reduce((sum, d) => sum + d.r * d.r, 0);
 
 describe('Coup d’œil', () => {
-  it('a 20 niveaux qui resserrent l’écart et raccourcissent l’affichage', () => {
+  it('a MAX_LEVEL niveaux qui resserrent l’écart et raccourcissent l’affichage', () => {
     expect(COUP_LEVELS).toHaveLength(MAX_LEVEL);
     for (let i = 1; i < COUP_LEVELS.length; i++) {
       expect(COUP_LEVELS[i].ratio).toBeLessThanOrEqual(COUP_LEVELS[i - 1].ratio);
@@ -25,12 +25,16 @@ describe('Coup d’œil', () => {
         expect(many.length).toBeGreaterThan(few.length);
         expect(few.length).toBeGreaterThanOrEqual(c.min);
         expect(few.length).toBeLessThanOrEqual(c.max);
-        const all = [...a, ...b];
+        const all = [...a, ...b, ...(t.noise ?? [])];
+        // Jusqu'à 120 points : on cherche le pire cas, puis un seul `expect` (des milliers d'appels ralentiraient le test).
+        let outside = 0;
+        let overlaps = 0;
         for (let i = 0; i < all.length; i++) {
-          expect(all[i].x - all[i].r).toBeGreaterThanOrEqual(0);
-          expect(all[i].x + all[i].r).toBeLessThanOrEqual(100);
-          for (let j = i + 1; j < all.length; j++) expect(Math.hypot(all[i].x - all[j].x, all[i].y - all[j].y)).toBeGreaterThan(all[i].r + all[j].r);
+          const d = all[i];
+          if (d.x - d.r < 0 || d.x + d.r > 100 || d.y - d.r < 0 || d.y + d.r > 100) outside++;
+          for (let j = i + 1; j < all.length; j++) if (Math.hypot(d.x - all[j].x, d.y - all[j].y) <= d.r + all[j].r) overlaps++;
         }
+        expect({ level, outside, overlaps }).toEqual({ level, outside: 0, overlaps: 0 });
       }
     }
   });

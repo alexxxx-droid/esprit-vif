@@ -1,34 +1,34 @@
 import { tr } from '../lang';
-import { MAX_LEVEL, pickLevel } from '../levels';
+import { MAX_LEVEL, pickLevel, secondsLabel } from '../levels';
 import type { Domain, GameId } from '../types';
 import { anagramLevel, anagramLevelLabel } from './anagrammes';
-import { balanceLevelLabel } from './balance';
-import { boutiqueLevel, boutiqueLevelLabel } from './boutique';
-import { CALCUL_LEVELS } from './calcul';
-import { categoriesLevelLabel } from './categories';
-import { correspondanceLevel, correspondanceLevelLabel } from './correspondance';
-import { diableLevel, diableLevelLabel } from './diable';
-import { flechesLevel, flechesLevelLabel } from './fleches';
+import { balanceLevel, balanceLevelLabel } from './balance';
+import { boutiqueLevelLabel, boutiqueRule } from './boutique';
+import { CALCUL_LEVELS, calculRule } from './calcul';
+import { categoriesLevel, categoriesLevelLabel } from './categories';
+import { correspondanceLevelLabel, correspondanceRule } from './correspondance';
+import { diableLevelLabel, diableRule } from './diable';
+import { flechesLevelLabel, flechesRule } from './fleches';
 import { horlogesLevel, horlogesLevelLabel } from './horloges';
-import { intrusLevelLabel } from './intrus';
-import { coupLevelLabel } from './coupdoeil';
+import { intrusLevelLabel, intrusRule } from './intrus';
+import { coupLevelLabel, coupRule } from './coupdoeil';
 import { itiLevel, itiLevelLabel } from './itineraire';
-import { lectureLevel, lectureLevelLabel } from './lecture';
-import { lettreLevel, lettreLevelLabel } from './lettre';
+import { lectureLevel, lectureLevelLabel, lectureRule } from './lecture';
+import { lettreLevel, lettreLevelLabel, lettreRule } from './lettre';
 import { quiLevel, quiLevelLabel } from './quiestqui';
 import { matriceLevel, matriceLevelLabel } from './matrice';
-import { monnaieLevel, monnaieLevelLabel } from './monnaie';
+import { monnaieLevelLabel, monnaieRule } from './monnaie';
 import { motsLevel, motsLevelLabel } from './mots';
 import { nbackLevel, nbackLevelLabel } from './nback';
 import { ordreLevel, ordreLevelLabel } from './ordre';
-import { pairesLevelLabel } from './paires';
-import { pluieLevelLabel } from './pluie';
-import { describeRule, reflexeLevel, reflexeLevelLabel } from './reflexe';
+import { pairesLevel, pairesLevelLabel } from './paires';
+import { pluieLevelLabel, pluieRule } from './pluie';
+import { reflexeLevelLabel, reflexeRule } from './reflexe';
 import { rotationLevel, rotationLevelLabel } from './rotation';
-import { SCHULTE_LEVELS, schulteLevelLabel } from './schulte';
-import { STROOP_LEVELS, stroopLevelLabel } from './stroop';
-import { sudokuLevel, sudokuLevelLabel } from './sudoku';
-import { totalLevelLabel } from './total';
+import { schulteLevelLabel, schulteRule } from './schulte';
+import { stroopLevelLabel, stroopRule } from './stroop';
+import { sudokuDuration, sudokuLevel, sudokuLevelLabel } from './sudoku';
+import { totalLevelLabel, totalRule } from './total';
 
 export interface DomainMeta {
   /** Nom affiché, dans la langue de l'interface (accesseur : lu à l'affichage). */
@@ -80,6 +80,8 @@ export interface GameMeta {
   rule: (level: number) => string;
   /** Durée indicative d'une partie. */
   duration: string;
+  /** La même, quand elle varie beaucoup avec le niveau (le sudoku passe de 1 à 15 minutes). */
+  durationAt?: (level: number) => string;
   maxLevel: number;
   /** Niveau imposé au test du jour, pour que les résultats restent comparables. */
   dailyLevel: number;
@@ -87,7 +89,10 @@ export interface GameMeta {
   levelLabel: (level: number) => string;
 }
 
-const CHAIN_KINDS = ['chainAddSub', 'chainMulAdd', 'chainMulMul', 'chainBig'];
+/** Durée indicative d'une partie à ce niveau. */
+export function durationFor(meta: GameMeta, level: number): string {
+  return meta.durationAt?.(level) ?? meta.duration;
+}
 
 export const GAMES: Record<GameId, GameMeta> = {
   calcul: {
@@ -96,16 +101,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Calcul éclair', 'Flash Math');
     },
     domain: 'calcul',
-    rule: (level) =>
-      pickLevel(CALCUL_LEVELS, level).kinds.some((k) => CHAIN_KINDS.includes(k))
-        ? tr(
-            'Résous 20 calculs le plus vite possible. Rappel : × et ÷ passent avant + et −.',
-            'Solve 20 problems as fast as you can. Remember: × and ÷ come before + and −.',
-          )
-        : tr(
-            'Résous 20 calculs le plus vite possible : ta réponse se valide toute seule.',
-            'Solve 20 problems as fast as you can: your answer goes in by itself.',
-          ),
+    rule: calculRule,
     duration: '≈ 40 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -117,13 +113,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Couleurs piégées', 'Color Trap');
     },
     domain: 'attention',
-    rule: (level) =>
-      pickLevel(STROOP_LEVELS, level).switchRatio
-        ? tr(
-            'Touche la couleur de l’encre… sauf quand la consigne dit « le mot » : là, lis le mot.',
-            'Tap the color of the ink… except when the prompt says “the word”: then read the word.',
-          )
-        : tr('Touche la couleur de l’encre, pas celle du mot écrit.', 'Tap the color of the ink, not the color the word spells.'),
+    rule: stroopRule,
     duration: '≈ 30 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -135,17 +125,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Table de Schulte', 'Schulte Table');
     },
     domain: 'vitesse',
-    rule: (level) => {
-      const c = pickLevel(SCHULTE_LEVELS, level);
-      const count = c.size * c.size;
-      const base = {
-        asc: tr(`Touche les nombres de 1 à ${count} dans l’ordre, le plus vite possible.`, `Tap the numbers from 1 to ${count} in order, as fast as you can.`),
-        desc: tr(`Touche les nombres de ${count} à 1, à rebours, le plus vite possible.`, `Tap the numbers from ${count} down to 1, as fast as you can.`),
-        alpha: tr('Touche les lettres de A à Y dans l’ordre, le plus vite possible.', 'Tap the letters from A to Y in order, as fast as you can.'),
-        alt: tr('Alterne nombres et lettres : 1, A, 2, B, 3, C… le plus vite possible.', 'Alternate numbers and letters: 1, A, 2, B, 3, C… as fast as you can.'),
-      }[c.order];
-      return c.reshuffleEvery ? tr(`${base} La grille se mélange en cours de route !`, `${base} The grid reshuffles along the way!`) : base;
-    },
+    rule: schulteRule,
     duration: '≈ 30 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -157,10 +137,20 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Matrice', 'Grid Memory');
     },
     domain: 'memoire',
-    rule: (level) =>
-      matriceLevel(level).reverse
-        ? tr('Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.', 'Watch the squares light up, then tap them in reverse order.')
-        : tr('Regarde les cases s’allumer, puis touche-les dans le même ordre.', 'Watch the squares light up, then tap them in the same order.'),
+    rule: (level) => {
+      const c = matriceLevel(level);
+      const base = c.mixed
+        ? tr(
+            'Regarde les cases s’allumer : le sens (même ordre ou à l’envers) ne s’affiche qu’après.',
+            'Watch the squares light up: only afterwards are you told whether to tap them in the same or reverse order.',
+          )
+        : c.reverse
+          ? tr('Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.', 'Watch the squares light up, then tap them in reverse order.')
+          : tr('Regarde les cases s’allumer, puis touche-les dans le même ordre.', 'Watch the squares light up, then tap them in the same order.');
+      return c.lureEvery
+        ? tr(`${base} Ignore les cases barrées : ce sont des pièges.`, `${base} Ignore the crossed-out squares: they’re traps.`)
+        : base;
+    },
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -173,17 +163,23 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'memoire',
     rule: (level) => {
-      const { n, mode } = nbackLevel(level);
+      const { n, mode, lures } = nbackLevel(level);
       const back = n === 1 ? 'au coup précédent' : `il y a ${n} coups`;
       const backEn = n === 1 ? 'the previous one' : `the one from ${n} turns ago`;
+      const traps = lures
+        ? tr(' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.', ' Watch for traps: a repeat one turn too early or too late doesn’t count.')
+        : '';
       if (mode === 'letter') {
-        return tr(
-          `Touche « Même lettre » quand la lettre est la même qu’${n === 1 ? 'au coup précédent' : `il y a ${n} lettres`}.`,
-          `Tap “Same letter” when the letter matches ${n === 1 ? 'the previous one' : `the one ${n} letters back`}.`,
+        return (
+          tr(
+            `Touche « Même lettre » quand la lettre est la même qu’${n === 1 ? 'au coup précédent' : `il y a ${n} lettres`}.`,
+            `Tap “Same letter” when the letter matches ${n === 1 ? 'the previous one' : `the one ${n} letters back`}.`,
+          ) + traps
         );
       }
-      if (mode === 'position') return tr(`Touche « Même place » quand la case allumée est la même qu’${back}.`, `Tap “Same spot” when the lit square matches ${backEn}.`);
-      return tr(`Deux questions à la fois : même lettre et même place qu’${back} ?`, `Two questions at once: same letter and same spot as ${backEn}?`);
+      if (mode === 'position')
+        return tr(`Touche « Même place » quand la case allumée est la même qu’${back}.`, `Tap “Same spot” when the lit square matches ${backEn}.`) + traps;
+      return tr(`Deux questions à la fois : même lettre et même place qu’${back} ?`, `Two questions at once: same letter and same spot as ${backEn}?`) + traps;
     },
     duration: '≈ 55 s',
     maxLevel: MAX_LEVEL,
@@ -196,8 +192,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Total cumulé', 'Running Total');
     },
     domain: 'calcul',
-    rule: () =>
-      tr('Additionne de tête les nombres qui défilent, puis donne le total final.', 'Add up the numbers in your head as they go by, then give the final total.'),
+    rule: totalRule,
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -209,11 +204,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('L’intrus', 'Odd One Out');
     },
     domain: 'attention',
-    rule: () =>
-      tr(
-        'Trouve le symbole différent des autres (parfois retourné en miroir), le plus de fois possible en 45 s.',
-        'Find the symbol that’s different from the others (sometimes it’s mirrored), as many times as you can in 45 s.',
-      ),
+    rule: intrusRule,
     duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -226,12 +217,17 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'langage',
     rule: (level) =>
-      anagramLevel(level).decoys
+      anagramLevel(level).twins
         ? tr(
-            'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !',
-            'Put the letters back in order to find the hidden word. Careful: some letters don’t belong!',
+            'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop, et ce sont des sosies de celles du mot !',
+            'Put the letters back in order to find the hidden word. Careful: some letters don’t belong, and they copy the word’s own letters!',
           )
-        : tr('Remets les lettres dans l’ordre pour retrouver le mot caché.', 'Put the letters back in order to find the hidden word.'),
+        : anagramLevel(level).decoys
+          ? tr(
+              'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !',
+              'Put the letters back in order to find the hidden word. Careful: some letters don’t belong!',
+            )
+          : tr('Remets les lettres dans l’ordre pour retrouver le mot caché.', 'Put the letters back in order to find the hidden word.'),
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -243,16 +239,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('La boutique', 'The Shop');
     },
     domain: 'attention',
-    rule: (level) =>
-      boutiqueLevel(level).cats
-        ? tr(
-            'Des clients entrent et sortent : combien sont dans la boutique à la fin ? Les chats ne comptent pas !',
-            'Customers come in and go out: how many are in the shop at the end? Cats don’t count!',
-          )
-        : tr(
-            'Des clients entrent et sortent : combien sont dans la boutique à la fin ?',
-            'Customers come in and go out: how many are in the shop at the end?',
-          ),
+    rule: boutiqueRule,
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -264,13 +251,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Calcul du diable', 'Tricky Sums');
     },
     domain: 'calcul',
-    rule: (level) => {
-      const { n } = diableLevel(level);
-      return tr(
-        `Les calculs défilent : donne le résultat de celui d’il y a ${n === 1 ? 'un coup' : `${n} coups`}, pas du calcul affiché.`,
-        `The sums keep coming: give the answer to the one from ${n === 1 ? '1 turn' : `${n} turns`} ago, not the one on screen.`,
-      );
-    },
+    rule: diableRule,
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -282,8 +263,9 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Du plus petit au plus grand', 'Smallest to Largest');
     },
     domain: 'memoire',
-    rule: (level) =>
-      ordreLevel(level).descending
+    rule: (level) => {
+      const c = ordreLevel(level);
+      const base = c.descending
         ? tr(
             'Retiens où sont les nombres, puis touche leurs cases du plus grand au plus petit.',
             'Remember where the numbers are, then tap their squares from largest to smallest.',
@@ -291,7 +273,11 @@ export const GAMES: Record<GameId, GameMeta> = {
         : tr(
             'Retiens où sont les nombres, puis touche leurs cases du plus petit au plus grand.',
             'Remember where the numbers are, then tap their squares from smallest to largest.',
-          ),
+          );
+      return c.decoyEvery
+        ? tr(`${base} Ne touche pas les nombres barrés.`, `${base} Don’t tap the crossed-out numbers.`)
+        : base;
+    },
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -303,10 +289,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Monnaie', 'Small Change');
     },
     domain: 'calcul',
-    rule: (level) =>
-      monnaieLevel(level).mode === 'change'
-        ? tr('Calcule la monnaie à rendre, le plus de fois possible en 60 secondes.', 'Work out the change to give back, as many times as you can in 60 seconds.')
-        : tr('Compte les pièces et les billets, le plus de fois possible en 60 secondes.', 'Count the coins and bills, as many times as you can in 60 seconds.'),
+    rule: monnaieRule,
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -318,11 +301,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Pluie de calculs', 'Number Rain');
     },
     domain: 'calcul',
-    rule: () =>
-      tr(
-        'Tape le résultat de chaque goutte avant qu’elle ne tombe à l’eau. Trois gouttes perdues et c’est fini !',
-        'Type the answer to each drop before it hits the water. Lose three drops and it’s over!',
-      ),
+    rule: pluieRule,
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -334,16 +313,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Correspondance express', 'Quick Match');
     },
     domain: 'vitesse',
-    rule: (level) =>
-      correspondanceLevel(level).back === 1
-        ? tr(
-            'Chaque nouvelle carte est-elle pareille à la précédente ? Réponds vite : 45 secondes.',
-            'Is each new card the same as the one before? Answer fast: 45 seconds.',
-          )
-        : tr(
-            'Chaque nouvelle carte est-elle pareille à celle d’il y a deux cartes ? 45 secondes.',
-            'Is each new card the same as the one two cards back? 45 seconds.',
-          ),
+    rule: correspondanceRule,
     duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -355,20 +325,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Flèches', 'Arrows');
     },
     domain: 'attention',
-    rule: (level) => {
-      const { rule } = flechesLevel(level);
-      if (rule === 'flank') return tr('Donne le sens des flèches voisines, pas de celle du milieu.', 'Give the direction of the outer arrows, not the middle one.');
-      if (rule === 'switch') {
-        return tr(
-          'Selon la consigne, donne le sens de la flèche du milieu ou de ses voisines.',
-          'Follow the prompt: give the direction of the middle arrow or of its neighbors.',
-        );
-      }
-      return tr(
-        'Donne le sens de la flèche du milieu, sans te laisser distraire par ses voisines.',
-        'Give the direction of the middle arrow, without letting its neighbors distract you.',
-      );
-    },
+    rule: flechesRule,
     duration: '≈ 50 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -380,13 +337,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Réflexe', 'Reflex');
     },
     domain: 'vitesse',
-    rule: (level) => {
-      const { rules } = reflexeLevel(level);
-      const first = describeRule(rules[0]);
-      return rules.length > 1
-        ? tr(`${first}… mais la règle va changer en cours de route !`, `${first}… but the rule will change along the way!`)
-        : tr(`${first}, le plus vite possible. Pour les autres formes, ne touche rien.`, `${first}, as fast as you can. For any other shape, don’t tap anything.`);
-    },
+    rule: reflexeRule,
     duration: '≈ 45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -398,8 +349,21 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Rotation mentale', 'Mental Rotation');
     },
     domain: 'logique',
-    rule: (level) =>
-      rotationLevel(level).mirrors
+    rule: (level) => {
+      const c = rotationLevel(level);
+      if (c.solid) {
+        return tr(
+          'Pièces en relief : retrouve la même pièce, tournée dans l’espace. Son reflet dans un miroir ne compte pas ! 60 secondes.',
+          '3D pieces: find the same piece, turned in space. Its mirror image doesn’t count! 60 seconds.',
+        );
+      }
+      if (c.tilt) {
+        return tr(
+          'Retrouve la pièce du modèle, simplement tournée : les propositions sont penchées. Méfie-toi de son reflet dans un miroir !',
+          'Find the model piece, just turned around: the choices are tilted. Watch out for its mirror image!',
+        );
+      }
+      return c.mirrors
         ? tr(
             'Retrouve la pièce du modèle, simplement tournée. Méfie-toi de son reflet dans un miroir : il ne compte pas !',
             'Find the model piece, just turned around. Watch out for its mirror image: it doesn’t count!',
@@ -407,7 +371,8 @@ export const GAMES: Record<GameId, GameMeta> = {
         : tr(
             'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 60 secondes.',
             'Find the model piece among the choices: it has only been turned. 60 seconds.',
-          ),
+          );
+    },
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -420,13 +385,15 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'logique',
     rule: (level) => {
-      const { size } = sudokuLevel(level);
-      return tr(
+      const { size, logic } = sudokuLevel(level);
+      const rule = tr(
         `Chaque chiffre de 1 à ${size} une seule fois par ligne, par colonne et par bloc. Un chiffre faux coûte 5 secondes.`,
         `Each digit from 1 to ${size} appears once in every row, column and box. A wrong digit costs 5 seconds.`,
       );
+      return logic ? `${rule} ${tr('Tout se déduit pas à pas, sans jamais deviner.', 'Everything can be worked out step by step, no guessing.')}` : rule;
     },
     duration: '≈ 2 min',
+    durationAt: sudokuDuration,
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: sudokuLevelLabel,
@@ -437,11 +404,26 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Balance', 'Scales');
     },
     domain: 'logique',
-    rule: () =>
-      tr(
+    rule: (level) => {
+      const c = balanceLevel(level);
+      const rule = tr(
         'Une balance penche du côté le plus lourd. D’après toutes les balances, trouve l’objet le plus lourd… ou le plus léger.',
         'A scale tips toward the heavier side. Using all the scales, find the heaviest item… or the lightest.',
-      ),
+      );
+      if (c.counts) {
+        return `${rule} ${tr(
+          'Deux carrés qui battent trois triangles : le carré est plus lourd. Trois triangles qui battent deux carrés : on ne sait rien.',
+          'Two squares beating three triangles: the square is heavier. Three triangles beating two squares: that tells you nothing.',
+        )}`;
+      }
+      if (c.trap) {
+        return `${rule} ${tr(
+          'Méfie-toi : certaines balances n’apprennent rien, et la réponse peut y perdre.',
+          'Careful: some scales tell you nothing, and the answer can lose on them.',
+        )}`;
+      }
+      return rule;
+    },
     duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -453,13 +435,33 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Horloges', 'Clocks');
     },
     domain: 'logique',
-    rule: (level) =>
-      horlogesLevel(level).modes.length === 1 && horlogesLevel(level).modes[0] === 'read'
+    rule: (level) => {
+      const c = horlogesLevel(level);
+      if (c.modes.includes('overnight')) {
+        return tr(
+          'Durées sur 24 heures : regarde si chaque horloge indique le matin, l’après-midi ou le soir. 60 secondes.',
+          '24-hour durations: check whether each clock shows AM or PM. 60 seconds.',
+        );
+      }
+      if (c.mirror) {
+        return tr(
+          'Certaines horloges sont vues dans un miroir : retrouve l’heure vraie avant de répondre. 60 secondes.',
+          'Some clocks are seen in a mirror: find the real time before you answer. 60 seconds.',
+        );
+      }
+      if (c.modes.includes('earlier')) {
+        return tr(
+          'Lis les horloges : l’heure qu’il est, celle qu’il sera, celle qu’il était, ou le temps écoulé. 60 secondes.',
+          'Read the clocks: the time now, later, earlier, or the time that has passed. 60 seconds.',
+        );
+      }
+      return c.modes.length === 1 && c.modes[0] === 'read'
         ? tr('Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 60 secondes.', 'Read the time on the clock and pick the right answer. 60 seconds.')
         : tr(
             'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 60 secondes.',
             'Read the clocks: the time now, the time it will be, or the time that has passed. 60 seconds.',
-          ),
+          );
+    },
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -472,7 +474,19 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'memoire',
     rule: (level) => {
-      const { count, lures } = motsLevel(level);
+      const { count, lures, wordMs, decoys, answerMs } = motsLevel(level);
+      if (wordMs) {
+        return [
+          tr(
+            `${count} mots défilent un par un : retiens-les, puis dis si chaque mot était dans la liste.`,
+            `${count} words go by one at a time: memorize them, then say whether each word was on the list.`,
+          ),
+          decoys > 0 && tr('Les mots barrés sont à oublier : ils reviendront en pièges.', 'Forget the crossed-out words: they’ll come back as traps.'),
+          answerMs > 0 && tr(`Réponds en moins de ${secondsLabel(answerMs)}.`, `Answer within ${secondsLabel(answerMs)}.`),
+        ]
+          .filter(Boolean)
+          .join(' ');
+      }
       return lures === 'category'
         ? tr(
             `Mémorise ${count} mots, puis dis si chaque mot était dans la liste. Attention : les nouveaux mots leur ressemblent !`,
@@ -497,7 +511,8 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'langage',
     rule: (level) =>
-      lettreLevel(level).missing === 1
+      lettreRule(level) ??
+      (lettreLevel(level).missing === 1
         ? tr(
             'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 60 secondes.',
             'One letter is missing: pick the one that completes the word. The category gives you a hint. 60 seconds.',
@@ -505,7 +520,7 @@ export const GAMES: Record<GameId, GameMeta> = {
         : tr(
             'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 60 secondes.',
             'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 60 seconds.',
-          ),
+          )),
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -517,11 +532,21 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Catégories', 'Categories');
     },
     domain: 'langage',
-    rule: () =>
-      tr(
-        'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.',
-        'All the words go together… except one. Find the odd one out as fast as you can. 60 seconds.',
-      ),
+    rule: (level) =>
+      categoriesLevel(level).camouflage
+        ? tr(
+            'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté. Les mots vont par paires de même initiale, et l’intrus s’y fond : lis bien. 60 secondes.',
+            'All the words go together… except one, from a neighboring group. Words come in pairs with the same first letter, and the odd one blends in: read carefully. 60 seconds.',
+          )
+        : categoriesLevel(level).twin !== undefined
+          ? tr(
+              'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté (un radis parmi des fruits). Trouve l’intrus le plus vite possible. 60 secondes.',
+              'All the words go together… except one, from a neighboring group (a radish among fruits). Find the odd one out as fast as you can. 60 seconds.',
+            )
+          : tr(
+              'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.',
+              'All the words go together… except one. Find the odd one out as fast as you can. 60 seconds.',
+            ),
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -533,11 +558,15 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Paires', 'Pairs');
     },
     domain: 'memoire',
-    rule: () =>
-      tr(
+    rule: (level) => {
+      const base = tr(
         'Retourne les cartes deux par deux et retrouve toutes les paires, en le moins de coups possible.',
         'Turn the cards over two at a time and find all the pairs, in as few moves as you can.',
-      ),
+      );
+      return pairesLevel(level).swap
+        ? tr(`${base} Attention : deux cartes ratées échangent leur place !`, `${base} Careful: two mismatched cards swap places!`)
+        : base;
+    },
     get duration() {
       return tr('≈ 1 min 30', '≈ 1 min 30 s');
     },
@@ -551,11 +580,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Coup d’œil', 'At a Glance');
     },
     domain: 'vitesse',
-    rule: () =>
-      tr(
-        'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 60 secondes.',
-        'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 60 seconds.',
-      ),
+    rule: coupRule,
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -567,16 +592,22 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Qui est qui ?', "Who's Who?");
     },
     domain: 'memoire',
-    rule: (level) =>
-      quiLevel(level).nameQuestions > 0
-        ? tr(
-            'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.',
-            'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Three rounds.',
-          )
-        : tr(
-            'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.',
-            'Companions introduce themselves: remember their names, then find who’s who. Three rounds.',
-          ),
+    rule: (level) => {
+      const c = quiLevel(level);
+      const base =
+        c.nameQuestions > 0
+          ? tr(
+              'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.',
+              'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Three rounds.',
+            )
+          : tr(
+              'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.',
+              'Companions introduce themselves: remember their names, then find who’s who. Three rounds.',
+            );
+      return c.rebind
+        ? tr(`${base} À chaque manche, les mêmes visages changent de prénom !`, `${base} Each round, the same faces get different names!`)
+        : base;
+    },
     duration: '≈ 2 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -589,12 +620,13 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'langage',
     rule: (level) =>
-      lectureLevel(level).tiers.includes(3)
+      lectureRule(level) ??
+      (lectureLevel(level).tiers.includes(3)
         ? tr(
             'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 60 secondes.',
             'Read each sentence all the way through: true or false? Watch out for “not”. 60 seconds.',
           )
-        : tr('Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.', 'Read each sentence and quickly say whether it’s true or false. 60 seconds.'),
+        : tr('Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.', 'Read each sentence and quickly say whether it’s true or false. 60 seconds.')),
     duration: '60 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
@@ -606,8 +638,9 @@ export const GAMES: Record<GameId, GameMeta> = {
       return tr('Itinéraire', 'Route Finder');
     },
     domain: 'logique',
-    rule: (level) =>
-      itiLevel(level).oneByOne
+    rule: (level) => {
+      const c = itiLevel(level);
+      const rule = c.oneByOne
         ? tr(
             'Les flèches défilent une par une : suis le trajet de tête depuis ton compagnon, puis touche la case d’arrivée. Huit trajets.',
             'The arrows show up one at a time: follow the route in your head from your companion, then tap where it ends. Eight routes.',
@@ -615,7 +648,13 @@ export const GAMES: Record<GameId, GameMeta> = {
         : tr(
             'Lis les flèches (« → 2 » : deux cases à droite) : elles vont disparaître. Touche la case où l’on arrive. Huit trajets.',
             'Read the arrows (“→ 2”: two squares right): they’ll disappear. Tap the square where you end up. Eight routes.',
-          ),
+          );
+      const twists = [
+        c.diagonal && tr('« ↗ 2 » : deux cases en diagonale.', '“↗ 2”: two squares diagonally.'),
+        c.rocks && tr('Un rocher arrête la course : on s’arrête juste devant.', 'A rock stops you: you halt right in front of it.'),
+      ].filter(Boolean);
+      return [rule, ...twists].join(' ');
+    },
     get duration() {
       return tr('≈ 1 min 30', '≈ 1 min 30 s');
     },

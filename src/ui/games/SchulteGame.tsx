@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { tr } from '../../core/lang';
+import { lang, tr } from '../../core/lang';
 import { pickLevel } from '../../core/levels';
-import { generateSchulte, SCHULTE_LEVELS, SCHULTE_PENALTY_MS, scoreSchulte } from '../../core/games/schulte';
+import {
+  generateSchulte,
+  SCHULTE_LEVELS,
+  SCHULTE_PENALTY_MS,
+  schulteSpoken,
+  schulteText,
+  schulteTone,
+  schulteTwoTone,
+  scoreSchulte,
+} from '../../core/games/schulte';
 import { timedOutcome } from '../../core/outcome';
 import { createRng, deriveSeed } from '../../core/rng';
 import { TapButton } from '../components/TapButton';
@@ -22,9 +31,14 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
   const [errors, setErrors] = useState(0);
   const [wrong, setWrong] = useState<{ cell: number; id: number } | null>(null);
   const [moved, setMoved] = useState(0);
-  const cellProps = useGridFocus(board.size, total);
+  const twoTone = schulteTwoTone(level);
+  const cellProps = useGridFocus(board.size, board.cells.length);
   const done = next >= total;
   const found = new Set(sequence.slice(0, next));
+  const target = sequence[Math.min(next, total - 1)];
+  const toneClass = (id: string) => (twoTone ? (schulteTone(id) ? ' is-orange' : ' is-blue') : '');
+  // Grilles à deux couleurs : la consigne dit aussi la couleur (« Touche le 7 bleu », « Tap blue 7 »).
+  const toneWord = schulteTone(target) ? tr('orange', 'orange') : tr('bleu', 'blue');
 
   useEffect(() => {
     clock.start();
@@ -73,11 +87,13 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
       </GameHud>
       <div className="game__stage schulte-stage">
         <p className="schulte__target" aria-live="polite">
-          {tr('Touche le', 'Tap')} <strong>{sequence[Math.min(next, total - 1)]}</strong>
+          {tr('Touche le', 'Tap')} {twoTone && lang() === 'en' && <span className={`schulte__tone${toneClass(target)}`}>{toneWord}</span>}
+          <strong className={twoTone ? `schulte__tone${toneClass(target)}` : undefined}>{schulteText(target)}</strong>
+          {twoTone && lang() === 'fr' && <span className={`schulte__tone${toneClass(target)}`}> {toneWord}</span>}
         </p>
         <div
           key={moved}
-          className={`schulte${moved ? ' schulte--moved' : ''}`}
+          className={`schulte${board.size >= 7 ? ' schulte--dense' : ''}${moved ? ' schulte--moved' : ''}`}
           style={{ '--size': board.size } as CSSProperties}
           role="group"
           aria-label={tr('Grille de symboles', 'Symbol grid')}
@@ -89,16 +105,18 @@ export function SchulteGame({ seed, level, onFinish }: GameProps) {
               <TapButton
                 key={cell}
                 {...cellProps(cell)}
-                className={`schulte__cell${isFound && config.mark ? ' is-found' : ''}`}
+                className={`schulte__cell${toneClass(label)}${isFound && config.mark ? ' is-found' : ''}`}
                 onTap={() => tap(cell)}
-                aria-label={isFound && config.mark ? tr(`${label}, trouvé`, `${label}, found`) : label}
+                aria-label={
+                  isFound && config.mark ? tr(`${schulteSpoken(label, twoTone)}, trouvé`, `${schulteSpoken(label, twoTone)}, found`) : schulteSpoken(label, twoTone)
+                }
               >
                 <span key={shaking ? wrong.id : 0} className={shaking ? 'shake' : undefined}>
                   <span
                     className="schulte__num"
                     style={{ transform: `rotate(${board.tilts[cell]}deg) scale(${board.scales[cell]})` }}
                   >
-                    {label}
+                    {schulteText(label)}
                   </span>
                 </span>
               </TapButton>

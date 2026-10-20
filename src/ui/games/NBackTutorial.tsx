@@ -73,6 +73,7 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
               waiting: tap the button <strong>only when it’s the same</strong>, otherwise do nothing.
               {config.n > 2 && ` At this level, it’s ${config.n} back: same idea, just further back.`}
               {config.mode === 'dual' && ' At this level, letters and squares at once: one button for each.'}
+              {config.lures > 0 && ' Watch out for traps: a repeat from one turn too early or too late doesn’t count.'}
             </p>
           ) : (
             <p className="intro__rule">
@@ -80,6 +81,7 @@ export function NBackTutorial({ level, onDone }: TutorialProps) {
               bouton <strong>seulement quand c’est pareil</strong>, sinon ne fais rien.
               {config.n > 2 && ` À ce niveau, c’est ${config.n} en arrière\u00a0: même principe, en remontant plus loin.`}
               {config.mode === 'dual' && ' À ce niveau, lettres et cases à la fois\u00a0: un bouton pour chacune.'}
+              {config.lures > 0 && ' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.'}
             </p>
           )}
         </div>

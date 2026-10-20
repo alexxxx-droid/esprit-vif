@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { generateSequence, initialMatrice, matriceLevel, nextMatrice, scoreMatrice } from './matrice';
+import { generateMatriceRound, generateSequence, initialMatrice, matriceLevel, matriceLureCount, nextMatrice, scoreMatrice } from './matrice';
 
 describe('générateur de la Matrice', () => {
   it('donne des cases distinctes, toutes dans la grille du niveau', () => {
@@ -48,6 +48,26 @@ describe('déroulé de la Matrice', () => {
   });
 });
 
+describe('pièges et sens de la Matrice', () => {
+  it('glisse les pièges après une case à retenir, hors de la séquence', () => {
+    const level = 50;
+    const round = generateMatriceRound(createRng(9), 8, level);
+    expect(round.sequence).toHaveLength(8);
+    expect(round.flashes.filter((f) => f.lure)).toHaveLength(matriceLureCount(8, level));
+    expect(matriceLureCount(8, level)).toBe(4);
+    expect(round.flashes[0].lure).toBe(false);
+    for (const f of round.flashes.filter((x) => x.lure)) expect(round.sequence).not.toContain(f.cell);
+  });
+
+  it('n’ajoute rien aux niveaux 1 à 20', () => {
+    for (let level = 1; level <= 20; level++) {
+      const round = generateMatriceRound(createRng(level), 6, level);
+      expect(round.flashes.every((f) => !f.lure)).toBe(true);
+      expect(round.reverse).toBe(matriceLevel(level).reverse);
+    }
+  });
+});
+
 describe('score de la Matrice', () => {
   it('vaut 0 pour 3 cases et 100 pour 9 cases, borné entre les deux', () => {
     expect(scoreMatrice(0)).toBe(0);
@@ -55,5 +75,12 @@ describe('score de la Matrice', () => {
     expect(scoreMatrice(6)).toBe(50);
     expect(scoreMatrice(9)).toBe(100);
     expect(scoreMatrice(12)).toBe(100);
+  });
+
+  it('suit le barème du niveau au-delà du niveau 20', () => {
+    expect(scoreMatrice(7, 21)).toBe(scoreMatrice(7));
+    expect(scoreMatrice(6, 30)).toBe(60);
+    expect(scoreMatrice(5, 50)).toBe(60);
+    expect(scoreMatrice(7, 50)).toBe(100);
   });
 });

@@ -7,6 +7,8 @@ import { SHAPES, type ShapeKind } from './shapes';
 /**
  * Paires : retourner les cartes deux par deux et retrouver toutes les paires.
  * Score : 70 % pour les paires trouvées, 30 % pour l'économie de coups.
+ * Expert : jusqu'à 20 paires, cartes vite recachées. Maître : les cartes ratées échangent leur place.
+ * Légende : tout cela, avec moins de temps.
  */
 
 export interface PairesLevel {
@@ -17,7 +19,16 @@ export interface PairesLevel {
   /** Faces très proches : mêmes formes rondes ou anguleuses, pleines ou creuses, une seule couleur. */
   similar: boolean;
   durationMs: number;
+  /** Cartes baladeuses : après chaque erreur, les deux cartes ratées échangent leur place. */
+  swap: boolean;
+  /** Combien de temps deux cartes différentes restent visibles avant de se recacher. */
+  peekMs: number;
+  /** Coups par paire tolérés en plus pour l'économie de coups (0 jusqu'au niveau 20). */
+  slack: number;
 }
+
+/** Les deux cartes ratées restent visibles 0,9 s jusqu'au niveau 20. */
+export const PAIRES_PEEK_MS = 900;
 
 const L = (pairs: number, previewMs: number, similar = false): PairesLevel => ({
   pairs,
@@ -26,7 +37,34 @@ const L = (pairs: number, previewMs: number, similar = false): PairesLevel => ({
   similar,
   // Plus il y a de paires, plus on a de temps : 50 s + 6 s par paire, arrondi à 5 s.
   durationMs: Math.round((50 + pairs * 6) / 5) * 5000,
+  swap: false,
+  peekMs: PAIRES_PEEK_MS,
+  slack: 0,
 });
+
+interface Options {
+  similar?: boolean;
+  swap?: boolean;
+  peekMs?: number;
+  /** Secondes par paire en plus des 50 s de base (6 jusqu'au niveau 20, moins quand le temps presse). */
+  perPair?: number;
+  slack?: number;
+}
+
+/** Niveaux 21 à 50 : 4 colonnes jusqu'à 18 paires, 5 à 20 paires (au moins 44 px par carte sur un petit téléphone). */
+const P = (pairs: number, previewMs: number, { similar = false, swap = false, peekMs = PAIRES_PEEK_MS, perPair = 6, slack = 0.25 }: Options): PairesLevel => ({
+  pairs,
+  cols: pairs <= 6 ? 3 : pairs <= 18 ? 4 : 5,
+  previewMs,
+  similar,
+  durationMs: Math.round(50 + pairs * perPair) * 1000,
+  swap,
+  peekMs,
+  slack,
+});
+
+const SIM = { similar: true };
+const SWAP = { swap: true, slack: 0.5 };
 
 export const PAIRES_LEVELS: readonly PairesLevel[] = [
   L(6, 3000),
@@ -49,6 +87,39 @@ export const PAIRES_LEVELS: readonly PairesLevel[] = [
   L(14, 0),
   L(14, 1500, true),
   L(14, 0, true),
+  // Expert : grands jeux (16 paires de formes proches, 18 et 20 paires), cartes vite recachées.
+  P(16, 1500, SIM),
+  P(18, 0, { peekMs: 600 }),
+  P(16, 0, SIM),
+  P(16, 1500, { ...SIM, peekMs: 750 }),
+  P(20, 0, { peekMs: 600 }),
+  P(16, 0, { ...SIM, peekMs: 750 }),
+  P(16, 1500, { ...SIM, peekMs: 600 }),
+  P(20, 0, { peekMs: 450 }),
+  P(16, 0, { ...SIM, peekMs: 600 }),
+  P(18, 0, { peekMs: 450, perPair: 5 }),
+  // Maître : cartes baladeuses.
+  P(14, 0, { ...SIM, ...SWAP, peekMs: 750 }),
+  P(16, 1500, { ...SIM, ...SWAP, peekMs: 750 }),
+  P(18, 0, { ...SWAP, peekMs: 600 }),
+  P(16, 0, { ...SIM, ...SWAP }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 750 }),
+  P(20, 0, { ...SWAP, peekMs: 600 }),
+  P(16, 1500, { ...SIM, ...SWAP, peekMs: 600 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 600 }),
+  P(20, 0, { ...SWAP, peekMs: 450 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 500 }),
+  // Légende : le temps presse (jusqu'à 3,5 s par paire), cartes recachées en 0,4 s.
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 600, perPair: 5 }),
+  P(20, 0, { ...SWAP, peekMs: 450, perPair: 4.5 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 5 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 4.5 }),
+  P(20, 0, { ...SWAP, peekMs: 400, perPair: 4 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 4.5 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 4 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 4 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 3.75 }),
+  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 3.5 }),
 ];
 
 export function pairesLevel(level: number): PairesLevel {
@@ -62,6 +133,8 @@ export function pairesLevelLabel(level: number): string {
     tr(`${c.pairs} paires`, `${c.pairs} pairs`),
     c.previewMs ? tr(`aperçu de ${preview}`, `${preview} preview`) : tr('sans aperçu', 'no preview'),
     c.similar && tr('formes proches', 'similar shapes'),
+    c.swap && tr('cartes baladeuses', 'wandering cards'),
+    c.peekMs < PAIRES_PEEK_MS && tr(`recachées en ${secondsLabel(c.peekMs)}`, `hidden again after ${secondsLabel(c.peekMs)}`),
   ]
     .filter(Boolean)
     .join(' · ');
@@ -97,10 +170,17 @@ export function generatePaires(rng: Rng, level: number): PairesDeck {
   return { faces, cards };
 }
 
-/** Efficacité : 100 % jusqu'à 1,5 coup par paire trouvée, 0 % à partir de 3,5. */
+/** Cartes baladeuses : la carte de la place `a` passe en `b` et inversement (`slots` : la carte de chaque place). */
+export function swapSlots(slots: readonly number[], a: number, b: number): number[] {
+  const next = [...slots];
+  [next[a], next[b]] = [next[b], next[a]];
+  return next;
+}
+
+/** Efficacité : 100 % jusqu'à 1,5 coup par paire trouvée, 0 % à partir de 3,5 (plus la tolérance du niveau). */
 export function scorePaires(found: number, attempts: number, level: number): number {
-  const { pairs } = pairesLevel(level);
+  const { pairs, slack } = pairesLevel(level);
   if (found === 0) return 0;
-  const efficiency = Math.min(1, Math.max(0, (3.5 * found - attempts) / (2 * found)));
+  const efficiency = Math.min(1, Math.max(0, ((3.5 + slack) * found - attempts) / (2 * found)));
   return clampScore(70 * (found / pairs) + 30 * efficiency * (found / pairs));
 }

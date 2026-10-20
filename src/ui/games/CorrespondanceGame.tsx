@@ -2,6 +2,7 @@ import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import {
   CORRESPONDANCE_DURATION_MS,
+  correspondanceByValue,
   correspondanceLevel,
   generateCorrespondance,
   scoreCorrespondance,
@@ -20,18 +21,81 @@ import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
 
-export function CardFace({ card }: { card: MatchCard }) {
-  return card.kind === 'shape' ? (
-    <Shape card={card.shape} size={110} className="match-card__shape" />
-  ) : (
-    <span className="match-card__text">{card.text}</span>
+/** Points d'une face de dé (1 à 6), dans un carré de 100 × 100. */
+const PIPS: Record<number, readonly (readonly [number, number])[]> = {
+  1: [[50, 50]],
+  2: [
+    [28, 28],
+    [72, 72],
+  ],
+  3: [
+    [28, 28],
+    [50, 50],
+    [72, 72],
+  ],
+  4: [
+    [28, 28],
+    [72, 28],
+    [28, 72],
+    [72, 72],
+  ],
+  5: [
+    [28, 28],
+    [72, 28],
+    [50, 50],
+    [28, 72],
+    [72, 72],
+  ],
+  6: [
+    [28, 26],
+    [72, 26],
+    [28, 50],
+    [72, 50],
+    [28, 74],
+    [72, 74],
+  ],
+};
+
+export function DiceFace({ value, size = 110 }: { value: number; size?: number }) {
+  return (
+    <svg className="match-card__dice" width={size} height={size} viewBox="0 0 100 100" aria-hidden="true">
+      <rect x="5" y="5" width="90" height="90" rx="18" fill="none" stroke="currentColor" strokeWidth="5" />
+      {(PIPS[value] ?? []).map(([x, y]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r="9" fill="currentColor" />
+      ))}
+    </svg>
   );
 }
 
-const describe = (card: MatchCard) => (card.kind === 'shape' ? describeShape(card.shape) : card.text);
+export function CardFace({ card }: { card: MatchCard }) {
+  if (card.kind === 'shape') return <Shape card={card.shape} size={110} className="match-card__shape" />;
+  if (card.look === 'pips') return <DiceFace value={Number(card.text)} />;
+  return <span className="match-card__text">{card.look === 'lower' ? card.text.toLowerCase() : card.text}</span>;
+}
+
+const describe = (card: MatchCard) => {
+  if (card.kind === 'shape') return describeShape(card.shape);
+  if (card.look === 'pips') return tr(`dé : ${card.text}`, `die: ${card.text}`);
+  return card.look === 'lower' ? card.text.toLowerCase() : card.text;
+};
+
+/** La question, selon l'écart : la carte d'avant, il y a deux cartes, il y a trois cartes. */
+function askText(back: number): string {
+  if (back === 1) return tr('Pareille que la carte d’avant ?', 'Same as the card before?');
+  return back === 2 ? tr('Pareille qu’il y a deux cartes ?', 'Same as two cards ago?') : tr('Pareille qu’il y a trois cartes ?', 'Same as three cards ago?');
+}
+
+/** Rappel quand seule la valeur compte (A = a, ⚂ = 3). */
+function valueHint(kind: ReturnType<typeof correspondanceByValue>): string | null {
+  if (kind === 'letters') return tr('Même lettre, en majuscule ou en minuscule : A = a', 'Same letter, upper or lower case: A = a');
+  if (kind === 'dice') return tr('Même valeur, en chiffre ou en dé : 3 = ⚂', 'Same value, digit or die: 3 = ⚂');
+  if (kind === 'both') return tr('Seule la valeur compte : A = a, 3 = ⚂', 'Only the value counts: A = a, 3 = ⚂');
+  return null;
+}
 
 export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
-  const { back, target } = correspondanceLevel(level);
+  const { back, target, set } = correspondanceLevel(level);
+  const hint = valueHint(correspondanceByValue(set));
   const deck = useMemo(() => generateCorrespondance(createRng(seed), level), [seed, level]);
   const [clock] = useState(() => new GameClock());
   const [index, setIndex] = useState(0);
@@ -120,9 +184,8 @@ export function CorrespondanceGame({ seed, level, onFinish }: GameProps) {
             ? back === 1
               ? tr('Retiens cette carte.', 'Remember this card.')
               : tr(`Retiens les ${back} premières cartes.`, `Remember the first ${back} cards.`)
-            : back === 1
-              ? tr('Pareille que la carte d’avant ?', 'Same as the card before?')
-              : tr('Pareille qu’il y a deux cartes ?', 'Same as two cards ago?')}
+            : askText(back)}
+          {hint && <span className="correspondance__hint">{hint}</span>}
         </p>
         <FeedbackMark mark={mark} />
       </div>

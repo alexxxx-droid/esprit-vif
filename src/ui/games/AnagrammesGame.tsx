@@ -111,7 +111,8 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
     }
   }, !over);
 
-  const columns = letters.length <= 5 ? letters.length : Math.ceil(letters.length / 2);
+  // Jusqu'à 10 lettres : une ou deux rangées ; au-delà (8 lettres et 3 ou 4 leurres), trois rangées.
+  const columns = letters.length <= 5 ? letters.length : letters.length <= 10 ? Math.ceil(letters.length / 2) : Math.ceil(letters.length / 3);
   const answerSoFar = picked.map((j) => letters[j]).join('');
 
   return (
@@ -125,7 +126,7 @@ export function AnagrammesGame({ seed, level, onFinish }: GameProps) {
         </p>
         <div
           key={shake}
-          className={`anagram__slots${shake ? ' shake' : ''}`}
+          className={`anagram__slots${wordLength >= 8 ? ' anagram__slots--long' : ''}${shake ? ' shake' : ''}`}
           aria-live="polite"
           aria-label={tr(`Ta réponse : ${answerSoFar || 'vide'}`, `Your answer: ${answerSoFar || 'empty'}`)}
         >

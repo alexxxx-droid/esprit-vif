@@ -22,9 +22,31 @@ export interface NBackLevel {
   stepMs: number;
   /** Points pour une précision utile parfaite (plafonnés à 100) : plafond selon N et le mode. */
   gain: number;
+  /**
+   * Pièges par flux : des essais non cibles où revient la valeur d'il y a n − 1 ou n + 1 coups
+   * (« presque pareil »), pour qui répond au sentiment de déjà-vu sans compter.
+   */
+  lures: number;
 }
 
-const L = (n: number, mode: NBackMode, stepMs: number, gain: number): NBackLevel => ({ n, mode, stepMs, gain });
+const L = (n: number, mode: NBackMode, stepMs: number, gain: number): NBackLevel => ({ n, mode, stepMs, gain, lures: 0 });
+
+/**
+ * Charge d'un niveau, en « crans de N » : N, + 1,5 en double, + 1 par 0,4 s de rythme gagné sous 2,5 s,
+ * + 0,25 par piège. Elle ne baisse jamais du niveau 20 au niveau 50.
+ */
+export function nbackLoad(c: Pick<NBackLevel, 'n' | 'mode' | 'stepMs' | 'lures'>): number {
+  return c.n + (c.mode === 'dual' ? 1.5 : 0) + (2500 - c.stepMs) / 400 + c.lures * 0.25;
+}
+
+/**
+ * Niveaux 21 à 50 : le plafond de points suit la charge (180 à la charge du niveau 20, + 20 par cran),
+ * pour que la première étoile reste à portée (environ 62 à 67 % de précision équilibrée).
+ */
+const X = (n: number, mode: NBackMode, stepMs: number, lures: number): NBackLevel => {
+  const load = nbackLoad({ n, mode, stepMs, lures });
+  return { n, mode, stepMs, lures, gain: Math.round((180 + 20 * (load - 5.75)) / 5) * 5 };
+};
 
 /** Niveau 1 : N = 1 (70 pts au mieux). Niveau 2 : N = 2, celui du test du jour (100 pts au mieux). */
 export const NBACK_LEVELS: readonly NBackLevel[] = [
@@ -48,6 +70,39 @@ export const NBACK_LEVELS: readonly NBackLevel[] = [
   L(3, 'dual', 2400, 160),
   L(4, 'dual', 2800, 170),
   L(4, 'dual', 2400, 180),
+  // Expert : 5 en arrière, puis les pièges (n ± 1) ; 6 en arrière pour finir.
+  X(5, 'letter', 2200, 0),
+  X(5, 'position', 2200, 0),
+  X(4, 'letter', 2200, 4),
+  X(3, 'dual', 2200, 4),
+  X(5, 'letter', 2000, 0),
+  X(4, 'position', 2000, 4),
+  X(4, 'dual', 2400, 3),
+  X(5, 'position', 2200, 3),
+  X(6, 'letter', 2300, 0),
+  X(4, 'dual', 2200, 4),
+  // Maître : 6 en arrière avec pièges, double retour à 5.
+  X(6, 'letter', 2300, 3),
+  X(6, 'position', 2300, 3),
+  X(5, 'dual', 2500, 3),
+  X(5, 'letter', 1900, 5),
+  X(4, 'dual', 2000, 5),
+  X(6, 'position', 2100, 4),
+  X(5, 'dual', 2200, 4),
+  X(6, 'letter', 2000, 4),
+  X(5, 'dual', 2100, 4),
+  X(6, 'position', 1900, 5),
+  // Légende : pièges en nombre (jusqu'à 8 essais sur 14 non cibles), rythme jusqu'à 1,7 s (2 s en double).
+  X(5, 'dual', 2100, 5),
+  X(6, 'letter', 1800, 5),
+  X(5, 'dual', 2000, 5),
+  X(6, 'position', 1800, 6),
+  X(5, 'dual', 2000, 6),
+  X(6, 'letter', 1700, 6),
+  X(6, 'position', 1700, 6),
+  X(5, 'dual', 2000, 7),
+  X(6, 'letter', 1700, 7),
+  X(5, 'dual', 2000, 8),
 ];
 
 /** [français, anglais], choisis à l'affichage. */
@@ -63,7 +118,8 @@ export function nbackLevel(level: number): NBackLevel {
 
 export function nbackLevelLabel(level: number): string {
   const c = nbackLevel(level);
-  return [tr(`${c.n} en arrière`, `${c.n} back`), tr(...MODE_LABELS[c.mode]), c.stepMs < 2500 && tr('rapide', 'fast')].filter(Boolean).join(' · ');
+  const pace = c.stepMs <= 1800 ? tr('très rapide', 'very fast') : c.stepMs < 2500 && tr('rapide', 'fast');
+  return [tr(`${c.n} en arrière`, `${c.n} back`), tr(...MODE_LABELS[c.mode]), pace, c.lures > 0 && tr('pièges', 'traps')].filter(Boolean).join(' · ');
 }
 
 export interface NBackStream<T> {
@@ -81,30 +137,46 @@ export interface NBackSequence {
   position: NBackStream<number> | null;
 }
 
-/** Un flux de stimuli avec exactement 6 cibles parmi les 20 essais notés. */
-export function generateStream<T>(rng: Rng, n: number, pool: readonly T[]): NBackStream<T> {
+/**
+ * Un flux de stimuli avec exactement 6 cibles parmi les 20 essais notés. Avec des pièges, certains essais
+ * non cibles reprennent la valeur d'il y a n − 1 ou n + 1 coups (jamais celle d'il y a n : ce serait une cible).
+ */
+export function generateStream<T>(rng: Rng, n: number, pool: readonly T[], lures = 0): NBackStream<T> {
   const total = n + NBACK_TRIALS;
   const scored = Array.from({ length: NBACK_TRIALS }, (_, i) => i + n);
   const targetPositions = new Set(rng.shuffle(scored).slice(0, NBACK_TARGETS));
+  const lurePositions =
+    lures > 0 ? new Set(rng.shuffle(scored.filter((i) => i > n && !targetPositions.has(i))).slice(0, lures)) : new Set<number>();
   const values: T[] = [];
   for (let i = 0; i < total; i++) {
     if (targetPositions.has(i)) values.push(values[i - n]);
     else {
       const avoid = i >= n ? values[i - n] : undefined;
-      values.push(rng.pick(pool.filter((v) => v !== avoid)));
+      const near = lurePositions.has(i) ? [n > 1 ? values[i - n + 1] : undefined, values[i - n - 1]].filter((v) => v !== undefined && v !== avoid) : [];
+      values.push(near.length > 0 ? (rng.pick(near) as T) : rng.pick(pool.filter((v) => v !== avoid)));
     }
   }
   return { values, targets: values.map((v, i) => i >= n && v === values[i - n]) };
 }
 
+/** Essais notés non cibles dont la valeur est celle d'il y a n − 1 ou n + 1 coups : les « presque pareil ». */
+export function countLures(stream: NBackStream<unknown>, n: number): number {
+  let count = 0;
+  for (let i = n; i < stream.values.length; i++) {
+    const v = stream.values[i];
+    if (!stream.targets[i] && ((n > 1 && v === stream.values[i - n + 1]) || (i > n && v === stream.values[i - n - 1]))) count++;
+  }
+  return count;
+}
+
 export function generateNBack(rng: Rng, level: number): NBackSequence {
-  const { n, mode } = nbackLevel(level);
+  const { n, mode, lures } = nbackLevel(level);
   return {
     n,
     mode,
     length: n + NBACK_TRIALS,
-    letter: mode === 'position' ? null : generateStream(rng, n, NBACK_LETTERS),
-    position: mode === 'letter' ? null : generateStream(rng, n, NBACK_POSITIONS),
+    letter: mode === 'position' ? null : generateStream(rng, n, NBACK_LETTERS, lures),
+    position: mode === 'letter' ? null : generateStream(rng, n, NBACK_POSITIONS, lures),
   };
 }
 

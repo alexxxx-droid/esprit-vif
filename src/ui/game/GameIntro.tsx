@@ -1,6 +1,6 @@
-import type { GameMeta } from '../../core/games/registry';
+import { durationFor, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
-import { MAX_LEVEL } from '../../core/levels';
+import { MAX_LEVEL, tierName, tierOf } from '../../core/levels';
 import { bestFor } from '../../store/progress';
 import { DomainChip } from '../components/bits';
 import { GameArt } from '../components/GameArt';
@@ -57,6 +57,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
         <div className="facts__wide">
           <dt>
             {tr('Niveau', 'Level')} {level}/{MAX_LEVEL}
+            <span className={`tier-pill tier-pill--${tierOf(level)}`}>{tierName(tierOf(level))}</span>
           </dt>
           <dd>{meta.levelLabel(level)}</dd>
         </div>
@@ -109,7 +110,7 @@ export function GameIntro({ meta, level, onLevelChange, badge, notice, startLabe
       <button type="button" className="cta intro__start" onClick={onStart} autoFocus>
         <span className="cta__text">
           <span className="cta__label">{startLabel ?? tr('C’est parti', 'Let’s go')}</span>
-          <span className="cta__sub">{meta.duration}</span>
+          <span className="cta__sub">{durationFor(meta, level)}</span>
         </span>
         <span className="cta__icon">
           <Icon name="play" />

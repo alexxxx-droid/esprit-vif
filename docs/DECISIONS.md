@@ -28,21 +28,74 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
 
 ## Niveaux, étoiles et progression
 
-- **20 niveaux par jeu** (`MAX_LEVEL`, `src/core/levels.ts`). Le niveau 1 reprend la spec ; chaque
-  jeu décrit ses 20 niveaux dans une table (`*_LEVELS` dans `src/core/games/`) et l'intro affiche
-  ce qui change (« 6 × 6 brouillée », « 2 lettres manquantes »…).
+- **50 niveaux par jeu** (`MAX_LEVEL`, `src/core/levels.ts`) en **5 paliers** de 10 : Débutant
+  (1-10), Confirmé (11-20), Expert (21-30), Maître (31-40), Légende (41-50) (`TIERS`, `tierOf`).
+  Le niveau 1 reprend la spec ; chaque jeu décrit ses niveaux dans une table (`*_LEVELS` dans
+  `src/core/games/`) et l'intro affiche ce qui change (« 6 × 6 brouillée », « 2 lettres
+  manquantes »…), avec la pastille du palier. Le choix du niveau sépare les paliers par leur nom,
+  et le résultat annonce « Nouveau palier » quand on en ouvre un.
 - **Étoiles** : 1 dès 60 pts, 2 dès 80, 3 dès 95 (`STAR_THRESHOLDS`). La première étoile
   **débloque le niveau suivant** ; on rejoue librement tout niveau débloqué.
 - Difficulté adaptative en entraînement libre : score ≥ 60 → niveau + 1, score < 40 → niveau − 1
   (`LEVEL_UP_AT`, `LEVEL_DOWN_BELOW`), sans jamais dépasser le niveau débloqué.
 - **Médailles par jeu** : bronze au niveau 5 réussi, argent au 10, or au 15, platine avec
-  3 étoiles au 20.
-- **XP** : `round((5 + 0,45 × score) × (1 + 5 % par niveau au-delà du 1er))` par partie, plus des
+  3 étoiles au 20, diamant au 35, légende avec 3 étoiles au 50.
+- **XP** : `round((5 + 0,45 × score) × (1 + 5 % par niveau au-delà du 1er, plafonné au 30e))` par partie, plus des
   bonus (test du jour 40, étoile 10, séance 30, marathon 30, duel 10 : `XP_BONUS`). Rang n :
   `100(n−1) + 25(n−1)(n−2)/2` XP ; titres d'« Esprit curieux » à « Esprit légendaire ».
 - **Tout se déduit de l'historique** (parties, tests, meilleurs scores) : rangs, médailles et
-  35 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
+  46 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
   ont leur petite mémoire (`extras`), exportée avec le reste.
+
+## 50 niveaux et 5 paliers (v2.8)
+
+Demande d'Alex : « beaucoup de niveaux et de difficultés pour ne pas faire le tour en une
+semaine ». Les niveaux 1 à 20 n'ont **pas bougé** : mêmes parties pour une même graine, mêmes
+barèmes, mêmes libellés (des tests d'empreinte `levels-*.test.ts` le vérifient, jeu par jeu, en
+français et en anglais). Chaque palier ajoute une **nouvelle façon de jouer**, pas seulement plus
+de vitesse ; la consigne, le libellé du niveau et la démo de l'intro suivent.
+
+| Jeu | Expert (21-30) | Maître (31-40) | Légende (41-50) |
+|---|---|---|---|
+| Calcul éclair | grands facteurs, centaines | centaines × chiffre, parenthèses | deux chiffres × deux chiffres, carrés jusqu'à 99 |
+| Total cumulé | totaux jusqu'à 199 | nombres barrés à ignorer | des ×2 et ×3, totaux jusqu'à 999 |
+| Calcul du diable | centaines | 1 à 3 calculs en arrière, variable | jusqu'à 5 en arrière, calcul effacé |
+| Monnaie | jusqu'à 200 € | panier avec quantités | bons de réduction, piles cachées |
+| Pluie de calculs | averses (deux gouttes) | gouttes piégées, brouillard | tout ensemble, calculs de légende |
+| Matrice | 6 × 6 à l'envers | sens donné après coup, cases pièges | plus vite |
+| Double retour | 5 en arrière | 6 en arrière, pièges | lettres et positions, pièges |
+| Du plus petit… | centaines en grille 6 × 6 | nombres barrés | nombres très proches, un par un |
+| Mots à retenir | un mot à la fois | mots barrés à oublier | temps de réponse limité |
+| Paires | formes proches | cartes baladeuses | recachées de plus en plus vite |
+| Qui est qui ? | un visage à la fois | prénoms échangés à chaque manche | 12 visages |
+| Couleurs piégées | mot, encre ou **cadre** | 7-8 couleurs, mot éclair | temps limité par mot |
+| L'intrus | couleurs trompeuses | familles mêlées | symboles qui tournent, miroirs |
+| La boutique | question surprise | boulangerie voisine (distraction) | deux magasins à suivre |
+| Flèches | la **couleur** dit quelle flèche suivre | flèche **encadrée** = sens inverse | flèche **barrée** = ne rien toucher, voisines mobiles |
+| Table de Schulte | 7 × 7 | leurres orange à ignorer | deux suites croisées (Gorbov), brouillée et mouvante |
+| Correspondance | flèches orientées | il y a trois cartes | pièges |
+| Réflexe | ronds creux | formes changeantes | deux règles en alternance |
+| Coup d'œil | écarts plus fins | points gris à ignorer | « plus ou moins » |
+| Anagrammes | 8 lettres | leurres | leurres sosies |
+| Lettre manquante | leurres sosies | sans indice | 4 lettres manquantes |
+| Catégories | intrus tout proches | paires d'initiales | intrus camouflés (initiale, longueur) |
+| Lecture éclair | phrases à rallonge | logique | phrases qui s'effacent |
+| Rotation mentale | pièces de 9-10 carrés, vues de biais | pièces **en relief** (cubes isométriques) | 8-10 cubes, 5 reflets pièges |
+| Balance | balances inutiles, chaînes | plusieurs exemplaires d'un objet | 9 objets, chaînes de 8 étapes |
+| Horloges | heure d'avant, chiffres romains | horloge vue dans un **miroir** | durées sur 24 h (matin, après-midi, soir) |
+| Mini-sudoku | 6 × 6 presque vide, puis 8 × 8 | 8 × 8 dépouillé, puis 9 × 9 | 9 × 9, jusqu'à 14 étapes de déduction |
+| Itinéraire | **rochers** qui arrêtent | **diagonales** | les deux, jusqu'à 4 cases par flèche |
+
+- Chaque nouvelle grille de sudoku se résout pas à pas sans deviner (donc solution unique) ; la
+  durée annoncée suit le niveau (`durationAt` : « ≈ 1 min » au début, « ≈ 16 min » au 50).
+- Les écrans restent jouables sur 360 px de large : grilles d'itinéraire de 7 colonnes au plus,
+  pavé du sudoku sur deux rangées en 8 × 8 et 9 × 9, mots longs rapetissés sans coupure
+  (`fit-text.ts`). Un robot parcourt les niveaux 21, 31, 41 et 50 de chaque jeu sur 360 × 740.
+- Couleurs piégées : le score tient compte de la justesse à **tous** les niveaux ; toucher au
+  hasard très vite ne rapporte plus rien (la faille existait aux niveaux 1 à 20). Rien ne change
+  pour qui fait moins de 4 erreurs sur 20.
+- Pluie de calculs : le libellé du niveau montre un exemple de calcul (« ex. 347 × 6 ») ; sans
+  lui, un niveau aux calculs plus durs mais plus lents avait l'air plus facile.
 
 ## Barèmes par jeu
 

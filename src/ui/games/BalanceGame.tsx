@@ -13,13 +13,33 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useKeyDown } from '../hooks';
-import { BALANCE_LOOKS } from './balance-looks';
+import { BALANCE_LOOKS, BALANCE_LOOKS_XL } from './balance-looks';
 
 const W = 160;
 const PIVOT = { x: 80, y: 26 };
 const ARM = 52;
 const TILT = (12 * Math.PI) / 180;
 const GLYPH = 21;
+/** Largeur du « ×3 » écrit à droite d'un objet présent en plusieurs exemplaires. */
+const COUNT_W = 17;
+
+/** Les objets d'un plateau, regroupés : plusieurs exemplaires d'un même objet font un seul groupe. */
+function groupsOf(items: readonly number[]): { item: number; count: number }[] {
+  const out: { item: number; count: number }[] = [];
+  for (const item of items) {
+    const group = out.find((g) => g.item === item);
+    if (group) group.count++;
+    else out.push({ item, count: 1 });
+  }
+  return out;
+}
+
+/** « 3 triangles » (« 3 triangles », « 2 crosses ») : plusieurs exemplaires, pour les lecteurs d'écran. */
+function countName(shape: ShapeKind, count: number): string {
+  const name = SHAPE_NAMES[shape];
+  if (lang() === 'en') return `${count} ${/(s|x)$/.test(name) ? `${name}es` : `${name}s`}`;
+  return `${count} ${name.endsWith('x') ? name : name.endsWith('eau') ? `${name}x` : `${name}s`}`;
+}
 
 /** Une balance dessinée : le plateau le plus lourd descend. */
 export function ScaleView({ clue, look }: { clue: BalanceClue; look: (item: number) => { shape: ShapeKind; color: string } }) {
@@ -30,7 +50,10 @@ export function ScaleView({ clue, look }: { clue: BalanceClue; look: (item: numb
     { x: PIVOT.x - dx, y: PIVOT.y + dy, items: clue.left },
     { x: PIVOT.x + dx, y: PIVOT.y - dy, items: clue.right },
   ];
-  const describe = (items: number[]) => items.map((i) => theShape(look(i).shape)).join(tr(' et ', ' and '));
+  const describe = (items: number[]) =>
+    groupsOf(items)
+      .map((g) => (g.count > 1 ? countName(look(g.item).shape, g.count) : theShape(look(g.item).shape)))
+      .join(tr(' et ', ' and '));
   const heavy = clue.heavier === 'left' ? clue.left : clue.right;
   const light = clue.heavier === 'left' ? clue.right : clue.left;
   return (
@@ -44,13 +67,27 @@ export function ScaleView({ clue, look }: { clue: BalanceClue; look: (item: numb
       <circle className="scale__pivot" cx={PIVOT.x} cy={PIVOT.y} r={4} />
       {ends.map((end, side) => {
         const panY = end.y + 30;
-        const total = end.items.length * GLYPH + (end.items.length - 1) * 2;
+        const groups = groupsOf(end.items);
+        const width = (g: { count: number }) => GLYPH + (g.count > 1 ? COUNT_W : 0);
+        const total = groups.reduce((sum, g) => sum + width(g), 0) + (groups.length - 1) * 2;
+        let x = end.x - total / 2;
         return (
           <g key={side}>
             <path className="scale__string" d={`M ${end.x - 21} ${panY} L ${end.x} ${end.y} L ${end.x + 21} ${panY}`} />
-            {end.items.map((item, k) => (
-              <ShapeGlyph key={item} shape={look(item).shape} color={look(item).color} x={end.x - total / 2 + k * (GLYPH + 2)} y={panY - GLYPH - 1} size={GLYPH} />
-            ))}
+            {groups.map((g) => {
+              const at = x;
+              x += width(g) + 2;
+              return (
+                <g key={g.item}>
+                  <ShapeGlyph shape={look(g.item).shape} color={look(g.item).color} x={at} y={panY - GLYPH - 1} size={GLYPH} />
+                  {g.count > 1 && (
+                    <text className="scale__count" x={at + GLYPH + 0.5} y={panY - 5}>
+                      ×{g.count}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
             <path className="scale__pan" d={`M ${end.x - 25} ${panY} L ${end.x + 25} ${panY} Q ${end.x} ${panY + 11} ${end.x - 25} ${panY} Z`} />
           </g>
         );
@@ -70,8 +107,10 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
   const timer = useRef(0);
   const done = index >= puzzles.length;
   const puzzle = puzzles[Math.min(index, puzzles.length - 1)];
-  // Les objets changent d'allure d'une question à l'autre.
-  const look = (item: number) => BALANCE_LOOKS[(item + index * 3) % BALANCE_LOOKS.length];
+  // Les objets changent d'allure d'une question à l'autre (dix allures au-delà de sept objets).
+  const looks = config.items > BALANCE_LOOKS.length ? BALANCE_LOOKS_XL : BALANCE_LOOKS;
+  const look = (item: number) => looks[(item + index * 3) % looks.length];
+  const many = config.items > 7;
 
   useEffect(() => {
     clock.start();
@@ -146,7 +185,7 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
         </div>
         <FeedbackMark mark={mark} />
       </div>
-      <div className="game__controls balance__items">
+      <div className={`game__controls balance__items${many ? ' balance__items--many' : ''}`}>
         {Array.from({ length: config.items }, (_, item) => (
           <TapButton
             key={`${index}-${item}`}
@@ -157,7 +196,7 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
             aria-keyshortcuts={String(item + 1)}
             style={{ color: look(item).color }}
           >
-            <Shape card={{ shape: look(item).shape, filled: true, rotation: 0 }} size={38} />
+            <Shape card={{ shape: look(item).shape, filled: true, rotation: 0 }} size={many ? 32 : 38} />
           </TapButton>
         ))}
       </div>

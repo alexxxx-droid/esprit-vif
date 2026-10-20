@@ -6,8 +6,10 @@ import { countScore } from '../scoring';
 /**
  * Lecture éclair : une phrase, vraie ou fausse ? On lit vite, on juge aussitôt. Chaque idée existe
  * en deux versions (une vraie, une fausse) : on ne peut pas mémoriser « cette phrase est fausse ».
- * Trois paliers : des phrases courtes, puis plus longues, puis des négations et de petits
- * raisonnements où il faut lire jusqu'au bout.
+ * Cinq paliers : des phrases courtes, puis plus longues, puis des négations et de petits
+ * raisonnements où il faut lire jusqu'au bout ; dès le niveau 21, des phrases à rallonge (l'erreur
+ * se cache souvent à la fin), puis de la logique (« aucun », « au moins », « si… alors »). Au palier
+ * Légende, la phrase s'efface au bout de quelques secondes.
  */
 
 export const LECTURE_DURATION_MS = 60_000;
@@ -145,6 +147,92 @@ export const SENTENCES: readonly (readonly SentencePair[])[] = [
     ['Quand il gèle, l’eau du lac ne devient pas plus chaude.', 'Quand il gèle, l’eau du lac devient brûlante.'],
     ['Ce n’est pas la vache qui pond les œufs, mais la poule.', 'Ce n’est pas la poule qui pond les œufs, mais la vache.'],
   ],
+  // Palier 4 : des phrases à rallonge, l'erreur peut se cacher tout au bout.
+  [
+    ['Le chat dort souvent pendant la journée, et il voit mieux que nous dans la pénombre.', 'Le chat dort souvent pendant la journée, et il voit moins bien que nous dans la pénombre.'],
+    ['Le Soleil se lève à l’est, passe au plus haut vers midi et se couche à l’ouest.', 'Le Soleil se lève à l’est, passe au plus haut vers midi et se couche à l’est.'],
+    ['Une année compte douze mois, et la plupart des mois ont trente ou trente et un jours.', 'Une année compte douze mois, et la plupart des mois ont vingt ou vingt et un jours.'],
+    ['Pour faire une omelette, on casse des œufs, on les bat, puis on les fait cuire dans une poêle.', 'Pour faire une omelette, on casse des œufs, on les bat, puis on les fait cuire au congélateur.'],
+    ['Les abeilles volent de fleur en fleur et transportent du pollen, ce qui aide les plantes à donner des fruits.', 'Les abeilles volent de fleur en fleur et transportent du pollen, ce qui empêche les plantes de donner des fruits.'],
+    ['Quand on mélange du bleu et du jaune, on obtient du vert, la couleur de l’herbe au printemps.', 'Quand on mélange du bleu et du jaune, on obtient du rouge, la couleur des tomates bien mûres.'],
+    ['La baleine vit dans la mer, mais elle doit remonter à la surface pour respirer.', 'La baleine vit dans la mer, et elle respire sous l’eau grâce à des branchies.'],
+    ['En France, l’hiver commence en décembre et le printemps commence en mars.', 'En France, l’hiver commence en décembre et le printemps commence en juillet.'],
+    ['Le pain se fait avec de la farine, de l’eau, du sel et de la levure, puis il cuit au four.', 'Le pain se fait avec de la farine, de l’eau, du sel et de la levure, puis il cuit au réfrigérateur.'],
+    ['Sur une horloge, la petite aiguille montre les heures et la grande aiguille montre les minutes.', 'Sur une horloge, la grande aiguille montre les heures et la petite aiguille montre les minutes.'],
+    ['Pour traverser la rue, on attend que le petit bonhomme passe au vert, puis on regarde des deux côtés.', 'Pour traverser la rue, on attend que le petit bonhomme passe au rouge, puis on traverse sans regarder.'],
+    ['Les grenouilles naissent sous forme de têtards, qui vivent dans l’eau avant de perdre leur queue.', 'Les grenouilles naissent sous forme de têtards, qui vivent dans l’eau avant de se couvrir de plumes.'],
+    ['Avec le lait de vache, on fait du beurre, de la crème, des yaourts et beaucoup de fromages.', 'Avec le lait de vache, on fait du beurre, de la crème, des yaourts et beaucoup de confitures.'],
+    ['Le mois de décembre se termine le 31, et le lendemain, c’est le premier jour de janvier.', 'Le mois de décembre se termine le 31, et le lendemain, c’est le premier jour de février.'],
+    ['Les dents de lait tombent pendant l’enfance et laissent la place aux dents définitives.', 'Les dents définitives tombent pendant l’enfance et laissent la place aux dents de lait.'],
+    ['Un thermomètre mesure la température, et une balance indique combien pèse un objet.', 'Un thermomètre mesure la température, et une balance indique quelle heure il est.'],
+    ['Au niveau de la mer, l’eau bout à cent degrés et elle gèle à zéro degré.', 'Au niveau de la mer, l’eau bout à cent degrés et elle gèle à cinquante degrés.'],
+    ['Quand il fait nuit en France, il fait souvent jour de l’autre côté de la Terre.', 'Quand il fait nuit en France, il fait nuit aussi partout ailleurs sur la Terre.'],
+    ['Le cœur bat plus vite quand on court, et il ralentit quand on se repose.', 'Le cœur bat plus vite quand on se repose, et il ralentit quand on court.'],
+    ['Un arc-en-ciel apparaît souvent quand le soleil brille alors qu’il pleut encore.', 'Un arc-en-ciel apparaît souvent en pleine nuit, quand il n’y a ni soleil ni pluie.'],
+    ['La Lune brille la nuit parce qu’elle renvoie la lumière du Soleil.', 'La Lune brille la nuit parce qu’elle fabrique sa propre lumière, comme une lampe.'],
+    ['Les feuilles sont vertes en été, puis beaucoup jaunissent et tombent en automne.', 'Les feuilles sont vertes en été, puis beaucoup jaunissent et tombent au printemps.'],
+    ['Les chauves-souris dorment le jour, la tête en bas, et chassent des insectes la nuit.', 'Les chauves-souris dorment la nuit, la tête en bas, et chassent des insectes en plein midi.'],
+    ['Un kilo de plumes pèse autant qu’un kilo de plomb, même s’il prend beaucoup plus de place.', 'Un kilo de plumes pèse bien moins qu’un kilo de plomb, parce que les plumes sont légères.'],
+    ['Un triangle a trois côtés, un carré en a quatre, et un hexagone en a six.', 'Un triangle a trois côtés, un carré en a quatre, et un hexagone en a huit.'],
+    ['Les plantes vertes ont besoin de lumière, d’eau et d’air pour fabriquer leur nourriture.', 'Les plantes vertes ont besoin de lumière, d’eau et de sucre en poudre pour fabriquer leur nourriture.'],
+    ['Dans un jeu de cartes classique, il y a des cœurs, des carreaux, des trèfles et des piques.', 'Dans un jeu de cartes classique, il y a des cœurs, des carreaux, des trèfles et des étoiles.'],
+    ['Les escargots portent leur coquille sur le dos et laissent une trace brillante derrière eux.', 'Les escargots portent leur coquille sur le dos et laissent des traces de pattes derrière eux.'],
+    ['Le piano a des touches blanches et des touches noires, et on en joue avec les doigts.', 'Le piano a des touches blanches et des touches noires, et on en joue en soufflant dedans.'],
+    ['L’océan Atlantique sépare l’Europe de l’Amérique, et un avion le traverse en quelques heures.', 'L’océan Atlantique sépare l’Europe de l’Amérique, et on le traverse à pied en quelques heures.'],
+    ['Quand on a de la fièvre, la température du corps monte au-dessus de la normale.', 'Quand on a de la fièvre, la température du corps descend bien au-dessous de la normale.'],
+    ['Les bébés kangourous grandissent plusieurs mois dans la poche de leur mère.', 'Les bébés kangourous grandissent plusieurs mois dans un nid, en haut des arbres.'],
+    ['Un dictionnaire range les mots dans l’ordre alphabétique, de la lettre A jusqu’à la lettre Z.', 'Un dictionnaire range les mots dans l’ordre alphabétique, de la lettre Z jusqu’à la lettre A.'],
+    ['Au football, seul le gardien peut attraper le ballon avec les mains pendant le jeu.', 'Au football, tous les joueurs peuvent attraper le ballon avec les mains pendant le jeu.'],
+    ['Le Nil est un très long fleuve d’Afrique qui traverse l’Égypte avant de se jeter dans la mer.', 'Le Nil est un très long fleuve d’Afrique qui traverse la Norvège avant de se jeter dans la mer.'],
+    ['Quand une tortue a peur, elle rentre souvent la tête et les pattes dans sa carapace.', 'Quand une tortue a peur, elle sort de sa carapace et la laisse derrière elle pour courir plus vite.'],
+    ['Une voiture électrique se recharge en se branchant sur une prise, un peu comme un téléphone.', 'Une voiture électrique se recharge en remplissant son réservoir d’eau, un peu comme un arrosoir.'],
+    ['La girafe est l’animal le plus haut sur terre, et elle mange les feuilles en haut des arbres.', 'La girafe est l’animal le plus haut sur terre, et elle mange les poissons au fond des rivières.'],
+    ['Le printemps vient après l’hiver, puis viennent l’été et l’automne, avant un nouvel hiver.', 'Le printemps vient après l’été, puis viennent l’hiver et l’automne, avant un nouvel été.'],
+    ['Un sablier mesure le temps grâce au sable qui coule doucement du haut vers le bas.', 'Un sablier mesure le temps grâce au sable qui remonte doucement du bas vers le haut.'],
+  ],
+  // Palier 5 : de la logique (« aucun », « au moins », « si… alors », doubles négations, petits calculs).
+  [
+    ['Si tous les oiseaux ont des plumes et que le merle est un oiseau, alors le merle a des plumes.', 'Si tous les oiseaux ont des plumes et que le chat n’est pas un oiseau, alors le chat a des plumes.'],
+    ['Il n’est pas faux de dire que deux et deux font quatre.', 'Il n’est pas faux de dire que deux et deux font cinq.'],
+    ['Aucun mois de l’année ne compte moins de vingt-huit jours.', 'Au moins un mois de l’année compte moins de vingt-huit jours.'],
+    ['Si Léa est née avant Tom, alors Tom n’est pas plus âgé que Léa.', 'Si Léa est née avant Tom, alors Tom est plus âgé que Léa.'],
+    ['Il n’est jamais à la fois midi et minuit au même endroit.', 'Il est parfois à la fois midi et minuit au même endroit.'],
+    ['Tous les carrés sont des rectangles, mais les rectangles ne sont pas tous des carrés.', 'Tous les rectangles sont des carrés, mais les carrés ne sont pas tous des rectangles.'],
+    ['Si aujourd’hui est mercredi, alors après-demain sera vendredi.', 'Si aujourd’hui est mercredi, alors après-demain sera samedi.'],
+    ['Si hier était dimanche, alors demain sera mardi.', 'Si hier était dimanche, alors demain sera lundi.'],
+    ['Trois fois quatre font douze, ce qui est plus que dix.', 'Trois fois quatre font douze, ce qui est moins que dix.'],
+    ['La moitié de vingt est dix, et le double de dix est vingt.', 'La moitié de vingt est dix, et le double de dix est trente.'],
+    ['Si Paul a plus de billes que Zoé et Zoé plus que Max, alors Max en a moins que Paul.', 'Si Paul a plus de billes que Zoé et Zoé plus que Max, alors Max en a plus que Paul.'],
+    ['Le mot « ananas » contient trois fois la lettre A.', 'Le mot « ananas » contient deux fois la lettre A.'],
+    ['Le mot « kayak » se lit de la même façon de gauche à droite et de droite à gauche.', 'Le mot « canard » se lit de la même façon de gauche à droite et de droite à gauche.'],
+    ['Ce n’est pas vrai qu’aucun animal ne vit dans la mer.', 'Il est vrai qu’aucun animal ne vit dans la mer.'],
+    ['Ni les chats ni les chiens ne pondent d’œufs.', 'Les chats comme les chiens pondent des œufs, à la manière des poules.'],
+    ['Seuls les nombres pairs se divisent par deux sans reste, et sept n’en fait pas partie.', 'Seuls les nombres pairs se divisent par deux sans reste, et neuf en fait partie.'],
+    ['Si on retire une pomme d’un panier de cinq pommes, il en reste quatre.', 'Si on retire une pomme d’un panier de cinq pommes, il en reste six.'],
+    ['Un mois de trente et un jours dure plus longtemps que quatre semaines.', 'Un mois de trente et un jours dure moins longtemps que quatre semaines.'],
+    ['Un siècle dure plus longtemps que dix ans, mais moins longtemps que mille ans.', 'Un siècle dure plus longtemps que mille ans, mais moins longtemps que dix ans.'],
+    ['Si toutes les portes sont fermées, alors aucune porte n’est ouverte.', 'Si toutes les portes sont fermées, alors au moins une porte est ouverte.'],
+    ['Il est faux que le Soleil tourne autour de la Lune.', 'Il est vrai que le Soleil tourne autour de la Lune.'],
+    ['Douze est à la fois plus grand que dix et plus petit que quinze.', 'Douze est à la fois plus grand que quinze et plus petit que dix.'],
+    ['Si un chien est plus lourd qu’un chat, ce chat n’est pas plus lourd que le chien.', 'Si un chien est plus lourd qu’un chat, ce chat est plus lourd que le chien.'],
+    ['Un lundi ne tombe jamais juste après un mardi.', 'Il arrive qu’un lundi tombe juste après un mardi.'],
+    ['Personne ne peut être à la fois plus grand et plus petit que la même personne.', 'Certaines personnes sont à la fois plus grandes et plus petites que la même personne.'],
+    ['Si Anna arrive avant Jules et Jules avant Inès, alors Inès n’arrive pas la première.', 'Si Anna arrive avant Jules et Jules avant Inès, alors Inès arrive la première.'],
+    ['Il n’est pas rare de voir de la neige en montagne pendant l’hiver.', 'Il est impossible de voir de la neige en montagne pendant l’hiver.'],
+    ['Un animal qui vole n’est pas forcément un oiseau, comme le montre l’abeille.', 'Un animal qui vole est forcément un oiseau, même l’abeille.'],
+    ['Dix moins quatre font six, et six plus quatre refont dix.', 'Dix moins quatre font six, et six plus quatre font douze.'],
+    ['Dans le mot « bonjour », il y a deux fois la lettre O.', 'Dans le mot « bonjour », il y a trois fois la lettre O.'],
+    ['Quand le feu est rouge, les voitures doivent s’arrêter, et non accélérer.', 'Quand le feu est rouge, les voitures doivent accélérer, et non s’arrêter.'],
+    ['Février compte moins de jours que mars, même les années bissextiles.', 'Février compte plus de jours que mars, sauf les années bissextiles.'],
+    ['Un nombre qui se termine par zéro se divise toujours par dix.', 'Un nombre qui se termine par cinq se divise toujours par dix.'],
+    ['Quand la grande aiguille d’une horloge fait un tour complet, une heure s’est écoulée.', 'Quand la grande aiguille d’une horloge fait un tour complet, une minute s’est écoulée.'],
+    ['Si toutes les billes du sac sont rouges, la bille que j’en tire est forcément rouge.', 'Si toutes les billes du sac sont rouges, la bille que j’en tire peut être bleue.'],
+    ['Quatre est la moitié de huit, et huit est le double de quatre.', 'Quatre est le double de huit, et huit est la moitié de quatre.'],
+    ['Aucun jour de la semaine ne commence par la lettre Z.', 'Un des jours de la semaine commence par la lettre Z.'],
+    ['Si je pars à huit heures et que le trajet dure deux heures, j’arrive à dix heures.', 'Si je pars à huit heures et que le trajet dure deux heures, j’arrive à onze heures.'],
+    ['Quinze minutes font un quart d’heure, et trente minutes une demi-heure.', 'Quinze minutes font une demi-heure, et trente minutes un quart d’heure.'],
+    ['Un objet plus long qu’un mètre est forcément plus long qu’un centimètre.', 'Un objet plus long qu’un centimètre est forcément plus long qu’un mètre.'],
+  ],
 ];
 
 /** Les mêmes paliers en anglais : des phrases écrites pour l'anglais, simples et sans piège culturel. */
@@ -278,6 +366,92 @@ export const SENTENCES_EN: readonly (readonly SentencePair[])[] = [
     ['When it freezes, the water in a lake does not get warmer.', 'When it freezes, the water in a lake gets boiling hot.'],
     ['It is not the cow that lays eggs, but the hen.', 'It is not the hen that lays eggs, but the cow.'],
   ],
+  // Tier 4: very long sentences, the mistake may hide at the very end.
+  [
+    ['Cats often sleep during the day, and they see better than we do in dim light.', 'Cats often sleep during the day, and they see worse than we do in dim light.'],
+    ['The sun rises in the east, is highest in the sky around noon and sets in the west.', 'The sun rises in the east, is highest in the sky around noon and sets in the east.'],
+    ['A year has twelve months, and most months have thirty or thirty-one days.', 'A year has twelve months, and most months have twenty or twenty-one days.'],
+    ['To make scrambled eggs, you crack some eggs, beat them and then cook them in a pan.', 'To make scrambled eggs, you crack some eggs, beat them and then cook them in the freezer.'],
+    ['Bees fly from flower to flower carrying pollen, which helps plants make fruit.', 'Bees fly from flower to flower carrying pollen, which stops plants from making fruit.'],
+    ['When you mix blue and yellow paint, you get green, the color of grass in spring.', 'When you mix blue and yellow paint, you get red, the color of ripe tomatoes.'],
+    ['Whales live in the sea, but they have to come up to the surface to breathe.', 'Whales live in the sea, and they breathe underwater through gills, like fish.'],
+    ['North of the equator, winter starts in December and spring starts in March.', 'North of the equator, winter starts in December and spring starts in July.'],
+    ['Bread is made from flour, water, salt and yeast, and then it is baked in an oven.', 'Bread is made from flour, water, salt and yeast, and then it is baked in a fridge.'],
+    ['On a clock, the short hand shows the hours and the long hand shows the minutes.', 'On a clock, the long hand shows the hours and the short hand shows the minutes.'],
+    ['To cross the street safely, you wait for the walk signal and then look both ways.', 'To cross the street safely, you wait for the don’t walk signal and then run without looking.'],
+    ['Frogs start life as tadpoles, which live in water until they lose their tails.', 'Frogs start life as tadpoles, which live in water until they grow feathers.'],
+    ['Cow’s milk is used to make butter, cream, ice cream and many kinds of cheese.', 'Cow’s milk is used to make butter, cream, ice cream and many kinds of jam.'],
+    ['December ends on the thirty-first, and the next day is the first of January.', 'December ends on the thirty-first, and the next day is the first of February.'],
+    ['Baby teeth fall out during childhood and make room for adult teeth.', 'Adult teeth fall out during childhood and make room for baby teeth.'],
+    ['A thermometer measures temperature, and a scale tells you how much something weighs.', 'A thermometer measures temperature, and a scale tells you what time it is.'],
+    ['At sea level, water boils at one hundred degrees Celsius and freezes at zero.', 'At sea level, water boils at one hundred degrees Celsius and freezes at fifty.'],
+    ['When it is night in France, it is often daytime on the other side of the world.', 'When it is night in France, it is also night everywhere else in the world.'],
+    ['Your heart beats faster when you run, and it slows down when you rest.', 'Your heart beats faster when you rest, and it slows down when you run.'],
+    ['A rainbow often appears when the sun shines while it is still raining.', 'A rainbow often appears in the middle of the night, with no sun and no rain.'],
+    ['The moon shines at night because it reflects light from the sun.', 'The moon shines at night because it makes its own light, like a lamp.'],
+    ['Leaves are green in summer, then many turn yellow and drop off in the fall.', 'Leaves are green in summer, then many turn yellow and drop off in the spring.'],
+    ['Most bats sleep upside down during the day and hunt insects at night.', 'Most bats sleep upside down at night and hunt insects at noon.'],
+    ['A kilogram of feathers weighs as much as a kilogram of lead, even though it takes up more space.', 'A kilogram of feathers weighs much less than a kilogram of lead, because feathers are light.'],
+    ['A triangle has three sides, a square has four, and a hexagon has six.', 'A triangle has three sides, a square has four, and a hexagon has eight.'],
+    ['Green plants need light, water and air to make their own food.', 'Green plants need light, water and powdered sugar to make their own food.'],
+    ['A standard deck of cards has hearts, diamonds, clubs and spades.', 'A standard deck of cards has hearts, diamonds, clubs and stars.'],
+    ['Snails carry their shells on their backs and leave a shiny trail behind them.', 'Snails carry their shells on their backs and leave footprints behind them.'],
+    ['A piano has white keys and black keys, and you play it with your fingers.', 'A piano has white keys and black keys, and you play it by blowing into it.'],
+    ['The Atlantic Ocean lies between Europe and America, and a plane can cross it in a few hours.', 'The Atlantic Ocean lies between Europe and America, and you can walk across it in a few hours.'],
+    ['When you have a fever, your body temperature rises above normal.', 'When you have a fever, your body temperature drops far below normal.'],
+    ['Baby kangaroos spend several months growing inside their mother’s pouch.', 'Baby kangaroos spend several months growing in a nest at the top of a tree.'],
+    ['A dictionary lists words in alphabetical order, from the letter A to the letter Z.', 'A dictionary lists words in alphabetical order, from the letter Z to the letter A.'],
+    ['In soccer, only the goalkeeper may catch the ball with their hands during play.', 'In soccer, every player may catch the ball with their hands during play.'],
+    ['The Nile is a very long river in Africa that flows through Egypt to the sea.', 'The Nile is a very long river in Africa that flows through Norway to the sea.'],
+    ['When a turtle is scared, it often pulls its head and legs into its shell.', 'When a turtle is scared, it often leaves its shell behind to run away faster.'],
+    ['Electric cars are recharged by plugging them in, a bit like a phone.', 'Electric cars are recharged by filling them with water, a bit like a watering can.'],
+    ['The giraffe is the tallest land animal, and it eats leaves from the tops of trees.', 'The giraffe is the tallest land animal, and it eats fish from the bottom of rivers.'],
+    ['Spring comes after winter, then come summer and fall, and then winter again.', 'Spring comes after summer, then come winter and fall, and then summer again.'],
+    ['An hourglass measures time with sand that slowly flows from the top to the bottom.', 'An hourglass measures time with sand that slowly flows from the bottom to the top.'],
+  ],
+  // Tier 5: logic (“no”, “at least”, “if… then”, double negatives, small sums).
+  [
+    ['If all birds have feathers and a robin is a bird, then a robin has feathers.', 'If all birds have feathers and a cat is not a bird, then a cat has feathers.'],
+    ['It is not false that two plus two equals four.', 'It is not false that two plus two equals five.'],
+    ['No month of the year has fewer than twenty-eight days.', 'At least one month of the year has fewer than twenty-eight days.'],
+    ['If Lea was born before Tom, then Tom is not older than Lea.', 'If Lea was born before Tom, then Tom is older than Lea.'],
+    ['It is never both noon and midnight in the same place.', 'It is sometimes both noon and midnight in the same place.'],
+    ['All squares are rectangles, but not all rectangles are squares.', 'All rectangles are squares, but not all squares are rectangles.'],
+    ['If today is Wednesday, then the day after tomorrow is Friday.', 'If today is Wednesday, then the day after tomorrow is Saturday.'],
+    ['If yesterday was Sunday, then tomorrow is Tuesday.', 'If yesterday was Sunday, then tomorrow is Monday.'],
+    ['Three times four is twelve, which is more than ten.', 'Three times four is twelve, which is less than ten.'],
+    ['Half of twenty is ten, and twice ten is twenty.', 'Half of twenty is ten, and twice ten is thirty.'],
+    ['If Paul has more marbles than Zoe and Zoe has more than Max, then Max has fewer than Paul.', 'If Paul has more marbles than Zoe and Zoe has more than Max, then Max has more than Paul.'],
+    ['The word “banana” contains the letter A three times.', 'The word “banana” contains the letter A only twice.'],
+    ['The word “level” reads the same from left to right and from right to left.', 'The word “table” reads the same from left to right and from right to left.'],
+    ['It is not true that no animals live in the sea.', 'It is true that no animals live in the sea.'],
+    ['Neither cats nor dogs lay eggs.', 'Both cats and dogs lay eggs, just like hens.'],
+    ['Only even numbers can be divided by two with nothing left over, and seven is not one of them.', 'Only even numbers can be divided by two with nothing left over, and nine is one of them.'],
+    ['If you take one apple out of a basket of five apples, four are left.', 'If you take one apple out of a basket of five apples, six are left.'],
+    ['A month with thirty-one days lasts longer than four weeks.', 'A month with thirty-one days lasts less than four weeks.'],
+    ['A century is longer than ten years but shorter than a thousand years.', 'A century is longer than a thousand years but shorter than ten years.'],
+    ['If all the doors are closed, then no door is open.', 'If all the doors are closed, then at least one door is open.'],
+    ['It is false that the sun goes around the moon.', 'It is true that the sun goes around the moon.'],
+    ['Twelve is both greater than ten and smaller than fifteen.', 'Twelve is both greater than fifteen and smaller than ten.'],
+    ['If a dog is heavier than a cat, then that cat is not heavier than the dog.', 'If a dog is heavier than a cat, then that cat is heavier than the dog.'],
+    ['A Monday never comes right after a Tuesday.', 'Sometimes a Monday comes right after a Tuesday.'],
+    ['Nobody can be both taller and shorter than the same person.', 'Some people are both taller and shorter than the same person.'],
+    ['If Ella arrives before Jack and Jack before Nina, then Nina does not arrive first.', 'If Ella arrives before Jack and Jack before Nina, then Nina arrives first.'],
+    ['It is not unusual to see snow in the mountains in winter.', 'It is impossible to see snow in the mountains in winter.'],
+    ['An animal that flies is not always a bird, as the bee shows.', 'An animal that flies is always a bird, even the bee.'],
+    ['Ten minus four is six, and six plus four makes ten again.', 'Ten minus four is six, and six plus four makes twelve.'],
+    ['The word “moon” contains the letter O twice.', 'The word “moon” contains the letter O three times.'],
+    ['When the traffic light is red, cars must stop, not speed up.', 'When the traffic light is red, cars must speed up, not stop.'],
+    ['February has fewer days than March, even in a leap year.', 'February has more days than March, except in a leap year.'],
+    ['A number that ends in zero can always be divided by ten.', 'A number that ends in five can always be divided by ten.'],
+    ['When the long hand of a clock goes all the way around, one hour has passed.', 'When the long hand of a clock goes all the way around, one minute has passed.'],
+    ['If every marble in the bag is red, the marble I take out must be red.', 'If every marble in the bag is red, the marble I take out could be blue.'],
+    ['Four is half of eight, and eight is twice four.', 'Four is twice eight, and eight is half of four.'],
+    ['None of the days of the week starts with the letter Z.', 'One of the days of the week starts with the letter Z.'],
+    ['If I leave at eight and the trip takes two hours, I arrive at ten.', 'If I leave at eight and the trip takes two hours, I arrive at eleven.'],
+    ['Fifteen minutes is a quarter of an hour, and thirty minutes is half an hour.', 'Fifteen minutes is half an hour, and thirty minutes is a quarter of an hour.'],
+    ['Anything longer than a meter is also longer than a centimeter.', 'Anything longer than a centimeter is also longer than a meter.'],
+  ],
 ];
 
 /** Les phrases de la langue en cours. */
@@ -285,14 +459,25 @@ export function sentences(): readonly (readonly SentencePair[])[] {
   return lang() === 'en' ? SENTENCES_EN : SENTENCES;
 }
 
+export type LectureTier = 1 | 2 | 3 | 4 | 5;
+
 export interface LectureLevel {
-  /** Paliers de phrases tirés à ce niveau (1 à 3). */
-  tiers: readonly (1 | 2 | 3)[];
+  /** Paliers de phrases tirés à ce niveau (1 à 5). */
+  tiers: readonly LectureTier[];
   /** Bonnes réponses moins erreurs en 60 s pour 100 pts (au hasard : 0). */
   target: number;
+  /**
+   * Phrase éclair (palier Légende) : la phrase s'efface après 0,6 s plus ce temps par caractère.
+   * On peut toujours répondre, mais plus relire.
+   */
+  flashMsPerChar?: number;
 }
 
-const L = (tiers: (1 | 2 | 3)[], target: number): LectureLevel => ({ tiers, target });
+const L = (tiers: LectureTier[], target: number, flashMsPerChar?: number): LectureLevel =>
+  flashMsPerChar ? { tiers, target, flashMsPerChar } : { tiers, target };
+
+/** Temps fixe d'une phrase éclair, avant le temps par caractère. */
+const FLASH_BASE_MS = 600;
 
 export const LECTURE_LEVELS: readonly LectureLevel[] = [
   L([1], 16),
@@ -315,23 +500,88 @@ export const LECTURE_LEVELS: readonly LectureLevel[] = [
   L([3], 13),
   L([3], 14),
   L([3], 15),
+  // Expert : des phrases à rallonge.
+  L([4], 11),
+  L([3, 4], 13),
+  L([4], 12),
+  L([2, 4], 14),
+  L([4], 13),
+  L([3, 4], 14),
+  L([4], 14),
+  L([3, 4], 15),
+  L([4], 15),
+  L([3, 4], 16),
+  // Maître : de la logique.
+  L([5], 10),
+  L([4, 5], 11),
+  L([5], 11),
+  L([3, 5], 13),
+  L([5], 12),
+  L([4, 5], 13),
+  L([5], 13),
+  L([3, 4, 5], 14),
+  L([5], 14),
+  L([4, 5], 15),
+  // Légende : la phrase s'efface de plus en plus vite.
+  L([4], 15, 60),
+  L([5], 14, 60),
+  L([3, 4, 5], 15, 55),
+  L([4, 5], 15, 55),
+  L([5], 15, 50),
+  L([4], 16, 50),
+  L([4, 5], 16, 45),
+  L([5], 16, 45),
+  L([3, 4, 5], 17, 40),
+  L([4, 5], 17, 40),
 ];
 
 export function lectureLevel(level: number): LectureLevel {
   return pickLevel(LECTURE_LEVELS, level);
 }
 
+/** Durée d'affichage d'une phrase éclair, ou `null` si elle reste à l'écran (niveaux sans éclair). */
+export function lectureFlashMs(sentence: string, level: number): number | null {
+  const { flashMsPerChar } = lectureLevel(level);
+  return flashMsPerChar ? FLASH_BASE_MS + sentence.length * flashMsPerChar : null;
+}
+
+/** Règle des niveaux 21 et plus (à rallonge, logique, éclair) ; `null` : la règle classique. */
+export function lectureRule(level: number): string | null {
+  const c = lectureLevel(level);
+  if (c.flashMsPerChar)
+    return tr(
+      'Lis vite : chaque phrase s’efface au bout de quelques secondes. Vraie ou fausse ? Tu peux encore répondre, mais plus relire. 60 secondes.',
+      'Read fast: each sentence fades out after a few seconds. True or false? You can still answer, but not reread. 60 seconds.',
+    );
+  if (c.tiers.includes(5))
+    return tr(
+      'Lis chaque phrase jusqu’au bout et raisonne : vraie ou fausse ? Attention à « aucun », « au moins », « si… alors ». 60 secondes.',
+      'Read each sentence to the end and think: true or false? Watch out for “no”, “at least”, “if… then”. 60 seconds.',
+    );
+  if (c.tiers.includes(4))
+    return tr(
+      'Des phrases à rallonge : l’erreur se cache parfois tout au bout. Vraie ou fausse ? 60 secondes.',
+      'Very long sentences: the mistake sometimes hides at the very end. True or false? 60 seconds.',
+    );
+  return null;
+}
+
 const TIER_LABELS = {
   1: ['phrases courtes', 'short sentences'],
   2: ['phrases longues', 'long sentences'],
   3: ['négations', 'negations'],
+  4: ['phrases à rallonge', 'very long sentences'],
+  5: ['logique', 'logic'],
 } as const;
 
 export function lectureLevelLabel(level: number): string {
   const c = lectureLevel(level);
   const names = c.tiers.map((t) => tr(TIER_LABELS[t][0], TIER_LABELS[t][1]));
-  const tiers = tr(names.join(' et '), names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]);
-  return tr(`${tiers} · objectif ${c.target}`, `${tiers} · target ${c.target}`);
+  // Les niveaux 1 à 20 gardent leur libellé (« … et … et … ») ; au-delà, une vraie énumération.
+  const fr = c.tiers.some((t) => t > 3) && names.length > 2 ? `${names.slice(0, -1).join(', ')} et ${names.at(-1)}` : names.join(' et ');
+  const tiers = tr(fr, names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]);
+  const flash = c.flashMsPerChar ? tr(' · phrases qui s’effacent', ' · sentences fade out') : '';
+  return tr(`${tiers} · objectif ${c.target}${flash}`, `${tiers} · target ${c.target}${flash}`);
 }
 
 export interface LectureQuestion {

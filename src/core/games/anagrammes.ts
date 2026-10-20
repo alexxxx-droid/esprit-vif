@@ -2,7 +2,7 @@ import { lang, tr, type Lang } from '../lang';
 import { pickLevel, secondsLabel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
-import { anagramWords, hasRudeWord } from './words';
+import { anagramWords, hasRudeWord, longAnagramWords } from './words';
 
 export interface AnagramLevel {
   /** Longueurs des mots possibles. */
@@ -12,16 +12,20 @@ export interface AnagramLevel {
   durationMs: number;
   /** Mots trouvés pour 100 pts. */
   target: number;
+  /** Leurres sosies (dès le niveau 23) : ils copient des lettres du mot, au lieu de lettres courantes. */
+  twins?: boolean;
 }
 
-const L = (lengths: number[], decoys: number, durationMs: number, target: number): AnagramLevel => ({
-  lengths,
-  decoys,
-  durationMs,
-  target,
-});
+const L = (lengths: number[], decoys: number, durationMs: number, target: number, twins = false): AnagramLevel =>
+  twins ? { lengths, decoys, durationMs, target, twins } : { lengths, decoys, durationMs, target };
 
-/** Niveau 1 : la spec (mots de 5 lettres, 75 s, 8 mots = 100). */
+const TWINS = true;
+
+/**
+ * Niveau 1 : la spec (mots de 5 lettres, 75 s, 8 mots = 100). Expert (21-30) : les mots de 8 lettres,
+ * puis les leurres sosies. Maître (31-40) : chrono serré et jusqu'à 4 leurres. Légende (41-50) :
+ * des leurres sosies partout, jusqu'à 12 lettres pour un mot de 8, en 40 à 45 s.
+ */
 export const ANAGRAM_LEVELS: readonly AnagramLevel[] = [
   L([5], 0, 75_000, 8),
   L([5, 6], 0, 75_000, 7),
@@ -43,6 +47,39 @@ export const ANAGRAM_LEVELS: readonly AnagramLevel[] = [
   L([7], 2, 60_000, 4),
   L([6], 3, 60_000, 4),
   L([7], 3, 60_000, 4),
+  // Expert : les mots de 8 lettres, puis les leurres sosies.
+  L([7, 8], 2, 60_000, 4),
+  L([8], 1, 55_000, 4),
+  L([7], 2, 55_000, 4, TWINS),
+  L([8], 2, 65_000, 4),
+  L([6, 7, 8], 2, 50_000, 4, TWINS),
+  L([8], 1, 55_000, 4, TWINS),
+  L([7], 3, 60_000, 4, TWINS),
+  L([8], 2, 65_000, 4, TWINS),
+  L([5, 6, 7, 8], 3, 45_000, 4),
+  L([8], 3, 50_000, 3),
+  // Maître : chrono serré, jusqu'à 4 leurres.
+  L([8], 2, 40_000, 3),
+  L([7], 4, 40_000, 3),
+  L([8], 2, 45_000, 3, TWINS),
+  L([6, 7, 8], 4, 40_000, 3),
+  L([8], 3, 50_000, 3, TWINS),
+  L([7, 8], 4, 50_000, 3, TWINS),
+  L([8], 4, 50_000, 3),
+  L([8], 3, 45_000, 3, TWINS),
+  L([5, 6, 7, 8], 4, 50_000, 4, TWINS),
+  L([8], 4, 50_000, 3, TWINS),
+  // Légende : des leurres sosies partout, 40 à 45 s.
+  L([7, 8], 3, 45_000, 3, TWINS),
+  L([6, 7, 8], 4, 45_000, 3, TWINS),
+  L([8], 3, 40_000, 3, TWINS),
+  L([7], 4, 40_000, 3, TWINS),
+  L([7, 8], 4, 45_000, 3, TWINS),
+  L([5, 6, 7, 8], 4, 40_000, 3, TWINS),
+  L([8], 4, 45_000, 3, TWINS),
+  L([6, 7, 8], 4, 40_000, 3, TWINS),
+  L([7, 8], 4, 40_000, 3, TWINS),
+  L([8], 4, 40_000, 3, TWINS),
 ];
 
 export function anagramLevel(level: number): AnagramLevel {
@@ -59,7 +96,16 @@ export function anagramLevelLabel(level: number): string {
       : c.lengths.length === 2
         ? tr(`${first} ou ${second} lettres`, `${first} or ${second} letters`)
         : tr(`${first} à ${last} lettres`, `${first} to ${last} letters`);
-  const decoys = c.decoys === 0 ? null : c.decoys === 1 ? tr('1 leurre', '1 decoy') : tr(`${c.decoys} leurres`, `${c.decoys} decoys`);
+  const decoys =
+    c.decoys === 0
+      ? null
+      : c.twins
+        ? c.decoys === 1
+          ? tr('1 leurre sosie', '1 look-alike decoy')
+          : tr(`${c.decoys} leurres sosies`, `${c.decoys} look-alike decoys`)
+        : c.decoys === 1
+          ? tr('1 leurre', '1 decoy')
+          : tr(`${c.decoys} leurres`, `${c.decoys} decoys`);
   return [lengths, decoys, secondsLabel(c.durationMs)].filter(Boolean).join(' · ');
 }
 
@@ -96,7 +142,8 @@ function lexicon(): Lexicon {
   const current = lang();
   let lex = lexicons.get(current);
   if (!lex) {
-    const words = anagramWords();
+    // Les mots de 8 lettres viennent après : le tirage des niveaux 1 à 20 (5 à 7 lettres) ne change pas.
+    const words = [...anagramWords(), ...longAnagramWords()];
     lex = { words, index: buildAnagramIndex(words), set: new Set(words), decoys: DECOY_LETTERS[current] };
     lexicons.set(current, lex);
   }
@@ -127,7 +174,7 @@ export interface AnagramPuzzle {
 
 /** Suite de mots mélangés pour une partie (sans doublon, et sans deux anagrammes l'une de l'autre). */
 export function anagramDeck(rng: Rng, level: number): AnagramPuzzle[] {
-  const { lengths, decoys } = anagramLevel(level);
+  const { lengths, decoys, twins } = anagramLevel(level);
   const lex = lexicon();
   const seen = new Set<string>();
   const deck: AnagramPuzzle[] = [];
@@ -136,12 +183,14 @@ export function anagramDeck(rng: Rng, level: number): AnagramPuzzle[] {
     if (seen.has(key)) continue;
     seen.add(key);
     const scrambled = scramble(rng, word, lex.index);
+    // Leurres sosies : des copies de lettres du mot (un A de plus dans JARDIN), impossibles à écarter d'office.
+    const decoyPool = [...(twins ? word : lex.decoys)];
     // Un leurre glissé au mauvais endroit ne doit pas former de grossièreté non plus.
     let letters: string[];
     let tries = 0;
     do {
       letters = [...scrambled];
-      for (let i = 0; i < decoys; i++) letters.splice(rng.int(0, letters.length), 0, rng.pick([...lex.decoys]));
+      for (let i = 0; i < decoys; i++) letters.splice(rng.int(0, letters.length), 0, rng.pick(decoyPool));
     } while (hasRudeWord(letters.join('')) && ++tries < 20);
     deck.push({ word, letters: letters.join('') });
   }

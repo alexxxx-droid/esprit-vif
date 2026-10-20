@@ -4,7 +4,7 @@ import { createRng } from '../rng';
 import { CLASHING_COLORS, generateQui, QUI_LEVELS, QUI_NAMES, QUI_ROUNDS, quiLevel, scoreQui } from './quiestqui';
 
 describe('Qui est qui ?', () => {
-  it('a 20 niveaux et des prénoms tous différents', () => {
+  it('a 50 niveaux et des prénoms tous différents', () => {
     expect(QUI_LEVELS).toHaveLength(MAX_LEVEL);
     expect(new Set(QUI_NAMES).size).toBe(QUI_NAMES.length);
   });
@@ -28,7 +28,7 @@ describe('Qui est qui ?', () => {
         for (const q of questions) {
           expect(q.options).toContain(q.target);
           expect(new Set(q.options).size).toBe(q.options.length);
-          expect(q.options).toHaveLength(q.kind === 'face' ? c.people : Math.min(4, c.people));
+          expect(q.options).toHaveLength(q.kind === 'face' ? c.people : Math.min(c.nameOptions, c.people));
         }
         expect(questions.filter((q) => q.kind === 'name')).toHaveLength(Math.round(c.people * c.nameQuestions));
       }
@@ -39,5 +39,8 @@ describe('Qui est qui ?', () => {
   it('note la part de bonnes réponses', () => {
     expect(scoreQui(9, 12)).toBe(75);
     expect(scoreQui(0, 0)).toBe(0);
+    // Aux niveaux avancés, 100 pts avant le sans-faute : 70 % de bonnes réponses au niveau 50.
+    expect(scoreQui(7, 10, 50)).toBe(100);
+    expect(scoreQui(9, 12, 20)).toBe(75);
   });
 });

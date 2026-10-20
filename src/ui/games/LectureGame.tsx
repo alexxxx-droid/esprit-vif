@@ -1,6 +1,6 @@
-import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { plural } from '../../core/format';
-import { generateLecture, LECTURE_DURATION_MS, lectureLevel, scoreLecture } from '../../core/games/lecture';
+import { generateLecture, LECTURE_DURATION_MS, lectureFlashMs, lectureLevel, scoreLecture } from '../../core/games/lecture';
 import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
@@ -23,6 +23,16 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
   const [over, setOver] = useState(false);
   const [mark, showMark] = useFeedback();
   const q = questions[index % questions.length];
+  // Phrase éclair (palier Légende) : la phrase s'efface au bout de quelques secondes, on peut encore répondre.
+  const flashMs = lectureFlashMs(q.sentence, level);
+  const [hiddenIndex, setHiddenIndex] = useState(-1);
+  const hidden = hiddenIndex === index;
+
+  useEffect(() => {
+    if (flashMs === null || over) return;
+    const id = window.setTimeout(() => setHiddenIndex(index), flashMs);
+    return () => window.clearTimeout(id);
+  }, [index, flashMs, over]);
 
   const finish = useEffectEvent(() => {
     setOver(true);
@@ -85,8 +95,9 @@ export function LectureGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        <p key={index} className="lecture__sentence" aria-live="polite">
-          {q.sentence}
+        <p key={index} className={`lecture__sentence${hidden ? ' is-hidden' : ''}`} aria-live="polite">
+          <span className="lecture__text">{q.sentence}</span>
+          {flashMs !== null && <span className="lecture__fuse" style={{ '--flash': `${flashMs}ms` } as CSSProperties} aria-hidden="true" />}
         </p>
         <FeedbackMark mark={mark} />
       </div>

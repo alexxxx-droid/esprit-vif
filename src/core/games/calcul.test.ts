@@ -27,7 +27,8 @@ describe('générateur de Calcul éclair', () => {
       for (const seed of SEEDS) {
         for (const q of generateCalcul(createRng(seed), level)) {
           q.ops.forEach((op, i) => {
-            if (op !== '÷') return;
+            // Les calculs à trou (« ? ÷ 7 = 12 ») sont vérifiés à part, dans levels-calcul.test.ts.
+            if (op !== '÷' || q.paren === 'holeLeft' || q.paren === 'holeRight') return;
             divisions++;
             expect(q.operands[i + 1]).toBeGreaterThan(0);
             expect(q.operands[i] % q.operands[i + 1]).toBe(0);

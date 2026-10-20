@@ -1,7 +1,15 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { plural } from '../../core/format';
 import { tr } from '../../core/lang';
-import { denominationLabel, formatEuros, generateMonnaie, MONNAIE_DURATION_MS, monnaieLevel, scoreMonnaie } from '../../core/games/monnaie';
+import {
+  denominationLabel,
+  formatEuros,
+  generateMonnaie,
+  MONNAIE_DURATION_MS,
+  monnaieLevel,
+  scoreMonnaie,
+  type MonnaieQuestion,
+} from '../../core/games/monnaie';
 import { createRng, deriveSeed } from '../../core/rng';
 import { NumPad } from '../components/bits';
 import { FeedbackMark } from '../components/Feedback';
@@ -20,6 +28,36 @@ export function Money({ cents, hidden = false }: { cents: number; hidden?: boole
     <span className={`money money--${kind} money--v${cents}${hidden ? ' is-hidden' : ''}`} aria-label={hidden ? tr('cachée', 'hidden') : denominationLabel(cents)}>
       {!hidden && <span className="money__label">{denominationLabel(cents)}</span>}
     </span>
+  );
+}
+
+/** Piles (niveaux 21 et plus) : les valeurs identiques, déjà rangées, regroupées en « ×n ». */
+function toPiles(items: readonly number[]): { cents: number; count: number }[] {
+  const piles: { cents: number; count: number }[] = [];
+  for (const cents of items) {
+    const last = piles[piles.length - 1];
+    if (last && last.cents === cents) last.count++;
+    else piles.push({ cents, count: 1 });
+  }
+  return piles;
+}
+
+/** Le panier (niveaux 21 et plus) : un article par étiquette, « 3 × 4 € », puis le bon de réduction. */
+function Basket({ question }: { question: MonnaieQuestion }) {
+  return (
+    <ul className="basket" aria-label={tr('Le panier', 'The basket')}>
+      {question.lines?.map((line, i) => (
+        <li key={i} className="basket__line">
+          {line.qty > 1 && <span className="basket__qty">{line.qty} ×</span>}
+          {formatEuros(line.unit)}
+        </li>
+      ))}
+      {question.coupon ? (
+        <li className="basket__line basket__line--coupon">
+          {tr('Bon', 'Coupon')} −{formatEuros(question.coupon)}
+        </li>
+      ) : null}
+    </ul>
   );
 }
 
@@ -114,11 +152,33 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        {question.mode === 'total' ? (
-          <div key={index} className="money-tray" aria-label={tr('Pièces et billets à compter', 'Coins and bills to count')}>
+        {question.mode === 'total' && config.stacks ? (
+          <div key={index} className="money-tray money-tray--piles" aria-label={tr('Piles de pièces et de billets à compter', 'Stacks of coins and bills to count')}>
+            {toPiles(question.items).map((pile) => (
+              <span key={pile.cents} className="money-pile">
+                <Money cents={pile.cents} hidden={hidden} />
+                <span className={`money-pile__count${hidden ? ' is-hidden' : ''}`} aria-label={hidden ? undefined : tr(`${pile.count} fois`, `${pile.count} times`)}>
+                  ×{hidden ? '?' : pile.count}
+                </span>
+              </span>
+            ))}
+          </div>
+        ) : question.mode === 'total' ? (
+          <div
+            key={index}
+            className={`money-tray${question.items.length >= 10 ? ' money-tray--dense' : ''}`}
+            aria-label={tr('Pièces et billets à compter', 'Coins and bills to count')}
+          >
             {question.items.map((cents, i) => (
               <Money key={i} cents={cents} hidden={hidden} />
             ))}
+          </div>
+        ) : question.lines ? (
+          <div key={index} className="change change--basket">
+            <Basket question={question} />
+            <p className="change__paid">
+              {tr('Payé avec', 'Paid with')} <Money cents={question.paid} />
+            </p>
           </div>
         ) : (
           <div key={index} className="change">

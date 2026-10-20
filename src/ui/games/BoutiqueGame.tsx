@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { lang, tr } from '../../core/lang';
 import { plural } from '../../core/format';
-import { BOUTIQUE_ROUNDS, boutiqueLevel, generateBoutiqueRound, scoreBoutique } from '../../core/games/boutique';
+import { BOUTIQUE_ROUNDS, boutiqueLevel, generateBoutiqueRound, scoreBoutique, type BoutiqueEvent, type BoutiqueRound } from '../../core/games/boutique';
 import { createRng, deriveSeed } from '../../core/rng';
 import { NumPad } from '../components/bits';
 import { FeedbackMark } from '../components/Feedback';
@@ -17,7 +17,7 @@ type Phase = 'start' | 'events' | 'answer' | 'feedback';
 const HUES = [12, 210, 140, 280, 35, 330, 190];
 
 /** Un client stylisé (tête + corps), coloré pour le plaisir des yeux. */
-function Walker({ kind, index, duration, hue }: { kind: 'in' | 'out'; index: number; duration: number; hue: number }) {
+function Walker({ kind, index, duration, hue }: { kind: 'in' | 'out' | 'bakery-in' | 'bakery-out'; index: number; duration: number; hue: number }) {
   return (
     <span
       className={`walker walker--${kind}`}
@@ -41,6 +41,63 @@ function Cat({ index, duration }: { index: number; duration: number }) {
   );
 }
 
+function Shoppers({ count, offset = 0 }: { count: number; offset?: number }) {
+  return Array.from({ length: count }, (_, i) => (
+    <span key={i} className="shop__shopper" style={{ '--hue': HUES[(i + offset) % HUES.length] } as CSSProperties} />
+  ));
+}
+
+/** La question de fin de manche. */
+function questionText(round: BoutiqueRound): string {
+  switch (round.question) {
+    case 'entered':
+      return tr('Combien de clients sont ENTRÉS dans la boutique ?', 'How many customers WENT INTO the shop?');
+    case 'left':
+      return tr('Combien de clients sont SORTIS de la boutique ?', 'How many customers CAME OUT of the shop?');
+    case 'bakery':
+      return tr('Combien de clients dans la BOULANGERIE ?', 'How many customers are in the BAKERY?');
+    default:
+      return tr('Combien de clients dans la boutique ?', 'How many customers are in the shop?');
+  }
+}
+
+/** La bonne réponse, dite après une erreur. */
+function correction(round: BoutiqueRound): string {
+  const n = round.expected;
+  switch (round.question) {
+    case 'entered':
+      return tr(`Il en est entré ${n}`, `${n} went in`);
+    case 'left':
+      return tr(`Il en est sorti ${n}`, `${n} came out`);
+    case 'bakery':
+      return tr(`Il y en avait ${n} à la boulangerie`, `There were ${n} in the bakery`);
+    default:
+      return tr(`Il y en avait ${n}`, `There were ${n}`);
+  }
+}
+
+/** Les mouvements d'un instant, pour les lecteurs d'écran. */
+function describeEvent(event: BoutiqueEvent): string {
+  if (lang() === 'en') {
+    return [
+      event.enter && `${plural(event.enter, 'customer')} ${event.enter === 1 ? 'comes' : 'come'} in`,
+      event.leave && `${plural(event.leave, 'customer')} ${event.leave === 1 ? 'leaves' : 'leave'}`,
+      event.bakeryIn && `${plural(event.bakeryIn, 'customer')} ${event.bakeryIn === 1 ? 'goes' : 'go'} into the bakery`,
+      event.bakeryOut && `${plural(event.bakeryOut, 'customer')} ${event.bakeryOut === 1 ? 'leaves' : 'leave'} the bakery`,
+    ]
+      .filter(Boolean)
+      .join(', ');
+  }
+  return [
+    event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`,
+    event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`,
+    event.bakeryIn && `${plural(event.bakeryIn, 'client')} entre${event.bakeryIn > 1 ? 'nt' : ''} à la boulangerie`,
+    event.bakeryOut && `${plural(event.bakeryOut, 'client')} sor${event.bakeryOut > 1 ? 'tent' : 't'} de la boulangerie`,
+  ]
+    .filter(Boolean)
+    .join(', ');
+}
+
 export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
   const config = boutiqueLevel(level);
   const stepMs = slow(config.stepMs);
@@ -53,6 +110,7 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
   const reduced = useReducedMotion();
   const current = useMemo(() => generateBoutiqueRound(createRng(deriveSeed(seed, round)), level), [seed, round, level]);
   const event = current.events[Math.min(step, current.events.length - 1)];
+  const duo = config.bakery;
 
   const finish = useEffectEvent((total: number) => {
     onFinish({
@@ -68,10 +126,13 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
 
   useEffect(() => {
     if (phase === 'start') {
-      const id = window.setTimeout(() => {
-        setStep(0);
-        setPhase('events');
-      }, 2000);
+      const id = window.setTimeout(
+        () => {
+          setStep(0);
+          setPhase('events');
+        },
+        config.askBakery > 0 ? 2800 : 2000,
+      );
       return () => window.clearTimeout(id);
     }
     if (phase === 'events') {
@@ -95,17 +156,17 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
       }, 1500);
       return () => window.clearTimeout(id);
     }
-  }, [phase, step, round, correct, current, stepMs]);
+  }, [phase, step, round, correct, current, stepMs, config.askBakery]);
 
   const submit = () => {
     if (phase !== 'answer' || !typed) return;
-    if (Number(typed) === current.answer) {
+    if (Number(typed) === current.expected) {
       fx.good();
       showMark('good');
       setCorrect(correct + 1);
     } else {
       fx.bad();
-      showMark('bad', tr(`Il y en avait ${current.answer}`, `There were ${current.answer}`));
+      showMark('bad', correction(current));
     }
     setPhase('feedback');
   };
@@ -129,18 +190,8 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
 
   const duration = stepMs;
   const en = lang() === 'en';
-  const describe =
-    phase === 'events'
-      ? (en
-          ? [
-              event.enter && `${plural(event.enter, 'customer')} ${event.enter === 1 ? 'comes' : 'come'} in`,
-              event.leave && `${plural(event.leave, 'customer')} ${event.leave === 1 ? 'leaves' : 'leave'}`,
-            ]
-          : [event.enter && `${plural(event.enter, 'client')} entre${event.enter > 1 ? 'nt' : ''}`, event.leave && `${plural(event.leave, 'client')} sor${event.leave > 1 ? 'tent' : 't'}`]
-        )
-          .filter(Boolean)
-          .join(', ')
-      : '';
+  const badge = (n: number, out: boolean) =>
+    out ? (en ? `${n} out` : `${n} sor${n > 1 ? 'tent' : 't'}`) : en ? `+${n} in` : `+${n} entre${n > 1 ? 'nt' : ''}`;
 
   return (
     <div className="game">
@@ -155,21 +206,35 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
             <>
               {en ? 'In the shop: ' : 'Dans la boutique : '}
               <strong>{en ? plural(current.start, 'customer') : plural(current.start, 'client')}</strong>
+              {config.askBakery > 0 && current.bakeryStart !== null && (
+                <>
+                  {en ? ' · bakery: ' : ' · boulangerie : '}
+                  <strong>{current.bakeryStart}</strong>
+                </>
+              )}
             </>
           )}
           {phase === 'events' && tr('Compte bien…', 'Keep counting…')}
-          {phase !== 'start' && phase !== 'events' && tr('Combien de clients dans la boutique ?', 'How many customers are in the shop?')}
+          {phase !== 'start' && phase !== 'events' && questionText(current)}
         </p>
-        <div className="shop">
+        <div className={`shop${duo ? ' shop--duo' : ''}`}>
           <div className="shop__roof" />
           <div className="shop__sign">{tr('BOUTIQUE', 'SHOP')}</div>
-          <div className={`shop__window${phase === 'start' ? ' is-open' : ''}`}>
-            {phase === 'start' &&
-              Array.from({ length: current.start }, (_, i) => (
-                <span key={i} className="shop__shopper" style={{ '--hue': HUES[i % HUES.length] } as CSSProperties} />
-              ))}
-          </div>
-          <div className="shop__door" />
+          {duo ? (
+            <>
+              <div className="shop__sign shop__sign--bakery">{tr('BOULANGERIE', 'BAKERY')}</div>
+              <div className="shop__wall" />
+              <div className={`shop__door shop__door--bakery${phase === 'start' ? ' is-open' : ''}`}>
+                {phase === 'start' && <Shoppers count={current.bakeryStart ?? 0} offset={3} />}
+              </div>
+              <div className={`shop__door${phase === 'start' ? ' is-open' : ''}`}>{phase === 'start' && <Shoppers count={current.start} />}</div>
+            </>
+          ) : (
+            <>
+              <div className={`shop__window${phase === 'start' ? ' is-open' : ''}`}>{phase === 'start' && <Shoppers count={current.start} />}</div>
+              <div className="shop__door" />
+            </>
+          )}
           <div className="shop__street" key={`${round}-${step}-${phase}`}>
             {phase === 'events' && (
               <>
@@ -179,26 +244,26 @@ export function BoutiqueGame({ seed, level, onFinish }: GameProps) {
                 {Array.from({ length: event.leave }, (_, i) => (
                   <Walker key={`out-${i}`} kind="out" index={i} duration={duration} hue={HUES[(i + step + 3) % HUES.length]} />
                 ))}
+                {Array.from({ length: event.bakeryIn }, (_, i) => (
+                  <Walker key={`bin-${i}`} kind="bakery-in" index={i} duration={duration} hue={HUES[(i + step + 1) % HUES.length]} />
+                ))}
+                {Array.from({ length: event.bakeryOut }, (_, i) => (
+                  <Walker key={`bout-${i}`} kind="bakery-out" index={i} duration={duration} hue={HUES[(i + step + 5) % HUES.length]} />
+                ))}
                 {Array.from({ length: event.cats }, (_, i) => (
                   <Cat key={`cat-${i}`} index={i} duration={duration} />
                 ))}
                 {/* Sans animation, les passages s'affichent en étiquettes à côté de la porte. */}
-                {reduced && event.enter > 0 && (
-                  <span className="shop__badge shop__badge--in">
-                    {en ? `+${event.enter} in` : `+${event.enter} entre${event.enter > 1 ? 'nt' : ''}`}
-                  </span>
-                )}
-                {reduced && event.leave > 0 && (
-                  <span className="shop__badge shop__badge--out">
-                    {en ? `${event.leave} out` : `${event.leave} sor${event.leave > 1 ? 'tent' : 't'}`}
-                  </span>
-                )}
+                {reduced && event.enter > 0 && <span className="shop__badge shop__badge--in">{badge(event.enter, false)}</span>}
+                {reduced && event.leave > 0 && <span className="shop__badge shop__badge--out">{badge(event.leave, true)}</span>}
+                {reduced && event.bakeryIn > 0 && <span className="shop__badge shop__badge--in shop__badge--bakery">{badge(event.bakeryIn, false)}</span>}
+                {reduced && event.bakeryOut > 0 && <span className="shop__badge shop__badge--out shop__badge--bakery">{badge(event.bakeryOut, true)}</span>}
               </>
             )}
           </div>
         </div>
         <p className="sr-only" aria-live="polite">
-          {describe}
+          {phase === 'events' ? describeEvent(event) : ''}
         </p>
         {phase !== 'start' && phase !== 'events' && (
           <span className={`slot slot--wide${typed ? ' slot--filled' : ''}`}>{typed || '?'}</span>

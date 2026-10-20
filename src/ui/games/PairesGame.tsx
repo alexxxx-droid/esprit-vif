@@ -1,5 +1,5 @@
-import { useEffect, useEffectEvent, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { generatePaires, pairesLevel, scorePaires, type PairFace } from '../../core/games/paires';
+import { useEffect, useEffectEvent, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { generatePaires, PAIRES_PEEK_MS, pairesLevel, scorePaires, swapSlots, type PairFace } from '../../core/games/paires';
 import { describeShape } from '../../core/games/shapes';
 import { plural } from '../../core/format';
 import { tr } from '../../core/lang';
@@ -10,6 +10,8 @@ import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
+import { useReducedMotion } from '../hooks';
+import { slow } from '../tempo';
 
 const PAIR_COLORS = ['var(--d-calcul)', 'var(--d-memoire)', 'var(--d-attention)', 'var(--d-vitesse)', 'var(--d-langage)', 'var(--d-logique)'];
 
@@ -20,10 +22,29 @@ function faceColor(face: PairFace, similar: boolean): string {
 /** « étoile creuse » (« hollow star ») : l'ordre des mots suit la langue. */
 const describeFace = (face: PairFace) => describeShape({ shape: face.shape, filled: face.filled, rotation: 0 });
 
+interface PairCardProps {
+  face: PairFace;
+  up: boolean;
+  found: boolean;
+  color: string;
+  label: string;
+  onTap?: () => void;
+  /** Identité de la carte, pour la suivre quand elle change de place. */
+  cardId?: number;
+  /** La carte vient d'échanger sa place (cartes baladeuses). */
+  swapped?: boolean;
+}
+
 /** Une carte retournable : dos commun, face = une forme. */
-export function PairCard({ face, up, found, color, label, onTap }: { face: PairFace; up: boolean; found: boolean; color: string; label: string; onTap?: () => void }) {
+export function PairCard({ face, up, found, color, label, onTap, cardId, swapped }: PairCardProps) {
   return (
-    <TapButton className={`paire${up || found ? ' is-up' : ''}${found ? ' is-found' : ''}`} onTap={onTap ?? (() => {})} aria-label={label} disabled={found}>
+    <TapButton
+      className={`paire${up || found ? ' is-up' : ''}${found ? ' is-found' : ''}${swapped ? ' is-swapped' : ''}`}
+      onTap={onTap ?? (() => {})}
+      aria-label={label}
+      disabled={found}
+      data-card={cardId}
+    >
       <span className="paire__inner">
         <span className="paire__back" aria-hidden="true" />
         <span className="paire__front" style={{ color } as CSSProperties} aria-hidden="true">
@@ -43,8 +64,17 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
   const [found, setFound] = useState<ReadonlySet<number>>(new Set());
   const [attempts, setAttempts] = useState(0);
   const [over, setOver] = useState(false);
+  // Place de chaque carte dans la grille : elles bougent aux niveaux « cartes baladeuses ».
+  const [slots, setSlots] = useState<number[]>(() => deck.cards.map((_, card) => card));
+  const [swapped, setSwapped] = useState<readonly number[]>([]);
+  const pendingSwap = useRef<readonly [number, number] | null>(null);
+  const slideFrom = useRef<Map<number, DOMRect> | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
   const hideTimer = useRef(0);
   const pairsFound = found.size / 2;
+  // Jamais plus long que 0,9 s, même en « temps généreux » : c'est la durée des niveaux 1 à 20.
+  const peekMs = Math.min(PAIRES_PEEK_MS, slow(config.peekMs));
 
   const finish = useEffectEvent(() => {
     if (over) return;
@@ -95,10 +125,51 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
     return () => window.clearTimeout(id);
   }, [allFound]);
 
+  // Cartes baladeuses : les deux cartes ratées glissent l'une vers la place de l'autre.
+  const swapPending = () => {
+    const pair = pendingSwap.current;
+    pendingSwap.current = null;
+    if (!pair) return;
+    const grid = gridRef.current;
+    if (grid && !reduced) {
+      const rects = new Map<number, DOMRect>();
+      for (const card of pair) {
+        const el = grid.querySelector<HTMLElement>(`[data-card="${card}"]`);
+        if (el) rects.set(card, el.getBoundingClientRect());
+      }
+      slideFrom.current = rects;
+    }
+    setSlots((current) => swapSlots(current, current.indexOf(pair[0]), current.indexOf(pair[1])));
+    setSwapped(pair);
+  };
+
+  useLayoutEffect(() => {
+    const from = slideFrom.current;
+    slideFrom.current = null;
+    const grid = gridRef.current;
+    if (!from || !grid) return;
+    for (const [card, rect] of from) {
+      const el = grid.querySelector<HTMLElement>(`[data-card="${card}"]`);
+      if (!el?.animate) continue;
+      const now = el.getBoundingClientRect();
+      el.animate([{ transform: `translate(${rect.left - now.left}px, ${rect.top - now.top}px)` }, { transform: 'translate(0, 0)' }], {
+        duration: 450,
+        easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)',
+      });
+    }
+  }, [slots]);
+
+  useEffect(() => {
+    if (swapped.length === 0) return;
+    const id = window.setTimeout(() => setSwapped([]), 900);
+    return () => window.clearTimeout(id);
+  }, [swapped]);
+
   const flip = (card: number) => {
     if (over || preview || found.has(card) || up.includes(card)) return;
     window.clearTimeout(hideTimer.current);
     // Deux cartes déjà visibles et différentes : on les recache aussitôt pour jouer sans attendre.
+    if (up.length >= 2) swapPending();
     const current = up.length >= 2 ? [] : up;
     const next = [...current, card];
     if (next.length < 2) {
@@ -115,7 +186,11 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
     } else {
       fx.tap();
       setUp(next);
-      hideTimer.current = window.setTimeout(() => setUp([]), 900);
+      if (config.swap) pendingSwap.current = [next[0], next[1]];
+      hideTimer.current = window.setTimeout(() => {
+        setUp([]);
+        swapPending();
+      }, peekMs);
     }
   };
 
@@ -138,9 +213,9 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
             </>
           )}
         </p>
-        <div className="paires" style={{ gridTemplateColumns: `repeat(${config.cols}, 1fr)` }}>
-          {deck.cards.map((faceIndex, card) => {
-            const face = deck.faces[faceIndex];
+        <div ref={gridRef} className={`paires${config.cols > 4 ? ' paires--dense' : ''}`} style={{ gridTemplateColumns: `repeat(${config.cols}, 1fr)` }}>
+          {slots.map((card) => {
+            const face = deck.faces[deck.cards[card]];
             const visible = preview || up.includes(card);
             const isFound = found.has(card);
             return (
@@ -158,6 +233,8 @@ export function PairesGame({ seed, level, onFinish }: GameProps) {
                       : tr(`Carte ${card + 1}, cachée`, `Card ${card + 1}, face down`)
                 }
                 onTap={() => flip(card)}
+                cardId={card}
+                swapped={swapped.includes(card)}
               />
             );
           })}

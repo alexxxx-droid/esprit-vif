@@ -1,6 +1,11 @@
-import { formatClock } from '../../core/games/horloges';
+import { useMemo, type CSSProperties } from 'react';
+import { balanceLevel } from '../../core/games/balance';
+import { demoViews, solidFrame, type Solid } from '../../core/games/cubes';
+import { formatClock, formatDuration, horlogesLevel } from '../../core/games/horloges';
+import { itiLevel } from '../../core/games/itineraire';
 import { denominationLabel, formatEuros } from '../../core/games/monnaie';
-import { mirror, rotate, type Piece } from '../../core/games/rotation';
+import { nbackLevel } from '../../core/games/nback';
+import { mirror, rotate, rotationLevel, type Piece } from '../../core/games/rotation';
 import type { ShapeKind } from '../../core/games/shapes';
 import { lang, tr } from '../../core/lang';
 import { Icon } from '../components/Icon';
@@ -10,12 +15,12 @@ import { BALANCE_LOOKS } from './balance-looks';
 import { COUP_GROUPS } from './coup-groups';
 import { DotField } from './CoupGame';
 import { Arrow } from './FlechesGame';
-import { ClockFace } from './HorlogesGame';
+import { ClockFace, DayClock } from './HorlogesGame';
 import { ItiGrid, MoveChip } from './ItiGame';
 import { WordTiles } from './LettreGame';
 import { PairCard } from './PairesGame';
 import { PersonFace } from './QuiGame';
-import { PieceView } from './RotationGame';
+import { PieceView, SolidView } from './RotationGame';
 import { useLoop, useReducedMotion } from '../hooks';
 
 /**
@@ -95,12 +100,32 @@ function stroopName(color: (typeof STROOP_BUTTONS)[number][0]): string {
   return tr(fr, en);
 }
 
-export function StroopDemo() {
-  const step = STROOP_SCRIPT[useDemoFrame(STROOP_SCRIPT.length, 800, 2)];
+/** Niveaux Expert et plus : un cadre coloré autour du mot, et la consigne qui dit quoi regarder. */
+const STROOP_FRAME_SCRIPT = [
+  { word: 'bleu', ink: 'rouge', frame: 'vert', ask: 'frame', press: '', ok: false },
+  { word: 'bleu', ink: 'rouge', frame: 'vert', ask: 'frame', press: 'vert', ok: false },
+  { word: 'bleu', ink: 'rouge', frame: 'vert', ask: 'frame', press: 'vert', ok: true },
+  { word: 'jaune', ink: 'bleu', frame: 'rouge', ask: 'word', press: '', ok: false },
+  { word: 'jaune', ink: 'bleu', frame: 'rouge', ask: 'word', press: 'jaune', ok: false },
+  { word: 'jaune', ink: 'bleu', frame: 'rouge', ask: 'word', press: 'jaune', ok: true },
+] as const;
+
+export function StroopDemo({ level }: { level: number }) {
+  const frame = useDemoFrame(STROOP_SCRIPT.length, 800, 2);
+  const framed = level > 20 ? STROOP_FRAME_SCRIPT[frame] : null;
+  const step = framed ?? STROOP_SCRIPT[frame];
   return (
     <div className="demo demo--stroop">
       <div className="demo__stage">
-        <span className={`demo__word ink--${step.ink}`}>{stroopName(step.word).toUpperCase()}</span>
+        {framed && (
+          <span className="demo__ask">{framed.ask === 'frame' ? tr('Couleur du cadre', 'Frame color') : tr('Lis le mot', 'Read the word')}</span>
+        )}
+        <span
+          className={`demo__word ink--${step.ink}${framed ? ' demo__word--framed' : ''}`}
+          style={framed ? ({ '--frame': `var(--ink-${framed.frame})` } as CSSProperties) : undefined}
+        >
+          {stroopName(step.word).toUpperCase()}
+        </span>
         <Tick show={step.ok} />
       </div>
       <div className="demo__answers">
@@ -141,7 +166,8 @@ export function MatriceDemo() {
 }
 
 export function NBackDemo({ level }: { level: number }) {
-  const n = Math.min(3, Math.max(1, level));
+  // Le N du niveau (3 au plus : au-delà, la démo resterait illisible).
+  const n = Math.min(3, nbackLevel(level).n);
   const stream = n === 1 ? ['K', 'R', 'R'] : n === 2 ? ['K', 'R', 'K'] : ['K', 'R', 'T', 'K'];
   const frame = useDemoFrame(stream.length + 2, 800, stream.length);
   const shown = Math.min(frame + 1, stream.length);
@@ -189,10 +215,39 @@ const INTRUS_DEMO = [
   { base: 'O', odd: 'Q', at: 1 },
 ];
 
-export function IntrusDemo() {
+/** Niveaux avancés : un symbole tête en bas, puis deux familles mêlées (le seul « d » parmi les « b » et les « p »). */
+function intrusAdvancedDemo(level: number) {
+  const flipped = { cells: Array<string>(9).fill('F'), at: 7, caption: tr('Un « F » tête en bas', 'An upside-down “F”') };
+  if (level <= 30) return [{ cells: Array.from({ length: 9 }, (_, i) => (i === 5 ? 'd' : 'b')), at: 5, caption: '' }, flipped];
+  const mixed = ['b', 'p', 'b', 'p', 'd', 'b', 'p', 'p', 'b'];
+  return [{ cells: mixed, at: 4, caption: tr('Le seul « d » parmi les « b » et les « p »', 'The only “d” among the “b”s and “p”s') }, flipped];
+}
+
+export function IntrusDemo({ level }: { level: number }) {
   const frame = useDemoFrame(6, 700, 1);
-  const board = INTRUS_DEMO[frame < 3 ? 0 : 1];
   const pressed = frame % 3 >= 1;
+  if (level > 20) {
+    const advanced = intrusAdvancedDemo(level)[frame < 3 ? 0 : 1];
+    const flip = advanced.cells[advanced.at] === 'F';
+    return (
+      <div className="demo demo--intrus">
+        <div className="demo__grid">
+          {advanced.cells.map((symbol, cell) => (
+            <span key={cell} className={`demo__cell${cell === advanced.at && pressed ? ' is-pressed' : ''}`}>
+              <span className="intrus__symbol" style={flip && cell === advanced.at ? { transform: 'scaleY(-1)' } : undefined}>
+                {symbol}
+              </span>
+            </span>
+          ))}
+        </div>
+        <p className="demo__caption">
+          {advanced.caption || tr('Le « d » se cache parmi les « b »', 'The “d” is hiding among the “b”s')}
+          <Tick show={frame % 3 === 2} />
+        </p>
+      </div>
+    );
+  }
+  const board = INTRUS_DEMO[frame < 3 ? 0 : 1];
   return (
     <div className="demo demo--intrus">
       <div className="demo__grid">
@@ -250,17 +305,19 @@ export function AnagrammesDemo() {
   );
 }
 
-function boutiqueScript() {
+function boutiqueScript(level: number) {
+  // Niveaux avancés : la question peut aussi porter sur les entrées ou les sorties.
+  const end = level > 20 ? tr('Entrés : 1 · sortis : 2 · reste : 1', 'In: 1 · out: 2 · left: 1') : tr('Il en reste 1', '1 left');
   return [
     { text: tr('Dans la boutique : 2', 'In the shop: 2'), delta: '' },
     { text: tr('Dans la boutique : ?', 'In the shop: ?'), delta: tr('+1 entre', '+1 in') },
     { text: tr('Dans la boutique : ?', 'In the shop: ?'), delta: tr('−2 sortent', '−2 out') },
-    { text: tr('Il en reste 1', '1 left'), delta: '' },
+    { text: end, delta: '' },
   ];
 }
 
-export function BoutiqueDemo() {
-  const BOUTIQUE_SCRIPT = boutiqueScript();
+export function BoutiqueDemo({ level }: { level: number }) {
+  const BOUTIQUE_SCRIPT = boutiqueScript(level);
   const frame = useDemoFrame(BOUTIQUE_SCRIPT.length + 1, 900, 3);
   const step = BOUTIQUE_SCRIPT[Math.min(frame, BOUTIQUE_SCRIPT.length - 1)];
   return (
@@ -414,9 +471,49 @@ export function CorrespondanceDemo() {
   );
 }
 
-export function FlechesDemo() {
+type DemoDir = 'left' | 'right';
+
+/** Démo des niveaux avancés de Flèches : deux images par règle (la rangée, puis la réponse). */
+function flechesDemoScript(level: number): { center: DemoDir; flank: DemoDir; cue: string; caption: string }[] {
+  if (level > 40) {
+    return [
+      { center: 'right', flank: 'left', cue: 'nogo', caption: tr('Barrées : ne touche rien', 'Crossed out: don’t tap') },
+      { center: 'left', flank: 'right', cue: 'reverse', caption: tr('Encadrées : à l’envers, droite', 'Framed: opposite way, right') },
+    ];
+  }
+  if (level > 30) {
+    return [
+      { center: 'left', flank: 'left', cue: 'reverse', caption: tr('Encadrées : à l’envers, droite', 'Framed: opposite way, right') },
+      { center: 'left', flank: 'right', cue: '', caption: tr('Celle du milieu : à gauche', 'The middle one: left') },
+    ];
+  }
+  return [
+    { center: 'left', flank: 'right', cue: 'cue-center', caption: tr('Bleues : celle du milieu, gauche', 'Blue: the middle one, left') },
+    { center: 'left', flank: 'right', cue: 'cue-flank', caption: tr('Orange : les voisines, droite', 'Orange: the outer ones, right') },
+  ];
+}
+
+export function FlechesDemo({ level }: { level: number }) {
   const frame = useDemoFrame(4, 900, 2);
-  const row: ('left' | 'right')[] = frame < 2 ? ['left', 'left', 'right', 'left', 'left'] : ['right', 'right', 'right', 'right', 'right'];
+  if (level > 20) {
+    const step = flechesDemoScript(level)[frame < 2 ? 0 : 1];
+    return (
+      <div className="demo">
+        <div className={`demo-arrows${step.cue ? ` demo-arrows--${step.cue}` : ''}`}>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span key={i} className={i === 2 ? 'is-center' : undefined}>
+              <Arrow dir={i === 2 ? step.center : step.flank} size={28} />
+            </span>
+          ))}
+        </div>
+        <p className="demo__caption">
+          {step.caption}
+          <Tick show={frame % 2 === 1} />
+        </p>
+      </div>
+    );
+  }
+  const row: DemoDir[] = frame < 2 ? ['left', 'left', 'right', 'left', 'left'] : ['right', 'right', 'right', 'right', 'right'];
   return (
     <div className="demo">
       <div className="demo-arrows">
@@ -463,8 +560,44 @@ const DEMO_PIECE: Piece = [
   [1, 2],
 ];
 
-export function RotationDemo() {
+/** Pièce en relief de la démonstration (niveaux 31 et plus) : six cubes, trois coudes. */
+const DEMO_SOLID: Solid = [
+  [0, 0, 0],
+  [1, 0, 0],
+  [2, 0, 0],
+  [2, 1, 0],
+  [2, 1, 1],
+  [2, 2, 1],
+];
+
+export function RotationDemo({ level }: { level: number }) {
   const frame = useDemoFrame(3, 1000, 2);
+  const c = rotationLevel(level);
+  // Pièces penchées (niveaux 25 à 30) : les propositions ne sont plus droites.
+  const tilts = c.tilt ? [35, -50] : [0, 0];
+  const views = useMemo(() => (c.solid ? demoViews(DEMO_SOLID) : null), [c.solid]);
+  if (views) {
+    const frameSide = solidFrame([views.model, views.same, views.mirror]);
+    return (
+      <div className="demo">
+        <div className="demo-rotation">
+          <span className="demo-rotation__model">
+            <SolidView solid={views.model} frame={frameSide} size={58} />
+          </span>
+          <span className={`demo-rotation__option${frame === 2 ? ' is-picked' : ''}`}>
+            <SolidView solid={views.same} frame={frameSide} size={50} />
+          </span>
+          <span className="demo-rotation__option">
+            <SolidView solid={views.mirror} frame={frameSide} size={50} />
+          </span>
+        </div>
+        <p className="demo__caption">
+          {frame < 2 ? tr('Tournée dans l’espace…', 'Turned in space…') : tr('Celle-ci : l’autre est un reflet', 'This one: the other is a mirror image')}
+          <Tick show={frame === 2} />
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="demo">
       <div className="demo-rotation">
@@ -472,14 +605,18 @@ export function RotationDemo() {
           <PieceView piece={DEMO_PIECE} span={4} size={58} />
         </span>
         <span className={`demo-rotation__option${frame === 2 ? ' is-picked' : ''}`}>
-          <PieceView piece={rotate(DEMO_PIECE, 1)} span={4} size={50} />
+          <PieceView piece={rotate(DEMO_PIECE, 1)} span={4} size={50} tilt={tilts[0]} />
         </span>
         <span className="demo-rotation__option">
-          <PieceView piece={rotate(mirror(DEMO_PIECE), 1)} span={4} size={50} />
+          <PieceView piece={rotate(mirror(DEMO_PIECE), 1)} span={4} size={50} tilt={tilts[1]} />
         </span>
       </div>
       <p className="demo__caption">
-        {frame < 2 ? tr('Tournée, pas retournée…', 'Rotated, not flipped…') : tr('Celle-ci : l’autre est un reflet', 'This one: the other is a mirror image')}
+        {frame < 2
+          ? c.tilt
+            ? tr('Penchée, pas retournée…', 'Tilted, not flipped…')
+            : tr('Tournée, pas retournée…', 'Rotated, not flipped…')
+          : tr('Celle-ci : l’autre est un reflet', 'This one: the other is a mirror image')}
         <Tick show={frame === 2} />
       </p>
     </div>
@@ -517,28 +654,72 @@ export function SudokuDemo() {
   );
 }
 
-export function BalanceDemo() {
+export function BalanceDemo({ level }: { level: number }) {
   const frame = useDemoFrame(2, 1300, 1);
+  const c = balanceLevel(level);
+  const look = (i: number) => BALANCE_LOOKS[i];
+  // Niveaux 31 et plus : plusieurs exemplaires (0 = rond, 1 = carré). Niveaux 21 à 30 : la balance qui n'apprend rien.
+  const scene = c.counts
+    ? {
+        clue: { left: [1, 1], right: [0, 0, 0], heavier: 'left' as const },
+        first: tr('Deux carrés battent trois ronds…', 'Two squares beat three circles…'),
+        then: tr('…le carré est plus lourd', '…so the square is heavier'),
+      }
+    : c.trap
+      ? {
+          clue: { left: [1, 2], right: [0], heavier: 'left' as const },
+          first: tr('Deux objets battent un seul…', 'Two items beat a single one…'),
+          then: tr('…ça n’apprend rien', '…that tells you nothing'),
+        }
+      : {
+          clue: { left: [0], right: [1], heavier: 'left' as const },
+          first: tr('Le côté qui descend…', 'The side that goes down…'),
+          then: tr('…porte le plus lourd', '…holds the heavier one'),
+        };
   return (
     <div className="demo">
       <div className="demo-balance">
-        <ScaleView clue={{ left: [0], right: [1], heavier: 'left' }} look={(i) => BALANCE_LOOKS[i]} />
+        <ScaleView clue={scene.clue} look={look} />
       </div>
       <p className="demo__caption">
-        {frame === 0 ? tr('Le côté qui descend…', 'The side that goes down…') : tr('…porte le plus lourd', '…holds the heavier one')}
+        {frame === 0 ? scene.first : scene.then}
         <Tick show={frame === 1} />
       </p>
     </div>
   );
 }
 
-export function HorlogesDemo() {
+export function HorlogesDemo({ level }: { level: number }) {
   const frame = useDemoFrame(2, 1300, 1);
+  const c = horlogesLevel(level);
+  if (c.modes.includes('overnight')) {
+    // De 22 h 00 à 1 h 30 : 3 h 30, en passant minuit.
+    return (
+      <div className="demo">
+        <div className="demo-horloges">
+          <DayClock time={1320} numerals="quarters" size={70} />
+          <Icon name="arrow" size={20} />
+          <DayClock time={90} numerals="quarters" size={70} />
+        </div>
+        <p className="demo__caption">
+          {frame === 0 ? tr('Du soir au matin…', 'From PM to AM…') : formatDuration(210)}
+          <Tick show={frame === 1} />
+        </p>
+      </div>
+    );
+  }
+  const roman = c.numerals === 'roman' || c.numerals === 'romanQuarters';
   return (
     <div className="demo">
-      <ClockFace time={135} numerals="all" size={104} />
+      <ClockFace time={135} numerals={roman ? c.numerals : 'all'} size={104} mirror={Boolean(c.mirror)} />
       <p className="demo__caption">
-        {frame === 0 ? tr('Quelle heure est-il ?', 'What time is it?') : tr('2 h 15', formatClock(135))}
+        {frame === 0
+          ? c.mirror
+            ? tr('Dans un miroir…', 'In a mirror…')
+            : tr('Quelle heure est-il ?', 'What time is it?')
+          : c.mirror
+            ? tr(`il est ${formatClock(135)}`, `it’s ${formatClock(135)}`)
+            : tr('2 h 15', formatClock(135))}
         <Tick show={frame === 1} />
       </p>
     </div>
@@ -810,19 +991,63 @@ const ITI_DEMO = {
   end: { col: 2, row: 2 },
 };
 
-export function ItiDemo() {
+/** Rochers (niveaux 21 à 30 et 41 à 50) : « → 3 », mais un rocher arrête la course après deux cases. */
+const ITI_ROCK_DEMO = {
+  size: 4,
+  start: { col: 0, row: 3 },
+  rocks: [{ col: 3, row: 3 }],
+  moves: [
+    { dir: 'right' as const, steps: 3 },
+    { dir: 'up' as const, steps: 1 },
+  ],
+  path: [
+    { col: 0, row: 3 },
+    { col: 1, row: 3 },
+    { col: 2, row: 3 },
+    { col: 2, row: 2 },
+  ],
+  end: { col: 2, row: 2 },
+};
+
+/** Diagonales (niveaux 31 à 40) : « ↗ 2 », puis une case à droite. */
+const ITI_DIAGONAL_DEMO = {
+  size: 4,
+  start: { col: 0, row: 3 },
+  moves: [
+    { dir: 'upRight' as const, steps: 2 },
+    { dir: 'right' as const, steps: 1 },
+  ],
+  path: [
+    { col: 0, row: 3 },
+    { col: 1, row: 2 },
+    { col: 2, row: 1 },
+    { col: 3, row: 1 },
+  ],
+  end: { col: 3, row: 1 },
+};
+
+export function ItiDemo({ level }: { level: number }) {
   const frame = useDemoFrame(3, 1300, 2);
+  const c = itiLevel(level);
+  const demo = c.rocks ? ITI_ROCK_DEMO : c.diagonal ? ITI_DIAGONAL_DEMO : ITI_DEMO;
+  const first = c.rocks
+    ? tr('Trois à droite… un rocher\u00a0!', 'Three right… a rock!')
+    : c.diagonal
+      ? tr('Deux en diagonale, un à droite…', 'Two diagonally, one right…')
+      : tr('Deux à droite, un en haut…', 'Two right, one up…');
   return (
     <div className="demo demo-iti">
       <div className="iti__moves">
-        {frame === 1 ? <span className="demo__caption">{tr('Où arrive-t-on ?', 'Where do we end up?')}</span> : ITI_DEMO.moves.map((m, i) => <MoveChip key={i} move={m} />)}
+        {frame === 1 ? <span className="demo__caption">{tr('Où arrive-t-on ?', 'Where do we end up?')}</span> : demo.moves.map((m, i) => <MoveChip key={i} move={m} />)}
       </div>
-      <ItiGrid trial={ITI_DEMO} picked={frame === 2 ? ITI_DEMO.end : null} showPath={false} />
+      <ItiGrid trial={demo} picked={frame === 2 ? demo.end : null} showPath={false} />
       <p className="demo__caption">
         {frame === 0
-          ? tr('Deux à droite, un en haut…', 'Two right, one up…')
+          ? first
           : frame === 1
-            ? tr('Les flèches ont disparu', 'The arrows are gone')
+            ? c.rocks
+              ? tr('On s’arrête devant, puis un en haut', 'Stop in front of it, then one up')
+              : tr('Les flèches ont disparu', 'The arrows are gone')
             : tr('Ici !', 'Here!')}
         <Tick show={frame === 2} />
       </p>

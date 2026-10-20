@@ -9,6 +9,9 @@ import { clampScore } from '../scoring';
  * retrouver qui est qui. Un visage = un compagnon sur un fond de couleur. Aux niveaux élevés,
  * le même fruit revient sur plusieurs fonds, les prénoms se ressemblent, et l'on demande aussi
  * le prénom d'un visage (et pas seulement le visage d'un prénom).
+ * Expert : jusqu'à 12 visages, présentés un par un, six prénoms au choix. Maître : les mêmes visages
+ * et les mêmes prénoms reviennent à chaque manche, mais mélangés autrement. Légende : le même fruit
+ * jusqu'à quatre fois, et de moins en moins de temps.
  */
 
 export const QUI_ROUNDS = 3;
@@ -31,14 +34,22 @@ export const CLASHING_COLORS: Record<CharacterId, readonly number[]> = {
 
 export interface QuiLevel {
   people: number;
-  /** Combien de fois un même fruit peut revenir dans une manche. */
-  sameFruit: 1 | 2 | 3;
+  /** Combien de fois un même fruit peut revenir dans une manche (moins si ses fonds possibles manquent). */
+  sameFruit: 1 | 2 | 3 | 4;
   /** Temps d'étude par visage. */
   studyMs: number;
   /** Part des questions « Quel est son prénom ? » (le reste : « Qui est Léa ? »). */
   nameQuestions: number;
   /** Prénoms qui commencent par la même lettre. */
   lookAlikeNames: boolean;
+  /** Prénoms proposés à « Quel est son prénom ? ». */
+  nameOptions: number;
+  /** Les visages se présentent un par un (chacun `studyMs`) au lieu de tous ensemble. */
+  serial: boolean;
+  /** Mêmes visages et mêmes prénoms à chaque manche, mais chaque visage change de prénom. */
+  rebind: boolean;
+  /** Part de bonnes réponses qui vaut 100 pts : 1 jusqu'au niveau 20. */
+  full: number;
 }
 
 const Q = (people: number, sameFruit: 1 | 2 | 3, studyMs: number, nameQuestions: number, lookAlikeNames = false): QuiLevel => ({
@@ -47,6 +58,29 @@ const Q = (people: number, sameFruit: 1 | 2 | 3, studyMs: number, nameQuestions:
   studyMs,
   nameQuestions,
   lookAlikeNames,
+  nameOptions: 4,
+  serial: false,
+  rebind: false,
+  full: 1,
+});
+
+interface Twists {
+  serial?: boolean;
+  options?: number;
+  rebind?: boolean;
+}
+
+/** Niveaux 21 à 50 : prénoms toujours proches ; `full` : la part de bonnes réponses qui vaut 100 pts. */
+const X = (people: number, sameFruit: 3 | 4, studyMs: number, nameQuestions: number, full: number, { serial = false, options = 4, rebind = false }: Twists = {}): QuiLevel => ({
+  people,
+  sameFruit,
+  studyMs,
+  nameQuestions,
+  lookAlikeNames: true,
+  nameOptions: options,
+  serial,
+  rebind,
+  full,
 });
 
 export const QUI_LEVELS: readonly QuiLevel[] = [
@@ -70,6 +104,39 @@ export const QUI_LEVELS: readonly QuiLevel[] = [
   Q(10, 3, 1500, 0.5, true),
   Q(10, 3, 1400, 0.5, true),
   Q(10, 3, 1300, 0.5, true),
+  // Expert : un par un, jusqu'à 12 visages, six prénoms au choix.
+  X(10, 3, 1700, 0.5, 0.9, { serial: true }),
+  X(11, 3, 1400, 0.5, 0.9),
+  X(10, 3, 1500, 0.5, 0.9, { serial: true }),
+  X(11, 3, 1400, 0.5, 0.9, { options: 6 }),
+  X(10, 3, 1300, 0.5, 0.9, { serial: true }),
+  X(12, 3, 1400, 0.5, 0.9, { options: 6 }),
+  X(11, 3, 1400, 0.5, 0.9, { serial: true }),
+  X(12, 3, 1300, 0.75, 0.9, { options: 6 }),
+  X(11, 3, 1300, 0.5, 0.9, { serial: true, options: 6 }),
+  X(12, 3, 1200, 0.75, 0.9, { options: 6 }),
+  // Maître : les mêmes visages changent de prénom à chaque manche.
+  X(10, 3, 1300, 0.5, 0.8, { options: 6, rebind: true }),
+  X(11, 3, 1300, 0.5, 0.8, { options: 6, rebind: true }),
+  X(10, 3, 1300, 0.5, 0.8, { serial: true, rebind: true }),
+  X(12, 3, 1300, 0.5, 0.8, { options: 6, rebind: true }),
+  X(11, 3, 1300, 0.5, 0.8, { serial: true, rebind: true }),
+  X(12, 3, 1200, 0.75, 0.8, { options: 6, rebind: true }),
+  X(11, 3, 1200, 0.75, 0.8, { serial: true, options: 6, rebind: true }),
+  X(12, 3, 1000, 0.75, 0.8, { options: 6, rebind: true }),
+  X(12, 3, 1300, 0.75, 0.8, { serial: true, options: 6, rebind: true }),
+  X(12, 3, 1200, 0.75, 0.8, { serial: true, options: 6, rebind: true }),
+  // Légende : le même fruit jusqu'à quatre fois, de moins en moins de temps.
+  X(12, 4, 1300, 0.75, 0.75, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1250, 0.75, 0.75, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1200, 0.75, 0.75, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1150, 0.75, 0.75, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1100, 0.75, 0.75, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1100, 0.75, 0.7, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1050, 0.75, 0.7, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 1000, 0.75, 0.7, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 950, 0.75, 0.7, { serial: true, options: 6, rebind: true }),
+  X(12, 4, 900, 0.75, 0.7, { serial: true, options: 6, rebind: true }),
 ];
 
 export function quiLevel(level: number): QuiLevel {
@@ -83,6 +150,9 @@ export function quiLevelLabel(level: number): string {
     tr(`${c.people} visages`, `${c.people} faces`),
     c.sameFruit > 1 ? tr('fruits en double', 'repeated fruits') : null,
     c.lookAlikeNames ? tr('prénoms proches', 'similar names') : null,
+    c.serial ? tr('un par un', 'one at a time') : null,
+    c.nameOptions > 4 ? tr(`${c.nameOptions} prénoms au choix`, `${c.nameOptions} name choices`) : null,
+    c.rebind ? tr('prénoms échangés à chaque manche', 'names reshuffled each round') : null,
     tr(`${study} chacun`, `${study} each`),
   ]
     .filter(Boolean)
@@ -164,7 +234,8 @@ function pickFaces(rng: Rng, count: number, sameFruit: number): Pick<Person, 'ch
   const faces: Pick<Person, 'character' | 'color'>[] = [];
   for (const character of rng.shuffle(CHARACTERS.map((c) => c.id))) {
     // Les fruits en double viennent en tête de liste : ils doivent vraiment se ressembler.
-    const copies = Math.min(sameFruit, count - faces.length);
+    // Jamais plus de copies que de fonds possibles (la poire n'en a que trois).
+    const copies = Math.min(sameFruit, QUI_COLORS - CLASHING_COLORS[character].length, count - faces.length);
     for (let k = 0; k < copies && faces.length < count; k++) {
       faces.push({ character, color: 0 });
     }
@@ -186,23 +257,39 @@ export function generateQuiRound(rng: Rng, level: number): QuiRound {
   const faces = pickFaces(rng, c.people, c.sameFruit);
   const names = pickNames(rng, c.people, c.lookAlikeNames);
   const people = rng.shuffle(faces.map((face, i) => ({ ...face, name: names[i] })));
+  return { people, questions: quiQuestions(rng, c, people) };
+}
+
+/** Une question par personne, dans le désordre : « Qui est … ? » ou « Quel est son prénom ? ». */
+function quiQuestions(rng: Rng, c: QuiLevel, people: readonly Person[]): QuiQuestion[] {
   const nameCount = Math.round(c.people * c.nameQuestions);
   const kinds = rng.shuffle(Array.from({ length: c.people }, (_, i) => (i < nameCount ? 'name' : 'face')));
-  const questions = rng.shuffle(people.map((_, i) => i)).map((target, k): QuiQuestion => {
+  return rng.shuffle(people.map((_, i) => i)).map((target, k): QuiQuestion => {
     const kind = kinds[k] as QuiQuestion['kind'];
     const others = rng.shuffle(people.map((_, i) => i).filter((i) => i !== target));
-    // « Qui est … ? » : tous les visages ; « Quel est son prénom ? » : quatre prénoms.
-    const options = rng.shuffle(kind === 'face' ? [target, ...others] : [target, ...others.slice(0, 3)]);
+    // « Qui est … ? » : tous les visages ; « Quel est son prénom ? » : quatre prénoms (six aux niveaux avancés).
+    const options = rng.shuffle(kind === 'face' ? [target, ...others] : [target, ...others.slice(0, c.nameOptions - 1)]);
     return { kind, target, options };
   });
-  return { people, questions };
 }
 
 export function generateQui(rng: Rng, level: number): QuiRound[] {
-  return Array.from({ length: QUI_ROUNDS }, () => generateQuiRound(rng, level));
+  const c = quiLevel(level);
+  if (!c.rebind) return Array.from({ length: QUI_ROUNDS }, () => generateQuiRound(rng, level));
+  // Mêmes visages, mêmes prénoms, mais un décalage différent à chaque manche : chaque visage change de
+  // prénom, et ne retrouve jamais celui d'une manche précédente.
+  const first = generateQuiRound(rng, level);
+  const faces = first.people.map(({ character, color }) => ({ character, color }));
+  const names = first.people.map((p) => p.name);
+  const shifts = rng.shuffle(Array.from({ length: faces.length - 1 }, (_, i) => i + 1)).slice(0, QUI_ROUNDS - 1);
+  const others = shifts.map((shift): QuiRound => {
+    const people = rng.shuffle(faces.map((face, i) => ({ ...face, name: names[(i + shift) % names.length] })));
+    return { people, questions: quiQuestions(rng, c, people) };
+  });
+  return [first, ...others];
 }
 
-/** Part de bonnes réponses, sur toutes les manches. */
-export function scoreQui(correct: number, total: number): number {
-  return total ? clampScore((correct / total) * 100) : 0;
+/** Part de bonnes réponses, sur toutes les manches ; aux niveaux 21 et plus, 100 pts dès la part `full`. */
+export function scoreQui(correct: number, total: number, level = 1): number {
+  return total ? clampScore((correct / total / quiLevel(level).full) * 100) : 0;
 }

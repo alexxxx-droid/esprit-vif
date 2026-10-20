@@ -10,7 +10,8 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 
 ## Au programme
 
-**28 mini-jeux** répartis en six domaines, chacun avec **20 niveaux** :
+**28 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
+Confirmé, Expert, Maître, Légende), soit **1 400 niveaux** :
 
 | Domaine | Jeux |
 | --- | --- |
@@ -22,9 +23,10 @@ Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 | Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
-- **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20.
+- **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20,
+  diamant au 35, légende avec 3 étoiles au 50.
 - **Rang et XP** : chaque partie rapporte de l’expérience ; les rangs vont d’« Esprit curieux » à
-  « Esprit légendaire ». **43 trophées** récompensent la régularité, la curiosité et les exploits.
+  « Esprit légendaire ». **46 trophées** récompensent la régularité, la curiosité et les exploits.
 - **Carte du cerveau** : les six domaines sur un radar, d’après les dernières parties.
 - **Le mot du coach** : un conseil différent chaque jour.
 - **Ce que disent tes parties** : tes tendances en clair (domaine qui progresse, meilleur moment

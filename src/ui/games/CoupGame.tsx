@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
-import { COUP_DURATION_MS, coupLevel, generateCoupTrial, scoreCoup, type Dot } from '../../core/games/coupdoeil';
+import { COUP_DURATION_MS, coupExpected, coupLevel, generateCoupTrial, scoreCoup, type Dot } from '../../core/games/coupdoeil';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -12,12 +12,12 @@ import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
 import { slow } from '../tempo';
-import { COUP_GROUPS } from './coup-groups';
+import { COUP_GROUPS, COUP_NOISE_COLOR } from './coup-groups';
 
 /** Le temps de fixer le centre entre deux nuées. */
 const FIXATION_MS = 450;
 
-export function DotField({ groups, hidden }: { groups: readonly (readonly Dot[])[]; hidden?: boolean }) {
+export function DotField({ groups, noise, hidden }: { groups: readonly (readonly Dot[])[]; noise?: readonly Dot[]; hidden?: boolean }) {
   return (
     <svg className="coup__field" viewBox="0 0 100 100" aria-hidden="true">
       {hidden ? (
@@ -25,7 +25,10 @@ export function DotField({ groups, hidden }: { groups: readonly (readonly Dot[])
           ?
         </text>
       ) : (
-        groups.map((dots, g) => dots.map((d, i) => <circle key={`${g}-${i}`} cx={d.x} cy={d.y} r={d.r} fill={COUP_GROUPS[g].color} />))
+        <>
+          {noise?.map((d, i) => <circle key={`n-${i}`} cx={d.x} cy={d.y} r={d.r} fill={COUP_NOISE_COLOR} />)}
+          {groups.map((dots, g) => dots.map((d, i) => <circle key={`${g}-${i}`} cx={d.x} cy={d.y} r={d.r} fill={COUP_GROUPS[g].color} />))}
+        </>
       )}
     </svg>
   );
@@ -47,6 +50,9 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
   const [over, setOver] = useState(false);
   const [mark, showMark] = useFeedback();
   const trial = trials[index % trials.length];
+  const fewer = trial.ask === 'fewer';
+  /** La question peut s'inverser à ce niveau : on l'annonce dès la croix de fixation. */
+  const flips = Boolean(config.twist?.fewer);
 
   const finish = useEffectEvent(() => {
     setOver(true);
@@ -90,7 +96,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
   const choose = (group: 0 | 1) => {
     if (over || phase === 'fix') return;
     const [a, b] = trial.groups;
-    if (group === trial.answer) {
+    if (group === coupExpected(trial)) {
       fx.good();
       showMark('good');
       setCorrect(correct + 1);
@@ -123,10 +129,24 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
           <strong>{correct}</strong> / {config.target}
         </p>
         <div className={`coup__frame is-${phase}`}>
-          {phase === 'fix' ? <span className="coup__cross" aria-hidden="true" /> : <DotField key={index} groups={trial.groups} hidden={phase === 'ask'} />}
+          {phase === 'fix' ? (
+            <span className="coup__cross" aria-hidden="true" />
+          ) : (
+            <DotField key={index} groups={trial.groups} noise={trial.noise} hidden={phase === 'ask'} />
+          )}
         </div>
-        <p className="lettre__ask" aria-live="polite">
-          {phase === 'ask' ? tr('Quelle couleur était la plus nombreuse ?', 'Which color had more dots?') : phase === 'show' ? tr('Regarde bien…', 'Look closely…') : ' '}
+        <p className={`lettre__ask${fewer ? ' coup__ask--fewer' : ''}`} aria-live="polite">
+          {phase === 'ask'
+            ? fewer
+              ? tr('Quelle couleur était la MOINS nombreuse ?', 'Which color had FEWER dots?')
+              : tr('Quelle couleur était la plus nombreuse ?', 'Which color had more dots?')
+            : flips
+              ? fewer
+                ? tr('Cherche la MOINS nombreuse…', 'Find the one with FEWER…')
+                : tr('Cherche la plus nombreuse…', 'Find the one with more…')
+              : phase === 'show'
+                ? tr('Regarde bien…', 'Look closely…')
+                : ' '}
         </p>
         <FeedbackMark mark={mark} />
       </div>
@@ -134,7 +154,7 @@ export function CoupGame({ seed, level, onFinish }: GameProps) {
         {COUP_GROUPS.map((g, i) => (
           <TapButton key={g.name} className="coup__option" onTap={() => choose(i as 0 | 1)} disabled={phase === 'fix'} aria-keyshortcuts={i ? 'ArrowRight' : 'ArrowLeft'}>
             <span className="coup__swatch" style={{ background: g.color }} aria-hidden="true" />
-            {tr(g.more.fr, g.more.en)}
+            {fewer ? tr(g.fewer.fr, g.fewer.en) : tr(g.more.fr, g.more.en)}
           </TapButton>
         ))}
       </div>

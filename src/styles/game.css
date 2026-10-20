@@ -386,6 +386,29 @@
   letter-spacing: 0.03em;
 }
 
+/* Démo de Couleurs piégées, niveaux Expert et plus : la consigne au-dessus, le mot dans son cadre. */
+.demo__stage:has(.demo__ask) {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo__ask {
+  padding: 3px 12px;
+  border: 2px solid var(--stage-ink-2);
+  border-radius: 999px;
+  color: var(--stage-ink);
+  font-size: 0.8rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.demo__word--framed {
+  padding: 0.1em 0.3em;
+  border: 0.12em solid var(--frame);
+  border-radius: 0.25em;
+  font-size: 1.9rem;
+}
+
 .demo__answers {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1023,6 +1046,70 @@
   background: var(--ink-jaune);
 }
 
+/* Niveaux Maître et Légende : deux couleurs de plus (la scène reste sombre dans les deux thèmes). */
+:root {
+  --ink-rose: #ff7eb6;
+  --ink-blanc: #f6f4fa;
+}
+.ink--rose {
+  color: var(--ink-rose);
+}
+.ink--blanc {
+  color: var(--ink-blanc);
+}
+.swatch--rose {
+  background: var(--ink-rose);
+}
+.swatch--blanc {
+  background: var(--ink-blanc);
+}
+
+/* Niveaux Expert et plus : un cadre coloré autour du mot ; la consigne peut demander sa couleur. */
+.stroop__word--framed {
+  padding: 0.16em 0.3em;
+  border: 0.13em solid var(--frame);
+  border-radius: 0.26em;
+  font-size: clamp(2.3rem, 12.5vw, 4rem);
+}
+
+/* Mot éclair : il s'efface, la place reste (rien ne bouge). */
+.stroop__word--gone {
+  visibility: hidden;
+}
+
+.stroop__ask--frame {
+  border-style: double;
+  border-width: 4px;
+  border-color: var(--stage-ink);
+}
+
+/* Temps limité par mot : une barre qui se vide sous le mot. */
+.stroop__timer {
+  position: absolute;
+  right: 24px;
+  bottom: 12px;
+  left: 24px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--stage-ink-2);
+  transform-origin: left;
+  animation: stroop-timer linear forwards;
+}
+
+@keyframes stroop-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.stroop__voice ~ .stroop__timer,
+.stroop__timer:has(~ .stroop__voice) {
+  bottom: 48px;
+}
+
 /* ---------- Table de Schulte ---------- */
 
 .schulte-stage {
@@ -1089,6 +1176,38 @@
 
 .schulte--moved {
   animation: board-in 260ms var(--ease-out);
+}
+
+/* 7 × 7 : des marges plus fines, pour garder des cases d'au moins 44 px sur un écran de 360 px. */
+.schulte--dense {
+  gap: 3px;
+}
+
+.schulte--dense .schulte__cell {
+  border-radius: 10px;
+}
+
+/* Grilles à deux couleurs (Gorbov, leurres) : bleu et orange, que les daltoniens distinguent aussi. */
+.schulte__cell.is-blue:not(.is-found) {
+  background: color-mix(in oklab, var(--d-calcul) 10%, var(--surface));
+  color: color-mix(in oklab, var(--d-calcul) 85%, var(--ink));
+}
+
+.schulte__cell.is-orange:not(.is-found) {
+  background: color-mix(in oklab, var(--d-memoire) 12%, var(--surface));
+  color: color-mix(in oklab, var(--d-memoire) 80%, var(--ink));
+}
+
+.schulte__target .schulte__tone.is-blue {
+  color: color-mix(in oklab, var(--d-calcul) 85%, var(--ink));
+}
+
+.schulte__target .schulte__tone.is-orange {
+  color: color-mix(in oklab, var(--d-memoire) 80%, var(--ink));
+}
+
+.schulte__target span.schulte__tone {
+  font-weight: 760;
 }
 
 .shake {
@@ -1194,6 +1313,35 @@
 .matrice__order {
   font-size: 1.5rem;
   font-weight: 800;
+}
+
+/* Grille 6 × 6 (niveaux 21 et plus) : des cases d'au moins 46 px sur un téléphone de 360 px. */
+.matrice--dense {
+  gap: 7px;
+}
+
+.matrice--dense .matrice__cell {
+  border-radius: 12px;
+}
+
+.matrice--dense .matrice__order {
+  font-size: 1.15rem;
+}
+
+/* Case piège : une autre couleur et une croix, pour ne pas la confondre (même sans voir les couleurs). */
+.matrice__cell.is-lure {
+  background: var(--d-attention);
+  color: var(--badge-ink);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--d-attention) 25%, transparent),
+    var(--shadow-1);
+}
+
+/* Le sens, annoncé après la séquence : il doit sauter aux yeux. */
+.matrice__status--cue {
+  color: var(--accent);
+  font-size: 1.3rem;
+  animation: pop 260ms var(--ease-spring) both;
 }
 
 .tries {
@@ -1359,6 +1507,17 @@
   }
 }
 
+/* Niveaux Maître et Légende : un nombre barré défile mais ne compte pas ; « ×2 » multiplie le total. */
+.total__step.is-decoy {
+  color: var(--ink-3);
+  text-decoration: line-through;
+  text-decoration-thickness: 0.09em;
+}
+
+.total__step.is-times {
+  color: var(--accent);
+}
+
 .total__answer {
   display: flex;
   align-items: center;
@@ -1441,11 +1600,13 @@
 }
 
 .intrus {
+  /* Grille carrée, ou plus haute que large aux niveaux avancés (6 × 7, 6 × 8) : elle tient toujours à l'écran. */
+  --grid-w: min(100vw - 32px, 480px, (100dvh - 230px) * var(--size) / var(--rows, var(--size)));
   display: grid;
   grid-template-columns: repeat(var(--size), minmax(0, 1fr));
   gap: 6px;
-  width: min(100%, 480px, calc(100dvh - 230px));
-  aspect-ratio: 1;
+  width: min(100%, 480px, calc((100dvh - 230px) * var(--size) / var(--rows, var(--size))));
+  aspect-ratio: var(--size) / var(--rows, var(--size));
   animation: board-in 200ms var(--ease-out);
 }
 
@@ -1464,9 +1625,29 @@
   border-radius: 14px;
   background: var(--surface);
   box-shadow: var(--shadow-1);
-  font-size: calc(min(100vw - 32px, 480px) / var(--size) * 0.5);
+  font-size: calc(var(--grid-w) / var(--size) * 0.5);
   font-weight: 650;
   transition: transform 80ms;
+}
+
+/* Couleurs trompeuses : la teinte change, jamais la forme. Mélangée à l'encre, elle reste lisible dans les deux thèmes. */
+.intrus__symbol--hued {
+  color: color-mix(in oklab, hsl(var(--hue) 78% 48%) 80%, var(--ink));
+}
+
+/* Niveaux Légende : les symboles tournent lentement sur eux-mêmes. */
+.intrus__spin {
+  display: inline-block;
+  animation: intrus-spin linear infinite;
+}
+
+@keyframes intrus-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .intrus__cell:active {
@@ -1502,6 +1683,12 @@
 .anagram__slot.is-filled {
   border-color: var(--accent);
   animation: pop 180ms var(--ease-spring);
+}
+
+/* Mots de 8 lettres (niveaux 21 et plus) : des cases plus étroites, pour tenir à 360 px. */
+.anagram__slots--long .anagram__slot {
+  width: clamp(30px, 8.6vw, 44px);
+  font-size: 1.6rem;
 }
 
 .anagram__tiles {
@@ -2056,6 +2243,158 @@
   color: var(--bad);
 }
 
+/*
+ * Niveaux Maître et Légende : une boulangerie à gauche, la boutique à droite.
+ * Chaque magasin a son côté de rue : les clients de la boutique arrivent et repartent par la droite,
+ * ceux de la boulangerie par la gauche.
+ */
+.shop--duo .shop__sign {
+  left: 67%;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+}
+
+.shop--duo .shop__sign--bakery {
+  left: 28%;
+  background: color-mix(in oklab, var(--warm) 55%, var(--ink));
+}
+
+.shop__wall {
+  position: absolute;
+  top: 22%;
+  bottom: 22%;
+  left: 47%;
+  z-index: 1;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.shop--duo .shop__door {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  justify-content: center;
+  gap: 12px 3px;
+  padding: 4px;
+}
+
+.shop--duo .shop__door.is-open {
+  background: color-mix(in oklab, var(--accent-soft) 70%, var(--surface));
+}
+
+.shop--duo .shop__door--bakery {
+  left: 17%;
+}
+
+.shop--duo .walker--in {
+  animation-name: walk-in-right;
+}
+
+.shop--duo .walker--out {
+  animation-name: walk-out-right;
+}
+
+.walker--bakery-in {
+  animation-name: walk-in-left;
+}
+
+.walker--bakery-out {
+  animation-name: walk-out-left;
+}
+
+@keyframes walk-in-right {
+  0% {
+    left: 110%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    left: 63%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: 63%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+}
+
+@keyframes walk-out-right {
+  0% {
+    left: 63%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  25% {
+    left: 63%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: 110%;
+    opacity: 1;
+  }
+}
+
+@keyframes walk-in-left {
+  0% {
+    left: -12%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  75% {
+    left: 24%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: 24%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+}
+
+@keyframes walk-out-left {
+  0% {
+    left: 24%;
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  25% {
+    left: 24%;
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    left: -12%;
+    opacity: 1;
+  }
+}
+
+.shop--duo .shop__badge--in {
+  right: 2%;
+  bottom: 44%;
+  left: auto;
+}
+
+.shop__badge--bakery.shop__badge--in {
+  right: auto;
+  bottom: 44%;
+  left: 2%;
+}
+
+.shop__badge--bakery.shop__badge--out {
+  right: auto;
+  bottom: 44%;
+  left: 26%;
+}
+
 /* ---------- Calcul du diable ---------- */
 
 .diable {
@@ -2087,6 +2426,19 @@
   border-color: var(--accent);
   background: var(--accent-soft);
   color: var(--accent-soft-ink);
+}
+
+/* Écart variable (niveaux Maître et Légende) : la case du calcul demandé ressort, plus haute et épaisse. */
+.diable__ghost.is-target {
+  border-width: 3px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  transform: translateY(-4px);
+}
+
+/* Le calcul effacé (niveaux Expert et plus) : la carte reste, le texte disparaît. */
+.diable__card.is-hidden {
+  color: var(--ink-3);
 }
 
 .diable__card {
@@ -2126,6 +2478,18 @@
   font-size: clamp(1.2rem, 6vw, 1.8rem);
   font-weight: 800;
   animation: pop 220ms var(--ease-spring);
+}
+
+/* 6 × 6 : « −99 » et « 999 » tiennent dans une case de 46 px. */
+.matrice--dense .ordre__value {
+  font-size: clamp(0.95rem, 4.4vw, 1.3rem);
+  letter-spacing: -0.02em;
+}
+
+/* Nombre barré : à ignorer, il ne faut pas toucher sa case. */
+.ordre__value.is-decoy {
+  color: var(--ink-3);
+  text-decoration: line-through 3px;
 }
 
 /* ---------- Monnaie ---------- */
@@ -2243,10 +2607,93 @@
 .money--v10000 {
   background: #8fd0a4;
 }
+.money--v20000 {
+  background: #e8d27a;
+}
 
 .money.is-hidden {
   background: repeating-linear-gradient(45deg, var(--surface-3) 0 6px, var(--surface-2) 6px 12px);
   transform: rotateY(180deg);
+}
+
+/* Dix pièces et billets ou plus, ou des piles : billets plus petits, pour tenir sur un petit écran. */
+.money-tray--dense {
+  gap: 8px;
+}
+
+.money-tray--dense .money--note,
+.money-tray--piles .money--note {
+  width: 74px;
+  height: 42px;
+}
+
+.money-tray--dense .money--note .money__label,
+.money-tray--piles .money--note .money__label {
+  font-size: 0.95rem;
+}
+
+/* Piles (niveaux 21 et plus) : une pièce ou un billet, et combien il y en a ; trois piles de billets par ligne. */
+.money-tray--piles {
+  gap: 10px;
+}
+
+.money-pile {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.money-pile__count {
+  min-width: 2.2ch;
+  color: var(--ink);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.money-pile__count.is-hidden {
+  color: var(--ink-3);
+}
+
+/* Panier (niveaux 21 et plus) : une étiquette par article, le bon de réduction en pointillés. */
+.change--basket {
+  gap: 12px;
+}
+
+.basket {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 340px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.basket__line {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 780;
+  white-space: nowrap;
+}
+
+.basket__qty {
+  margin-right: 0.3em;
+  font-weight: 650;
+}
+
+.basket__line--coupon {
+  padding: 4px 10px;
+  border: 2px dashed var(--ink-3);
+  background: var(--surface);
+  color: var(--ink);
 }
 
 .change {
@@ -2431,6 +2878,37 @@
   }
 }
 
+/* Goutte piégée (niveaux Maître et Légende) : pointillés et éclair, lisibles sans la couleur. */
+.drop--trap {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding-inline: 10px 12px;
+  font-size: 1.05rem;
+  background: repeating-linear-gradient(135deg, var(--surface) 0 6px, var(--surface-2) 6px 12px);
+  box-shadow:
+    inset 0 0 0 2px var(--bad),
+    var(--shadow-1);
+  color: var(--ink-2);
+}
+
+.drop--trap svg {
+  flex: none;
+  color: var(--bad);
+}
+
+/* Brouillard : le calcul s'efface en route (le délai est une règle du jeu, gardé même en mouvement réduit). */
+.drop--fog .drop__text {
+  animation: drop-fog 400ms linear forwards;
+  animation-delay: var(--fog);
+}
+
+@keyframes drop-fog {
+  to {
+    opacity: 0;
+  }
+}
+
 .drop-pop {
   position: absolute;
   z-index: 0;
@@ -2536,6 +3014,19 @@
   text-align: center;
 }
 
+/* Rappel quand seule la valeur compte (A = a, 3 = ⚂). */
+.correspondance__hint {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-3);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.match-card__dice {
+  color: var(--ink);
+}
+
 .yes-no {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2592,12 +3083,25 @@
 }
 
 .fleches__row {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2px;
   min-height: 64px;
   color: var(--ink);
+  /* Les flèches rapetissent sur un écran étroit : la rangée entière reste visible. */
+  --arrow: min(44px, calc((100vw - 48px) / (var(--n, 5) * 1.05)));
+}
+
+.fleches__row .arrow svg {
+  width: var(--arrow);
+  height: var(--arrow);
+}
+
+/* Rangée décalée au hasard (jusqu'à 18 % de sa largeur) : elle ne déborde pas de l'écran. */
+.fleches__row--jitter {
+  --arrow: min(44px, calc((100vw - 48px) / (var(--n, 5) * 1.45)));
 }
 
 .arrow {
@@ -2616,6 +3120,127 @@
   color: var(--ink-2);
   font-weight: 650;
   text-align: center;
+}
+
+/* Niveaux avancés : dispositions, couleurs de consigne, flèches encadrées (sens inverse) ou barrées (ne rien toucher). */
+.fleches:has(.fleches__legend) {
+  gap: 16px;
+}
+
+.fleches__row--column {
+  flex-direction: column;
+  --arrow: clamp(28px, calc((100dvh - 460px) / var(--n, 7)), 40px);
+}
+
+.fleches__row--square {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 6px;
+  --arrow: 44px;
+}
+
+.fleches {
+  --cue-center: color-mix(in oklab, var(--ink-bleu) 78%, var(--ink));
+  --cue-flank: color-mix(in oklab, var(--ink-orange) 78%, var(--ink));
+}
+
+.fleches__row--cue-center,
+.fleches__key--center .arrow {
+  color: var(--cue-center);
+}
+
+.fleches__row--cue-flank,
+.fleches__key--flank .arrow {
+  color: var(--cue-flank);
+}
+
+.fleches__row--reverse,
+.fleches__mini--reverse {
+  border-radius: 14px;
+  outline: 3px dashed var(--ink-2);
+  outline-offset: 8px;
+}
+
+.fleches__mini--reverse {
+  border-radius: 6px;
+  outline-width: 2px;
+  outline-offset: -2px;
+}
+
+.fleches__row--nogo::after,
+.fleches__mini--nogo::after {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  left: -10px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+  background: var(--bad);
+  box-shadow: 0 0 0 2px var(--bg);
+  content: '';
+  transform: rotate(-12deg);
+}
+
+.fleches__row--column.fleches__row--nogo::after {
+  transform: rotate(-78deg) scaleX(4);
+}
+
+.fleches__row--square.fleches__row--nogo::after {
+  transform: rotate(-40deg) scaleX(1.25);
+}
+
+.fleches__mini--nogo::after {
+  right: -2px;
+  left: -2px;
+  height: 3px;
+  margin-top: -1.5px;
+  box-shadow: none;
+}
+
+/* Voisines qui bougent : de part et d'autre, en sens opposés. */
+.fleches__row--motion .is-before {
+  animation: fleches-sway 560ms ease-in-out infinite alternate;
+}
+
+.fleches__row--motion .is-after {
+  animation: fleches-sway 560ms ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fleches-sway {
+  from {
+    translate: -7px 0;
+  }
+  to {
+    translate: 7px 0;
+  }
+}
+
+.fleches__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  margin: -8px 0 0;
+  padding: 0;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  font-weight: 650;
+  list-style: none;
+}
+
+.fleches__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fleches__mini {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 22px;
 }
 
 .fleches__pad {
@@ -2795,6 +3420,40 @@
   color: var(--ink);
 }
 
+/* Démos des niveaux avancés de Flèches : couleur de consigne, cadre (sens inverse), barre (ne rien toucher). */
+.demo-arrows--cue-center,
+.demo-arrows--cue-center .is-center {
+  color: color-mix(in oklab, var(--ink-bleu) 78%, var(--ink));
+}
+
+.demo-arrows--cue-flank,
+.demo-arrows--cue-flank .is-center {
+  color: color-mix(in oklab, var(--ink-orange) 78%, var(--ink));
+}
+
+.demo-arrows--reverse {
+  border-radius: 10px;
+  outline: 2px dashed var(--ink-2);
+  outline-offset: 6px;
+}
+
+.demo-arrows--nogo {
+  position: relative;
+}
+
+.demo-arrows--nogo::after {
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  left: -6px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 3px;
+  background: var(--bad);
+  content: '';
+  transform: rotate(-10deg);
+}
+
 .demo-reflex {
   display: grid;
   place-items: center;
@@ -2826,6 +3485,25 @@
 }
 
 .piece rect {
+  fill: currentColor;
+}
+
+/* Pièces en relief : trois tons par cube (dessus, flanc gauche, flanc droit) ; arêtes à la couleur du fond. */
+.solid polygon {
+  stroke: var(--surface);
+  stroke-linejoin: round;
+  stroke-width: 0.07;
+}
+
+.solid__top {
+  fill: color-mix(in oklab, currentColor 38%, var(--surface));
+}
+
+.solid__left {
+  fill: color-mix(in oklab, currentColor 72%, var(--surface));
+}
+
+.solid__right {
   fill: currentColor;
 }
 
@@ -2863,7 +3541,9 @@
   gap: 10px;
 }
 
-.rotation__options--3 {
+.rotation__options--3,
+.rotation__options--5,
+.rotation__options--6 {
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -2927,13 +3607,26 @@
   font-size: 1.45rem;
 }
 
+/* 8 × 8 et 9 × 9 (niveaux 23 et plus) : des cases d'environ 36 px sur un écran de 360 px. */
+.sudoku--8 .sudoku__cell {
+  font-size: 1.25rem;
+}
+
+.sudoku--9 .sudoku__cell {
+  font-size: 1.15rem;
+}
+
 .sudoku--4 .sudoku__cell:nth-child(4n),
-.sudoku--6 .sudoku__cell:nth-child(6n) {
+.sudoku--6 .sudoku__cell:nth-child(6n),
+.sudoku--8 .sudoku__cell:nth-child(8n),
+.sudoku--9 .sudoku__cell:nth-child(9n) {
   border-right: 0;
 }
 
 .sudoku--4 .sudoku__cell:nth-child(n + 13),
-.sudoku--6 .sudoku__cell:nth-child(n + 31) {
+.sudoku--6 .sudoku__cell:nth-child(n + 31),
+.sudoku--8 .sudoku__cell:nth-child(n + 57),
+.sudoku--9 .sudoku__cell:nth-child(n + 73) {
   border-bottom: 0;
 }
 
@@ -2978,6 +3671,21 @@
 
 .sudoku__pad--6 {
   grid-template-columns: repeat(6, 1fr);
+}
+
+/* Pavé sur deux rangées pour les grandes grilles : 4 + 4, puis 5 + 4. */
+.sudoku__pad--8 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.sudoku__pad--9 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.sudoku__pad--8 .sudoku__digit,
+.sudoku__pad--9 .sudoku__digit {
+  min-height: 52px;
+  font-size: 1.5rem;
 }
 
 .sudoku__digit {
@@ -3090,10 +3798,27 @@
   stroke-width: 1.5;
 }
 
+/* « ×3 » : un objet posé en plusieurs exemplaires (niveaux 31 et plus). */
+.scale__count {
+  fill: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 800;
+}
+
 .balance__items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
   gap: 8px;
+}
+
+/* 8 ou 9 objets : cinq boutons par rangée, deux rangées au plus. */
+.balance__items--many {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.balance__items--many .balance__item {
+  min-height: 58px;
 }
 
 .balance__item {
@@ -3153,6 +3878,44 @@
   font-family: var(--font);
   font-size: 17px;
   font-weight: 700;
+}
+
+/* Douze chiffres romains : plus serrés (VIII, XII). */
+.clock__numeral--roman {
+  font-size: 13px;
+  letter-spacing: -0.02em;
+}
+
+/* Horloge vue dans un miroir : un cadre bleuté, comme une glace. */
+.clock--mirror .clock__face {
+  fill: color-mix(in oklab, var(--accent) 7%, var(--surface));
+  stroke: color-mix(in oklab, var(--accent) 45%, var(--line));
+  stroke-width: 4;
+}
+
+.horloges__mirror {
+  margin: 0;
+}
+
+/* Durées sur 24 heures : chaque horloge porte son moment de la journée. */
+.horloges__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.horloges__daypart {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 750;
 }
 
 .clock__hand {
@@ -3283,6 +4046,19 @@
   width: 100%;
 }
 
+/* Démo des durées sur 24 heures : deux petites horloges, du soir au matin. */
+.demo-horloges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-3);
+}
+
+.demo-horloges .horloges__daypart {
+  padding: 2px 8px;
+  font-size: 0.75rem;
+}
+
 /* ---------- Mots à retenir ---------- */
 
 .mots {
@@ -3339,6 +4115,37 @@
   animation: card-in 240ms var(--ease-out) both;
 }
 
+/* Défilé un par un (niveaux 21 et plus) : apparition brève, les mots les plus longs tiennent sur 360 px. */
+.mots__flash {
+  max-width: 100%;
+  padding: 22px 24px;
+  font-size: clamp(1.8rem, 8.5vw, 2.6rem);
+  overflow-wrap: anywhere;
+  animation: mots-flash 120ms var(--ease-out) both;
+}
+
+@keyframes mots-flash {
+  from {
+    opacity: 0.2;
+  }
+}
+
+/* Mot barré : à lire, pas à retenir. */
+.mots__flash.is-forget {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 2px var(--ink-3);
+  color: var(--ink-3);
+  text-decoration: line-through 4px;
+}
+
+.mots__tag {
+  min-height: 1.4em;
+  color: var(--ink-3);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 /* ---------- Lettre manquante ---------- */
 
 .lettre {
@@ -3352,6 +4159,13 @@
   color: var(--accent-soft-ink);
   font-weight: 750;
   animation: pop 260ms var(--ease-spring) both;
+}
+
+/* Paliers Maître et Légende : pas de catégorie, la pastille reste pour que rien ne bouge. */
+.lettre__hint--none {
+  background: var(--surface-3);
+  color: var(--ink-2);
+  animation: none;
 }
 
 .lettre__word {
@@ -3403,6 +4217,16 @@
 
 .lettre__options--4 {
   grid-template-columns: repeat(2, 1fr);
+}
+
+/* Trois ou quatre lettres par choix : deux colonnes, un peu plus petit. */
+.lettre__options--multi {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.lettre__options--multi .lettre__option {
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
 }
 
 .lettre__option {
@@ -3458,6 +4282,17 @@
 .categories__words--dense .categories__word {
   min-height: 54px;
   font-size: 1.02rem;
+}
+
+/* 11 ou 12 mots (niveaux 27 et plus) : six rangées serrées, sans défilement à 360 × 740. */
+.categories__words--packed {
+  gap: 8px;
+}
+
+.categories__words--packed .categories__word {
+  min-height: 46px;
+  padding: 6px 8px;
+  font-size: 0.98rem;
 }
 
 .categories__word:active {
@@ -3545,6 +4380,22 @@
 
 .paire:disabled {
   cursor: default;
+}
+
+/* 20 paires (5 colonnes) : un peu moins d'espace entre les cartes. */
+.paires--dense {
+  gap: 6px;
+}
+
+/* Cartes baladeuses : les deux cartes qui viennent d'échanger leur place s'entourent un instant. */
+.paire.is-swapped {
+  z-index: 1;
+}
+
+.paire.is-swapped .paire__back {
+  box-shadow:
+    inset 0 0 0 3px var(--accent),
+    0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
 /* ---------- Démos des mots ---------- */
@@ -3763,6 +4614,12 @@
   font-weight: 800;
 }
 
+/* La question s'inverse : « la MOINS nombreuse », en couleur pour ne pas la manquer. */
+.coup__ask--fewer {
+  color: var(--warm-ink);
+  font-weight: 760;
+}
+
 .coup__cross {
   position: relative;
   width: 22px;
@@ -3947,6 +4804,19 @@
   width: 100%;
 }
 
+/* Présentation un par un : un seul visage, plus grand. */
+.qui-person--solo {
+  gap: 10px;
+}
+
+.qui-person--solo .qui-person__name {
+  font-size: 1.6rem;
+}
+
+.qui__rebind {
+  color: var(--accent);
+}
+
 .qui__prompt {
   font-size: 1.5rem;
   font-weight: 650;
@@ -4031,6 +4901,7 @@
 }
 
 .lecture__sentence {
+  position: relative;
   display: grid;
   place-items: center;
   width: 100%;
@@ -4073,6 +4944,58 @@
 
 .lecture__option--false {
   color: var(--bad);
+}
+
+/* Phrase éclair (palier Légende) : une mèche se consume sous la phrase, puis la phrase s'efface. */
+.lecture__text {
+  transition:
+    opacity 180ms,
+    filter 180ms;
+}
+
+.lecture__sentence.is-hidden .lecture__text {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+.lecture__sentence.is-hidden::after {
+  content: '· · ·';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+}
+
+.lecture__fuse {
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  left: 18px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--dom, var(--accent));
+  transform-origin: left;
+  animation: lecture-fuse var(--flash) linear both;
+}
+
+@keyframes lecture-fuse {
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* La mèche dit le temps de lecture qui reste : elle garde sa vraie durée même en mouvement réduit. */
+@media (prefers-reduced-motion: reduce) {
+  .lecture__fuse {
+    animation-duration: var(--flash) !important;
+  }
+}
+
+:root[data-motion='reduce'] .lecture__fuse {
+  animation-duration: var(--flash) !important;
 }
 
 .demo-lecture {
@@ -4176,6 +5099,26 @@
   aspect-ratio: 1;
 }
 
+/* Grille plus haute que large (niveaux 25 et plus) : la hauteur suit les cases, la largeur se règle sur l'écran. */
+.iti-grid--tall {
+  width: min(100%, 360px, calc((100dvh - 330px) * var(--iti-cols) / var(--iti-rows)));
+  aspect-ratio: auto;
+}
+
+/* Beaucoup de flèches à revoir après coup : des pastilles plus petites. */
+.iti__moves--many:not(.iti__moves--one) {
+  gap: 6px;
+}
+
+.iti__moves--many:not(.iti__moves--one) .iti-move {
+  padding: 6px 7px;
+}
+
+.iti__moves--many:not(.iti__moves--one) .iti-move svg {
+  width: 20px;
+  height: 20px;
+}
+
 .iti-cell {
   display: grid;
   place-items: center;
@@ -4217,6 +5160,14 @@
   box-shadow:
     inset 0 0 0 3px var(--good),
     var(--shadow-1);
+}
+
+/* Rocher : il arrête la course, on ne peut pas s'y arrêter. */
+.iti-cell.is-rock {
+  background:
+    radial-gradient(circle at 34% 30%, color-mix(in oklab, var(--ink-3) 35%, var(--surface)) 0 22%, transparent 23%),
+    radial-gradient(ellipse 72% 64% at 50% 56%, var(--ink-3) 0 62%, color-mix(in oklab, var(--ink-3) 45%, var(--surface)) 64% 70%, var(--surface-2) 72%);
+  box-shadow: none;
 }
 
 .iti-path {
@@ -4394,4 +5345,64 @@
 
 .tuto__buttons > .btn {
   grid-column: 1 / -1;
+}
+
+/* ---------- Paliers de difficulté ---------- */
+
+.tier-pill {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  vertical-align: 1px;
+}
+
+.tier-pill--debutant {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.tier-pill--confirme {
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.tier-pill--expert {
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.tier-pill--maitre {
+  background: color-mix(in oklab, var(--bad) 14%, var(--surface));
+  color: var(--bad);
+}
+
+.tier-pill--legende {
+  background: linear-gradient(135deg, #2b1d63, #4b39ef 60%, #f2b51d);
+  color: #fff6d8;
+}
+
+.levels__tier {
+  display: grid;
+  flex: none;
+  place-items: center;
+  align-self: stretch;
+  min-height: 62px;
+  padding: 0 4px;
+  border-radius: 14px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+}
+
+.level-change__tier {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.92em;
 }

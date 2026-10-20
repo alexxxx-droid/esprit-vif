@@ -5,7 +5,7 @@ import { createRng } from '../rng';
 import { balanceLevel, deducedAnswer, generateBalance, scoreBalance, type BalanceClue } from './balance';
 import { formatClock, formatDuration, generateHorloges, handAngles, HALF_DAY, horlogesLevel, scoreHorloges } from './horloges';
 import { congruent, generateRotation, mirror, normalize, rotate, rotationLevel, sameUpToRotation, scoreRotation, type Piece } from './rotation';
-import { countSolutions, generateSudoku, peers, sudokuLevel, scoreSudoku } from './sudoku';
+import { countSolutions, generateSudoku, peers, solveBySingles, sudokuLevel, scoreSudoku } from './sudoku';
 
 const LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 const SEEDS = Array.from({ length: 12 }, (_, i) => i * 7919 + 5);
@@ -30,6 +30,8 @@ describe('Rotation mentale', () => {
       const c = rotationLevel(level);
       for (const seed of SEEDS.slice(0, 4)) {
         for (const p of generateRotation(createRng(seed + level), level, 6)) {
+          // Les pièces en relief (niveaux 31 et plus) sont vérifiées dans levels-logique.test.ts.
+          if (p.solid) continue;
           expect(p.options).toHaveLength(c.options);
           expect(p.model).toHaveLength(c.size);
           expect(p.kinds.filter((k) => k === 'mirror')).toHaveLength(c.mirrors);
@@ -71,7 +73,9 @@ describe('Mini-sudoku', () => {
           expect(shown).toBeGreaterThanOrEqual(c.givens);
           expect(shown).toBeLessThanOrEqual(c.givens + 2);
           const grid = p.solution.map((v, i) => (p.given[i] ? v : 0));
-          expect(countSolutions(grid, c.size)).toBe(1);
+          // Grilles « pas à pas » (niveaux 21 et plus) : la résolution par simples déductions prouve l'unicité.
+          if (c.logic) expect(solveBySingles(grid, c.size)).toEqual(p.solution);
+          else expect(countSolutions(grid, c.size)).toBe(1);
         }
       }
     }
@@ -109,7 +113,15 @@ describe('Balance', () => {
           expect(p.weights[p.answer]).toBe(target);
           expect(deducedAnswer(c.items, p.clues, p.ask)).toBe(p.answer);
           expect(p.clues.length).toBeLessThanOrEqual(c.items + c.noise);
-          if (!c.pairs) expect(p.clues.filter((clue) => clue.left.length + clue.right.length === 3 && (clue.heavier === 'left' ? clue.left : clue.right).length === 1)).toHaveLength(0);
+          // Sans « deux contre un », aucun objet seul ne bat deux objets différents (« 1 ■ contre 2 ▲ » reste permis).
+          if (!c.pairs) {
+            const oneBeatsTwo = (clue: BalanceClue) => {
+              const heavy = clue.heavier === 'left' ? clue.left : clue.right;
+              const light = clue.heavier === 'left' ? clue.right : clue.left;
+              return heavy.length === 1 && light.length === 2 && light[0] !== light[1];
+            };
+            expect(p.clues.filter(oneBeatsTwo)).toHaveLength(0);
+          }
         }
       }
     }

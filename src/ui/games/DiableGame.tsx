@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import { formatSeconds } from '../../core/format';
-import { answerLength, formatCalc } from '../../core/games/calcul';
-import { diableLevel, generateDiable, scoreDiable } from '../../core/games/diable';
-import { createRng } from '../../core/rng';
+import { answerLength, formatCalc, formatSolved } from '../../core/games/calcul';
+import { diableLevel, generateDiable, generateDiableBacks, scoreDiable } from '../../core/games/diable';
+import { createRng, deriveSeed } from '../../core/rng';
 import { NumPad } from '../components/bits';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -14,25 +14,40 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { slow } from '../tempo';
+import { useFitWidth } from './fit-text';
 
 export function DiableGame({ seed, level, onFinish }: GameProps) {
-  const { n, count } = diableLevel(level);
+  const { n, count, hideMs, varying } = diableLevel(level);
   const questions = useMemo(() => generateDiable(createRng(seed), level), [seed, level]);
+  // L'écart de chaque réponse : toujours n, sauf aux niveaux à écart variable (tiré à part, la partie reste la même).
+  const backs = useMemo(() => generateDiableBacks(createRng(deriveSeed(seed, 1)), level), [seed, level]);
   const [clock] = useState(() => new GameClock());
   const [index, setIndex] = useState(0);
   const [typed, setTyped] = useState('');
   const [correct, setCorrect] = useState(0);
+  const [hiddenAt, setHiddenAt] = useState(-1);
   const [mark, showMark] = useFeedback();
   const total = count + n;
   const done = index >= total;
   const memorizing = index < n;
-  const target = questions[index - n];
+  const back = memorizing || done ? n : backs[index - n];
+  const target = memorizing ? undefined : questions[index - back];
   const shown = index < count ? questions[index] : null;
+  const cardText = shown && hiddenAt !== index ? formatCalc(shown) : '…';
+  const cardRef = useFitWidth<HTMLDivElement>(cardText);
 
   useEffect(() => {
     clock.start();
     return () => clock.stop();
   }, [clock]);
+
+  // Niveaux avancés : le calcul affiché s'efface au bout de quelques instants.
+  useEffect(() => {
+    if (!hideMs || done) return;
+    const id = window.setTimeout(() => setHiddenAt(index), slow(hideMs));
+    return () => window.clearTimeout(id);
+  }, [index, hideMs, done]);
 
   const advance = (score: number) => {
     const next = index + 1;
@@ -48,7 +63,10 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
         lines: [
           { label: tr('Bonnes réponses', 'Correct answers'), value: `${score} / ${count}` },
           { label: tr('Temps', 'Time'), value: formatSeconds(elapsedMs) },
-          { label: tr('En arrière', 'How far back'), value: tr(`${n} calcul${n > 1 ? 's' : ''}`, `${n} sum${n === 1 ? '' : 's'}`) },
+          {
+            label: tr('En arrière', 'How far back'),
+            value: varying ? tr(`1 à ${n} calculs`, `1 to ${n} sums`) : tr(`${n} calcul${n > 1 ? 's' : ''}`, `${n} sum${n === 1 ? '' : 's'}`),
+          },
         ],
       });
     }
@@ -74,7 +92,7 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', `${formatCalc(target)} = ${target.answer}`);
+      showMark('bad', formatSolved(target));
     }
     const score = correct + (ok ? 1 : 0);
     setCorrect(score);
@@ -102,19 +120,22 @@ export function DiableGame({ seed, level, onFinish }: GameProps) {
       <div className="game__stage diable">
         <div className="diable__memory" aria-hidden="true">
           {Array.from({ length: n }, (_, i) => (
-            <span key={i} className={`diable__ghost${index - 1 - i >= 0 && index - 1 - i < count ? ' is-full' : ''}`}>
+            <span
+              key={i}
+              className={`diable__ghost${index - 1 - i >= 0 && index - 1 - i < count ? ' is-full' : ''}${varying && !memorizing && i === back - 1 ? ' is-target' : ''}`}
+            >
               ?
             </span>
           ))}
           <span className="diable__now">{tr('maintenant', 'now')}</span>
         </div>
-        <div key={index} className="diable__card" aria-live="polite">
-          {shown ? formatCalc(shown) : '…'}
+        <div key={index} ref={cardRef} className={`diable__card${cardText === '…' && shown ? ' is-hidden' : ''}`} aria-live="polite">
+          {cardText}
         </div>
         <p className="diable__ask">
           {memorizing
             ? tr('Retiens ce calcul, puis touche « Retenu ».', 'Remember this sum, then tap “Got it”.')
-            : tr(`Résultat du calcul d’il y a ${n === 1 ? '1 coup' : `${n} coups`} ?`, `Answer to the sum from ${n === 1 ? '1 turn' : `${n} turns`} ago?`)}
+            : tr(`Résultat du calcul d’il y a ${back === 1 ? '1 coup' : `${back} coups`} ?`, `Answer to the sum from ${back === 1 ? '1 turn' : `${back} turns`} ago?`)}
         </p>
         {!memorizing && target && (
           <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>

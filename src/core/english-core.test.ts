@@ -183,7 +183,7 @@ describe('Version anglaise du cœur', () => {
     expect(rankFor(0).title).toBe('Curious Mind');
     expect(new Set(TITLES.map(([min]) => titleFor(min))).size).toBe(TITLES.length);
 
-    expect(MEDAL_ORDER.map((m) => MEDAL_NAMES[m])).toEqual(['Bronze', 'Silver', 'Gold', 'Platinum']);
+    expect(MEDAL_ORDER.map((m) => MEDAL_NAMES[m])).toEqual(['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Legend']);
     for (const medal of MEDAL_ORDER) expect(MEDAL_RULES[medal]).not.toMatch(FRENCH_MARKS);
 
     expect(SEASONS.map((s) => s.name)).toEqual(['Halloween', 'Christmas', 'Spring', 'Summer']);

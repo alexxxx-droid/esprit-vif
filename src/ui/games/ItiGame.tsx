@@ -1,6 +1,6 @@
-import { useEffect, useEffectEvent, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState, type CSSProperties } from 'react';
 import { tr } from '../../core/lang';
-import { DIRS, generateIti, ITI_TRIALS, itiLevel, scoreIti, type Cell, type ItiTrial, type Move } from '../../core/games/itineraire';
+import { generateIti, heading, ITI_TRIALS, itiLevel, scoreIti, type Cell, type ItiTrial, type Move } from '../../core/games/itineraire';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -13,14 +13,14 @@ import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { slow } from '../tempo';
 
-const ROTATION = { right: 0, down: 90, left: 180, up: -90 } as const;
+const ROTATION = { right: 0, down: 90, left: 180, up: -90, downRight: 45, downLeft: 135, upLeft: -135, upRight: -45 } as const;
 
 /** Un déplacement : la flèche, et le nombre de cases s'il y en a plusieurs. */
 export function MoveChip({ move, big }: { move: Move; big?: boolean }) {
   return (
     <span className={`iti-move${big ? ' iti-move--big' : ''}`} aria-label={tr(
-        `${move.steps} case${move.steps > 1 ? 's' : ''} ${DIRS[move.dir].label}`,
-        `${move.steps} square${move.steps === 1 ? '' : 's'} ${DIRS[move.dir].label}`,
+        `${move.steps} case${move.steps > 1 ? 's' : ''} ${heading(move.dir).label}`,
+        `${move.steps} square${move.steps === 1 ? '' : 's'} ${heading(move.dir).label}`,
       )}>
       <span style={{ transform: `rotate(${ROTATION[move.dir]}deg)` }} aria-hidden="true">
         <Icon name="arrow" size={big ? 44 : 24} strokeWidth={big ? 3 : 2.6} />
@@ -33,7 +33,7 @@ export function MoveChip({ move, big }: { move: Move; big?: boolean }) {
 const same = (a: Cell | null, b: Cell) => a !== null && a.col === b.col && a.row === b.row;
 
 interface GridProps {
-  trial: Pick<ItiTrial, 'size' | 'start' | 'path' | 'end'>;
+  trial: Pick<ItiTrial, 'size' | 'start' | 'path' | 'end' | 'rows' | 'rocks'>;
   picked: Cell | null;
   showPath: boolean;
   disabled?: boolean;
@@ -43,21 +43,29 @@ interface GridProps {
 export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps) {
   // Le compagnon du joueur marque le départ.
   const { active } = useProfiles();
-  const cells = Array.from({ length: trial.size * trial.size }, (_, i) => ({ col: i % trial.size, row: Math.floor(i / trial.size) }));
+  // Grille plus haute que large aux niveaux avancés (7 colonnes au plus : des cases d'au moins 40 px).
+  const cols = trial.size;
+  const rows = trial.rows ?? trial.size;
+  const cells = Array.from({ length: cols * rows }, (_, i) => ({ col: i % cols, row: Math.floor(i / cols) }));
+  const tall = rows !== cols;
   return (
-    <div className="iti-grid" style={{ gridTemplateColumns: `repeat(${trial.size}, 1fr)` }}>
+    <div
+      className={`iti-grid${tall ? ' iti-grid--tall' : ''}`}
+      style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, ...(tall ? { '--iti-cols': cols, '--iti-rows': rows } : {}) } as CSSProperties}
+    >
       {cells.map((cell) => {
         const start = same(trial.start, cell);
+        const rock = trial.rocks?.some((r) => same(r, cell)) ?? false;
         const state = picked ? (same(picked, cell) ? (same(trial.end, cell) ? ' is-right' : ' is-wrong') : showPath && same(trial.end, cell) ? ' is-answer' : '') : '';
         return (
           <TapButton
             key={`${cell.col}-${cell.row}`}
-            className={`iti-cell${start ? ' is-start' : ''}${state}`}
+            className={`iti-cell${start ? ' is-start' : ''}${rock ? ' is-rock' : ''}${state}`}
             onTap={() => onPick?.(cell)}
-            disabled={disabled || !onPick}
+            disabled={disabled || !onPick || rock}
             aria-label={tr(
-              `Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}`,
-              `Row ${cell.row + 1}, column ${cell.col + 1}${start ? ', start' : ''}`,
+              `Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}${rock ? ', rocher' : ''}`,
+              `Row ${cell.row + 1}, column ${cell.col + 1}${start ? ', start' : ''}${rock ? ', rock' : ''}`,
             )}
           >
             {start && <Mascot character={active.character} mood="happy" size={30} still />}
@@ -65,7 +73,7 @@ export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps
         );
       })}
       {showPath && (
-        <svg className="iti-path" viewBox={`0 0 ${trial.size} ${trial.size}`} aria-hidden="true">
+        <svg className="iti-path" viewBox={`0 0 ${cols} ${rows}`} aria-hidden="true">
           <polyline points={trial.path.map((c) => `${c.col + 0.5},${c.row + 0.5}`).join(' ')} />
           <circle cx={trial.end.col + 0.5} cy={trial.end.row + 0.5} r={0.14} />
         </svg>
@@ -151,7 +159,7 @@ export function ItiGame({ seed, level, onFinish }: GameProps) {
     <div className="game">
       <GameHud progress={(index + (phase === 'reveal' ? 1 : 0)) / trials.length} />
       <div className="game__stage iti">
-        <div className={`iti__moves${phase === 'show' && config.oneByOne ? ' iti__moves--one' : ''}`} aria-live="polite">
+        <div className={`iti__moves${phase === 'show' && config.oneByOne ? ' iti__moves--one' : ''}${config.moves > 9 ? ' iti__moves--many' : ''}`} aria-live="polite">
           {phase === 'show' ? (
             config.oneByOne ? (
               <>

@@ -12,7 +12,7 @@ import {
   scoreAnagrammes,
   scramble,
 } from './anagrammes';
-import { anagramWords, hasRudeWord, WORDS, WORDS_EN } from './words';
+import { anagramWords, hasRudeWord, LONG_WORDS_EN, WORDS, WORDS_EN } from './words';
 
 describe('liste de mots', () => {
   it('compte au moins 150 mots de 5 à 7 lettres, sans accent ni doublon', () => {
@@ -94,7 +94,7 @@ describe('Anagrammes en anglais', () => {
   });
 
   it('a assez de mots anglais pour chaque niveau, tirés de la liste anglaise', () => {
-    const english = new Set(WORDS_EN);
+    const english = new Set([...WORDS_EN, ...LONG_WORDS_EN]);
     for (let level = 1; level <= MAX_LEVEL; level++) {
       const deck = anagramDeck(createRng(level), level);
       expect(deck.length).toBeGreaterThanOrEqual(40);

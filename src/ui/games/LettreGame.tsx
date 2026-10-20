@@ -103,14 +103,18 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        <p key={`h${index}`} className="lettre__hint">
-          {q.hint}
-        </p>
+        {config.noHint ? (
+          <p className="lettre__hint lettre__hint--none">{tr('Sans indice', 'No hint')}</p>
+        ) : (
+          <p key={`h${index}`} className="lettre__hint">
+            {q.hint}
+          </p>
+        )}
         <div key={index} className="lettre__word">
           <WordTiles question={q} />
         </div>
         <p className="sr-only">
-          {tr(`${q.hint} : `, `${q.hint}: `)}
+          {config.noHint ? '' : tr(`${q.hint} : `, `${q.hint}: `)}
           {[...q.word].map((letter, i) => (q.positions.includes(i) ? tr('blanc', 'blank') : letter)).join(' ')}
         </p>
         <p className="lettre__ask">
@@ -120,10 +124,11 @@ export function LettreGame({ seed, level, onFinish }: GameProps) {
         </p>
         <FeedbackMark mark={mark} />
       </div>
-      <div className={`game__controls lettre__options lettre__options--${config.options}`}>
+      <div className={`game__controls lettre__options lettre__options--${config.options}${config.missing >= 3 ? ' lettre__options--multi' : ''}`}>
         {q.options.map((option, i) => (
           <TapButton key={`${index}-${i}`} className="lettre__option" onTap={() => choose(i)} aria-keyshortcuts={String(i + 1)}>
-            {option.split('').join(' · ')}
+            {/* Trois ou quatre lettres : de simples espaces, pour tenir sur deux colonnes même à 360 px. */}
+            {option.split('').join(config.missing >= 3 ? ' ' : ' · ')}
           </TapButton>
         ))}
       </div>

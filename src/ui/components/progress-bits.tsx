@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { lang, tr } from '../../core/lang';
-import { MAX_LEVEL, starsFor } from '../../core/levels';
+import { MAX_LEVEL, starsFor, tierName, TIERS } from '../../core/levels';
 import { MEDAL_NAMES, type Medal, type Rank } from '../../core/progression';
 import type { GameId } from '../../core/types';
 import { gameUnlocked } from '../../store/progress';
@@ -63,23 +63,27 @@ export function LevelPicker({ gameId, selected, onSelect }: { gameId: GameId; se
         const level = i + 1;
         const locked = level > unlocked;
         const stars = starsFor(bests[level]?.score ?? 0);
+        const tier = TIERS.find((t) => t.from === level);
         return (
-          <button
-            key={level}
-            type="button"
-            className="level-chip"
-            aria-pressed={level === selected}
-            disabled={locked}
-            onClick={() => onSelect(level)}
-            aria-label={
-              locked
-                ? tr(`Niveau ${level}, verrouillé`, `Level ${level}, locked`)
-                : tr(`Niveau ${level}, ${starsText(stars)}`, `Level ${level}, ${starsText(stars)}`)
-            }
-          >
-            <span className="level-chip__num">{locked ? <Icon name="lock" size={16} /> : level}</span>
-            <Stars count={locked ? 0 : stars} size={10} />
-          </button>
+          <Fragment key={level}>
+            {/* Un intitulé au début de chaque palier : Débutant, Confirmé, Expert… */}
+            {tier && <span className={`levels__tier tier-pill--${tier.id}`}>{tierName(tier.id)}</span>}
+            <button
+              type="button"
+              className="level-chip"
+              aria-pressed={level === selected}
+              disabled={locked}
+              onClick={() => onSelect(level)}
+              aria-label={
+                locked
+                  ? tr(`Niveau ${level}, verrouillé`, `Level ${level}, locked`)
+                  : tr(`Niveau ${level}, ${starsText(stars)}`, `Level ${level}, ${starsText(stars)}`)
+              }
+            >
+              <span className="level-chip__num">{locked ? <Icon name="lock" size={16} /> : level}</span>
+              <Stars count={locked ? 0 : stars} size={10} />
+            </button>
+          </Fragment>
         );
       })}
     </div>

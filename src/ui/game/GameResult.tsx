@@ -2,7 +2,7 @@ import { useEffect, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
 import { lang, tr } from '../../core/lang';
-import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from '../../core/levels';
+import { MAX_LEVEL, starsFor, tierName, tierOf, TIERS, UNLOCK_SCORE } from '../../core/levels';
 import { cheer } from '../../core/outcome';
 import { MEDAL_NAMES, medalRank } from '../../core/progression';
 import type { PlayMode } from '../../core/types';
@@ -110,7 +110,8 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
             <p className="gain gain--level">
               <Icon name="crown" size={22} />
               <span>
-                {lang() === 'en' ? `Level ${delta.rankAfter.level}!` : `Niveau ${delta.rankAfter.level}\u00a0!`} <strong>{delta.rankAfter.title}</strong>
+                {lang() === 'en' ? `Level ${delta.rankAfter.level}!` : `Niveau ${delta.rankAfter.level}\u00a0!`}{' '}
+                <strong>{delta.rankAfter.title}</strong>
               </span>
             </p>
           )}
@@ -161,7 +162,16 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
                   ? tr('Dans ma moyenne', 'Right on my average')
                   : undefined;
           const image = await renderCard(
-            { kind: 'result', game: meta.name, level, score: outcome.score, stars: starsFor(outcome.score), color, line, mascot: document.querySelector<SVGSVGElement>('.result__vif') },
+            {
+              kind: 'result',
+              game: meta.name,
+              level,
+              score: outcome.score,
+              stars: starsFor(outcome.score),
+              color,
+              line,
+              mascot: document.querySelector<SVGSVGElement>('.result__vif'),
+            },
             formatLongDay(dayKey()),
           );
           return {
@@ -186,10 +196,7 @@ function CompareLine({ comparison }: { comparison: Comparison }) {
   if (comparison.kind === 'level')
     return (
       <p className="compare">
-        {tr(
-          `Dans ta moyenne récente (${comparison.average}\u00a0pts).`,
-          `Right on your recent average (${comparison.average}\u00a0pts).`,
-        )}
+        {tr(`Dans ta moyenne récente (${comparison.average}\u00a0pts).`, `Right on your recent average (${comparison.average}\u00a0pts).`)}
       </p>
     );
   const up = comparison.kind === 'above';
@@ -209,7 +216,14 @@ function CompareLine({ comparison }: { comparison: Comparison }) {
   );
 }
 
-const CONFETTI_COLORS = ['var(--d-calcul)', 'var(--d-memoire)', 'var(--d-attention)', 'var(--d-vitesse)', 'var(--d-langage)', 'var(--accent)'];
+const CONFETTI_COLORS = [
+  'var(--d-calcul)',
+  'var(--d-memoire)',
+  'var(--d-attention)',
+  'var(--d-vitesse)',
+  'var(--d-langage)',
+  'var(--accent)',
+];
 
 /** Une gerbe de confettis pour les grands moments (record, trois étoiles, médaille, nouveau rang). */
 function Confetti() {
@@ -254,6 +268,12 @@ function UnlockLine({ level, score, unlockedNext, alreadyOpen }: UnlockLineProps
             <>
               Niveau <strong>{level + 1}</strong> débloqué&nbsp;!
             </>
+          )}
+          {TIERS.some((t) => t.from === level + 1) && (
+            <span className="level-change__tier">
+              {tr('Nouveau palier : ', 'New tier: ')}
+              <strong>{tierName(tierOf(level + 1))}</strong>
+            </span>
           )}
         </span>
       </p>

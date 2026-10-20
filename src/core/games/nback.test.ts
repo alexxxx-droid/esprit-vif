@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { generateNBack, nbackLevel, NBACK_TARGETS, NBACK_TRIALS, scoreNBack, tallyStream, tutorialTrials } from './nback';
+import { countLures, generateNBack, nbackLevel, NBACK_TARGETS, NBACK_TRIALS, scoreNBack, tallyStream, tutorialTrials } from './nback';
 
 describe('générateur du Double retour', () => {
   it('produit 20 essais notés par flux, dont exactement 30 % de cibles', () => {
@@ -19,6 +19,18 @@ describe('générateur du Double retour', () => {
           expect(stream.targets.filter(Boolean)).toHaveLength(NBACK_TARGETS);
           stream.values.forEach((value, i) => expect(stream.targets[i]).toBe(i >= n && value === stream.values[i - n]));
         }
+      }
+    }
+  });
+
+  it('glisse des pièges (n ± 1) sans toucher aux 6 cibles', () => {
+    const level = 50;
+    const { n, lures } = nbackLevel(level);
+    for (let seed = 1; seed <= 20; seed++) {
+      const seq = generateNBack(createRng(seed), level);
+      for (const stream of [seq.letter!, seq.position!]) {
+        expect(stream.targets.filter(Boolean)).toHaveLength(NBACK_TARGETS);
+        expect(countLures(stream, n)).toBeGreaterThanOrEqual(lures - 1);
       }
     }
   });

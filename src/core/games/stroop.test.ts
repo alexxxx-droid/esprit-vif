@@ -12,6 +12,7 @@ import {
   STROOP_LABELS,
   STROOP_LEVELS,
   stroopAnswer,
+  stroopPalette,
   stroopKeys,
   stroopLevelLabel,
 } from './stroop';
@@ -43,7 +44,8 @@ describe('générateur de Couleurs piégées', () => {
   it('propose toujours toutes les couleurs du niveau et piège les boutons quand il le faut', () => {
     for (const level of LEVELS) {
       const config = pickLevel(STROOP_LEVELS, level);
-      const palette = STROOP_COLORS.slice(0, config.colors);
+      const palette = stroopPalette(level);
+      expect(palette).toHaveLength(config.colors);
       for (const seed of SEEDS.slice(0, 20)) {
         for (const item of generateStroop(createRng(seed), level)) {
           expect([...item.buttons].sort()).toEqual([...palette].sort());

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
-import { answerLength, CALCUL_PENALTY_MS, formatCalc, generateCalcul, scoreCalcul } from '../../core/games/calcul';
+import { answerLength, CALCUL_PENALTY_MS, formatCalc, formatSolved, generateCalcul, scoreCalcul } from '../../core/games/calcul';
 import { timedOutcome } from '../../core/outcome';
 import { createRng } from '../../core/rng';
 import { NumPad } from '../components/bits';
@@ -11,6 +11,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, Stopwatch } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { useFitWidth } from './fit-text';
 
 export function CalculGame({ seed, level, onFinish }: GameProps) {
   const questions = useMemo(() => generateCalcul(createRng(seed), level), [seed, level]);
@@ -22,6 +23,8 @@ export function CalculGame({ seed, level, onFinish }: GameProps) {
   const done = index >= questions.length;
   const question = questions[Math.min(index, questions.length - 1)];
   const length = answerLength(question.answer);
+  const text = formatCalc(question);
+  const questionRef = useFitWidth<HTMLParagraphElement>(text);
 
   useEffect(() => {
     clock.start();
@@ -44,7 +47,7 @@ export function CalculGame({ seed, level, onFinish }: GameProps) {
       showMark('good');
     } else {
       fx.bad();
-      showMark('bad', `${formatCalc(question)} = ${question.answer}`);
+      showMark('bad', formatSolved(question));
       setErrors(totalErrors);
     }
     setTyped('');
@@ -89,8 +92,8 @@ export function CalculGame({ seed, level, onFinish }: GameProps) {
         <p className="calc__count">
           {Math.min(index + 1, questions.length)} / {questions.length}
         </p>
-        <p className="calc__question" aria-live="polite">
-          {formatCalc(question)}
+        <p ref={questionRef} className="calc__question" aria-live="polite">
+          {text}
         </p>
         <div className="calc__answer" aria-label={tr(`Ta réponse : ${typed || 'vide'}`, `Your answer: ${typed || 'empty'}`)}>
           {Array.from({ length }, (_, i) => (

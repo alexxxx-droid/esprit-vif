@@ -12,8 +12,9 @@ describe('générateur de L’intrus', () => {
       for (let i = 0; i < 60; i++) {
         const size = rng.int(3, 6);
         const board = generateIntrus(rng, size, level, previous);
-        expect(board.odd !== board.base || board.mirrored).toBe(true);
+        expect(board.odd !== board.base || board.mirrored || board.flipped).toBe(true);
         if (board.mirrored) expect(config.mirror).toBe(true);
+        if (board.flipped) expect(config.flip).toBe(true);
         expect(board.oddIndex).toBeGreaterThanOrEqual(0);
         expect(board.oddIndex).toBeLessThan(size * size);
         expect(board.tilts).toHaveLength(size * size);

@@ -6,6 +6,7 @@ import { generatePluie, PLUIE_DURATION_MS, PLUIE_LIVES, pluieLevel, pluieTarget,
 import { createRng } from '../../core/rng';
 import { NumPad } from '../components/bits';
 import { FeedbackMark } from '../components/Feedback';
+import { Icon } from '../components/Icon';
 import { useFeedback } from '../components/feedback-state';
 import { fx } from '../fx/fx';
 import type { GameProps } from '../game/chrome';
@@ -28,12 +29,16 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
   const [spawned, setSpawned] = useState(0);
   const [solved, setSolved] = useState<ReadonlySet<number>>(new Set());
   const [missed, setMissed] = useState<ReadonlySet<number>>(new Set());
+  /** Gouttes piégées tombées à l'eau sans dommage. */
+  const [gone, setGone] = useState<ReadonlySet<number>>(new Set());
   const [pops, setPops] = useState<Pop[]>([]);
   const [typed, setTyped] = useState('');
   const [over, setOver] = useState(false);
   const [mark, showMark] = useFeedback();
   const lives = PLUIE_LIVES - missed.size;
-  const active = drops.slice(0, spawned).filter((d) => !solved.has(d.id) && !missed.has(d.id));
+  const active = drops.slice(0, spawned).filter((d) => !solved.has(d.id) && !missed.has(d.id) && !gone.has(d.id));
+  // Brouillard : le calcul s'efface après cette part de la chute.
+  const fogMs = config.fog ? Math.round(fallMs * config.fog) : 0;
   const laneWidth = 100 / config.lanes;
 
   const finish = useEffectEvent((solvedCount: number, missedCount: number) => {
@@ -58,7 +63,11 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     let next = spawned;
     while (next < drops.length && drops[next].spawnAt <= t) next++;
     if (next !== spawned) setSpawned(next);
-    const fallen = drops.slice(0, next).filter((d) => !solved.has(d.id) && !missed.has(d.id) && d.spawnAt + fallMs <= t);
+    const reached = drops.slice(0, next).filter((d) => !solved.has(d.id) && !missed.has(d.id) && !gone.has(d.id) && d.spawnAt + fallMs <= t);
+    // Une goutte piégée qui touche l'eau ne coûte rien : c'était le bon choix.
+    const harmless = reached.filter((d) => d.trap);
+    if (harmless.length) setGone(new Set([...gone, ...harmless.map((d) => d.id)]));
+    const fallen = reached.filter((d) => !d.trap);
     let missedSet = missed;
     if (fallen.length) {
       missedSet = new Set([...missed, ...fallen.map((d) => d.id)]);
@@ -81,7 +90,17 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
   const press = (digit: string) => {
     if (over) return;
     const entry = typed + digit;
-    const match = active.find((d) => d.question.answer === Number(entry));
+    const matches = active.filter((d) => d.question.answer === Number(entry));
+    // Une vraie goutte passe avant un piège de même résultat.
+    const match = matches.find((d) => !d.trap) ?? matches[0];
+    if (match?.trap) {
+      // Répondre à une goutte piégée coûte une vie (la fin de partie se constate au prochain battement d'horloge).
+      fx.bad();
+      setMissed(new Set([...missed, match.id]));
+      setTyped('');
+      showMark('bad', tr('Piège ! Celle-là, il fallait la laisser tomber', 'Trap! You had to let that one fall'));
+      return;
+    }
     if (match) {
       fx.good();
       setSolved(new Set([...solved, match.id]));
@@ -128,10 +147,12 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
           {active.map((drop) => (
             <span
               key={drop.id}
-              className="drop"
-              style={{ left: `${drop.lane * laneWidth + laneWidth / 2}%`, '--fall': `${fallMs}ms` } as CSSProperties}
+              className={`drop${drop.trap ? ' drop--trap' : ''}${fogMs ? ' drop--fog' : ''}`}
+              style={{ left: `${drop.lane * laneWidth + laneWidth / 2}%`, '--fall': `${fallMs}ms`, '--fog': `${fogMs}ms` } as CSSProperties}
             >
-              {formatCalc(drop.question)}
+              {drop.trap && <Icon name="vitesse" size={14} />}
+              <span className="drop__text">{formatCalc(drop.question)}</span>
+              {drop.trap && <span className="sr-only">{tr(' (piège)', ' (trap)')}</span>}
             </span>
           ))}
           {pops.map((pop) => (

@@ -87,7 +87,10 @@ export function CategoriesGame({ seed, level, onFinish }: GameProps) {
           <strong>{correct}</strong> / {config.target}
         </p>
         <p className="categories__ask">{tr('Trouve l’intrus', 'Find the odd one out')}</p>
-        <div key={index} className={`categories__words${config.words > 6 ? ' categories__words--dense' : ''}`}>
+        <div
+          key={index}
+          className={`categories__words${config.words > 6 ? ' categories__words--dense' : ''}${config.words > 10 ? ' categories__words--packed' : ''}`}
+        >
           {q.words.map((word, i) => (
             <TapButton key={word} className="categories__word" onTap={() => choose(i)} aria-keyshortcuts={i < 9 ? String(i + 1) : undefined}>
               {word}

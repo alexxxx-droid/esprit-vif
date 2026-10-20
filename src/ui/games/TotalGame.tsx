@@ -2,11 +2,12 @@ import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
-  formatStep,
+  formatTotalStep,
   generateTotalRound,
   nextTotalLength,
   scoreTotal,
   totalLevel,
+  totalMaxValue,
   totalPerfectPoints,
   TOTAL_ROUNDS,
 } from '../../core/games/total';
@@ -31,6 +32,8 @@ interface Tally {
 export function TotalGame({ seed, level, onFinish }: GameProps) {
   const { stepMs: baseStepMs, start } = totalLevel(level);
   const stepMs = slow(baseStepMs);
+  // 2 chiffres jusqu'au niveau 20 (total ≤ 99), 3 au-delà.
+  const maxDigits = String(totalMaxValue(level)).length;
   const [round, setRound] = useState(0);
   const [length, setLength] = useState(start);
   const [phase, setPhase] = useState<Phase>('show');
@@ -107,7 +110,7 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
   };
 
   const press = (digit: string) => {
-    if (phase !== 'answer' || typed.length >= 2) return;
+    if (phase !== 'answer' || typed.length >= maxDigits) return;
     fx.tap();
     setTyped(typed === '0' ? digit : typed + digit);
   };
@@ -130,6 +133,8 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
   }, phase === 'answer');
 
   const showing = phase === 'show' && step >= 0 && step < current.steps.length;
+  const kind = showing ? (current.kinds?.[step] ?? 'add') : 'add';
+  const stepClass = kind === 'decoy' ? ' is-decoy' : kind === 'times' ? ' is-times' : current.steps[step] < 0 ? ' is-minus' : '';
 
   return (
     <div className="game">
@@ -143,8 +148,9 @@ export function TotalGame({ seed, level, onFinish }: GameProps) {
         <div className="total__screen" aria-live="polite">
           {phase === 'show' && step === -1 && <span className="total__ready">{tr('Prêt\u00a0?', 'Ready?')}</span>}
           {showing && (
-            <span key={step} className={`total__step${current.steps[step] < 0 ? ' is-minus' : ''}`}>
-              {formatStep(current.steps[step])}
+            <span key={step} className={`total__step${stepClass}`}>
+              {formatTotalStep(current, step)}
+              {kind === 'decoy' && <span className="sr-only">{tr(' (barré : ne compte pas)', ' (crossed out: doesn’t count)')}</span>}
             </span>
           )}
           {phase !== 'show' && (

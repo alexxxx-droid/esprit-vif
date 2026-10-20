@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL, pickLevel } from '../levels';
 import { createRng } from '../rng';
-import { generateSchulte, SCHULTE_LEVELS, schulteSequence, scoreSchulte } from './schulte';
+import { generateSchulte, SCHULTE_LEVELS, schulteCells, schulteSequence, scoreSchulte } from './schulte';
 
 describe('générateur de la Table de Schulte', () => {
   it('place chaque symbole de la suite une seule fois, à tous les niveaux', () => {
@@ -11,8 +11,11 @@ describe('générateur de la Table de Schulte', () => {
         const board = generateSchulte(createRng(seed), level);
         const count = config.size * config.size;
         expect(board.size).toBe(config.size);
-        expect(board.sequence).toHaveLength(count);
-        expect([...board.cells].sort()).toEqual([...board.sequence].sort());
+        expect(board.cells).toHaveLength(count);
+        // Avec des leurres, la suite ne couvre que les bleus ; sinon, toute la grille.
+        expect(board.sequence).toHaveLength(config.decoys ? Math.ceil(count / 2) : count);
+        expect([...board.cells].sort()).toEqual([...schulteCells(config.size, config.order, config.decoys)].sort());
+        for (const id of board.sequence) expect(board.cells).toContain(id);
         expect(new Set(board.cells).size).toBe(count);
         expect(board.tilts.some((tilt) => tilt !== 0)).toBe(config.tilt);
       }

@@ -34,16 +34,20 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
   const [correct, setCorrect] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [over, setOver] = useState(false);
+  // Présentation un par un : le visage montré.
+  const [shown, setShown] = useState(0);
   const [mark, showMark] = useFeedback();
   const { people, questions } = rounds[round];
   const question = questions[index];
   const studyMs = slow(config.studyMs * config.people);
+  const faceMs = slow(config.studyMs);
+  const { serial } = config;
   const done = rounds.slice(0, round).reduce((sum, r) => sum + r.questions.length, 0) + index;
 
   const finish = useEffectEvent(() => {
     setOver(true);
     onFinish({
-      score: scoreQui(correct, total),
+      score: scoreQui(correct, total, level),
       stats: { correct, total, people: config.people },
       headline: tr(`${correct} sur ${total} reconnus`, `${correct} of ${total} recognized`),
       lines: [
@@ -55,10 +59,24 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
 
   // Fin de l'étude : les questions commencent (on peut aussi s'estimer prêt plus tôt).
   useEffect(() => {
-    if (phase !== 'study') return;
+    if (phase !== 'study' || serial) return;
     const id = window.setTimeout(() => setPhase('quiz'), studyMs);
     return () => window.clearTimeout(id);
-  }, [phase, round, studyMs]);
+  }, [phase, round, studyMs, serial]);
+
+  // Un par un : chaque visage a son temps, puis le suivant (« Suivant » pour aller plus vite).
+  const nextFace = () => {
+    if (shown + 1 < people.length) setShown(shown + 1);
+    else setPhase('quiz');
+  };
+  useEffect(() => {
+    if (phase !== 'study' || !serial) return;
+    const id = window.setTimeout(() => {
+      if (shown + 1 < people.length) setShown(shown + 1);
+      else setPhase('quiz');
+    }, faceMs);
+    return () => window.clearTimeout(id);
+  }, [phase, round, shown, people.length, faceMs, serial]);
 
   // Après chaque réponse : question suivante, manche suivante, ou fin de partie.
   useEffect(() => {
@@ -69,6 +87,7 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
       else if (round + 1 < rounds.length) {
         setRound(round + 1);
         setIndex(0);
+        setShown(0);
         setPhase('study');
       } else finish();
     }, REVEAL_MS);
@@ -92,19 +111,47 @@ export function QuiGame({ seed, level, onFinish }: GameProps) {
   useKeyDown((e) => {
     const n = Number(e.key);
     if (phase === 'quiz' && n >= 1 && n <= question.options.length) choose(question.options[n - 1]);
-    else if (phase === 'study' && e.key === 'Enter') setPhase('quiz');
+    else if (phase === 'study' && e.key === 'Enter') {
+      if (serial) nextFace();
+      else setPhase('quiz');
+    }
   }, !over);
 
+  // Maître et Légende : dès la 2e manche, les mêmes visages ont changé de prénom.
+  const rebound = config.rebind && round > 0;
   const state = (option: number) => (picked === null ? '' : option === question.target ? ' is-answer' : option === picked ? ' is-wrong' : ' is-dim');
 
   return (
     <div className="game">
       <GameHud progress={done / total} />
-      {phase === 'study' ? (
+      {phase === 'study' && serial ? (
+        <>
+          <div className="game__stage qui">
+            <p className="qui__round">
+              {tr('Manche', 'Round')} {round + 1}/{rounds.length} · {shown + 1}/{people.length}
+              {rebound && <strong className="qui__rebind">{tr(' · nouveaux prénoms\u00a0!', ' · new names!')}</strong>}
+            </p>
+            <p className="lettre__ask">{tr('Retiens qui est qui', 'Remember who’s who')}</p>
+            <div key={`${round}-${shown}`} className="qui-person qui-person--solo">
+              <PersonFace person={people[shown]} size={112} />
+              <span className="qui-person__name">{people[shown].name}</span>
+            </div>
+            <span className="qui__timer" aria-hidden="true">
+              <span key={`${round}-${shown}`} style={{ animationDuration: `${faceMs}ms` }} />
+            </span>
+          </div>
+          <div className="game__controls">
+            <button type="button" className="btn btn--primary btn--lg qui__ready" onClick={nextFace}>
+              {tr('Suivant', 'Next')}
+            </button>
+          </div>
+        </>
+      ) : phase === 'study' ? (
         <>
           <div className="game__stage qui">
             <p className="qui__round">
               {tr('Manche', 'Round')} {round + 1}/{rounds.length}
+              {rebound && <strong className="qui__rebind">{tr(' · nouveaux prénoms\u00a0!', ' · new names!')}</strong>}
             </p>
             <p className="lettre__ask">{tr('Retiens qui est qui', 'Remember who’s who')}</p>
             <div key={round} className={`qui-grid qui-grid--${people.length}`}>

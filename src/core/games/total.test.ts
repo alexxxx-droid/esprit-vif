@@ -1,24 +1,33 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { formatStep, generateTotalRound, nextTotalLength, scoreTotal, totalLevel, totalPerfectPoints } from './total';
+import { formatStep, generateTotalRound, nextTotalLength, scoreTotal, totalLevel, totalMaxValue, totalPerfectPoints } from './total';
 
 describe('générateur du Total cumulé', () => {
-  it('garde le total toujours entre 0 et 99, à tous les niveaux', () => {
+  it('garde le total toujours entre 0 et le maximum du niveau (99 jusqu’au niveau 20), à tous les niveaux', () => {
     for (let level = 1; level <= MAX_LEVEL; level++) {
       const { maxStep } = totalLevel(level);
+      const max = totalMaxValue(level);
+      if (level <= 20) expect(max).toBe(99);
       for (let seed = 1; seed <= 80; seed++) {
         for (const length of [3, 4, 8, 14]) {
           const round = generateTotalRound(createRng(seed * 31 + length), length, level);
           expect(round.steps).toHaveLength(length);
+          if (level <= 20) expect(round.kinds).toBeUndefined();
           let running = 0;
-          for (const step of round.steps) {
-            expect(step).not.toBe(0);
-            expect(Math.abs(step)).toBeLessThanOrEqual(maxStep);
-            running += step;
+          round.steps.forEach((step, i) => {
+            const kind = round.kinds?.[i] ?? 'add';
+            if (kind === 'times') {
+              expect([2, 3]).toContain(step);
+              running *= step;
+            } else {
+              expect(step).not.toBe(0);
+              expect(Math.abs(step)).toBeLessThanOrEqual(maxStep);
+              if (kind === 'add') running += step;
+            }
             expect(running).toBeGreaterThanOrEqual(0);
-            expect(running).toBeLessThanOrEqual(99);
-          }
+            expect(running).toBeLessThanOrEqual(max);
+          });
           expect(round.total).toBe(running);
         }
       }

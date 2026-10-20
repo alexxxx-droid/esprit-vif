@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { dailyGames, hasOfficialTest } from '../../core/daily';
-import { DAILY_ROTATION, DOMAIN_ORDER, DOMAINS, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
+import { DAILY_ROTATION, DOMAIN_ORDER, DOMAINS, durationFor, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import { gameStars, medalFor } from '../../core/progression';
-import { gameUnlocked } from '../../store/progress';
+import { gameLevel, gameUnlocked } from '../../store/progress';
 import { DomainBadge, ScreenHeader } from '../components/bits';
 import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
@@ -136,7 +136,7 @@ function GameCard({ meta, wide }: { meta: GameMeta; wide: boolean }) {
         {medal && <MedalBadge medal={medal} />}
       </span>
       <span className={`game-card__name${longWord(meta.name) ? ' game-card__name--long' : ''}`}>{meta.name}</span>
-      <span className="game-card__domain">{meta.duration}</span>
+      <span className="game-card__domain">{durationFor(meta, gameLevel(data, meta.id))}</span>
       {played ? (
         <span className="game-card__progress">
           <span className="mini-bar" aria-hidden="true">

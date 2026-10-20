@@ -2,12 +2,15 @@ import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
 import {
+  dayPart,
   formatClock,
+  formatDayTime,
   formatDuration,
   generateHorloges,
   handAngles,
   HORLOGES_DURATION_MS,
   horlogesLevel,
+  romanNumeral,
   scoreHorloges,
   type HorlogeQuestion,
   type Numerals,
@@ -27,6 +30,8 @@ const NUMERALS: Record<Numerals, number[]> = {
   all: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   quarters: [12, 3, 6, 9],
   none: [],
+  roman: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  romanQuarters: [12, 3, 6, 9],
 };
 
 const polar = (angle: number, radius: number) => {
@@ -34,13 +39,18 @@ const polar = (angle: number, radius: number) => {
   return { x: Math.cos(rad) * radius, y: Math.sin(rad) * radius };
 };
 
-/** Horloge à aiguilles : petite aiguille épaisse pour les heures, grande et fine pour les minutes. */
-export function ClockFace({ time, numerals, size = 200 }: { time: number; numerals: Numerals; size?: number }) {
+/**
+ * Horloge à aiguilles : petite aiguille épaisse pour les heures, grande et fine pour les minutes.
+ * `mirror` : l'horloge telle qu'on la voit dans un miroir (tout est retourné, chiffres compris).
+ */
+export function ClockFace({ time, numerals, size = 200, mirror = false }: { time: number; numerals: Numerals; size?: number; mirror?: boolean }) {
   const { hour, minute } = handAngles(time);
   const h = polar(hour, 50);
   const m = polar(minute, 76);
+  const roman = numerals === 'roman' || numerals === 'romanQuarters';
   return (
-    <svg className="clock" width={size} height={size} viewBox="-100 -100 200 200" aria-hidden="true">
+    <svg className={`clock${mirror ? ' clock--mirror' : ''}`} width={size} height={size} viewBox="-100 -100 200 200" aria-hidden="true">
+      <g transform={mirror ? 'scale(-1 1)' : undefined}>
       <circle className="clock__face" r={96} />
       {Array.from({ length: 60 }, (_, i) => {
         const big = i % 5 === 0;
@@ -51,21 +61,38 @@ export function ClockFace({ time, numerals, size = 200 }: { time: number; numera
       {NUMERALS[numerals].map((n) => {
         const p = polar((n % 12) * 30, 64);
         return (
-          <text key={n} className="clock__numeral" x={p.x} y={p.y} dy="0.35em" textAnchor="middle">
-            {n}
+          <text key={n} className={`clock__numeral${numerals === 'roman' ? ' clock__numeral--roman' : ''}`} x={p.x} y={p.y} dy="0.35em" textAnchor="middle">
+            {roman ? romanNumeral(n) : n}
           </text>
         );
       })}
       <line className="clock__hand clock__hand--hour" x1={0} y1={0} x2={h.x} y2={h.y} />
       <line className="clock__hand clock__hand--minute" x1={0} y1={0} x2={m.x} y2={m.y} />
       <circle className="clock__center" r={6} />
+      </g>
     </svg>
   );
 }
 
+/** Horloge d'une durée sur 24 heures : le moment de la journée est écrit dessous. */
+export function DayClock({ time, numerals, mirror = false, size = 136 }: { time: number; numerals: Numerals; mirror?: boolean; size?: number }) {
+  const part = dayPart(time);
+  return (
+    <div className="horloges__day">
+      <ClockFace time={time} numerals={numerals} size={size} mirror={mirror} />
+      <span className="horloges__daypart">
+        <Icon name={part.night ? 'moon' : 'sun'} size={16} />
+        {part.label}
+      </span>
+    </div>
+  );
+}
+
 function askOf(q: HorlogeQuestion): string {
+  if (q.mode === 'read' && q.mirror) return tr('Quelle heure est-il vraiment\u00a0?', 'What time is it really?');
   if (q.mode === 'read') return tr('Quelle heure est-il ?', 'What time is it?');
   if (q.mode === 'later') return tr(`Quelle heure sera-t-il dans ${formatDuration(q.delta)} ?`, `What time will it be in ${formatDuration(q.delta)}?`);
+  if (q.mode === 'earlier') return tr(`Quelle heure était-il il y a ${formatDuration(q.delta)}\u00a0?`, `What time was it ${formatDuration(q.delta)} ago?`);
   return tr('Combien de temps s’est écoulé d’une horloge à l’autre ?', 'How much time passed from one clock to the other?');
 }
 
@@ -132,9 +159,13 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
   }, !over);
 
   const label =
-    q.mode === 'elapsed'
-      ? tr(`De ${formatClock(q.clock)} à ${formatClock(q.clock2 ?? 0)}`, `From ${formatClock(q.clock)} to ${formatClock(q.clock2 ?? 0)}`)
-      : tr(`Horloge : ${formatClock(q.clock)}`, `Clock: ${formatClock(q.clock)}`);
+    q.mode === 'overnight'
+      ? tr(`De ${formatDayTime(q.clock)} à ${formatDayTime(q.clock2 ?? 0)}`, `From ${formatDayTime(q.clock)} to ${formatDayTime(q.clock2 ?? 0)}`)
+      : q.mode === 'elapsed'
+        ? tr(`De ${formatClock(q.clock)} à ${formatClock(q.clock2 ?? 0)}`, `From ${formatClock(q.clock)} to ${formatClock(q.clock2 ?? 0)}`)
+        : tr(`Horloge : ${formatClock(q.clock)}`, `Clock: ${formatClock(q.clock)}`);
+  const mirror = Boolean(q.mirror);
+  const two = q.mode === 'elapsed' || q.mode === 'overnight';
 
   return (
     <div className="game">
@@ -145,12 +176,27 @@ export function HorlogesGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        <div key={index} className={`horloges__clocks${q.mode === 'elapsed' ? ' horloges__clocks--two' : ''}`}>
-          <ClockFace time={q.clock} numerals={config.numerals} size={q.mode === 'elapsed' ? 148 : 210} />
-          {q.mode === 'elapsed' && (
+        {mirror && (
+          <p key={`m${index}`} className="chip horloges__mirror">
+            {tr('Vue dans un miroir', 'Seen in a mirror')}
+          </p>
+        )}
+        <div key={index} className={`horloges__clocks${two ? ' horloges__clocks--two' : ''}`}>
+          {q.mode === 'overnight' ? (
             <>
+              <DayClock time={q.clock} numerals={config.numerals} mirror={mirror} />
               <Icon name="arrow" size={26} />
-              <ClockFace time={q.clock2 ?? 0} numerals={config.numerals} size={148} />
+              <DayClock time={q.clock2 ?? 0} numerals={config.numerals} mirror={mirror} />
+            </>
+          ) : (
+            <>
+              <ClockFace time={q.clock} numerals={config.numerals} size={two ? 148 : 210} mirror={mirror} />
+              {two && (
+                <>
+                  <Icon name="arrow" size={26} />
+                  <ClockFace time={q.clock2 ?? 0} numerals={config.numerals} size={148} mirror={mirror} />
+                </>
+              )}
             </>
           )}
         </div>

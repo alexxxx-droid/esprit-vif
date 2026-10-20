@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import { tr } from '../../core/lang';
-import { describeRule, generateReflexe, reflexeLevel, REFLEXE_TRIALS, scoreReflexe } from '../../core/games/reflexe';
+import { describeRule, fillOf, generateReflexe, reflexeLevel, REFLEXE_TRIALS, scoreReflexe } from '../../core/games/reflexe';
 import { createRng } from '../../core/rng';
 import { FeedbackMark } from '../components/Feedback';
 import { useFeedback } from '../components/feedback-state';
@@ -30,10 +30,13 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
   const [tally, setTally] = useState<Tally>({ hits: 0, misses: 0, falseAlarms: 0, rejections: 0, rts: [] });
   const [mark, showMark] = useFeedback();
   const shownAt = useRef(0);
+  /** Forme changeante : l'index de l'essai dont la forme a déjà changé. */
+  const [swappedAt, setSwappedAt] = useState(-1);
   const done = index >= trials.length;
   const trial = trials[Math.min(index, trials.length - 1)];
   const rule = config.rules[trial.ruleIndex];
   const ruleChanged = index > 0 && trials[index - 1].ruleIndex !== trial.ruleIndex;
+  const shownCard = trial.lure && swappedAt !== index ? trial.lure : trial.card;
 
   const finish = useEffectEvent((t: Tally) => {
     const mean = t.rts.length ? t.rts.reduce((a, b) => a + b, 0) / t.rts.length : null;
@@ -80,6 +83,13 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
     return () => window.clearTimeout(id);
   }, [phase, index, done, trial.gapMs, ruleChanged, config.windowMs, trials.length, tally]);
 
+  // Forme changeante : la bonne forme du début se transforme au bout de quelques dixièmes de seconde.
+  useEffect(() => {
+    if (phase !== 'stim' || !trial.lure) return;
+    const id = window.setTimeout(() => setSwappedAt(index), slow(trial.lureMs ?? 0));
+    return () => window.clearTimeout(id);
+  }, [phase, index, trial.lure, trial.lureMs]);
+
   const tap = () => {
     if (phase !== 'stim') return;
     if (trial.go) {
@@ -111,8 +121,8 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
         {ruleChanged && phase === 'gap' && <strong>{tr('Nouvelle règle ! ', 'New rule! ')}</strong>}
         {describeRule(rule)}
         <span className="reflexe__rule-shapes" aria-hidden="true">
-          {rule.go.map((shape) => (
-            <Shape key={shape} card={{ shape, filled: true, rotation: 0 }} size={22} />
+          {rule.go.map((shape, i) => (
+            <Shape key={shape} card={{ shape, filled: fillOf(rule, i) !== 'hollow', rotation: 0 }} size={22} />
           ))}
         </span>
       </p>
@@ -120,7 +130,7 @@ export function ReflexeGame({ seed, level, onFinish }: GameProps) {
         <TapButton className="reflexe" onTap={tap} aria-label={tr('Toucher', 'Tap')} aria-keyshortcuts="Space">
           {phase === 'stim' && (
             <span key={index} className="reflexe__shape">
-              <Shape card={trial.card} size={150} />
+              <Shape card={shownCard} size={150} />
             </span>
           )}
         </TapButton>

@@ -5,6 +5,7 @@ import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
 import { unlockedLevel, type ProgressionInput } from '../core/progression';
 import { adaptLevel, brainAge, clampLevel } from '../core/scoring';
 import type { Domain, GameId, PlayMode, PlayOutcome } from '../core/types';
+import { isPaletteChoice, type PaletteChoice } from '../core/themes';
 import { isHatId, purchaseBlocker, wardrobe, type HatId, type WardrobeEntry } from '../core/wardrobe';
 import type { Storage, StoredData } from './storage';
 
@@ -96,6 +97,8 @@ export interface Settings {
   cloud: CloudLink;
   /** Chapeau que porte le compagnon (vide : aucun, les accessoires de saison reprennent leur place). */
   hat: HatId | '';
+  /** Thème de l'appli : « auto » suit les saisons, sinon un thème débloqué. */
+  palette: PaletteChoice;
 }
 
 export interface CloudLink {
@@ -127,6 +130,7 @@ export const DEFAULT_SETTINGS: Settings = {
   language: 'auto',
   cloud: { linked: false, email: '', lastSync: '' },
   hat: '',
+  palette: 'auto',
 };
 
 export interface MarathonRecord {
@@ -184,7 +188,7 @@ export interface PlayInput {
  * Version du schéma de la base. Historique des migrations (toutes additives, valeurs par défaut sûres) :
  * - 1 (jusqu'à la v2.8, sans numéro enregistré) : parties, tests, réglages, jeux, extras ;
  * - 2 (v2.9) : numéro de schéma enregistré, durée des parties (`durationMs`, facultative), chapeaux
- *   achetés (`extras.wardrobe`) et chapeau porté (`settings.hat`).
+ *   achetés (`extras.wardrobe`), chapeau porté (`settings.hat`) et thème (`settings.palette`).
  * Une base plus ancienne est lue, complétée par `normalize`, puis réécrite une fois au format actuel.
  */
 export const SCHEMA_VERSION = 2;
@@ -619,6 +623,7 @@ function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boole
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
   if (settings.hat !== '' && !isHatId(settings.hat)) settings.hat = '';
+  if (!isPaletteChoice(settings.palette)) settings.palette = 'auto';
   const cloud: Record<string, unknown> = isObject(settings.cloud) ? settings.cloud : {};
   settings.cloud = { linked: cloud.linked === true, email: typeof cloud.email === 'string' ? cloud.email : '', lastSync: typeof cloud.lastSync === 'string' ? cloud.lastSync : '' };
   const games: Partial<Record<GameId, GameProgress>> = {};

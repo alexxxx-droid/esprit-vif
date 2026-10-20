@@ -96,6 +96,7 @@ const MOUTHS: Record<Mood, ReactNode> = {
   sleep: <ellipse className="vif__mouth" cx="60" cy="78" rx="3.2" ry="2.6" />,
   wow: <ellipse className="vif__mouth" cx="60" cy="78" rx="5" ry="6" />,
   gentle: <path className="vif__line" d="M52 77q8 4 16 0" />,
+  point: <path className="vif__line" d="M50 74q10 10 20 0" />,
 };
 
 function Eyes({ mood }: { mood: Mood }) {
@@ -105,8 +106,8 @@ function Eyes({ mood }: { mood: Mood }) {
   if (mood === 'cheer') {
     return <path className="vif__line vif__line--thick" d="M41 62q6 -8 12 0M67 62q6 -8 12 0" />;
   }
-  // Le regard : vers le haut quand Vif réfléchit, droit devant sinon.
-  const look = mood === 'think' ? { x: 2, y: -3 } : { x: 0, y: 1 };
+  // Le regard : vers le haut quand Vif réfléchit, vers ce qu'il montre, droit devant sinon.
+  const look = mood === 'think' ? { x: 2, y: -3 } : mood === 'point' ? { x: -2.6, y: 2.6 } : { x: 0, y: 1 };
   const big = mood === 'wow' ? 1.15 : 1;
   return (
     <g className="vif__eyes">
@@ -126,6 +127,7 @@ function Eyes({ mood }: { mood: Mood }) {
 function Arms({ mood }: { mood: Mood }) {
   if (mood === 'cheer') return <path className="vif__arm" d="M27 62q-11 -8 -11 -22M93 62q11 -8 11 -22" />;
   if (mood === 'hello') return <path className="vif__arm vif__arm--wave" d="M93 66q12 -6 13 -20" />;
+  if (mood === 'point') return <path className="vif__arm vif__arm--point" d="M29 70q-11 5 -19 15" />;
   return null;
 }
 

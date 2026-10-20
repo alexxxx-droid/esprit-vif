@@ -1,8 +1,9 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
 import { formatTime } from '../../core/format';
 import { DOMAIN_ORDER, GAMES } from '../../core/games/registry';
 import { LANG_NAMES, localized, PUBLISHED_LANGS, resolveLang, tr, type LangChoice } from '../../core/lang';
+import { seasonThemeOf, themeName, THEMES as APP_THEMES, themeUnlocked, type PaletteChoice } from '../../core/themes';
 import type { TextSize, ThemeChoice } from '../../store/progress';
 import { cloudConfigured, revokeAccess } from '../../sync/google';
 import { profileName } from '../../store/profiles';
@@ -18,6 +19,9 @@ import { useProfileManager, useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
+import { useProgression } from '../progression';
+import { useToday } from '../hooks';
+import { usePremium, useResolvedTheme } from '../theme';
 
 // Les libellés portent les deux langues : `tr` se choisit à l'affichage, jamais au chargement.
 const TEXT_SIZES: { value: TextSize; fr: string; en: string }[] = [
@@ -243,7 +247,9 @@ export function SettingsScreen() {
       </Section>
 
       <Section title={tr('Apparence', 'Appearance')}>
-        <div className="segmented" role="radiogroup" aria-label={tr('Thème', 'Theme')}>
+        <ThemePicker />
+        <p className="setting-label">{tr('Clair ou sombre', 'Light or dark')}</p>
+        <div className="segmented" role="radiogroup" aria-label={tr('Clair ou sombre', 'Light or dark')}>
           {THEMES.map((theme) => (
             <button
               key={theme.value}
@@ -278,8 +284,8 @@ export function SettingsScreen() {
           icon="pumpkin"
           label={tr('Thèmes de saison', 'Seasonal themes')}
           description={tr(
-            'Halloween, Noël, printemps, été : un accueil décoré, un accessoire pour ton compagnon et un trophée de saison.',
-            'Halloween, Christmas, spring, summer: a decorated home screen, an accessory for your companion and a seasonal trophy.',
+            'Les couleurs et le décor de la saison (neige, pétales, lucioles, feuilles) avec le thème « Auto », et les fêtes : Halloween, Noël… avec leur accessoire et leur trophée.',
+            'Seasonal colors and scenery (snow, petals, fireflies, leaves) with the “Auto” theme, plus holidays like Halloween and Christmas with their accessory and trophy.',
           )}
           checked={settings.seasonal}
           onChange={(seasonal) => void store.updateSettings({ seasonal })}
@@ -595,5 +601,66 @@ function ActionRow({ icon, label, danger, onClick }: { icon: IconName; label: st
       <Icon name={icon} />
       <span>{label}</span>
     </button>
+  );
+}
+
+/** Les thèmes de l'appli : la saison (« Auto »), ceux gagnés en montant de niveau, ceux de Premium. */
+function ThemePicker() {
+  const { settings } = useProgress();
+  const store = useStore();
+  const { rank } = useProgression();
+  const premium = usePremium();
+  const today = useToday();
+  const season = seasonThemeOf(today);
+  const current = useResolvedTheme();
+  const choices: { id: PaletteChoice; name: string; light: string; dark: string; tint: string; lock: string | null }[] = [
+    { id: 'auto', name: tr(`Auto · ${themeName(season.id)}`, `Auto · ${themeName(season.id)}`), light: season.light, dark: season.dark, tint: season.tint, lock: null },
+    ...APP_THEMES.map((theme) => ({
+      id: theme.id,
+      name: themeName(theme.id),
+      light: theme.light,
+      dark: theme.dark,
+      tint: theme.tint,
+      lock: themeUnlocked(theme, rank.level, premium)
+        ? null
+        : theme.unlock.kind === 'level'
+          ? tr(`Niveau ${theme.unlock.level}`, `Level ${theme.unlock.level}`)
+          : tr('Premium', 'Premium'),
+    })),
+  ];
+  return (
+    <>
+      <p className="setting-label">{tr('Thème', 'Theme')}</p>
+      <div className="theme-picker" role="radiogroup" aria-label={tr('Thème', 'Theme')}>
+        {choices.map((choice) => (
+          <button
+            key={choice.id}
+            type="button"
+            role="radio"
+            aria-checked={settings.palette === choice.id}
+            aria-disabled={choice.lock !== null}
+            className={`theme-swatch${choice.lock ? ' is-locked' : ''}`}
+            style={{ '--sw-light': choice.light, '--sw-dark': choice.dark, '--sw-tint': choice.tint } as CSSProperties}
+            onClick={() => {
+              if (!choice.lock) void store.updateSettings({ palette: choice.id });
+            }}
+          >
+            <span className="theme-swatch__dot" aria-hidden="true">
+              {choice.lock && <Icon name="lock" size={14} />}
+            </span>
+            <span className="theme-swatch__name">{choice.name}</span>
+            {choice.lock && <span className="theme-swatch__lock">{choice.lock}</span>}
+          </button>
+        ))}
+      </div>
+      <p className="hint">
+        {settings.palette === 'auto' && !settings.seasonal
+          ? tr('« Auto » garde le thème classique tant que les thèmes de saison sont coupés.', '“Auto” keeps the classic theme while seasonal themes are off.')
+          : tr(
+              `Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau${premium ? '' : ' ; trois autres viennent avec Premium'}.`,
+              `Current theme: ${themeName(current.id)}. New themes unlock as you level up${premium ? '' : '; three more come with Premium'}.`,
+            )}
+      </p>
+    </>
   );
 }

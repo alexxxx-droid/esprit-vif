@@ -88,6 +88,27 @@ versée deux fois, même si l'on rejoue, ferme l'appli ou recharge une sauvegard
   (`settings.hat`) remplace l'accessoire de saison ; sous un chapeau, la pointe du haut de Vif s'efface.
 - **Résultat** : les objectifs remplis par la partie et les étincelles gagnées s'affichent avec l'XP.
 
+## Vif vivant et thèmes (v2.9, demande d'Alex du 20-10-2026)
+
+- **Vif guide** (`VifGuide.tsx`) : au premier passage sur l'accueil après le lancement, il arrive en se
+  dandinant (1,9 s), se pose sur le bouton principal et le montre du doigt (humeur `point`) ; ensuite
+  il y attend directement. On peut le toucher. Il ne cache aucune commande : une marge est réservée
+  au-dessus du bouton.
+- **Au résultat**, il bondit près du score : bouche bée puis saut de joie pour un grand moment
+  (record, trois étoiles, médaille, nouveau rang), sinon l'humeur du score. **Au vestiaire**, il fait un
+  petit bond et salue à chaque chapeau essayé. **Jamais pendant une partie** (choix d'Alex : ça
+  distrairait et fausserait les scores chronométrés). Rien de tout ça avec « moins d'animations ».
+- **Thèmes** (`src/core/themes.ts`) : un accent et une teinte de fond, en clair et en sombre ; les
+  couleurs des domaines ne changent jamais (validées pour le daltonisme), et **Vif garde son indigo**
+  (`--vif-color`) pour rester reconnaissable. « Auto » (par défaut) suit la saison de l'année : hiver
+  (neige), printemps (pétales), été (lucioles qui montent), automne (feuilles) ; le décor passe
+  derrière les écrans à onglets, jamais dans les jeux, et disparaît avec « moins d'animations ».
+  Couper « Thèmes de saison » ramène au thème classique. Six thèmes se gagnent au niveau de joueur
+  (Océan 5, Forêt 10, Corail 15, Lavande 20, Nuit étoilée 30, Or 40) ; trois sont réservés à Premium
+  (Aurore boréale, Sakura avec ses pétales, Encre en noir et blanc, vrai noir en sombre). Un thème
+  devenu inaccessible retombe sur « Auto » sans effacer le choix. Contrastes vérifiés (au moins
+  5,4:1 pour le texte sur l'accent) ; le contraste renforcé garde ses propres couleurs.
+
 ## Accueil (v2.9)
 
 Dans l'ordre, sur téléphone : salutation et niveau ; **le test du jour** (ses trois jeux et le dernier

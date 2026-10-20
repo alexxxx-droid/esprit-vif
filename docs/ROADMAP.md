@@ -31,10 +31,10 @@ Règle de chaque phase : tests, lint et types verts, captures vérifiées sur 36
       avec les étincelles, chapeaux de prestige gagnés par exploits, prochaine récompense affichée
 - [x] Accueil recomposé : salutation + niveau, test du jour (ou son bilan), bouton principal,
       objectifs, semaine, reprendre le dernier jeu, accès direct aux thèmes
-- [ ] Vif vivant (demande d'Alex du 20-10) : il traverse l'accueil, se pose sur le bouton principal et
-      le montre ; impressionné au résultat ; essaie son chapeau au vestiaire ; montre la prochaine
-      récompense dans les Progrès. Jamais pendant une partie, rien si « réduire les animations »
-- [ ] Thèmes de l'appli : thèmes de saison automatiques (désactivables), thèmes gagnés au niveau de
+- [x] Vif vivant (demande d'Alex du 20-10) : il traverse l'accueil, se pose sur le bouton principal et
+      le montre ; impressionné au résultat ; essaie son chapeau au vestiaire (Progrès : en phase 3).
+      Jamais pendant une partie, rien si « réduire les animations »
+- [x] Thèmes de l'appli : thèmes de saison automatiques (désactivables), thèmes gagnés au niveau de
       joueur 5, 10, 15…, 3 thèmes exclusifs Premium
 
 ## Phase 3 — Progrès

@@ -17,6 +17,8 @@
   --switch-off: #8f8999;
 
   --accent: #4b39ef;
+  /* Vif garde son indigo, quel que soit le thème de l'appli. */
+  --vif-color: #4b39ef;
   --accent-strong: #3a28d6;
   --accent-ink: #ffffff;
   --accent-soft: #e9e5ff;
@@ -83,6 +85,7 @@
     --switch-off: #6e6a7b;
 
     --accent: #9385ff;
+    --vif-color: #9385ff;
     --accent-strong: #a89dff;
     --accent-ink: #120f2a;
     --accent-soft: #2b2558;
@@ -128,6 +131,7 @@
   --switch-off: #6e6a7b;
 
   --accent: #9385ff;
+  --vif-color: #9385ff;
   --accent-strong: #a89dff;
   --accent-ink: #120f2a;
   --accent-soft: #2b2558;
@@ -157,4 +161,76 @@
   --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 20px -6px rgb(0 0 0 / 45%);
   --shadow-2: 0 2px 6px rgb(0 0 0 / 35%), 0 18px 40px -12px rgb(0 0 0 / 60%);
   --shadow-accent: 0 14px 30px -12px rgb(147 133 255 / 45%);
+}
+
+/*
+ * Thèmes de l'appli (src/core/themes.ts) : l'appli pose sur la racine `data-palette` et trois couleurs,
+ * --pal-light (accent en clair, texte blanc dessus), --pal-dark (accent en sombre, texte foncé dessus)
+ * et --pal-tint (teinte des fonds). Le contraste renforcé garde toujours ses propres couleurs.
+ */
+:root[data-palette]:not([data-contrast='high']) {
+  --accent: var(--pal-light);
+  --accent-strong: color-mix(in oklab, var(--pal-light) 82%, #000000);
+  --accent-soft: color-mix(in oklab, var(--pal-light) 13%, #ffffff);
+  --accent-soft-ink: color-mix(in oklab, var(--pal-light) 88%, #000000);
+  --bg: color-mix(in oklab, var(--pal-tint) 9%, #f5f2ec);
+  --surface-2: color-mix(in oklab, var(--pal-tint) 9%, #f0ebe3);
+  --surface-3: color-mix(in oklab, var(--pal-tint) 11%, #e4ddd2);
+  --line: color-mix(in oklab, var(--pal-tint) 10%, #e4ded3);
+  --shadow-accent: 0 14px 30px -12px color-mix(in oklab, var(--pal-light) 60%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette]:not([data-theme='light']):not([data-contrast='high']) {
+    --accent: var(--pal-dark);
+    --accent-strong: color-mix(in oklab, var(--pal-dark) 85%, #ffffff);
+    --accent-soft: color-mix(in oklab, var(--pal-dark) 20%, #1c1b22);
+    --accent-soft-ink: color-mix(in oklab, var(--pal-dark) 72%, #ffffff);
+    --bg: color-mix(in oklab, var(--pal-tint) 7%, #111015);
+    --surface: color-mix(in oklab, var(--pal-tint) 5%, #1c1b22);
+    --surface-2: color-mix(in oklab, var(--pal-tint) 7%, #25232d);
+    --surface-3: color-mix(in oklab, var(--pal-tint) 9%, #33303d);
+    --line: color-mix(in oklab, var(--pal-tint) 9%, #2f2d38);
+    --shadow-accent: 0 14px 30px -12px color-mix(in oklab, var(--pal-dark) 45%, transparent);
+  }
+}
+
+:root[data-palette][data-theme='dark']:not([data-contrast='high']) {
+  --accent: var(--pal-dark);
+  --accent-strong: color-mix(in oklab, var(--pal-dark) 85%, #ffffff);
+  --accent-soft: color-mix(in oklab, var(--pal-dark) 20%, #1c1b22);
+  --accent-soft-ink: color-mix(in oklab, var(--pal-dark) 72%, #ffffff);
+  --bg: color-mix(in oklab, var(--pal-tint) 7%, #111015);
+  --surface: color-mix(in oklab, var(--pal-tint) 5%, #1c1b22);
+  --surface-2: color-mix(in oklab, var(--pal-tint) 7%, #25232d);
+  --surface-3: color-mix(in oklab, var(--pal-tint) 9%, #33303d);
+  --line: color-mix(in oklab, var(--pal-tint) 9%, #2f2d38);
+  --shadow-accent: 0 14px 30px -12px color-mix(in oklab, var(--pal-dark) 45%, transparent);
+}
+
+/* Encre : noir et blanc ; en sombre, un vrai noir (économe sur les écrans OLED). */
+:root[data-palette='encre']:not([data-contrast='high']) {
+  --accent-ink: #ffffff;
+  --bg: #fbfaf7;
+  --surface-2: #f1efea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette='encre']:not([data-theme='light']):not([data-contrast='high']) {
+    --accent-ink: #000000;
+    --bg: #000000;
+    --surface: #0f0f10;
+    --surface-2: #19191b;
+    --surface-3: #262628;
+    --line: #232325;
+  }
+}
+
+:root[data-palette='encre'][data-theme='dark']:not([data-contrast='high']) {
+  --accent-ink: #000000;
+  --bg: #000000;
+  --surface: #0f0f10;
+  --surface-2: #19191b;
+  --surface-3: #262628;
+  --line: #232325;
 }

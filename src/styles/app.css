@@ -3365,7 +3365,7 @@
 /* ---------- Compagnons : Vif et la bande de fruits ---------- */
 
 .vif {
-  --vif-body: var(--accent);
+  --vif-body: var(--vif-color);
 }
 
 .vif__body {
@@ -4975,4 +4975,273 @@
 .report__rewards svg {
   flex: none;
   margin-top: 2px;
+}
+
+/* ---------- Vif guide : il traverse l'accueil et se pose sur le bouton principal ---------- */
+
+.cta-wrap {
+  position: relative;
+  margin-top: 26px;
+}
+
+.vif-guide {
+  position: absolute;
+  top: -50px;
+  right: 26px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.vif-guide .vif {
+  pointer-events: auto;
+}
+
+.vif-guide--walk {
+  animation: guide-walk 1.9s cubic-bezier(0.3, 0.1, 0.3, 1) both;
+}
+
+.vif--walking .vif__move {
+  animation: vif-waddle 0.38s ease-in-out infinite;
+}
+
+.vif__arm--point {
+  transform-box: view-box;
+  transform-origin: 30px 70px;
+  animation: vif-point 1.6s ease-in-out 0.1s 3;
+}
+
+@keyframes guide-walk {
+  0% {
+    opacity: 0;
+    transform: translateX(-240px);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  86% {
+    transform: translateX(6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vif-waddle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-7deg);
+  }
+
+  25% {
+    transform: translateY(-6px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(0) rotate(7deg);
+  }
+
+  75% {
+    transform: translateY(-6px) rotate(0deg);
+  }
+}
+
+@keyframes vif-point {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  40% {
+    transform: translate(-3px, 3px);
+  }
+}
+
+/* ---------- Thèmes : décors de fond et décor animé des saisons ---------- */
+
+/* Aurore boréale : des voiles verts et violets en haut de l'écran, qui ne bougent pas. */
+:root[data-palette='aurore']:not([data-contrast='high']) body {
+  background-image:
+    radial-gradient(70% 35% at 15% 0%, color-mix(in oklab, #34d399 22%, transparent), transparent 70%),
+    radial-gradient(60% 30% at 85% 4%, color-mix(in oklab, #8b5cf6 18%, transparent), transparent 70%);
+  background-attachment: fixed;
+}
+
+/* Nuit étoilée : en sombre, un ciel piqué d'étoiles. */
+:root[data-palette='nuit'][data-theme='dark'] body {
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 18%, #ffffffaa, transparent),
+    radial-gradient(1px 1px at 68% 9%, #ffffff99, transparent),
+    radial-gradient(1.4px 1.4px at 86% 32%, #ffffffbb, transparent),
+    radial-gradient(1px 1px at 33% 41%, #ffffff88, transparent),
+    radial-gradient(1.2px 1.2px at 52% 72%, #ffffff99, transparent),
+    radial-gradient(1px 1px at 8% 83%, #ffffff88, transparent),
+    radial-gradient(1.3px 1.3px at 92% 88%, #ffffffaa, transparent);
+  background-attachment: fixed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette='nuit']:not([data-theme='light']) body {
+    background-image:
+      radial-gradient(1.2px 1.2px at 12% 18%, #ffffffaa, transparent),
+      radial-gradient(1px 1px at 68% 9%, #ffffff99, transparent),
+      radial-gradient(1.4px 1.4px at 86% 32%, #ffffffbb, transparent),
+      radial-gradient(1px 1px at 33% 41%, #ffffff88, transparent),
+      radial-gradient(1.2px 1.2px at 52% 72%, #ffffff99, transparent),
+      radial-gradient(1px 1px at 8% 83%, #ffffff88, transparent),
+      radial-gradient(1.3px 1.3px at 92% 88%, #ffffffaa, transparent);
+    background-attachment: fixed;
+  }
+}
+
+/* Le décor passe derrière les écrans : on ne le voit qu'entre les cartes. */
+.app__main {
+  position: relative;
+  z-index: 1;
+}
+
+.season-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.season-decor__bit {
+  position: absolute;
+  top: -16px;
+  left: var(--x);
+  opacity: 0;
+  scale: var(--s);
+  animation: decor-fall var(--t) linear var(--d) infinite;
+}
+
+.season-decor--hiver .season-decor__bit {
+  filter: drop-shadow(0 0 2px rgb(255 255 255 / 60%));
+}
+
+/* En clair, la neige se devine mieux bleutée. */
+:root:not([data-theme='dark']) .season-decor--hiver circle {
+  fill: #b9d7f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .season-decor--hiver circle {
+    fill: #ffffff;
+  }
+}
+
+.season-decor--ete .season-decor__bit {
+  top: auto;
+  bottom: -16px;
+  filter: drop-shadow(0 0 4px #ffd54f);
+  animation-name: decor-rise;
+}
+
+@keyframes decor-fall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  8% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translate(var(--sway), 52vh) rotate(160deg);
+  }
+
+  92% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 105vh) rotate(320deg);
+  }
+}
+
+@keyframes decor-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  15% {
+    opacity: 0.7;
+  }
+
+  60% {
+    opacity: 0.5;
+    transform: translate(var(--sway), -55vh);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, -95vh);
+  }
+}
+
+/* ---------- Choix du thème ---------- */
+
+.theme-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.theme-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 84px;
+  padding: 8px 4px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-m);
+  background: color-mix(in oklab, var(--sw-tint) 10%, var(--surface));
+  color: var(--ink);
+  text-align: center;
+}
+
+.theme-swatch[aria-checked='true'] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.theme-swatch__dot {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sw-light) 50%, var(--sw-dark) 50%);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 25%);
+}
+
+.theme-swatch__name {
+  font-size: 0.8rem;
+  font-weight: 680;
+  line-height: 1.15;
+}
+
+.theme-swatch__lock {
+  color: var(--ink-3);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.theme-swatch.is-locked {
+  cursor: default;
+}
+
+.theme-swatch.is-locked .theme-swatch__dot {
+  opacity: 0.55;
 }

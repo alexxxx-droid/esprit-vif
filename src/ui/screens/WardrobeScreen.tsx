@@ -67,7 +67,8 @@ export function WardrobeScreen() {
       </header>
 
       <section className="wardrobe__stage" aria-live="polite">
-        <Mascot mood={cheer ? 'cheer' : 'happy'} size={148} hat={selected} />
+        {/* Il essaie chaque chapeau choisi : un petit bond et un salut (la clé relance le geste). */}
+        <Mascot key={selected ?? 'tete-nue'} mood={cheer ? 'cheer' : 'hello'} size={148} hat={selected} />
         <p className="wardrobe__balance">
           <Icon name="spark" size={20} />
           <strong>{status.balance}</strong> {tr('étincelles', 'sparks')}

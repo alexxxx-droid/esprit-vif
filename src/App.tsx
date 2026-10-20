@@ -14,6 +14,9 @@ import { MOTION_EVENT, useToday } from './ui/hooks';
 import { platform } from './ui/platform';
 import { setGenerousTime } from './ui/tempo';
 import { useCloudSync } from './ui/cloud';
+import { SeasonDecor } from './ui/components/SeasonDecor';
+import { useResolvedTheme } from './ui/theme';
+import type { ResolvedTheme } from './core/themes';
 import { useProfiles } from './ui/profiles-context';
 import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
@@ -109,6 +112,27 @@ function useApplySettings(settings: Settings) {
   }, [settings.textSize, settings.highContrast, settings.leftHanded, settings.reduceMotion, settings.generousTime]);
 }
 
+/** Le thème (saison ou choix du joueur) : ses couleurs passent par des variables sur la racine. */
+function useApplyTheme(look: ResolvedTheme, mode: Settings['theme']) {
+  useEffect(() => {
+    const root = document.documentElement;
+    if (look.id === 'classique') {
+      delete root.dataset.palette;
+      for (const name of ['--pal-light', '--pal-dark', '--pal-tint']) root.style.removeProperty(name);
+    } else {
+      root.dataset.palette = look.id;
+      root.style.setProperty('--pal-light', look.light);
+      root.style.setProperty('--pal-dark', look.dark);
+      root.style.setProperty('--pal-tint', look.tint);
+    }
+    // La barre du navigateur suit le fond du thème quand le mode clair ou sombre est imposé.
+    if (mode !== 'auto') {
+      const background = getComputedStyle(root).getPropertyValue('--bg').trim();
+      for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')) meta.content = background;
+    }
+  }, [look, mode]);
+}
+
 /** Appli Android : les rappels sont reprogrammés à l'ouverture, et sautent le jour où le test est fait. */
 function useReminderSync(settings: Settings, doneToday: boolean) {
   useEffect(() => {
@@ -168,6 +192,8 @@ export function App() {
   useCloudSync();
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
+  const look = useResolvedTheme();
+  useApplyTheme(look, settings.theme);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -175,6 +201,7 @@ export function App() {
 
   return (
     <div className={`app${tabbed ? ' app--tabbed' : ''}`}>
+      {tabbed && look.decor && <SeasonDecor decor={look.decor} />}
       <main className="app__main" key={key}>
         <Screen route={route} />
       </main>

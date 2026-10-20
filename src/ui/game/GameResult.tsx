@@ -1,4 +1,4 @@
-import { useEffect, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
@@ -67,7 +67,7 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       </p>
       <div className="result__ring">
         <ScoreRing score={outcome.score} />
-        <Mascot mood={celebrate ? 'cheer' : moodForScore(outcome.score)} size={70} className="result__vif" />
+        <ResultVif score={outcome.score} celebrate={celebrate} />
       </div>
       <Stars count={starsFor(outcome.score)} size={30} animateFrom={delta ? delta.starsBefore : 0} />
       <h1 className="result__cheer">{cheer(outcome.score)}</h1>
@@ -196,6 +196,21 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
       <div className="result__actions">{children}</div>
     </div>
   );
+}
+
+/**
+ * Vif bondit à côté du score et y réagit : un grand moment (record, trois étoiles, médaille, rang)
+ * le laisse d'abord bouche bée, puis il saute de joie ; sinon, il prend l'humeur du score.
+ */
+function ResultVif({ score, celebrate }: { score: number; celebrate: boolean }) {
+  const [amazed, setAmazed] = useState(celebrate);
+  useEffect(() => {
+    if (!amazed) return;
+    const timer = window.setTimeout(() => setAmazed(false), 1300);
+    return () => window.clearTimeout(timer);
+  }, [amazed]);
+  const mood = celebrate ? (amazed ? 'wow' : 'cheer') : moodForScore(score);
+  return <Mascot mood={mood} size={70} className={`result__vif${celebrate ? ' result__vif--big' : ''}`} />;
 }
 
 function CompareLine({ comparison }: { comparison: Comparison }) {

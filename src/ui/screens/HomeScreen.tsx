@@ -14,6 +14,7 @@ import { gameLevel, officialTests, testInProgress, type TestRecord } from '../..
 import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
 import { Mascot } from '../components/Mascot';
+import { VifGuide } from '../components/VifGuide';
 import { PlayersDialog, ProfileAvatar } from '../components/Players';
 import { Icon } from '../components/Icon';
 import { useMinuteOfDay, useToday } from '../hooks';
@@ -175,15 +176,18 @@ function Home() {
       <div className="home__main">
         <DailyCard test={inProgress} doneToday={doneToday} />
 
-        <button type="button" className="cta cta--hero" onClick={cta.action} disabled={starting}>
-          <span className="cta__text">
-            <span className="cta__label">{cta.label}</span>
-            <span className="cta__sub">{cta.sub}</span>
-          </span>
-          <span className="cta__icon">
-            <Icon name={doneToday && !inProgress ? 'arrow' : 'play'} />
-          </span>
-        </button>
+        <div className="cta-wrap">
+          <button type="button" className="cta cta--hero" onClick={cta.action} disabled={starting}>
+            <span className="cta__text">
+              <span className="cta__label">{cta.label}</span>
+              <span className="cta__sub">{cta.sub}</span>
+            </span>
+            <span className="cta__icon">
+              <Icon name={doneToday && !inProgress ? 'arrow' : 'play'} />
+            </span>
+          </button>
+          <VifGuide />
+        </div>
 
         <ObjectivesCard />
       </div>

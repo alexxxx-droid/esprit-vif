@@ -1,0 +1,7994 @@
+[
+  {
+    "key": "'Série : 1 jour'",
+    "en": "'Streak: 1 day'",
+    "at": [
+      "src/App.tsx:132"
+    ]
+  },
+  {
+    "key": "'Série : %d jours'",
+    "en": "'Streak: %d days'",
+    "at": [
+      "src/App.tsx:133"
+    ]
+  },
+  {
+    "key": "'Une partie aujourd’hui lance ta série'",
+    "en": "'Play today to start a streak'",
+    "at": [
+      "src/App.tsx:134"
+    ]
+  },
+  {
+    "key": "'Test du jour fait · âge cérébral %d ans'",
+    "en": "'Daily test done · brain age %d'",
+    "at": [
+      "src/App.tsx:135"
+    ]
+  },
+  {
+    "key": "'Test du jour fait'",
+    "en": "'Daily test done'",
+    "at": [
+      "src/App.tsx:136",
+      "src/ui/screens/HomeScreen.tsx:391"
+    ]
+  },
+  {
+    "key": "'Test du jour : à faire'",
+    "en": "'Daily test: to do'",
+    "at": [
+      "src/App.tsx:137"
+    ]
+  },
+  {
+    "key": "'Test du jour'",
+    "en": "'Daily test'",
+    "at": [
+      "src/App.tsx:138",
+      "src/ui/components/BrainAgeChart.tsx:137",
+      "src/ui/screens/HomeScreen.tsx:82",
+      "src/ui/screens/PlayScreens.tsx:110",
+      "src/ui/screens/ReportScreen.tsx:65"
+    ]
+  },
+  {
+    "key": "'Entraînement'",
+    "en": "'Training'",
+    "at": [
+      "src/App.tsx:139",
+      "src/ui/components/TabBar.tsx:9",
+      "src/ui/screens/TrainingScreen.tsx:32"
+    ]
+  },
+  {
+    "key": "'Séance du jour'",
+    "en": "'Daily session'",
+    "at": [
+      "src/App.tsx:140",
+      "src/ui/screens/HomeScreen.tsx:267",
+      "src/ui/screens/ModeScreens.tsx:91",
+      "src/ui/screens/TrainingScreen.tsx:45"
+    ]
+  },
+  {
+    "key": "'Une amie'",
+    "en": "'A friend'",
+    "at": [
+      "src/core/challenges.ts:82"
+    ]
+  },
+  {
+    "key": "`Jouer 8 parties de ${name}`",
+    "en": "`Play 8 ${name} games`",
+    "at": [
+      "src/core/events.ts:144"
+    ]
+  },
+  {
+    "key": "`Obtenir 85 points ou plus en ${name}`",
+    "en": "`Score 85 points or more in ${name}`",
+    "at": [
+      "src/core/events.ts:149"
+    ]
+  },
+  {
+    "key": "'S’entraîner 5 jours différents cette semaine'",
+    "en": "'Train on 5 different days this week'",
+    "at": [
+      "src/core/events.ts:151"
+    ]
+  },
+  {
+    "key": "'Jouer à 8 jeux différents cette semaine'",
+    "en": "'Play 8 different games this week'",
+    "at": [
+      "src/core/events.ts:152"
+    ]
+  },
+  {
+    "key": "'Terminer 3 séances du jour cette semaine'",
+    "en": "'Finish 3 daily sessions this week'",
+    "at": [
+      "src/core/events.ts:153"
+    ]
+  },
+  {
+    "key": "`${first} lettres`",
+    "en": "`${first} letters`",
+    "at": [
+      "src/core/games/anagrammes.ts:95"
+    ]
+  },
+  {
+    "key": "`${first} ou ${second} lettres`",
+    "en": "`${first} or ${second} letters`",
+    "at": [
+      "src/core/games/anagrammes.ts:97"
+    ]
+  },
+  {
+    "key": "`${first} à ${last} lettres`",
+    "en": "`${first} to ${last} letters`",
+    "at": [
+      "src/core/games/anagrammes.ts:98"
+    ]
+  },
+  {
+    "key": "'1 leurre sosie'",
+    "en": "'1 look-alike decoy'",
+    "at": [
+      "src/core/games/anagrammes.ts:104"
+    ]
+  },
+  {
+    "key": "`${c.decoys} leurres sosies`",
+    "en": "`${c.decoys} look-alike decoys`",
+    "at": [
+      "src/core/games/anagrammes.ts:105"
+    ]
+  },
+  {
+    "key": "'1 leurre'",
+    "en": "'1 decoy'",
+    "at": [
+      "src/core/games/anagrammes.ts:107"
+    ]
+  },
+  {
+    "key": "`${c.decoys} leurres`",
+    "en": "`${c.decoys} decoys`",
+    "at": [
+      "src/core/games/anagrammes.ts:108"
+    ]
+  },
+  {
+    "key": "'EASITNRULODCMP'",
+    "en": "'ETAOINSRHLDCUM'",
+    "at": [
+      "src/core/games/anagrammes.ts:136"
+    ]
+  },
+  {
+    "key": "`${c.items} objets`",
+    "en": "`${c.items} items`",
+    "at": [
+      "src/core/games/balance.ts:64"
+    ]
+  },
+  {
+    "key": "'le plus lourd ou le plus léger'",
+    "en": "'heaviest or lightest'",
+    "at": [
+      "src/core/games/balance.ts:65"
+    ]
+  },
+  {
+    "key": "'le plus lourd'",
+    "en": "'heaviest'",
+    "at": [
+      "src/core/games/balance.ts:65"
+    ]
+  },
+  {
+    "key": "'balances à deux contre un'",
+    "en": "'two-against-one scales'",
+    "at": [
+      "src/core/games/balance.ts:66"
+    ]
+  },
+  {
+    "key": "`${c.noise} balance${c.noise > 1 ? 's' : ''} inutile${c.noise > 1 ? 's' : ''}`",
+    "en": "`${c.noise} useless scale${c.noise > 1 ? 's' : ''}`",
+    "at": [
+      "src/core/games/balance.ts:67"
+    ]
+  },
+  {
+    "key": "`${c.events} mouvements`",
+    "en": "`${c.events} moves`",
+    "at": [
+      "src/core/games/boutique.ts:80"
+    ]
+  },
+  {
+    "key": "`${step} chacun`",
+    "en": "`${step} each`",
+    "at": [
+      "src/core/games/boutique.ts:81"
+    ]
+  },
+  {
+    "key": "'entrées et sorties mêlées'",
+    "en": "'ins and outs at once'",
+    "at": [
+      "src/core/games/boutique.ts:82"
+    ]
+  },
+  {
+    "key": "'chats farceurs'",
+    "en": "'sneaky cats'",
+    "at": [
+      "src/core/games/boutique.ts:83"
+    ]
+  },
+  {
+    "key": "'Un « ? » cache le nombre à trouver.'",
+    "en": "'A “?” hides the number to find.'",
+    "at": [
+      "src/core/games/calcul.ts:412"
+    ]
+  },
+  {
+    "key": "'« 10 % de 50 », c’est 5.'",
+    "en": "'“10% of 50” is 5.'",
+    "at": [
+      "src/core/games/calcul.ts:413"
+    ]
+  },
+  {
+    "key": "'Rappel : × et ÷ passent avant + et −.'",
+    "en": "'Remember: × and ÷ come before + and −.'",
+    "at": [
+      "src/core/games/calcul.ts:414"
+    ]
+  },
+  {
+    "key": "'Résous 20 calculs le plus vite possible : ta réponse se valide toute seule.'",
+    "en": "'Solve 20 problems as fast as you can: your answer goes in by itself.'",
+    "at": [
+      "src/core/games/calcul.ts:417"
+    ]
+  },
+  {
+    "key": "'Résous 20 calculs le plus vite possible.'",
+    "en": "'Solve 20 problems as fast as you can.'",
+    "at": [
+      "src/core/games/calcul.ts:419"
+    ]
+  },
+  {
+    "key": "`${first}${NBSP}% de ${rest[0]}`",
+    "en": "`${first}% of ${rest[0]}`",
+    "at": [
+      "src/core/games/calcul.ts:460"
+    ]
+  },
+  {
+    "key": "'intrus évidents'",
+    "en": "'easy odd ones'",
+    "at": [
+      "src/core/games/categories.ts:55"
+    ]
+  },
+  {
+    "key": "'intrus de la même famille'",
+    "en": "'odd ones from the same family'",
+    "at": [
+      "src/core/games/categories.ts:57"
+    ]
+  },
+  {
+    "key": "'intrus parfois proches'",
+    "en": "'odd ones sometimes close'",
+    "at": [
+      "src/core/games/categories.ts:58"
+    ]
+  },
+  {
+    "key": "`${c.words} mots · ${near}`",
+    "en": "`${c.words} words · ${near}`",
+    "at": [
+      "src/core/games/categories.ts:59"
+    ]
+  },
+  {
+    "key": "'carte précédente'",
+    "en": "'previous card'",
+    "at": [
+      "src/core/games/correspondance.ts:127"
+    ]
+  },
+  {
+    "key": "'il y a deux cartes'",
+    "en": "'two cards back'",
+    "at": [
+      "src/core/games/correspondance.ts:128"
+    ]
+  },
+  {
+    "key": "'il y a trois cartes'",
+    "en": "'three cards back'",
+    "at": [
+      "src/core/games/correspondance.ts:128"
+    ]
+  },
+  {
+    "key": "'pièges'",
+    "en": "'traps'",
+    "at": [
+      "src/core/games/correspondance.ts:138",
+      "src/core/games/nback.ts:122"
+    ]
+  },
+  {
+    "key": "`≈ ${big} contre ${small} · vu ${shown}`",
+    "en": "`≈ ${big} vs. ${small} · shown ${shown}`",
+    "at": [
+      "src/core/games/coupdoeil.ts:120"
+    ]
+  },
+  {
+    "key": "'points gris'",
+    "en": "'gray dots'",
+    "at": [
+      "src/core/games/coupdoeil.ts:121"
+    ]
+  },
+  {
+    "key": "'plus ou moins'",
+    "en": "'more or fewer'",
+    "at": [
+      "src/core/games/coupdoeil.ts:121"
+    ]
+  },
+  {
+    "key": "`${c.n} calcul${c.n > 1 ? 's' : ''} en arrière · ${kinds} · ${c.count} réponses`",
+    "en": "`${c.n} sum${c.n > 1 ? 's' : ''} back · ${kinds} · ${c.count} answers`",
+    "at": [
+      "src/core/games/diable.ts:63"
+    ]
+  },
+  {
+    "key": "'flèche du milieu'",
+    "en": "'middle arrow'",
+    "at": [
+      "src/core/games/fleches.ts:153"
+    ]
+  },
+  {
+    "key": "'flèches voisines'",
+    "en": "'outer arrows'",
+    "at": [
+      "src/core/games/fleches.ts:154"
+    ]
+  },
+  {
+    "key": "'consigne en couleur'",
+    "en": "'color-coded rule'",
+    "at": [
+      "src/core/games/fleches.ts:155"
+    ]
+  },
+  {
+    "key": "'consigne changeante'",
+    "en": "'changing rule'",
+    "at": [
+      "src/core/games/fleches.ts:155"
+    ]
+  },
+  {
+    "key": "'en colonne'",
+    "en": "'in a column'",
+    "at": [
+      "src/core/games/fleches.ts:159"
+    ]
+  },
+  {
+    "key": "'en carré'",
+    "en": "'in a square'",
+    "at": [
+      "src/core/games/fleches.ts:160"
+    ]
+  },
+  {
+    "key": "'dispositions variées'",
+    "en": "'mixed layouts'",
+    "at": [
+      "src/core/games/fleches.ts:161"
+    ]
+  },
+  {
+    "key": "'sens inverse'",
+    "en": "'reverse'",
+    "at": [
+      "src/core/games/fleches.ts:167"
+    ]
+  },
+  {
+    "key": "'flèches barrées'",
+    "en": "'crossed-out arrows'",
+    "at": [
+      "src/core/games/fleches.ts:168"
+    ]
+  },
+  {
+    "key": "'voisines mobiles'",
+    "en": "'moving arrows'",
+    "at": [
+      "src/core/games/fleches.ts:169"
+    ]
+  },
+  {
+    "key": "`${arrows} flèches`",
+    "en": "`${arrows} arrows`",
+    "at": [
+      "src/core/games/fleches.ts:172"
+    ]
+  },
+  {
+    "key": "`${delay} pour répondre`",
+    "en": "`${delay} to answer`",
+    "at": [
+      "src/core/games/fleches.ts:173"
+    ]
+  },
+  {
+    "key": "'Donne le sens des flèches voisines, pas de celle du milieu.'",
+    "en": "'Give the direction of the outer arrows, not the middle one.'",
+    "at": [
+      "src/core/games/fleches.ts:184",
+      "src/core/games/registry.ts:349"
+    ]
+  },
+  {
+    "key": "'Flèches bleues : donne le sens de celle du milieu. Flèches orange : celui des voisines.'",
+    "en": "'Blue arrows: give the direction of the middle one. Orange arrows: the direction of the outer ones.'",
+    "at": [
+      "src/core/games/fleches.ts:188"
+    ]
+  },
+  {
+    "key": "'Selon la consigne, donne le sens de la flèche du milieu ou de ses voisines.'",
+    "en": "'Follow the prompt: give the direction of the middle arrow or of its neighbors.'",
+    "at": [
+      "src/core/games/fleches.ts:192",
+      "src/core/games/registry.ts:352"
+    ]
+  },
+  {
+    "key": "'Donne le sens de la flèche du milieu, sans te laisser distraire par ses voisines.'",
+    "en": "'Give the direction of the middle arrow, without letting its neighbors distract you.'",
+    "at": [
+      "src/core/games/fleches.ts:196",
+      "src/core/games/registry.ts:357"
+    ]
+  },
+  {
+    "key": "'Flèches encadrées : réponds le sens inverse.'",
+    "en": "'Framed arrows: answer the opposite way.'",
+    "at": [
+      "src/core/games/fleches.ts:201"
+    ]
+  },
+  {
+    "key": "'Flèches barrées : ne touche rien.'",
+    "en": "'Crossed-out arrows: don’t tap anything.'",
+    "at": [
+      "src/core/games/fleches.ts:202"
+    ]
+  },
+  {
+    "key": "'à la minute'",
+    "en": "'to the minute'",
+    "at": [
+      "src/core/games/horloges.ts:74"
+    ]
+  },
+  {
+    "key": "'à la demi-heure'",
+    "en": "'to the half hour'",
+    "at": [
+      "src/core/games/horloges.ts:75"
+    ]
+  },
+  {
+    "key": "'au quart d’heure'",
+    "en": "'to the quarter hour'",
+    "at": [
+      "src/core/games/horloges.ts:76"
+    ]
+  },
+  {
+    "key": "`à ${step}${NBSP}min`",
+    "en": "`to ${step}${NBSP}min`",
+    "at": [
+      "src/core/games/horloges.ts:77"
+    ]
+  },
+  {
+    "key": "`${h}${NBSP}h${NBSP}${pad(m % 60)}`",
+    "en": "`${h}:${pad(m % 60)}`",
+    "at": [
+      "src/core/games/horloges.ts:93"
+    ]
+  },
+  {
+    "key": "`${h}${NBSP}h`",
+    "en": "`${h}${NBSP}hr`",
+    "at": [
+      "src/core/games/horloges.ts:100"
+    ]
+  },
+  {
+    "key": "`${h}${NBSP}h${NBSP}${pad(minutes % 60)}`",
+    "en": "`${h}${NBSP}hr${NBSP}${minutes % 60}${NBSP}min`",
+    "at": [
+      "src/core/games/horloges.ts:101"
+    ]
+  },
+  {
+    "key": "'miroirs'",
+    "en": "'mirrors'",
+    "at": [
+      "src/core/games/intrus.ts:95"
+    ]
+  },
+  {
+    "key": "'symboles variés'",
+    "en": "'mixed symbols'",
+    "at": [
+      "src/core/games/intrus.ts:101"
+    ]
+  },
+  {
+    "key": "'symboles faciles'",
+    "en": "'easy symbols'",
+    "at": [
+      "src/core/games/intrus.ts:102"
+    ]
+  },
+  {
+    "key": "'symboles trompeurs'",
+    "en": "'tricky symbols'",
+    "at": [
+      "src/core/games/intrus.ts:103"
+    ]
+  },
+  {
+    "key": "'en désordre'",
+    "en": "'tilted'",
+    "at": [
+      "src/core/games/intrus.ts:104"
+    ]
+  },
+  {
+    "key": "`dès ${c.start} × ${c.start}`",
+    "en": "`from ${c.start} × ${c.start}`",
+    "at": [
+      "src/core/games/intrus.ts:104"
+    ]
+  },
+  {
+    "key": "'en haut'",
+    "en": "'up'",
+    "at": [
+      "src/core/games/itineraire.ts:22"
+    ]
+  },
+  {
+    "key": "'en bas'",
+    "en": "'down'",
+    "at": [
+      "src/core/games/itineraire.ts:29"
+    ]
+  },
+  {
+    "key": "'à gauche'",
+    "en": "'left'",
+    "at": [
+      "src/core/games/itineraire.ts:36"
+    ]
+  },
+  {
+    "key": "'à droite'",
+    "en": "'right'",
+    "at": [
+      "src/core/games/itineraire.ts:43"
+    ]
+  },
+  {
+    "key": "`grille ${c.size} × ${c.size}`",
+    "en": "`${c.size} × ${c.size} grid`",
+    "at": [
+      "src/core/games/itineraire.ts:104"
+    ]
+  },
+  {
+    "key": "`${c.moves} déplacements`",
+    "en": "`${c.moves} moves`",
+    "at": [
+      "src/core/games/itineraire.ts:105"
+    ]
+  },
+  {
+    "key": "`jusqu’à ${c.maxSteps} cases`",
+    "en": "`up to ${c.maxSteps} squares`",
+    "at": [
+      "src/core/games/itineraire.ts:106"
+    ]
+  },
+  {
+    "key": "`une flèche toutes les ${every}`",
+    "en": "`one arrow every ${every}`",
+    "at": [
+      "src/core/games/itineraire.ts:107"
+    ]
+  },
+  {
+    "key": "names.join(' et ')",
+    "en": "names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0]",
+    "at": [
+      "src/core/games/lecture.ts:333"
+    ]
+  },
+  {
+    "key": "`${tiers} · objectif ${c.target}`",
+    "en": "`${tiers} · target ${c.target}`",
+    "at": [
+      "src/core/games/lecture.ts:334"
+    ]
+  },
+  {
+    "key": "`Mots de ${c.minLength} à ${c.maxLength} lettres`",
+    "en": "`Words of ${c.minLength} to ${c.maxLength} letters`",
+    "at": [
+      "src/core/games/lettre.ts:56"
+    ]
+  },
+  {
+    "key": "'1 lettre manquante'",
+    "en": "'1 missing letter'",
+    "at": [
+      "src/core/games/lettre.ts:57"
+    ]
+  },
+  {
+    "key": "'2 lettres manquantes'",
+    "en": "'2 missing letters'",
+    "at": [
+      "src/core/games/lettre.ts:57"
+    ]
+  },
+  {
+    "key": "`${c.options} choix`",
+    "en": "`${c.options} choices`",
+    "at": [
+      "src/core/games/lettre.ts:58"
+    ]
+  },
+  {
+    "key": "'BCDFGLMNPRSTV'",
+    "en": "'BCDFGHKLMNPRSTVW'",
+    "at": [
+      "src/core/games/lettre.ts:63"
+    ]
+  },
+  {
+    "key": "`${flash} par case`",
+    "en": "`${flash} per square`",
+    "at": [
+      "src/core/games/matrice.ts:111"
+    ]
+  },
+  {
+    "key": "'à l’envers'",
+    "en": "'backward'",
+    "at": [
+      "src/core/games/matrice.ts:112"
+    ]
+  },
+  {
+    "key": "'sens donné après'",
+    "en": "'direction told after'",
+    "at": [
+      "src/core/games/matrice.ts:113"
+    ]
+  },
+  {
+    "key": "'cases pièges'",
+    "en": "'decoy squares'",
+    "at": [
+      "src/core/games/matrice.ts:114"
+    ]
+  },
+  {
+    "key": "`Monnaie à rendre · prix jusqu’à ${price}`",
+    "en": "`Making change · prices up to ${price}`",
+    "at": [
+      "src/core/games/monnaie.ts:105"
+    ]
+  },
+  {
+    "key": "'pièces et billets'",
+    "en": "'coins and bills'",
+    "at": [
+      "src/core/games/monnaie.ts:107"
+    ]
+  },
+  {
+    "key": "'pièces'",
+    "en": "'coins'",
+    "at": [
+      "src/core/games/monnaie.ts:107"
+    ]
+  },
+  {
+    "key": "`${c.minItems} à ${c.maxItems} ${kinds}`",
+    "en": "`${c.minItems} to ${c.maxItems} ${kinds}`",
+    "at": [
+      "src/core/games/monnaie.ts:111"
+    ]
+  },
+  {
+    "key": "`jusqu’à ${top}`",
+    "en": "`up to ${top}`",
+    "at": [
+      "src/core/games/monnaie.ts:112"
+    ]
+  },
+  {
+    "key": "`cachés après ${hidden}`",
+    "en": "`hidden after ${hidden}`",
+    "at": [
+      "src/core/games/monnaie.ts:113"
+    ]
+  },
+  {
+    "key": "`${c.count} mots`",
+    "en": "`${c.count} words`",
+    "at": [
+      "src/core/games/mots.ts:53"
+    ]
+  },
+  {
+    "key": "`${study} pour les lire`",
+    "en": "`${study} to read them`",
+    "at": [
+      "src/core/games/mots.ts:54"
+    ]
+  },
+  {
+    "key": "'pièges de même famille'",
+    "en": "'same-category traps'",
+    "at": [
+      "src/core/games/mots.ts:55"
+    ]
+  },
+  {
+    "key": "'très rapide'",
+    "en": "'very fast'",
+    "at": [
+      "src/core/games/nback.ts:121"
+    ]
+  },
+  {
+    "key": "'rapide'",
+    "en": "'fast'",
+    "at": [
+      "src/core/games/nback.ts:121"
+    ]
+  },
+  {
+    "key": "`${c.n} en arrière`",
+    "en": "`${c.n} back`",
+    "at": [
+      "src/core/games/nback.ts:122"
+    ]
+  },
+  {
+    "key": "`de ${c.min} à ${c.max}`",
+    "en": "`${c.min} to ${c.max}`",
+    "at": [
+      "src/core/games/ordre.ts:63"
+    ]
+  },
+  {
+    "key": "'du plus grand au plus petit'",
+    "en": "'largest to smallest'",
+    "at": [
+      "src/core/games/ordre.ts:64"
+    ]
+  },
+  {
+    "key": "'du plus petit au plus grand'",
+    "en": "'smallest to largest'",
+    "at": [
+      "src/core/games/ordre.ts:64"
+    ]
+  },
+  {
+    "key": "'un par un'",
+    "en": "'one at a time'",
+    "at": [
+      "src/core/games/ordre.ts:65"
+    ]
+  },
+  {
+    "key": "`${show} par nombre`",
+    "en": "`${show} per number`",
+    "at": [
+      "src/core/games/ordre.ts:66"
+    ]
+  },
+  {
+    "key": "'grille 5 × 5'",
+    "en": "'5 × 5 grid'",
+    "at": [
+      "src/core/games/ordre.ts:67"
+    ]
+  },
+  {
+    "key": "`${c.pairs} paires`",
+    "en": "`${c.pairs} pairs`",
+    "at": [
+      "src/core/games/paires.ts:62"
+    ]
+  },
+  {
+    "key": "`aperçu de ${preview}`",
+    "en": "`${preview} preview`",
+    "at": [
+      "src/core/games/paires.ts:63"
+    ]
+  },
+  {
+    "key": "'sans aperçu'",
+    "en": "'no preview'",
+    "at": [
+      "src/core/games/paires.ts:63"
+    ]
+  },
+  {
+    "key": "'formes proches'",
+    "en": "'similar shapes'",
+    "at": [
+      "src/core/games/paires.ts:64"
+    ]
+  },
+  {
+    "key": "`Chute en ${fall} · une goutte toutes les ${spawn}`",
+    "en": "`Falls in ${fall} · a new drop every ${spawn}`",
+    "at": [
+      "src/core/games/pluie.ts:62"
+    ]
+  },
+  {
+    "key": "`${c.people} visages`",
+    "en": "`${c.people} faces`",
+    "at": [
+      "src/core/games/quiestqui.ts:83"
+    ]
+  },
+  {
+    "key": "'fruits en double'",
+    "en": "'repeated fruits'",
+    "at": [
+      "src/core/games/quiestqui.ts:84"
+    ]
+  },
+  {
+    "key": "'prénoms proches'",
+    "en": "'similar names'",
+    "at": [
+      "src/core/games/quiestqui.ts:85"
+    ]
+  },
+  {
+    "key": "`${study} chacun`",
+    "en": "`${study} each`",
+    "at": [
+      "src/core/games/quiestqui.ts:86"
+    ]
+  },
+  {
+    "key": "`${n} règles en alternance`",
+    "en": "`${n} rules taking turns`",
+    "at": [
+      "src/core/games/reflexe.ts:215"
+    ]
+  },
+  {
+    "key": "`${n} règles successives`",
+    "en": "`${n} rules in a row`",
+    "at": [
+      "src/core/games/reflexe.ts:216"
+    ]
+  },
+  {
+    "key": "'formes changeantes'",
+    "en": "'shape-shifters'",
+    "at": [
+      "src/core/games/reflexe.ts:217"
+    ]
+  },
+  {
+    "key": "`${react} pour réagir`",
+    "en": "`${react} to react`",
+    "at": [
+      "src/core/games/reflexe.ts:217"
+    ]
+  },
+  {
+    "key": "'Calcul'",
+    "en": "'Math'",
+    "at": [
+      "src/core/games/registry.ts:41"
+    ]
+  },
+  {
+    "key": "'Mémoire'",
+    "en": "'Memory'",
+    "at": [
+      "src/core/games/registry.ts:46",
+      "src/ui/goals.ts:10"
+    ]
+  },
+  {
+    "key": "'Attention'",
+    "en": "'Attention'",
+    "at": [
+      "src/core/games/registry.ts:51"
+    ]
+  },
+  {
+    "key": "'Vitesse'",
+    "en": "'Speed'",
+    "at": [
+      "src/core/games/registry.ts:56"
+    ]
+  },
+  {
+    "key": "'Langage'",
+    "en": "'Language'",
+    "at": [
+      "src/core/games/registry.ts:61"
+    ]
+  },
+  {
+    "key": "'Logique'",
+    "en": "'Logic'",
+    "at": [
+      "src/core/games/registry.ts:66"
+    ]
+  },
+  {
+    "key": "'Calcul éclair'",
+    "en": "'Flash Math'",
+    "at": [
+      "src/core/games/registry.ts:94"
+    ]
+  },
+  {
+    "key": "'Couleurs piégées'",
+    "en": "'Color Trap'",
+    "at": [
+      "src/core/games/registry.ts:106"
+    ]
+  },
+  {
+    "key": "'Touche la couleur de l’encre… sauf quand la consigne dit « le mot » : là, lis le mot.'",
+    "en": "'Tap the color of the ink… except when the prompt says “the word”: then read the word.'",
+    "at": [
+      "src/core/games/registry.ts:112",
+      "src/core/games/stroop.ts:198"
+    ]
+  },
+  {
+    "key": "'Touche la couleur de l’encre, pas celle du mot écrit.'",
+    "en": "'Tap the color of the ink, not the color the word spells.'",
+    "at": [
+      "src/core/games/registry.ts:115",
+      "src/core/games/stroop.ts:201"
+    ]
+  },
+  {
+    "key": "'Table de Schulte'",
+    "en": "'Schulte Table'",
+    "at": [
+      "src/core/games/registry.ts:124"
+    ]
+  },
+  {
+    "key": "`Touche les nombres de 1 à ${count} dans l’ordre, le plus vite possible.`",
+    "en": "`Tap the numbers from 1 to ${count} in order, as fast as you can.`",
+    "at": [
+      "src/core/games/registry.ts:131"
+    ]
+  },
+  {
+    "key": "`Touche les nombres de ${count} à 1, à rebours, le plus vite possible.`",
+    "en": "`Tap the numbers from ${count} down to 1, as fast as you can.`",
+    "at": [
+      "src/core/games/registry.ts:132"
+    ]
+  },
+  {
+    "key": "'Touche les lettres de A à Y dans l’ordre, le plus vite possible.'",
+    "en": "'Tap the letters from A to Y in order, as fast as you can.'",
+    "at": [
+      "src/core/games/registry.ts:133"
+    ]
+  },
+  {
+    "key": "'Alterne nombres et lettres : 1, A, 2, B, 3, C… le plus vite possible.'",
+    "en": "'Alternate numbers and letters: 1, A, 2, B, 3, C… as fast as you can.'",
+    "at": [
+      "src/core/games/registry.ts:134"
+    ]
+  },
+  {
+    "key": "`${base} La grille se mélange en cours de route !`",
+    "en": "`${base} The grid reshuffles along the way!`",
+    "at": [
+      "src/core/games/registry.ts:136"
+    ]
+  },
+  {
+    "key": "'Matrice'",
+    "en": "'Grid Memory'",
+    "at": [
+      "src/core/games/registry.ts:146"
+    ]
+  },
+  {
+    "key": "'Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.'",
+    "en": "'Watch the squares light up, then tap them in reverse order.'",
+    "at": [
+      "src/core/games/registry.ts:151"
+    ]
+  },
+  {
+    "key": "'Regarde les cases s’allumer, puis touche-les dans le même ordre.'",
+    "en": "'Watch the squares light up, then tap them in the same order.'",
+    "at": [
+      "src/core/games/registry.ts:152"
+    ]
+  },
+  {
+    "key": "'Double retour'",
+    "en": "'Look Back'",
+    "at": [
+      "src/core/games/registry.ts:161"
+    ]
+  },
+  {
+    "key": "`Touche « Même lettre » quand la lettre est la même qu’${n === 1 ? 'au coup précédent' : `il y a ${n} lettres`}.`",
+    "en": "`Tap “Same letter” when the letter matches ${n === 1 ? 'the previous one' : `the one ${n} letters back`}.`",
+    "at": [
+      "src/core/games/registry.ts:170"
+    ]
+  },
+  {
+    "key": "`Touche « Même place » quand la case allumée est la même qu’${back}.`",
+    "en": "`Tap “Same spot” when the lit square matches ${backEn}.`",
+    "at": [
+      "src/core/games/registry.ts:174"
+    ]
+  },
+  {
+    "key": "`Deux questions à la fois : même lettre et même place qu’${back} ?`",
+    "en": "`Two questions at once: same letter and same spot as ${backEn}?`",
+    "at": [
+      "src/core/games/registry.ts:175"
+    ]
+  },
+  {
+    "key": "'Total cumulé'",
+    "en": "'Running Total'",
+    "at": [
+      "src/core/games/registry.ts:185"
+    ]
+  },
+  {
+    "key": "'Additionne de tête les nombres qui défilent, puis donne le total final.'",
+    "en": "'Add up the numbers in your head as they go by, then give the final total.'",
+    "at": [
+      "src/core/games/registry.ts:189"
+    ]
+  },
+  {
+    "key": "'L’intrus'",
+    "en": "'Odd One Out'",
+    "at": [
+      "src/core/games/registry.ts:198"
+    ]
+  },
+  {
+    "key": "'Trouve le symbole différent des autres (parfois retourné en miroir), le plus de fois possible en 45 s.'",
+    "en": "'Find the symbol that’s different from the others (sometimes it’s mirrored), as many times as you can in 45 s.'",
+    "at": [
+      "src/core/games/registry.ts:203"
+    ]
+  },
+  {
+    "key": "'Anagrammes'",
+    "en": "'Anagrams'",
+    "at": [
+      "src/core/games/registry.ts:214"
+    ]
+  },
+  {
+    "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !'",
+    "en": "'Put the letters back in order to find the hidden word. Careful: some letters don’t belong!'",
+    "at": [
+      "src/core/games/registry.ts:220"
+    ]
+  },
+  {
+    "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché.'",
+    "en": "'Put the letters back in order to find the hidden word.'",
+    "at": [
+      "src/core/games/registry.ts:223"
+    ]
+  },
+  {
+    "key": "'La boutique'",
+    "en": "'The Shop'",
+    "at": [
+      "src/core/games/registry.ts:232"
+    ]
+  },
+  {
+    "key": "'Des clients entrent et sortent : combien sont dans la boutique à la fin ? Les chats ne comptent pas !'",
+    "en": "'Customers come in and go out: how many are in the shop at the end? Cats don’t count!'",
+    "at": [
+      "src/core/games/registry.ts:238"
+    ]
+  },
+  {
+    "key": "'Des clients entrent et sortent : combien sont dans la boutique à la fin ?'",
+    "en": "'Customers come in and go out: how many are in the shop at the end?'",
+    "at": [
+      "src/core/games/registry.ts:242"
+    ]
+  },
+  {
+    "key": "'Calcul du diable'",
+    "en": "'Tricky Sums'",
+    "at": [
+      "src/core/games/registry.ts:253"
+    ]
+  },
+  {
+    "key": "`Les calculs défilent : donne le résultat de celui d’il y a ${n === 1 ? 'un coup' : `${n} coups`}, pas du calcul affiché.`",
+    "en": "`The sums keep coming: give the answer to the one from ${n === 1 ? '1 turn' : `${n} turns`} ago, not the one on screen.`",
+    "at": [
+      "src/core/games/registry.ts:259"
+    ]
+  },
+  {
+    "key": "'Du plus petit au plus grand'",
+    "en": "'Smallest to Largest'",
+    "at": [
+      "src/core/games/registry.ts:271",
+      "src/ui/games/demos.tsx:337"
+    ]
+  },
+  {
+    "key": "'Retiens où sont les nombres, puis touche leurs cases du plus grand au plus petit.'",
+    "en": "'Remember where the numbers are, then tap their squares from largest to smallest.'",
+    "at": [
+      "src/core/games/registry.ts:277"
+    ]
+  },
+  {
+    "key": "'Retiens où sont les nombres, puis touche leurs cases du plus petit au plus grand.'",
+    "en": "'Remember where the numbers are, then tap their squares from smallest to largest.'",
+    "at": [
+      "src/core/games/registry.ts:281"
+    ]
+  },
+  {
+    "key": "'Monnaie'",
+    "en": "'Small Change'",
+    "at": [
+      "src/core/games/registry.ts:292"
+    ]
+  },
+  {
+    "key": "'Calcule la monnaie à rendre, le plus de fois possible en 60 secondes.'",
+    "en": "'Work out the change to give back, as many times as you can in 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:297"
+    ]
+  },
+  {
+    "key": "'Compte les pièces et les billets, le plus de fois possible en 60 secondes.'",
+    "en": "'Count the coins and bills, as many times as you can in 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:298"
+    ]
+  },
+  {
+    "key": "'Pluie de calculs'",
+    "en": "'Number Rain'",
+    "at": [
+      "src/core/games/registry.ts:307"
+    ]
+  },
+  {
+    "key": "'Tape le résultat de chaque goutte avant qu’elle ne tombe à l’eau. Trois gouttes perdues et c’est fini !'",
+    "en": "'Type the answer to each drop before it hits the water. Lose three drops and it’s over!'",
+    "at": [
+      "src/core/games/registry.ts:312"
+    ]
+  },
+  {
+    "key": "'Correspondance express'",
+    "en": "'Quick Match'",
+    "at": [
+      "src/core/games/registry.ts:323"
+    ]
+  },
+  {
+    "key": "'Chaque nouvelle carte est-elle pareille à la précédente ? Réponds vite : 45 secondes.'",
+    "en": "'Is each new card the same as the one before? Answer fast: 45 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:329"
+    ]
+  },
+  {
+    "key": "'Chaque nouvelle carte est-elle pareille à celle d’il y a deux cartes ? 45 secondes.'",
+    "en": "'Is each new card the same as the one two cards back? 45 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:333"
+    ]
+  },
+  {
+    "key": "'Flèches'",
+    "en": "'Arrows'",
+    "at": [
+      "src/core/games/registry.ts:344"
+    ]
+  },
+  {
+    "key": "'Réflexe'",
+    "en": "'Reflex'",
+    "at": [
+      "src/core/games/registry.ts:369"
+    ]
+  },
+  {
+    "key": "`${first}… mais la règle va changer en cours de route !`",
+    "en": "`${first}… but the rule will change along the way!`",
+    "at": [
+      "src/core/games/registry.ts:376"
+    ]
+  },
+  {
+    "key": "`${first}, le plus vite possible. Pour les autres formes, ne touche rien.`",
+    "en": "`${first}, as fast as you can. For any other shape, don’t tap anything.`",
+    "at": [
+      "src/core/games/registry.ts:377"
+    ]
+  },
+  {
+    "key": "'Rotation mentale'",
+    "en": "'Mental Rotation'",
+    "at": [
+      "src/core/games/registry.ts:387"
+    ]
+  },
+  {
+    "key": "'Retrouve la pièce du modèle, simplement tournée. Méfie-toi de son reflet dans un miroir : il ne compte pas !'",
+    "en": "'Find the model piece, just turned around. Watch out for its mirror image: it doesn’t count!'",
+    "at": [
+      "src/core/games/registry.ts:393"
+    ]
+  },
+  {
+    "key": "'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 60 secondes.'",
+    "en": "'Find the model piece among the choices: it has only been turned. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:397"
+    ]
+  },
+  {
+    "key": "'Mini-sudoku'",
+    "en": "'Mini Sudoku'",
+    "at": [
+      "src/core/games/registry.ts:408"
+    ]
+  },
+  {
+    "key": "`Chaque chiffre de 1 à ${size} une seule fois par ligne, par colonne et par bloc. Un chiffre faux coûte 5 secondes.`",
+    "en": "`Each digit from 1 to ${size} appears once in every row, column and box. A wrong digit costs 5 seconds.`",
+    "at": [
+      "src/core/games/registry.ts:414"
+    ]
+  },
+  {
+    "key": "'Balance'",
+    "en": "'Scales'",
+    "at": [
+      "src/core/games/registry.ts:426"
+    ]
+  },
+  {
+    "key": "'Une balance penche du côté le plus lourd. D’après toutes les balances, trouve l’objet le plus lourd… ou le plus léger.'",
+    "en": "'A scale tips toward the heavier side. Using all the scales, find the heaviest item… or the lightest.'",
+    "at": [
+      "src/core/games/registry.ts:431"
+    ]
+  },
+  {
+    "key": "'Horloges'",
+    "en": "'Clocks'",
+    "at": [
+      "src/core/games/registry.ts:442"
+    ]
+  },
+  {
+    "key": "'Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 60 secondes.'",
+    "en": "'Read the time on the clock and pick the right answer. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:447"
+    ]
+  },
+  {
+    "key": "'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 60 secondes.'",
+    "en": "'Read the clocks: the time now, the time it will be, or the time that has passed. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:449"
+    ]
+  },
+  {
+    "key": "'Mots à retenir'",
+    "en": "'Word Recall'",
+    "at": [
+      "src/core/games/registry.ts:460"
+    ]
+  },
+  {
+    "key": "`Mémorise ${count} mots, puis dis si chaque mot était dans la liste. Attention : les nouveaux mots leur ressemblent !`",
+    "en": "`Memorize ${count} words, then say whether each word was on the list. Careful: the new words look a lot like them!`",
+    "at": [
+      "src/core/games/registry.ts:467"
+    ]
+  },
+  {
+    "key": "`Mémorise ${count} mots, puis dis pour chaque mot s’il était dans la liste.`",
+    "en": "`Memorize ${count} words, then say for each word whether it was on the list.`",
+    "at": [
+      "src/core/games/registry.ts:471"
+    ]
+  },
+  {
+    "key": "'≈ 1 min 30'",
+    "en": "'≈ 1 min 30 s'",
+    "at": [
+      "src/core/games/registry.ts:476",
+      "src/core/games/registry.ts:531",
+      "src/core/games/registry.ts:609"
+    ]
+  },
+  {
+    "key": "'Lettre manquante'",
+    "en": "'Missing Letter'",
+    "at": [
+      "src/core/games/registry.ts:485"
+    ]
+  },
+  {
+    "key": "'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 60 secondes.'",
+    "en": "'One letter is missing: pick the one that completes the word. The category gives you a hint. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:491"
+    ]
+  },
+  {
+    "key": "'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 60 secondes.'",
+    "en": "'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:495"
+    ]
+  },
+  {
+    "key": "'Catégories'",
+    "en": "'Categories'",
+    "at": [
+      "src/core/games/registry.ts:506"
+    ]
+  },
+  {
+    "key": "'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.'",
+    "en": "'All the words go together… except one. Find the odd one out as fast as you can. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:511"
+    ]
+  },
+  {
+    "key": "'Paires'",
+    "en": "'Pairs'",
+    "at": [
+      "src/core/games/registry.ts:522"
+    ]
+  },
+  {
+    "key": "'Retourne les cartes deux par deux et retrouve toutes les paires, en le moins de coups possible.'",
+    "en": "'Turn the cards over two at a time and find all the pairs, in as few moves as you can.'",
+    "at": [
+      "src/core/games/registry.ts:527"
+    ]
+  },
+  {
+    "key": "'Coup d’œil'",
+    "en": "'At a Glance'",
+    "at": [
+      "src/core/games/registry.ts:540"
+    ]
+  },
+  {
+    "key": "'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 60 secondes.'",
+    "en": "'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:545"
+    ]
+  },
+  {
+    "key": "'Qui est qui ?'",
+    "en": "\"Who's Who?\"",
+    "at": [
+      "src/core/games/registry.ts:556"
+    ]
+  },
+  {
+    "key": "'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.'",
+    "en": "'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Three rounds.'",
+    "at": [
+      "src/core/games/registry.ts:562"
+    ]
+  },
+  {
+    "key": "'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.'",
+    "en": "'Companions introduce themselves: remember their names, then find who’s who. Three rounds.'",
+    "at": [
+      "src/core/games/registry.ts:566"
+    ]
+  },
+  {
+    "key": "'Lecture éclair'",
+    "en": "'Speed Reading'",
+    "at": [
+      "src/core/games/registry.ts:577"
+    ]
+  },
+  {
+    "key": "'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 60 secondes.'",
+    "en": "'Read each sentence all the way through: true or false? Watch out for “not”. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:583"
+    ]
+  },
+  {
+    "key": "'Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.'",
+    "en": "'Read each sentence and quickly say whether it’s true or false. 60 seconds.'",
+    "at": [
+      "src/core/games/registry.ts:586"
+    ]
+  },
+  {
+    "key": "'Itinéraire'",
+    "en": "'Route Finder'",
+    "at": [
+      "src/core/games/registry.ts:595"
+    ]
+  },
+  {
+    "key": "'Les flèches défilent une par une : suis le trajet de tête depuis ton compagnon, puis touche la case d’arrivée. Huit trajets.'",
+    "en": "'The arrows show up one at a time: follow the route in your head from your companion, then tap where it ends. Eight routes.'",
+    "at": [
+      "src/core/games/registry.ts:601"
+    ]
+  },
+  {
+    "key": "'Lis les flèches (« → 2 » : deux cases à droite) : elles vont disparaître. Touche la case où l’on arrive. Huit trajets.'",
+    "en": "'Read the arrows (“→ 2”: two squares right): they’ll disappear. Tap the square where you end up. Eight routes.'",
+    "at": [
+      "src/core/games/registry.ts:605"
+    ]
+  },
+  {
+    "key": "'sans miroir'",
+    "en": "'no mirror images'",
+    "at": [
+      "src/core/games/rotation.ts:61"
+    ]
+  },
+  {
+    "key": "'1 reflet piège'",
+    "en": "'1 mirror-image trap'",
+    "at": [
+      "src/core/games/rotation.ts:63"
+    ]
+  },
+  {
+    "key": "`${c.mirrors} reflets pièges`",
+    "en": "`${c.mirrors} mirror-image traps`",
+    "at": [
+      "src/core/games/rotation.ts:64"
+    ]
+  },
+  {
+    "key": "`Pièces de ${c.size} carrés · ${c.options} choix · ${mirrors}`",
+    "en": "`${c.size}-square pieces · ${c.options} choices · ${mirrors}`",
+    "at": [
+      "src/core/games/rotation.ts:65"
+    ]
+  },
+  {
+    "key": "`${text} orange`",
+    "en": "`orange ${text}`",
+    "at": [
+      "src/core/games/schulte.ts:64"
+    ]
+  },
+  {
+    "key": "`${text} bleu`",
+    "en": "`blue ${text}`",
+    "at": [
+      "src/core/games/schulte.ts:64"
+    ]
+  },
+  {
+    "key": "'leurres orange'",
+    "en": "'orange decoys'",
+    "at": [
+      "src/core/games/schulte.ts:155"
+    ]
+  },
+  {
+    "key": "'sans repères'",
+    "en": "'no markers'",
+    "at": [
+      "src/core/games/schulte.ts:156"
+    ]
+  },
+  {
+    "key": "'brouillée'",
+    "en": "'scrambled'",
+    "at": [
+      "src/core/games/schulte.ts:157"
+    ]
+  },
+  {
+    "key": "'mouvante'",
+    "en": "'shifting'",
+    "at": [
+      "src/core/games/schulte.ts:158"
+    ]
+  },
+  {
+    "key": "'rond'",
+    "en": "'circle'",
+    "at": [
+      "src/core/games/shapes.ts:10"
+    ]
+  },
+  {
+    "key": "'carré'",
+    "en": "'square'",
+    "at": [
+      "src/core/games/shapes.ts:13"
+    ]
+  },
+  {
+    "key": "'triangle'",
+    "en": "'triangle'",
+    "at": [
+      "src/core/games/shapes.ts:16"
+    ]
+  },
+  {
+    "key": "'étoile'",
+    "en": "'star'",
+    "at": [
+      "src/core/games/shapes.ts:19"
+    ]
+  },
+  {
+    "key": "'losange'",
+    "en": "'diamond'",
+    "at": [
+      "src/core/games/shapes.ts:22"
+    ]
+  },
+  {
+    "key": "'croix'",
+    "en": "'cross'",
+    "at": [
+      "src/core/games/shapes.ts:25"
+    ]
+  },
+  {
+    "key": "'hexagone'",
+    "en": "'hexagon'",
+    "at": [
+      "src/core/games/shapes.ts:28"
+    ]
+  },
+  {
+    "key": "'octogone'",
+    "en": "'octagon'",
+    "at": [
+      "src/core/games/shapes.ts:31"
+    ]
+  },
+  {
+    "key": "'pentagone'",
+    "en": "'pentagon'",
+    "at": [
+      "src/core/games/shapes.ts:34"
+    ]
+  },
+  {
+    "key": "'cœur'",
+    "en": "'heart'",
+    "at": [
+      "src/core/games/shapes.ts:37"
+    ]
+  },
+  {
+    "key": "'lune'",
+    "en": "'moon'",
+    "at": [
+      "src/core/games/shapes.ts:40"
+    ]
+  },
+  {
+    "key": "'drapeau'",
+    "en": "'flag'",
+    "at": [
+      "src/core/games/shapes.ts:43"
+    ]
+  },
+  {
+    "key": "'Rouge'",
+    "en": "'Red'",
+    "at": [
+      "src/core/games/stroop.ts:16"
+    ]
+  },
+  {
+    "key": "'Bleu'",
+    "en": "'Blue'",
+    "at": [
+      "src/core/games/stroop.ts:19"
+    ]
+  },
+  {
+    "key": "'Vert'",
+    "en": "'Green'",
+    "at": [
+      "src/core/games/stroop.ts:22"
+    ]
+  },
+  {
+    "key": "'Jaune'",
+    "en": "'Yellow'",
+    "at": [
+      "src/core/games/stroop.ts:25"
+    ]
+  },
+  {
+    "key": "'Orange'",
+    "en": "'Orange'",
+    "at": [
+      "src/core/games/stroop.ts:28"
+    ]
+  },
+  {
+    "key": "'Violet'",
+    "en": "'Purple'",
+    "at": [
+      "src/core/games/stroop.ts:31"
+    ]
+  },
+  {
+    "key": "'Rose'",
+    "en": "'Pink'",
+    "at": [
+      "src/core/games/stroop.ts:34"
+    ]
+  },
+  {
+    "key": "'Blanc'",
+    "en": "'White'",
+    "at": [
+      "src/core/games/stroop.ts:37"
+    ]
+  },
+  {
+    "key": "'boutons piégés'",
+    "en": "'tricky buttons'",
+    "at": [
+      "src/core/games/stroop.ts:181"
+    ]
+  },
+  {
+    "key": "'boutons mélangés'",
+    "en": "'shuffled buttons'",
+    "at": [
+      "src/core/games/stroop.ts:181"
+    ]
+  },
+  {
+    "key": "'boutons fixes'",
+    "en": "'fixed buttons'",
+    "at": [
+      "src/core/games/stroop.ts:181"
+    ]
+  },
+  {
+    "key": "' · mot, encre ou cadre'",
+    "en": "' · word, ink or frame'",
+    "at": [
+      "src/core/games/stroop.ts:182"
+    ]
+  },
+  {
+    "key": "' · mot ou encre'",
+    "en": "' · word or ink'",
+    "at": [
+      "src/core/games/stroop.ts:182"
+    ]
+  },
+  {
+    "key": "' · mot éclair'",
+    "en": "' · flash words'",
+    "at": [
+      "src/core/games/stroop.ts:183"
+    ]
+  },
+  {
+    "key": "` · ${secondsLabel(c.deadlineMs)} par mot`",
+    "en": "` · ${secondsLabel(c.deadlineMs)} per word`",
+    "at": [
+      "src/core/games/stroop.ts:184"
+    ]
+  },
+  {
+    "key": "`${c.colors} couleurs · ${buttons}${both}${flash}${deadline}`",
+    "en": "`${c.colors} colors · ${buttons}${both}${flash}${deadline}`",
+    "at": [
+      "src/core/games/stroop.ts:185"
+    ]
+  },
+  {
+    "key": "'Suis la consigne : la couleur de l’encre, le mot écrit, ou la couleur du cadre.'",
+    "en": "'Follow the prompt: the ink color, the written word, or the frame color.'",
+    "at": [
+      "src/core/games/stroop.ts:193"
+    ]
+  },
+  {
+    "key": "'Le mot s’efface vite : regarde bien !'",
+    "en": "'The word vanishes fast: look sharp!'",
+    "at": [
+      "src/core/games/stroop.ts:204"
+    ]
+  },
+  {
+    "key": "`${secondsLabel(c.deadlineMs)} par mot, sinon c’est une erreur.`",
+    "en": "`${secondsLabel(c.deadlineMs)} per word, or it counts as a mistake.`",
+    "at": [
+      "src/core/games/stroop.ts:206"
+    ]
+  },
+  {
+    "key": "[`${c.puzzles > 1 ? `${c.puzzles} grilles` : '1 grille'} ${c.size} × ${c.size}`, `${c.givens} chiffres donnés`].join(' · ')",
+    "en": "[`${c.puzzles > 1 ? `${c.puzzles} grids` : '1 grid'} of ${c.size} × ${c.size}`, `${c.givens} digits given`].join(' · ')",
+    "at": [
+      "src/core/games/sudoku.ts:111"
+    ]
+  },
+  {
+    "key": "`Jusqu’à ${c.maxStep}`",
+    "en": "`Up to ${c.maxStep}`",
+    "at": [
+      "src/core/games/total.ts:53"
+    ]
+  },
+  {
+    "key": "`un nombre toutes les ${step}`",
+    "en": "`a number every ${step}`",
+    "at": [
+      "src/core/games/total.ts:54"
+    ]
+  },
+  {
+    "key": "`départ à ${c.start}`",
+    "en": "`starts at ${c.start}`",
+    "at": [
+      "src/core/games/total.ts:55"
+    ]
+  },
+  {
+    "key": "`En ${best.name}, +${best.diff} pts en moyenne ces 30 derniers jours par rapport aux 30 d’avant.`",
+    "en": "`In ${best.name}, +${best.diff} pts on average over the last 30 days, compared with the 30 before.`",
+    "at": [
+      "src/core/insights.ts:47"
+    ]
+  },
+  {
+    "key": "'le matin'",
+    "en": "'in the morning'",
+    "at": [
+      "src/core/insights.ts:80"
+    ]
+  },
+  {
+    "key": "'le soir'",
+    "en": "'in the evening'",
+    "at": [
+      "src/core/insights.ts:80"
+    ]
+  },
+  {
+    "key": "'l’après-midi'",
+    "en": "'in the afternoon'",
+    "at": [
+      "src/core/insights.ts:80"
+    ]
+  },
+  {
+    "key": "`Tu réussis mieux ${when} : +${gap} pts par rapport à tes autres moments.`",
+    "en": "`You do best ${when}: +${gap} pts compared with other times of day.`",
+    "at": [
+      "src/core/insights.ts:84"
+    ]
+  },
+  {
+    "key": "' : une régularité exemplaire.'",
+    "en": "': impressively consistent.'",
+    "at": [
+      "src/core/insights.ts:92"
+    ]
+  },
+  {
+    "key": "' : continue comme ça.'",
+    "en": "': keep it up.'",
+    "at": [
+      "src/core/insights.ts:92"
+    ]
+  },
+  {
+    "key": "`${days} jours d’entraînement sur les 14 derniers${tail}`",
+    "en": "`${days} training days out of the last 14${tail}`",
+    "at": [
+      "src/core/insights.ts:93"
+    ]
+  },
+  {
+    "key": "`Tu n’as pas encore essayé le domaine ${domain} : commence par ${game}.`",
+    "en": "`You haven’t tried ${domain} games yet: start with ${game}.`",
+    "at": [
+      "src/core/insights.ts:106"
+    ]
+  },
+  {
+    "key": "'Débutant'",
+    "en": "'Beginner'",
+    "at": [
+      "src/core/levels.ts:27"
+    ]
+  },
+  {
+    "key": "'Confirmé'",
+    "en": "'Skilled'",
+    "at": [
+      "src/core/levels.ts:29"
+    ]
+  },
+  {
+    "key": "'Expert'",
+    "en": "'Expert'",
+    "at": [
+      "src/core/levels.ts:31"
+    ]
+  },
+  {
+    "key": "'Maître'",
+    "en": "'Master'",
+    "at": [
+      "src/core/levels.ts:33"
+    ]
+  },
+  {
+    "key": "'Légende'",
+    "en": "'Legend'",
+    "at": [
+      "src/core/levels.ts:35",
+      "src/core/progression.ts:92"
+    ]
+  },
+  {
+    "key": "'Ton objectif'",
+    "en": "'Your goal'",
+    "at": [
+      "src/core/modes.ts:22"
+    ]
+  },
+  {
+    "key": "'À renforcer'",
+    "en": "'Needs work'",
+    "at": [
+      "src/core/modes.ts:25"
+    ]
+  },
+  {
+    "key": "'À découvrir'",
+    "en": "'Something new'",
+    "at": [
+      "src/core/modes.ts:28",
+      "src/ui/screens/TrainingScreen.tsx:154"
+    ]
+  },
+  {
+    "key": "'Pour varier'",
+    "en": "'For variety'",
+    "at": [
+      "src/core/modes.ts:31"
+    ]
+  },
+  {
+    "key": "'Facile'",
+    "en": "'Easy'",
+    "at": [
+      "src/core/modes.ts:83"
+    ]
+  },
+  {
+    "key": "'Moyen'",
+    "en": "'Medium'",
+    "at": [
+      "src/core/modes.ts:89"
+    ]
+  },
+  {
+    "key": "'Difficile'",
+    "en": "'Hard'",
+    "at": [
+      "src/core/modes.ts:95"
+    ]
+  },
+  {
+    "key": "plural(errors, 'erreur')",
+    "en": "plural(errors, 'error')",
+    "at": [
+      "src/core/outcome.ts:22",
+      "src/ui/games/SudokuGame.tsx:51"
+    ]
+  },
+  {
+    "key": "'Temps'",
+    "en": "'Time'",
+    "at": [
+      "src/core/outcome.ts:24",
+      "src/ui/games/BalanceGame.tsx:109",
+      "src/ui/games/DiableGame.tsx:50",
+      "src/ui/games/SudokuGame.tsx:53"
+    ]
+  },
+  {
+    "key": "'Erreurs'",
+    "en": "'Errors'",
+    "at": [
+      "src/core/outcome.ts:25",
+      "src/ui/games/CategoriesGame.tsx:38",
+      "src/ui/games/CorrespondanceGame.tsx:120",
+      "src/ui/games/CoupGame.tsx:68",
+      "src/ui/games/HorlogesGame.tsx:94",
+      "src/ui/games/IntrusGame.tsx:40",
+      "src/ui/games/LectureGame.tsx:38",
+      "src/ui/games/LettreGame.tsx:53",
+      "src/ui/games/MonnaieGame.tsx:46",
+      "src/ui/games/RotationGame.tsx:60"
+    ]
+  },
+  {
+    "key": "'Aucune'",
+    "en": "'None'",
+    "at": [
+      "src/core/outcome.ts:25",
+      "src/ui/games/CategoriesGame.tsx:38",
+      "src/ui/games/CorrespondanceGame.tsx:120",
+      "src/ui/games/CoupGame.tsx:68",
+      "src/ui/games/HorlogesGame.tsx:94",
+      "src/ui/games/IntrusGame.tsx:40",
+      "src/ui/games/LectureGame.tsx:38",
+      "src/ui/games/LettreGame.tsx:53",
+      "src/ui/games/MonnaieGame.tsx:46",
+      "src/ui/games/RotationGame.tsx:60"
+    ]
+  },
+  {
+    "key": "'Temps retenu'",
+    "en": "'Final time'",
+    "at": [
+      "src/core/outcome.ts:26"
+    ]
+  },
+  {
+    "key": "'Exceptionnel !'",
+    "en": "'Outstanding!'",
+    "at": [
+      "src/core/outcome.ts:34"
+    ]
+  },
+  {
+    "key": "'Superbe partie !'",
+    "en": "'Great game!'",
+    "at": [
+      "src/core/outcome.ts:35"
+    ]
+  },
+  {
+    "key": "'Très bien joué.'",
+    "en": "'Very well played.'",
+    "at": [
+      "src/core/outcome.ts:36"
+    ]
+  },
+  {
+    "key": "'Bien, ça vient !'",
+    "en": "'Nice, you’re getting there!'",
+    "at": [
+      "src/core/outcome.ts:37"
+    ]
+  },
+  {
+    "key": "'Chaque partie compte. On remet ça ?'",
+    "en": "'Every game counts. Play again?'",
+    "at": [
+      "src/core/outcome.ts:38"
+    ]
+  },
+  {
+    "key": "'Le plus grand ?'",
+    "en": "'Which is bigger?'",
+    "at": [
+      "src/core/party.ts:106"
+    ]
+  },
+  {
+    "key": "'Combien de points ?'",
+    "en": "'How many dots?'",
+    "at": [
+      "src/core/party.ts:110"
+    ]
+  },
+  {
+    "key": "'Bronze'",
+    "en": "'Bronze'",
+    "at": [
+      "src/core/progression.ts:77"
+    ]
+  },
+  {
+    "key": "'Argent'",
+    "en": "'Silver'",
+    "at": [
+      "src/core/progression.ts:80"
+    ]
+  },
+  {
+    "key": "'Or'",
+    "en": "'Gold'",
+    "at": [
+      "src/core/progression.ts:83"
+    ]
+  },
+  {
+    "key": "'Platine'",
+    "en": "'Platinum'",
+    "at": [
+      "src/core/progression.ts:86"
+    ]
+  },
+  {
+    "key": "'Diamant'",
+    "en": "'Diamond'",
+    "at": [
+      "src/core/progression.ts:89"
+    ]
+  },
+  {
+    "key": "'Réussir le niveau 5'",
+    "en": "'Pass level 5'",
+    "at": [
+      "src/core/progression.ts:99"
+    ]
+  },
+  {
+    "key": "'Réussir le niveau 10'",
+    "en": "'Pass level 10'",
+    "at": [
+      "src/core/progression.ts:102"
+    ]
+  },
+  {
+    "key": "'Réussir le niveau 15'",
+    "en": "'Pass level 15'",
+    "at": [
+      "src/core/progression.ts:105"
+    ]
+  },
+  {
+    "key": "'Trois étoiles au niveau 20'",
+    "en": "'Three stars on level 20'",
+    "at": [
+      "src/core/progression.ts:108"
+    ]
+  },
+  {
+    "key": "'Réussir le niveau 35'",
+    "en": "'Pass level 35'",
+    "at": [
+      "src/core/progression.ts:111"
+    ]
+  },
+  {
+    "key": "'Trois étoiles au niveau 50'",
+    "en": "'Three stars on level 50'",
+    "at": [
+      "src/core/progression.ts:114"
+    ]
+  },
+  {
+    "key": "'Ton test du jour t’attend : cinq minutes suffisent.'",
+    "en": "'Your daily test is waiting: five minutes is all it takes.'",
+    "at": [
+      "src/native.ts:21"
+    ]
+  },
+  {
+    "key": "'Trois petits jeux pour garder l’esprit vif ?'",
+    "en": "'Three quick games to keep your mind sharp?'",
+    "at": [
+      "src/native.ts:22"
+    ]
+  },
+  {
+    "key": "'Une pause pour ton cerveau ? Le test du jour est prêt.'",
+    "en": "'A break for your brain? Your daily test is ready.'",
+    "at": [
+      "src/native.ts:23"
+    ]
+  },
+  {
+    "key": "'Sauvegarde Esprit Vif'",
+    "en": "'Esprit Vif backup'",
+    "at": [
+      "src/native.ts:65"
+    ]
+  },
+  {
+    "key": "'Enregistrer ou envoyer la sauvegarde'",
+    "en": "'Save or send the backup'",
+    "at": [
+      "src/native.ts:67"
+    ]
+  },
+  {
+    "key": "'Partager'",
+    "en": "'Share'",
+    "at": [
+      "src/native.ts:79"
+    ]
+  },
+  {
+    "key": "'Envoyer le défi'",
+    "en": "'Send the challenge'",
+    "at": [
+      "src/native.ts:84",
+      "src/ui/screens/ChallengeScreen.tsx:581"
+    ]
+  },
+  {
+    "key": "`${MAX_PROFILES} profils au maximum.`",
+    "en": "`${MAX_PROFILES} profiles at most.`",
+    "at": [
+      "src/store/profiles.ts:104"
+    ]
+  },
+  {
+    "key": "`Joueur ${rank}`",
+    "en": "`Player ${rank}`",
+    "at": [
+      "src/store/profiles.ts:146"
+    ]
+  },
+  {
+    "key": "'Test introuvable'",
+    "en": "'Test not found'",
+    "at": [
+      "src/store/progress.ts:326"
+    ]
+  },
+  {
+    "key": "'Ce fichier n’est pas une sauvegarde lisible.'",
+    "en": "'This file isn’t a readable backup.'",
+    "at": [
+      "src/store/progress.ts:550"
+    ]
+  },
+  {
+    "key": "'Ce fichier ne vient pas d’Esprit Vif.'",
+    "en": "'This file doesn’t come from Esprit Vif.'",
+    "at": [
+      "src/store/progress.ts:553"
+    ]
+  },
+  {
+    "key": "'Cette sauvegarde vient d’une version plus récente de l’appli.'",
+    "en": "'This backup comes from a newer version of the app.'",
+    "at": [
+      "src/store/progress.ts:556"
+    ]
+  },
+  {
+    "key": "'Cette sauvegarde est incomplète.'",
+    "en": "'This backup is incomplete.'",
+    "at": [
+      "src/store/progress.ts:559"
+    ]
+  },
+  {
+    "key": "'Effacer'",
+    "en": "'Erase'",
+    "at": [
+      "src/ui/components/bits.tsx:55",
+      "src/ui/components/WritePad.tsx:153",
+      "src/ui/games/AnagrammesGame.tsx:156",
+      "src/ui/screens/SettingsScreen.tsx:470"
+    ]
+  },
+  {
+    "key": "'Pavé numérique'",
+    "en": "'Number pad'",
+    "at": [
+      "src/ui/components/bits.tsx:60"
+    ]
+  },
+  {
+    "key": "`Score : ${score} sur 100`",
+    "en": "`Score: ${score} out of 100`",
+    "at": [
+      "src/ui/components/bits.tsx:87"
+    ]
+  },
+  {
+    "key": "'Annuler'",
+    "en": "'Cancel'",
+    "at": [
+      "src/ui/components/bits.tsx:188",
+      "src/ui/screens/TransferScreen.tsx:279"
+    ]
+  },
+  {
+    "key": "`${age} ans`",
+    "en": "`${age} years`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:20"
+    ]
+  },
+  {
+    "key": "`Un test : ${first.age} ans.`",
+    "en": "`One test: ${first.age} years.`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:58"
+    ]
+  },
+  {
+    "key": "`${n} tests, de ${first.age} ans le ${formatLongDay(first.day)} à ${last.age} ans le ${formatLongDay(last.day)}.`",
+    "en": "`${n} tests, from ${first.age} years on ${formatLongDay(first.day)} to ${last.age} years on ${formatLongDay(last.day)}.`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:60"
+    ]
+  },
+  {
+    "key": "`Courbe de l’âge cérébral. ${summary} Flèches gauche et droite pour parcourir les tests.`",
+    "en": "`Brain age chart. ${summary} Use the left and right arrows to browse the tests.`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:71"
+    ]
+  },
+  {
+    "key": "`${last.age} ans`",
+    "en": "`${last.age} yrs`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:105"
+    ]
+  },
+  {
+    "key": "`${formatLongDay(shown.day)} : ${shown.age} ans`",
+    "en": "`${formatLongDay(shown.day)}: ${shown.age} years`",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:130"
+    ]
+  },
+  {
+    "key": "'Voir les valeurs'",
+    "en": "'Show the values'",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:133"
+    ]
+  },
+  {
+    "key": "'Âge cérébral'",
+    "en": "'Brain age'",
+    "at": [
+      "src/ui/components/BrainAgeChart.tsx:138",
+      "src/ui/screens/ProgressScreen.tsx:157",
+      "src/ui/screens/ReportScreen.tsx:68",
+      "src/ui/screens/ReportScreen.tsx:70"
+    ]
+  },
+  {
+    "key": "'non joué'",
+    "en": "'not played'",
+    "at": [
+      "src/ui/components/BrainMap.tsx:23"
+    ]
+  },
+  {
+    "key": "`Carte du cerveau : ${summary}.`",
+    "en": "`Brain map: ${summary}.`",
+    "at": [
+      "src/ui/components/BrainMap.tsx:26"
+    ]
+  },
+  {
+    "key": "'Juste'",
+    "en": "'Correct'",
+    "at": [
+      "src/ui/components/Feedback.tsx:15"
+    ]
+  },
+  {
+    "key": "'Erreur'",
+    "en": "'Wrong'",
+    "at": [
+      "src/ui/components/Feedback.tsx:15"
+    ]
+  },
+  {
+    "key": "'Compagnon'",
+    "en": "'Companion'",
+    "at": [
+      "src/ui/components/Players.tsx:21",
+      "src/ui/components/Players.tsx:118",
+      "src/ui/screens/SettingsScreen.tsx:132"
+    ]
+  },
+  {
+    "key": "`Couleur ${color + 1}`",
+    "en": "`Color ${color + 1}`",
+    "at": [
+      "src/ui/components/Players.tsx:42"
+    ]
+  },
+  {
+    "key": "'Nouveau joueur'",
+    "en": "'New player'",
+    "at": [
+      "src/ui/components/Players.tsx:104"
+    ]
+  },
+  {
+    "key": "'Qui joue ?'",
+    "en": "'Who’s playing?'",
+    "at": [
+      "src/ui/components/Players.tsx:104"
+    ]
+  },
+  {
+    "key": "'Prénom'",
+    "en": "'First name'",
+    "at": [
+      "src/ui/components/Players.tsx:115",
+      "src/ui/components/Players.tsx:116",
+      "src/ui/screens/ChallengeScreen.tsx:59",
+      "src/ui/screens/SettingsScreen.tsx:114",
+      "src/ui/screens/WelcomeScreen.tsx:78"
+    ]
+  },
+  {
+    "key": "'Couleur'",
+    "en": "'Color'",
+    "at": [
+      "src/ui/components/Players.tsx:120",
+      "src/ui/screens/SettingsScreen.tsx:134"
+    ]
+  },
+  {
+    "key": "'Couleur de l’avatar'",
+    "en": "'Avatar color'",
+    "at": [
+      "src/ui/components/Players.tsx:121",
+      "src/ui/screens/SettingsScreen.tsx:135"
+    ]
+  },
+  {
+    "key": "'Retour'",
+    "en": "'Back'",
+    "at": [
+      "src/ui/components/Players.tsx:124",
+      "src/ui/game/GameIntro.tsx:35",
+      "src/ui/games/NBackTutorial.tsx:105",
+      "src/ui/screens/ChallengeScreen.tsx:92",
+      "src/ui/screens/ModeScreens.tsx:32",
+      "src/ui/screens/PartyScreen.tsx:121",
+      "src/ui/screens/TransferScreen.tsx:49"
+    ]
+  },
+  {
+    "key": "'Créer'",
+    "en": "'Create'",
+    "at": [
+      "src/ui/components/Players.tsx:127"
+    ]
+  },
+  {
+    "key": "'Chaque joueur a ses niveaux, son âge cérébral et ses trophées.'",
+    "en": "'Each player has their own levels, brain age and trophies.'",
+    "at": [
+      "src/ui/components/Players.tsx:134"
+    ]
+  },
+  {
+    "key": "'en jeu'",
+    "en": "'playing'",
+    "at": [
+      "src/ui/components/Players.tsx:148"
+    ]
+  },
+  {
+    "key": "'Fermer'",
+    "en": "'Close'",
+    "at": [
+      "src/ui/components/Players.tsx:155"
+    ]
+  },
+  {
+    "key": "'Ajouter'",
+    "en": "'Add'",
+    "at": [
+      "src/ui/components/Players.tsx:160"
+    ]
+  },
+  {
+    "key": "`${count} étoile${count > 1 ? 's' : ''}`",
+    "en": "`${count} star${count === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:12"
+    ]
+  },
+  {
+    "key": "`${starsText(count)} sur 3`",
+    "en": "`${starsText(count)} out of 3`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:18"
+    ]
+  },
+  {
+    "key": "'Choix du niveau'",
+    "en": "'Choose a level'",
+    "at": [
+      "src/ui/components/progress-bits.tsx:61"
+    ]
+  },
+  {
+    "key": "`Niveau ${level}, verrouillé`",
+    "en": "`Level ${level}, locked`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:79"
+    ]
+  },
+  {
+    "key": "`Niveau ${level}, ${starsText(stars)}`",
+    "en": "`Level ${level}, ${starsText(stars)}`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:80"
+    ]
+  },
+  {
+    "key": "`Niveau ${rank.level} : `",
+    "en": "`Level ${rank.level}: `",
+    "at": [
+      "src/ui/components/progress-bits.tsx:104"
+    ]
+  },
+  {
+    "key": "'XP vers le niveau suivant'",
+    "en": "'XP to the next level'",
+    "at": [
+      "src/ui/components/progress-bits.tsx:110"
+    ]
+  },
+  {
+    "key": "`${rank.xp - rank.levelStart} / ${span} XP · niveau ${rank.level + 1} ensuite`",
+    "en": "`${rank.xp - rank.levelStart} / ${span} XP · level ${rank.level + 1} next`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:119"
+    ]
+  },
+  {
+    "key": "'Une nouvelle version d’Esprit Vif est prête.'",
+    "en": "'A new version of Esprit Vif is ready.'",
+    "at": [
+      "src/ui/components/PwaNotices.tsx:19"
+    ]
+  },
+  {
+    "key": "'Mettre à jour'",
+    "en": "'Update'",
+    "at": [
+      "src/ui/components/PwaNotices.tsx:22"
+    ]
+  },
+  {
+    "key": "'Prêt à jouer hors ligne'",
+    "en": "'Ready to play offline'",
+    "at": [
+      "src/ui/components/PwaNotices.tsx:31"
+    ]
+  },
+  {
+    "key": "'Préparation…'",
+    "en": "'Preparing…'",
+    "at": [
+      "src/ui/components/ShareButton.tsx:28",
+      "src/ui/screens/TransferScreen.tsx:110"
+    ]
+  },
+  {
+    "key": "'Accueil'",
+    "en": "'Home'",
+    "at": [
+      "src/ui/components/TabBar.tsx:8"
+    ]
+  },
+  {
+    "key": "'Progrès'",
+    "en": "'Progress'",
+    "at": [
+      "src/ui/components/TabBar.tsx:10",
+      "src/ui/screens/ProgressScreen.tsx:77"
+    ]
+  },
+  {
+    "key": "'Réglages'",
+    "en": "'Settings'",
+    "at": [
+      "src/ui/components/TabBar.tsx:11",
+      "src/ui/screens/SettingsScreen.tsx:108"
+    ]
+  },
+  {
+    "key": "'Navigation principale'",
+    "en": "'Main navigation'",
+    "at": [
+      "src/ui/components/TabBar.tsx:17"
+    ]
+  },
+  {
+    "key": "'Zone d’écriture'",
+    "en": "'Writing area'",
+    "at": [
+      "src/ui/components/WritePad.tsx:159"
+    ]
+  },
+  {
+    "key": "'Écris un chiffre avec le doigt'",
+    "en": "'Write a digit with your finger'",
+    "at": [
+      "src/ui/components/WritePad.tsx:168"
+    ]
+  },
+  {
+    "key": "'Écris un chiffre ici'",
+    "en": "'Write a digit here'",
+    "at": [
+      "src/ui/components/WritePad.tsx:172"
+    ]
+  },
+  {
+    "key": "'Pas reconnu, réécris-le'",
+    "en": "'Not recognized, write it again'",
+    "at": [
+      "src/ui/components/WritePad.tsx:173"
+    ]
+  },
+  {
+    "key": "'Revenir au pavé de touches'",
+    "en": "'Back to the keypad'",
+    "at": [
+      "src/ui/components/WritePad.tsx:179"
+    ]
+  },
+  {
+    "key": "'Quitter la partie'",
+    "en": "'Quit the game'",
+    "at": [
+      "src/ui/game/Countdown.tsx:29",
+      "src/ui/game/Hud.tsx:13"
+    ]
+  },
+  {
+    "key": "'Prépare-toi…'",
+    "en": "'Get ready…'",
+    "at": [
+      "src/ui/game/Countdown.tsx:45"
+    ]
+  },
+  {
+    "key": "'Niveau'",
+    "en": "'Level'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:59"
+    ]
+  },
+  {
+    "key": "'Record'",
+    "en": "'Best score'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:65"
+    ]
+  },
+  {
+    "key": "'Répondre avec'",
+    "en": "'Answer with'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:73"
+    ]
+  },
+  {
+    "key": "'Le doigt'",
+    "en": "'Finger'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:86"
+    ]
+  },
+  {
+    "key": "'Le pavé'",
+    "en": "'Keypad'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:86"
+    ]
+  },
+  {
+    "key": "'Première fois\\u00a0? L’essai guidé t’explique le jeu en une minute, sans chrono.'",
+    "en": "'First time? The guided practice explains the game in a minute, with no timer.'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:104"
+    ]
+  },
+  {
+    "key": "'C’est parti'",
+    "en": "'Let’s go'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:112",
+      "src/ui/screens/ModeScreens.tsx:311"
+    ]
+  },
+  {
+    "key": "'Essai guidé, sans chrono'",
+    "en": "'Guided practice, no timer'",
+    "at": [
+      "src/ui/game/GameIntro.tsx:122"
+    ]
+  },
+  {
+    "key": "'niveau'",
+    "en": "'level'",
+    "at": [
+      "src/ui/game/GameResult.tsx:64"
+    ]
+  },
+  {
+    "key": "'Ce que tu as gagné'",
+    "en": "'What you earned'",
+    "at": [
+      "src/ui/game/GameResult.tsx:108"
+    ]
+  },
+  {
+    "key": "'Trophée'",
+    "en": "'Trophy'",
+    "at": [
+      "src/ui/game/GameResult.tsx:140"
+    ]
+  },
+  {
+    "key": "'Partager mon score'",
+    "en": "'Share my score'",
+    "at": [
+      "src/ui/game/GameResult.tsx:153"
+    ]
+  },
+  {
+    "key": "'Ma première partie !'",
+    "en": "'My first game!'",
+    "at": [
+      "src/ui/game/GameResult.tsx:158"
+    ]
+  },
+  {
+    "key": "`+${comparison.diff} pts au-dessus de ma moyenne`",
+    "en": "`+${comparison.diff} pts above my average`",
+    "at": [
+      "src/ui/game/GameResult.tsx:160"
+    ]
+  },
+  {
+    "key": "'Dans ma moyenne'",
+    "en": "'Right on my average'",
+    "at": [
+      "src/ui/game/GameResult.tsx:162"
+    ]
+  },
+  {
+    "key": "`J’ai fait ${outcome.score}/100 à ${meta.name} (niveau ${level}) sur Esprit Vif. À ton tour ! https://alexxxx-droid.github.io/esprit-vif/`",
+    "en": "`I scored ${outcome.score}/100 in ${meta.name} (level ${level}) on Esprit Vif. Your turn! https://alexxxx-droid.github.io/esprit-vif/`",
+    "at": [
+      "src/ui/game/GameResult.tsx:181"
+    ]
+  },
+  {
+    "key": "'Première partie : c’est ton point de départ.'",
+    "en": "'First game: this is your starting point.'",
+    "at": [
+      "src/ui/game/GameResult.tsx:195"
+    ]
+  },
+  {
+    "key": "`Dans ta moyenne récente (${comparison.average}\\u00a0pts).`",
+    "en": "`Right on your recent average (${comparison.average}\\u00a0pts).`",
+    "at": [
+      "src/ui/game/GameResult.tsx:199"
+    ]
+  },
+  {
+    "key": "'au-dessus de ta moyenne récente'",
+    "en": "'above your recent average'",
+    "at": [
+      "src/ui/game/GameResult.tsx:212"
+    ]
+  },
+  {
+    "key": "'sous ta moyenne : ça arrive, la prochaine sera la bonne'",
+    "en": "'below your average: it happens, the next one will be better'",
+    "at": [
+      "src/ui/game/GameResult.tsx:213"
+    ]
+  },
+  {
+    "key": "'Nouveau palier : '",
+    "en": "'New tier: '",
+    "at": [
+      "src/ui/game/GameResult.tsx:274"
+    ]
+  },
+  {
+    "key": "'Partie interrompue. Elle reprendra depuis le début quand tu voudras.'",
+    "en": "'Game interrupted. It will start over whenever you like.'",
+    "at": [
+      "src/ui/game/GameRunner.tsx:85"
+    ]
+  },
+  {
+    "key": "'Cette partie n’a pas pu être enregistrée. Réessaie quand tu veux.'",
+    "en": "'This game could not be saved. Try again whenever you like.'",
+    "at": [
+      "src/ui/game/GameRunner.tsx:110"
+    ]
+  },
+  {
+    "key": "'Progression'",
+    "en": "'Progress'",
+    "at": [
+      "src/ui/game/Hud.tsx:22"
+    ]
+  },
+  {
+    "key": "'Chronomètre'",
+    "en": "'Stopwatch'",
+    "at": [
+      "src/ui/game/Hud.tsx:47"
+    ]
+  },
+  {
+    "key": "'Temps restant'",
+    "en": "'Time left'",
+    "at": [
+      "src/ui/game/Hud.tsx:70"
+    ]
+  },
+  {
+    "key": "`${plural(found, 'mot')} ${found < 2 ? 'trouvé' : 'trouvés'}`",
+    "en": "`${plural(found, 'word')} found`",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:36"
+    ]
+  },
+  {
+    "key": "'Mots trouvés'",
+    "en": "'Words found'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:38"
+    ]
+  },
+  {
+    "key": "'Mots passés'",
+    "en": "'Words skipped'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:39"
+    ]
+  },
+  {
+    "key": "'Objectif pour 100 pts'",
+    "en": "'Target for 100 pts'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:40",
+      "src/ui/games/CategoriesGame.tsx:39",
+      "src/ui/games/CorrespondanceGame.tsx:121",
+      "src/ui/games/CoupGame.tsx:69",
+      "src/ui/games/HorlogesGame.tsx:95",
+      "src/ui/games/LectureGame.tsx:39",
+      "src/ui/games/LettreGame.tsx:54",
+      "src/ui/games/MonnaieGame.tsx:47",
+      "src/ui/games/PluieGame.tsx:49",
+      "src/ui/games/RotationGame.tsx:61"
+    ]
+  },
+  {
+    "key": "plural(target, 'mot')",
+    "en": "plural(target, 'word')",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:40"
+    ]
+  },
+  {
+    "key": "`${attempt} : bien vu !`",
+    "en": "`${attempt}: nice find!`",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:76"
+    ]
+  },
+  {
+    "key": "`« ${attempt} » n’est pas dans la liste`",
+    "en": "`“${attempt}” is not in the list`",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:81"
+    ]
+  },
+  {
+    "key": "`C’était ${puzzle.word}`",
+    "en": "`It was ${puzzle.word}`",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:95"
+    ]
+  },
+  {
+    "key": "'mots'",
+    "en": "'words'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:124"
+    ]
+  },
+  {
+    "key": "`Ta réponse : ${answerSoFar || 'vide'}`",
+    "en": "`Your answer: ${answerSoFar || 'empty'}`",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:130"
+    ]
+  },
+  {
+    "key": "'Lettres'",
+    "en": "'Letters'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:138",
+      "src/ui/games/NBackGame.tsx:34"
+    ]
+  },
+  {
+    "key": "'Passer'",
+    "en": "'Skip'",
+    "at": [
+      "src/ui/games/AnagrammesGame.tsx:159",
+      "src/ui/screens/WelcomeScreen.tsx:131"
+    ]
+  },
+  {
+    "key": "' et '",
+    "en": "' and '",
+    "at": [
+      "src/ui/games/BalanceGame.tsx:33"
+    ]
+  },
+  {
+    "key": "`${describe(heavy)} ${heavy.length > 1 ? 'pèsent' : 'pèse'} plus que ${describe(light)}`",
+    "en": "`${describe(heavy)} ${heavy.length > 1 ? 'weigh' : 'weighs'} more than ${describe(light)}`",
+    "at": [
+      "src/ui/games/BalanceGame.tsx:38"
+    ]
+  },
+  {
+    "key": "`C’était ${theShape(look(puzzle.answer).shape)}`",
+    "en": "`It was ${theShape(look(puzzle.answer).shape)}`",
+    "at": [
+      "src/ui/games/BalanceGame.tsx:93"
+    ]
+  },
+  {
+    "key": "`${total}/${puzzles.length} justes · ${formatSeconds(ms)}`",
+    "en": "`${total}/${puzzles.length} correct · ${formatSeconds(ms)}`",
+    "at": [
+      "src/ui/games/BalanceGame.tsx:106"
+    ]
+  },
+  {
+    "key": "'Bonnes déductions'",
+    "en": "'Correct deductions'",
+    "at": [
+      "src/ui/games/BalanceGame.tsx:108"
+    ]
+  },
+  {
+    "key": "`${total}/${BOUTIQUE_ROUNDS} manches`",
+    "en": "`${total}/${BOUTIQUE_ROUNDS} rounds`",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:61"
+    ]
+  },
+  {
+    "key": "'Manches réussies'",
+    "en": "'Rounds won'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:63",
+      "src/ui/games/TotalGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'Mouvements par manche'",
+    "en": "'Moves per round'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:64"
+    ]
+  },
+  {
+    "key": "`Il y en avait ${current.answer}`",
+    "en": "`There were ${current.answer}`",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:108"
+    ]
+  },
+  {
+    "key": "'Manche'",
+    "en": "'Round'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:149",
+      "src/ui/games/QuiGame.tsx:107",
+      "src/ui/games/TotalGame.tsx:138"
+    ]
+  },
+  {
+    "key": "'Compte bien…'",
+    "en": "'Keep counting…'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:160"
+    ]
+  },
+  {
+    "key": "'Combien de clients dans la boutique ?'",
+    "en": "'How many customers are in the shop?'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:161"
+    ]
+  },
+  {
+    "key": "'BOUTIQUE'",
+    "en": "'SHOP'",
+    "at": [
+      "src/ui/games/BoutiqueGame.tsx:165",
+      "src/ui/games/demos.tsx:269"
+    ]
+  },
+  {
+    "key": "`Ta réponse : ${typed || 'vide'}`",
+    "en": "`Your answer: ${typed || 'empty'}`",
+    "at": [
+      "src/ui/games/CalculGame.tsx:95",
+      "src/ui/games/DiableGame.tsx:120"
+    ]
+  },
+  {
+    "key": "`${plural(correct, 'intrus trouvé', 'intrus trouvés')} · ${plural(errors, 'erreur')}`",
+    "en": "`${plural(correct, 'odd one found', 'odd ones found')} · ${plural(errors, 'error')}`",
+    "at": [
+      "src/ui/games/CategoriesGame.tsx:33"
+    ]
+  },
+  {
+    "key": "'Intrus trouvés'",
+    "en": "'Odd ones found'",
+    "at": [
+      "src/ui/games/CategoriesGame.tsx:37",
+      "src/ui/games/IntrusGame.tsx:39"
+    ]
+  },
+  {
+    "key": "`C’était « ${q.words[q.answer]} »`",
+    "en": "`It was “${q.words[q.answer]}”`",
+    "at": [
+      "src/ui/games/CategoriesGame.tsx:67"
+    ]
+  },
+  {
+    "key": "`Avant : « ${q.words[q.answer]} » au milieu ${q.main.plural}`",
+    "en": "`Previous: “${q.words[q.answer]}” among ${q.main.plural}`",
+    "at": [
+      "src/ui/games/CategoriesGame.tsx:71"
+    ]
+  },
+  {
+    "key": "'Trouve l’intrus'",
+    "en": "'Find the odd one out'",
+    "at": [
+      "src/ui/games/CategoriesGame.tsx:89"
+    ]
+  },
+  {
+    "key": "`dé : ${card.text}`",
+    "en": "`die: ${card.text}`",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:78"
+    ]
+  },
+  {
+    "key": "'Pareille que la carte d’avant ?'",
+    "en": "'Same as the card before?'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:84"
+    ]
+  },
+  {
+    "key": "'Pareille qu’il y a deux cartes ?'",
+    "en": "'Same as two cards ago?'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:85"
+    ]
+  },
+  {
+    "key": "'Pareille qu’il y a trois cartes ?'",
+    "en": "'Same as three cards ago?'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:85"
+    ]
+  },
+  {
+    "key": "'Même lettre, en majuscule ou en minuscule : A = a'",
+    "en": "'Same letter, upper or lower case: A = a'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:90"
+    ]
+  },
+  {
+    "key": "'Même valeur, en chiffre ou en dé : 3 = ⚂'",
+    "en": "'Same value, digit or die: 3 = ⚂'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:91"
+    ]
+  },
+  {
+    "key": "'Seule la valeur compte : A = a, 3 = ⚂'",
+    "en": "'Only the value counts: A = a, 3 = ⚂'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:92"
+    ]
+  },
+  {
+    "key": "`${correct} bonnes réponses · ${errors} erreur${errors > 1 ? 's' : ''}`",
+    "en": "`${correct} correct · ${errors} error${errors === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:115"
+    ]
+  },
+  {
+    "key": "'Bonnes réponses'",
+    "en": "'Correct answers'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:119",
+      "src/ui/games/CoupGame.tsx:67",
+      "src/ui/games/DiableGame.tsx:49",
+      "src/ui/games/FlechesGame.tsx:55",
+      "src/ui/games/HorlogesGame.tsx:93",
+      "src/ui/games/MonnaieGame.tsx:45",
+      "src/ui/games/QuiGame.tsx:50"
+    ]
+  },
+  {
+    "key": "'C’était pareil'",
+    "en": "'It was the same'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:155"
+    ]
+  },
+  {
+    "key": "'C’était différent'",
+    "en": "'It was different'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:155"
+    ]
+  },
+  {
+    "key": "'Retiens cette carte.'",
+    "en": "'Remember this card.'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:185"
+    ]
+  },
+  {
+    "key": "`Retiens les ${back} premières cartes.`",
+    "en": "`Remember the first ${back} cards.`",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:186"
+    ]
+  },
+  {
+    "key": "'Carte suivante'",
+    "en": "'Next card'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:195"
+    ]
+  },
+  {
+    "key": "'Non'",
+    "en": "'No'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:202"
+    ]
+  },
+  {
+    "key": "'Oui'",
+    "en": "'Yes'",
+    "at": [
+      "src/ui/games/CorrespondanceGame.tsx:206"
+    ]
+  },
+  {
+    "key": "'Plus de bleus'",
+    "en": "'More blue'",
+    "at": [
+      "src/ui/games/coup-groups.ts:7"
+    ]
+  },
+  {
+    "key": "'Moins de bleus'",
+    "en": "'Fewer blue'",
+    "at": [
+      "src/ui/games/coup-groups.ts:7"
+    ]
+  },
+  {
+    "key": "'Plus d’orange'",
+    "en": "'More orange'",
+    "at": [
+      "src/ui/games/coup-groups.ts:8"
+    ]
+  },
+  {
+    "key": "'Moins d’orange'",
+    "en": "'Fewer orange'",
+    "at": [
+      "src/ui/games/coup-groups.ts:8"
+    ]
+  },
+  {
+    "key": "`${plural(correct, 'bonne réponse', 'bonnes réponses')} · ${plural(errors, 'erreur')}`",
+    "en": "`${plural(correct, 'correct answer')} · ${plural(errors, 'error')}`",
+    "at": [
+      "src/ui/games/CoupGame.tsx:63",
+      "src/ui/games/HorlogesGame.tsx:89",
+      "src/ui/games/LectureGame.tsx:33"
+    ]
+  },
+  {
+    "key": "`${config.target} (erreurs déduites)`",
+    "en": "`${config.target} (minus errors)`",
+    "at": [
+      "src/ui/games/CoupGame.tsx:69",
+      "src/ui/games/LectureGame.tsx:39"
+    ]
+  },
+  {
+    "key": "`${b.length} orange contre ${a.length} bleus`",
+    "en": "`${b.length} orange vs ${a.length} blue`",
+    "at": [
+      "src/ui/games/CoupGame.tsx:108"
+    ]
+  },
+  {
+    "key": "`${a.length} bleus contre ${b.length} orange`",
+    "en": "`${a.length} blue vs ${b.length} orange`",
+    "at": [
+      "src/ui/games/CoupGame.tsx:109"
+    ]
+  },
+  {
+    "key": "'Quelle couleur était la MOINS nombreuse ?'",
+    "en": "'Which color had FEWER dots?'",
+    "at": [
+      "src/ui/games/CoupGame.tsx:141"
+    ]
+  },
+  {
+    "key": "'Quelle couleur était la plus nombreuse ?'",
+    "en": "'Which color had more dots?'",
+    "at": [
+      "src/ui/games/CoupGame.tsx:142"
+    ]
+  },
+  {
+    "key": "'Cherche la MOINS nombreuse…'",
+    "en": "'Find the one with FEWER…'",
+    "at": [
+      "src/ui/games/CoupGame.tsx:145"
+    ]
+  },
+  {
+    "key": "'Cherche la plus nombreuse…'",
+    "en": "'Find the one with more…'",
+    "at": [
+      "src/ui/games/CoupGame.tsx:146"
+    ]
+  },
+  {
+    "key": "'Regarde bien…'",
+    "en": "'Look closely…'",
+    "at": [
+      "src/ui/games/CoupGame.tsx:148",
+      "src/ui/games/MatriceGame.tsx:142"
+    ]
+  },
+  {
+    "key": "'Regarde…'",
+    "en": "'Watch…'",
+    "at": [
+      "src/ui/games/demos.tsx:136"
+    ]
+  },
+  {
+    "key": "'À toi !'",
+    "en": "'Your turn!'",
+    "at": [
+      "src/ui/games/demos.tsx:136"
+    ]
+  },
+  {
+    "key": "'Même ordre…'",
+    "en": "'Same order…'",
+    "at": [
+      "src/ui/games/demos.tsx:136"
+    ]
+  },
+  {
+    "key": "'Bravo !'",
+    "en": "'Well done!'",
+    "at": [
+      "src/ui/games/demos.tsx:136"
+    ]
+  },
+  {
+    "key": "'Identique'",
+    "en": "'Same'",
+    "at": [
+      "src/ui/games/demos.tsx:162"
+    ]
+  },
+  {
+    "key": "'Dans la boutique : 2'",
+    "en": "'In the shop: 2'",
+    "at": [
+      "src/ui/games/demos.tsx:255"
+    ]
+  },
+  {
+    "key": "'Dans la boutique : ?'",
+    "en": "'In the shop: ?'",
+    "at": [
+      "src/ui/games/demos.tsx:256",
+      "src/ui/games/demos.tsx:257"
+    ]
+  },
+  {
+    "key": "'+1 entre'",
+    "en": "'+1 in'",
+    "at": [
+      "src/ui/games/demos.tsx:256"
+    ]
+  },
+  {
+    "key": "'−2 sortent'",
+    "en": "'−2 out'",
+    "at": [
+      "src/ui/games/demos.tsx:257"
+    ]
+  },
+  {
+    "key": "'Il en reste 1'",
+    "en": "'1 left'",
+    "at": [
+      "src/ui/games/demos.tsx:258"
+    ]
+  },
+  {
+    "key": "'Résultat d’avant ?'",
+    "en": "'Previous answer?'",
+    "at": [
+      "src/ui/games/demos.tsx:285"
+    ]
+  },
+  {
+    "key": "'Retiens…'",
+    "en": "'Remember…'",
+    "at": [
+      "src/ui/games/demos.tsx:287",
+      "src/ui/games/demos.tsx:337"
+    ]
+  },
+  {
+    "key": "'2 €'",
+    "en": "denominationLabel(200)",
+    "at": [
+      "src/ui/games/demos.tsx:350"
+    ]
+  },
+  {
+    "key": "'1 €'",
+    "en": "denominationLabel(100)",
+    "at": [
+      "src/ui/games/demos.tsx:353"
+    ]
+  },
+  {
+    "key": "'5 €'",
+    "en": "denominationLabel(500)",
+    "at": [
+      "src/ui/games/demos.tsx:356"
+    ]
+  },
+  {
+    "key": "'= 8 €'",
+    "en": "`= ${formatEuros(800)}`",
+    "at": [
+      "src/ui/games/demos.tsx:360"
+    ]
+  },
+  {
+    "key": "'Combien en tout ?'",
+    "en": "'How much in total?'",
+    "at": [
+      "src/ui/games/demos.tsx:360",
+      "src/ui/games/MonnaieGame.tsx:133"
+    ]
+  },
+  {
+    "key": "'Tape le résultat avant l’eau'",
+    "en": "'Type the answer before it hits the water'",
+    "at": [
+      "src/ui/games/demos.tsx:382"
+    ]
+  },
+  {
+    "key": "'Plouf, résolue !'",
+    "en": "'Splash, solved!'",
+    "at": [
+      "src/ui/games/demos.tsx:385"
+    ]
+  },
+  {
+    "key": "`Pareille qu’avant ? ${step.answer === 'yes' ? 'Oui' : 'Non'}`",
+    "en": "`Same as before? ${step.answer === 'yes' ? 'Yes' : 'No'}`",
+    "at": [
+      "src/ui/games/demos.tsx:409"
+    ]
+  },
+  {
+    "key": "'Retiens la carte'",
+    "en": "'Remember the card'",
+    "at": [
+      "src/ui/games/demos.tsx:410"
+    ]
+  },
+  {
+    "key": "'Celle du milieu : à droite'",
+    "en": "'The middle one: right'",
+    "at": [
+      "src/ui/games/demos.tsx:430"
+    ]
+  },
+  {
+    "key": "'Rond : je touche !'",
+    "en": "'Circle: tap!'",
+    "at": [
+      "src/ui/games/demos.tsx:448"
+    ]
+  },
+  {
+    "key": "'Un rond…'",
+    "en": "'A circle…'",
+    "at": [
+      "src/ui/games/demos.tsx:449"
+    ]
+  },
+  {
+    "key": "'Carré : je me retiens'",
+    "en": "'Square: hold back'",
+    "at": [
+      "src/ui/games/demos.tsx:451"
+    ]
+  },
+  {
+    "key": "'Un carré…'",
+    "en": "'A square…'",
+    "at": [
+      "src/ui/games/demos.tsx:452"
+    ]
+  },
+  {
+    "key": "'Tournée, pas retournée…'",
+    "en": "'Rotated, not flipped…'",
+    "at": [
+      "src/ui/games/demos.tsx:482"
+    ]
+  },
+  {
+    "key": "'Celle-ci : l’autre est un reflet'",
+    "en": "'This one: the other is a mirror image'",
+    "at": [
+      "src/ui/games/demos.tsx:482"
+    ]
+  },
+  {
+    "key": "'Il ne manque que…'",
+    "en": "'All that’s missing is…'",
+    "at": [
+      "src/ui/games/demos.tsx:513"
+    ]
+  },
+  {
+    "key": "'le 1 !'",
+    "en": "'the 1!'",
+    "at": [
+      "src/ui/games/demos.tsx:513"
+    ]
+  },
+  {
+    "key": "'Le côté qui descend…'",
+    "en": "'The side that goes down…'",
+    "at": [
+      "src/ui/games/demos.tsx:528"
+    ]
+  },
+  {
+    "key": "'…porte le plus lourd'",
+    "en": "'…holds the heavier one'",
+    "at": [
+      "src/ui/games/demos.tsx:528"
+    ]
+  },
+  {
+    "key": "'Quelle heure est-il ?'",
+    "en": "'What time is it?'",
+    "at": [
+      "src/ui/games/demos.tsx:541",
+      "src/ui/games/HorlogesGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'2 h 15'",
+    "en": "formatClock(135)",
+    "at": [
+      "src/ui/games/demos.tsx:541"
+    ]
+  },
+  {
+    "key": "'Retiens la liste…'",
+    "en": "'Remember the list…'",
+    "at": [
+      "src/ui/games/demos.tsx:557"
+    ]
+  },
+  {
+    "key": "`${seen} ? Vu !`",
+    "en": "`${seen}? Seen!`",
+    "at": [
+      "src/ui/games/demos.tsx:558"
+    ]
+  },
+  {
+    "key": "`${unseen} ? Pas vu !`",
+    "en": "`${unseen}? Not seen!`",
+    "at": [
+      "src/ui/games/demos.tsx:559"
+    ]
+  },
+  {
+    "key": "'Quelle lettre manque ?'",
+    "en": "'Which letter is missing?'",
+    "at": [
+      "src/ui/games/demos.tsx:602"
+    ]
+  },
+  {
+    "key": "'Trois fruits et…'",
+    "en": "'Three fruits and…'",
+    "at": [
+      "src/ui/games/demos.tsx:628"
+    ]
+  },
+  {
+    "key": "'un intrus : le violon !'",
+    "en": "'an odd one out: the violin!'",
+    "at": [
+      "src/ui/games/demos.tsx:628"
+    ]
+  },
+  {
+    "key": "'Retourne deux cartes…'",
+    "en": "'Turn over two cards…'",
+    "at": [
+      "src/ui/games/demos.tsx:661"
+    ]
+  },
+  {
+    "key": "'Deux pareilles : une paire !'",
+    "en": "'Two alike: a pair!'",
+    "at": [
+      "src/ui/games/demos.tsx:661"
+    ]
+  },
+  {
+    "key": "'1, 2, 3… jusqu’au bout\\u00a0!'",
+    "en": "'1, 2, 3… all the way!'",
+    "at": [
+      "src/ui/games/demos.tsx:681"
+    ]
+  },
+  {
+    "key": "'Regarde, sans compter…'",
+    "en": "'Look, don’t count…'",
+    "at": [
+      "src/ui/games/demos.tsx:721"
+    ]
+  },
+  {
+    "key": "'Bleus ou orange ?'",
+    "en": "'Blue or orange?'",
+    "at": [
+      "src/ui/games/demos.tsx:723"
+    ]
+  },
+  {
+    "key": "'7 bleus contre 4 orange'",
+    "en": "'7 blue vs 4 orange'",
+    "at": [
+      "src/ui/games/demos.tsx:724"
+    ]
+  },
+  {
+    "key": "'Léa'",
+    "en": "'Lucy'",
+    "at": [
+      "src/ui/games/demos.tsx:733"
+    ]
+  },
+  {
+    "key": "'Hugo'",
+    "en": "'Jack'",
+    "at": [
+      "src/ui/games/demos.tsx:734"
+    ]
+  },
+  {
+    "key": "'Nina'",
+    "en": "'Nina'",
+    "at": [
+      "src/ui/games/demos.tsx:735"
+    ]
+  },
+  {
+    "key": "'Retiens les prénoms…'",
+    "en": "'Remember the names…'",
+    "at": [
+      "src/ui/games/demos.tsx:753"
+    ]
+  },
+  {
+    "key": "'Qui est Léa ?'",
+    "en": "`Who is ${people[0].name}?`",
+    "at": [
+      "src/ui/games/demos.tsx:755"
+    ]
+  },
+  {
+    "key": "'La pomme sur fond orange !'",
+    "en": "'The apple on orange!'",
+    "at": [
+      "src/ui/games/demos.tsx:756"
+    ]
+  },
+  {
+    "key": "'Un chat a quatre pattes.'",
+    "en": "'A cat has four legs.'",
+    "at": [
+      "src/ui/games/demos.tsx:764"
+    ]
+  },
+  {
+    "key": "'La mer est sucrée.'",
+    "en": "'The sea is sweet.'",
+    "at": [
+      "src/ui/games/demos.tsx:765"
+    ]
+  },
+  {
+    "key": "'Vrai'",
+    "en": "'True'",
+    "at": [
+      "src/ui/games/demos.tsx:778",
+      "src/ui/games/LectureGame.tsx:96"
+    ]
+  },
+  {
+    "key": "'Faux'",
+    "en": "'False'",
+    "at": [
+      "src/ui/games/demos.tsx:782",
+      "src/ui/games/LectureGame.tsx:100"
+    ]
+  },
+  {
+    "key": "'Vrai, bien sûr'",
+    "en": "'True, of course'",
+    "at": [
+      "src/ui/games/demos.tsx:788"
+    ]
+  },
+  {
+    "key": "'Faux : elle est salée'",
+    "en": "'False: it’s salty'",
+    "at": [
+      "src/ui/games/demos.tsx:789"
+    ]
+  },
+  {
+    "key": "'Vrai ou faux ?'",
+    "en": "'True or false?'",
+    "at": [
+      "src/ui/games/demos.tsx:790"
+    ]
+  },
+  {
+    "key": "'Où arrive-t-on ?'",
+    "en": "'Where do we end up?'",
+    "at": [
+      "src/ui/games/demos.tsx:818"
+    ]
+  },
+  {
+    "key": "'Deux à droite, un en haut…'",
+    "en": "'Two right, one up…'",
+    "at": [
+      "src/ui/games/demos.tsx:823"
+    ]
+  },
+  {
+    "key": "'Les flèches ont disparu'",
+    "en": "'The arrows are gone'",
+    "at": [
+      "src/ui/games/demos.tsx:825"
+    ]
+  },
+  {
+    "key": "'Ici !'",
+    "en": "'Here!'",
+    "at": [
+      "src/ui/games/demos.tsx:826"
+    ]
+  },
+  {
+    "key": "`${score}/${count} justes · ${formatSeconds(elapsedMs)}`",
+    "en": "`${score}/${count} correct · ${formatSeconds(elapsedMs)}`",
+    "at": [
+      "src/ui/games/DiableGame.tsx:47"
+    ]
+  },
+  {
+    "key": "'En arrière'",
+    "en": "'How far back'",
+    "at": [
+      "src/ui/games/DiableGame.tsx:51"
+    ]
+  },
+  {
+    "key": "`${n} calcul${n > 1 ? 's' : ''}`",
+    "en": "`${n} sum${n === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/games/DiableGame.tsx:51"
+    ]
+  },
+  {
+    "key": "'maintenant'",
+    "en": "'now'",
+    "at": [
+      "src/ui/games/DiableGame.tsx:109"
+    ]
+  },
+  {
+    "key": "'Retiens ce calcul, puis touche « Retenu ».'",
+    "en": "'Remember this sum, then tap “Got it”.'",
+    "at": [
+      "src/ui/games/DiableGame.tsx:116"
+    ]
+  },
+  {
+    "key": "`Résultat du calcul d’il y a ${n === 1 ? '1 coup' : `${n} coups`} ?`",
+    "en": "`Answer to the sum from ${n === 1 ? '1 turn' : `${n} turns`} ago?`",
+    "at": [
+      "src/ui/games/DiableGame.tsx:117"
+    ]
+  },
+  {
+    "key": "'Retenu'",
+    "en": "'Got it'",
+    "at": [
+      "src/ui/games/DiableGame.tsx:133"
+    ]
+  },
+  {
+    "key": "'gauche'",
+    "en": "'left'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:19"
+    ]
+  },
+  {
+    "key": "'droite'",
+    "en": "'right'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:20"
+    ]
+  },
+  {
+    "key": "'haut'",
+    "en": "'up'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:21"
+    ]
+  },
+  {
+    "key": "'bas'",
+    "en": "'down'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:22"
+    ]
+  },
+  {
+    "key": "'justes'",
+    "en": "'correct'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:53",
+      "src/ui/games/ReflexeGame.tsx:46"
+    ]
+  },
+  {
+    "key": "'Temps de réaction moyen'",
+    "en": "'Average reaction time'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:56",
+      "src/ui/games/ReflexeGame.tsx:50"
+    ]
+  },
+  {
+    "key": "'Trop tard !'",
+    "en": "'Too late!'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:72"
+    ]
+  },
+  {
+    "key": "`C’était ${dirName(flechesAnswer(trial))}`",
+    "en": "`It was ${dirName(flechesAnswer(trial))}`",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:103"
+    ]
+  },
+  {
+    "key": "'Celle du milieu'",
+    "en": "'The middle one'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:128"
+    ]
+  },
+  {
+    "key": "'Les voisines'",
+    "en": "'The outer ones'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:128"
+    ]
+  },
+  {
+    "key": "`Milieu : ${dirName(trial.center)}, voisines : ${dirName(trial.flank)}`",
+    "en": "`Middle: ${dirName(trial.center)}, outer: ${dirName(trial.flank)}`",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:142"
+    ]
+  },
+  {
+    "key": "'Sens des flèches voisines ?'",
+    "en": "'Which way do the outer arrows point?'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:146"
+    ]
+  },
+  {
+    "key": "'Sens de la flèche du milieu ?'",
+    "en": "'Which way does the middle arrow point?'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:148"
+    ]
+  },
+  {
+    "key": "'Suis la consigne !'",
+    "en": "'Follow the instruction!'",
+    "at": [
+      "src/ui/games/FlechesGame.tsx:149"
+    ]
+  },
+  {
+    "key": "`Quelle heure sera-t-il dans ${formatDuration(q.delta)} ?`",
+    "en": "`What time will it be in ${formatDuration(q.delta)}?`",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:68"
+    ]
+  },
+  {
+    "key": "'Combien de temps s’est écoulé d’une horloge à l’autre ?'",
+    "en": "'How much time passed from one clock to the other?'",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:69"
+    ]
+  },
+  {
+    "key": "`C’était ${q.options[q.answer]}`",
+    "en": "`It was ${q.options[q.answer]}`",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:123"
+    ]
+  },
+  {
+    "key": "`De ${formatClock(q.clock)} à ${formatClock(q.clock2 ?? 0)}`",
+    "en": "`From ${formatClock(q.clock)} to ${formatClock(q.clock2 ?? 0)}`",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:136"
+    ]
+  },
+  {
+    "key": "`Horloge : ${formatClock(q.clock)}`",
+    "en": "`Clock: ${formatClock(q.clock)}`",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:137"
+    ]
+  },
+  {
+    "key": "'Horloge à lire : choisis parmi les propositions.'",
+    "en": "'Clock to read: pick one of the choices.'",
+    "at": [
+      "src/ui/games/HorlogesGame.tsx:158"
+    ]
+  },
+  {
+    "key": "`${plural(found, 'intrus')} · ${plural(errors, 'erreur')}`",
+    "en": "`${found} found · ${plural(errors, 'error')}`",
+    "at": [
+      "src/ui/games/IntrusGame.tsx:37"
+    ]
+  },
+  {
+    "key": "'Grille finale'",
+    "en": "'Final grid'",
+    "at": [
+      "src/ui/games/IntrusGame.tsx:41"
+    ]
+  },
+  {
+    "key": "'Trouve le symbole différent'",
+    "en": "'Find the symbol that’s different'",
+    "at": [
+      "src/ui/games/IntrusGame.tsx:96"
+    ]
+  },
+  {
+    "key": "`${symbol} retourné`",
+    "en": "`${symbol} flipped`",
+    "at": [
+      "src/ui/games/IntrusGame.tsx:109"
+    ]
+  },
+  {
+    "key": "`${move.steps} case${move.steps > 1 ? 's' : ''} ${DIRS[move.dir].label}`",
+    "en": "`${move.steps} square${move.steps === 1 ? '' : 's'} ${DIRS[move.dir].label}`",
+    "at": [
+      "src/ui/games/ItiGame.tsx:22"
+    ]
+  },
+  {
+    "key": "`Ligne ${cell.row + 1}, colonne ${cell.col + 1}${start ? ', départ' : ''}`",
+    "en": "`Row ${cell.row + 1}, column ${cell.col + 1}${start ? ', start' : ''}`",
+    "at": [
+      "src/ui/games/ItiGame.tsx:59"
+    ]
+  },
+  {
+    "key": "`${correct} trajet${correct > 1 ? 's' : ''} sur ${ITI_TRIALS}`",
+    "en": "`${correct} of ${ITI_TRIALS} routes`",
+    "at": [
+      "src/ui/games/ItiGame.tsx:95"
+    ]
+  },
+  {
+    "key": "'Trajets retrouvés'",
+    "en": "'Routes found'",
+    "at": [
+      "src/ui/games/ItiGame.tsx:97"
+    ]
+  },
+  {
+    "key": "'Déplacements par trajet'",
+    "en": "'Moves per route'",
+    "at": [
+      "src/ui/games/ItiGame.tsx:98"
+    ]
+  },
+  {
+    "key": "'Voici le trajet'",
+    "en": "'Here’s the route'",
+    "at": [
+      "src/ui/games/ItiGame.tsx:146"
+    ]
+  },
+  {
+    "key": "'Où arrives-tu\\u00a0? Touche la case.'",
+    "en": "'Where do you end up? Tap the square.'",
+    "at": [
+      "src/ui/games/ItiGame.tsx:167"
+    ]
+  },
+  {
+    "key": "'Trajet'",
+    "en": "'Route'",
+    "at": [
+      "src/ui/games/ItiGame.tsx:174"
+    ]
+  },
+  {
+    "key": "'Phrases bien jugées'",
+    "en": "'Sentences judged right'",
+    "at": [
+      "src/ui/games/LectureGame.tsx:37"
+    ]
+  },
+  {
+    "key": "'C’était vrai'",
+    "en": "'It was true'",
+    "at": [
+      "src/ui/games/LectureGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'C’était faux'",
+    "en": "'It was false'",
+    "at": [
+      "src/ui/games/LectureGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'v'",
+    "en": "'t'",
+    "at": [
+      "src/ui/games/LectureGame.tsx:75",
+      "src/ui/games/MotsGame.tsx:99"
+    ]
+  },
+  {
+    "key": "'V ArrowLeft'",
+    "en": "'T ArrowLeft'",
+    "at": [
+      "src/ui/games/LectureGame.tsx:94"
+    ]
+  },
+  {
+    "key": "`${plural(correct, 'mot complété', 'mots complétés')} · ${plural(errors, 'erreur')}`",
+    "en": "`${plural(correct, 'word completed', 'words completed')} · ${plural(errors, 'error')}`",
+    "at": [
+      "src/ui/games/LettreGame.tsx:48"
+    ]
+  },
+  {
+    "key": "'Mots complétés'",
+    "en": "'Words completed'",
+    "at": [
+      "src/ui/games/LettreGame.tsx:52"
+    ]
+  },
+  {
+    "key": "`C’était ${q.word}`",
+    "en": "`It was ${q.word}`",
+    "at": [
+      "src/ui/games/LettreGame.tsx:82"
+    ]
+  },
+  {
+    "key": "`${q.hint} : `",
+    "en": "`${q.hint}: `",
+    "at": [
+      "src/ui/games/LettreGame.tsx:113"
+    ]
+  },
+  {
+    "key": "'blanc'",
+    "en": "'blank'",
+    "at": [
+      "src/ui/games/LettreGame.tsx:114"
+    ]
+  },
+  {
+    "key": "'Quelle lettre manque-t-il ?'",
+    "en": "'Which letter is missing?'",
+    "at": [
+      "src/ui/games/LettreGame.tsx:118"
+    ]
+  },
+  {
+    "key": "'Quelles lettres manque-t-il ?'",
+    "en": "'Which letters are missing?'",
+    "at": [
+      "src/ui/games/LettreGame.tsx:119"
+    ]
+  },
+  {
+    "key": "`${plural(best, 'case')} retenues`",
+    "en": "`${plural(best, 'square')} remembered`",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:78"
+    ]
+  },
+  {
+    "key": "'Aucune séquence retenue'",
+    "en": "'No sequence remembered'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:79"
+    ]
+  },
+  {
+    "key": "'Plus longue séquence'",
+    "en": "'Longest sequence'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:81"
+    ]
+  },
+  {
+    "key": "plural(best, 'case')",
+    "en": "plural(best, 'square')",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:81"
+    ]
+  },
+  {
+    "key": "'Séquences réussies'",
+    "en": "'Sequences completed'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:82"
+    ]
+  },
+  {
+    "key": "'Rythme'",
+    "en": "'Pace'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:83"
+    ]
+  },
+  {
+    "key": "`${secondsLabel(flashMs)} par case`",
+    "en": "`${secondsLabel(flashMs)} per square`",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:83"
+    ]
+  },
+  {
+    "key": "'À l’envers ! '",
+    "en": "'Backwards! '",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:136",
+      "src/ui/games/MatriceGame.tsx:143"
+    ]
+  },
+  {
+    "key": "'Même ordre ! '",
+    "en": "'Same order! '",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:136"
+    ]
+  },
+  {
+    "key": "'Regarde… le sens viendra après'",
+    "en": "'Watch… direction comes later'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:139"
+    ]
+  },
+  {
+    "key": "'Regarde… sauf les cases barrées'",
+    "en": "'Watch… skip crossed-out squares'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:141"
+    ]
+  },
+  {
+    "key": "'À toi ! '",
+    "en": "'Your turn! '",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:143"
+    ]
+  },
+  {
+    "key": "'Bravo, une case de plus !'",
+    "en": "'Well done, one more square!'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:144"
+    ]
+  },
+  {
+    "key": "'Raté : voici le bon ordre.'",
+    "en": "'Missed: here’s the right order.'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:145"
+    ]
+  },
+  {
+    "key": "plural(game.span, 'case')",
+    "en": "plural(game.span, 'square')",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:151"
+    ]
+  },
+  {
+    "key": "`Grille de ${cellCount} cases`",
+    "en": "`Grid of ${cellCount} squares`",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:165"
+    ]
+  },
+  {
+    "key": "`Case ${cell + 1}`",
+    "en": "`Square ${cell + 1}`",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:184"
+    ]
+  },
+  {
+    "key": "`${plural(Math.max(0, triesLeft), 'essai')} restant${triesLeft > 1 ? 's' : ''}`",
+    "en": "`${plural(Math.max(0, triesLeft), 'try', 'tries')} left`",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:196",
+      "src/ui/games/OrdreGame.tsx:147"
+    ]
+  },
+  {
+    "key": "'2 essais'",
+    "en": "'2 tries'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:204",
+      "src/ui/games/OrdreGame.tsx:155"
+    ]
+  },
+  {
+    "key": "'Dernier essai'",
+    "en": "'Last try'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:204",
+      "src/ui/games/OrdreGame.tsx:155"
+    ]
+  },
+  {
+    "key": "'Fin de partie'",
+    "en": "'Game over'",
+    "at": [
+      "src/ui/games/MatriceGame.tsx:204",
+      "src/ui/games/OrdreGame.tsx:155"
+    ]
+  },
+  {
+    "key": "'cachée'",
+    "en": "'hidden'",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:20"
+    ]
+  },
+  {
+    "key": "`${correct} bonnes réponses`",
+    "en": "plural(correct, 'correct answer')",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:43"
+    ]
+  },
+  {
+    "key": "`C’était ${formatEuros(question.answer)}`",
+    "en": "`It was ${formatEuros(question.answer)}`",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:83"
+    ]
+  },
+  {
+    "key": "'Pièces et billets à compter'",
+    "en": "'Coins and bills to count'",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:118"
+    ]
+  },
+  {
+    "key": "'Prix'",
+    "en": "'Price'",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:126"
+    ]
+  },
+  {
+    "key": "'Payé avec'",
+    "en": "'Paid with'",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:129"
+    ]
+  },
+  {
+    "key": "'Combien faut-il rendre ?'",
+    "en": "'How much change is due?'",
+    "at": [
+      "src/ui/games/MonnaieGame.tsx:133"
+    ]
+  },
+  {
+    "key": "'Il était dans la liste'",
+    "en": "'It was in the list'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:72"
+    ]
+  },
+  {
+    "key": "'Il n’y était pas'",
+    "en": "'It wasn’t there'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:72"
+    ]
+  },
+  {
+    "key": "`${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège${next.falseAlarms > 1 ? 's' : ''}`",
+    "en": "`${next.hits}/${config.count} recalled · ${next.falseAlarms} trap${next.falseAlarms === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/games/MotsGame.tsx:81"
+    ]
+  },
+  {
+    "key": "'Mots retrouvés'",
+    "en": "'Words recalled'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:85"
+    ]
+  },
+  {
+    "key": "'Mots oubliés'",
+    "en": "'Words forgotten'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:86"
+    ]
+  },
+  {
+    "key": "'Pièges évités'",
+    "en": "'Traps avoided'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:87"
+    ]
+  },
+  {
+    "key": "`Retiens ces ${config.count} mots`",
+    "en": "`Memorize these ${config.count} words`",
+    "at": [
+      "src/ui/games/MotsGame.tsx:109"
+    ]
+  },
+  {
+    "key": "'C’est retenu'",
+    "en": "'Got it'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:120"
+    ]
+  },
+  {
+    "key": "`Était-il dans la liste${NBSP}?`",
+    "en": "'Was it in the list?'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:139"
+    ]
+  },
+  {
+    "key": "'Pas vu'",
+    "en": "'Not seen'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:145"
+    ]
+  },
+  {
+    "key": "'Vu'",
+    "en": "'Seen'",
+    "at": [
+      "src/ui/games/MotsGame.tsx:149"
+    ]
+  },
+  {
+    "key": "'Même lettre'",
+    "en": "'Same letter'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:31"
+    ]
+  },
+  {
+    "key": "'C’était la même lettre'",
+    "en": "'It was the same letter'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:32"
+    ]
+  },
+  {
+    "key": "'Pas la même lettre'",
+    "en": "'Not the same letter'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:33"
+    ]
+  },
+  {
+    "key": "'Même place'",
+    "en": "'Same spot'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:37"
+    ]
+  },
+  {
+    "key": "'C’était la même place'",
+    "en": "'It was the same spot'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:38"
+    ]
+  },
+  {
+    "key": "'Pas la même place'",
+    "en": "'Not the same spot'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:39"
+    ]
+  },
+  {
+    "key": "'Positions'",
+    "en": "'Positions'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:40"
+    ]
+  },
+  {
+    "key": "`${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} fausse${t.falseAlarms > 1 ? 's' : ''} alerte${t.falseAlarms > 1 ? 's' : ''}`",
+    "en": "`${t.hits} / ${NBACK_TARGETS} · ${t.falseAlarms} false alarm${t.falseAlarms === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:46"
+    ]
+  },
+  {
+    "key": "`${accuracy} % de précision · ${n} en arrière`",
+    "en": "`${accuracy}% accuracy · ${n} back`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:75"
+    ]
+  },
+  {
+    "key": "'Précision'",
+    "en": "'Accuracy'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:78"
+    ]
+  },
+  {
+    "key": "`${accuracy} %`",
+    "en": "`${accuracy}%`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:78"
+    ]
+  },
+  {
+    "key": "`${n} en arrière`",
+    "en": "`${n} back`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:133"
+    ]
+  },
+  {
+    "key": "'Mémorise…'",
+    "en": "'Memorize…'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:138",
+      "src/ui/games/NBackGame.tsx:176"
+    ]
+  },
+  {
+    "key": "`Essai ${Math.min(scoredIndex + 1, NBACK_TRIALS)} / ${NBACK_TRIALS}`",
+    "en": "`Trial ${Math.min(scoredIndex + 1, NBACK_TRIALS)} / ${NBACK_TRIALS}`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:139"
+    ]
+  },
+  {
+    "key": "'Pareil qu’au coup précédent ?'",
+    "en": "'Same as the previous one?'",
+    "at": [
+      "src/ui/games/NBackGame.tsx:163"
+    ]
+  },
+  {
+    "key": "`Pareil qu’il y a ${n} coups ?`",
+    "en": "`Same as ${n} turns ago?`",
+    "at": [
+      "src/ui/games/NBackGame.tsx:163"
+    ]
+  },
+  {
+    "key": "`case ${Number(value) + 1}`",
+    "en": "`square ${Number(value) + 1}`",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:18"
+    ]
+  },
+  {
+    "key": "'lettre'",
+    "en": "'letter'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:35"
+    ]
+  },
+  {
+    "key": "'case allumée'",
+    "en": "'lit square'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:35"
+    ]
+  },
+  {
+    "key": "'Essai guidé'",
+    "en": "'Guided practice'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:43",
+      "src/ui/games/NBackTutorial.tsx:142"
+    ]
+  },
+  {
+    "key": "'Commencer l’essai'",
+    "en": "'Start the practice'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:57"
+    ]
+  },
+  {
+    "key": "'Tu as compris le principe\\u00a0!'",
+    "en": "'You’ve got the idea!'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:69"
+    ]
+  },
+  {
+    "key": "'Jouer pour de vrai'",
+    "en": "'Play for real'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:90"
+    ]
+  },
+  {
+    "key": "'Refaire l’essai'",
+    "en": "'Practice again'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:102"
+    ]
+  },
+  {
+    "key": "'Quitter l’essai'",
+    "en": "'Quit the practice'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:139"
+    ]
+  },
+  {
+    "key": "'Ce qui est passé'",
+    "en": "'What came before'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:145"
+    ]
+  },
+  {
+    "key": "'De mémoire, maintenant\\u00a0!'",
+    "en": "'From memory now!'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:157"
+    ]
+  },
+  {
+    "key": "`Retiens-la, puis passe à la suivante.`",
+    "en": "'Remember it, then go on to the next one.'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:164"
+    ]
+  },
+  {
+    "key": "`Même ${thing} ${ago}\\u00a0?`",
+    "en": "`Same ${thing} as ${ago}?`",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:166"
+    ]
+  },
+  {
+    "key": "`Oui\\u00a0! ${Ago}, c’était ${channel === 'letter' ? back : 'cette case-là'}\\u00a0: ${target ? 'pareil' : 'différent'}.`",
+    "en": "`Yes! ${Ago}, it was ${channel === 'letter' ? back : 'that square'}: ${target ? 'same' : 'different'}.`",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:169"
+    ]
+  },
+  {
+    "key": "`Pas tout à fait\\u00a0: ${ago}, c’était ${channel === 'letter' ? back : 'une autre case'}, donc ${target ? 'pareil' : 'différent'}.`",
+    "en": "`Not quite: ${ago}, it was ${channel === 'letter' ? back : 'another square'}, so ${target ? 'same' : 'different'}.`",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:173"
+    ]
+  },
+  {
+    "key": "' (Piège\\u00a0: c’est le coup d’avant qui est pareil, pas celui d’il y a 2\\u00a0coups.)'",
+    "en": "' (Trap: it’s the one just before that matches, not the one from 2 turns ago.)'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:179"
+    ]
+  },
+  {
+    "key": "'Suivant'",
+    "en": "'Next'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:187"
+    ]
+  },
+  {
+    "key": "'Pareil'",
+    "en": "'Same'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:193"
+    ]
+  },
+  {
+    "key": "'Différent'",
+    "en": "'Different'",
+    "at": [
+      "src/ui/games/NBackTutorial.tsx:196"
+    ]
+  },
+  {
+    "key": "`${plural(final.best, 'nombre')} retenus`",
+    "en": "`${plural(final.best, 'number')} remembered`",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:52"
+    ]
+  },
+  {
+    "key": "'Aucune série retenue'",
+    "en": "'No series remembered'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:53"
+    ]
+  },
+  {
+    "key": "'Plus longue série'",
+    "en": "'Longest series'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:55"
+    ]
+  },
+  {
+    "key": "plural(final.best, 'nombre')",
+    "en": "plural(final.best, 'number')",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:55"
+    ]
+  },
+  {
+    "key": "'Séries réussies'",
+    "en": "'Series completed'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:56"
+    ]
+  },
+  {
+    "key": "plural(round.cells.length, 'nombre')",
+    "en": "plural(round.cells.length, 'number')",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:105"
+    ]
+  },
+  {
+    "key": "'Retiens où sont les nombres…'",
+    "en": "'Remember where the numbers are…'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:109"
+    ]
+  },
+  {
+    "key": "'Du plus grand au plus petit !'",
+    "en": "'Largest to smallest!'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:111"
+    ]
+  },
+  {
+    "key": "'Du plus petit au plus grand !'",
+    "en": "'Smallest to largest!'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:111"
+    ]
+  },
+  {
+    "key": "'Bravo, un nombre de plus !'",
+    "en": "'Well done, one more number!'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:112"
+    ]
+  },
+  {
+    "key": "'Raté : voici les nombres.'",
+    "en": "'Missed: here are the numbers.'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:113"
+    ]
+  },
+  {
+    "key": "'Cases à toucher'",
+    "en": "'Squares to tap'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:115"
+    ]
+  },
+  {
+    "key": "`Case ${value}`",
+    "en": "`Square ${value}`",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:136"
+    ]
+  },
+  {
+    "key": "'Case cachée'",
+    "en": "'Hidden square'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:136"
+    ]
+  },
+  {
+    "key": "'Case vide'",
+    "en": "'Empty square'",
+    "at": [
+      "src/ui/games/OrdreGame.tsx:136"
+    ]
+  },
+  {
+    "key": "`${foundPairs}/${config.pairs} paires · ${tries} coups`",
+    "en": "`${foundPairs}/${config.pairs} pairs · ${plural(tries, 'move')}`",
+    "at": [
+      "src/ui/games/PairesGame.tsx:59"
+    ]
+  },
+  {
+    "key": "'Paires trouvées'",
+    "en": "'Pairs found'",
+    "at": [
+      "src/ui/games/PairesGame.tsx:61"
+    ]
+  },
+  {
+    "key": "'Coups joués'",
+    "en": "'Moves'",
+    "at": [
+      "src/ui/games/PairesGame.tsx:62"
+    ]
+  },
+  {
+    "key": "'Coups minimum'",
+    "en": "'Fewest possible moves'",
+    "at": [
+      "src/ui/games/PairesGame.tsx:63"
+    ]
+  },
+  {
+    "key": "'Mémorise les cartes…'",
+    "en": "'Memorize the cards…'",
+    "at": [
+      "src/ui/games/PairesGame.tsx:130"
+    ]
+  },
+  {
+    "key": "`/ ${config.pairs} paires · ${attempts} coup${attempts > 1 ? 's' : ''}`",
+    "en": "`/ ${config.pairs} pairs · ${attempts} move${attempts === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/games/PairesGame.tsx:135"
+    ]
+  },
+  {
+    "key": "`Carte ${card + 1} : ${describeFace(face)}, trouvée`",
+    "en": "`Card ${card + 1}: ${describeFace(face)}, found`",
+    "at": [
+      "src/ui/games/PairesGame.tsx:155"
+    ]
+  },
+  {
+    "key": "`Carte ${card + 1} : ${describeFace(face)}`",
+    "en": "`Card ${card + 1}: ${describeFace(face)}`",
+    "at": [
+      "src/ui/games/PairesGame.tsx:157"
+    ]
+  },
+  {
+    "key": "`Carte ${card + 1}, cachée`",
+    "en": "`Card ${card + 1}, face down`",
+    "at": [
+      "src/ui/games/PairesGame.tsx:158"
+    ]
+  },
+  {
+    "key": "`${solvedCount} gouttes résolues`",
+    "en": "`${plural(solvedCount, 'drop')} solved`",
+    "at": [
+      "src/ui/games/PluieGame.tsx:45"
+    ]
+  },
+  {
+    "key": "'Gouttes résolues'",
+    "en": "'Drops solved'",
+    "at": [
+      "src/ui/games/PluieGame.tsx:47"
+    ]
+  },
+  {
+    "key": "'Gouttes perdues'",
+    "en": "'Drops lost'",
+    "at": [
+      "src/ui/games/PluieGame.tsx:48"
+    ]
+  },
+  {
+    "key": "'Une goutte est tombée'",
+    "en": "'A drop fell'",
+    "at": [
+      "src/ui/games/PluieGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'Aucune goutte ne vaut ça'",
+    "en": "'No drop equals that'",
+    "at": [
+      "src/ui/games/PluieGame.tsx:97"
+    ]
+  },
+  {
+    "key": "`${lives} vie${lives > 1 ? 's' : ''}`",
+    "en": "`${lives} ${lives === 1 ? 'life' : 'lives'}`",
+    "at": [
+      "src/ui/games/PluieGame.tsx:121"
+    ]
+  },
+  {
+    "key": "'Tape un résultat'",
+    "en": "'Type an answer'",
+    "at": [
+      "src/ui/games/PluieGame.tsx:147"
+    ]
+  },
+  {
+    "key": "`${correct} sur ${total} reconnus`",
+    "en": "`${correct} of ${total} recognized`",
+    "at": [
+      "src/ui/games/QuiGame.tsx:48"
+    ]
+  },
+  {
+    "key": "'Visages par manche'",
+    "en": "'Faces per round'",
+    "at": [
+      "src/ui/games/QuiGame.tsx:51"
+    ]
+  },
+  {
+    "key": "`Voici ${name}`",
+    "en": "`This is ${name}`",
+    "at": [
+      "src/ui/games/QuiGame.tsx:88"
+    ]
+  },
+  {
+    "key": "`C’était ${name}`",
+    "en": "`It was ${name}`",
+    "at": [
+      "src/ui/games/QuiGame.tsx:88"
+    ]
+  },
+  {
+    "key": "'Retiens qui est qui'",
+    "en": "'Remember who’s who'",
+    "at": [
+      "src/ui/games/QuiGame.tsx:109"
+    ]
+  },
+  {
+    "key": "'J’ai retenu'",
+    "en": "'Got it'",
+    "at": [
+      "src/ui/games/QuiGame.tsx:124"
+    ]
+  },
+  {
+    "key": "`Visage ${k + 1}`",
+    "en": "`Face ${k + 1}`",
+    "at": [
+      "src/ui/games/QuiGame.tsx:150"
+    ]
+  },
+  {
+    "key": "'Quel est son prénom\\u00a0?'",
+    "en": "'What’s their name?'",
+    "at": [
+      "src/ui/games/QuiGame.tsx:163"
+    ]
+  },
+  {
+    "key": "'Bonnes touches'",
+    "en": "'Correct taps'",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:48"
+    ]
+  },
+  {
+    "key": "'Retenues réussies'",
+    "en": "'Correct holds'",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:49"
+    ]
+  },
+  {
+    "key": "'Il fallait toucher'",
+    "en": "'You should have tapped'",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:59"
+    ]
+  },
+  {
+    "key": "'Pas celle-là !'",
+    "en": "'Not that one!'",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:100"
+    ]
+  },
+  {
+    "key": "'Nouvelle règle ! '",
+    "en": "'New rule! '",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:121"
+    ]
+  },
+  {
+    "key": "'Toucher'",
+    "en": "'Tap'",
+    "at": [
+      "src/ui/games/ReflexeGame.tsx:130"
+    ]
+  },
+  {
+    "key": "`${plural(correct, 'pièce trouvée', 'pièces trouvées')} · ${plural(errors, 'erreur')}`",
+    "en": "`${plural(correct, 'piece')} found · ${plural(errors, 'error')}`",
+    "at": [
+      "src/ui/games/RotationGame.tsx:55"
+    ]
+  },
+  {
+    "key": "'Pièces trouvées'",
+    "en": "'Pieces found'",
+    "at": [
+      "src/ui/games/RotationGame.tsx:59"
+    ]
+  },
+  {
+    "key": "'C’était son reflet'",
+    "en": "'That was its mirror image'",
+    "at": [
+      "src/ui/games/RotationGame.tsx:91"
+    ]
+  },
+  {
+    "key": "'Ce n’est pas la même pièce'",
+    "en": "'That’s not the same piece'",
+    "at": [
+      "src/ui/games/RotationGame.tsx:91"
+    ]
+  },
+  {
+    "key": "'Modèle'",
+    "en": "'Model'",
+    "at": [
+      "src/ui/games/RotationGame.tsx:114"
+    ]
+  },
+  {
+    "key": "'Laquelle est la même pièce, simplement tournée\\u00a0?'",
+    "en": "'Which one is the same piece, just rotated?'",
+    "at": [
+      "src/ui/games/RotationGame.tsx:116"
+    ]
+  },
+  {
+    "key": "`Pièce ${i + 1}`",
+    "en": "`Piece ${i + 1}`",
+    "at": [
+      "src/ui/games/RotationGame.tsx:121"
+    ]
+  },
+  {
+    "key": "'orange'",
+    "en": "'orange'",
+    "at": [
+      "src/ui/games/SchulteGame.tsx:41"
+    ]
+  },
+  {
+    "key": "'bleu'",
+    "en": "'blue'",
+    "at": [
+      "src/ui/games/SchulteGame.tsx:41"
+    ]
+  },
+  {
+    "key": "'Touche le'",
+    "en": "'Tap'",
+    "at": [
+      "src/ui/games/SchulteGame.tsx:90"
+    ]
+  },
+  {
+    "key": "'Grille de symboles'",
+    "en": "'Symbol grid'",
+    "at": [
+      "src/ui/games/SchulteGame.tsx:99"
+    ]
+  },
+  {
+    "key": "`${schulteSpoken(label, twoTone)}, trouvé`",
+    "en": "`${schulteSpoken(label, twoTone)}, found`",
+    "at": [
+      "src/ui/games/SchulteGame.tsx:111"
+    ]
+  },
+  {
+    "key": "`L’encre : ${name}`",
+    "en": "`Ink: ${name}`",
+    "at": [
+      "src/ui/games/StroopGame.tsx:58"
+    ]
+  },
+  {
+    "key": "`Le mot : ${name}`",
+    "en": "`Word: ${name}`",
+    "at": [
+      "src/ui/games/StroopGame.tsx:58"
+    ]
+  },
+  {
+    "key": "'Couleur de l’encre'",
+    "en": "'Ink color'",
+    "at": [
+      "src/ui/games/StroopGame.tsx:115"
+    ]
+  },
+  {
+    "key": "'Lis le mot'",
+    "en": "'Read the word'",
+    "at": [
+      "src/ui/games/StroopGame.tsx:115"
+    ]
+  },
+  {
+    "key": "`${item.ask === 'word' ? 'Lis le mot. ' : ''}Le mot ${STROOP_LABELS[item.word]}, écrit en ${STROOP_LABELS[item.ink].toLowerCase()}`",
+    "en": "`${item.ask === 'word' ? 'Read the word. ' : ''}The word ${STROOP_LABELS[item.word]}, written in ${STROOP_LABELS[item.ink].toLowerCase()}`",
+    "at": [
+      "src/ui/games/StroopGame.tsx:122"
+    ]
+  },
+  {
+    "key": "'Micro indisponible : réponds avec les boutons.'",
+    "en": "'Microphone unavailable: answer with the buttons.'",
+    "at": [
+      "src/ui/games/StroopGame.tsx:132"
+    ]
+  },
+  {
+    "key": "'Dis la couleur, ou touche-la.'",
+    "en": "'Say the color, or tap it.'",
+    "at": [
+      "src/ui/games/StroopGame.tsx:133"
+    ]
+  },
+  {
+    "key": "'Couleur à répondre'",
+    "en": "'Color to answer'",
+    "at": [
+      "src/ui/games/StroopGame.tsx:142"
+    ]
+  },
+  {
+    "key": "'Chiffres refusés'",
+    "en": "'Digits rejected'",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:54"
+    ]
+  },
+  {
+    "key": "'Aucun'",
+    "en": "'None'",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:54"
+    ]
+  },
+  {
+    "key": "'Grilles'",
+    "en": "'Grids'",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:55"
+    ]
+  },
+  {
+    "key": "`Grille ${current + 1}/${puzzles.length}`",
+    "en": "`Grid ${current + 1}/${puzzles.length}`",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:76"
+    ]
+  },
+  {
+    "key": "`Pas de ${digit} ici · +${SUDOKU_PENALTY_S} s`",
+    "en": "`No ${digit} here · +${SUDOKU_PENALTY_S} s`",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:83"
+    ]
+  },
+  {
+    "key": "'Grille'",
+    "en": "'Grid'",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:116"
+    ]
+  },
+  {
+    "key": "`Grille de ${size} sur ${size}`",
+    "en": "`${size} by ${size} grid`",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:123"
+    ]
+  },
+  {
+    "key": "`Ligne ${r + 1}, colonne ${c + 1} : ${value || 'vide'}`",
+    "en": "`Row ${r + 1}, column ${c + 1}: ${value || 'empty'}`",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:144"
+    ]
+  },
+  {
+    "key": "`Placer ${digit}`",
+    "en": "`Place ${digit}`",
+    "at": [
+      "src/ui/games/SudokuGame.tsx:157"
+    ]
+  },
+  {
+    "key": "`${final.won}/${TOTAL_ROUNDS} manches · suite de ${final.longest}`",
+    "en": "`${final.won}/${TOTAL_ROUNDS} rounds · run of ${final.longest}`",
+    "at": [
+      "src/ui/games/TotalGame.tsx:65"
+    ]
+  },
+  {
+    "key": "'Plus longue suite réussie'",
+    "en": "'Longest run solved'",
+    "at": [
+      "src/ui/games/TotalGame.tsx:69"
+    ]
+  },
+  {
+    "key": "plural(final.longest, 'nombre')",
+    "en": "plural(final.longest, 'number')",
+    "at": [
+      "src/ui/games/TotalGame.tsx:70"
+    ]
+  },
+  {
+    "key": "'Points'",
+    "en": "'Points'",
+    "at": [
+      "src/ui/games/TotalGame.tsx:72"
+    ]
+  },
+  {
+    "key": "`Le total était ${current.total}`",
+    "en": "`The total was ${current.total}`",
+    "at": [
+      "src/ui/games/TotalGame.tsx:104"
+    ]
+  },
+  {
+    "key": "`${plural(length, 'nombre')} à additionner`",
+    "en": "`${plural(length, 'number')} to add up`",
+    "at": [
+      "src/ui/games/TotalGame.tsx:142"
+    ]
+  },
+  {
+    "key": "'Prêt\\u00a0?'",
+    "en": "'Ready?'",
+    "at": [
+      "src/ui/games/TotalGame.tsx:144"
+    ]
+  },
+  {
+    "key": "'Calcul mental'",
+    "en": "'Mental math'",
+    "at": [
+      "src/ui/goals.ts:7"
+    ]
+  },
+  {
+    "key": "'Concentration'",
+    "en": "'Focus'",
+    "at": [
+      "src/ui/goals.ts:13"
+    ]
+  },
+  {
+    "key": "'Rapidité'",
+    "en": "'Quickness'",
+    "at": [
+      "src/ui/goals.ts:16"
+    ]
+  },
+  {
+    "key": "'Vocabulaire'",
+    "en": "'Vocabulary'",
+    "at": [
+      "src/ui/goals.ts:19"
+    ]
+  },
+  {
+    "key": "'Raisonnement'",
+    "en": "'Reasoning'",
+    "at": [
+      "src/ui/goals.ts:22"
+    ]
+  },
+  {
+    "key": "'Ton prénom, pour que tes amies te reconnaissent'",
+    "en": "'Your first name, so your friends know it’s you'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:54"
+    ]
+  },
+  {
+    "key": "'Ce lien de défi est incomplet'",
+    "en": "'This challenge link is incomplete'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:113"
+    ]
+  },
+  {
+    "key": "'Il a sans doute été coupé en route. Demande à ton amie de te le renvoyer en entier.'",
+    "en": "'It probably got cut off along the way. Ask your friend to send you the whole link again.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:116"
+    ]
+  },
+  {
+    "key": "'Voir mes défis'",
+    "en": "'See my challenges'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:122"
+    ]
+  },
+  {
+    "key": "'Défis entre amies'",
+    "en": "'Friend challenges'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:167",
+      "src/ui/screens/TrainingScreen.tsx:74"
+    ]
+  },
+  {
+    "key": "'Tu joues trois parties, puis tu envoies le lien : tes amies jouent exactement les mêmes sur leur téléphone. Vos scores forment un classement par catégorie, gardé sur chaque appareil, sans compte.'",
+    "en": "'You play three games, then send the link: your friends play exactly the same ones on their phones. Your scores make a leaderboard for each category, kept on each device, no account needed.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:170"
+    ]
+  },
+  {
+    "key": "'Nouveau défi'",
+    "en": "'New challenge'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:178"
+    ]
+  },
+  {
+    "key": "'Catégorie'",
+    "en": "'Category'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:182"
+    ]
+  },
+  {
+    "key": "'Un peu de tout'",
+    "en": "'A bit of everything'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:189"
+    ]
+  },
+  {
+    "key": "'Difficulté'",
+    "en": "'Difficulty'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:201",
+      "src/ui/screens/ModeScreens.tsx:384"
+    ]
+  },
+  {
+    "key": "`niveau ${DUEL_DIFFICULTIES[key].level}`",
+    "en": "`level ${DUEL_DIFFICULTIES[key].level}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:207",
+      "src/ui/screens/ModeScreens.tsx:397"
+    ]
+  },
+  {
+    "key": "'Créer le défi'",
+    "en": "'Create the challenge'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:215"
+    ]
+  },
+  {
+    "key": "'3 jeux · tu joues d’abord, puis tu l’envoies'",
+    "en": "'3 games · you play first, then send it'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:216"
+    ]
+  },
+  {
+    "key": "'Classement entre amies'",
+    "en": "'Friends leaderboard'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:226",
+      "src/ui/screens/ChallengeScreen.tsx:587"
+    ]
+  },
+  {
+    "key": "'Catégorie du classement'",
+    "en": "'Leaderboard category'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:230"
+    ]
+  },
+  {
+    "key": "'Toutes catégories'",
+    "en": "'All categories'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:234"
+    ]
+  },
+  {
+    "key": "' (toi)'",
+    "en": "' (you)'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:246"
+    ]
+  },
+  {
+    "key": "plural(row.games, 'partie', 'parties')",
+    "en": "plural(row.games, 'game')",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:248"
+    ]
+  },
+  {
+    "key": "' de moyenne'",
+    "en": "' average'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:252"
+    ]
+  },
+  {
+    "key": "'en tête'",
+    "en": "'in the lead'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:254"
+    ]
+  },
+  {
+    "key": "'Pas encore de classement : crée un défi et envoie-le à tes amies. Leurs scores reviennent quand elles te renvoient le lien.'",
+    "en": "'No leaderboard yet: create a challenge and send it to your friends. Their scores come back when they send you the link back.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:263"
+    ]
+  },
+  {
+    "key": "'Mes défis'",
+    "en": "'My challenges'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:273"
+    ]
+  },
+  {
+    "key": "'Ton défi'",
+    "en": "'Your challenge'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:293"
+    ]
+  },
+  {
+    "key": "`Défi de ${c.from}`",
+    "en": "`${c.from}’s challenge`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:293"
+    ]
+  },
+  {
+    "key": "`niveau ${c.level}`",
+    "en": "`level ${c.level}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:295"
+    ]
+  },
+  {
+    "key": "` · avec ${others.map((s) => s.name).join(', ')}`",
+    "en": "` · with ${others.map((s) => s.name).join(', ')}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:297"
+    ]
+  },
+  {
+    "key": "' · en attente de réponses'",
+    "en": "' · waiting for replies'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:298"
+    ]
+  },
+  {
+    "key": "'À relever'",
+    "en": "'To play'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:301"
+    ]
+  },
+  {
+    "key": "'On t’a envoyé un lien\\u00a0?'",
+    "en": "'Got a link from someone?'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:311"
+    ]
+  },
+  {
+    "key": "'Il s’ouvre tout seul depuis ta messagerie. Sinon, colle-le ici.'",
+    "en": "'It opens by itself from your messaging app. If not, paste it here.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:313"
+    ]
+  },
+  {
+    "key": "'Colle le lien du défi'",
+    "en": "'Paste the challenge link'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:319"
+    ]
+  },
+  {
+    "key": "'Lien du défi'",
+    "en": "'Challenge link'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:320"
+    ]
+  },
+  {
+    "key": "'Ouvrir'",
+    "en": "'Open'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:329"
+    ]
+  },
+  {
+    "key": "'Ce lien ne ressemble pas à un défi Esprit Vif.'",
+    "en": "'This link doesn’t look like an Esprit Vif challenge.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:333"
+    ]
+  },
+  {
+    "key": "`Défi · ${playing + 1}/${link.games.length}`",
+    "en": "`Challenge · ${playing + 1}/${link.games.length}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:380"
+    ]
+  },
+  {
+    "key": "'Voir le résultat du défi'",
+    "en": "'See the challenge results'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:393"
+    ]
+  },
+  {
+    "key": "`Jeu suivant : ${GAMES[link.games[playing + 1]].name}`",
+    "en": "`Next game: ${GAMES[link.games[playing + 1]].name}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:394"
+    ]
+  },
+  {
+    "key": "`niveau ${link.level}`",
+    "en": "`level ${link.level}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:410",
+      "src/ui/screens/ChallengeScreen.tsx:509"
+    ]
+  },
+  {
+    "key": "'Ton défi est prêt'",
+    "en": "'Your challenge is ready'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:414"
+    ]
+  },
+  {
+    "key": "`${link.from} te défie\\u00a0!`",
+    "en": "`${link.from} challenges you!`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:414"
+    ]
+  },
+  {
+    "key": "'Joue les trois parties, puis envoie le lien : tes amies auront exactement les mêmes à jouer.'",
+    "en": "'Play the three games, then send the link: your friends will get exactly the same ones to play.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:419"
+    ]
+  },
+  {
+    "key": "`Mêmes parties, même niveau. Son score reste caché jusqu’à la fin de la tienne.`",
+    "en": "'Same games, same level. Their score stays hidden until you finish yours.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:423"
+    ]
+  },
+  {
+    "key": "'Mêmes parties, même niveau pour tout le monde.'",
+    "en": "'Same games, same level for everyone.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:424"
+    ]
+  },
+  {
+    "key": "`${scores[i]} pts`",
+    "en": "`${scores[i]} pts`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:438"
+    ]
+  },
+  {
+    "key": "'Une seule tentative par défi. Tes niveaux ne bougent pas.'",
+    "en": "'One try per challenge. Your levels don’t change.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:448"
+    ]
+  },
+  {
+    "key": "'Continuer'",
+    "en": "'Continue'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:462",
+      "src/ui/screens/HomeScreen.tsx:86",
+      "src/ui/screens/ModeScreens.tsx:311",
+      "src/ui/screens/WelcomeScreen.tsx:86",
+      "src/ui/screens/WelcomeScreen.tsx:131"
+    ]
+  },
+  {
+    "key": "'Jouer mon défi'",
+    "en": "'Play my challenge'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:462"
+    ]
+  },
+  {
+    "key": "'Relever le défi'",
+    "en": "'Take the challenge'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:462"
+    ]
+  },
+  {
+    "key": "`jeu ${scores.length + 1} sur ${link.games.length}`",
+    "en": "`game ${scores.length + 1} of ${link.games.length}`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:466"
+    ]
+  },
+  {
+    "key": "`Mon score au défi Esprit Vif : ${mine.total}/${SCORE_MAX}. Ajoute-le à ton classement !`",
+    "en": "`My score in the Esprit Vif challenge: ${mine.total}/${SCORE_MAX}. Add it to your leaderboard!`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:491"
+    ]
+  },
+  {
+    "key": "`${me} te défie sur Esprit Vif : ${gameNames} (niveau ${link.level}). Mon score : ${mine.total}/${SCORE_MAX}. À toi !`",
+    "en": "`${me} challenges you on Esprit Vif: ${gameNames} (level ${link.level}). My score: ${mine.total}/${SCORE_MAX}. Your turn!`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:495"
+    ]
+  },
+  {
+    "key": "'Lien copié : colle-le dans ta messagerie.'",
+    "en": "'Link copied: paste it into your messaging app.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:498"
+    ]
+  },
+  {
+    "key": "'Partage impossible ici : utilise « Copier le lien ».'",
+    "en": "'Sharing isn’t available here: use “Copy the link”.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:503"
+    ]
+  },
+  {
+    "key": "'Copie impossible : sélectionne le lien à la main.'",
+    "en": "'Couldn’t copy: select the link by hand.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:505"
+    ]
+  },
+  {
+    "key": "'Envoie le lien : celles qui le reçoivent jouent les mêmes parties, puis te renvoient leur score.'",
+    "en": "'Send the link: whoever gets it plays the same games, then sends you their score.'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:520"
+    ]
+  },
+  {
+    "key": "'Égalité au sommet\\u00a0!'",
+    "en": "'A tie at the top!'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:530"
+    ]
+  },
+  {
+    "key": "'Tu remportes le défi\\u00a0!'",
+    "en": "'You win the challenge!'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:532"
+    ]
+  },
+  {
+    "key": "`${top.name} remporte le défi\\u00a0!`",
+    "en": "`${top.name} wins the challenge!`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:533"
+    ]
+  },
+  {
+    "key": "`Ton score : ${mine.total} / ${SCORE_MAX}. Renvoie le lien pour que tes amies voient le tien.`",
+    "en": "`Your score: ${mine.total} / ${SCORE_MAX}. Send the link back so your friends can see it.`",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:537"
+    ]
+  },
+  {
+    "key": "'Scores du défi'",
+    "en": "'Challenge scores'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:544"
+    ]
+  },
+  {
+    "key": "'Joueuse'",
+    "en": "'Player'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:546"
+    ]
+  },
+  {
+    "key": "'Toi'",
+    "en": "'You'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:559"
+    ]
+  },
+  {
+    "key": "'Renvoyer mon score'",
+    "en": "'Send my score back'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:581"
+    ]
+  },
+  {
+    "key": "'Copier le lien'",
+    "en": "'Copy the link'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:584"
+    ]
+  },
+  {
+    "key": "'Continuer le test'",
+    "en": "'Continue the test'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:74"
+    ]
+  },
+  {
+    "key": "`Jeu ${inProgress.results.length + 1} sur ${inProgress.games.length} · ${GAMES[next].name}`",
+    "en": "`Game ${inProgress.results.length + 1} of ${inProgress.games.length} · ${GAMES[next].name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:76"
+    ]
+  },
+  {
+    "key": "'3 jeux · environ 5 minutes'",
+    "en": "'3 games · about 5 minutes'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:82"
+    ]
+  },
+  {
+    "key": "`Entraînement conseillé : ${GAMES[suggestion].name}`",
+    "en": "`Suggested training: ${GAMES[suggestion].name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:87"
+    ]
+  },
+  {
+    "key": "`${profileName(active, profiles)} joue. Changer de joueur`",
+    "en": "`${profileName(active, profiles)} is playing. Switch players`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:99"
+    ]
+  },
+  {
+    "key": "'Bonjour,'",
+    "en": "'Hi,'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:103"
+    ]
+  },
+  {
+    "key": "'Jours d’entraînement d’affilée'",
+    "en": "'Training days in a row'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:109"
+    ]
+  },
+  {
+    "key": "plural(streak, 'jour')",
+    "en": "plural(streak, 'day')",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:111"
+    ]
+  },
+  {
+    "key": "`Niveau ${rank.level}, ${rank.title}. Voir mes progrès`",
+    "en": "`Level ${rank.level}, ${rank.title}. See my progress`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:117"
+    ]
+  },
+  {
+    "key": "'Niv.'",
+    "en": "'Lv.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:126"
+    ]
+  },
+  {
+    "key": "'Ce navigateur ne permet pas d’enregistrer tes progrès : ils seront perdus à la fermeture.'",
+    "en": "'This browser can’t save your progress: it will be lost when you close it.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:136"
+    ]
+  },
+  {
+    "key": "'C’est l’heure de ton test du jour. Cinq minutes suffisent\\u00a0!'",
+    "en": "'Time for your daily test. Five minutes is all it takes!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:144"
+    ]
+  },
+  {
+    "key": "`Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${plural(streak, 'jour')} continue\\u00a0!`",
+    "en": "`Yesterday was your rest day. Play one game today and your ${streak}-day streak keeps going!`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:152"
+    ]
+  },
+  {
+    "key": "`Le mot de ${characterName(active.character)}, ton coach`",
+    "en": "`Tip from your coach, ${characterName(active.character)}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:186"
+    ]
+  },
+  {
+    "key": "`Saison : ${season.name}`",
+    "en": "`Season: ${season.name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:207"
+    ]
+  },
+  {
+    "key": "`Trophée « ${season.trophy.name} » gagné !`",
+    "en": "`“${season.trophy.name}” trophy earned!`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:213"
+    ]
+  },
+  {
+    "key": "`${count} / ${SEASON_PLAYS} parties`",
+    "en": "`${count} / ${SEASON_PLAYS} games`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:214"
+    ]
+  },
+  {
+    "key": "'Défi de la semaine'",
+    "en": "'Weekly challenge'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:236"
+    ]
+  },
+  {
+    "key": "`Relevé ! +${WEEKLY_XP} XP`",
+    "en": "`Done! +${WEEKLY_XP} XP`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:244"
+    ]
+  },
+  {
+    "key": "'dernier jour'",
+    "en": "'last day'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:246"
+    ]
+  },
+  {
+    "key": "`encore ${plural(daysLeft, 'jour')}`",
+    "en": "`${plural(daysLeft, 'day')} left`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:246"
+    ]
+  },
+  {
+    "key": "'Terminée : bravo, à demain !'",
+    "en": "'All done. Great job, see you tomorrow!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:270"
+    ]
+  },
+  {
+    "key": "`${done.size} jeux sur ${picks.length} · on continue ?`",
+    "en": "`${done.size} of ${picks.length} games · keep going?`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:272"
+    ]
+  },
+  {
+    "key": "`${picks.length} jeux choisis pour toi · ≈ 6 min`",
+    "en": "`${picks.length} games picked for you · ≈ 6 min`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:273"
+    ]
+  },
+  {
+    "key": "'Installe Esprit Vif'",
+    "en": "'Install Esprit Vif'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:310"
+    ]
+  },
+  {
+    "key": "'Une icône sur ton écran d’accueil, et ça marche même sans réseau.'",
+    "en": "'An icon on your home screen, and it works even offline.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:313"
+    ]
+  },
+  {
+    "key": "'Installer'",
+    "en": "'Install'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:318"
+    ]
+  },
+  {
+    "key": "'Plus tard'",
+    "en": "'Later'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:323",
+      "src/ui/screens/WelcomeScreen.tsx:182"
+    ]
+  },
+  {
+    "key": "'Tes 7 derniers jours'",
+    "en": "'Your last 7 days'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:346"
+    ]
+  },
+  {
+    "key": "`${formatWeekday(day)} : ${played ? 'entraînement fait' : 'pas d’entraînement'}`",
+    "en": "`${formatWeekday(day)}: ${played ? 'trained' : 'no training'}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:361"
+    ]
+  },
+  {
+    "key": "'Ton âge cérébral'",
+    "en": "'Your brain age'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:376",
+      "src/ui/screens/HomeScreen.tsx:378"
+    ]
+  },
+  {
+    "key": "'ans'",
+    "en": "'years'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:381",
+      "src/ui/screens/ReportScreen.tsx:73",
+      "src/ui/share-card.ts:171"
+    ]
+  },
+  {
+    "key": "plural(Math.abs(diff), 'an')",
+    "en": "plural(Math.abs(diff), 'year')",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:387"
+    ]
+  },
+  {
+    "key": "'stable'",
+    "en": "'steady'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:390"
+    ]
+  },
+  {
+    "key": "`Dernier test : ${formatShortDay(last.day)}`",
+    "en": "`Last test: ${formatShortDay(last.day)}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:391"
+    ]
+  },
+  {
+    "key": "'Bienvenue\\u00a0!'",
+    "en": "'Welcome!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:406"
+    ]
+  },
+  {
+    "key": "'Quelques minutes par jour pour garder l’esprit vif.'",
+    "en": "'A few minutes a day to keep your mind sharp.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:407"
+    ]
+  },
+  {
+    "key": "'Ton premier test du jour te donne ton âge cérébral de départ.'",
+    "en": "'Your first daily test gives you your starting brain age.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:408"
+    ]
+  },
+  {
+    "key": "'Au programme aujourd’hui'",
+    "en": "'On today’s program'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:417"
+    ]
+  },
+  {
+    "key": "'fait'",
+    "en": "'done'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:432"
+    ]
+  },
+  {
+    "key": "`Séance du jour · ${position}/${picks.length}`",
+    "en": "`Daily session · ${position}/${picks.length}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:62"
+    ]
+  },
+  {
+    "key": "`Jeu suivant : ${GAMES[next.gameId].name}`",
+    "en": "`Next game: ${GAMES[next.gameId].name}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:72"
+    ]
+  },
+  {
+    "key": "'Terminer la séance'",
+    "en": "'Finish the session'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:77"
+    ]
+  },
+  {
+    "key": "'Quatre jeux choisis pour toi : tes domaines les plus fragiles d’abord, puis de quoi varier. Chacun à ton niveau.'",
+    "en": "'Four games picked for you: your weakest areas first, then some variety. Each one at your level.'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:94"
+    ]
+  },
+  {
+    "key": "`${DOMAINS[pick.domain].name} · niveau ${gameLevel(data, pick.gameId)}`",
+    "en": "`${DOMAINS[pick.domain].name} · level ${gameLevel(data, pick.gameId)}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:107"
+    ]
+  },
+  {
+    "key": "'Fait'",
+    "en": "'Done'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:113"
+    ]
+  },
+  {
+    "key": "'Séance terminée\\u00a0!'",
+    "en": "'Session complete!'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:126"
+    ]
+  },
+  {
+    "key": "'+30 XP · à demain'",
+    "en": "'+30 XP · see you tomorrow'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:126"
+    ]
+  },
+  {
+    "key": "'Retour à l’accueil'",
+    "en": "'Back to home'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:129"
+    ]
+  },
+  {
+    "key": "'Continuer la séance'",
+    "en": "'Continue the session'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:135"
+    ]
+  },
+  {
+    "key": "'Commencer'",
+    "en": "'Start'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:135"
+    ]
+  },
+  {
+    "key": "`${done.size} jeu${done.size > 1 ? 'x' : ''} sur ${picks.length} · `",
+    "en": "`${done.size} of ${picks.length} games · `",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:137"
+    ]
+  },
+  {
+    "key": "'Tous les jeux d’un domaine à la suite, chacun à ton niveau. Les scores s’additionnent : bats ton record\\u00a0!'",
+    "en": "'All the games in one area back to back, each at your level. The scores add up: beat your best!'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:165"
+    ]
+  },
+  {
+    "key": "plural(games.length, 'jeu', 'jeux')",
+    "en": "plural(games.length, 'game')",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:180"
+    ]
+  },
+  {
+    "key": "`record ${record.best} / ${games.length * 100}`",
+    "en": "`best ${record.best} / ${games.length * 100}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:182"
+    ]
+  },
+  {
+    "key": "'pas encore couru'",
+    "en": "'not run yet'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:183"
+    ]
+  },
+  {
+    "key": "`Marathon ${DOMAINS[domain].name} · ${playing + 1}/${games.length}`",
+    "en": "`${DOMAINS[domain].name} marathon · ${playing + 1}/${games.length}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:219"
+    ]
+  },
+  {
+    "key": "'Voir le bilan du marathon'",
+    "en": "'See the marathon results'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:234"
+    ]
+  },
+  {
+    "key": "`Jeu suivant : ${GAMES[games[playing + 1]].name}`",
+    "en": "`Next game: ${GAMES[games[playing + 1]].name}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:235"
+    ]
+  },
+  {
+    "key": "`Marathon ${DOMAINS[domain].name}`",
+    "en": "`${DOMAINS[domain].name} marathon`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:251"
+    ]
+  },
+  {
+    "key": "'Premier marathon dans ce domaine : ton record est posé, à toi de le battre.'",
+    "en": "'Your first marathon in this area: your best score is set, now go beat it.'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:262"
+    ]
+  },
+  {
+    "key": "'Nouveau record\\u00a0!'",
+    "en": "'New best!'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:269"
+    ]
+  },
+  {
+    "key": "`Ton record reste à ${best} points.`",
+    "en": "`Your best is still ${best} points.`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:272"
+    ]
+  },
+  {
+    "key": "`${plural(games.length, 'jeu', 'jeux')} à la suite, sans pause obligatoire. ${best ? `Record à battre : ${best} / ${max}.` : 'Premier marathon : pose ton record !'}`",
+    "en": "`${plural(games.length, 'game')} back to back, no required breaks. ${best ? `Best to beat: ${best} / ${max}.` : 'First marathon: set your best score!'}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:278"
+    ]
+  },
+  {
+    "key": "`niveau ${gameLevel(data, gameId)}`",
+    "en": "`level ${gameLevel(data, gameId)}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:292"
+    ]
+  },
+  {
+    "key": "'Recommencer'",
+    "en": "'Play again'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:302"
+    ]
+  },
+  {
+    "key": "'Autre domaine'",
+    "en": "'Another area'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:305"
+    ]
+  },
+  {
+    "key": "`${total} pts · jeu ${scores.length + 1} sur ${games.length}`",
+    "en": "`${total} pts · game ${scores.length + 1} of ${games.length}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:314"
+    ]
+  },
+  {
+    "key": "`Joueur ${p + 1}`",
+    "en": "`Player ${p + 1}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:341"
+    ]
+  },
+  {
+    "key": "'Duel à deux'",
+    "en": "'Two-player duel'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:361",
+      "src/ui/screens/TrainingScreen.tsx:59"
+    ]
+  },
+  {
+    "key": "'Trois manches sur le même téléphone. Chacun joue exactement la même partie, à tour de rôle : le meilleur score gagne la manche.'",
+    "en": "'Three rounds on the same phone. You each play exactly the same game, taking turns: the best score wins the round.'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:364"
+    ]
+  },
+  {
+    "key": "'Rien n’est enregistré dans tes progrès, à part le duel lui-même.'",
+    "en": "'Nothing is saved to your progress, except the duel itself.'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:405"
+    ]
+  },
+  {
+    "key": "'Lancer le duel'",
+    "en": "'Start the duel'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:409"
+    ]
+  },
+  {
+    "key": "'3 manches · environ 6 minutes'",
+    "en": "'3 rounds · about 6 minutes'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:410"
+    ]
+  },
+  {
+    "key": "`Manche ${round + 1}/${DUEL_ROUNDS}`",
+    "en": "`Round ${round + 1}/${DUEL_ROUNDS}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:425",
+      "src/ui/screens/ModeScreens.tsx:498"
+    ]
+  },
+  {
+    "key": "`À toi, ${nameOf(player)}\\u00a0!`",
+    "en": "`Your turn, ${nameOf(player)}!`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:428"
+    ]
+  },
+  {
+    "key": "`${nameOf(1)}, regarde ailleurs ! Au programme : `",
+    "en": "`${nameOf(1)}, look away! Up next: `",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:431"
+    ]
+  },
+  {
+    "key": "`${nameOf(0)} a fini son tour. La même partie t’attend : `",
+    "en": "`${nameOf(0)} has finished their turn. The same game is waiting for you: `",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:432"
+    ]
+  },
+  {
+    "key": "'Je suis prêt'",
+    "en": "'I’m ready'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:438"
+    ]
+  },
+  {
+    "key": "`${DOMAINS[GAMES[current.gameId].domain].name} · niveau ${level}`",
+    "en": "`${DOMAINS[GAMES[current.gameId].domain].name} · level ${level}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:440"
+    ]
+  },
+  {
+    "key": "`Duel · ${nameOf(player)} · manche ${round + 1}/${DUEL_ROUNDS}`",
+    "en": "`Duel · ${nameOf(player)} · round ${round + 1}/${DUEL_ROUNDS}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:459"
+    ]
+  },
+  {
+    "key": "`Au tour de ${nameOf(1)}`",
+    "en": "`${nameOf(1)}’s turn`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:475"
+    ]
+  },
+  {
+    "key": "'Résultat de la manche'",
+    "en": "'Round result'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:480"
+    ]
+  },
+  {
+    "key": "'Égalité !'",
+    "en": "'It’s a tie!'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:501"
+    ]
+  },
+  {
+    "key": "`${nameOf(winner)} gagne la manche !`",
+    "en": "`${nameOf(winner)} wins the round!`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:501"
+    ]
+  },
+  {
+    "key": "`Manches gagnées : ${nameOf(0)} ${wins[0]} – ${wins[1]} ${nameOf(1)}`",
+    "en": "`Rounds won: ${nameOf(0)} ${wins[0]} – ${wins[1]} ${nameOf(1)}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:506"
+    ]
+  },
+  {
+    "key": "'Voir le vainqueur'",
+    "en": "'See the winner'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:526"
+    ]
+  },
+  {
+    "key": "`Manche ${round + 2}`",
+    "en": "`Round ${round + 2}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:526"
+    ]
+  },
+  {
+    "key": "'Fin du duel'",
+    "en": "'End of the duel'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:527",
+      "src/ui/screens/ModeScreens.tsx:541"
+    ]
+  },
+  {
+    "key": "`${nameOf(0)} commence`",
+    "en": "`${nameOf(0)} goes first`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:527"
+    ]
+  },
+  {
+    "key": "'Égalité parfaite !'",
+    "en": "'A perfect tie!'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:545"
+    ]
+  },
+  {
+    "key": "`${nameOf(winner)} remporte le duel !`",
+    "en": "`${nameOf(winner)} wins the duel!`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:545"
+    ]
+  },
+  {
+    "key": "`${wins[0]} manche${wins[0] > 1 ? 's' : ''} à ${wins[1]} · ${totals[0]} contre ${totals[1]} points au total`",
+    "en": "`${wins[0]} to ${wins[1]} in rounds · ${totals[0]} to ${totals[1]} points in total`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:549"
+    ]
+  },
+  {
+    "key": "`Manche ${i + 1} · ${GAMES[r.gameId].name}`",
+    "en": "`Round ${i + 1} · ${GAMES[r.gameId].name}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:562"
+    ]
+  },
+  {
+    "key": "'égalité'",
+    "en": "'tie'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:563"
+    ]
+  },
+  {
+    "key": "`pour ${nameOf(w)}`",
+    "en": "`won by ${nameOf(w)}`",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:563"
+    ]
+  },
+  {
+    "key": "'Revanche'",
+    "en": "'Rematch'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:575",
+      "src/ui/screens/PartyScreen.tsx:207"
+    ]
+  },
+  {
+    "key": "'Terminer'",
+    "en": "'Finish'",
+    "at": [
+      "src/ui/screens/ModeScreens.tsx:578",
+      "src/ui/screens/PlayScreens.tsx:44",
+      "src/ui/screens/ReportScreen.tsx:178"
+    ]
+  },
+  {
+    "key": "`Joueur ${i + 1}`",
+    "en": "`Player ${i + 1}`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:56",
+      "src/ui/screens/PartyScreen.tsx:156"
+    ]
+  },
+  {
+    "key": "'Mode fête'",
+    "en": "'Party mode'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:126",
+      "src/ui/screens/TrainingScreen.tsx:66"
+    ]
+  },
+  {
+    "key": "'Jusqu’à 4 joueurs en même temps, chacun de son côté de l’écran. Le premier qui répond juste marque le point ; une erreur te gèle jusqu’à la question suivante. Cinq manches, idéal sur une tablette posée à plat.'",
+    "en": "'Up to 4 players at once, each on their own side of the screen. The first to answer correctly scores the point; a wrong answer freezes you until the next question. Five rounds, perfect on a tablet lying flat.'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:129"
+    ]
+  },
+  {
+    "key": "'Nombre de joueurs'",
+    "en": "'Number of players'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:136"
+    ]
+  },
+  {
+    "key": "`${n} joueurs`",
+    "en": "`${n} players`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:141"
+    ]
+  },
+  {
+    "key": "`Prénom du joueur ${i + 1}`",
+    "en": "`Player ${i + 1}’s name`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:157"
+    ]
+  },
+  {
+    "key": "'Lancer la fête'",
+    "en": "'Start the party'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:165"
+    ]
+  },
+  {
+    "key": "'5 manches · environ 5 minutes'",
+    "en": "'5 rounds · about 5 minutes'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:166"
+    ]
+  },
+  {
+    "key": "'Égalité au sommet !'",
+    "en": "'A tie at the top!'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:184"
+    ]
+  },
+  {
+    "key": "`${ranking[0].player.name} gagne la fête !`",
+    "en": "`${ranking[0].player.name} wins the party!`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:185"
+    ]
+  },
+  {
+    "key": "`${player.score} point${player.score > 1 ? 's' : ''}`",
+    "en": "`${player.score} point${player.score === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:199"
+    ]
+  },
+  {
+    "key": "'Changer les joueurs'",
+    "en": "'Change players'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:210"
+    ]
+  },
+  {
+    "key": "'Arrêter la fête'",
+    "en": "'Stop the party'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:246"
+    ]
+  },
+  {
+    "key": "`Manche ${round + 1}/${PARTY_ROUNDS.length} · ${Math.min(index + 1, QUESTIONS_PER_ROUND)}/${QUESTIONS_PER_ROUND}`",
+    "en": "`Round ${round + 1}/${PARTY_ROUNDS.length} · ${Math.min(index + 1, QUESTIONS_PER_ROUND)}/${QUESTIONS_PER_ROUND}`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:251"
+    ]
+  },
+  {
+    "key": "`Zone de ${player.name}`",
+    "en": "`${player.name}’s area`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:278"
+    ]
+  },
+  {
+    "key": "'Bravo, le point est pour toi !'",
+    "en": "'Nice, the point is yours!'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:325"
+    ]
+  },
+  {
+    "key": "`${winnerName} a été plus rapide`",
+    "en": "`${winnerName} was faster`",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:327"
+    ]
+  },
+  {
+    "key": "'Raté ! Attends la suivante'",
+    "en": "'Missed! Wait for the next one'",
+    "at": [
+      "src/ui/screens/PartyScreen.tsx:329"
+    ]
+  },
+  {
+    "key": "`Niveau ${next}`",
+    "en": "`Level ${next}`",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:35"
+    ]
+  },
+  {
+    "key": "'Rejouer ce niveau'",
+    "en": "'Replay this level'",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:41"
+    ]
+  },
+  {
+    "key": "'Rejouer'",
+    "en": "'Play again'",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:41"
+    ]
+  },
+  {
+    "key": "'Test pour le plaisir'",
+    "en": "'Just-for-fun test'",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:110",
+      "src/ui/screens/ReportScreen.tsx:65"
+    ]
+  },
+  {
+    "key": "`Jeu suivant : ${GAMES[following].name}`",
+    "en": "`Next game: ${GAMES[following].name}`",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:126"
+    ]
+  },
+  {
+    "key": "'Voir mon bilan'",
+    "en": "'See my report'",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:136"
+    ]
+  },
+  {
+    "key": "'LMMJVSD'",
+    "en": "'MTWTFSS'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:25"
+    ]
+  },
+  {
+    "key": "'Résumé'",
+    "en": "'Summary'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:30"
+    ]
+  },
+  {
+    "key": "'Trophées'",
+    "en": "'Trophies'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:31"
+    ]
+  },
+  {
+    "key": "'Records'",
+    "en": "'Best scores'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:32"
+    ]
+  },
+  {
+    "key": "'Ce qui compte, c’est la régularité.'",
+    "en": "'What counts is showing up regularly.'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:77"
+    ]
+  },
+  {
+    "key": "'Rubriques des progrès'",
+    "en": "'Progress sections'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:79"
+    ]
+  },
+  {
+    "key": "'Ton rang'",
+    "en": "'Your rank'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:99"
+    ]
+  },
+  {
+    "key": "'étoiles'",
+    "en": "stars === 1 ? 'star' : 'stars'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:104"
+    ]
+  },
+  {
+    "key": "'trophées'",
+    "en": "'trophies'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:112"
+    ]
+  },
+  {
+    "key": "'médailles'",
+    "en": "'medals'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:120"
+    ]
+  },
+  {
+    "key": "'Ce que disent tes parties'",
+    "en": "'What your games say'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:127"
+    ]
+  },
+  {
+    "key": "'Joue quelques parties : je te dirai ce que j’y remarque.'",
+    "en": "'Play a few games: I’ll tell you what I notice.'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:143"
+    ]
+  },
+  {
+    "key": "'Série en cours'",
+    "en": "'Current streak'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:149"
+    ]
+  },
+  {
+    "key": "'jour'",
+    "en": "'day'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:149",
+      "src/ui/screens/ProgressScreen.tsx:150",
+      "src/ui/screens/ProgressScreen.tsx:151"
+    ]
+  },
+  {
+    "key": "'Meilleure série'",
+    "en": "'Best streak'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:150"
+    ]
+  },
+  {
+    "key": "'Jours joués'",
+    "en": "'Days played'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:151"
+    ]
+  },
+  {
+    "key": "'Un jour de repos par semaine ne casse pas ta série.'",
+    "en": "'One rest day a week won’t break your streak.'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:153"
+    ]
+  },
+  {
+    "key": "`Tes ${tests.length > 1 ? `${tests.length} derniers` : ''} tests du jour officiels`",
+    "en": "`Your ${tests.length > 1 ? `last ${tests.length} ` : ''}official daily tests`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:161"
+    ]
+  },
+  {
+    "key": "'Ta courbe apparaîtra après ton premier test du jour.'",
+    "en": "'Your curve will appear after your first daily test.'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:168"
+    ]
+  },
+  {
+    "key": "'Carte du cerveau'",
+    "en": "'Brain map'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:174"
+    ]
+  },
+  {
+    "key": "'Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)'",
+    "en": "'Your strengths at a glance (average of your last 5 games)'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:177"
+    ]
+  },
+  {
+    "key": "'Par domaine'",
+    "en": "'By area'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:184"
+    ]
+  },
+  {
+    "key": "'Moyenne de tes 5 dernières parties'",
+    "en": "'Average of your last 5 games'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:186"
+    ]
+  },
+  {
+    "key": "'Pas encore joué'",
+    "en": "'Not played yet'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:195"
+    ]
+  },
+  {
+    "key": "'Médailles'",
+    "en": "'Medals'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:214"
+    ]
+  },
+  {
+    "key": "`Trophées · ${trophiesWon}/${trophies.length}`",
+    "en": "`Trophies · ${trophiesWon}/${trophies.length}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:233"
+    ]
+  },
+  {
+    "key": "'Débloqué'",
+    "en": "'Unlocked'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:245"
+    ]
+  },
+  {
+    "key": "`De retour le ${seasonReturn(trophy.season, today)}`",
+    "en": "`Back on ${seasonReturn(trophy.season, today)}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:248"
+    ]
+  },
+  {
+    "key": "'Tes meilleurs scores, jeu par jeu'",
+    "en": "'Your best scores, game by game'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:268"
+    ]
+  },
+  {
+    "key": "`${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts`",
+    "en": "`${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/20 unlocked`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:283"
+    ]
+  },
+  {
+    "key": "'Pas encore de record'",
+    "en": "'No best score yet'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:286"
+    ]
+  },
+  {
+    "key": "'Mois précédent'",
+    "en": "'Previous month'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:353"
+    ]
+  },
+  {
+    "key": "`${plural(playedThisMonth, 'jour')} d’entraînement`",
+    "en": "plural(playedThisMonth, 'training day')",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:363"
+    ]
+  },
+  {
+    "key": "'Aucun entraînement ce mois-ci'",
+    "en": "'No training this month'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:364"
+    ]
+  },
+  {
+    "key": "'Mois suivant'",
+    "en": "'Next month'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:372"
+    ]
+  },
+  {
+    "key": "`${formatWeekday(day)} : ${playedDays.has(day) ? 'entraînement fait' : 'pas d’entraînement'}`",
+    "en": "`${formatWeekday(day)}: ${playedDays.has(day) ? 'trained' : 'no training'}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:390"
+    ]
+  },
+  {
+    "key": "'Premier test : voici ton point de départ. Reviens demain pour voir ta progression !'",
+    "en": "'First test: this is your starting point. Come back tomorrow to see your progress!'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:20"
+    ]
+  },
+  {
+    "key": "`${plural(-diff, 'an')} de moins qu’au test précédent. Bravo !`",
+    "en": "`${plural(-diff, 'year')} younger than your last test. Well done!`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:24"
+    ]
+  },
+  {
+    "key": "'Comme au test précédent. La régularité, c’est ce qui compte !'",
+    "en": "'Same as your last test. Sticking with it is what counts!'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:25"
+    ]
+  },
+  {
+    "key": "`${plural(diff, 'an')} de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`",
+    "en": "`${plural(diff, 'year')} older than your last test. Everyone has off days: see you tomorrow?`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:27"
+    ]
+  },
+  {
+    "key": "`${test.brainAge} ans`",
+    "en": "`${test.brainAge} years`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:71"
+    ]
+  },
+  {
+    "key": "'Score par domaine'",
+    "en": "'Score by area'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:84"
+    ]
+  },
+  {
+    "key": "'Tes niveaux de départ'",
+    "en": "'Your starting levels'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:123"
+    ]
+  },
+  {
+    "key": "`niveaux 1 à ${start} ouverts d’emblée`",
+    "en": "`levels 1 to ${start} unlocked right away`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:133"
+    ]
+  },
+  {
+    "key": "'on commence au niveau 1'",
+    "en": "'starting at level 1'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:134"
+    ]
+  },
+  {
+    "key": "'Les autres domaines démarrent au niveau 1 : chaque étoile ouvre la suite.'",
+    "en": "'The other areas start at level 1: each star unlocks the next one.'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:141"
+    ]
+  },
+  {
+    "key": "'Le test officiel du jour était déjà fait : celui-ci ne compte pas dans tes progrès.'",
+    "en": "'Today’s official test was already done: this one doesn’t count toward your progress.'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:150"
+    ]
+  },
+  {
+    "key": "'Partager mon âge cérébral'",
+    "en": "'Share my brain age'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:157"
+    ]
+  },
+  {
+    "key": "`Mon âge cérébral du jour sur Esprit Vif : ${test.brainAge} ans (indicateur ludique). Et toi ? https://alexxxx-droid.github.io/esprit-vif/`",
+    "en": "`My brain age today on Esprit Vif: ${test.brainAge} years (a playful indicator). What’s yours? https://alexxxx-droid.github.io/esprit-vif/`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:165"
+    ]
+  },
+  {
+    "key": "'Indicateur ludique, pas une mesure médicale.'",
+    "en": "'A playful indicator, not a medical measure.'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:173",
+      "src/ui/share-card.ts:178"
+    ]
+  },
+  {
+    "key": "`${MIN_BRAIN_AGE} ans`",
+    "en": "`${MIN_BRAIN_AGE} years`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:201"
+    ]
+  },
+  {
+    "key": "'précédent'",
+    "en": "'previous'",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:204"
+    ]
+  },
+  {
+    "key": "`${MAX_BRAIN_AGE} ans`",
+    "en": "`${MAX_BRAIN_AGE} years`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:207"
+    ]
+  },
+  {
+    "key": "'Normal'",
+    "en": "'Normal'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:24"
+    ]
+  },
+  {
+    "key": "'Grand'",
+    "en": "'Large'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:25"
+    ]
+  },
+  {
+    "key": "'Très grand'",
+    "en": "'Extra large'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:26"
+    ]
+  },
+  {
+    "key": "'Auto'",
+    "en": "'Auto'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:30",
+      "src/ui/screens/SettingsScreen.tsx:54"
+    ]
+  },
+  {
+    "key": "'Clair'",
+    "en": "'Light'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:31"
+    ]
+  },
+  {
+    "key": "'Sombre'",
+    "en": "'Dark'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:32"
+    ]
+  },
+  {
+    "key": "'Français'",
+    "en": "'English'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:36"
+    ]
+  },
+  {
+    "key": "'Les notifications sont refusées : autorise-les dans les réglages du téléphone.'",
+    "en": "'Notifications are blocked: allow them in your phone’s settings.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:72"
+    ]
+  },
+  {
+    "key": "'L’export n’a pas abouti.'",
+    "en": "'The export didn’t go through.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:81"
+    ]
+  },
+  {
+    "key": "'Sauvegarde importée. Bon retour !'",
+    "en": "'Backup imported. Welcome back!'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:95"
+    ]
+  },
+  {
+    "key": "'Ta progression a été remise à zéro.'",
+    "en": "'Your progress has been reset.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:98"
+    ]
+  },
+  {
+    "key": "'Opération impossible.'",
+    "en": "'That didn’t work.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:101"
+    ]
+  },
+  {
+    "key": "'Joueur'",
+    "en": "'Player'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:110",
+      "src/ui/screens/TransferScreen.tsx:244"
+    ]
+  },
+  {
+    "key": "'Changer de joueur ou en ajouter un'",
+    "en": "'Switch players or add one'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:139"
+    ]
+  },
+  {
+    "key": "'Ajouter un joueur'",
+    "en": "'Add a player'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:139"
+    ]
+  },
+  {
+    "key": "`Supprimer le joueur ${playerName}`",
+    "en": "`Delete player ${playerName}`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:145"
+    ]
+  },
+  {
+    "key": "'Jusqu’à 4 joueurs sur cet appareil, chacun avec ses niveaux, ses tests et ses réglages.'",
+    "en": "'Up to 4 players on this device, each with their own levels, tests and settings.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:153"
+    ]
+  },
+  {
+    "key": "'Mes objectifs'",
+    "en": "'My goals'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:159"
+    ]
+  },
+  {
+    "key": "`Jusqu’à ${MAX_GOALS} domaines que ta séance du jour mettra en avant.`",
+    "en": "`Up to ${MAX_GOALS} areas for your daily session to focus on.`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:162"
+    ]
+  },
+  {
+    "key": "'Objectifs'",
+    "en": "'Goals'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:166",
+      "src/ui/screens/WelcomeScreen.tsx:106"
+    ]
+  },
+  {
+    "key": "'Sons et vibrations'",
+    "en": "'Sound and vibration'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:186"
+    ]
+  },
+  {
+    "key": "'Sons'",
+    "en": "'Sounds'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:189"
+    ]
+  },
+  {
+    "key": "'Petits sons de jeu, générés sur l’appareil.'",
+    "en": "'Little game sounds, made right on the device.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:190"
+    ]
+  },
+  {
+    "key": "'Musique d’ambiance'",
+    "en": "'Background music'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:196"
+    ]
+  },
+  {
+    "key": "'Une musique douce pendant les parties, différente pour chaque domaine, composée sur l’appareil.'",
+    "en": "'Soft music while you play, different for each area, composed right on the device.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:198"
+    ]
+  },
+  {
+    "key": "'Volume de la musique'",
+    "en": "'Music volume'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:205"
+    ]
+  },
+  {
+    "key": "'Volume des effets'",
+    "en": "'Effects volume'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:208"
+    ]
+  },
+  {
+    "key": "'Vibrations'",
+    "en": "'Vibration'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:212"
+    ]
+  },
+  {
+    "key": "'Un léger retour à chaque toucher.'",
+    "en": "'A light buzz with every tap.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:215"
+    ]
+  },
+  {
+    "key": "'Cet appareil ne vibre pas depuis le navigateur.'",
+    "en": "'This device can’t vibrate from the browser.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:216"
+    ]
+  },
+  {
+    "key": "'Répondre à la voix'",
+    "en": "'Answer by voice'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:227"
+    ]
+  },
+  {
+    "key": "'Dis « rouge », « bleu »… Selon le navigateur, la voix peut être analysée par un service en ligne (celui de Google sur Chrome).'",
+    "en": "'Say “red”, “blue”… Depending on the browser, your voice may be processed by an online service (Google’s, on Chrome).'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:231"
+    ]
+  },
+  {
+    "key": "'Pas de réponse à la voix dans l’appli Android : les boutons restent là.'",
+    "en": "'No voice answers in the Android app: the buttons are still there.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:235"
+    ]
+  },
+  {
+    "key": "'Ce navigateur ne propose pas la reconnaissance vocale : les boutons restent là.'",
+    "en": "'This browser doesn’t offer speech recognition: the buttons are still there.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:237"
+    ]
+  },
+  {
+    "key": "'Apparence'",
+    "en": "'Appearance'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:247"
+    ]
+  },
+  {
+    "key": "'Thème'",
+    "en": "'Theme'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:248"
+    ]
+  },
+  {
+    "key": "'« Auto » suit le réglage clair ou sombre de ton appareil.'",
+    "en": "'“Auto” follows your device’s light or dark setting.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:262"
+    ]
+  },
+  {
+    "key": "'Langue'",
+    "en": "'Language'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:263",
+      "src/ui/screens/SettingsScreen.tsx:264"
+    ]
+  },
+  {
+    "key": "'Thèmes de saison'",
+    "en": "'Seasonal themes'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:281"
+    ]
+  },
+  {
+    "key": "'Halloween, Noël, printemps, été : un accueil décoré, un accessoire pour ton compagnon et un trophée de saison.'",
+    "en": "'Halloween, Christmas, spring, summer: a decorated home screen, an accessory for your companion and a seasonal trophy.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:283"
+    ]
+  },
+  {
+    "key": "'Accessibilité'",
+    "en": "'Accessibility'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:291"
+    ]
+  },
+  {
+    "key": "'Taille du texte'",
+    "en": "'Text size'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:292",
+      "src/ui/screens/SettingsScreen.tsx:293"
+    ]
+  },
+  {
+    "key": "'Contraste renforcé'",
+    "en": "'High contrast'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:309"
+    ]
+  },
+  {
+    "key": "'Textes plus foncés et contours nets autour des cartes et des boutons.'",
+    "en": "'Darker text and crisp outlines around cards and buttons.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:310"
+    ]
+  },
+  {
+    "key": "'Temps généreux'",
+    "en": "'Extra time'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:316"
+    ]
+  },
+  {
+    "key": "'Les éléments restent affichés plus longtemps et le temps pour réagir s’allonge de moitié.'",
+    "en": "'Items stay on screen longer and you get 50% more time to react.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:318"
+    ]
+  },
+  {
+    "key": "'Mode gaucher'",
+    "en": "'Left-handed mode'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:326"
+    ]
+  },
+  {
+    "key": "'La touche Effacer du pavé numérique passe à gauche, sous le pouce.'",
+    "en": "'The keypad’s erase key moves to the left, under your thumb.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:327"
+    ]
+  },
+  {
+    "key": "'Écrire les chiffres au doigt'",
+    "en": "'Write numbers with your finger'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:333"
+    ]
+  },
+  {
+    "key": "'Dans les jeux de nombres, tu écris ta réponse chiffre par chiffre au lieu de toucher le pavé. Le choix existe aussi à l’intro de chaque jeu.'",
+    "en": "'In number games, you write your answer digit by digit instead of tapping the keypad. You can also choose on each game’s intro screen.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:335"
+    ]
+  },
+  {
+    "key": "'Moins d’animations'",
+    "en": "'Reduce motion'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:343"
+    ]
+  },
+  {
+    "key": "'Plus de mouvements décoratifs (confettis, glissements). Suit aussi le réglage du téléphone.'",
+    "en": "'No more decorative motion (confetti, slides). Also follows your phone’s setting.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:345"
+    ]
+  },
+  {
+    "key": "'Rappel quotidien'",
+    "en": "'Daily reminder'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:353"
+    ]
+  },
+  {
+    "key": "'Me rappeler le test du jour'",
+    "en": "'Remind me about the daily test'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:356"
+    ]
+  },
+  {
+    "key": "'Une notification à l’heure choisie, les jours où le test n’est pas encore fait.'",
+    "en": "'A notification at the time you pick, on days when the test isn’t done yet.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:360"
+    ]
+  },
+  {
+    "key": "'Un bandeau sur l’accueil à partir de l’heure choisie. Pour une vraie notification, installe l’appli Android.'",
+    "en": "'A banner on the home screen from the time you pick. For a real notification, install the Android app.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:364"
+    ]
+  },
+  {
+    "key": "'Heure du rappel'",
+    "en": "'Reminder time'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:373"
+    ]
+  },
+  {
+    "key": "'Écran d’accueil'",
+    "en": "'Home screen'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:385"
+    ]
+  },
+  {
+    "key": "'Un widget montre ta série et le test du jour, avec deux boutons pour lancer le test ou la séance. Un appui long sur l’icône d’Esprit Vif donne aussi des raccourcis.'",
+    "en": "'A widget shows your streak and the daily test, with two buttons to start the test or the session. Long-press the Esprit Vif icon for shortcuts too.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:388"
+    ]
+  },
+  {
+    "key": "'Ajouter le widget'",
+    "en": "'Add the widget'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:394"
+    ]
+  },
+  {
+    "key": "'Appuie longuement sur ton écran d’accueil, puis Widgets, puis Esprit Vif.'",
+    "en": "'Long-press your home screen, then tap Widgets, then Esprit Vif.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:397"
+    ]
+  },
+  {
+    "key": "'Appli'",
+    "en": "'App'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:404"
+    ]
+  },
+  {
+    "key": "'Installer Esprit Vif sur cet appareil'",
+    "en": "'Install Esprit Vif on this device'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:407"
+    ]
+  },
+  {
+    "key": "'Esprit Vif est installée. À bientôt sur ton écran d’accueil !'",
+    "en": "'Esprit Vif is installed. See you on your home screen!'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:409"
+    ]
+  },
+  {
+    "key": "'Mes données'",
+    "en": "'My data'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:417"
+    ]
+  },
+  {
+    "key": "'Ta progression est sur cet appareil et sur ton Google Drive. Tu peux aussi l’exporter ou la transférer.'",
+    "en": "'Your progress is on this device and on your Google Drive. You can also export or transfer it.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:421"
+    ]
+  },
+  {
+    "key": "'Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.'",
+    "en": "'Everything stays on this device. Export a backup to keep it safe or move it.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:424"
+    ]
+  },
+  {
+    "key": "'Transférer vers un autre appareil (QR code)'",
+    "en": "'Transfer to another device (QR code)'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:427"
+    ]
+  },
+  {
+    "key": "'Exporter ma progression'",
+    "en": "'Export my progress'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:428"
+    ]
+  },
+  {
+    "key": "'Importer une sauvegarde'",
+    "en": "'Import a backup'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:429"
+    ]
+  },
+  {
+    "key": "'Tout effacer'",
+    "en": "'Erase everything'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:430"
+    ]
+  },
+  {
+    "key": "'À propos'",
+    "en": "'About'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:445"
+    ]
+  },
+  {
+    "key": "'Pas de compte, pas de publicité, aucun pistage : tes données ne quittent jamais ton appareil.'",
+    "en": "'No account, no ads, no tracking: your data never leaves your device.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:452"
+    ]
+  },
+  {
+    "key": "'L’âge cérébral est un indicateur ludique, pas une mesure médicale.'",
+    "en": "'Brain age is a playful indicator, not a medical measure.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:456",
+      "src/ui/screens/WelcomeScreen.tsx:169"
+    ]
+  },
+  {
+    "key": "'Importer cette sauvegarde ?'",
+    "en": "'Import this backup?'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:464"
+    ]
+  },
+  {
+    "key": "`Supprimer ${playerName} ?`",
+    "en": "`Delete ${playerName}?`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:466"
+    ]
+  },
+  {
+    "key": "'Tout effacer ?'",
+    "en": "'Erase everything?'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:467"
+    ]
+  },
+  {
+    "key": "'Importer'",
+    "en": "'Import'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:470"
+    ]
+  },
+  {
+    "key": "'Supprimer'",
+    "en": "'Delete'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:470"
+    ]
+  },
+  {
+    "key": "'Ta progression actuelle sera remplacée par celle du fichier.'",
+    "en": "'Your current progress will be replaced by the one in the file.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:477"
+    ]
+  },
+  {
+    "key": "`Le profil de ${playerName} et toute sa progression seront supprimés de cet appareil.`",
+    "en": "`${playerName}’s profile and all their progress will be deleted from this device.`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:480"
+    ]
+  },
+  {
+    "key": "'Parties, tests, records et niveaux seront supprimés de cet appareil. Pense à exporter une sauvegarde avant.'",
+    "en": "'Games, tests, best scores and levels will be deleted from this device. Remember to export a backup first.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:484"
+    ]
+  },
+  {
+    "key": "'Connexion à Google impossible pour le moment.'",
+    "en": "'Couldn’t reach Google right now.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:514"
+    ]
+  },
+  {
+    "key": "'Progression récupérée depuis ton Drive.'",
+    "en": "'Progress restored from your Drive.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:516"
+    ]
+  },
+  {
+    "key": "'Sauvegarde Drive activée.'",
+    "en": "'Drive backup is on.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:516"
+    ]
+  },
+  {
+    "key": "'Sauvegarde Drive arrêtée sur cet appareil : ta progression reste ici.'",
+    "en": "'Drive backup stopped on this device: your progress stays here.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:522"
+    ]
+  },
+  {
+    "key": "'Synchronisation…'",
+    "en": "'Syncing…'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:528"
+    ]
+  },
+  {
+    "key": "'En pause : touche « Synchroniser maintenant ».'",
+    "en": "'Paused: tap “Sync now”.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:530"
+    ]
+  },
+  {
+    "key": "'Pas de réseau : nouvel essai à la prochaine partie.'",
+    "en": "'No connection: will retry after your next game.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:532"
+    ]
+  },
+  {
+    "key": "`Synchronisé à ${formatTime(last)}`",
+    "en": "`Synced at ${formatTime(last)}`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:534"
+    ]
+  },
+  {
+    "key": "'Sauvegarde Google Drive'",
+    "en": "'Google Drive backup'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:538"
+    ]
+  },
+  {
+    "key": "'Connecté à '",
+    "en": "'Connected to '",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:544"
+    ]
+  },
+  {
+    "key": "'Synchroniser maintenant'",
+    "en": "'Sync now'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:550"
+    ]
+  },
+  {
+    "key": "'Arrêter la sauvegarde Drive'",
+    "en": "'Stop Drive backup'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:551"
+    ]
+  },
+  {
+    "key": "'Retrouve ta progression sur ta tablette ou un nouveau téléphone. Elle est rangée dans un dossier caché de ton Google Drive, que toi seul vois. Facultatif, sans publicité ni pistage.'",
+    "en": "'Pick up your progress on your tablet or a new phone. It is kept in a hidden folder of your Google Drive that only you can see. Optional, no ads, no tracking.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:558"
+    ]
+  },
+  {
+    "key": "'Connexion…'",
+    "en": "'Connecting…'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:563"
+    ]
+  },
+  {
+    "key": "'Se connecter avec Google'",
+    "en": "'Sign in with Google'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:563"
+    ]
+  },
+  {
+    "key": "`${percent}\\u00a0%`",
+    "en": "`${percent}%`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:587"
+    ]
+  },
+  {
+    "key": "'Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants.'",
+    "en": "'Each game has 20 levels: earn stars to unlock the next ones.'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:33"
+    ]
+  },
+  {
+    "key": "'Modes de jeu'",
+    "en": "'Game modes'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:38"
+    ]
+  },
+  {
+    "key": "'4 jeux sur mesure'",
+    "en": "'4 games made for you'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:46"
+    ]
+  },
+  {
+    "key": "'Tout un domaine d’affilée'",
+    "en": "'A whole area in a row'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:53"
+    ]
+  },
+  {
+    "key": "'Même partie, à tour de rôle'",
+    "en": "'Same game, taking turns'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:60"
+    ]
+  },
+  {
+    "key": "'2 à 4 joueurs en même temps'",
+    "en": "'2 to 4 players at once'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:67"
+    ]
+  },
+  {
+    "key": "'Un lien, les mêmes parties chacune chez soi, et votre classement par catégorie'",
+    "en": "'One link, the same games for everyone on their own phone, and your leaderboard by category'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:77"
+    ]
+  },
+  {
+    "key": "'Refaire le test du jour'",
+    "en": "'Retake the daily test'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:112"
+    ]
+  },
+  {
+    "key": "'Pour le plaisir : il ne compte pas dans tes progrès.'",
+    "en": "'Just for fun: it doesn’t count toward your progress.'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:113"
+    ]
+  },
+  {
+    "key": "`Niv. ${unlocked}/${MAX_LEVEL}`",
+    "en": "`Lv. ${unlocked}/${MAX_LEVEL}`",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:146"
+    ]
+  },
+  {
+    "key": "'Code de transfert'",
+    "en": "'Transfer code'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:36"
+    ]
+  },
+  {
+    "key": "'Transférer'",
+    "en": "'Transfer'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:54"
+    ]
+  },
+  {
+    "key": "'D’un téléphone à l’autre, ou du site à l’appli\\u00a0: ta progression passe par des QR codes, sans compte ni serveur.'",
+    "en": "'From one phone to another, or from the website to the app: your progress travels by QR code, with no account or server.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:57"
+    ]
+  },
+  {
+    "key": "'Sens du transfert'",
+    "en": "'Transfer direction'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:62"
+    ]
+  },
+  {
+    "key": "'Envoyer'",
+    "en": "'Send'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:64"
+    ]
+  },
+  {
+    "key": "'Recevoir'",
+    "en": "'Receive'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:67"
+    ]
+  },
+  {
+    "key": "plural(data.plays.length, 'partie')",
+    "en": "plural(data.plays.length, 'game')",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:107"
+    ]
+  },
+  {
+    "key": "`Image ${(index % frames.length) + 1} / ${frames.length} · elles défilent en boucle`",
+    "en": "`Image ${(index % frames.length) + 1} / ${frames.length} · they play on a loop`",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:114"
+    ]
+  },
+  {
+    "key": "'Sur l’autre appareil\\u00a0: Réglages, Transférer, Recevoir.'",
+    "en": "'On the other device: Settings, Transfer, Receive.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:120"
+    ]
+  },
+  {
+    "key": "'Vise ce code et garde les deux écrans immobiles jusqu’à la fin.'",
+    "en": "'Point it at this code and keep both screens still until the end.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:121"
+    ]
+  },
+  {
+    "key": "'Code copié\\u00a0: colle-le dans l’autre appli, onglet Recevoir.'",
+    "en": "'Code copied: paste it into the other app, in the Receive tab.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:130"
+    ]
+  },
+  {
+    "key": "'Copie impossible ici.'",
+    "en": "'Can’t copy here.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:131"
+    ]
+  },
+  {
+    "key": "'Copier le code (même téléphone)'",
+    "en": "'Copy the code (same phone)'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:136"
+    ]
+  },
+  {
+    "key": "'L’appareil photo n’est pas accessible\\u00a0: autorise-le, ou colle le code plus bas.'",
+    "en": "'The camera isn’t available: allow it, or paste the code below.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:196"
+    ]
+  },
+  {
+    "key": "'Le code reçu est abîmé. Recommence le scan.'",
+    "en": "'The code received is damaged. Scan again.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:213"
+    ]
+  },
+  {
+    "key": "'Transfert impossible.'",
+    "en": "'Transfer failed.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:253"
+    ]
+  },
+  {
+    "key": "'Ce joueur'",
+    "en": "'This player'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:258"
+    ]
+  },
+  {
+    "key": "'Progression reçue\\u00a0: '",
+    "en": "'Progress received: '",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:264"
+    ]
+  },
+  {
+    "key": "plural(summary.plays, 'partie')",
+    "en": "plural(summary.plays, 'game')",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:265"
+    ]
+  },
+  {
+    "key": "'Ajouter comme nouveau joueur'",
+    "en": "'Add as a new player'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:272"
+    ]
+  },
+  {
+    "key": "`Remplacer la progression de ${profileName(active, profiles)}`",
+    "en": "`Replace ${profileName(active, profiles)}’s progress`",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:276"
+    ]
+  },
+  {
+    "key": "'Scanner avec l’appareil photo'",
+    "en": "'Scan with the camera'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:294"
+    ]
+  },
+  {
+    "key": "`Reçu ${progress.received} / ${progress.total}`",
+    "en": "`Received ${progress.received} / ${progress.total}`",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:305"
+    ]
+  },
+  {
+    "key": "'Vise le code de l’autre appareil…'",
+    "en": "'Point at the code on the other device…'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:306"
+    ]
+  },
+  {
+    "key": "'Arrêter'",
+    "en": "'Stop'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:308"
+    ]
+  },
+  {
+    "key": "'Ou colle un code copié'",
+    "en": "'Or paste a copied code'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:313"
+    ]
+  },
+  {
+    "key": "'Ce code est incomplet ou abîmé.'",
+    "en": "'This code is incomplete or damaged.'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:323"
+    ]
+  },
+  {
+    "key": "'Valider le code'",
+    "en": "'Use this code'",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:326"
+    ]
+  },
+  {
+    "key": "`Étape ${step + 1} sur 3`",
+    "en": "`Step ${step + 1} of 3`",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:51"
+    ]
+  },
+  {
+    "key": "'Bienvenue sur Esprit Vif\\u00a0!'",
+    "en": "'Welcome to Esprit Vif!'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:68"
+    ]
+  },
+  {
+    "key": "`Quelques minutes par jour, ${GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance\\u00a0!`",
+    "en": "`A few minutes a day, ${GAME_ORDER.length} mini-games and your brain age to track your progress. Pick your companion and let’s get to know each other!`",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:71"
+    ]
+  },
+  {
+    "key": "'Ton prénom'",
+    "en": "'Your first name'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:77"
+    ]
+  },
+  {
+    "key": "'Ton compagnon'",
+    "en": "'Your companion'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:80"
+    ]
+  },
+  {
+    "key": "'Ta couleur'",
+    "en": "'Your color'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:82"
+    ]
+  },
+  {
+    "key": "'Couleur de ton avatar'",
+    "en": "'Your avatar color'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:83"
+    ]
+  },
+  {
+    "key": "'Qu’as-tu envie de travailler\\u00a0?'",
+    "en": "'What would you like to work on?'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:98"
+    ]
+  },
+  {
+    "key": "`Choisis jusqu’à ${MAX_GOALS} objectifs : ta séance du jour les mettra en avant. Tu pourras les changer dans les réglages.`",
+    "en": "`Pick up to ${MAX_GOALS} goals: your daily session will focus on them. You can change them in Settings.`",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:101"
+    ]
+  },
+  {
+    "key": "`${goals.length} objectif${goals.length > 1 ? 's' : ''}`",
+    "en": "`${goals.length} goal${goals.length === 1 ? '' : 's'}`",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:134"
+    ]
+  },
+  {
+    "key": "'Tout travailler un peu'",
+    "en": "'A bit of everything'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:135"
+    ]
+  },
+  {
+    "key": "'Ton bilan de départ'",
+    "en": "'Your starting assessment'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:148"
+    ]
+  },
+  {
+    "key": "'Trois mini-jeux, environ trois minutes : ils te donnent ton âge cérébral de départ et ouvrent d’emblée les niveaux où tu es déjà à l’aise.'",
+    "en": "'Three mini-games, about three minutes: they give you your starting brain age and unlock right away the levels you’re already comfortable with.'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:151"
+    ]
+  },
+  {
+    "key": "'Commencer le bilan'",
+    "en": "'Start the assessment'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:174"
+    ]
+  },
+  {
+    "key": "'3 jeux · environ 3 minutes'",
+    "en": "'3 games · about 3 minutes'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:175"
+    ]
+  },
+  {
+    "key": "`niveau ${spec.level}`",
+    "en": "`level ${spec.level}`",
+    "at": [
+      "src/ui/share-card.ts:145"
+    ]
+  },
+  {
+    "key": "'Mon âge cérébral'",
+    "en": "'My brain age'",
+    "at": [
+      "src/ui/share-card.ts:164"
+    ]
+  },
+  {
+    "key": "'À ton tour ?'",
+    "en": "'Your turn?'",
+    "at": [
+      "src/ui/share-card.ts:189"
+    ]
+  }
+]

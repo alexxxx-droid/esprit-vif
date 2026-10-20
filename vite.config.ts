@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { i18nPlugin } from './scripts/i18n-plugin.ts';
 
 const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as { version: string };
 
@@ -14,6 +16,8 @@ export default defineConfig(({ mode }) => {
       __APP_VERSION__: JSON.stringify(version),
     },
     plugins: [
+      // Espagnol, allemand, italien, portugais : les dictionnaires src/i18n/*.json, ajoutés au build.
+      i18nPlugin(fileURLToPath(new URL('.', import.meta.url))),
       react(),
       VitePWA({
         // Mise à jour proposée, jamais imposée : un rechargement en pleine partie serait frustrant.

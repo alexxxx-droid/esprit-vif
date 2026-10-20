@@ -1,4 +1,5 @@
 import { lang, type ExtraLang, type Lang } from '../lang';
+import type { WordFamily } from '../games/contraires-words';
 import type { SentencePair } from '../games/lecture';
 import type { Category } from '../games/lexique';
 import type { ReflexeFill } from '../games/reflexe';
@@ -180,6 +181,37 @@ export interface LangContent {
    * : ; ! ? (usage français seulement) ; tous différents.
    */
   coachTips: readonly string[];
+  /**
+   * Contraires : un mot, « le contraire de » ou « le même sens que », quatre propositions ; au
+   * palier Légende, deux mots à juger (contraires, même sens ou sans rapport). La liste est écrite
+   * dans la langue, jamais traduite mot à mot, au format de `WORDS_FR` / `WORDS_EN`
+   * (contraires-words.ts, à lire en entier) : `adj(…)`, `verbe(…)`, `nom(…)` de `./helpers`.
+   *
+   * - Une famille = un même champ de sens (la température, la taille, l'argent…) et une même
+   *   nature. Trois chaînes par famille, une par registre : très courant (Débutant, Confirmé),
+   *   courant, puis soutenu (Maître, Légende) ; une chaîne peut être vide (`''`).
+   * - Dans une chaîne, des paires séparées par des espaces : `a/b` contraires, `a=b` même sens.
+   *   `_` tient lieu d'espace (« se_taire », es « darse_prisa »). Adjectifs au masculin singulier,
+   *   verbes à l'infinitif, noms sans article. Mots en minuscules (accents permis), sauf les noms
+   *   allemands, qui gardent leur majuscule (`nom('Anfang/Ende')`).
+   * - Règle d'or : les mots d'une famille ne servent jamais de leurres les uns pour les autres, et
+   *   les leurres viennent d'autres familles. Donc un mot n'appartient qu'à UNE famille ; deux mots
+   *   qui pourraient passer pour contraires ou synonymes vont dans la même famille (fusionnez deux
+   *   champs voisins plutôt que de les séparer). Un mot à plusieurs sens éloignés n'entre pas.
+   * - Pas de contradiction : dans une famille, les mots se rangent en deux camps (même sens d'un
+   *   côté, contraires en face) ; jamais `a/b` et `a=b` à la fois, ni une chaîne qui rend un mot
+   *   contraire à lui-même. Pas de paire en double (`a/b` puis `b/a`).
+   * - Quantités : au moins 120 paires de contraires et 80 de même sens (visez 200 et 170, comme le
+   *   français et l'anglais) ; dans chaque lien, au moins 50 paires très courantes ou courantes et
+   *   30 soutenues. Chaque nature (adjectif, verbe, nom) et chaque registre doit réunir des mots
+   *   d'au moins 5 familles différentes (pour tirer trois leurres de familles distinctes).
+   * - Les pièges (palier Expert) : un mot qui a à la fois un contraire et un synonyme. Donnez des
+   *   synonymes aux mots les plus courants (`grand=immense` à côté de `grand/petit`).
+   *
+   * Validation : `npx vitest run src/core/games/contraires.test.ts` (listes, puis parties aux 50
+   * niveaux dans chaque langue qui a son contenu).
+   */
+  contraires: readonly WordFamily[];
   /** Couleurs piégées : les identifiants des couleurs restent en français (`rouge`, `bleu`…). */
   stroop: {
     /**

@@ -1,4 +1,5 @@
-import { lang, localized, tr } from '../lang';
+import { byLang, memoByLang } from '../content';
+import { localized, tr } from '../lang';
 import { pickLevel } from '../levels';
 import type { Rng } from '../rng';
 import { countScore } from '../scoring';
@@ -206,12 +207,14 @@ export function parseFamilies(families: readonly WordFamily[]): Lexicon {
   return { pairs, familyOf, kindOf, links, pool: new Map([...pool].map(([key, words]) => [key, [...words]])) };
 }
 
-const cache: { fr?: Lexicon; en?: Lexicon } = {};
+/** Les familles de la langue en cours : sa liste, ou l'anglaise pour une langue qui n'en a pas encore. */
+export function contrairesFamilies(): readonly WordFamily[] {
+  return byLang(WORDS_FR, WORDS_EN, (c) => c.contraires);
+}
 
-/** Le lexique de la langue en cours : le français, ou l'anglais pour toutes les autres langues. */
+/** Le lexique de la langue en cours. */
 export function contrairesLexicon(): Lexicon {
-  if (lang() === 'fr') return (cache.fr ??= parseFamilies(WORDS_FR));
-  return (cache.en ??= parseFamilies(WORDS_EN));
+  return memoByLang('contraires', () => parseFamilies(contrairesFamilies()));
 }
 
 export interface ChoiceQuestion {

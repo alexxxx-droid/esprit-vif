@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import { contentOf } from '../content';
 import { NBSP } from '../format';
-import { setLang } from '../lang';
+import { setLang, type ExtraLang, type Lang } from '../lang';
 import { MAX_LEVEL, tierOf, type TierId } from '../levels';
 import { createRng, hashSeed } from '../rng';
 import {
@@ -23,15 +24,16 @@ import { WORDS_EN, WORDS_FR } from './contraires-words';
  * réponse, un générateur reproductible et un score où le hasard ne rapporte rien.
  */
 
-const LANGS = ['fr', 'en'] as const;
-const LISTS = { fr: WORDS_FR, en: WORDS_EN };
+/** Le français, l'anglais et chaque autre langue qui a son module de contenu. */
+const LANGS: readonly Lang[] = ['fr', 'en', ...(['es', 'de', 'it', 'pt'] as const).filter((l: ExtraLang) => contentOf(l))];
+const listOf = (l: Lang) => (l === 'fr' ? WORDS_FR : l === 'en' ? WORDS_EN : contentOf(l)!.contraires);
 const LEVELS = Array.from({ length: MAX_LEVEL }, (_, i) => i + 1);
 const SEEDS = [1, 42, 2024];
 const FRENCH_MARKS = /[àâçéèêëîïôûùœ«»]|\b(le|la|les|des|du|une|et|pour|par|chaque|jusqu)\b/i;
 
 afterEach(() => setLang('fr'));
 
-function inLang<T>(l: 'fr' | 'en', fn: () => T): T {
+function inLang<T>(l: Lang, fn: () => T): T {
   setLang(l);
   try {
     return fn();
@@ -131,15 +133,16 @@ describe.each(LANGS)('Contraires : les listes (%s)', (l) => {
   });
 
   it('écrit chaque paire proprement, sans doublon', () => {
-    for (const family of LISTS[l])
+    for (const family of listOf(l))
       for (const text of family.pairs)
         for (const token of text.split(/\s+/).filter(Boolean)) expect(token.split(/[/=]/).filter(Boolean), token).toHaveLength(2);
     const keys = lex.pairs.map((p) => [p.a, p.b].sort().join('|'));
     expect(keys.filter((key, i) => keys.indexOf(key) !== i)).toEqual([]);
-    for (const { a, b } of lex.pairs) {
+    for (const { a, b, kind } of lex.pairs) {
       expect(a).not.toBe(b);
       for (const word of [a, b]) {
-        expect(word, word).toMatch(/^\p{Ll}[\p{Ll}’' -]*\p{Ll}$/u);
+        // Les noms allemands gardent leur majuscule.
+        expect(word, word).toMatch(l === 'de' && kind === 'nom' ? /^\p{Lu}[\p{Ll}’' -]*\p{Ll}$/u : /^\p{Ll}[\p{Ll}’' -]*\p{Ll}$/u);
         expect(word).not.toContain(NBSP);
         expect(word).not.toContain('  ');
       }

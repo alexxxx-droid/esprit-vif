@@ -3,73 +3,79 @@
     "key": "'Série : 1 jour'",
     "en": "'Streak: 1 day'",
     "at": [
-      "src/App.tsx:132"
+      "src/App.tsx:177"
     ]
   },
   {
     "key": "'Série : %d jours'",
     "en": "'Streak: %d days'",
     "at": [
-      "src/App.tsx:133"
+      "src/App.tsx:178"
     ]
   },
   {
     "key": "'Une partie aujourd’hui lance ta série'",
     "en": "'Play today to start a streak'",
     "at": [
-      "src/App.tsx:134"
+      "src/App.tsx:179"
+    ]
+  },
+  {
+    "key": "'Quelques minutes par jour'",
+    "en": "'A few minutes a day'",
+    "at": [
+      "src/App.tsx:179"
     ]
   },
   {
     "key": "'Test du jour fait · âge cérébral %d ans'",
     "en": "'Daily test done · brain age %d'",
     "at": [
-      "src/App.tsx:135"
+      "src/App.tsx:180"
     ]
   },
   {
     "key": "'Test du jour fait'",
     "en": "'Daily test done'",
     "at": [
-      "src/App.tsx:136",
-      "src/ui/screens/HomeScreen.tsx:394"
+      "src/App.tsx:181"
     ]
   },
   {
     "key": "'Test du jour : à faire'",
     "en": "'Daily test: to do'",
     "at": [
-      "src/App.tsx:137"
+      "src/App.tsx:182"
     ]
   },
   {
     "key": "'Test du jour'",
     "en": "'Daily test'",
     "at": [
-      "src/App.tsx:138",
+      "src/App.tsx:183",
       "src/ui/components/BrainAgeChart.tsx:137",
-      "src/ui/screens/HomeScreen.tsx:82",
-      "src/ui/screens/PlayScreens.tsx:110",
-      "src/ui/screens/ReportScreen.tsx:73"
+      "src/ui/screens/HomeScreen.tsx:247",
+      "src/ui/screens/PlayScreens.tsx:112",
+      "src/ui/screens/ReportScreen.tsx:77"
     ]
   },
   {
     "key": "'Entraînement'",
     "en": "'Training'",
     "at": [
-      "src/App.tsx:139",
+      "src/App.tsx:184",
       "src/ui/components/TabBar.tsx:9",
-      "src/ui/screens/TrainingScreen.tsx:32"
+      "src/ui/screens/TrainingScreen.tsx:37"
     ]
   },
   {
     "key": "'Séance du jour'",
     "en": "'Daily session'",
     "at": [
-      "src/App.tsx:140",
-      "src/ui/screens/HomeScreen.tsx:271",
+      "src/App.tsx:185",
+      "src/ui/screens/HomeScreen.tsx:600",
       "src/ui/screens/ModeScreens.tsx:91",
-      "src/ui/screens/TrainingScreen.tsx:45"
+      "src/ui/screens/TrainingScreen.tsx:61"
     ]
   },
   {
@@ -83,21 +89,21 @@
     "key": "'Vif'",
     "en": "'Vif'",
     "at": [
-      "src/core/characters.ts:21"
+      "src/core/characters.ts:25"
     ]
   },
   {
     "key": "'Pomme'",
     "en": "'Apple'",
     "at": [
-      "src/core/characters.ts:22"
+      "src/core/characters.ts:26"
     ]
   },
   {
     "key": "'Orange'",
     "en": "'Orange'",
     "at": [
-      "src/core/characters.ts:23",
+      "src/core/characters.ts:27",
       "src/core/games/stroop.ts:29"
     ]
   },
@@ -105,35 +111,56 @@
     "key": "'Citron'",
     "en": "'Lemon'",
     "at": [
-      "src/core/characters.ts:24"
+      "src/core/characters.ts:28"
     ]
   },
   {
     "key": "'Fraise'",
     "en": "'Strawberry'",
     "at": [
-      "src/core/characters.ts:25"
+      "src/core/characters.ts:29"
     ]
   },
   {
     "key": "'Raisin'",
     "en": "'Grape'",
     "at": [
-      "src/core/characters.ts:26"
+      "src/core/characters.ts:30"
     ]
   },
   {
     "key": "'Poire'",
     "en": "'Pear'",
     "at": [
-      "src/core/characters.ts:27"
+      "src/core/characters.ts:31"
     ]
   },
   {
     "key": "'Pastèque'",
     "en": "'Watermelon'",
     "at": [
-      "src/core/characters.ts:28"
+      "src/core/characters.ts:32"
+    ]
+  },
+  {
+    "key": "'Kiwi'",
+    "en": "'Kiwi'",
+    "at": [
+      "src/core/characters.ts:37"
+    ]
+  },
+  {
+    "key": "'Ananas'",
+    "en": "'Pineapple'",
+    "at": [
+      "src/core/characters.ts:38"
+    ]
+  },
+  {
+    "key": "'Myrtille'",
+    "en": "'Blueberry'",
+    "at": [
+      "src/core/characters.ts:39"
     ]
   },
   {
@@ -196,7 +223,8 @@
     "key": "'Printemps'",
     "en": "'Spring'",
     "at": [
-      "src/core/events.ts:81"
+      "src/core/events.ts:81",
+      "src/core/themes.ts:67"
     ]
   },
   {
@@ -224,7 +252,8 @@
     "key": "'Été'",
     "en": "'Summer'",
     "at": [
-      "src/core/events.ts:87"
+      "src/core/events.ts:87",
+      "src/core/themes.ts:68"
     ]
   },
   {
@@ -923,6 +952,111 @@
     ]
   },
   {
+    "key": "'mots simples'",
+    "en": "'simple words'",
+    "at": [
+      "src/core/games/contraires.ts:108"
+    ]
+  },
+  {
+    "key": "'mots courants'",
+    "en": "'everyday words'",
+    "at": [
+      "src/core/games/contraires.ts:109"
+    ]
+  },
+  {
+    "key": "'mots moins courants'",
+    "en": "'less common words'",
+    "at": [
+      "src/core/games/contraires.ts:110"
+    ]
+  },
+  {
+    "key": "'mots courants et soutenus'",
+    "en": "'everyday and formal words'",
+    "at": [
+      "src/core/games/contraires.ts:111"
+    ]
+  },
+  {
+    "key": "'mots rares et soutenus'",
+    "en": "'rare, formal words'",
+    "at": [
+      "src/core/games/contraires.ts:112"
+    ]
+  },
+  {
+    "key": "'deux mots à juger'",
+    "en": "'two words to judge'",
+    "at": [
+      "src/core/games/contraires.ts:119"
+    ]
+  },
+  {
+    "key": "'contraire ou même sens · pièges'",
+    "en": "'opposite or same meaning · traps'",
+    "at": [
+      "src/core/games/contraires.ts:121"
+    ]
+  },
+  {
+    "key": "'contraire ou même sens'",
+    "en": "'opposite or same meaning'",
+    "at": [
+      "src/core/games/contraires.ts:123"
+    ]
+  },
+  {
+    "key": "'contraires'",
+    "en": "'opposites'",
+    "at": [
+      "src/core/games/contraires.ts:124"
+    ]
+  },
+  {
+    "key": "`${mode} · ${words} · objectif ${c.target}`",
+    "en": "`${mode} · ${words} · target ${c.target}`",
+    "at": [
+      "src/core/games/contraires.ts:125"
+    ]
+  },
+  {
+    "key": "'Deux mots : contraires, même sens ou sans rapport ? Tranche vite, chaque paire a sa mèche. 60 secondes.'",
+    "en": "'Two words: opposites, same meaning or unrelated? Decide fast, each pair has a time limit. 60 seconds.'",
+    "at": [
+      "src/core/games/contraires.ts:132"
+    ]
+  },
+  {
+    "key": "'Des mots rares et soutenus : le contraire ou le même sens ? Méfie-toi des pièges. 60 secondes.'",
+    "en": "'Rare, formal words: opposite or same meaning? Beware of traps. 60 seconds.'",
+    "at": [
+      "src/core/games/contraires.ts:137"
+    ]
+  },
+  {
+    "key": "'Attention aux pièges : quand on demande le contraire, un mot de même sens se glisse parmi les propositions, et inversement. 60 secondes.'",
+    "en": "'Watch out for traps: when you are asked for the opposite, a word with the same meaning hides among the choices, and vice versa. 60 seconds.'",
+    "at": [
+      "src/core/games/contraires.ts:142"
+    ]
+  },
+  {
+    "key": "'Lis bien la consigne : le contraire ou le même sens ? Touche le bon mot parmi les quatre. 60 secondes.'",
+    "en": "'Read the instruction carefully: opposite or same meaning? Tap the right word among the four. 60 seconds.'",
+    "at": [
+      "src/core/games/contraires.ts:147"
+    ]
+  },
+  {
+    "key": "'Touche le contraire du mot parmi les quatre propositions. Chaque erreur annule une bonne réponse. 60 secondes.'",
+    "en": "'Tap the opposite of the word among the four choices. Each mistake cancels out a correct answer. 60 seconds.'",
+    "at": [
+      "src/core/games/contraires.ts:151"
+    ]
+  },
+  {
     "key": "'formes'",
     "en": "'shapes'",
     "at": [
@@ -1259,6 +1393,69 @@
     "en": "'Each sum vanishes quickly: work it out right away.'",
     "at": [
       "src/core/games/diable.ts:157"
+    ]
+  },
+  {
+    "key": "`${c.targets} à suivre parmi ${c.dots} · ${move}`",
+    "en": "`${c.targets} to track out of ${c.dots} · ${move}`",
+    "at": [
+      "src/core/games/filature.ts:122"
+    ]
+  },
+  {
+    "key": "'2 nuages'",
+    "en": "'2 clouds'",
+    "at": [
+      "src/core/games/filature.ts:124"
+    ]
+  },
+  {
+    "key": "'1 nuage'",
+    "en": "'1 cloud'",
+    "at": [
+      "src/core/games/filature.ts:124"
+    ]
+  },
+  {
+    "key": "'à-coups'",
+    "en": "'sudden turns'",
+    "at": [
+      "src/core/games/filature.ts:125"
+    ]
+  },
+  {
+    "key": "'leurres'",
+    "en": "'lures'",
+    "at": [
+      "src/core/games/filature.ts:126"
+    ]
+  },
+  {
+    "key": "`Retiens les ${c.targets} disques entourés, puis suis-les des yeux pendant que tout bouge. Quand tout s’arrête, touche-les. ${FILATURE_TRIALS} essais.`",
+    "en": "`Remember the ${c.targets} circled discs, then follow them with your eyes while everything moves. When it all stops, tap them. ${FILATURE_TRIALS} rounds.`",
+    "at": [
+      "src/core/games/filature.ts:136"
+    ]
+  },
+  {
+    "key": "'Les disques passent sous les nuages : ne les perds pas !'",
+    "en": "'Discs slip under the clouds: don’t lose them!'",
+    "at": [
+      "src/core/games/filature.ts:140"
+    ]
+  },
+  {
+    "key": "'Gare aux à-coups : ils changent soudain de vitesse et de direction.'",
+    "en": "'Watch for sudden turns: they change speed and direction without warning.'",
+    "at": [
+      "src/core/games/filature.ts:141"
+    ]
+  },
+  {
+    "key": "'Des leurres clignotent : ne les suis pas.'",
+    "en": "'Lures flash on and off: don’t follow them.'",
+    "at": [
+      "src/core/games/filature.ts:142"
     ]
   },
   {
@@ -1970,6 +2167,76 @@
     ]
   },
   {
+    "key": "'parfois deux à la fois'",
+    "en": "'sometimes two at once'",
+    "at": [
+      "src/core/games/lucioles.ts:101"
+    ]
+  },
+  {
+    "key": "'rouges à éviter'",
+    "en": "'avoid the red ones'",
+    "at": [
+      "src/core/games/lucioles.ts:102"
+    ]
+  },
+  {
+    "key": "'voyageuses'",
+    "en": "'travelers'",
+    "at": [
+      "src/core/games/lucioles.ts:103"
+    ]
+  },
+  {
+    "key": "'dorées : deux appuis'",
+    "en": "'gold: tap twice'",
+    "at": [
+      "src/core/games/lucioles.ts:104"
+    ]
+  },
+  {
+    "key": "`${secondsLabel(c.windowMs)} d’allumage`",
+    "en": "`lit for ${secondsLabel(c.windowMs)}`",
+    "at": [
+      "src/core/games/lucioles.ts:105"
+    ]
+  },
+  {
+    "key": "'Touche chaque luciole avant qu’elle s’éteigne. Toucher une case vide compte comme une erreur.'",
+    "en": "'Tap each firefly before it goes out. Tapping an empty square counts as a mistake.'",
+    "at": [
+      "src/core/games/lucioles.ts:115"
+    ]
+  },
+  {
+    "key": "'Parfois, deux s’allument en même temps.'",
+    "en": "'Sometimes two light up at once.'",
+    "at": [
+      "src/core/games/lucioles.ts:116"
+    ]
+  },
+  {
+    "key": "'Les rouges (marquées d’une croix) ne se touchent pas : laisse-les s’éteindre.'",
+    "en": "'Red ones (marked with a cross) must not be tapped: let them go out.'",
+    "at": [
+      "src/core/games/lucioles.ts:117"
+    ]
+  },
+  {
+    "key": "'Certaines voyagent : elles sautent dans une case voisine en cours de route.'",
+    "en": "'Some travel: they hop to a nearby square along the way.'",
+    "at": [
+      "src/core/games/lucioles.ts:118"
+    ]
+  },
+  {
+    "key": "'Les dorées (marquées « 2 ») demandent deux appuis.'",
+    "en": "'Gold ones (marked “2”) need two taps.'",
+    "at": [
+      "src/core/games/lucioles.ts:119"
+    ]
+  },
+  {
     "key": "`${flash} par case`",
     "en": "`${flash} per square`",
     "at": [
@@ -2190,7 +2457,8 @@
     "key": "'rapide'",
     "en": "'fast'",
     "at": [
-      "src/core/games/nback.ts:121"
+      "src/core/games/nback.ts:121",
+      "src/ui/games/contraires-demo.tsx:41"
     ]
   },
   {
@@ -2464,14 +2732,14 @@
     "key": "'Calcul'",
     "en": "'Math'",
     "at": [
-      "src/core/games/registry.ts:42"
+      "src/core/games/registry.ts:45"
     ]
   },
   {
     "key": "'Mémoire'",
     "en": "'Memory'",
     "at": [
-      "src/core/games/registry.ts:47",
+      "src/core/games/registry.ts:50",
       "src/ui/goals.ts:10"
     ]
   },
@@ -2479,189 +2747,213 @@
     "key": "'Attention'",
     "en": "'Attention'",
     "at": [
-      "src/core/games/registry.ts:52"
+      "src/core/games/registry.ts:55"
     ]
   },
   {
     "key": "'Vitesse'",
     "en": "'Speed'",
     "at": [
-      "src/core/games/registry.ts:57"
+      "src/core/games/registry.ts:60"
     ]
   },
   {
     "key": "'Langage'",
     "en": "'Language'",
     "at": [
-      "src/core/games/registry.ts:62"
+      "src/core/games/registry.ts:65"
     ]
   },
   {
     "key": "'Logique'",
     "en": "'Logic'",
     "at": [
-      "src/core/games/registry.ts:67"
+      "src/core/games/registry.ts:70"
+    ]
+  },
+  {
+    "key": "'Filature'",
+    "en": "'Keep Track'",
+    "at": [
+      "src/core/games/registry.ts:105"
+    ]
+  },
+  {
+    "key": "'Lucioles'",
+    "en": "'Fireflies'",
+    "at": [
+      "src/core/games/registry.ts:117"
+    ]
+  },
+  {
+    "key": "'Contraires'",
+    "en": "'Opposites'",
+    "at": [
+      "src/core/games/registry.ts:129",
+      "src/ui/games/contraires-demo.tsx:96",
+      "src/ui/games/ContrairesGame.tsx:29"
     ]
   },
   {
     "key": "'Calcul éclair'",
     "en": "'Flash Math'",
     "at": [
-      "src/core/games/registry.ts:102"
+      "src/core/games/registry.ts:141"
     ]
   },
   {
     "key": "'Couleurs piégées'",
     "en": "'Color Trap'",
     "at": [
-      "src/core/games/registry.ts:114"
+      "src/core/games/registry.ts:153"
     ]
   },
   {
     "key": "'Table de Schulte'",
     "en": "'Schulte Table'",
     "at": [
-      "src/core/games/registry.ts:126"
+      "src/core/games/registry.ts:165"
     ]
   },
   {
     "key": "'Matrice'",
     "en": "'Grid Memory'",
     "at": [
-      "src/core/games/registry.ts:138"
+      "src/core/games/registry.ts:177"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer : le sens (même ordre ou à l’envers) ne s’affiche qu’après.'",
     "en": "'Watch the squares light up: only afterwards are you told whether to tap them in the same or reverse order.'",
     "at": [
-      "src/core/games/registry.ts:145"
+      "src/core/games/registry.ts:184"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.'",
     "en": "'Watch the squares light up, then tap them in reverse order.'",
     "at": [
-      "src/core/games/registry.ts:149"
+      "src/core/games/registry.ts:188"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer, puis touche-les dans le même ordre.'",
     "en": "'Watch the squares light up, then tap them in the same order.'",
     "at": [
-      "src/core/games/registry.ts:150"
+      "src/core/games/registry.ts:189"
     ]
   },
   {
     "key": "`${base} Ignore les cases barrées : ce sont des pièges.`",
     "en": "`${base} Ignore the crossed-out squares: they’re traps.`",
     "at": [
-      "src/core/games/registry.ts:152"
+      "src/core/games/registry.ts:191"
     ]
   },
   {
     "key": "'Double retour'",
     "en": "'Look Back'",
     "at": [
-      "src/core/games/registry.ts:163"
+      "src/core/games/registry.ts:202"
     ]
   },
   {
     "key": "byCount(n, 'au coup précédent', `il y a ${n} coups`)",
     "en": "byCount(n, 'the previous one', `the one from ${n} turns ago`)",
     "at": [
-      "src/core/games/registry.ts:168"
+      "src/core/games/registry.ts:207"
     ]
   },
   {
     "key": "' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.'",
     "en": "' Watch for traps: a repeat one turn too early or too late doesn’t count.'",
     "at": [
-      "src/core/games/registry.ts:170"
+      "src/core/games/registry.ts:209"
     ]
   },
   {
     "key": "byCount(n, 'Touche « Même lettre » quand la lettre est la même qu’au coup précédent.', `Touche « Même lettre » quand la lettre est la même qu’il y a ${n} lettres.`)",
     "en": "byCount(n, 'Tap “Same letter” when the letter matches the previous one.', `Tap “Same letter” when the letter matches the one ${n} letters back.`)",
     "at": [
-      "src/core/games/registry.ts:175"
+      "src/core/games/registry.ts:214"
     ]
   },
   {
     "key": "`Touche « Même place » quand la case allumée est la même qu’${back}.`",
     "en": "`Tap “Same spot” when the lit square matches ${back}.`",
     "at": [
-      "src/core/games/registry.ts:181"
+      "src/core/games/registry.ts:220"
     ]
   },
   {
     "key": "`Deux questions à la fois : même lettre et même place qu’${back} ?`",
     "en": "`Two questions at once: same letter and same spot as ${back}?`",
     "at": [
-      "src/core/games/registry.ts:182"
+      "src/core/games/registry.ts:221"
     ]
   },
   {
     "key": "'Total cumulé'",
     "en": "'Running Total'",
     "at": [
-      "src/core/games/registry.ts:192"
+      "src/core/games/registry.ts:231"
     ]
   },
   {
     "key": "'L’intrus'",
     "en": "'Odd One Out'",
     "at": [
-      "src/core/games/registry.ts:204"
+      "src/core/games/registry.ts:243"
     ]
   },
   {
     "key": "'Anagrammes'",
     "en": "'Anagrams'",
     "at": [
-      "src/core/games/registry.ts:216"
+      "src/core/games/registry.ts:255"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop, et ce sont des sosies de celles du mot !'",
     "en": "'Put the letters back in order to find the hidden word. Careful: some letters don’t belong, and they copy the word’s own letters!'",
     "at": [
-      "src/core/games/registry.ts:222"
+      "src/core/games/registry.ts:261"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !'",
     "en": "'Put the letters back in order to find the hidden word. Careful: some letters don’t belong!'",
     "at": [
-      "src/core/games/registry.ts:227"
+      "src/core/games/registry.ts:266"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché.'",
     "en": "'Put the letters back in order to find the hidden word.'",
     "at": [
-      "src/core/games/registry.ts:230"
+      "src/core/games/registry.ts:269"
     ]
   },
   {
     "key": "'La boutique'",
     "en": "'The Shop'",
     "at": [
-      "src/core/games/registry.ts:239"
+      "src/core/games/registry.ts:278",
+      "src/ui/screens/WardrobeScreen.tsx:91"
     ]
   },
   {
     "key": "'Calcul du diable'",
     "en": "'Tricky Sums'",
     "at": [
-      "src/core/games/registry.ts:251"
+      "src/core/games/registry.ts:290"
     ]
   },
   {
     "key": "'Du plus petit au plus grand'",
     "en": "'Smallest to Largest'",
     "at": [
-      "src/core/games/registry.ts:263",
+      "src/core/games/registry.ts:302",
       "src/ui/games/demos.tsx:373"
     ]
   },
@@ -2669,394 +2961,401 @@
     "key": "'Retiens où sont les nombres, puis touche leurs cases du plus grand au plus petit.'",
     "en": "'Remember where the numbers are, then tap their squares from largest to smallest.'",
     "at": [
-      "src/core/games/registry.ts:270"
+      "src/core/games/registry.ts:309"
     ]
   },
   {
     "key": "'Retiens où sont les nombres, puis touche leurs cases du plus petit au plus grand.'",
     "en": "'Remember where the numbers are, then tap their squares from smallest to largest.'",
     "at": [
-      "src/core/games/registry.ts:274"
+      "src/core/games/registry.ts:313"
     ]
   },
   {
     "key": "`${base} Ne touche pas les nombres barrés.`",
     "en": "`${base} Don’t tap the crossed-out numbers.`",
     "at": [
-      "src/core/games/registry.ts:278"
+      "src/core/games/registry.ts:317"
     ]
   },
   {
     "key": "'Monnaie'",
     "en": "'Small Change'",
     "at": [
-      "src/core/games/registry.ts:289"
+      "src/core/games/registry.ts:328"
     ]
   },
   {
     "key": "'Pluie de calculs'",
     "en": "'Number Rain'",
     "at": [
-      "src/core/games/registry.ts:301"
+      "src/core/games/registry.ts:340"
     ]
   },
   {
     "key": "'Correspondance express'",
     "en": "'Quick Match'",
     "at": [
-      "src/core/games/registry.ts:313"
+      "src/core/games/registry.ts:352"
     ]
   },
   {
     "key": "'Flèches'",
     "en": "'Arrows'",
     "at": [
-      "src/core/games/registry.ts:325"
+      "src/core/games/registry.ts:364"
     ]
   },
   {
     "key": "'Réflexe'",
     "en": "'Reflex'",
     "at": [
-      "src/core/games/registry.ts:337"
+      "src/core/games/registry.ts:376"
     ]
   },
   {
     "key": "'Rotation mentale'",
     "en": "'Mental Rotation'",
     "at": [
-      "src/core/games/registry.ts:349"
+      "src/core/games/registry.ts:388"
     ]
   },
   {
     "key": "'Pièces en relief : retrouve la même pièce, tournée dans l’espace. Son reflet dans un miroir ne compte pas ! 60 secondes.'",
     "en": "'3D pieces: find the same piece, turned in space. Its mirror image doesn’t count! 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:356"
+      "src/core/games/registry.ts:395"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle, simplement tournée : les propositions sont penchées. Méfie-toi de son reflet dans un miroir !'",
     "en": "'Find the model piece, just turned around: the choices are tilted. Watch out for its mirror image!'",
     "at": [
-      "src/core/games/registry.ts:362"
+      "src/core/games/registry.ts:401"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle, simplement tournée. Méfie-toi de son reflet dans un miroir : il ne compte pas !'",
     "en": "'Find the model piece, just turned around. Watch out for its mirror image: it doesn’t count!'",
     "at": [
-      "src/core/games/registry.ts:368"
+      "src/core/games/registry.ts:407"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 60 secondes.'",
     "en": "'Find the model piece among the choices: it has only been turned. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:372"
+      "src/core/games/registry.ts:411"
     ]
   },
   {
     "key": "'Mini-sudoku'",
     "en": "'Mini Sudoku'",
     "at": [
-      "src/core/games/registry.ts:384"
+      "src/core/games/registry.ts:423"
     ]
   },
   {
     "key": "`Chaque chiffre de 1 à ${size} une seule fois par ligne, par colonne et par bloc. Un chiffre faux coûte 5 secondes.`",
     "en": "`Each digit from 1 to ${size} appears once in every row, column and box. A wrong digit costs 5 seconds.`",
     "at": [
-      "src/core/games/registry.ts:390"
+      "src/core/games/registry.ts:429"
     ]
   },
   {
     "key": "'Tout se déduit pas à pas, sans jamais deviner.'",
     "en": "'Everything can be worked out step by step, no guessing.'",
     "at": [
-      "src/core/games/registry.ts:393"
+      "src/core/games/registry.ts:432"
     ]
   },
   {
     "key": "'Balance'",
     "en": "'Scales'",
     "at": [
-      "src/core/games/registry.ts:404"
+      "src/core/games/registry.ts:443"
     ]
   },
   {
     "key": "'Une balance penche du côté le plus lourd. D’après toutes les balances, trouve l’objet le plus lourd… ou le plus léger.'",
     "en": "'A scale tips toward the heavier side. Using all the scales, find the heaviest item… or the lightest.'",
     "at": [
-      "src/core/games/registry.ts:410"
+      "src/core/games/registry.ts:449"
     ]
   },
   {
     "key": "'Deux carrés qui battent trois triangles : le carré est plus lourd. Trois triangles qui battent deux carrés : on ne sait rien.'",
     "en": "'Two squares beating three triangles: the square is heavier. Three triangles beating two squares: that tells you nothing.'",
     "at": [
-      "src/core/games/registry.ts:415"
+      "src/core/games/registry.ts:454"
     ]
   },
   {
     "key": "'Méfie-toi : certaines balances n’apprennent rien, et la réponse peut y perdre.'",
     "en": "'Careful: some scales tell you nothing, and the answer can lose on them.'",
     "at": [
-      "src/core/games/registry.ts:421"
+      "src/core/games/registry.ts:460"
     ]
   },
   {
     "key": "'Horloges'",
     "en": "'Clocks'",
     "at": [
-      "src/core/games/registry.ts:435"
+      "src/core/games/registry.ts:474"
     ]
   },
   {
     "key": "'Durées sur 24 heures : regarde si chaque horloge indique le matin, l’après-midi ou le soir. 60 secondes.'",
     "en": "'24-hour durations: check whether each clock shows AM or PM. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:442"
+      "src/core/games/registry.ts:481"
     ]
   },
   {
     "key": "'Certaines horloges sont vues dans un miroir : retrouve l’heure vraie avant de répondre. 60 secondes.'",
     "en": "'Some clocks are seen in a mirror: find the real time before you answer. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:448"
+      "src/core/games/registry.ts:487"
     ]
   },
   {
     "key": "'Lis les horloges : l’heure qu’il est, celle qu’il sera, celle qu’il était, ou le temps écoulé. 60 secondes.'",
     "en": "'Read the clocks: the time now, later, earlier, or the time that has passed. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:454"
+      "src/core/games/registry.ts:493"
     ]
   },
   {
     "key": "'Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 60 secondes.'",
     "en": "'Read the time on the clock and pick the right answer. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:459"
+      "src/core/games/registry.ts:498"
     ]
   },
   {
     "key": "'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 60 secondes.'",
     "en": "'Read the clocks: the time now, the time it will be, or the time that has passed. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:461"
+      "src/core/games/registry.ts:500"
     ]
   },
   {
     "key": "'Mots à retenir'",
     "en": "'Word Recall'",
     "at": [
-      "src/core/games/registry.ts:473"
+      "src/core/games/registry.ts:512"
     ]
   },
   {
     "key": "`${count} mots défilent un par un : retiens-les, puis dis si chaque mot était dans la liste.`",
     "en": "`${count} words go by one at a time: memorize them, then say whether each word was on the list.`",
     "at": [
-      "src/core/games/registry.ts:481"
+      "src/core/games/registry.ts:520"
     ]
   },
   {
     "key": "'Les mots barrés sont à oublier : ils reviendront en pièges.'",
     "en": "'Forget the crossed-out words: they’ll come back as traps.'",
     "at": [
-      "src/core/games/registry.ts:484"
+      "src/core/games/registry.ts:523"
     ]
   },
   {
     "key": "`Réponds en moins de ${secondsLabel(answerMs)}.`",
     "en": "`Answer within ${secondsLabel(answerMs)}.`",
     "at": [
-      "src/core/games/registry.ts:485"
+      "src/core/games/registry.ts:524"
     ]
   },
   {
     "key": "`Mémorise ${count} mots, puis dis si chaque mot était dans la liste. Attention : les nouveaux mots leur ressemblent !`",
     "en": "`Memorize ${count} words, then say whether each word was on the list. Careful: the new words look a lot like them!`",
     "at": [
-      "src/core/games/registry.ts:492"
+      "src/core/games/registry.ts:531"
     ]
   },
   {
     "key": "`Mémorise ${count} mots, puis dis pour chaque mot s’il était dans la liste.`",
     "en": "`Memorize ${count} words, then say for each word whether it was on the list.`",
     "at": [
-      "src/core/games/registry.ts:496"
+      "src/core/games/registry.ts:535"
     ]
   },
   {
     "key": "'≈ 1 min 30'",
     "en": "'≈ 1 min 30 s'",
     "at": [
-      "src/core/games/registry.ts:501",
-      "src/core/games/registry.ts:571",
-      "src/core/games/registry.ts:659"
+      "src/core/games/registry.ts:540",
+      "src/core/games/registry.ts:610",
+      "src/core/games/registry.ts:698"
     ]
   },
   {
     "key": "'Lettre manquante'",
     "en": "'Missing Letter'",
     "at": [
-      "src/core/games/registry.ts:510"
+      "src/core/games/registry.ts:549"
     ]
   },
   {
     "key": "'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 60 secondes.'",
     "en": "'One letter is missing: pick the one that completes the word. The category gives you a hint. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:517"
+      "src/core/games/registry.ts:556"
     ]
   },
   {
     "key": "'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 60 secondes.'",
     "en": "'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:521"
+      "src/core/games/registry.ts:560"
     ]
   },
   {
     "key": "'Catégories'",
     "en": "'Categories'",
     "at": [
-      "src/core/games/registry.ts:532"
+      "src/core/games/registry.ts:571"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté. Les mots vont par paires de même initiale, et l’intrus s’y fond : lis bien. 60 secondes.'",
     "en": "'All the words go together… except one, from a neighboring group. Words come in pairs with the same first letter, and the odd one blends in: read carefully. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:538"
+      "src/core/games/registry.ts:577"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté (un radis parmi des fruits). Trouve l’intrus le plus vite possible. 60 secondes.'",
     "en": "'All the words go together… except one, from a neighboring group (a radish among fruits). Find the odd one out as fast as you can. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:543"
+      "src/core/games/registry.ts:582"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.'",
     "en": "'All the words go together… except one. Find the odd one out as fast as you can. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:547"
+      "src/core/games/registry.ts:586"
     ]
   },
   {
     "key": "'Paires'",
     "en": "'Pairs'",
     "at": [
-      "src/core/games/registry.ts:558"
+      "src/core/games/registry.ts:597"
     ]
   },
   {
     "key": "'Retourne les cartes deux par deux et retrouve toutes les paires, en le moins de coups possible.'",
     "en": "'Turn the cards over two at a time and find all the pairs, in as few moves as you can.'",
     "at": [
-      "src/core/games/registry.ts:563"
+      "src/core/games/registry.ts:602"
     ]
   },
   {
     "key": "`${base} Attention : deux cartes ratées échangent leur place !`",
     "en": "`${base} Careful: two mismatched cards swap places!`",
     "at": [
-      "src/core/games/registry.ts:567"
+      "src/core/games/registry.ts:606"
     ]
   },
   {
     "key": "'Coup d’œil'",
     "en": "'At a Glance'",
     "at": [
-      "src/core/games/registry.ts:580"
+      "src/core/games/registry.ts:619"
     ]
   },
   {
     "key": "'Qui est qui ?'",
     "en": "\"Who's Who?\"",
     "at": [
-      "src/core/games/registry.ts:592"
+      "src/core/games/registry.ts:631"
     ]
   },
   {
     "key": "'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.'",
     "en": "'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Three rounds.'",
     "at": [
-      "src/core/games/registry.ts:600"
+      "src/core/games/registry.ts:639"
     ]
   },
   {
     "key": "'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.'",
     "en": "'Companions introduce themselves: remember their names, then find who’s who. Three rounds.'",
     "at": [
-      "src/core/games/registry.ts:604"
+      "src/core/games/registry.ts:643"
     ]
   },
   {
     "key": "`${base} À chaque manche, les mêmes visages changent de prénom !`",
     "en": "`${base} Each round, the same faces get different names!`",
     "at": [
-      "src/core/games/registry.ts:608"
+      "src/core/games/registry.ts:647"
     ]
   },
   {
     "key": "'Lecture éclair'",
     "en": "'Speed Reading'",
     "at": [
-      "src/core/games/registry.ts:619"
+      "src/core/games/registry.ts:658"
     ]
   },
   {
     "key": "'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 60 secondes.'",
     "en": "'Read each sentence all the way through: true or false? Watch out for “not”. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:626"
+      "src/core/games/registry.ts:665"
     ]
   },
   {
     "key": "'Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.'",
     "en": "'Read each sentence and quickly say whether it’s true or false. 60 seconds.'",
     "at": [
-      "src/core/games/registry.ts:629"
+      "src/core/games/registry.ts:668"
     ]
   },
   {
     "key": "'Itinéraire'",
     "en": "'Route Finder'",
     "at": [
-      "src/core/games/registry.ts:638"
+      "src/core/games/registry.ts:677"
     ]
   },
   {
     "key": "'Les flèches défilent une par une : suis le trajet de tête depuis ton compagnon, puis touche la case d’arrivée. Huit trajets.'",
     "en": "'The arrows show up one at a time: follow the route in your head from your companion, then tap where it ends. Eight routes.'",
     "at": [
-      "src/core/games/registry.ts:645"
+      "src/core/games/registry.ts:684"
     ]
   },
   {
     "key": "'Lis les flèches (« → 2 » : deux cases à droite) : elles vont disparaître. Touche la case où l’on arrive. Huit trajets.'",
     "en": "'Read the arrows (“→ 2”: two squares right): they’ll disappear. Tap the square where you end up. Eight routes.'",
     "at": [
-      "src/core/games/registry.ts:649"
+      "src/core/games/registry.ts:688"
     ]
   },
   {
     "key": "'« ↗ 2 » : deux cases en diagonale.'",
     "en": "'“↗ 2”: two squares diagonally.'",
     "at": [
-      "src/core/games/registry.ts:653"
+      "src/core/games/registry.ts:692"
     ]
   },
   {
     "key": "'Un rocher arrête la course : on s’arrête juste devant.'",
     "en": "'A rock stops you: you halt right in front of it.'",
     "at": [
-      "src/core/games/registry.ts:654"
+      "src/core/games/registry.ts:693"
+    ]
+  },
+  {
+    "key": "`${masteryName(level)} · ${passScore(level)} pts pour réussir`",
+    "en": "`${masteryName(level)} · ${passScore(level)} pts to pass`",
+    "at": [
+      "src/core/games/registry.ts:716"
     ]
   },
   {
@@ -3609,50 +3908,57 @@
     "key": "'Français'",
     "en": "'English'",
     "at": [
-      "src/core/lang.ts:19"
+      "src/core/lang.ts:24"
     ]
   },
   {
     "key": "'fr-FR'",
     "en": "'en-US'",
     "at": [
-      "src/core/lang.ts:54"
+      "src/core/lang.ts:59"
     ]
   },
   {
     "key": "'Débutant'",
     "en": "'Beginner'",
     "at": [
-      "src/core/levels.ts:27"
+      "src/core/levels.ts:39"
     ]
   },
   {
     "key": "'Confirmé'",
     "en": "'Skilled'",
     "at": [
-      "src/core/levels.ts:29"
+      "src/core/levels.ts:41"
     ]
   },
   {
     "key": "'Expert'",
     "en": "'Expert'",
     "at": [
-      "src/core/levels.ts:31"
+      "src/core/levels.ts:43"
     ]
   },
   {
     "key": "'Maître'",
     "en": "'Master'",
     "at": [
-      "src/core/levels.ts:33"
+      "src/core/levels.ts:45"
     ]
   },
   {
     "key": "'Légende'",
     "en": "'Legend'",
     "at": [
-      "src/core/levels.ts:35",
-      "src/core/progression.ts:90"
+      "src/core/levels.ts:47",
+      "src/core/progression.ts:102"
+    ]
+  },
+  {
+    "key": "'Maîtrise'",
+    "en": "'Mastery'",
+    "at": [
+      "src/core/levels.ts:49"
     ]
   },
   {
@@ -3674,7 +3980,7 @@
     "en": "'Something new'",
     "at": [
       "src/core/modes.ts:28",
-      "src/ui/screens/TrainingScreen.tsx:154"
+      "src/ui/screens/TrainingScreen.tsx:235"
     ]
   },
   {
@@ -3706,16 +4012,74 @@
     ]
   },
   {
+    "key": "`Terminer ${n} parties`",
+    "en": "`Finish ${n} games`",
+    "at": [
+      "src/core/objectives.ts:167"
+    ]
+  },
+  {
+    "key": "`Jouer dans ${n} domaines différents`",
+    "en": "`Play in ${n} different areas`",
+    "at": [
+      "src/core/objectives.ts:169"
+    ]
+  },
+  {
+    "key": "`Jouer une partie de ${name}`",
+    "en": "`Play a ${name} game`",
+    "at": [
+      "src/core/objectives.ts:172"
+    ]
+  },
+  {
+    "key": "'Rejouer un jeu laissé de côté depuis une semaine'",
+    "en": "'Play a game you haven’t touched in a week'",
+    "at": [
+      "src/core/objectives.ts:175"
+    ]
+  },
+  {
+    "key": "'Terminer le test du jour'",
+    "en": "'Finish the daily test'",
+    "at": [
+      "src/core/objectives.ts:177"
+    ]
+  },
+  {
+    "key": "`Obtenir ${objective.score} points ou plus dans une partie`",
+    "en": "`Score ${objective.score} points or more in a game`",
+    "at": [
+      "src/core/objectives.ts:179"
+    ]
+  },
+  {
+    "key": "'Battre un de tes records'",
+    "en": "'Beat one of your best scores'",
+    "at": [
+      "src/core/objectives.ts:181"
+    ]
+  },
+  {
+    "key": "`Gagner ${n} nouvelles étoiles`",
+    "en": "`Earn ${n} new stars`",
+    "at": [
+      "src/core/objectives.ts:183"
+    ]
+  },
+  {
     "key": "plural(errors, 'erreur')",
     "en": "plural(errors, 'error')",
     "at": [
       "src/core/outcome.ts:22",
       "src/ui/games/CategoriesGame.tsx:32",
+      "src/ui/games/ContrairesGame.tsx:106",
       "src/ui/games/CoupGame.tsx:62",
       "src/ui/games/HorlogesGame.tsx:115",
       "src/ui/games/IntrusGame.tsx:69",
       "src/ui/games/LectureGame.tsx:42",
       "src/ui/games/LettreGame.tsx:47",
+      "src/ui/games/LuciolesGame.tsx:67",
       "src/ui/games/RotationGame.tsx:107",
       "src/ui/games/SudokuGame.tsx:51"
     ]
@@ -3736,8 +4100,10 @@
     "at": [
       "src/core/outcome.ts:25",
       "src/ui/games/CategoriesGame.tsx:35",
+      "src/ui/games/ContrairesGame.tsx:109",
       "src/ui/games/CorrespondanceGame.tsx:121",
       "src/ui/games/CoupGame.tsx:65",
+      "src/ui/games/FilatureGame.tsx:68",
       "src/ui/games/HorlogesGame.tsx:118",
       "src/ui/games/IntrusGame.tsx:72",
       "src/ui/games/LectureGame.tsx:45",
@@ -3752,12 +4118,15 @@
     "at": [
       "src/core/outcome.ts:25",
       "src/ui/games/CategoriesGame.tsx:35",
+      "src/ui/games/ContrairesGame.tsx:109",
       "src/ui/games/CorrespondanceGame.tsx:121",
       "src/ui/games/CoupGame.tsx:65",
+      "src/ui/games/FilatureGame.tsx:68",
       "src/ui/games/HorlogesGame.tsx:118",
       "src/ui/games/IntrusGame.tsx:72",
       "src/ui/games/LectureGame.tsx:45",
       "src/ui/games/LettreGame.tsx:50",
+      "src/ui/games/LuciolesGame.tsx:70",
       "src/ui/games/MonnaieGame.tsx:84",
       "src/ui/games/RotationGame.tsx:110"
     ]
@@ -3886,760 +4255,1129 @@
     "key": "'Bronze'",
     "en": "'Bronze'",
     "at": [
-      "src/core/progression.ts:75"
+      "src/core/progression.ts:87"
     ]
   },
   {
     "key": "'Argent'",
     "en": "'Silver'",
     "at": [
-      "src/core/progression.ts:78"
+      "src/core/progression.ts:90"
     ]
   },
   {
     "key": "'Or'",
     "en": "'Gold'",
     "at": [
-      "src/core/progression.ts:81"
+      "src/core/progression.ts:93"
     ]
   },
   {
     "key": "'Platine'",
     "en": "'Platinum'",
     "at": [
-      "src/core/progression.ts:84",
-      "src/core/progression.ts:343"
+      "src/core/progression.ts:96",
+      "src/core/progression.ts:398"
     ]
   },
   {
     "key": "'Diamant'",
     "en": "'Diamond'",
     "at": [
-      "src/core/progression.ts:87",
-      "src/core/progression.ts:371"
+      "src/core/progression.ts:99",
+      "src/core/progression.ts:426"
     ]
   },
   {
     "key": "'Réussir le niveau 5'",
     "en": "'Pass level 5'",
     "at": [
-      "src/core/progression.ts:97"
+      "src/core/progression.ts:109"
     ]
   },
   {
     "key": "'Réussir le niveau 10'",
     "en": "'Pass level 10'",
     "at": [
-      "src/core/progression.ts:100"
+      "src/core/progression.ts:112"
     ]
   },
   {
     "key": "'Réussir le niveau 15'",
     "en": "'Pass level 15'",
     "at": [
-      "src/core/progression.ts:103"
+      "src/core/progression.ts:115"
     ]
   },
   {
     "key": "'Trois étoiles au niveau 20'",
     "en": "'Three stars on level 20'",
     "at": [
-      "src/core/progression.ts:106"
+      "src/core/progression.ts:118"
     ]
   },
   {
     "key": "'Réussir le niveau 35'",
     "en": "'Pass level 35'",
     "at": [
-      "src/core/progression.ts:109"
+      "src/core/progression.ts:121"
     ]
   },
   {
     "key": "'Trois étoiles au niveau 50'",
     "en": "'Three stars on level 50'",
     "at": [
-      "src/core/progression.ts:112"
+      "src/core/progression.ts:124"
     ]
   },
   {
     "key": "'Esprit curieux'",
     "en": "'Curious Mind'",
     "at": [
-      "src/core/progression.ts:168"
+      "src/core/progression.ts:182"
     ]
   },
   {
     "key": "'Esprit éveillé'",
     "en": "'Awakened Mind'",
     "at": [
-      "src/core/progression.ts:169"
+      "src/core/progression.ts:183"
     ]
   },
   {
     "key": "'Esprit agile'",
     "en": "'Agile Mind'",
     "at": [
-      "src/core/progression.ts:170"
+      "src/core/progression.ts:184"
     ]
   },
   {
     "key": "'Esprit vif'",
     "en": "'Quick Mind'",
     "at": [
-      "src/core/progression.ts:171",
-      "src/core/progression.ts:324"
+      "src/core/progression.ts:185",
+      "src/core/progression.ts:379"
     ]
   },
   {
     "key": "'Esprit affûté'",
     "en": "'Sharp Mind'",
     "at": [
-      "src/core/progression.ts:172"
+      "src/core/progression.ts:186"
     ]
   },
   {
     "key": "'Esprit brillant'",
     "en": "'Brilliant Mind'",
     "at": [
-      "src/core/progression.ts:173"
+      "src/core/progression.ts:187"
     ]
   },
   {
     "key": "'Esprit lumineux'",
     "en": "'Radiant Mind'",
     "at": [
-      "src/core/progression.ts:174"
+      "src/core/progression.ts:188"
     ]
   },
   {
     "key": "'Esprit étincelant'",
     "en": "'Dazzling Mind'",
     "at": [
-      "src/core/progression.ts:175"
+      "src/core/progression.ts:189"
     ]
   },
   {
     "key": "'Esprit légendaire'",
     "en": "'Legendary Mind'",
     "at": [
-      "src/core/progression.ts:176"
+      "src/core/progression.ts:190"
+    ]
+  },
+  {
+    "key": "'Esprit céleste'",
+    "en": "'Celestial Mind'",
+    "at": [
+      "src/core/progression.ts:192"
+    ]
+  },
+  {
+    "key": "'Esprit stellaire'",
+    "en": "'Stellar Mind'",
+    "at": [
+      "src/core/progression.ts:193"
+    ]
+  },
+  {
+    "key": "'Esprit cosmique'",
+    "en": "'Cosmic Mind'",
+    "at": [
+      "src/core/progression.ts:194"
+    ]
+  },
+  {
+    "key": "'Esprit infini'",
+    "en": "'Infinite Mind'",
+    "at": [
+      "src/core/progression.ts:195"
+    ]
+  },
+  {
+    "key": "'Esprit éternel'",
+    "en": "'Eternal Mind'",
+    "at": [
+      "src/core/progression.ts:196"
+    ]
+  },
+  {
+    "key": "'Aura d’argent'",
+    "en": "'Silver aura'",
+    "at": [
+      "src/core/progression.ts:230"
+    ]
+  },
+  {
+    "key": "'Aura dorée'",
+    "en": "'Golden aura'",
+    "at": [
+      "src/core/progression.ts:231"
+    ]
+  },
+  {
+    "key": "'Aura arc-en-ciel'",
+    "en": "'Rainbow aura'",
+    "at": [
+      "src/core/progression.ts:232"
     ]
   },
   {
     "key": "'Premiers pas'",
     "en": "'First Steps'",
     "at": [
-      "src/core/progression.ts:302"
+      "src/core/progression.ts:357"
     ]
   },
   {
     "key": "'Terminer une première partie.'",
     "en": "'Finish your first game.'",
     "at": [
-      "src/core/progression.ts:302"
+      "src/core/progression.ts:357"
     ]
   },
   {
     "key": "'Rendez-vous'",
     "en": "'Check-In'",
     "at": [
-      "src/core/progression.ts:303"
+      "src/core/progression.ts:358"
     ]
   },
   {
     "key": "'Terminer un test du jour.'",
     "en": "'Finish a daily test.'",
     "at": [
-      "src/core/progression.ts:303"
+      "src/core/progression.ts:358"
     ]
   },
   {
     "key": "'Habitué'",
     "en": "'Regular'",
     "at": [
-      "src/core/progression.ts:304"
+      "src/core/progression.ts:359"
     ]
   },
   {
     "key": "'Terminer 10 tests du jour.'",
     "en": "'Finish 10 daily tests.'",
     "at": [
-      "src/core/progression.ts:304"
+      "src/core/progression.ts:359"
     ]
   },
   {
     "key": "'Fidèle'",
     "en": "'Faithful'",
     "at": [
-      "src/core/progression.ts:305"
+      "src/core/progression.ts:360"
     ]
   },
   {
     "key": "'Terminer 50 tests du jour.'",
     "en": "'Finish 50 daily tests.'",
     "at": [
-      "src/core/progression.ts:305"
+      "src/core/progression.ts:360"
     ]
   },
   {
     "key": "'Bon rythme'",
     "en": "'In the Groove'",
     "at": [
-      "src/core/progression.ts:306"
+      "src/core/progression.ts:361"
     ]
   },
   {
     "key": "'Tenir une série de 3 jours.'",
     "en": "'Keep a 3-day streak.'",
     "at": [
-      "src/core/progression.ts:306"
+      "src/core/progression.ts:361"
     ]
   },
   {
     "key": "'Une semaine pile'",
     "en": "'A Full Week'",
     "at": [
-      "src/core/progression.ts:307"
+      "src/core/progression.ts:362"
     ]
   },
   {
     "key": "'Tenir une série de 7 jours.'",
     "en": "'Keep a 7-day streak.'",
     "at": [
-      "src/core/progression.ts:307"
+      "src/core/progression.ts:362"
     ]
   },
   {
     "key": "'Un mois sans faille'",
     "en": "'A Flawless Month'",
     "at": [
-      "src/core/progression.ts:308"
+      "src/core/progression.ts:363"
     ]
   },
   {
     "key": "'Tenir une série de 30 jours.'",
     "en": "'Keep a 30-day streak.'",
     "at": [
-      "src/core/progression.ts:308"
+      "src/core/progression.ts:363"
     ]
   },
   {
     "key": "'Curieux'",
     "en": "'Curious'",
     "at": [
-      "src/core/progression.ts:309"
+      "src/core/progression.ts:364"
     ]
   },
   {
     "key": "'Essayer 12 jeux différents.'",
     "en": "'Try 12 different games.'",
     "at": [
-      "src/core/progression.ts:309"
+      "src/core/progression.ts:364"
     ]
   },
   {
     "key": "'Touche-à-tout'",
     "en": "'Jack of All Trades'",
     "at": [
-      "src/core/progression.ts:310"
+      "src/core/progression.ts:365"
     ]
   },
   {
     "key": "'Essayer tous les jeux.'",
     "en": "'Try every game.'",
     "at": [
-      "src/core/progression.ts:310"
+      "src/core/progression.ts:365"
     ]
   },
   {
     "key": "'Cent parties'",
     "en": "'A Hundred Games'",
     "at": [
-      "src/core/progression.ts:311"
+      "src/core/progression.ts:366"
     ]
   },
   {
     "key": "'Jouer 100 parties.'",
     "en": "'Play 100 games.'",
     "at": [
-      "src/core/progression.ts:311"
+      "src/core/progression.ts:366"
     ]
   },
   {
     "key": "'Infatigable'",
     "en": "'Tireless'",
     "at": [
-      "src/core/progression.ts:312"
+      "src/core/progression.ts:367"
     ]
   },
   {
     "key": "'Jouer 500 parties.'",
     "en": "'Play 500 games.'",
     "at": [
-      "src/core/progression.ts:312"
+      "src/core/progression.ts:367"
     ]
   },
   {
     "key": "'Sans faute'",
     "en": "'Perfect Score'",
     "at": [
-      "src/core/progression.ts:313"
+      "src/core/progression.ts:368"
     ]
   },
   {
     "key": "'Obtenir 100 points dans une partie.'",
     "en": "'Score 100 points in a game.'",
     "at": [
-      "src/core/progression.ts:313"
+      "src/core/progression.ts:368"
     ]
   },
   {
     "key": "'Perfectionniste'",
     "en": "'Perfectionist'",
     "at": [
-      "src/core/progression.ts:314"
+      "src/core/progression.ts:369"
     ]
   },
   {
     "key": "'Obtenir 100 points 25 fois.'",
     "en": "'Score 100 points 25 times.'",
     "at": [
-      "src/core/progression.ts:314"
+      "src/core/progression.ts:369"
     ]
   },
   {
     "key": "'Esprit alerte'",
     "en": "'Alert Mind'",
     "at": [
-      "src/core/progression.ts:317"
+      "src/core/progression.ts:372"
     ]
   },
   {
     "key": "'Atteindre un âge cérébral de 40 ans ou moins.'",
     "en": "'Reach a brain age of 40 or under.'",
     "at": [
-      "src/core/progression.ts:318"
+      "src/core/progression.ts:373"
     ]
   },
   {
     "key": "'Atteindre un âge cérébral de 30 ans ou moins.'",
     "en": "'Reach a brain age of 30 or under.'",
     "at": [
-      "src/core/progression.ts:325"
+      "src/core/progression.ts:380"
     ]
   },
   {
     "key": "'Au sommet'",
     "en": "'At the Top'",
     "at": [
-      "src/core/progression.ts:329"
+      "src/core/progression.ts:384"
     ]
   },
   {
     "key": "'Atteindre l’âge cérébral de 20 ans.'",
     "en": "'Reach a brain age of 20.'",
     "at": [
-      "src/core/progression.ts:329"
+      "src/core/progression.ts:384"
     ]
   },
   {
     "key": "'En progrès'",
     "en": "'On the Rise'",
     "at": [
-      "src/core/progression.ts:332"
+      "src/core/progression.ts:387"
     ]
   },
   {
     "key": "'Gagner 5 ans d’âge cérébral depuis ton premier test.'",
     "en": "'Take 5 years off your brain age since your first test.'",
     "at": [
-      "src/core/progression.ts:333"
+      "src/core/progression.ts:388"
     ]
   },
   {
     "key": "'Pluie d’étoiles'",
     "en": "'Shower of Stars'",
     "at": [
-      "src/core/progression.ts:338"
+      "src/core/progression.ts:393"
     ]
   },
   {
     "key": "'Gagner 50 étoiles.'",
     "en": "'Earn 50 stars.'",
     "at": [
-      "src/core/progression.ts:338"
+      "src/core/progression.ts:393"
     ]
   },
   {
     "key": "'Constellation'",
     "en": "'Constellation'",
     "at": [
-      "src/core/progression.ts:339"
+      "src/core/progression.ts:394"
     ]
   },
   {
     "key": "'Gagner 250 étoiles.'",
     "en": "'Earn 250 stars.'",
     "at": [
-      "src/core/progression.ts:339"
+      "src/core/progression.ts:394"
     ]
   },
   {
     "key": "'Voie lactée'",
     "en": "'Milky Way'",
     "at": [
-      "src/core/progression.ts:340"
+      "src/core/progression.ts:395"
     ]
   },
   {
     "key": "'Gagner 1 000 étoiles.'",
     "en": "'Earn 1,000 stars.'",
     "at": [
-      "src/core/progression.ts:340"
+      "src/core/progression.ts:395"
     ]
   },
   {
     "key": "'Première médaille'",
     "en": "'First Medal'",
     "at": [
-      "src/core/progression.ts:341"
+      "src/core/progression.ts:396"
     ]
   },
   {
     "key": "'Gagner une médaille de bronze.'",
     "en": "'Earn a bronze medal.'",
     "at": [
-      "src/core/progression.ts:341"
+      "src/core/progression.ts:396"
     ]
   },
   {
     "key": "'Médaille d’or'",
     "en": "'Gold Medal'",
     "at": [
-      "src/core/progression.ts:342"
+      "src/core/progression.ts:397"
     ]
   },
   {
     "key": "'Gagner une médaille d’or.'",
     "en": "'Earn a gold medal.'",
     "at": [
-      "src/core/progression.ts:342"
+      "src/core/progression.ts:397"
     ]
   },
   {
     "key": "'Gagner une médaille de platine.'",
     "en": "'Earn a platinum medal.'",
     "at": [
-      "src/core/progression.ts:343"
+      "src/core/progression.ts:398"
     ]
   },
   {
     "key": "'Collectionneur'",
     "en": "'Collector'",
     "at": [
-      "src/core/progression.ts:346"
+      "src/core/progression.ts:401"
     ]
   },
   {
     "key": "'Une médaille dans chaque jeu.'",
     "en": "'A medal in every game.'",
     "at": [
-      "src/core/progression.ts:347"
+      "src/core/progression.ts:402"
     ]
   },
   {
     "key": "'Spécialiste'",
     "en": "'Specialist'",
     "at": [
-      "src/core/progression.ts:352"
+      "src/core/progression.ts:407"
     ]
   },
   {
     "key": "'L’or dans tous les jeux d’un même domaine.'",
     "en": "'Gold in every game of one domain.'",
     "at": [
-      "src/core/progression.ts:352"
+      "src/core/progression.ts:407"
     ]
   },
   {
     "key": "'Tout en haut'",
     "en": "'Top of the Ladder'",
     "at": [
-      "src/core/progression.ts:355"
+      "src/core/progression.ts:410"
     ]
   },
   {
     "key": "'Débloquer le niveau 20 d’un jeu.'",
     "en": "'Unlock level 20 in a game.'",
     "at": [
-      "src/core/progression.ts:356"
+      "src/core/progression.ts:411"
     ]
   },
   {
     "key": "'Le sommet'",
     "en": "'The Summit'",
     "at": [
-      "src/core/progression.ts:364"
+      "src/core/progression.ts:419"
     ]
   },
   {
     "key": "'Débloquer le niveau 50 d’un jeu.'",
     "en": "'Unlock level 50 in a game.'",
     "at": [
-      "src/core/progression.ts:365"
+      "src/core/progression.ts:420"
     ]
   },
   {
     "key": "'Gagner une médaille de diamant.'",
     "en": "'Earn a diamond medal.'",
     "at": [
-      "src/core/progression.ts:371"
+      "src/core/progression.ts:426"
     ]
   },
   {
     "key": "'Légende vivante'",
     "en": "'Living Legend'",
     "at": [
-      "src/core/progression.ts:372"
+      "src/core/progression.ts:427"
     ]
   },
   {
     "key": "'Gagner une médaille légende.'",
     "en": "'Earn a legend medal.'",
     "at": [
-      "src/core/progression.ts:372"
+      "src/core/progression.ts:427"
     ]
   },
   {
     "key": "'Niveau 10'",
     "en": "'Level 10'",
     "at": [
-      "src/core/progression.ts:373"
+      "src/core/progression.ts:428"
     ]
   },
   {
     "key": "'Atteindre le niveau 10 de joueur.'",
     "en": "'Reach player level 10.'",
     "at": [
-      "src/core/progression.ts:373"
+      "src/core/progression.ts:428"
     ]
   },
   {
     "key": "'Niveau 25'",
     "en": "'Level 25'",
     "at": [
-      "src/core/progression.ts:374"
+      "src/core/progression.ts:429"
     ]
   },
   {
     "key": "'Atteindre le niveau 25 de joueur.'",
     "en": "'Reach player level 25.'",
     "at": [
-      "src/core/progression.ts:374"
+      "src/core/progression.ts:429"
     ]
   },
   {
     "key": "'Niveau 50'",
     "en": "'Level 50'",
     "at": [
-      "src/core/progression.ts:375"
+      "src/core/progression.ts:430"
     ]
   },
   {
     "key": "'Atteindre le niveau 50 de joueur.'",
     "en": "'Reach player level 50.'",
     "at": [
-      "src/core/progression.ts:375"
+      "src/core/progression.ts:430"
     ]
   },
   {
     "key": "'Séance complète'",
     "en": "'Session Complete'",
     "at": [
-      "src/core/progression.ts:376"
+      "src/core/progression.ts:431"
     ]
   },
   {
     "key": "'Terminer une séance du jour.'",
     "en": "'Finish a daily session.'",
     "at": [
-      "src/core/progression.ts:376"
+      "src/core/progression.ts:431"
     ]
   },
   {
     "key": "'Assidu'",
     "en": "'Dedicated'",
     "at": [
-      "src/core/progression.ts:377"
+      "src/core/progression.ts:432"
     ]
   },
   {
     "key": "'Terminer 20 séances du jour.'",
     "en": "'Finish 20 daily sessions.'",
     "at": [
-      "src/core/progression.ts:377"
+      "src/core/progression.ts:432"
     ]
   },
   {
     "key": "'Marathonien'",
     "en": "'Marathoner'",
     "at": [
-      "src/core/progression.ts:378"
+      "src/core/progression.ts:433"
     ]
   },
   {
     "key": "'Terminer un marathon.'",
     "en": "'Finish a marathon.'",
     "at": [
-      "src/core/progression.ts:378"
+      "src/core/progression.ts:433"
     ]
   },
   {
     "key": "'Premier duel'",
     "en": "'First Duel'",
     "at": [
-      "src/core/progression.ts:379"
+      "src/core/progression.ts:434"
     ]
   },
   {
     "key": "'Jouer un duel à deux.'",
     "en": "'Play a two-player duel.'",
     "at": [
-      "src/core/progression.ts:379"
+      "src/core/progression.ts:434"
     ]
   },
   {
     "key": "'Entre amies'",
     "en": "'Among Friends'",
     "at": [
-      "src/core/progression.ts:380"
+      "src/core/progression.ts:435"
     ]
   },
   {
     "key": "'Relever un défi entre amies.'",
     "en": "'Take on a friend challenge.'",
     "at": [
-      "src/core/progression.ts:380"
+      "src/core/progression.ts:435"
     ]
   },
   {
     "key": "'La bande au complet'",
     "en": "'The Whole Gang'",
     "at": [
-      "src/core/progression.ts:381"
+      "src/core/progression.ts:436"
     ]
   },
   {
     "key": "'Relever 10 défis entre amies.'",
     "en": "'Take on 10 friend challenges.'",
     "at": [
-      "src/core/progression.ts:381"
+      "src/core/progression.ts:436"
     ]
   },
   {
     "key": "'Lève-tôt'",
     "en": "'Early Bird'",
     "at": [
-      "src/core/progression.ts:382"
+      "src/core/progression.ts:437"
     ]
   },
   {
     "key": "'Faire le test du jour avant 8 h.'",
     "en": "'Take the daily test before 8 a.m.'",
     "at": [
-      "src/core/progression.ts:382"
+      "src/core/progression.ts:437"
     ]
   },
   {
     "key": "'Oiseau de nuit'",
     "en": "'Night Owl'",
     "at": [
-      "src/core/progression.ts:383"
+      "src/core/progression.ts:438"
     ]
   },
   {
     "key": "'Jouer une partie après 23 h.'",
     "en": "'Play a game after 11 p.m.'",
     "at": [
-      "src/core/progression.ts:383"
+      "src/core/progression.ts:438"
     ]
   },
   {
     "key": "'Défi relevé'",
     "en": "'Challenge Met'",
     "at": [
-      "src/core/progression.ts:384"
+      "src/core/progression.ts:439"
     ]
   },
   {
     "key": "'Relever un défi de la semaine.'",
     "en": "'Complete a weekly challenge.'",
     "at": [
-      "src/core/progression.ts:384"
+      "src/core/progression.ts:439"
     ]
   },
   {
     "key": "'Toujours partant'",
     "en": "'Always Game'",
     "at": [
-      "src/core/progression.ts:385"
+      "src/core/progression.ts:440"
     ]
   },
   {
     "key": "'Relever 5 défis de la semaine.'",
     "en": "'Complete 5 weekly challenges.'",
     "at": [
-      "src/core/progression.ts:385"
+      "src/core/progression.ts:440"
+    ]
+  },
+  {
+    "key": "'L’expédition polaire'",
+    "en": "'The Polar Expedition'",
+    "at": [
+      "src/core/seasons.ts:35"
+    ]
+  },
+  {
+    "key": "'Chapka polaire'",
+    "en": "'Polar trapper hat'",
+    "at": [
+      "src/core/seasons.ts:36"
+    ]
+  },
+  {
+    "key": "'Le grand voyage en mer'",
+    "en": "'The Great Sea Voyage'",
+    "at": [
+      "src/core/seasons.ts:46"
+    ]
+  },
+  {
+    "key": "'Casquette de capitaine'",
+    "en": "'Captain’s cap'",
+    "at": [
+      "src/core/seasons.ts:47"
+    ]
+  },
+  {
+    "key": "'La forêt enchantée'",
+    "en": "'The Enchanted Forest'",
+    "at": [
+      "src/core/seasons.ts:57"
+    ]
+  },
+  {
+    "key": "'Chapeau champignon'",
+    "en": "'Mushroom cap'",
+    "at": [
+      "src/core/seasons.ts:58"
+    ]
+  },
+  {
+    "key": "'Le désert des mirages'",
+    "en": "'The Desert of Mirages'",
+    "at": [
+      "src/core/seasons.ts:68"
+    ]
+  },
+  {
+    "key": "'Casque d’explorateur'",
+    "en": "'Explorer’s helmet'",
+    "at": [
+      "src/core/seasons.ts:69"
+    ]
+  },
+  {
+    "key": "'La cité des étoiles'",
+    "en": "'The City of Stars'",
+    "at": [
+      "src/core/seasons.ts:79"
+    ]
+  },
+  {
+    "key": "'Chapeau planète'",
+    "en": "'Planet hat'",
+    "at": [
+      "src/core/seasons.ts:80"
+    ]
+  },
+  {
+    "key": "'Le cœur du volcan'",
+    "en": "'The Heart of the Volcano'",
+    "at": [
+      "src/core/seasons.ts:90"
+    ]
+  },
+  {
+    "key": "'Couronne de flammes'",
+    "en": "'Flame crown'",
+    "at": [
+      "src/core/seasons.ts:91"
+    ]
+  },
+  {
+    "key": "`${localized(story.hat)} · édition ${parsed.edition}`",
+    "en": "`${localized(story.hat)} · edition ${parsed.edition}`",
+    "at": [
+      "src/core/seasons.ts:160"
+    ]
+  },
+  {
+    "key": "'Hiver'",
+    "en": "'Winter'",
+    "at": [
+      "src/core/themes.ts:66"
+    ]
+  },
+  {
+    "key": "'Automne'",
+    "en": "'Autumn'",
+    "at": [
+      "src/core/themes.ts:69"
+    ]
+  },
+  {
+    "key": "'Ouvrir le palier Expert (niveau 21) d’un jeu'",
+    "en": "'Open the Expert tier (level 21) in a game'",
+    "at": [
+      "src/core/wardrobe.ts:113"
+    ]
+  },
+  {
+    "key": "'Ouvrir le palier Maître (niveau 31) d’un jeu'",
+    "en": "'Open the Master tier (level 31) in a game'",
+    "at": [
+      "src/core/wardrobe.ts:121"
+    ]
+  },
+  {
+    "key": "'Ouvrir le palier Légende (niveau 41) d’un jeu'",
+    "en": "'Open the Legend tier (level 41) in a game'",
+    "at": [
+      "src/core/wardrobe.ts:129"
+    ]
+  },
+  {
+    "key": "'Gagner une médaille de platine'",
+    "en": "'Earn a platinum medal'",
+    "at": [
+      "src/core/wardrobe.ts:133"
+    ]
+  },
+  {
+    "key": "'Gagner une médaille de diamant'",
+    "en": "'Earn a diamond medal'",
+    "at": [
+      "src/core/wardrobe.ts:134"
+    ]
+  },
+  {
+    "key": "'Tenir une série de 7 jours'",
+    "en": "'Keep a 7-day streak'",
+    "at": [
+      "src/core/wardrobe.ts:135"
+    ]
+  },
+  {
+    "key": "'Tenir une série de 30 jours'",
+    "en": "'Keep a 30-day streak'",
+    "at": [
+      "src/core/wardrobe.ts:136"
+    ]
+  },
+  {
+    "key": "'Relever 5 défis de la semaine'",
+    "en": "'Complete 5 weekly challenges'",
+    "at": [
+      "src/core/wardrobe.ts:137"
+    ]
+  },
+  {
+    "key": "'Atteindre le niveau 10 de joueur'",
+    "en": "'Reach player level 10'",
+    "at": [
+      "src/core/wardrobe.ts:138"
+    ]
+  },
+  {
+    "key": "'Atteindre le niveau 25 de joueur'",
+    "en": "'Reach player level 25'",
+    "at": [
+      "src/core/wardrobe.ts:139"
+    ]
+  },
+  {
+    "key": "'Atteindre le niveau 50 de joueur'",
+    "en": "'Reach player level 50'",
+    "at": [
+      "src/core/wardrobe.ts:140"
+    ]
+  },
+  {
+    "key": "`Maîtriser ${n} jeux (Maîtrise V)`",
+    "en": "`Master ${n} games (Mastery V)`",
+    "at": [
+      "src/core/wardrobe.ts:148"
+    ]
+  },
+  {
+    "key": "'Collection Premium'",
+    "en": "'Premium collection'",
+    "at": [
+      "src/core/wardrobe.ts:225",
+      "src/ui/screens/WardrobeScreen.tsx:94"
+    ]
+  },
+  {
+    "key": "'Réservé à Esprit Vif Premium.'",
+    "en": "'Included with Esprit Vif Premium.'",
+    "at": [
+      "src/core/wardrobe.ts:243"
+    ]
+  },
+  {
+    "key": "'Ce chapeau ne s’achète pas.'",
+    "en": "'This hat can’t be bought.'",
+    "at": [
+      "src/core/wardrobe.ts:244"
+    ]
+  },
+  {
+    "key": "'Déjà dans le vestiaire.'",
+    "en": "'Already in the wardrobe.'",
+    "at": [
+      "src/core/wardrobe.ts:245"
+    ]
+  },
+  {
+    "key": "`Encore ${hat.price - status.balance} étincelles`",
+    "en": "`${hat.price - status.balance} more sparks`",
+    "at": [
+      "src/core/wardrobe.ts:246"
     ]
   },
   {
     "key": "'Ton test du jour t’attend : cinq minutes suffisent.'",
     "en": "'Your daily test is waiting: five minutes is all it takes.'",
     "at": [
-      "src/native.ts:21"
+      "src/native.ts:22"
     ]
   },
   {
     "key": "'Trois petits jeux pour garder l’esprit vif ?'",
     "en": "'Three quick games to keep your mind sharp?'",
     "at": [
-      "src/native.ts:22"
+      "src/native.ts:23"
     ]
   },
   {
     "key": "'Une pause pour ton cerveau ? Le test du jour est prêt.'",
     "en": "'A break for your brain? Your daily test is ready.'",
     "at": [
-      "src/native.ts:23"
+      "src/native.ts:24"
     ]
   },
   {
     "key": "'Sauvegarde Esprit Vif'",
     "en": "'Esprit Vif backup'",
     "at": [
-      "src/native.ts:65"
+      "src/native.ts:66"
     ]
   },
   {
     "key": "'Enregistrer ou envoyer la sauvegarde'",
     "en": "'Save or send the backup'",
     "at": [
-      "src/native.ts:67"
+      "src/native.ts:68"
     ]
   },
   {
     "key": "'Partager'",
     "en": "'Share'",
     "at": [
-      "src/native.ts:79"
+      "src/native.ts:80"
     ]
   },
   {
     "key": "'Envoyer le défi'",
     "en": "'Send the challenge'",
     "at": [
-      "src/native.ts:84",
+      "src/native.ts:85",
       "src/ui/screens/ChallengeScreen.tsx:581"
+    ]
+  },
+  {
+    "key": "'Trois thèmes exclusifs'",
+    "en": "'Three exclusive themes'",
+    "at": [
+      "src/premium/catalog.ts:26",
+      "src/ui/screens/PremiumScreen.tsx:160"
+    ]
+  },
+  {
+    "key": "'Aurore boréale, Sakura et ses pétales, Encre en noir et blanc (un vrai noir en mode sombre).'",
+    "en": "'Northern lights, Sakura with falling petals, and Ink in black and white (true black in dark mode).'",
+    "at": [
+      "src/premium/catalog.ts:27"
+    ]
+  },
+  {
+    "key": "'L’historique détaillé de chaque jeu'",
+    "en": "'Detailed history for every game'",
+    "at": [
+      "src/premium/catalog.ts:32",
+      "src/ui/screens/PremiumScreen.tsx:260"
+    ]
+  },
+  {
+    "key": "'La courbe de tous tes scores, ton meilleur score à chaque niveau, ta précision et ton temps de réaction au fil des parties.'",
+    "en": "'A chart of all your scores, your best score on every level, and your accuracy and reaction time over time.'",
+    "at": [
+      "src/premium/catalog.ts:33"
+    ]
+  },
+  {
+    "key": "'Huit chapeaux qui scintillent'",
+    "en": "'Eight sparkling hats'",
+    "at": [
+      "src/premium/catalog.ts:38",
+      "src/ui/screens/PremiumScreen.tsx:194"
+    ]
+  },
+  {
+    "key": "'Astronaute, licorne, mousquetaire, couronne étoilée, lapin, dragon, arc-en-ciel, pharaon : sans étincelles, d’un coup.'",
+    "en": "'Astronaut, unicorn, musketeer, starry crown, bunny, dragon, rainbow, pharaoh: no sparks needed, all at once.'",
+    "at": [
+      "src/premium/catalog.ts:39"
+    ]
+  },
+  {
+    "key": "'Trois compagnons exclusifs'",
+    "en": "'Three exclusive companions'",
+    "at": [
+      "src/premium/catalog.ts:44",
+      "src/ui/screens/PremiumScreen.tsx:226"
+    ]
+  },
+  {
+    "key": "'Kiwi, Ananas et Myrtille rejoignent Vif et sa bande.'",
+    "en": "'Kiwi, Pineapple and Blueberry join Vif and the gang.'",
+    "at": [
+      "src/premium/catalog.ts:45"
+    ]
+  },
+  {
+    "key": "'Le bilan du mois'",
+    "en": "'The monthly recap'",
+    "at": [
+      "src/premium/catalog.ts:50"
+    ]
+  },
+  {
+    "key": "'Chaque mois, une carte illustrée de tes parties, records et progrès, à partager.'",
+    "en": "'Every month, an illustrated card of your games, best scores and progress, to share.'",
+    "at": [
+      "src/premium/catalog.ts:51"
+    ]
+  },
+  {
+    "key": "'Soutenir un développeur indépendant'",
+    "en": "'Support an independent developer'",
+    "at": [
+      "src/premium/catalog.ts:56"
+    ]
+  },
+  {
+    "key": "'Esprit Vif est fait par une seule personne, sans publicité ni pistage : Premium paie la suite.'",
+    "en": "'Esprit Vif is made by one person, with no ads or tracking: Premium pays for what comes next.'",
+    "at": [
+      "src/premium/catalog.ts:57"
     ]
   },
   {
@@ -4660,35 +5398,35 @@
     "key": "'Test introuvable'",
     "en": "'Test not found'",
     "at": [
-      "src/store/progress.ts:326"
+      "src/store/progress.ts:372"
     ]
   },
   {
     "key": "'Ce fichier n’est pas une sauvegarde lisible.'",
     "en": "'This file isn’t a readable backup.'",
     "at": [
-      "src/store/progress.ts:550"
+      "src/store/progress.ts:671"
     ]
   },
   {
     "key": "'Ce fichier ne vient pas d’Esprit Vif.'",
     "en": "'This file doesn’t come from Esprit Vif.'",
     "at": [
-      "src/store/progress.ts:553"
+      "src/store/progress.ts:674"
     ]
   },
   {
     "key": "'Cette sauvegarde vient d’une version plus récente de l’appli.'",
     "en": "'This backup comes from a newer version of the app.'",
     "at": [
-      "src/store/progress.ts:556"
+      "src/store/progress.ts:677"
     ]
   },
   {
     "key": "'Cette sauvegarde est incomplète.'",
     "en": "'This backup is incomplete.'",
     "at": [
-      "src/store/progress.ts:559"
+      "src/store/progress.ts:680"
     ]
   },
   {
@@ -4698,7 +5436,8 @@
       "src/ui/components/bits.tsx:55",
       "src/ui/components/WritePad.tsx:153",
       "src/ui/games/AnagrammesGame.tsx:157",
-      "src/ui/screens/SettingsScreen.tsx:468"
+      "src/ui/screens/SettingsScreen.tsx:491",
+      "src/ui/screens/SettingsScreen.tsx:750"
     ]
   },
   {
@@ -4777,9 +5516,10 @@
     "en": "'Brain age'",
     "at": [
       "src/ui/components/BrainAgeChart.tsx:138",
-      "src/ui/screens/ProgressScreen.tsx:157",
-      "src/ui/screens/ReportScreen.tsx:76",
-      "src/ui/screens/ReportScreen.tsx:78"
+      "src/ui/screens/HomeScreen.tsx:265",
+      "src/ui/screens/ProgressScreen.tsx:176",
+      "src/ui/screens/ReportScreen.tsx:80",
+      "src/ui/screens/ReportScreen.tsx:82"
     ]
   },
   {
@@ -4814,40 +5554,54 @@
     "key": "'Compagnon'",
     "en": "'Companion'",
     "at": [
-      "src/ui/components/Players.tsx:21",
-      "src/ui/components/Players.tsx:118",
-      "src/ui/screens/SettingsScreen.tsx:130"
+      "src/ui/components/Players.tsx:28",
+      "src/ui/components/Players.tsx:153",
+      "src/ui/screens/SettingsScreen.tsx:138"
+    ]
+  },
+  {
+    "key": "`${teased.name} fait partie d’Esprit Vif Premium.`",
+    "en": "`${teased.name} comes with Esprit Vif Premium.`",
+    "at": [
+      "src/ui/components/Players.tsx:57"
+    ]
+  },
+  {
+    "key": "'Découvrir'",
+    "en": "'Find out more'",
+    "at": [
+      "src/ui/components/Players.tsx:59"
     ]
   },
   {
     "key": "`Couleur ${color + 1}`",
     "en": "`Color ${color + 1}`",
     "at": [
-      "src/ui/components/Players.tsx:42"
+      "src/ui/components/Players.tsx:77"
     ]
   },
   {
     "key": "'Nouveau joueur'",
     "en": "'New player'",
     "at": [
-      "src/ui/components/Players.tsx:104"
+      "src/ui/components/Players.tsx:139"
     ]
   },
   {
     "key": "'Qui joue ?'",
     "en": "'Who’s playing?'",
     "at": [
-      "src/ui/components/Players.tsx:104"
+      "src/ui/components/Players.tsx:139"
     ]
   },
   {
     "key": "'Prénom'",
     "en": "'First name'",
     "at": [
-      "src/ui/components/Players.tsx:115",
-      "src/ui/components/Players.tsx:116",
+      "src/ui/components/Players.tsx:150",
+      "src/ui/components/Players.tsx:151",
       "src/ui/screens/ChallengeScreen.tsx:59",
-      "src/ui/screens/SettingsScreen.tsx:112",
+      "src/ui/screens/SettingsScreen.tsx:120",
       "src/ui/screens/WelcomeScreen.tsx:79"
     ]
   },
@@ -4855,64 +5609,70 @@
     "key": "'Couleur'",
     "en": "'Color'",
     "at": [
-      "src/ui/components/Players.tsx:120",
-      "src/ui/screens/SettingsScreen.tsx:132"
+      "src/ui/components/Players.tsx:155",
+      "src/ui/screens/SettingsScreen.tsx:140"
     ]
   },
   {
     "key": "'Couleur de l’avatar'",
     "en": "'Avatar color'",
     "at": [
-      "src/ui/components/Players.tsx:121",
-      "src/ui/screens/SettingsScreen.tsx:133"
+      "src/ui/components/Players.tsx:156",
+      "src/ui/screens/SettingsScreen.tsx:141"
     ]
   },
   {
     "key": "'Retour'",
     "en": "'Back'",
     "at": [
-      "src/ui/components/Players.tsx:124",
+      "src/ui/components/Players.tsx:159",
       "src/ui/game/GameIntro.tsx:35",
       "src/ui/games/NBackTutorial.tsx:109",
       "src/ui/screens/ChallengeScreen.tsx:92",
+      "src/ui/screens/HistoryScreen.tsx:28",
       "src/ui/screens/ModeScreens.tsx:32",
+      "src/ui/screens/MonthScreen.tsx:40",
       "src/ui/screens/PartyScreen.tsx:122",
-      "src/ui/screens/TransferScreen.tsx:49"
+      "src/ui/screens/SeasonScreen.tsx:34",
+      "src/ui/screens/TrainingScreen.tsx:166",
+      "src/ui/screens/TransferScreen.tsx:49",
+      "src/ui/screens/WardrobeScreen.tsx:65"
     ]
   },
   {
     "key": "'Créer'",
     "en": "'Create'",
     "at": [
-      "src/ui/components/Players.tsx:127"
+      "src/ui/components/Players.tsx:162"
     ]
   },
   {
     "key": "'Chaque joueur a ses niveaux, son âge cérébral et ses trophées.'",
     "en": "'Each player has their own levels, brain age and trophies.'",
     "at": [
-      "src/ui/components/Players.tsx:134"
+      "src/ui/components/Players.tsx:169"
     ]
   },
   {
     "key": "'en jeu'",
     "en": "'playing'",
     "at": [
-      "src/ui/components/Players.tsx:148"
+      "src/ui/components/Players.tsx:183"
     ]
   },
   {
     "key": "'Fermer'",
     "en": "'Close'",
     "at": [
-      "src/ui/components/Players.tsx:155"
+      "src/ui/components/Players.tsx:190",
+      "src/ui/screens/PremiumScreen.tsx:89"
     ]
   },
   {
     "key": "'Ajouter'",
     "en": "'Add'",
     "at": [
-      "src/ui/components/Players.tsx:160"
+      "src/ui/components/Players.tsx:195"
     ]
   },
   {
@@ -4944,38 +5704,59 @@
     ]
   },
   {
+    "key": "'verrouillée'",
+    "en": "'locked'",
+    "at": [
+      "src/ui/components/progress-bits.tsx:82"
+    ]
+  },
+  {
+    "key": "'réussie'",
+    "en": "'passed'",
+    "at": [
+      "src/ui/components/progress-bits.tsx:82"
+    ]
+  },
+  {
+    "key": "`${passScore(level)} pts pour réussir`",
+    "en": "`${passScore(level)} pts to pass`",
+    "at": [
+      "src/ui/components/progress-bits.tsx:82"
+    ]
+  },
+  {
     "key": "`Niveau ${level}, verrouillé`",
     "en": "`Level ${level}, locked`",
     "at": [
-      "src/ui/components/progress-bits.tsx:80"
+      "src/ui/components/progress-bits.tsx:84"
     ]
   },
   {
     "key": "`Niveau ${level}, ${starsText(stars)}`",
     "en": "`Level ${level}, ${starsText(stars)}`",
     "at": [
-      "src/ui/components/progress-bits.tsx:81"
+      "src/ui/components/progress-bits.tsx:85"
     ]
   },
   {
     "key": "`Niveau ${rank.level} : `",
     "en": "`Level ${rank.level}: `",
     "at": [
-      "src/ui/components/progress-bits.tsx:105"
+      "src/ui/components/progress-bits.tsx:115"
     ]
   },
   {
     "key": "'XP vers le niveau suivant'",
     "en": "'XP to the next level'",
     "at": [
-      "src/ui/components/progress-bits.tsx:111"
+      "src/ui/components/progress-bits.tsx:121"
     ]
   },
   {
     "key": "`${rank.xp - rank.levelStart} / ${span} XP · niveau ${rank.level + 1} ensuite`",
     "en": "`${rank.xp - rank.levelStart} / ${span} XP · level ${rank.level + 1} next`",
     "at": [
-      "src/ui/components/progress-bits.tsx:120"
+      "src/ui/components/progress-bits.tsx:130"
     ]
   },
   {
@@ -5000,6 +5781,27 @@
     ]
   },
   {
+    "key": "`${n} parties, de ${first.score} points le ${formatLongDay(first.day)} à ${last.score} points le ${formatLongDay(last.day)} ; record ${best}.`",
+    "en": "`${n} games, from ${first.score} points on ${formatLongDay(first.day)} to ${last.score} points on ${formatLongDay(last.day)}; best ${best}.`",
+    "at": [
+      "src/ui/components/ScoreChart.tsx:46"
+    ]
+  },
+  {
+    "key": "`${shown.score} pts`",
+    "en": "`${shown.score} pts`",
+    "at": [
+      "src/ui/components/ScoreChart.tsx:75"
+    ]
+  },
+  {
+    "key": "`niv. ${shown.level}`",
+    "en": "`lv. ${shown.level}`",
+    "at": [
+      "src/ui/components/ScoreChart.tsx:77"
+    ]
+  },
+  {
     "key": "'Préparation…'",
     "en": "'Preparing…'",
     "at": [
@@ -5019,7 +5821,7 @@
     "en": "'Progress'",
     "at": [
       "src/ui/components/TabBar.tsx:10",
-      "src/ui/screens/ProgressScreen.tsx:77"
+      "src/ui/screens/ProgressScreen.tsx:83"
     ]
   },
   {
@@ -5027,7 +5829,7 @@
     "en": "'Settings'",
     "at": [
       "src/ui/components/TabBar.tsx:11",
-      "src/ui/screens/SettingsScreen.tsx:106"
+      "src/ui/screens/SettingsScreen.tsx:114"
     ]
   },
   {
@@ -5088,6 +5890,13 @@
     ]
   },
   {
+    "key": "`Cran ${masteryRank(level)}/${MASTERY_LEVELS}`",
+    "en": "`Step ${masteryRank(level)}/${MASTERY_LEVELS}`",
+    "at": [
+      "src/ui/game/GameIntro.tsx:59"
+    ]
+  },
+  {
     "key": "'Niveau'",
     "en": "'Level'",
     "at": [
@@ -5098,7 +5907,8 @@
     "key": "'Record'",
     "en": "'Best score'",
     "at": [
-      "src/ui/game/GameIntro.tsx:65"
+      "src/ui/game/GameIntro.tsx:65",
+      "src/ui/screens/HistoryScreen.tsx:133"
     ]
   },
   {
@@ -5148,14 +5958,28 @@
     "key": "'niveau'",
     "en": "'level'",
     "at": [
-      "src/ui/game/GameResult.tsx:65"
+      "src/ui/game/GameResult.tsx:69"
+    ]
+  },
+  {
+    "key": "`${masteryName(level)} réussie !`",
+    "en": "`${masteryName(level)} passed!`",
+    "at": [
+      "src/ui/game/GameResult.tsx:79"
+    ]
+  },
+  {
+    "key": "`${masteryName(level)} : il fallait ${passScore(level)} pts`",
+    "en": "`${masteryName(level)}: ${passScore(level)} pts needed`",
+    "at": [
+      "src/ui/game/GameResult.tsx:80"
     ]
   },
   {
     "key": "'Nouveau record\\u00a0!'",
     "en": "'New best!'",
     "at": [
-      "src/ui/game/GameResult.tsx:78",
+      "src/ui/game/GameResult.tsx:91",
       "src/ui/screens/ModeScreens.tsx:269"
     ]
   },
@@ -5163,140 +5987,169 @@
     "key": "`avant\\u00a0: ${saved.previousBest?.score} pts`",
     "en": "`before: ${saved.previousBest?.score} pts`",
     "at": [
-      "src/ui/game/GameResult.tsx:79"
+      "src/ui/game/GameResult.tsx:92"
     ]
   },
   {
     "key": "'Ce que tu as gagné'",
     "en": "'What you earned'",
     "at": [
-      "src/ui/game/GameResult.tsx:102"
+      "src/ui/game/GameResult.tsx:115"
     ]
   },
   {
     "key": "`Niveau ${delta.rankAfter.level}\\u00a0!`",
     "en": "`Level ${delta.rankAfter.level}!`",
     "at": [
-      "src/ui/game/GameResult.tsx:107"
+      "src/ui/game/GameResult.tsx:120"
     ]
   },
   {
     "key": "'Médaille {medal} en {game}\\u00a0!'",
     "en": "'{medal} medal in {game}!'",
     "at": [
-      "src/ui/game/GameResult.tsx:116"
+      "src/ui/game/GameResult.tsx:129"
     ]
   },
   {
     "key": "'Trophée'",
     "en": "'Trophy'",
     "at": [
-      "src/ui/game/GameResult.tsx:129"
+      "src/ui/game/GameResult.tsx:142"
+    ]
+  },
+  {
+    "key": "'Objectif du jour rempli'",
+    "en": "'Daily goal complete'",
+    "at": [
+      "src/ui/game/GameResult.tsx:153"
+    ]
+  },
+  {
+    "key": "`${delta.sparksGained} étincelles`",
+    "en": "`${delta.sparksGained} sparks`",
+    "at": [
+      "src/ui/game/GameResult.tsx:162"
     ]
   },
   {
     "key": "'Partager mon score'",
     "en": "'Share my score'",
     "at": [
-      "src/ui/game/GameResult.tsx:142"
+      "src/ui/game/GameResult.tsx:173"
     ]
   },
   {
     "key": "'Ma première partie !'",
     "en": "'My first game!'",
     "at": [
-      "src/ui/game/GameResult.tsx:147"
+      "src/ui/game/GameResult.tsx:178"
     ]
   },
   {
     "key": "`+${comparison.diff} pts au-dessus de ma moyenne`",
     "en": "`+${comparison.diff} pts above my average`",
     "at": [
-      "src/ui/game/GameResult.tsx:149"
+      "src/ui/game/GameResult.tsx:180"
     ]
   },
   {
     "key": "'Dans ma moyenne'",
     "en": "'Right on my average'",
     "at": [
-      "src/ui/game/GameResult.tsx:151"
+      "src/ui/game/GameResult.tsx:182"
     ]
   },
   {
     "key": "`J’ai fait ${outcome.score}/100 à ${meta.name} (niveau ${level}) sur Esprit Vif. À ton tour ! https://alexxxx-droid.github.io/esprit-vif/`",
     "en": "`I scored ${outcome.score}/100 in ${meta.name} (level ${level}) on Esprit Vif. Your turn! https://alexxxx-droid.github.io/esprit-vif/`",
     "at": [
-      "src/ui/game/GameResult.tsx:170"
+      "src/ui/game/GameResult.tsx:201"
     ]
   },
   {
     "key": "'Première partie : c’est ton point de départ.'",
     "en": "'First game: this is your starting point.'",
     "at": [
-      "src/ui/game/GameResult.tsx:184"
+      "src/ui/game/GameResult.tsx:230"
     ]
   },
   {
     "key": "`Dans ta moyenne récente (${comparison.average}\\u00a0pts).`",
     "en": "`Right on your recent average (${comparison.average}\\u00a0pts).`",
     "at": [
-      "src/ui/game/GameResult.tsx:188"
+      "src/ui/game/GameResult.tsx:234"
     ]
   },
   {
     "key": "'au-dessus de ta moyenne récente'",
     "en": "'above your recent average'",
     "at": [
-      "src/ui/game/GameResult.tsx:201"
+      "src/ui/game/GameResult.tsx:247"
     ]
   },
   {
     "key": "'sous ta moyenne : ça arrive, la prochaine sera la bonne'",
     "en": "'below your average: it happens, the next one will be better'",
     "at": [
-      "src/ui/game/GameResult.tsx:202"
+      "src/ui/game/GameResult.tsx:248"
+    ]
+  },
+  {
+    "key": "'{level} ouverte\\u00a0!'",
+    "en": "'{level} unlocked!'",
+    "at": [
+      "src/ui/game/GameResult.tsx:299"
     ]
   },
   {
     "key": "'Niveau {level} débloqué\\u00a0!'",
     "en": "'Level {level} unlocked!'",
     "at": [
-      "src/ui/game/GameResult.tsx:252"
+      "src/ui/game/GameResult.tsx:300"
     ]
   },
   {
     "key": "'Nouveau palier\\u00a0: '",
     "en": "'New tier: '",
     "at": [
-      "src/ui/game/GameResult.tsx:255"
+      "src/ui/game/GameResult.tsx:303"
+    ]
+  },
+  {
+    "key": "'Encore {points} pour réussir {level} et ouvrir le cran suivant.'",
+    "en": "'{points} to pass {level} and open the next step.'",
+    "at": [
+      "src/ui/game/GameResult.tsx:317"
+    ]
+  },
+  {
+    "key": "`${passScore(level) - score}\\u00a0pts`",
+    "en": "`${passScore(level) - score}\\u00a0more pts`",
+    "at": [
+      "src/ui/game/GameResult.tsx:318",
+      "src/ui/game/GameResult.tsx:330"
     ]
   },
   {
     "key": "'Encore {points} pour gagner une étoile et débloquer le niveau suivant.'",
     "en": "'{points} to earn a star and unlock the next level.'",
     "at": [
-      "src/ui/game/GameResult.tsx:268"
-    ]
-  },
-  {
-    "key": "`${UNLOCK_SCORE - score}\\u00a0pts`",
-    "en": "`${UNLOCK_SCORE - score}\\u00a0more pts`",
-    "at": [
-      "src/ui/game/GameResult.tsx:269"
+      "src/ui/game/GameResult.tsx:329"
     ]
   },
   {
     "key": "'Partie interrompue. Elle reprendra depuis le début quand tu voudras.'",
     "en": "'Game interrupted. It will start over whenever you like.'",
     "at": [
-      "src/ui/game/GameRunner.tsx:85"
+      "src/ui/game/GameRunner.tsx:96"
     ]
   },
   {
     "key": "'Cette partie n’a pas pu être enregistrée. Réessaie quand tu veux.'",
     "en": "'This game could not be saved. Try again whenever you like.'",
     "at": [
-      "src/ui/game/GameRunner.tsx:110"
+      "src/ui/game/GameRunner.tsx:129"
     ]
   },
   {
@@ -5347,11 +6200,13 @@
     "at": [
       "src/ui/games/AnagrammesGame.tsx:40",
       "src/ui/games/CategoriesGame.tsx:36",
+      "src/ui/games/ContrairesGame.tsx:110",
       "src/ui/games/CorrespondanceGame.tsx:122",
       "src/ui/games/CoupGame.tsx:66",
       "src/ui/games/HorlogesGame.tsx:119",
       "src/ui/games/LectureGame.tsx:46",
       "src/ui/games/LettreGame.tsx:51",
+      "src/ui/games/LuciolesGame.tsx:73",
       "src/ui/games/MonnaieGame.tsx:85",
       "src/ui/games/PluieGame.tsx:54",
       "src/ui/games/RotationGame.tsx:111"
@@ -5471,7 +6326,9 @@
     "key": "'lourd'",
     "en": "'heaviest'",
     "at": [
-      "src/ui/games/BalanceGame.tsx:171"
+      "src/ui/games/BalanceGame.tsx:171",
+      "src/ui/games/contraires-demo.tsx:41",
+      "src/ui/games/contraires-demo.tsx:51"
     ]
   },
   {
@@ -5699,6 +6556,258 @@
     ]
   },
   {
+    "key": "'chaud'",
+    "en": "'hot'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:30",
+      "src/ui/games/contraires-demo.tsx:91"
+    ]
+  },
+  {
+    "key": "'lent'",
+    "en": "'slow'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:31",
+      "src/ui/games/contraires-demo.tsx:51",
+      "src/ui/games/contraires-demo.tsx:92"
+    ]
+  },
+  {
+    "key": "'froid'",
+    "en": "'cold'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:31"
+    ]
+  },
+  {
+    "key": "'humide'",
+    "en": "'wet'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:31"
+    ]
+  },
+  {
+    "key": "'petit'",
+    "en": "'small'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:31"
+    ]
+  },
+  {
+    "key": "'Froid, bien sûr'",
+    "en": "'Cold, of course'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:33"
+    ]
+  },
+  {
+    "key": "'plein'",
+    "en": "'full'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:40"
+    ]
+  },
+  {
+    "key": "'gentil'",
+    "en": "'kind'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:41"
+    ]
+  },
+  {
+    "key": "'vide'",
+    "en": "'empty'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:41",
+      "src/ui/games/LuciolesGame.tsx:184"
+    ]
+  },
+  {
+    "key": "'Vide !'",
+    "en": "'Empty!'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:43"
+    ]
+  },
+  {
+    "key": "'joyeux'",
+    "en": "'happy'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:50"
+    ]
+  },
+  {
+    "key": "'triste'",
+    "en": "'sad'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:51"
+    ]
+  },
+  {
+    "key": "'propre'",
+    "en": "'clean'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:51",
+      "src/ui/games/contraires-demo.tsx:92"
+    ]
+  },
+  {
+    "key": "'gai'",
+    "en": "'glad'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:51"
+    ]
+  },
+  {
+    "key": "`Gai : «${NBSP}triste${NBSP}» était un piège`",
+    "en": "'Glad: “sad” was a trap'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:53"
+    ]
+  },
+  {
+    "key": "'Gai : le même sens'",
+    "en": "'Glad: same meaning'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:53"
+    ]
+  },
+  {
+    "key": "'Le contraire de'",
+    "en": "'The opposite of'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:66",
+      "src/ui/games/ContrairesGame.tsx:68"
+    ]
+  },
+  {
+    "key": "'Le même sens que'",
+    "en": "'Same meaning as'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:66",
+      "src/ui/games/ContrairesGame.tsx:68"
+    ]
+  },
+  {
+    "key": "'Lis bien la consigne'",
+    "en": "'Read the instruction'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:78"
+    ]
+  },
+  {
+    "key": "'brûlant'",
+    "en": "'boiling'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:91"
+    ]
+  },
+  {
+    "key": "'Même sens !'",
+    "en": "'Same meaning!'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:91"
+    ]
+  },
+  {
+    "key": "'Sans rapport !'",
+    "en": "'Unrelated!'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:92"
+    ]
+  },
+  {
+    "key": "'Même sens'",
+    "en": "'Same meaning'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:96",
+      "src/ui/games/ContrairesGame.tsx:30"
+    ]
+  },
+  {
+    "key": "'Sans rapport'",
+    "en": "'Unrelated'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:96",
+      "src/ui/games/ContrairesGame.tsx:31"
+    ]
+  },
+  {
+    "key": "'Quel lien entre les deux ?'",
+    "en": "'How are they linked?'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:111"
+    ]
+  },
+  {
+    "key": "'Ce sont des contraires'",
+    "en": "'They are opposites'",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:36"
+    ]
+  },
+  {
+    "key": "'Ils ont le même sens'",
+    "en": "'They mean the same'",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:37"
+    ]
+  },
+  {
+    "key": "'Ils sont sans rapport'",
+    "en": "'They are unrelated'",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:38"
+    ]
+  },
+  {
+    "key": "plural(correct, 'bonne réponse', 'bonnes réponses')",
+    "en": "plural(correct, 'correct answer')",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:106",
+      "src/ui/games/CoupGame.tsx:62",
+      "src/ui/games/HorlogesGame.tsx:115",
+      "src/ui/games/LectureGame.tsx:42"
+    ]
+  },
+  {
+    "key": "'Bonnes réponses'",
+    "en": "'Correct answers'",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:108",
+      "src/ui/games/CorrespondanceGame.tsx:120",
+      "src/ui/games/CoupGame.tsx:64",
+      "src/ui/games/DiableGame.tsx:64",
+      "src/ui/games/FlechesGame.tsx:144",
+      "src/ui/games/HorlogesGame.tsx:117",
+      "src/ui/games/MonnaieGame.tsx:83",
+      "src/ui/games/QuiGame.tsx:55"
+    ]
+  },
+  {
+    "key": "`${config.target} (erreurs déduites)`",
+    "en": "`${config.target} (minus errors)`",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:110",
+      "src/ui/games/CoupGame.tsx:66",
+      "src/ui/games/LectureGame.tsx:46"
+    ]
+  },
+  {
+    "key": "`C’était «${NBSP}${right}${NBSP}»`",
+    "en": "`It was “${right}”`",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:146"
+    ]
+  },
+  {
+    "key": "'Trop lent'",
+    "en": "'Too slow'",
+    "at": [
+      "src/ui/games/ContrairesGame.tsx:155"
+    ]
+  },
+  {
     "key": "`dé : ${card.text}`",
     "en": "`die: ${card.text}`",
     "at": [
@@ -5752,19 +6861,6 @@
     "en": "byCount(errors, `${correct} correct · ${errors} error`, `${correct} correct · ${errors} errors`)",
     "at": [
       "src/ui/games/CorrespondanceGame.tsx:116"
-    ]
-  },
-  {
-    "key": "'Bonnes réponses'",
-    "en": "'Correct answers'",
-    "at": [
-      "src/ui/games/CorrespondanceGame.tsx:120",
-      "src/ui/games/CoupGame.tsx:64",
-      "src/ui/games/DiableGame.tsx:64",
-      "src/ui/games/FlechesGame.tsx:144",
-      "src/ui/games/HorlogesGame.tsx:117",
-      "src/ui/games/MonnaieGame.tsx:83",
-      "src/ui/games/QuiGame.tsx:55"
     ]
   },
   {
@@ -5842,23 +6938,6 @@
     "en": "'Fewer orange'",
     "at": [
       "src/ui/games/coup-groups.ts:8"
-    ]
-  },
-  {
-    "key": "plural(correct, 'bonne réponse', 'bonnes réponses')",
-    "en": "plural(correct, 'correct answer')",
-    "at": [
-      "src/ui/games/CoupGame.tsx:62",
-      "src/ui/games/HorlogesGame.tsx:115",
-      "src/ui/games/LectureGame.tsx:42"
-    ]
-  },
-  {
-    "key": "`${config.target} (erreurs déduites)`",
-    "en": "`${config.target} (minus errors)`",
-    "at": [
-      "src/ui/games/CoupGame.tsx:66",
-      "src/ui/games/LectureGame.tsx:46"
     ]
   },
   {
@@ -6560,6 +7639,105 @@
     ]
   },
   {
+    "key": "'Retiens les disques entourés…'",
+    "en": "'Remember the circled discs…'",
+    "at": [
+      "src/ui/games/filature-demo.tsx:59"
+    ]
+  },
+  {
+    "key": "'Touche-les !'",
+    "en": "'Tap them!'",
+    "at": [
+      "src/ui/games/filature-demo.tsx:59"
+    ]
+  },
+  {
+    "key": "'Suis-les des yeux…'",
+    "en": "'Follow them with your eyes…'",
+    "at": [
+      "src/ui/games/filature-demo.tsx:59",
+      "src/ui/games/FilatureGame.tsx:160"
+    ]
+  },
+  {
+    "key": "`${finalCorrect}/${total} retrouvés`",
+    "en": "`${finalCorrect}/${total} found`",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:65"
+    ]
+  },
+  {
+    "key": "plural(finalErrors, 'erreur')",
+    "en": "plural(finalErrors, 'error')",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:65"
+    ]
+  },
+  {
+    "key": "'Disques retrouvés'",
+    "en": "'Discs found'",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'Essais'",
+    "en": "'Rounds'",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:69"
+    ]
+  },
+  {
+    "key": "`${found} sur ${config.targets}`",
+    "en": "`${found} of ${config.targets}`",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:141"
+    ]
+  },
+  {
+    "key": "`Retiens les ${config.targets} disques entourés`",
+    "en": "`Remember the ${config.targets} circled discs`",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:158"
+    ]
+  },
+  {
+    "key": "`Touche les ${config.targets} disques suivis · ${picked.length}/${config.targets}`",
+    "en": "`Tap the ${config.targets} discs you followed · ${picked.length}/${config.targets}`",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:162"
+    ]
+  },
+  {
+    "key": "'Les disques suivis sont entourés en vert.'",
+    "en": "'The discs you had to follow are circled in green.'",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:163"
+    ]
+  },
+  {
+    "key": "'Essai'",
+    "en": "'Round'",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:170"
+    ]
+  },
+  {
+    "key": "'Arène des disques'",
+    "en": "'Disc arena'",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:176"
+    ]
+  },
+  {
+    "key": "`Disque ${disc + 1}`",
+    "en": "`Disc ${disc + 1}`",
+    "at": [
+      "src/ui/games/FilatureGame.tsx:207"
+    ]
+  },
+  {
     "key": "'gauche'",
     "en": "'left'",
     "at": [
@@ -6656,6 +7834,7 @@
     "en": "'Average reaction time'",
     "at": [
       "src/ui/games/FlechesGame.tsx:145",
+      "src/ui/games/LuciolesGame.tsx:72",
       "src/ui/games/ReflexeGame.tsx:50"
     ]
   },
@@ -6838,70 +8017,70 @@
     "key": "byCount(move.steps, `${move.steps} case ${heading(move.dir).label}`, `${move.steps} cases ${heading(move.dir).label}`)",
     "en": "byCount(move.steps, `${move.steps} square ${heading(move.dir).label}`, `${move.steps} squares ${heading(move.dir).label}`)",
     "at": [
-      "src/ui/games/ItiGame.tsx:23"
+      "src/ui/games/ItiGame.tsx:22"
     ]
   },
   {
     "key": "`Ligne ${cell.row + 1}, colonne ${cell.col + 1}`",
     "en": "`Row ${cell.row + 1}, column ${cell.col + 1}`",
     "at": [
-      "src/ui/games/ItiGame.tsx:68"
+      "src/ui/games/ItiGame.tsx:65"
     ]
   },
   {
     "key": "', départ'",
     "en": "', start'",
     "at": [
-      "src/ui/games/ItiGame.tsx:69"
+      "src/ui/games/ItiGame.tsx:66"
     ]
   },
   {
     "key": "', rocher'",
     "en": "', rock'",
     "at": [
-      "src/ui/games/ItiGame.tsx:70"
+      "src/ui/games/ItiGame.tsx:67"
     ]
   },
   {
     "key": "byCount(correct, `${correct} trajet sur ${ITI_TRIALS}`, `${correct} trajets sur ${ITI_TRIALS}`)",
     "en": "`${correct} of ${ITI_TRIALS} routes`",
     "at": [
-      "src/ui/games/ItiGame.tsx:105"
+      "src/ui/games/ItiGame.tsx:102"
     ]
   },
   {
     "key": "'Trajets retrouvés'",
     "en": "'Routes found'",
     "at": [
-      "src/ui/games/ItiGame.tsx:107"
+      "src/ui/games/ItiGame.tsx:104"
     ]
   },
   {
     "key": "'Déplacements par trajet'",
     "en": "'Moves per route'",
     "at": [
-      "src/ui/games/ItiGame.tsx:108"
+      "src/ui/games/ItiGame.tsx:105"
     ]
   },
   {
     "key": "'Voici le trajet'",
     "en": "'Here’s the route'",
     "at": [
-      "src/ui/games/ItiGame.tsx:156"
+      "src/ui/games/ItiGame.tsx:153"
     ]
   },
   {
     "key": "'Où arrives-tu\\u00a0? Touche la case.'",
     "en": "'Where do you end up? Tap the square.'",
     "at": [
-      "src/ui/games/ItiGame.tsx:177"
+      "src/ui/games/ItiGame.tsx:174"
     ]
   },
   {
     "key": "'Trajet'",
     "en": "'Route'",
     "at": [
-      "src/ui/games/ItiGame.tsx:184"
+      "src/ui/games/ItiGame.tsx:181"
     ]
   },
   {
@@ -6994,6 +8173,120 @@
     "en": "'Which letters are missing?'",
     "at": [
       "src/ui/games/LettreGame.tsx:120"
+    ]
+  },
+  {
+    "key": "'Une luciole s’allume…'",
+    "en": "'A firefly lights up…'",
+    "at": [
+      "src/ui/games/lucioles-demo.tsx:33"
+    ]
+  },
+  {
+    "key": "'Touche-la vite !'",
+    "en": "'Tap it fast!'",
+    "at": [
+      "src/ui/games/lucioles-demo.tsx:34"
+    ]
+  },
+  {
+    "key": "'Une rouge : laisse-la s’éteindre'",
+    "en": "'A red one: let it go out'",
+    "at": [
+      "src/ui/games/lucioles-demo.tsx:36"
+    ]
+  },
+  {
+    "key": "'Une dorée : deux appuis'",
+    "en": "'A gold one: two taps'",
+    "at": [
+      "src/ui/games/lucioles-demo.tsx:37"
+    ]
+  },
+  {
+    "key": "plural(tally.caught, 'luciole attrapée', 'lucioles attrapées')",
+    "en": "plural(tally.caught, 'firefly caught', 'fireflies caught')",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:67"
+    ]
+  },
+  {
+    "key": "'Lucioles attrapées'",
+    "en": "'Fireflies caught'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:69"
+    ]
+  },
+  {
+    "key": "'Éteintes avant d’être prises'",
+    "en": "'Went out before being caught'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:70"
+    ]
+  },
+  {
+    "key": "'Mauvais appuis'",
+    "en": "'Wrong taps'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:71"
+    ]
+  },
+  {
+    "key": "'Aucun'",
+    "en": "'None'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:71",
+      "src/ui/games/SudokuGame.tsx:54"
+    ]
+  },
+  {
+    "key": "'Rien ici'",
+    "en": "'Nothing here'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:146"
+    ]
+  },
+  {
+    "key": "'Pas les rouges !'",
+    "en": "'Not the red ones!'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:153"
+    ]
+  },
+  {
+    "key": "`Case ${cell + 1}`",
+    "en": "`Square ${cell + 1}`",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:183",
+      "src/ui/games/MatriceGame.tsx:184"
+    ]
+  },
+  {
+    "key": "'luciole rouge, à ne pas toucher'",
+    "en": "'red firefly, do not tap'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:185"
+    ]
+  },
+  {
+    "key": "'luciole dorée, deux appuis'",
+    "en": "'gold firefly, two taps'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:186"
+    ]
+  },
+  {
+    "key": "'luciole dorée, encore un appui'",
+    "en": "'gold firefly, one more tap'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:186"
+    ]
+  },
+  {
+    "key": "'luciole'",
+    "en": "'firefly'",
+    "at": [
+      "src/ui/games/LuciolesGame.tsx:187"
     ]
   },
   {
@@ -7107,13 +8400,6 @@
     "en": "`Grid of ${cellCount} squares`",
     "at": [
       "src/ui/games/MatriceGame.tsx:165"
-    ]
-  },
-  {
-    "key": "`Case ${cell + 1}`",
-    "en": "`Square ${cell + 1}`",
-    "at": [
-      "src/ui/games/MatriceGame.tsx:184"
     ]
   },
   {
@@ -7399,7 +8685,9 @@
     "key": "'Précision'",
     "en": "'Accuracy'",
     "at": [
-      "src/ui/games/NBackGame.tsx:79"
+      "src/ui/games/NBackGame.tsx:79",
+      "src/ui/screens/HistoryScreen.tsx:136",
+      "src/ui/screens/ProgressScreen.tsx:464"
     ]
   },
   {
@@ -8206,13 +9494,6 @@
     ]
   },
   {
-    "key": "'Aucun'",
-    "en": "'None'",
-    "at": [
-      "src/ui/games/SudokuGame.tsx:54"
-    ]
-  },
-  {
     "key": "'Grilles'",
     "en": "'Grids'",
     "at": [
@@ -8392,7 +9673,7 @@
     "en": "'Friend challenges'",
     "at": [
       "src/ui/screens/ChallengeScreen.tsx:167",
-      "src/ui/screens/TrainingScreen.tsx:74"
+      "src/ui/screens/TrainingScreen.tsx:90"
     ]
   },
   {
@@ -8684,7 +9965,7 @@
     "en": "'Continue'",
     "at": [
       "src/ui/screens/ChallengeScreen.tsx:462",
-      "src/ui/screens/HomeScreen.tsx:86",
+      "src/ui/screens/HomeScreen.tsx:96",
       "src/ui/screens/ModeScreens.tsx:312",
       "src/ui/screens/WelcomeScreen.tsx:87",
       "src/ui/screens/WelcomeScreen.tsx:132"
@@ -8817,296 +10098,541 @@
     ]
   },
   {
+    "key": "`Historique · ${DOMAINS[meta.domain].name}`",
+    "en": "`History · ${DOMAINS[meta.domain].name}`",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:34"
+    ]
+  },
+  {
+    "key": "'L’historique détaillé fait partie de Premium'",
+    "en": "'Detailed history is part of Premium'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:64"
+    ]
+  },
+  {
+    "key": "'La courbe de tous tes scores dans ce jeu, ton meilleur score à chaque niveau, et ta tendance récente. Tes records et tes statistiques restent gratuits.'",
+    "en": "'A chart of all your scores in this game, your best score on every level, and your recent trend. Your best scores and stats stay free.'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:67"
+    ]
+  },
+  {
+    "key": "'Découvrir Premium'",
+    "en": "'Discover Premium'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:72",
+      "src/ui/screens/MonthScreen.tsx:81",
+      "src/ui/screens/SettingsScreen.tsx:704"
+    ]
+  },
+  {
+    "key": "'Joue encore une partie ou deux : la courbe apparaîtra ici.'",
+    "en": "'Play a game or two more: your chart will appear here.'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:110"
+    ]
+  },
+  {
+    "key": "'Tous tes scores'",
+    "en": "'All your scores'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:119"
+    ]
+  },
+  {
+    "key": "`${h.plays} parties, la plus ancienne à gauche`",
+    "en": "`${h.plays} games, oldest on the left`",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:121"
+    ]
+  },
+  {
+    "key": "'Tendance'",
+    "en": "'Trend'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:127"
+    ]
+  },
+  {
+    "key": "'Tes 10 dernières parties, comparées aux 10 d’avant.'",
+    "en": "'Your last 10 games, compared with the 10 before.'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:129"
+    ]
+  },
+  {
+    "key": "'Score moyen'",
+    "en": "'Average score'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:131",
+      "src/ui/screens/MonthScreen.tsx:121",
+      "src/ui/screens/ProgressScreen.tsx:398"
+    ]
+  },
+  {
+    "key": "'Temps de réaction'",
+    "en": "'Reaction time'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:137",
+      "src/ui/screens/ProgressScreen.tsx:473"
+    ]
+  },
+  {
+    "key": "'Niveau par niveau'",
+    "en": "'Level by level'",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:143"
+    ]
+  },
+  {
+    "key": "`Meilleur score de chaque niveau ouvert (${Math.min(unlocked, MAX_LEVEL)} sur ${MAX_LEVEL}).`",
+    "en": "`Best score on each unlocked level (${Math.min(unlocked, MAX_LEVEL)} of ${MAX_LEVEL}).`",
+    "at": [
+      "src/ui/screens/HistoryScreen.tsx:145"
+    ]
+  },
+  {
     "key": "'Continuer le test'",
     "en": "'Continue the test'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:74"
+      "src/ui/screens/HomeScreen.tsx:81"
     ]
   },
   {
     "key": "`Jeu ${inProgress.results.length + 1} sur ${inProgress.games.length} · ${GAMES[next].name}`",
     "en": "`Game ${inProgress.results.length + 1} of ${inProgress.games.length} · ${GAMES[next].name}`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:76"
+      "src/ui/screens/HomeScreen.tsx:83"
     ]
   },
   {
-    "key": "'3 jeux · environ 5 minutes'",
-    "en": "'3 games · about 5 minutes'",
+    "key": "'Commencer le test du jour'",
+    "en": "'Start the daily test'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:82"
+      "src/ui/screens/HomeScreen.tsx:90"
+    ]
+  },
+  {
+    "key": "'3 jeux · environ 4 minutes'",
+    "en": "'3 games · about 4 minutes'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:91"
     ]
   },
   {
     "key": "`Entraînement conseillé : ${GAMES[suggestion].name}`",
     "en": "`Suggested training: ${GAMES[suggestion].name}`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:87"
+      "src/ui/screens/HomeScreen.tsx:97"
     ]
   },
   {
     "key": "`${profileName(active, profiles)} joue. Changer de joueur`",
     "en": "`${profileName(active, profiles)} is playing. Switch players`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:99"
+      "src/ui/screens/HomeScreen.tsx:111"
     ]
   },
   {
     "key": "'Bonjour,'",
     "en": "'Hi,'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:103"
+      "src/ui/screens/HomeScreen.tsx:117"
+    ]
+  },
+  {
+    "key": "'Bonjour\\u00a0!'",
+    "en": "'Hello!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:121"
     ]
   },
   {
     "key": "'Jours d’entraînement d’affilée'",
     "en": "'Training days in a row'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:109"
+      "src/ui/screens/HomeScreen.tsx:127"
     ]
   },
   {
-    "key": "plural(streak, 'jour')",
-    "en": "plural(streak, 'day')",
+    "key": "byCount(streak, ' jour d’affilée', ' jours d’affilée')",
+    "en": "streak === 1 ? ' day in a row' : ' days in a row'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:111"
+      "src/ui/screens/HomeScreen.tsx:130"
     ]
   },
   {
     "key": "`Niveau ${rank.level}, ${rank.title}. Voir mes progrès`",
     "en": "`Level ${rank.level}, ${rank.title}. See my progress`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:117"
+      "src/ui/screens/HomeScreen.tsx:136"
     ]
   },
   {
     "key": "'Niv.'",
     "en": "'Lv.'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:126"
+      "src/ui/screens/HomeScreen.tsx:145"
     ]
   },
   {
     "key": "'Ce navigateur ne permet pas d’enregistrer tes progrès : ils seront perdus à la fermeture.'",
     "en": "'This browser can’t save your progress: it will be lost when you close it.'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:136"
+      "src/ui/screens/HomeScreen.tsx:155"
     ]
   },
   {
-    "key": "'C’est l’heure de ton test du jour. Cinq minutes suffisent\\u00a0!'",
-    "en": "'Time for your daily test. Five minutes is all it takes!'",
+    "key": "'C’est l’heure de ton test du jour. Quelques minutes suffisent\\u00a0!'",
+    "en": "'Time for your daily test. A few minutes is all it takes!'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:144"
+      "src/ui/screens/HomeScreen.tsx:163"
     ]
   },
   {
     "key": "byCount(\n              streak,\n              `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${streak}\\u00a0jour continue\\u00a0!`,\n              `Hier était ton jour de repos. Une partie aujourd’hui et ta série de ${streak}\\u00a0jours continue\\u00a0!`,\n            )",
     "en": "`Yesterday was your rest day. Play one game today and your ${streak}-day streak keeps going!`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:152"
+      "src/ui/screens/HomeScreen.tsx:171"
     ]
   },
   {
-    "key": "`Le mot de ${characterName(active.character)}, ton coach`",
-    "en": "`Tip from your coach, ${characterName(active.character)}`",
+    "key": "`Le mot de ${characterName(companion)}, ton coach`",
+    "en": "`Tip from your coach, ${characterName(companion)}`",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:190"
-    ]
-  },
-  {
-    "key": "`Saison : ${season.name}`",
-    "en": "`Season: ${season.name}`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:211"
-    ]
-  },
-  {
-    "key": "`Trophée « ${season.trophy.name} » gagné !`",
-    "en": "`“${season.trophy.name}” trophy earned!`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:217"
-    ]
-  },
-  {
-    "key": "`${count} / ${SEASON_PLAYS} parties`",
-    "en": "`${count} / ${SEASON_PLAYS} games`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:218"
-    ]
-  },
-  {
-    "key": "'Défi de la semaine'",
-    "en": "'Weekly challenge'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:240"
-    ]
-  },
-  {
-    "key": "`Relevé ! +${WEEKLY_XP} XP`",
-    "en": "`Done! +${WEEKLY_XP} XP`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:248"
-    ]
-  },
-  {
-    "key": "'dernier jour'",
-    "en": "'last day'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:250"
-    ]
-  },
-  {
-    "key": "byCount(daysLeft, `encore ${daysLeft}\\u00a0jour`, `encore ${daysLeft}\\u00a0jours`)",
-    "en": "`${plural(daysLeft, 'day')} left`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:250"
-    ]
-  },
-  {
-    "key": "'Terminée : bravo, à demain !'",
-    "en": "'All done. Great job, see you tomorrow!'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:274"
-    ]
-  },
-  {
-    "key": "`${done.size} jeux sur ${picks.length} · on continue ?`",
-    "en": "`${done.size} of ${picks.length} games · keep going?`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:276"
-    ]
-  },
-  {
-    "key": "`${picks.length} jeux choisis pour toi · ≈ 6 min`",
-    "en": "`${picks.length} games picked for you · ≈ 6 min`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:277"
-    ]
-  },
-  {
-    "key": "'Installe Esprit Vif'",
-    "en": "'Install Esprit Vif'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:314"
-    ]
-  },
-  {
-    "key": "'Une icône sur ton écran d’accueil, et ça marche même sans réseau.'",
-    "en": "'An icon on your home screen, and it works even offline.'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:317"
-    ]
-  },
-  {
-    "key": "'Installer'",
-    "en": "'Install'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:322"
-    ]
-  },
-  {
-    "key": "'Plus tard'",
-    "en": "'Later'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:327",
-      "src/ui/screens/WelcomeScreen.tsx:183"
-    ]
-  },
-  {
-    "key": "'Tes 7 derniers jours'",
-    "en": "'Your last 7 days'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:350"
-    ]
-  },
-  {
-    "key": "`${formatWeekday(day)} : entraînement fait`",
-    "en": "`${formatWeekday(day)}: trained`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:365",
-      "src/ui/screens/ProgressScreen.tsx:391"
-    ]
-  },
-  {
-    "key": "`${formatWeekday(day)} : pas d’entraînement`",
-    "en": "`${formatWeekday(day)}: no training`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:366",
-      "src/ui/screens/ProgressScreen.tsx:392"
-    ]
-  },
-  {
-    "key": "'Ton âge cérébral'",
-    "en": "'Your brain age'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:379",
-      "src/ui/screens/HomeScreen.tsx:381"
-    ]
-  },
-  {
-    "key": "'ans'",
-    "en": "'years'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:384",
-      "src/ui/screens/ReportScreen.tsx:81",
-      "src/ui/share-card.ts:171"
-    ]
-  },
-  {
-    "key": "plural(Math.abs(diff), 'an')",
-    "en": "plural(Math.abs(diff), 'year')",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:390"
-    ]
-  },
-  {
-    "key": "'stable'",
-    "en": "'steady'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:393"
-    ]
-  },
-  {
-    "key": "`Dernier test : ${formatShortDay(last.day)}`",
-    "en": "`Last test: ${formatShortDay(last.day)}`",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:394"
-    ]
-  },
-  {
-    "key": "'Bienvenue\\u00a0!'",
-    "en": "'Welcome!'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:409"
-    ]
-  },
-  {
-    "key": "'Quelques minutes par jour pour garder l’esprit vif.'",
-    "en": "'A few minutes a day to keep your mind sharp.'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:410"
-    ]
-  },
-  {
-    "key": "'Ton premier test du jour te donne ton âge cérébral de départ.'",
-    "en": "'Your first daily test gives you your starting brain age.'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:411"
-    ]
-  },
-  {
-    "key": "'Au programme aujourd’hui'",
-    "en": "'On today’s program'",
-    "at": [
-      "src/ui/screens/HomeScreen.tsx:420"
+      "src/ui/screens/HomeScreen.tsx:213"
     ]
   },
   {
     "key": "'fait'",
     "en": "'done'",
     "at": [
-      "src/ui/screens/HomeScreen.tsx:435"
+      "src/ui/screens/HomeScreen.tsx:251"
+    ]
+  },
+  {
+    "key": "`Score du jour : ${dayScore} / 100`",
+    "en": "`Today’s score: ${dayScore} / 100`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:257"
+    ]
+  },
+  {
+    "key": "'Trois domaines, trois jeux, un nouveau mélange chaque jour.'",
+    "en": "'Three areas, three games, a new mix every day.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:259"
+    ]
+  },
+  {
+    "key": "'Ton premier test donne ton âge cérébral de départ.'",
+    "en": "'Your first test gives your starting brain age.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:260"
+    ]
+  },
+  {
+    "key": "'Dernier âge'",
+    "en": "'Last age'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:265"
+    ]
+  },
+  {
+    "key": "'ans'",
+    "en": "'yrs'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:268",
+      "src/ui/screens/ReportScreen.tsx:85",
+      "src/ui/share-card.ts:202"
+    ]
+  },
+  {
+    "key": "plural(Math.abs(diff), 'an')",
+    "en": "plural(Math.abs(diff), 'year')",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:273"
+    ]
+  },
+  {
+    "key": "' points'",
+    "en": "' points'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:292"
+    ]
+  },
+  {
+    "key": "`Rejouer ${GAMES[id].name} en entraînement libre`",
+    "en": "`Play ${GAMES[id].name} again in free training`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:304"
+    ]
+  },
+  {
+    "key": "'Voir le bilan'",
+    "en": "'See the report'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:325"
+    ]
+  },
+  {
+    "key": "'Objectifs du jour'",
+    "en": "'Daily goals'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:345"
+    ]
+  },
+  {
+    "key": "' : fait'",
+    "en": "': done'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:357"
+    ]
+  },
+  {
+    "key": "`Chaque objectif : +${OBJECTIVE_XP} XP et +${OBJECTIVE_SPARKS} étincelles. De nouveaux demain.`",
+    "en": "`Each goal: +${OBJECTIVE_XP} XP and +${OBJECTIVE_SPARKS} sparks. New ones tomorrow.`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:367"
+    ]
+  },
+  {
+    "key": "'Le vestiaire'",
+    "en": "'The wardrobe'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:374"
+    ]
+  },
+  {
+    "key": "`De quoi offrir : ${status.nextShop.name}`",
+    "en": "`You can afford: ${status.nextShop.name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:378"
+    ]
+  },
+  {
+    "key": "`Prochain : ${status.nextShop.name}, ${status.nextShop.price}`",
+    "en": "`Next: ${status.nextShop.name}, ${status.nextShop.price}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:379"
+    ]
+  },
+  {
+    "key": "'La boutique est au complet\\u00a0!'",
+    "en": "'You own the whole shop!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:380"
+    ]
+  },
+  {
+    "key": "' étincelles'",
+    "en": "' sparks'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:386"
+    ]
+  },
+  {
+    "key": "'Défi Légende du jour'",
+    "en": "'Daily Legend challenge'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:405",
+      "src/ui/screens/PlayScreens.tsx:172",
+      "src/ui/screens/ProgressScreen.tsx:344"
+    ]
+  },
+  {
+    "key": "`Niveau ${challenge.level}`",
+    "en": "`Level ${challenge.level}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:411"
+    ]
+  },
+  {
+    "key": "`+${SPARKS.legende} ✦ · +${XP_BONUS.legende} XP`",
+    "en": "`+${SPARKS.legende} ✦ · +${XP_BONUS.legende} XP`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:415"
+    ]
+  },
+  {
+    "key": "'ton meilleur'",
+    "en": "'your best'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:419"
+    ]
+  },
+  {
+    "key": "'La même partie pour toute la journée : à toi de jouer.'",
+    "en": "'The same game all day long: your move.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:426"
+    ]
+  },
+  {
+    "key": "'Récompense reçue. Tu peux retenter pour battre ton score.'",
+    "en": "'Reward collected. Try again to beat your score.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:427"
+    ]
+  },
+  {
+    "key": "`Reprendre : ${meta.name}`",
+    "en": "`Resume: ${meta.name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:441"
+    ]
+  },
+  {
+    "key": "`Niveau ${gameLevel(data, gameId)} · ${DOMAINS[meta.domain].name}`",
+    "en": "`Level ${gameLevel(data, gameId)} · ${DOMAINS[meta.domain].name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:443"
+    ]
+  },
+  {
+    "key": "'S’entraîner par thème'",
+    "en": "'Train by area'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:456"
+    ]
+  },
+  {
+    "key": "`Saison : ${season.name}`",
+    "en": "`Season: ${season.name}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:486"
+    ]
+  },
+  {
+    "key": "`Trophée « ${season.trophy.name} » gagné !`",
+    "en": "`“${season.trophy.name}” trophy earned!`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:492"
+    ]
+  },
+  {
+    "key": "`${count} / ${SEASON_PLAYS} parties`",
+    "en": "`${count} / ${SEASON_PLAYS} games`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:493"
+    ]
+  },
+  {
+    "key": "'Ta semaine'",
+    "en": "'Your week'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:513",
+      "src/ui/screens/ProgressScreen.tsx:406"
+    ]
+  },
+  {
+    "key": "`${formatWeekday(day)} : entraînement fait`",
+    "en": "`${formatWeekday(day)}: trained`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:528",
+      "src/ui/screens/ProgressScreen.tsx:622"
+    ]
+  },
+  {
+    "key": "`${formatWeekday(day)} : pas d’entraînement`",
+    "en": "`${formatWeekday(day)}: no training`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:529",
+      "src/ui/screens/ProgressScreen.tsx:623"
+    ]
+  },
+  {
+    "key": "'Défi de la semaine'",
+    "en": "'Weekly challenge'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:541"
+    ]
+  },
+  {
+    "key": "`Relevé ! +${WEEKLY_XP} XP`",
+    "en": "`Done! +${WEEKLY_XP} XP`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:548"
+    ]
+  },
+  {
+    "key": "'dernier jour'",
+    "en": "'last day'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:551"
+    ]
+  },
+  {
+    "key": "byCount(daysLeft, `encore ${daysLeft}\\u00a0jour`, `encore ${daysLeft}\\u00a0jours`)",
+    "en": "`${plural(daysLeft, 'day')} left`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:552"
+    ]
+  },
+  {
+    "key": "'Saison réussie : chapeau gagné !'",
+    "en": "'Season complete: hat earned!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:574"
+    ]
+  },
+  {
+    "key": "`Chapitre ${arc.chapter + 1}/4 · ${localized(arc.story.chapters[arc.chapter].title)}`",
+    "en": "`Chapter ${arc.chapter + 1}/4 · ${localized(arc.story.chapters[arc.chapter].title)}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:575"
+    ]
+  },
+  {
+    "key": "'Terminée : bravo, à demain !'",
+    "en": "'All done. Great job, see you tomorrow!'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:603"
+    ]
+  },
+  {
+    "key": "`${done.size} jeux sur ${picks.length} · on continue ?`",
+    "en": "`${done.size} of ${picks.length} games · keep going?`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:605"
+    ]
+  },
+  {
+    "key": "`${picks.length} jeux choisis pour toi · ≈ 6 min`",
+    "en": "`${picks.length} games picked for you · ≈ 6 min`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:606"
+    ]
+  },
+  {
+    "key": "'Installe Esprit Vif'",
+    "en": "'Install Esprit Vif'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:643"
+    ]
+  },
+  {
+    "key": "'Une icône sur ton écran d’accueil, et ça marche même sans réseau.'",
+    "en": "'An icon on your home screen, and it works even offline.'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:646"
+    ]
+  },
+  {
+    "key": "'Installer'",
+    "en": "'Install'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:651"
+    ]
+  },
+  {
+    "key": "'Plus tard'",
+    "en": "'Later'",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:656",
+      "src/ui/screens/WelcomeScreen.tsx:183"
     ]
   },
   {
@@ -9204,7 +10730,8 @@
     "key": "plural(games.length, 'jeu', 'jeux')",
     "en": "plural(games.length, 'game')",
     "at": [
-      "src/ui/screens/ModeScreens.tsx:180"
+      "src/ui/screens/ModeScreens.tsx:180",
+      "src/ui/screens/TrainingScreen.tsx:149"
     ]
   },
   {
@@ -9246,7 +10773,8 @@
     "key": "`Marathon ${DOMAINS[domain].name}`",
     "en": "`${DOMAINS[domain].name} marathon`",
     "at": [
-      "src/ui/screens/ModeScreens.tsx:251"
+      "src/ui/screens/ModeScreens.tsx:251",
+      "src/ui/screens/TrainingScreen.tsx:186"
     ]
   },
   {
@@ -9324,7 +10852,7 @@
     "en": "'Two-player duel'",
     "at": [
       "src/ui/screens/ModeScreens.tsx:362",
-      "src/ui/screens/TrainingScreen.tsx:59"
+      "src/ui/screens/TrainingScreen.tsx:75"
     ]
   },
   {
@@ -9524,8 +11052,203 @@
     "en": "'Finish'",
     "at": [
       "src/ui/screens/ModeScreens.tsx:583",
-      "src/ui/screens/PlayScreens.tsx:44",
-      "src/ui/screens/ReportScreen.tsx:186"
+      "src/ui/screens/PlayScreens.tsx:46",
+      "src/ui/screens/PlayScreens.tsx:181",
+      "src/ui/screens/ReportScreen.tsx:207"
+    ]
+  },
+  {
+    "key": "'Bilan du mois'",
+    "en": "'Monthly recap'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:44",
+      "src/ui/screens/PremiumScreen.tsx:149",
+      "src/ui/screens/ProgressScreen.tsx:524"
+    ]
+  },
+  {
+    "key": "'Tes parties du mois, en une carte.'",
+    "en": "'Your games of the month, on one card.'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:45"
+    ]
+  },
+  {
+    "key": "'Mois précédent'",
+    "en": "'Previous month'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:50",
+      "src/ui/screens/ProgressScreen.tsx:584"
+    ]
+  },
+  {
+    "key": "'Mois suivant'",
+    "en": "'Next month'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:59",
+      "src/ui/screens/ProgressScreen.tsx:603"
+    ]
+  },
+  {
+    "key": "'Aucune partie ce mois-ci : le bilan se remplit dès la première.'",
+    "en": "'No games this month: the recap fills up from the first one.'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:68"
+    ]
+  },
+  {
+    "key": "`Ton bilan de ${name} est prêt. Il fait partie d’Esprit Vif Premium.`",
+    "en": "`Your ${name} recap is ready. It comes with Esprit Vif Premium.`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:79"
+    ]
+  },
+  {
+    "key": "'Mon mois'",
+    "en": "'My month'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:98",
+      "src/ui/share-card.ts:173"
+    ]
+  },
+  {
+    "key": "`${delta} parties de plus que le mois d’avant`",
+    "en": "`${delta} more games than the month before`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:102"
+    ]
+  },
+  {
+    "key": "'Parties'",
+    "en": "'Games'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:109",
+      "src/ui/screens/ProgressScreen.tsx:394"
+    ]
+  },
+  {
+    "key": "'Jours actifs'",
+    "en": "'Active days'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:113",
+      "src/ui/screens/ProgressScreen.tsx:395"
+    ]
+  },
+  {
+    "key": "'Temps de jeu'",
+    "en": "'Play time'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:117",
+      "src/ui/screens/ProgressScreen.tsx:396",
+      "src/ui/screens/ProgressScreen.tsx:452"
+    ]
+  },
+  {
+    "key": "'Jeu préféré'",
+    "en": "'Favorite game'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:130"
+    ]
+  },
+  {
+    "key": "`${report.favorite.plays} parties`",
+    "en": "`${report.favorite.plays} games`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:131"
+    ]
+  },
+  {
+    "key": "'Plus beau progrès'",
+    "en": "'Biggest gain'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:139"
+    ]
+  },
+  {
+    "key": "`moyenne ${report.bestGain.before} → ${report.bestGain.now}`",
+    "en": "`average ${report.bestGain.before} → ${report.bestGain.now}`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:140"
+    ]
+  },
+  {
+    "key": "'records battus'",
+    "en": "'best scores beaten'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:149"
+    ]
+  },
+  {
+    "key": "'étoiles'",
+    "en": "'stars'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:149",
+      "src/ui/screens/MonthScreen.tsx:186"
+    ]
+  },
+  {
+    "key": "'objectifs remplis'",
+    "en": "'goals completed'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:157"
+    ]
+  },
+  {
+    "key": "'tests du jour'",
+    "en": "'daily tests'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:157"
+    ]
+  },
+  {
+    "key": "`meilleur âge cérébral : ${report.bestAge} ans`",
+    "en": "`best brain age: ${report.bestAge}`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:158"
+    ]
+  },
+  {
+    "key": "'Partager mon bilan'",
+    "en": "'Share my recap'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:176"
+    ]
+  },
+  {
+    "key": "'parties'",
+    "en": "'games'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:183",
+      "src/ui/screens/PremiumScreen.tsx:310"
+    ]
+  },
+  {
+    "key": "'jours actifs'",
+    "en": "'active days'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:184"
+    ]
+  },
+  {
+    "key": "'records'",
+    "en": "'best scores'",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:185",
+      "src/ui/screens/PremiumScreen.tsx:316"
+    ]
+  },
+  {
+    "key": "`Jeu préféré : ${GAMES[report.favorite.gameId].name}`",
+    "en": "`Favorite game: ${GAMES[report.favorite.gameId].name}`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:188"
+    ]
+  },
+  {
+    "key": "`Mon mois sur Esprit Vif : ${report.plays} parties en ${report.days} jours. https://alexxxx-droid.github.io/esprit-vif/`",
+    "en": "`My month on Esprit Vif: ${report.plays} games over ${report.days} days. https://alexxxx-droid.github.io/esprit-vif/`",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:195"
     ]
   },
   {
@@ -9541,7 +11264,7 @@
     "en": "'Party mode'",
     "at": [
       "src/ui/screens/PartyScreen.tsx:127",
-      "src/ui/screens/TrainingScreen.tsx:66"
+      "src/ui/screens/TrainingScreen.tsx:82"
     ]
   },
   {
@@ -9660,495 +11383,1116 @@
     "key": "`Niveau ${next}`",
     "en": "`Level ${next}`",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:35"
+      "src/ui/screens/PlayScreens.tsx:37"
     ]
   },
   {
     "key": "'Rejouer ce niveau'",
     "en": "'Replay this level'",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:41"
+      "src/ui/screens/PlayScreens.tsx:43"
     ]
   },
   {
     "key": "'Rejouer'",
     "en": "'Play again'",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:41"
+      "src/ui/screens/PlayScreens.tsx:43"
     ]
   },
   {
     "key": "'Test pour le plaisir'",
     "en": "'Just-for-fun test'",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:110",
-      "src/ui/screens/ReportScreen.tsx:73"
+      "src/ui/screens/PlayScreens.tsx:112",
+      "src/ui/screens/ReportScreen.tsx:77"
     ]
   },
   {
     "key": "`Jeu suivant : ${GAMES[following].name}`",
     "en": "`Next game: ${GAMES[following].name}`",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:126"
+      "src/ui/screens/PlayScreens.tsx:128"
     ]
   },
   {
     "key": "'Voir mon bilan'",
     "en": "'See my report'",
     "at": [
-      "src/ui/screens/PlayScreens.tsx:136"
+      "src/ui/screens/PlayScreens.tsx:138",
+      "src/ui/screens/PremiumScreen.tsx:321"
+    ]
+  },
+  {
+    "key": "'Retenter le défi'",
+    "en": "'Try the challenge again'",
+    "at": [
+      "src/ui/screens/PlayScreens.tsx:178"
+    ]
+  },
+  {
+    "key": "'Merci ! Premium est activé sur cet appareil.'",
+    "en": "'Thank you! Premium is now active on this device.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:37"
+    ]
+  },
+  {
+    "key": "'Ton achat est retrouvé : Premium est activé.'",
+    "en": "'Your purchase was found: Premium is active.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:38"
+    ]
+  },
+  {
+    "key": "'Paiement en attente : Premium s’activera tout seul dès que Google Play l’aura confirmé.'",
+    "en": "'Payment pending: Premium will switch on by itself as soon as Google Play confirms it.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:43"
+    ]
+  },
+  {
+    "key": "'Achat annulé : rien n’a été débité.'",
+    "en": "'Purchase cancelled: you weren’t charged.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:47"
+    ]
+  },
+  {
+    "key": "'Aucun achat Premium sur ce compte Google Play.'",
+    "en": "'No Premium purchase on this Google Play account.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:50"
+    ]
+  },
+  {
+    "key": "'Google Play ne répond pas. Vérifie ta connexion, puis réessaie.'",
+    "en": "'Google Play isn’t responding. Check your connection, then try again.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:54"
+    ]
+  },
+  {
+    "key": "'L’achat n’a pas abouti. Rien n’a été débité ; tu peux réessayer.'",
+    "en": "'The purchase didn’t go through. You weren’t charged; you can try again.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:56"
+    ]
+  },
+  {
+    "key": "`Aperçu : ${themeName(preview)}`",
+    "en": "`Preview: ${themeName(preview)}`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:86"
+    ]
+  },
+  {
+    "key": "'Gratuit, et ça le restera'",
+    "en": "'Free, and it’ll stay that way'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:106"
+    ]
+  },
+  {
+    "key": "`Les ${GAME_ORDER.length} jeux, leurs ${formatDecimal(GAME_ORDER.length * MAX_LEVEL)} niveaux et la maîtrise, le test du jour, les objectifs, les défis et les saisons, le vestiaire et ses ${EARNED_HATS} chapeaux à gagner, les thèmes gagnés en jouant, tes statistiques et tes sauvegardes. Rien de ce qui est gratuit aujourd’hui ne deviendra payant, et il n’y aura jamais de publicité.`",
+    "en": "`All ${GAME_ORDER.length} games, their ${formatDecimal(GAME_ORDER.length * MAX_LEVEL)} levels and mastery, the daily test, goals, challenges and seasons, the wardrobe and its ${EARNED_HATS} hats to earn, themes earned by playing, your stats and backups. Nothing free today will ever become paid, and there will never be ads.`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:110"
+    ]
+  },
+  {
+    "key": "`Tout débloquer pour ${state.product.price}`",
+    "en": "`Unlock everything for ${state.product.price}`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:118"
+    ]
+  },
+  {
+    "key": "'Un seul achat, pour toujours. Pas d’abonnement, pas de publicité.'",
+    "en": "'One purchase, forever. No subscription, no ads.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:143"
+    ]
+  },
+  {
+    "key": "'3 thèmes'",
+    "en": "'3 themes'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:145"
+    ]
+  },
+  {
+    "key": "'8 chapeaux'",
+    "en": "'8 hats'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:146"
+    ]
+  },
+  {
+    "key": "'3 compagnons'",
+    "en": "'3 companions'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:147"
+    ]
+  },
+  {
+    "key": "'Historique'",
+    "en": "'History'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:148"
+    ]
+  },
+  {
+    "key": "'Choisis-les dans Réglages → Apparence.'",
+    "en": "'Pick them in Settings → Appearance.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:164"
+    ]
+  },
+  {
+    "key": "'Essaie-les en direct : toute l’appli change de couleurs le temps de l’aperçu.'",
+    "en": "'Try them live: the whole app changes colors during the preview.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:165"
+    ]
+  },
+  {
+    "key": "'Arrêter l’essai'",
+    "en": "'Stop preview'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:181"
+    ]
+  },
+  {
+    "key": "'Essayer'",
+    "en": "'Try it'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:181"
+    ]
+  },
+  {
+    "key": "'Ils t’attendent dans le vestiaire.'",
+    "en": "'They’re waiting in the wardrobe.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:198"
+    ]
+  },
+  {
+    "key": "'Touche un chapeau : Vif l’essaie là-haut. Sans étincelles, ils sont à toi d’un coup.'",
+    "en": "'Tap a hat: Vif tries it on up top. No sparks needed, they’re all yours at once.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:199"
+    ]
+  },
+  {
+    "key": "'Choisis-les dans Réglages → Joueur.'",
+    "en": "'Pick them in Settings → Player.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:230"
+    ]
+  },
+  {
+    "key": "'Ils rejoignent Vif et sa bande, avec les mêmes chapeaux et les mêmes humeurs.'",
+    "en": "'They join Vif and the gang, with the same hats and moods.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:231"
+    ]
+  },
+  {
+    "key": "'Tous tes scores, ton meilleur score à chaque niveau, ta précision et ton temps de réaction au fil des parties.'",
+    "en": "'All your scores, your best on every level, your accuracy and reaction time over time.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:263"
+    ]
+  },
+  {
+    "key": "'Ouvrir l’historique'",
+    "en": "'Open the history'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:275"
+    ]
+  },
+  {
+    "key": "`Ta courbe de ${GAMES[game].name} est prête : ${points.length} parties.`",
+    "en": "`Your ${GAMES[game].name} chart is ready: ${points.length} games.`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:280"
+    ]
+  },
+  {
+    "key": "'Ta courbe apparaîtra après quelques parties.'",
+    "en": "'Your chart will appear after a few games.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:285"
+    ]
+  },
+  {
+    "key": "'Ton bilan du mois'",
+    "en": "'Your monthly recap'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:300"
+    ]
+  },
+  {
+    "key": "'Chaque mois, une carte illustrée de ta régularité, de tes records et de ton jeu préféré, à garder ou à partager.'",
+    "en": "'Every month, an illustrated card of your consistency, best scores and favorite game, to keep or share.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:303"
+    ]
+  },
+  {
+    "key": "'jours'",
+    "en": "'days'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:313"
+    ]
+  },
+  {
+    "key": "`Ton bilan de ${name} t’attend.`",
+    "en": "`Your ${name} recap is waiting.`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:326"
+    ]
+  },
+  {
+    "key": "'Premium est actif. Merci de soutenir Esprit Vif !'",
+    "en": "'Premium is active. Thanks for supporting Esprit Vif!'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:355"
+    ]
+  },
+  {
+    "key": "'Premium s’achète dans l’appli Android, sur Google Play. Sur ce site, tout le reste est gratuit, et tout s’essaie ci-dessous.'",
+    "en": "'Premium is sold in the Android app, on Google Play. On this website, everything else is free, and you can try it all below.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:365"
+    ]
+  },
+  {
+    "key": "'Premium arrive bientôt : la boutique Google Play de l’appli n’est pas encore ouverte. En attendant, tout s’essaie ci-dessous.'",
+    "en": "'Premium is coming soon: the app’s Google Play store isn’t open yet. Meanwhile, you can try everything below.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:377"
+    ]
+  },
+  {
+    "key": "'Ouverture de Google Play…'",
+    "en": "'Opening Google Play…'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:390"
+    ]
+  },
+  {
+    "key": "`Acheter pour ${price}`",
+    "en": "`Buy for ${price}`",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:392"
+    ]
+  },
+  {
+    "key": "'Chargement du prix…'",
+    "en": "'Loading price…'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:394"
+    ]
+  },
+  {
+    "key": "'Prix indisponible'",
+    "en": "'Price unavailable'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:395"
+    ]
+  },
+  {
+    "key": "'Google Play ne donne pas encore le prix de Premium. Réessaie plus tard.'",
+    "en": "'Google Play hasn’t provided Premium’s price yet. Try again later.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:399"
+    ]
+  },
+  {
+    "key": "'Google Play est injoignable pour le moment : les jeux, eux, marchent sans.'",
+    "en": "'Google Play can’t be reached right now: the games work fine without it.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:401"
+    ]
+  },
+  {
+    "key": "'Paiement unique géré par Google Play. Premium suit ton compte Google sur tes appareils Android.'",
+    "en": "'One-time payment handled by Google Play. Premium follows your Google account across your Android devices.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:402"
+    ]
+  },
+  {
+    "key": "'Un paiement attend la confirmation de Google Play.'",
+    "en": "'A payment is waiting for Google Play to confirm it.'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:406"
+    ]
+  },
+  {
+    "key": "'Vérification…'",
+    "en": "'Checking…'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:409",
+      "src/ui/screens/SettingsScreen.tsx:706"
+    ]
+  },
+  {
+    "key": "'Restaurer mes achats'",
+    "en": "'Restore purchases'",
+    "at": [
+      "src/ui/screens/PremiumScreen.tsx:409",
+      "src/ui/screens/SettingsScreen.tsx:706"
     ]
   },
   {
     "key": "'LMMJVSD'",
     "en": "'MTWTFSS'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:25"
+      "src/ui/screens/ProgressScreen.tsx:31"
     ]
   },
   {
     "key": "'Résumé'",
     "en": "'Summary'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:30"
+      "src/ui/screens/ProgressScreen.tsx:36"
     ]
   },
   {
     "key": "'Trophées'",
     "en": "'Trophies'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:31"
+      "src/ui/screens/ProgressScreen.tsx:37"
     ]
   },
   {
     "key": "'Records'",
     "en": "'Best scores'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:32"
+      "src/ui/screens/ProgressScreen.tsx:38"
     ]
   },
   {
     "key": "'Ce qui compte, c’est la régularité.'",
     "en": "'What counts is showing up regularly.'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:77"
+      "src/ui/screens/ProgressScreen.tsx:83"
     ]
   },
   {
     "key": "'Rubriques des progrès'",
     "en": "'Progress sections'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:79"
+      "src/ui/screens/ProgressScreen.tsx:85"
     ]
   },
   {
     "key": "'Ton rang'",
     "en": "'Your rank'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:99"
+      "src/ui/screens/ProgressScreen.tsx:105"
     ]
   },
   {
     "key": "byCount(stars, 'étoile', 'étoiles')",
     "en": "byCount(stars, 'star', 'stars')",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:104"
+      "src/ui/screens/ProgressScreen.tsx:110"
     ]
   },
   {
     "key": "'trophées'",
     "en": "'trophies'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:112"
+      "src/ui/screens/ProgressScreen.tsx:118"
     ]
   },
   {
     "key": "'médailles'",
     "en": "'medals'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:120"
+      "src/ui/screens/ProgressScreen.tsx:126"
     ]
   },
   {
     "key": "'Ce que disent tes parties'",
     "en": "'What your games say'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:127"
+      "src/ui/screens/ProgressScreen.tsx:138"
     ]
   },
   {
     "key": "'Joue quelques parties : je te dirai ce que j’y remarque.'",
     "en": "'Play a few games: I’ll tell you what I notice.'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:143"
+      "src/ui/screens/ProgressScreen.tsx:154"
     ]
   },
   {
     "key": "'Série en cours'",
     "en": "'Current streak'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:149"
+      "src/ui/screens/ProgressScreen.tsx:162"
     ]
   },
   {
     "key": "'jour'",
     "en": "'day'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:149",
-      "src/ui/screens/ProgressScreen.tsx:150",
-      "src/ui/screens/ProgressScreen.tsx:151"
+      "src/ui/screens/ProgressScreen.tsx:162",
+      "src/ui/screens/ProgressScreen.tsx:163",
+      "src/ui/screens/ProgressScreen.tsx:164",
+      "src/ui/screens/ProgressScreen.tsx:170"
     ]
   },
   {
     "key": "'Meilleure série'",
     "en": "'Best streak'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:150"
+      "src/ui/screens/ProgressScreen.tsx:163"
     ]
   },
   {
     "key": "'Jours joués'",
     "en": "'Days played'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:151"
+      "src/ui/screens/ProgressScreen.tsx:164",
+      "src/ui/screens/ProgressScreen.tsx:170"
     ]
   },
   {
     "key": "'Un jour de repos par semaine ne casse pas ta série.'",
     "en": "'One rest day a week won’t break your streak.'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:153"
+      "src/ui/screens/ProgressScreen.tsx:166"
     ]
   },
   {
     "key": "`Tes ${tests.length > 1 ? `${tests.length} derniers` : ''} tests du jour officiels`",
     "en": "`Your ${tests.length > 1 ? `last ${tests.length} ` : ''}official daily tests`",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:161"
+      "src/ui/screens/ProgressScreen.tsx:180"
     ]
   },
   {
     "key": "'Ta courbe apparaîtra après ton premier test du jour.'",
     "en": "'Your curve will appear after your first daily test.'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:168"
+      "src/ui/screens/ProgressScreen.tsx:187"
     ]
   },
   {
     "key": "'Carte du cerveau'",
     "en": "'Brain map'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:174"
+      "src/ui/screens/ProgressScreen.tsx:193"
     ]
   },
   {
-    "key": "'Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)'",
-    "en": "'Your strengths at a glance (average of your last 5 games)'",
+    "key": "'Ta maîtrise de chaque domaine : elle grandit avec les niveaux réussis'",
+    "en": "'Your mastery of each area: it grows as you clear levels'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:177"
+      "src/ui/screens/ProgressScreen.tsx:196"
     ]
   },
   {
     "key": "'Par domaine'",
     "en": "'By area'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:184"
+      "src/ui/screens/ProgressScreen.tsx:203"
     ]
   },
   {
-    "key": "'Moyenne de tes 5 dernières parties'",
-    "en": "'Average of your last 5 games'",
+    "key": "'Sur 100 : 100, c’est le niveau 50 réussi sans faute'",
+    "en": "'Out of 100: 100 means level 50 cleared perfectly'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:186"
+      "src/ui/screens/ProgressScreen.tsx:205"
     ]
   },
   {
     "key": "'Pas encore joué'",
     "en": "'Not played yet'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:195"
+      "src/ui/screens/ProgressScreen.tsx:214"
     ]
   },
   {
     "key": "'Médailles'",
     "en": "'Medals'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:214"
+      "src/ui/screens/ProgressScreen.tsx:234"
     ]
   },
   {
     "key": "`Trophées · ${trophiesWon}/${trophies.length}`",
     "en": "`Trophies · ${trophiesWon}/${trophies.length}`",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:233"
+      "src/ui/screens/ProgressScreen.tsx:253"
     ]
   },
   {
     "key": "'Débloqué'",
     "en": "'Unlocked'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:245"
+      "src/ui/screens/ProgressScreen.tsx:265"
     ]
   },
   {
     "key": "`De retour le ${seasonReturn(trophy.season, today)}`",
     "en": "`Back on ${seasonReturn(trophy.season, today)}`",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:248"
+      "src/ui/screens/ProgressScreen.tsx:268"
     ]
   },
   {
     "key": "'Tes meilleurs scores, jeu par jeu'",
     "en": "'Your best scores, game by game'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:268"
+      "src/ui/screens/ProgressScreen.tsx:288"
     ]
   },
   {
-    "key": "`${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts`",
-    "en": "`${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/20 unlocked`",
+    "key": "`${best.headline} · niveau ${best.level} · ${Math.min(gameUnlocked(data, id), MAX_LEVEL)}/${MAX_LEVEL} ouverts${masteryOf(data.games[id]?.bests) ? ` · ${masteryName(MAX_LEVEL + masteryOf(data.games[id]?.bests))}` : ''}`",
+    "en": "`${best.headline} · level ${best.level} · ${Math.min(gameUnlocked(data, id), MAX_LEVEL)}/${MAX_LEVEL} unlocked${masteryOf(data.games[id]?.bests) ? ` · ${masteryName(MAX_LEVEL + masteryOf(data.games[id]?.bests))}` : ''}`",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:283"
+      "src/ui/screens/ProgressScreen.tsx:303"
     ]
   },
   {
     "key": "'Pas encore de record'",
     "en": "'No best score yet'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:286"
+      "src/ui/screens/ProgressScreen.tsx:306"
     ]
   },
   {
-    "key": "'Mois précédent'",
-    "en": "'Previous month'",
+    "key": "`Historique de ${GAMES[id].name}`",
+    "en": "`${GAMES[id].name} history`",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:353"
+      "src/ui/screens/ProgressScreen.tsx:317"
+    ]
+  },
+  {
+    "key": "`Titre « ${title[1]} »`",
+    "en": "`“${title[1]}” title`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:340"
+    ]
+  },
+  {
+    "key": "`niveau ${title[0]}`",
+    "en": "`level ${title[0]}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:340"
+    ]
+  },
+  {
+    "key": "`niveau 40 · ${Math.min(best, 40)}/40`",
+    "en": "`level 40 · ${Math.min(best, 40)}/40`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:344"
+    ]
+  },
+  {
+    "key": "`niveau ${aura.level}`",
+    "en": "`level ${aura.level}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:347"
+    ]
+  },
+  {
+    "key": "`Thème ${themeName(theme.id)}`",
+    "en": "`${themeName(theme.id)} theme`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:348"
+    ]
+  },
+  {
+    "key": "`niveau ${theme.unlock.level}`",
+    "en": "`level ${theme.unlock.level}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:348"
+    ]
+  },
+  {
+    "key": "'à portée !'",
+    "en": "'within reach!'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:359"
+    ]
+  },
+  {
+    "key": "'Prochaines récompenses'",
+    "en": "'Coming up next'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:367"
+    ]
+  },
+  {
+    "key": "'Ouvrir le vestiaire'",
+    "en": "'Open the wardrobe'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:383"
+    ]
+  },
+  {
+    "key": "`Depuis lundi ${formatShortDay(current.week)}, comparée à la semaine d’avant.`",
+    "en": "`Since Monday ${formatShortDay(current.week)}, compared with the week before.`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:409"
+    ]
+  },
+  {
+    "key": "'Pas encore de partie cette semaine : une seule suffit pour lancer le bilan.'",
+    "en": "'No games yet this week: one is enough to start the recap.'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:412"
+    ]
+  },
+  {
+    "key": "'En chiffres'",
+    "en": "'By the numbers'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:443"
+    ]
+  },
+  {
+    "key": "'Parties terminées'",
+    "en": "'Games finished'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:447"
+    ]
+  },
+  {
+    "key": "`dont ${daily} au test du jour`",
+    "en": "`${daily} of them in daily tests`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:449"
+    ]
+  },
+  {
+    "key": "'chrono des parties seules'",
+    "en": "'games only, no menus'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:456"
+    ]
+  },
+  {
+    "key": "byCount(t.timedPlays, `mesuré sur ${t.timedPlays} partie (depuis la v2.9)`, `mesuré sur ${t.timedPlays} parties (depuis la v2.9)`)",
+    "en": "byCount(t.timedPlays, `measured on ${t.timedPlays} game (since v2.9)`, `measured on ${t.timedPlays} games (since v2.9)`)",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:458"
+    ]
+  },
+  {
+    "key": "'dans les jeux qui comptent les erreurs'",
+    "en": "'in games that count mistakes'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:468"
+    ]
+  },
+  {
+    "key": "`bonnes réponses, sur ${t.accuracyPlays} parties`",
+    "en": "`correct answers, over ${t.accuracyPlays} games`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:469"
+    ]
+  },
+  {
+    "key": "'se mesure à Flèches et Réflexe'",
+    "en": "'measured in Arrows and Reflex'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:476"
+    ]
+  },
+  {
+    "key": "`moyenne de ${t.reactionPlays} parties`",
+    "en": "`average of ${t.reactionPlays} games`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:476"
+    ]
+  },
+  {
+    "key": "'Activité récente'",
+    "en": "'Recent activity'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:490"
+    ]
+  },
+  {
+    "key": "'Aujourd’hui'",
+    "en": "'Today'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:500"
+    ]
+  },
+  {
+    "key": "'Hier'",
+    "en": "'Yesterday'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:500"
+    ]
+  },
+  {
+    "key": "'test du jour'",
+    "en": "'daily test'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:501"
+    ]
+  },
+  {
+    "key": "`niveau ${p.level}`",
+    "en": "`level ${p.level}`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:501"
+    ]
+  },
+  {
+    "key": "'Tes parties apparaîtront ici. Commence par le test du jour !'",
+    "en": "'Your games will show up here. Start with the daily test!'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:509"
+    ]
+  },
+  {
+    "key": "'Ta carte du mois, à garder ou à partager'",
+    "en": "'Your month on one card, to keep or share'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:526"
+    ]
+  },
+  {
+    "key": "'Inclus dans Premium · ton bilan est prêt'",
+    "en": "'Included with Premium · your recap is ready'",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:526"
     ]
   },
   {
     "key": "byCount(playedThisMonth, `${playedThisMonth}\\u00a0jour d’entraînement`, `${playedThisMonth}\\u00a0jours d’entraînement`)",
     "en": "plural(playedThisMonth, 'training day')",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:363"
+      "src/ui/screens/ProgressScreen.tsx:594"
     ]
   },
   {
     "key": "'Aucun entraînement ce mois-ci'",
     "en": "'No training this month'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:364"
-    ]
-  },
-  {
-    "key": "'Mois suivant'",
-    "en": "'Next month'",
-    "at": [
-      "src/ui/screens/ProgressScreen.tsx:372"
+      "src/ui/screens/ProgressScreen.tsx:595"
     ]
   },
   {
     "key": "'Premier test : voici ton point de départ. Reviens demain pour voir ta progression !'",
     "en": "'First test: this is your starting point. Come back tomorrow to see your progress!'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:20"
+      "src/ui/screens/ReportScreen.tsx:22"
     ]
   },
   {
     "key": "byCount(-diff, `${-diff}\\u00a0an de moins qu’au test précédent. Bravo !`, `${-diff}\\u00a0ans de moins qu’au test précédent. Bravo !`)",
     "en": "`${plural(-diff, 'year')} younger than your last test. Well done!`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:26"
+      "src/ui/screens/ReportScreen.tsx:28"
     ]
   },
   {
     "key": "'Comme au test précédent. La régularité, c’est ce qui compte !'",
     "en": "'Same as your last test. Sticking with it is what counts!'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:29"
+      "src/ui/screens/ReportScreen.tsx:31"
     ]
   },
   {
     "key": "byCount(\n      diff,\n      `${diff}\\u00a0an de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`,\n      `${diff}\\u00a0ans de plus qu’au test précédent. Un jour sans, ça arrive : on se retrouve demain ?`,\n    )",
     "en": "`${plural(diff, 'year')} older than your last test. Everyone has off days: see you tomorrow?`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:31"
+      "src/ui/screens/ReportScreen.tsx:33"
     ]
   },
   {
     "key": "`${test.brainAge} ans`",
     "en": "`${test.brainAge} years`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:79"
+      "src/ui/screens/ReportScreen.tsx:83"
     ]
   },
   {
-    "key": "'Score par domaine'",
-    "en": "'Score by area'",
+    "key": "'Score du jour'",
+    "en": "'Today’s score'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:92"
+      "src/ui/screens/ReportScreen.tsx:96"
+    ]
+  },
+  {
+    "key": "`La moyenne des trois jeux. Âge cérébral = 80 − 0,6 × ${dayScore}, entre 20 et 80 ans.`",
+    "en": "`The average of the three games. Brain age = 80 − 0.6 × ${dayScore}, between 20 and 80.`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:101"
     ]
   },
   {
     "key": "'Tes niveaux de départ'",
     "en": "'Your starting levels'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:131"
+      "src/ui/screens/ReportScreen.tsx:142"
     ]
   },
   {
     "key": "`niveaux 1 à ${start} ouverts d’emblée`",
     "en": "`levels 1 to ${start} unlocked right away`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:141"
+      "src/ui/screens/ReportScreen.tsx:152"
     ]
   },
   {
     "key": "'on commence au niveau 1'",
     "en": "'starting at level 1'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:142"
+      "src/ui/screens/ReportScreen.tsx:153"
     ]
   },
   {
     "key": "'Les autres domaines démarrent au niveau 1 : chaque étoile ouvre la suite.'",
     "en": "'The other areas start at level 1: each star unlocks the next one.'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:149"
+      "src/ui/screens/ReportScreen.tsx:160"
+    ]
+  },
+  {
+    "key": "`Test du jour : +${XP_BONUS.test} XP et +${SPARKS.test} étincelles, en plus de chaque partie. Tu peux rejouer ces jeux en entraînement libre : le test, lui, ne compte qu’une fois par jour.`",
+    "en": "`Daily test: +${XP_BONUS.test} XP and +${SPARKS.test} sparks, on top of each game. You can replay these games in free training: the test itself only counts once a day.`",
+    "at": [
+      "src/ui/screens/ReportScreen.tsx:169"
     ]
   },
   {
     "key": "'Le test officiel du jour était déjà fait : celui-ci ne compte pas dans tes progrès.'",
     "en": "'Today’s official test was already done: this one doesn’t count toward your progress.'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:158"
+      "src/ui/screens/ReportScreen.tsx:179"
     ]
   },
   {
     "key": "'Partager mon âge cérébral'",
     "en": "'Share my brain age'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:165"
+      "src/ui/screens/ReportScreen.tsx:186"
     ]
   },
   {
     "key": "`Mon âge cérébral du jour sur Esprit Vif : ${test.brainAge} ans (indicateur ludique). Et toi ? https://alexxxx-droid.github.io/esprit-vif/`",
     "en": "`My brain age today on Esprit Vif: ${test.brainAge} years (a playful indicator). What’s yours? https://alexxxx-droid.github.io/esprit-vif/`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:173"
+      "src/ui/screens/ReportScreen.tsx:194"
     ]
   },
   {
     "key": "'Indicateur ludique, pas une mesure médicale.'",
     "en": "'A playful indicator, not a medical measure.'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:181",
-      "src/ui/share-card.ts:178"
+      "src/ui/screens/ReportScreen.tsx:202",
+      "src/ui/share-card.ts:209"
     ]
   },
   {
     "key": "`${MIN_BRAIN_AGE} ans`",
     "en": "`${MIN_BRAIN_AGE} years`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:209"
+      "src/ui/screens/ReportScreen.tsx:230"
     ]
   },
   {
     "key": "'précédent'",
     "en": "'previous'",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:212"
+      "src/ui/screens/ReportScreen.tsx:233"
     ]
   },
   {
     "key": "`${MAX_BRAIN_AGE} ans`",
     "en": "`${MAX_BRAIN_AGE} years`",
     "at": [
-      "src/ui/screens/ReportScreen.tsx:215"
+      "src/ui/screens/ReportScreen.tsx:236"
+    ]
+  },
+  {
+    "key": "'Saison de défis'",
+    "en": "'Challenge season'",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:38"
+    ]
+  },
+  {
+    "key": "`Du ${formatShortDay(arc.start)} au ${formatShortDay(arc.end)}`",
+    "en": "`${formatShortDay(arc.start)} to ${formatShortDay(arc.end)}`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:40"
+    ]
+  },
+  {
+    "key": "`Saison réussie ! ${seasonHatName(hatId)} est dans ton vestiaire.`",
+    "en": "`Season complete! ${seasonHatName(hatId)} is in your wardrobe.`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:50"
+    ]
+  },
+  {
+    "key": "`${SEASON_REQUIRED} chapitres sur 4 : ${seasonHatName(hatId)} et ${SPARKS.season} étincelles. Encore ${daysLeft} jours.`",
+    "en": "`${SEASON_REQUIRED} chapters out of 4: ${seasonHatName(hatId)} and ${SPARKS.season} sparks. ${daysLeft} days left.`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:52"
+    ]
+  },
+  {
+    "key": "`${done} chapitres sur 4`",
+    "en": "`${done} of 4 chapters`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:56"
+    ]
+  },
+  {
+    "key": "`Chapitre ${i + 1} · `",
+    "en": "`Chapter ${i + 1} · `",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:76"
+    ]
+  },
+  {
+    "key": "'Défi de la semaine relevé'",
+    "en": "'Weekly challenge done'",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:81"
+    ]
+  },
+  {
+    "key": "'Manqué : pas grave, 3 chapitres suffisent.'",
+    "en": "'Missed: no worries, 3 chapters are enough.'",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:83"
+    ]
+  },
+  {
+    "key": "`À partir du ${formatShortDay(week)}`",
+    "en": "`From ${formatShortDay(week)}`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:84"
+    ]
+  },
+  {
+    "key": "'Ta collection de saison'",
+    "en": "'Your season collection'",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:97"
+    ]
+  },
+  {
+    "key": "byCount(collection, `${collection} chapeau de saison`, `${collection} chapeaux de saison`)",
+    "en": "byCount(collection, `${collection} season hat`, `${collection} season hats`)",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:101"
+    ]
+  },
+  {
+    "key": "'Le premier chapeau t’attend au bout de cette saison.'",
+    "en": "'The first hat awaits at the end of this season.'",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:104"
+    ]
+  },
+  {
+    "key": "`Chaque saison dure quatre semaines ; la suivante commence le ${formatShortDay(addDays(arc.end, 1))}`",
+    "en": "`Each season lasts four weeks; the next one starts on ${formatShortDay(addDays(arc.end, 1))}`",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:113"
     ]
   },
   {
     "key": "'Normal'",
     "en": "'Normal'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:24"
+      "src/ui/screens/SettingsScreen.tsx:31"
     ]
   },
   {
     "key": "'Grand'",
     "en": "'Large'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:25"
+      "src/ui/screens/SettingsScreen.tsx:32"
     ]
   },
   {
     "key": "'Très grand'",
     "en": "'Extra large'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:26"
+      "src/ui/screens/SettingsScreen.tsx:33"
     ]
   },
   {
     "key": "'Auto'",
     "en": "'Auto'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:30",
-      "src/ui/screens/SettingsScreen.tsx:53"
+      "src/ui/screens/SettingsScreen.tsx:37",
+      "src/ui/screens/SettingsScreen.tsx:60"
     ]
   },
   {
     "key": "'Clair'",
     "en": "'Light'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:31"
+      "src/ui/screens/SettingsScreen.tsx:38"
     ]
   },
   {
     "key": "'Sombre'",
     "en": "'Dark'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:32"
+      "src/ui/screens/SettingsScreen.tsx:39"
     ]
   },
   {
     "key": "'Les notifications sont refusées : autorise-les dans les réglages du téléphone.'",
     "en": "'Notifications are blocked: allow them in your phone’s settings.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:70"
+      "src/ui/screens/SettingsScreen.tsx:78"
     ]
   },
   {
     "key": "'L’export n’a pas abouti.'",
     "en": "'The export didn’t go through.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:79"
+      "src/ui/screens/SettingsScreen.tsx:87"
     ]
   },
   {
     "key": "'Sauvegarde importée. Bon retour !'",
     "en": "'Backup imported. Welcome back!'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:93"
+      "src/ui/screens/SettingsScreen.tsx:101"
     ]
   },
   {
     "key": "'Ta progression a été remise à zéro.'",
     "en": "'Your progress has been reset.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:96"
+      "src/ui/screens/SettingsScreen.tsx:104"
     ]
   },
   {
     "key": "'Opération impossible.'",
     "en": "'That didn’t work.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:99"
+      "src/ui/screens/SettingsScreen.tsx:107"
     ]
   },
   {
     "key": "'Joueur'",
     "en": "'Player'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:108",
+      "src/ui/screens/SettingsScreen.tsx:116",
       "src/ui/screens/TransferScreen.tsx:244"
     ]
   },
@@ -10156,49 +12500,49 @@
     "key": "'Changer de joueur ou en ajouter un'",
     "en": "'Switch players or add one'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:137"
+      "src/ui/screens/SettingsScreen.tsx:145"
     ]
   },
   {
     "key": "'Ajouter un joueur'",
     "en": "'Add a player'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:137"
+      "src/ui/screens/SettingsScreen.tsx:145"
     ]
   },
   {
     "key": "`Supprimer le joueur ${playerName}`",
     "en": "`Delete player ${playerName}`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:143"
+      "src/ui/screens/SettingsScreen.tsx:151"
     ]
   },
   {
     "key": "'Jusqu’à 4 joueurs sur cet appareil, chacun avec ses niveaux, ses tests et ses réglages.'",
     "en": "'Up to 4 players on this device, each with their own levels, tests and settings.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:151"
+      "src/ui/screens/SettingsScreen.tsx:159"
     ]
   },
   {
     "key": "'Mes objectifs'",
     "en": "'My goals'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:157"
+      "src/ui/screens/SettingsScreen.tsx:165"
     ]
   },
   {
     "key": "`Jusqu’à ${MAX_GOALS} domaines que ta séance du jour mettra en avant.`",
     "en": "`Up to ${MAX_GOALS} areas for your daily session to focus on.`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:160"
+      "src/ui/screens/SettingsScreen.tsx:168"
     ]
   },
   {
     "key": "'Objectifs'",
     "en": "'Goals'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:164",
+      "src/ui/screens/SettingsScreen.tsx:172",
       "src/ui/screens/WelcomeScreen.tsx:107"
     ]
   },
@@ -10206,380 +12550,395 @@
     "key": "'Sons et vibrations'",
     "en": "'Sound and vibration'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:184"
+      "src/ui/screens/SettingsScreen.tsx:192"
     ]
   },
   {
     "key": "'Sons'",
     "en": "'Sounds'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:187"
+      "src/ui/screens/SettingsScreen.tsx:195"
     ]
   },
   {
     "key": "'Petits sons de jeu, générés sur l’appareil.'",
     "en": "'Little game sounds, made right on the device.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:188"
+      "src/ui/screens/SettingsScreen.tsx:196"
     ]
   },
   {
     "key": "'Musique d’ambiance'",
     "en": "'Background music'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:194"
+      "src/ui/screens/SettingsScreen.tsx:202"
     ]
   },
   {
     "key": "'Une musique douce pendant les parties, différente pour chaque domaine, composée sur l’appareil.'",
     "en": "'Soft music while you play, different for each area, composed right on the device.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:196"
+      "src/ui/screens/SettingsScreen.tsx:204"
     ]
   },
   {
     "key": "'Volume de la musique'",
     "en": "'Music volume'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:203"
+      "src/ui/screens/SettingsScreen.tsx:211"
     ]
   },
   {
     "key": "'Volume des effets'",
     "en": "'Effects volume'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:206"
+      "src/ui/screens/SettingsScreen.tsx:214"
     ]
   },
   {
     "key": "'Vibrations'",
     "en": "'Vibration'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:210"
+      "src/ui/screens/SettingsScreen.tsx:218"
     ]
   },
   {
     "key": "'Un léger retour à chaque toucher.'",
     "en": "'A light buzz with every tap.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:213"
+      "src/ui/screens/SettingsScreen.tsx:221"
     ]
   },
   {
     "key": "'Cet appareil ne vibre pas depuis le navigateur.'",
     "en": "'This device can’t vibrate from the browser.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:214"
+      "src/ui/screens/SettingsScreen.tsx:222"
     ]
   },
   {
     "key": "'Répondre à la voix'",
     "en": "'Answer by voice'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:225"
+      "src/ui/screens/SettingsScreen.tsx:233"
     ]
   },
   {
     "key": "'Dis « rouge », « bleu »… Selon le navigateur, la voix peut être analysée par un service en ligne (celui de Google sur Chrome).'",
     "en": "'Say “red”, “blue”… Depending on the browser, your voice may be processed by an online service (Google’s, on Chrome).'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:229"
+      "src/ui/screens/SettingsScreen.tsx:237"
     ]
   },
   {
     "key": "'Pas de réponse à la voix dans l’appli Android : les boutons restent là.'",
     "en": "'No voice answers in the Android app: the buttons are still there.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:233"
+      "src/ui/screens/SettingsScreen.tsx:241"
     ]
   },
   {
     "key": "'Ce navigateur ne propose pas la reconnaissance vocale : les boutons restent là.'",
     "en": "'This browser doesn’t offer speech recognition: the buttons are still there.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:235"
+      "src/ui/screens/SettingsScreen.tsx:243"
     ]
   },
   {
     "key": "'Apparence'",
     "en": "'Appearance'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:245"
+      "src/ui/screens/SettingsScreen.tsx:253"
     ]
   },
   {
-    "key": "'Thème'",
-    "en": "'Theme'",
+    "key": "'Clair ou sombre'",
+    "en": "'Light or dark'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:246"
+      "src/ui/screens/SettingsScreen.tsx:255",
+      "src/ui/screens/SettingsScreen.tsx:256"
     ]
   },
   {
     "key": "'« Auto » suit le réglage clair ou sombre de ton appareil.'",
     "en": "'“Auto” follows your device’s light or dark setting.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:260"
+      "src/ui/screens/SettingsScreen.tsx:270"
     ]
   },
   {
     "key": "'Langue'",
     "en": "'Language'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:261",
-      "src/ui/screens/SettingsScreen.tsx:262"
+      "src/ui/screens/SettingsScreen.tsx:271",
+      "src/ui/screens/SettingsScreen.tsx:272"
     ]
   },
   {
     "key": "'Thèmes de saison'",
     "en": "'Seasonal themes'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:279"
+      "src/ui/screens/SettingsScreen.tsx:289"
     ]
   },
   {
-    "key": "'Halloween, Noël, printemps, été : un accueil décoré, un accessoire pour ton compagnon et un trophée de saison.'",
-    "en": "'Halloween, Christmas, spring, summer: a decorated home screen, an accessory for your companion and a seasonal trophy.'",
+    "key": "'Les couleurs et le décor de la saison (neige, pétales, lucioles, feuilles) avec le thème « Auto », et les fêtes : Halloween, Noël… avec leur accessoire et leur trophée.'",
+    "en": "'Seasonal colors and scenery (snow, petals, fireflies, leaves) with the “Auto” theme, plus holidays like Halloween and Christmas with their accessory and trophy.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:281"
+      "src/ui/screens/SettingsScreen.tsx:291"
+    ]
+  },
+  {
+    "key": "'Montrer ma série'",
+    "en": "'Show my streak'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:299"
+    ]
+  },
+  {
+    "key": "'Les jours d’affilée sur l’accueil, dans les Progrès et sur le widget. Masquée, elle n’enlève rien : trophées et chapeaux de série restent à gagner.'",
+    "en": "'Days in a row on the home screen, in Progress and on the widget. Hidden, nothing is lost: streak trophies and hats can still be earned.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:301"
     ]
   },
   {
     "key": "'Accessibilité'",
     "en": "'Accessibility'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:289"
+      "src/ui/screens/SettingsScreen.tsx:309"
     ]
   },
   {
     "key": "'Taille du texte'",
     "en": "'Text size'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:290",
-      "src/ui/screens/SettingsScreen.tsx:291"
+      "src/ui/screens/SettingsScreen.tsx:310",
+      "src/ui/screens/SettingsScreen.tsx:311"
     ]
   },
   {
     "key": "'Contraste renforcé'",
     "en": "'High contrast'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:307"
+      "src/ui/screens/SettingsScreen.tsx:327"
     ]
   },
   {
     "key": "'Textes plus foncés et contours nets autour des cartes et des boutons.'",
     "en": "'Darker text and crisp outlines around cards and buttons.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:308"
+      "src/ui/screens/SettingsScreen.tsx:328"
     ]
   },
   {
     "key": "'Temps généreux'",
     "en": "'Extra time'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:314"
+      "src/ui/screens/SettingsScreen.tsx:334"
     ]
   },
   {
     "key": "'Les éléments restent affichés plus longtemps et le temps pour réagir s’allonge de moitié.'",
     "en": "'Items stay on screen longer and you get 50% more time to react.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:316"
+      "src/ui/screens/SettingsScreen.tsx:336"
     ]
   },
   {
     "key": "'Mode gaucher'",
     "en": "'Left-handed mode'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:324"
+      "src/ui/screens/SettingsScreen.tsx:344"
     ]
   },
   {
     "key": "'La touche Effacer du pavé numérique passe à gauche, sous le pouce.'",
     "en": "'The keypad’s erase key moves to the left, under your thumb.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:325"
+      "src/ui/screens/SettingsScreen.tsx:345"
     ]
   },
   {
     "key": "'Écrire les chiffres au doigt'",
     "en": "'Write numbers with your finger'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:331"
+      "src/ui/screens/SettingsScreen.tsx:351"
     ]
   },
   {
     "key": "'Dans les jeux de nombres, tu écris ta réponse chiffre par chiffre au lieu de toucher le pavé. Le choix existe aussi à l’intro de chaque jeu.'",
     "en": "'In number games, you write your answer digit by digit instead of tapping the keypad. You can also choose on each game’s intro screen.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:333"
+      "src/ui/screens/SettingsScreen.tsx:353"
     ]
   },
   {
     "key": "'Moins d’animations'",
     "en": "'Reduce motion'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:341"
+      "src/ui/screens/SettingsScreen.tsx:361"
     ]
   },
   {
     "key": "'Plus de mouvements décoratifs (confettis, glissements). Suit aussi le réglage du téléphone.'",
     "en": "'No more decorative motion (confetti, slides). Also follows your phone’s setting.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:343"
+      "src/ui/screens/SettingsScreen.tsx:363"
     ]
   },
   {
     "key": "'Rappel quotidien'",
     "en": "'Daily reminder'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:351"
+      "src/ui/screens/SettingsScreen.tsx:371"
     ]
   },
   {
     "key": "'Me rappeler le test du jour'",
     "en": "'Remind me about the daily test'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:354"
+      "src/ui/screens/SettingsScreen.tsx:374"
     ]
   },
   {
     "key": "'Une notification à l’heure choisie, les jours où le test n’est pas encore fait.'",
     "en": "'A notification at the time you pick, on days when the test isn’t done yet.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:358"
+      "src/ui/screens/SettingsScreen.tsx:378"
     ]
   },
   {
     "key": "'Un bandeau sur l’accueil à partir de l’heure choisie. Pour une vraie notification, installe l’appli Android.'",
     "en": "'A banner on the home screen from the time you pick. For a real notification, install the Android app.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:362"
+      "src/ui/screens/SettingsScreen.tsx:382"
     ]
   },
   {
     "key": "'Heure du rappel'",
     "en": "'Reminder time'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:371"
+      "src/ui/screens/SettingsScreen.tsx:391"
     ]
   },
   {
     "key": "'Écran d’accueil'",
     "en": "'Home screen'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:383"
+      "src/ui/screens/SettingsScreen.tsx:403"
     ]
   },
   {
     "key": "'Un widget montre ta série et le test du jour, avec deux boutons pour lancer le test ou la séance. Un appui long sur l’icône d’Esprit Vif donne aussi des raccourcis.'",
     "en": "'A widget shows your streak and the daily test, with two buttons to start the test or the session. Long-press the Esprit Vif icon for shortcuts too.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:386"
+      "src/ui/screens/SettingsScreen.tsx:406"
     ]
   },
   {
     "key": "'Ajouter le widget'",
     "en": "'Add the widget'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:392"
+      "src/ui/screens/SettingsScreen.tsx:412"
     ]
   },
   {
     "key": "'Appuie longuement sur ton écran d’accueil, puis Widgets, puis Esprit Vif.'",
     "en": "'Long-press your home screen, then tap Widgets, then Esprit Vif.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:395"
+      "src/ui/screens/SettingsScreen.tsx:415"
     ]
   },
   {
     "key": "'Appli'",
     "en": "'App'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:402"
+      "src/ui/screens/SettingsScreen.tsx:422"
     ]
   },
   {
     "key": "'Installer Esprit Vif sur cet appareil'",
     "en": "'Install Esprit Vif on this device'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:405"
+      "src/ui/screens/SettingsScreen.tsx:425"
     ]
   },
   {
     "key": "'Esprit Vif est installée. À bientôt sur ton écran d’accueil !'",
     "en": "'Esprit Vif is installed. See you on your home screen!'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:407"
+      "src/ui/screens/SettingsScreen.tsx:427"
     ]
   },
   {
     "key": "'Mes données'",
     "en": "'My data'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:415"
+      "src/ui/screens/SettingsScreen.tsx:437"
     ]
   },
   {
     "key": "'Ta progression est sur cet appareil et sur ton Google Drive. Tu peux aussi l’exporter ou la transférer.'",
     "en": "'Your progress is on this device and on your Google Drive. You can also export or transfer it.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:419"
+      "src/ui/screens/SettingsScreen.tsx:441"
     ]
   },
   {
     "key": "'Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.'",
     "en": "'Everything stays on this device. Export a backup to keep it safe or move it.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:422"
+      "src/ui/screens/SettingsScreen.tsx:444"
     ]
   },
   {
     "key": "'Transférer vers un autre appareil (QR code)'",
     "en": "'Transfer to another device (QR code)'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:425"
+      "src/ui/screens/SettingsScreen.tsx:447"
     ]
   },
   {
     "key": "'Exporter ma progression'",
     "en": "'Export my progress'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:426"
+      "src/ui/screens/SettingsScreen.tsx:448"
     ]
   },
   {
     "key": "'Importer une sauvegarde'",
     "en": "'Import a backup'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:427"
+      "src/ui/screens/SettingsScreen.tsx:449"
     ]
   },
   {
     "key": "'Tout effacer'",
     "en": "'Erase everything'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:428"
+      "src/ui/screens/SettingsScreen.tsx:450"
     ]
   },
   {
     "key": "'À propos'",
     "en": "'About'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:443"
+      "src/ui/screens/SettingsScreen.tsx:466"
     ]
   },
   {
     "key": "'Pas de compte, pas de publicité, aucun pistage : tes données ne quittent jamais ton appareil.'",
     "en": "'No account, no ads, no tracking: your data never leaves your device.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:450"
+      "src/ui/screens/SettingsScreen.tsx:473"
     ]
   },
   {
     "key": "'L’âge cérébral est un indicateur ludique, pas une mesure médicale.'",
     "en": "'Brain age is a playful indicator, not a medical measure.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:454",
+      "src/ui/screens/SettingsScreen.tsx:477",
       "src/ui/screens/WelcomeScreen.tsx:170"
     ]
   },
@@ -10587,238 +12946,435 @@
     "key": "'Importer cette sauvegarde ?'",
     "en": "'Import this backup?'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:462"
+      "src/ui/screens/SettingsScreen.tsx:485"
     ]
   },
   {
     "key": "`Supprimer ${playerName} ?`",
     "en": "`Delete ${playerName}?`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:464"
+      "src/ui/screens/SettingsScreen.tsx:487"
     ]
   },
   {
     "key": "'Tout effacer ?'",
     "en": "'Erase everything?'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:465"
+      "src/ui/screens/SettingsScreen.tsx:488"
     ]
   },
   {
     "key": "'Importer'",
     "en": "'Import'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:468"
+      "src/ui/screens/SettingsScreen.tsx:491"
     ]
   },
   {
     "key": "'Supprimer'",
     "en": "'Delete'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:468"
+      "src/ui/screens/SettingsScreen.tsx:491"
     ]
   },
   {
     "key": "'Ta progression actuelle sera remplacée par celle du fichier.'",
     "en": "'Your current progress will be replaced by the one in the file.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:475"
+      "src/ui/screens/SettingsScreen.tsx:498"
     ]
   },
   {
     "key": "`Le profil de ${playerName} et toute sa progression seront supprimés de cet appareil.`",
     "en": "`${playerName}’s profile and all their progress will be deleted from this device.`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:478"
+      "src/ui/screens/SettingsScreen.tsx:501"
     ]
   },
   {
     "key": "'Parties, tests, records et niveaux seront supprimés de cet appareil. Pense à exporter une sauvegarde avant.'",
     "en": "'Games, tests, best scores and levels will be deleted from this device. Remember to export a backup first.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:482"
+      "src/ui/screens/SettingsScreen.tsx:505"
     ]
   },
   {
     "key": "'Connexion à Google impossible pour le moment.'",
     "en": "'Couldn’t reach Google right now.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:512"
+      "src/ui/screens/SettingsScreen.tsx:535"
     ]
   },
   {
     "key": "'Progression récupérée depuis ton Drive.'",
     "en": "'Progress restored from your Drive.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:514"
+      "src/ui/screens/SettingsScreen.tsx:537"
     ]
   },
   {
     "key": "'Sauvegarde Drive activée.'",
     "en": "'Drive backup is on.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:514"
+      "src/ui/screens/SettingsScreen.tsx:537"
     ]
   },
   {
     "key": "'Sauvegarde Drive arrêtée sur cet appareil : ta progression reste ici.'",
     "en": "'Drive backup stopped on this device: your progress stays here.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:520"
+      "src/ui/screens/SettingsScreen.tsx:543"
     ]
   },
   {
     "key": "'Synchronisation…'",
     "en": "'Syncing…'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:526"
+      "src/ui/screens/SettingsScreen.tsx:549"
     ]
   },
   {
     "key": "'En pause : touche « Synchroniser maintenant ».'",
     "en": "'Paused: tap “Sync now”.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:528"
+      "src/ui/screens/SettingsScreen.tsx:551"
     ]
   },
   {
     "key": "'Pas de réseau : nouvel essai à la prochaine partie.'",
     "en": "'No connection: will retry after your next game.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:530"
+      "src/ui/screens/SettingsScreen.tsx:553"
     ]
   },
   {
     "key": "`Synchronisé à ${formatTime(last)}`",
     "en": "`Synced at ${formatTime(last)}`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:532"
+      "src/ui/screens/SettingsScreen.tsx:555"
     ]
   },
   {
     "key": "'Sauvegarde Google Drive'",
     "en": "'Google Drive backup'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:536"
+      "src/ui/screens/SettingsScreen.tsx:559"
     ]
   },
   {
     "key": "'Connecté à '",
     "en": "'Connected to '",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:542"
+      "src/ui/screens/SettingsScreen.tsx:565"
     ]
   },
   {
     "key": "'Synchroniser maintenant'",
     "en": "'Sync now'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:548"
+      "src/ui/screens/SettingsScreen.tsx:571"
     ]
   },
   {
     "key": "'Arrêter la sauvegarde Drive'",
     "en": "'Stop Drive backup'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:549"
+      "src/ui/screens/SettingsScreen.tsx:572"
     ]
   },
   {
     "key": "'Retrouve ta progression sur ta tablette ou un nouveau téléphone. Elle est rangée dans un dossier caché de ton Google Drive, que toi seul vois. Facultatif, sans publicité ni pistage.'",
     "en": "'Pick up your progress on your tablet or a new phone. It is kept in a hidden folder of your Google Drive that only you can see. Optional, no ads, no tracking.'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:556"
+      "src/ui/screens/SettingsScreen.tsx:579"
     ]
   },
   {
     "key": "'Connexion…'",
     "en": "'Connecting…'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:561"
+      "src/ui/screens/SettingsScreen.tsx:584"
     ]
   },
   {
     "key": "'Se connecter avec Google'",
     "en": "'Sign in with Google'",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:561"
+      "src/ui/screens/SettingsScreen.tsx:584"
     ]
   },
   {
     "key": "`${percent}\\u00a0%`",
     "en": "`${percent}%`",
     "at": [
-      "src/ui/screens/SettingsScreen.tsx:585"
+      "src/ui/screens/SettingsScreen.tsx:608"
     ]
   },
   {
-    "key": "'Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants.'",
-    "en": "'Each game has 20 levels: earn stars to unlock the next ones.'",
+    "key": "`Auto · ${themeName(season.id)}`",
+    "en": "`Auto · ${themeName(season.id)}`",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:33"
+      "src/ui/screens/SettingsScreen.tsx:634"
+    ]
+  },
+  {
+    "key": "`Niveau ${theme.unlock.level}`",
+    "en": "`Level ${theme.unlock.level}`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:645"
+    ]
+  },
+  {
+    "key": "'Premium'",
+    "en": "'Premium'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:646"
+    ]
+  },
+  {
+    "key": "'Thème'",
+    "en": "'Theme'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:651",
+      "src/ui/screens/SettingsScreen.tsx:652"
+    ]
+  },
+  {
+    "key": "'« Auto » garde le thème classique tant que les thèmes de saison sont coupés.'",
+    "en": "'“Auto” keeps the classic theme while seasonal themes are off.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:677"
+    ]
+  },
+  {
+    "key": "`Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau.`",
+    "en": "`Current theme: ${themeName(current.id)}. New themes unlock as you level up.`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:679"
+    ]
+  },
+  {
+    "key": "`Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau ; trois autres viennent avec Premium.`",
+    "en": "`Current theme: ${themeName(current.id)}. New themes unlock as you level up; three more come with Premium.`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:681"
+    ]
+  },
+  {
+    "key": "'Actif sur cet appareil. Merci !'",
+    "en": "'Active on this device. Thank you!'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:693"
+    ]
+  },
+  {
+    "key": "'Proposé dans l’appli Android (Google Play).'",
+    "en": "'Available in the Android app (Google Play).'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:695"
+    ]
+  },
+  {
+    "key": "'Bientôt disponible.'",
+    "en": "'Coming soon.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:697"
+    ]
+  },
+  {
+    "key": "`Achat unique : ${state.product.price}`",
+    "en": "`One-time purchase: ${state.product.price}`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:699"
+    ]
+  },
+  {
+    "key": "'Achat unique, sans abonnement.'",
+    "en": "'One-time purchase, no subscription.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:700"
+    ]
+  },
+  {
+    "key": "'Voir Premium'",
+    "en": "'View Premium'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:704"
+    ]
+  },
+  {
+    "key": "`Journal d’utilisation : ${summary.total} événements, gardés sur cet appareil et jamais envoyés (aucun prénom, aucun score personnel identifiable).`",
+    "en": "`Usage log: ${summary.total} events, kept on this device and never sent (no names, nothing identifying).`",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:726"
+    ]
+  },
+  {
+    "key": "'Journal copié.'",
+    "en": "'Log copied.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:736"
+    ]
+  },
+  {
+    "key": "'Copie impossible sur ce navigateur.'",
+    "en": "'Copying isn’t possible in this browser.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:736"
+    ]
+  },
+  {
+    "key": "'Copier le journal'",
+    "en": "'Copy the log'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:739"
+    ]
+  },
+  {
+    "key": "'Journal effacé.'",
+    "en": "'Log cleared.'",
+    "at": [
+      "src/ui/screens/SettingsScreen.tsx:747"
+    ]
+  },
+  {
+    "key": "'Chaque jeu a 50 niveaux : gagne des étoiles pour débloquer les suivants.'",
+    "en": "'Each game has 50 levels: earn stars to unlock the next ones.'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:38"
+    ]
+  },
+  {
+    "key": "'Thèmes'",
+    "en": "'Areas'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:43"
     ]
   },
   {
     "key": "'Modes de jeu'",
     "en": "'Game modes'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:38"
+      "src/ui/screens/TrainingScreen.tsx:54"
     ]
   },
   {
     "key": "'4 jeux sur mesure'",
     "en": "'4 games made for you'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:46"
+      "src/ui/screens/TrainingScreen.tsx:62"
     ]
   },
   {
     "key": "'Tout un domaine d’affilée'",
     "en": "'A whole area in a row'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:53"
+      "src/ui/screens/TrainingScreen.tsx:69"
     ]
   },
   {
     "key": "'Même partie, à tour de rôle'",
     "en": "'Same game, taking turns'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:60"
+      "src/ui/screens/TrainingScreen.tsx:76"
     ]
   },
   {
     "key": "'2 à 4 joueurs en même temps'",
     "en": "'2 to 4 players at once'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:67"
+      "src/ui/screens/TrainingScreen.tsx:83"
     ]
   },
   {
     "key": "'Un lien, les mêmes parties chacune chez soi, et votre classement par catégorie'",
     "en": "'One link, the same games for everyone on their own phone, and your leaderboard by category'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:77"
+      "src/ui/screens/TrainingScreen.tsx:93"
     ]
   },
   {
     "key": "'Refaire le test du jour'",
     "en": "'Retake the daily test'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:112"
+      "src/ui/screens/TrainingScreen.tsx:109"
     ]
   },
   {
     "key": "'Pour le plaisir : il ne compte pas dans tes progrès.'",
     "en": "'Just for fun: it doesn’t count toward your progress.'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:113"
+      "src/ui/screens/TrainingScreen.tsx:110"
     ]
   },
   {
-    "key": "`Niv. ${unlocked}/${MAX_LEVEL}`",
-    "en": "`Lv. ${unlocked}/${MAX_LEVEL}`",
+    "key": "'Calcul mental et nombres'",
+    "en": "'Mental math and numbers'",
     "at": [
-      "src/ui/screens/TrainingScreen.tsx:146"
+      "src/ui/screens/TrainingScreen.tsx:123"
+    ]
+  },
+  {
+    "key": "'Retenir et se souvenir'",
+    "en": "'Remember and recall'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:125"
+    ]
+  },
+  {
+    "key": "'Rester concentré, déjouer les pièges'",
+    "en": "'Stay focused, dodge the traps'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:127"
+    ]
+  },
+  {
+    "key": "'Voir et réagir vite'",
+    "en": "'See fast, react fast'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:129"
+    ]
+  },
+  {
+    "key": "'Mots, lettres et lecture'",
+    "en": "'Words, letters and reading'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:131"
+    ]
+  },
+  {
+    "key": "'Raisonner et déduire'",
+    "en": "'Reason and deduce'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:133"
+    ]
+  },
+  {
+    "key": "'étoiles\\u00a0:'",
+    "en": "'stars:'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:152"
+    ]
+  },
+  {
+    "key": "`${fresh} à découvrir`",
+    "en": "`${fresh} new`",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:155"
+    ]
+  },
+  {
+    "key": "'Tous les jeux du thème d’affilée'",
+    "en": "'Every game of this area in a row'",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:187"
+    ]
+  },
+  {
+    "key": "`Niv. ${Math.min(unlocked, MAX_LEVEL)}/${MAX_LEVEL}`",
+    "en": "`Lv. ${Math.min(unlocked, MAX_LEVEL)}/${MAX_LEVEL}`",
+    "at": [
+      "src/ui/screens/TrainingScreen.tsx:227"
     ]
   },
   {
@@ -11018,6 +13574,259 @@
     ]
   },
   {
+    "key": "`Le vestiaire de ${name}`",
+    "en": "`${name}’s wardrobe`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:69"
+    ]
+  },
+  {
+    "key": "'Des chapeaux pour le plaisir des yeux : ils ne changent rien aux jeux.'",
+    "en": "'Hats just for fun: they don’t change the games.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:70"
+    ]
+  },
+  {
+    "key": "'étincelles'",
+    "en": "'sparks'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:79"
+    ]
+  },
+  {
+    "key": "'Prestige'",
+    "en": "'Prestige'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:92"
+    ]
+  },
+  {
+    "key": "'Ils ne s’achètent pas : ils se méritent.'",
+    "en": "'These can’t be bought: they’re earned.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:92"
+    ]
+  },
+  {
+    "key": "'Merci de soutenir Esprit Vif : ils sont tous à toi.'",
+    "en": "'Thanks for supporting Esprit Vif: they’re all yours.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:97"
+    ]
+  },
+  {
+    "key": "'Huit chapeaux qui scintillent, inclus dans Esprit Vif Premium. Touche-les pour les essayer sur Vif.'",
+    "en": "'Eight sparkling hats, included with Esprit Vif Premium. Tap one to try it on Vif.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:98"
+    ]
+  },
+  {
+    "key": "'Gagner des étincelles'",
+    "en": "'Earning sparks'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:112"
+    ]
+  },
+  {
+    "key": "`Chaque partie : 1 à 5 selon le score (jusqu’à ${SPARKS.playsPerDay} par jour)`",
+    "en": "`Each game: 1 to 5 depending on your score (up to ${SPARKS.playsPerDay} a day)`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:115"
+    ]
+  },
+  {
+    "key": "`Test du jour : ${SPARKS.test}`",
+    "en": "`Daily test: ${SPARKS.test}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:116"
+    ]
+  },
+  {
+    "key": "`Chaque objectif du jour : ${SPARKS.objective}`",
+    "en": "`Each daily goal: ${SPARKS.objective}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:117"
+    ]
+  },
+  {
+    "key": "`Défi de la semaine : ${SPARKS.weekly}`",
+    "en": "`Weekly challenge: ${SPARKS.weekly}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:118"
+    ]
+  },
+  {
+    "key": "`Saison de défis réussie : ${SPARKS.season}`",
+    "en": "`Challenge season completed: ${SPARKS.season}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:119"
+    ]
+  },
+  {
+    "key": "`Défi Légende du jour : ${SPARKS.legende}`",
+    "en": "`Daily Legend challenge: ${SPARKS.legende}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:120"
+    ]
+  },
+  {
+    "key": "'Les étincelles ne s’achètent pas et ne se perdent jamais.'",
+    "en": "'Sparks can’t be bought and are never lost.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:122"
+    ]
+  },
+  {
+    "key": "'Retirer'",
+    "en": "'Take off'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:145",
+      "src/ui/screens/WardrobeScreen.tsx:337"
+    ]
+  },
+  {
+    "key": "'Porter'",
+    "en": "'Wear'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:149",
+      "src/ui/screens/WardrobeScreen.tsx:337"
+    ]
+  },
+  {
+    "key": "'Avec Esprit Vif Premium'",
+    "en": "'With Esprit Vif Premium'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:156"
+    ]
+  },
+  {
+    "key": "'Essai gratuit ici : il ne le gardera qu’avec Premium.'",
+    "en": "'Try it here for free: it stays only with Premium.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:158"
+    ]
+  },
+  {
+    "key": "'Acheter'",
+    "en": "'Buy'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:163"
+    ]
+  },
+  {
+    "key": "'porté'",
+    "en": "'worn'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:196",
+      "src/ui/screens/WardrobeScreen.tsx:309"
+    ]
+  },
+  {
+    "key": "'à toi'",
+    "en": "'yours'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:196",
+      "src/ui/screens/WardrobeScreen.tsx:260",
+      "src/ui/screens/WardrobeScreen.tsx:309"
+    ]
+  },
+  {
+    "key": "`${hat.price} étincelles`",
+    "en": "`${hat.price} sparks`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:196"
+    ]
+  },
+  {
+    "key": "'Porté'",
+    "en": "'Worn'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:211",
+      "src/ui/screens/WardrobeScreen.tsx:315"
+    ]
+  },
+  {
+    "key": "'À toi'",
+    "en": "'Yours'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:214",
+      "src/ui/screens/WardrobeScreen.tsx:266",
+      "src/ui/screens/WardrobeScreen.tsx:288"
+    ]
+  },
+  {
+    "key": "'Auras'",
+    "en": "'Auras'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:247"
+    ]
+  },
+  {
+    "key": "'Elles s’allument aux grands niveaux de joueur, au-delà du 50.'",
+    "en": "'They light up at high player levels, beyond 50.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:249"
+    ]
+  },
+  {
+    "key": "'portée'",
+    "en": "'worn'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:260"
+    ]
+  },
+  {
+    "key": "`niveau ${a.level}`",
+    "en": "`level ${a.level}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:260"
+    ]
+  },
+  {
+    "key": "'Portée'",
+    "en": "'Worn'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:266"
+    ]
+  },
+  {
+    "key": "`Niv. ${a.level}`",
+    "en": "`Lv. ${a.level}`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:268"
+    ]
+  },
+  {
+    "key": "'Chapeaux de saison'",
+    "en": "'Season hats'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:294"
+    ]
+  },
+  {
+    "key": "'Un par saison de défis réussie (3 chapitres sur 4) ; chaque retour d’une histoire apporte une nouvelle édition.'",
+    "en": "'One per completed challenge season (3 chapters out of 4); each time a story comes back, a new edition.'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:298"
+    ]
+  },
+  {
+    "key": "`saison en cours, ${h.meta} chapitres`",
+    "en": "`current season, ${h.meta} chapters`",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:309"
+    ]
+  },
+  {
+    "key": "'Voir la saison en cours'",
+    "en": "'See the current season'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:341"
+    ]
+  },
+  {
     "key": "`Étape ${step + 1} sur 3`",
     "en": "`Step ${step + 1} of 3`",
     "at": [
@@ -11126,21 +13935,21 @@
     "key": "`niveau ${spec.level}`",
     "en": "`level ${spec.level}`",
     "at": [
-      "src/ui/share-card.ts:145"
+      "src/ui/share-card.ts:154"
     ]
   },
   {
     "key": "'Mon âge cérébral'",
     "en": "'My brain age'",
     "at": [
-      "src/ui/share-card.ts:164"
+      "src/ui/share-card.ts:195"
     ]
   },
   {
     "key": "'À ton tour ?'",
     "en": "'Your turn?'",
     "at": [
-      "src/ui/share-card.ts:189"
+      "src/ui/share-card.ts:220"
     ]
   }
 ]

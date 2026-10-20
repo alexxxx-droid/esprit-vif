@@ -1,3 +1,4 @@
+import type { WordFamily } from '../games/contraires-words';
 import type { Category, Family } from '../games/lexique';
 
 /**
@@ -17,3 +18,8 @@ export const C = (id: string, label: string, plural: string, family: Family, wor
 
 /** Une liste de mots écrite d'un bloc, séparés par des espaces ou des retours à la ligne : `wordList('ACIER ADIEU…')`. */
 export const wordList = (text: string): readonly string[] => text.split(/\s+/).filter(Boolean);
+
+/** Une famille de Contraires (voir contraires-words.ts) : les paires très courantes, courantes, puis soutenues. */
+export const adj = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'adj', pairs: [common, usual, formal] });
+export const verbe = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'verbe', pairs: [common, usual, formal] });
+export const nom = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'nom', pairs: [common, usual, formal] });

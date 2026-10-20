@@ -1,6 +1,6 @@
 import { addDays, dayIndex } from '../../core/daily';
 import { challengeProgress, weeklyChallenge } from '../../core/events';
-import { formatShortDay } from '../../core/format';
+import { byCount, formatShortDay } from '../../core/format';
 import { localized, tr } from '../../core/lang';
 import { SPARKS } from '../../core/objectives';
 import { seasonArc, seasonHatId, seasonHatName, seasonsEarned, seasonStatus, SEASON_REQUIRED } from '../../core/seasons';
@@ -97,7 +97,10 @@ export function SeasonScreen() {
           <span className="card__title">{tr('Ta collection de saison', 'Your season collection')}</span>
           <span className="card__sub">
             {collection
-              ? tr(`${collection} chapeau${collection > 1 ? 'x' : ''} de saison`, `${collection} season hat${collection > 1 ? 's' : ''}`)
+              ? tr(
+                  byCount(collection, `${collection} chapeau de saison`, `${collection} chapeaux de saison`),
+                  byCount(collection, `${collection} season hat`, `${collection} season hats`),
+                )
               : tr('Le premier chapeau t’attend au bout de cette saison.', 'The first hat awaits at the end of this season.')}
           </span>
         </span>

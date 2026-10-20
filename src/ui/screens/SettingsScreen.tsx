@@ -675,10 +675,12 @@ function ThemePicker() {
       <p className="hint">
         {settings.palette === 'auto' && !settings.seasonal
           ? tr('« Auto » garde le thème classique tant que les thèmes de saison sont coupés.', '“Auto” keeps the classic theme while seasonal themes are off.')
-          : tr(
-              `Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau${premium ? '' : ' ; trois autres viennent avec Premium'}.`,
-              `Current theme: ${themeName(current.id)}. New themes unlock as you level up${premium ? '' : '; three more come with Premium'}.`,
-            )}
+          : premium
+            ? tr(`Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau.`, `Current theme: ${themeName(current.id)}. New themes unlock as you level up.`)
+            : tr(
+                `Thème actuel : ${themeName(current.id)}. De nouveaux thèmes se gagnent en montant de niveau ; trois autres viennent avec Premium.`,
+                `Current theme: ${themeName(current.id)}. New themes unlock as you level up; three more come with Premium.`,
+              )}
       </p>
     </>
   );

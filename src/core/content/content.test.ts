@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { COACH_TIPS, coachTip, coachTips } from '../coach';
 import { anagramDeck, anagramDecoyLetters, anagramLevel, buildAnagramIndex, isAnagramAnswer, letterKey, scramble } from '../games/anagrammes';
 import { categoriesLevel, generateCategories, twinCategories } from '../games/categories';
+import { contrairesFamilies, contrairesLexicon } from '../games/contraires';
 import { generateLecture, lectureLevel, lectureLevelLabel, sentences } from '../games/lecture';
 import { generateLettre, lettreConsonants, lettreKnownWords, lettreKnownWordsPlus, lettreLevel, lettreLookalikes, lettreWords } from '../games/lettre';
 import { categories, categoryOf, CATEGORIES, type Category } from '../games/lexique';
@@ -120,6 +121,7 @@ function currentContent(): Omit<LangContent, 'grammar'> {
     sentences: sentences(),
     quiNames: quiNames(),
     coachTips: coachTips(),
+    contraires: contrairesFamilies(),
     stroop: { keys: stroopKeys(), spoken: spokenColors() },
     demos: demoContent(),
   };
@@ -778,6 +780,7 @@ describe('Aiguillage des contenus', () => {
       sentences: en.sentences.map((tier) => tier.map(([truth, lie]) => [marked(truth), marked(lie)] as const)),
       quiNames: en.quiNames.map((name) => `${name}a`),
       coachTips: en.coachTips.map(marked),
+      contraires: [...en.contraires, { kind: 'adj', pairs: ['zqa/zqb', '', ''] }],
       stroop: { keys: { q: 'rouge', w: 'bleu', e: 'vert', t: 'jaune', u: 'orange', i: 'violet' }, spoken: { rojo: 'rouge', azul: 'bleu' } },
       grammar,
       demos: { ...en.demos, qui: ['Lucya', 'Jacka', 'Ninaa'] },
@@ -809,6 +812,7 @@ describe('Aiguillage des contenus', () => {
     expect(now.sentences).toBe(fake.sentences);
     expect(now.quiNames).toBe(fake.quiNames);
     expect(now.coachTips).toBe(fake.coachTips);
+    expect(now.contraires).toBe(fake.contraires);
     expect(now.stroop.keys).toBe(fake.stroop.keys);
     expect(now.stroop.spoken).toBe(fake.stroop.spoken);
     expect(now.demos).toBe(fake.demos);
@@ -823,6 +827,7 @@ describe('Aiguillage des contenus', () => {
     expect(generateLecture(createRng(1), 1).every((q) => q.sentence.startsWith('«es»'))).toBe(true);
     expect(generateQui(createRng(1), 12).flatMap((r) => r.people).every((p) => fake.quiNames.includes(p.name))).toBe(true);
     expect(coachTip('2026-10-20')).toMatch(/^«es» /);
+    expect(contrairesLexicon().familyOf.has('zqa')).toBe(true);
     expect(matchSpokenColor('rojo')).toBe('rouge');
     expect(matchSpokenColor('red')).toBeNull();
 
@@ -842,6 +847,7 @@ describe('Aiguillage des contenus', () => {
     registerContent('es', fakeContent());
     setLang('es');
     expect(isAnagramAnswer('ZQZQZ', { word: 'ZQZQZ', letters: 'QZZQZ' })).toBe(true);
+    expect(contrairesLexicon().familyOf.has('zqa')).toBe(true);
     registerContent('es', null);
     const english = inLang('en', currentContent);
     expect(currentContent()).toEqual(english);
@@ -852,6 +858,7 @@ describe('Aiguillage des contenus', () => {
     expect(isAnagramAnswer('ZQZQZ', { word: 'ZQZQZ', letters: 'QZZQZ' })).toBe(false);
     expect(isAnagramAnswer('HEART', { word: 'HEART', letters: 'RATEH' })).toBe(true);
     expect(lettreKnownWords().has('QWERTY')).toBe(false);
+    expect(contrairesLexicon().familyOf.has('zqa')).toBe(false);
     expect(hasRudeWord('XFUCKX')).toBe(true);
     expect(matchSpokenColor('red')).toBe('rouge');
     const rule: ReflexeRule = { go: ['star', 'cross'], filledOnly: false, inverted: false };

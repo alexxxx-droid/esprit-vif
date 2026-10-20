@@ -454,7 +454,10 @@ function KeyFigures({ plays }: { plays: readonly PlayRecord[] }) {
           <span className="key-figures__note">
             {t.timedPlays === t.plays
               ? tr('chrono des parties seules', 'games only, no menus')
-              : tr(`mesuré sur ${t.timedPlays} partie${t.timedPlays > 1 ? 's' : ''} (depuis la v2.9)`, `measured on ${t.timedPlays} game${t.timedPlays === 1 ? '' : 's'} (since v2.9)`)}
+              : tr(
+                  byCount(t.timedPlays, `mesuré sur ${t.timedPlays} partie (depuis la v2.9)`, `mesuré sur ${t.timedPlays} parties (depuis la v2.9)`),
+                  byCount(t.timedPlays, `measured on ${t.timedPlays} game (since v2.9)`, `measured on ${t.timedPlays} games (since v2.9)`),
+                )}
           </span>
         </div>
         <div>

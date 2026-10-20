@@ -10,7 +10,10 @@
  * Dans chaque famille, trois registres : très courant (Débutant), courant, puis soutenu (Maître et
  * Légende). « a/b » : des contraires ; « a=b » : le même sens ; « _ » tient lieu d'espace (« se_taire »).
  * Les adjectifs sont au masculin singulier, les verbes à l'infinitif, les noms sans article.
+ *
+ * Les autres langues écrivent leur liste dans leur module de contenu (`LangContent.contraires`).
  */
+import { adj, nom, verbe } from '../content/helpers';
 
 export type WordKind = 'adj' | 'verbe' | 'nom';
 
@@ -19,10 +22,6 @@ export interface WordFamily {
   /** Les paires de chaque registre : très courant, courant, soutenu. */
   pairs: readonly [common: string, usual: string, formal: string];
 }
-
-const adj = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'adj', pairs: [common, usual, formal] });
-const verbe = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'verbe', pairs: [common, usual, formal] });
-const nom = (common: string, usual = '', formal = ''): WordFamily => ({ kind: 'nom', pairs: [common, usual, formal] });
 
 export const WORDS_FR: readonly WordFamily[] = [
   // Adjectifs. La température.

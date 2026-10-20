@@ -95,7 +95,7 @@
   border-radius: 12px;
   background: var(--surface);
   box-shadow: var(--shadow-1);
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: 1.05rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -464,20 +464,76 @@
   align-self: stretch;
 }
 
+.countdown__art {
+  margin-top: 9vh;
+  border-radius: 16px;
+  box-shadow: var(--shadow-1);
+  animation: pop 360ms var(--ease-spring) both;
+}
+
 .countdown__title {
-  margin-top: 12vh;
+  margin-top: 14px;
   color: var(--ink-2);
   font-size: 1.15rem;
   font-weight: 700;
 }
 
+.countdown__title:first-of-type:not(.countdown__art + .countdown__title) {
+  margin-top: 12vh;
+}
+
+.countdown__dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(68vw, 280px);
+  aspect-ratio: 1;
+  margin: 3vh 0 2vh;
+}
+
+.countdown__dial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  rotate: -90deg;
+}
+
+.countdown__track {
+  fill: none;
+  stroke: color-mix(in oklab, var(--dom, var(--accent)) 14%, transparent);
+  stroke-width: 6;
+}
+
+.countdown__ring {
+  fill: none;
+  stroke: var(--dom, var(--accent));
+  stroke-dasharray: 339.3;
+  stroke-linecap: round;
+  stroke-width: 6;
+  animation: count-ring linear both;
+}
+
+@keyframes count-ring {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 339.3;
+  }
+}
+
 .countdown__number {
   color: var(--accent);
-  font-size: clamp(8rem, 45vw, 12rem);
+  font-size: clamp(6.5rem, 34vw, 9.5rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1;
   letter-spacing: -0.05em;
   animation: count-pop 750ms var(--ease-out) both;
+}
+
+:root[data-motion='reduce'] .countdown__ring {
+  animation: none;
 }
 
 .countdown__hint {
@@ -779,7 +835,8 @@
 
 .calc__count {
   color: var(--ink-3);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 0.95rem;
 }
 
@@ -834,7 +891,8 @@
   top: 18px;
   left: 20px;
   color: var(--stage-ink-2);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 0.9rem;
 }
 
@@ -981,7 +1039,8 @@
   min-width: 2ch;
   margin-left: 6px;
   color: var(--ink);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 1.6rem;
 }
 
@@ -1166,7 +1225,8 @@
 
 .nback__count {
   color: var(--ink-3);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
 }
 
 .nback__card {
@@ -1348,7 +1408,8 @@
 .intrus__found strong,
 .anagram__found strong {
   color: var(--ink);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 1.6rem;
 }
 
@@ -2227,7 +2288,8 @@
   background: var(--surface);
   box-shadow: inset 0 0 0 2px var(--line);
   color: var(--ink-3);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 2rem;
   font-weight: 700;
 }
@@ -2302,7 +2364,8 @@
 
 .pluie__score strong {
   color: var(--ink);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 1.6rem;
 }
 
@@ -2349,7 +2412,8 @@
   box-shadow:
     inset 0 0 0 2px color-mix(in oklab, var(--d-calcul) 55%, transparent),
     var(--shadow-1);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 1.15rem;
   font-weight: 700;
   white-space: nowrap;
@@ -2415,7 +2479,8 @@
 .rain__entry.is-filled {
   box-shadow: inset 0 0 0 2px var(--accent);
   color: var(--ink);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 1.6rem;
   font-weight: 700;
 }
@@ -2690,7 +2755,8 @@
   box-shadow:
     inset 0 0 0 2px color-mix(in oklab, var(--d-calcul) 55%, transparent),
     var(--shadow-1);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-weight: 700;
   white-space: nowrap;
   translate: -50% 0;

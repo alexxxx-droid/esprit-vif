@@ -94,8 +94,9 @@ export function TrainingScreen() {
               {DOMAINS[domain].name}
             </h2>
             <div className="game-grid">
-              {games.map((id) => (
-                <GameCard key={id} meta={GAMES[id]} />
+              {games.map((id, i) => (
+                // Un nombre impair de jeux : le dernier prend toute la largeur, plutôt qu'un trou.
+                <GameCard key={id} meta={GAMES[id]} wide={games.length % 2 === 1 && i === games.length - 1} />
               ))}
             </div>
           </section>
@@ -118,7 +119,10 @@ export function TrainingScreen() {
   );
 }
 
-function GameCard({ meta }: { meta: GameMeta }) {
+/** Un mot de plus de 12 lettres (« Correspondance ») : le nom passe un cran plus petit, sans être coupé. */
+const longWord = (name: string) => name.split(/\s+/).some((w) => w.length > 12);
+
+function GameCard({ meta, wide }: { meta: GameMeta; wide: boolean }) {
   const data = useProgress();
   const bests = data.games[meta.id]?.bests;
   const unlocked = gameUnlocked(data, meta.id);
@@ -126,25 +130,29 @@ function GameCard({ meta }: { meta: GameMeta }) {
   const stars = gameStars(bests);
   const played = bests && Object.keys(bests).length > 0;
   return (
-    <button type="button" className="game-card" onClick={() => navigate({ name: 'play', gameId: meta.id })}>
+    <button type="button" className={`game-card${wide ? ' game-card--wide' : ''}`} onClick={() => navigate({ name: 'play', gameId: meta.id })}>
       <span className="game-card__top">
         <GameArt gameId={meta.id} size={52} />
         {medal && <MedalBadge medal={medal} />}
       </span>
-      <span className="game-card__name">{meta.name}</span>
+      <span className={`game-card__name${longWord(meta.name) ? ' game-card__name--long' : ''}`}>{meta.name}</span>
       <span className="game-card__domain">{meta.duration}</span>
-      <span className="game-card__progress">
-        <span className="mini-bar" aria-hidden="true">
-          <span style={{ transform: `scaleX(${unlocked / MAX_LEVEL})` }} />
-        </span>
-        <span className="game-card__meta">
-          <span>{tr(`Niv. ${unlocked}/${MAX_LEVEL}`, `Lv. ${unlocked}/${MAX_LEVEL}`)}</span>
-          <span className="game-card__stars">
-            <Icon name="star" size={13} />
-            {played ? stars : 0}
+      {played ? (
+        <span className="game-card__progress">
+          <span className="mini-bar" aria-hidden="true">
+            <span style={{ transform: `scaleX(${unlocked / MAX_LEVEL})` }} />
+          </span>
+          <span className="game-card__meta">
+            <span>{tr(`Niv. ${unlocked}/${MAX_LEVEL}`, `Lv. ${unlocked}/${MAX_LEVEL}`)}</span>
+            <span className="game-card__stars">
+              <Icon name="star" size={13} />
+              {stars}
+            </span>
           </span>
         </span>
-      </span>
+      ) : (
+        <span className="game-card__new">{tr('À découvrir', 'Try it')}</span>
+      )}
     </button>
   );
 }

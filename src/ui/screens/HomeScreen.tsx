@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import { coachTip } from '../../core/coach';
 import { addDays, currentStreakDetail, dailyGames, dayIndex, hasOfficialTest } from '../../core/daily';
-import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayInitial, plural } from '../../core/format';
+import { formatLongDay, formatShortDay, formatWeekday, formatWeekdayShort, plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { sessionDone, sessionGames } from '../../core/modes';
@@ -351,7 +351,7 @@ function WeekStrip({ playedDays, today }: { playedDays: Set<string>; today: stri
           return (
             <li key={day} className={`week__day${played ? ' is-played' : ''}${day === today ? ' is-today' : ''}`}>
               <span className="week__initial" aria-hidden="true">
-                {formatWeekdayInitial(day)}
+                {formatWeekdayShort(day)}
               </span>
               <span className="week__stamp" aria-hidden="true">
                 {played ? <Icon name="check" size={18} strokeWidth={3} /> : Number(day.slice(8))}

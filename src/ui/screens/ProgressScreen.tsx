@@ -105,11 +105,19 @@ export function ProgressScreen() {
               </span>
               <span>
                 <Icon name="trophy" size={16} />
-                <strong>{trophiesWon}</strong>/{trophies.length} {tr('trophées', 'trophies')}
+                <strong>
+                  {trophiesWon}
+                  <small>/{trophies.length}</small>
+                </strong>{' '}
+                {tr('trophées', 'trophies')}
               </span>
               <span>
                 <Icon name="medal" size={16} />
-                <strong>{medals.filter(Boolean).length}</strong>/{GAME_ORDER.length} {tr('médailles', 'medals')}
+                <strong>
+                  {medals.filter(Boolean).length}
+                  <small>/{GAME_ORDER.length}</small>
+                </strong>{' '}
+                {tr('médailles', 'medals')}
               </span>
             </div>
           </section>

@@ -78,6 +78,13 @@ export function formatWeekdayInitial(day: string): string {
   return formats().weekdayNarrow.format(fromDayKey(day));
 }
 
+const SHORT_DAYS = { fr: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'], en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] };
+
+/** « 2026-10-19 » → « Lu » : deux lettres, sans confondre mardi et mercredi. */
+export function formatWeekdayShort(day: string): string {
+  return SHORT_DAYS[lang()][fromDayKey(day).getDay()];
+}
+
 /** « 2026-10-19 » → « lundi 19 ». */
 export function formatWeekday(day: string): string {
   return formats().weekdayLong.format(fromDayKey(day));

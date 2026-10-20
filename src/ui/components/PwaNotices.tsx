@@ -27,7 +27,8 @@ export function PwaNotices() {
   if (offlineReady) {
     return (
       <p className="toast" role="status">
-        {tr('Esprit Vif fonctionne maintenant hors ligne.', 'Esprit Vif now works offline.')}
+        <Icon name="check" size={18} strokeWidth={3} />
+        {tr('Prêt à jouer hors ligne', 'Ready to play offline')}
       </p>
     );
   }

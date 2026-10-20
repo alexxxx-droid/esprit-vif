@@ -139,7 +139,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     );
   }
   if (phase === 'countdown') {
-    return tinted(<Countdown title={meta.name} onDone={() => setPhase('play')} onQuit={onQuit} />);
+    return tinted(<Countdown title={meta.name} gameId={meta.id} onDone={() => setPhase('play')} onQuit={onQuit} />);
   }
   if (phase === 'result' && result) {
     return tinted(

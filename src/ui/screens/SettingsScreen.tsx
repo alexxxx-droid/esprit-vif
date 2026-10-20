@@ -290,6 +290,16 @@ export function SettingsScreen() {
           checked={settings.seasonal}
           onChange={(seasonal) => void store.updateSettings({ seasonal })}
         />
+        <Toggle
+          icon="flame"
+          label={tr('Montrer ma série', 'Show my streak')}
+          description={tr(
+            'Les jours d’affilée sur l’accueil, dans les Progrès et sur le widget. Masquée, elle n’enlève rien : trophées et chapeaux de série restent à gagner.',
+            'Days in a row on the home screen, in Progress and on the widget. Hidden, nothing is lost: streak trophies and hats can still be earned.',
+          )}
+          checked={settings.showStreak}
+          onChange={(showStreak) => void store.updateSettings({ showStreak })}
+        />
       </Section>
 
       <Section title={tr('Accessibilité', 'Accessibility')}>

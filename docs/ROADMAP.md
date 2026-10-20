@@ -39,10 +39,11 @@ Règle de chaque phase : tests, lint et types verts, captures vérifiées sur 36
 
 ## Phase 3 — Progrès
 
-- [ ] Résumé chiffré : parties, jours, temps de jeu, précision moyenne, temps de réaction
-- [ ] Bilan de la semaine (comparé à la précédente), activité récente
-- [ ] États vides qui expliquent comment obtenir les premières données
-- [ ] Tests de cohérence : chaque chiffre affiché = un calcul sur les parties enregistrées
+- [x] Résumé chiffré : parties, jours, temps de jeu, précision moyenne, temps de réaction
+- [x] Bilan de la semaine (comparé à la précédente), activité récente
+- [x] États vides qui expliquent comment obtenir les premières données
+- [x] Tests de cohérence : chaque chiffre affiché = un calcul sur les parties enregistrées
+- [x] Prochaines récompenses montrées par Vif ; série masquable (réglage)
 
 ## Phase 4 — Premium à vie (appli Google Play)
 

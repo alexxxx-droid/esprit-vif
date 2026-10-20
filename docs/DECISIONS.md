@@ -109,6 +109,23 @@ versée deux fois, même si l'on rejoue, ferme l'appli ou recharge une sauvegard
   devenu inaccessible retombe sur « Auto » sans effacer le choix. Contrastes vérifiés (au moins
   5,4:1 pour le texte sur l'accent) ; le contraste renforcé garde ses propres couleurs.
 
+## Progrès (v2.9)
+
+- **Prochaines récompenses** : le prochain titre, le prochain thème, le chapeau de prestige le plus
+  proche et le prochain chapeau de la boutique ; Vif les montre du doigt.
+- **Ta semaine** (`src/core/summary.ts`) : parties, jours actifs, temps de jeu et score moyen depuis
+  lundi, comparés à la semaine d'avant. Une seule partie suffit pour lancer le bilan.
+- **En chiffres** : parties terminées, temps de jeu, précision et temps de réaction. Chaque chiffre
+  ne porte que sur les parties qui le mesurent, et le dit : la durée n'existe que depuis la v2.9 ; la
+  précision vient des jeux qui comptent bonnes réponses et erreurs (`correct`, `errors`) ; le temps de
+  réaction, de Flèches et Réflexe (`meanRt`). Rien n'est estimé pour les parties qui n'ont pas la mesure.
+- **Activité récente** : les six dernières parties. Le reste ne bouge pas (constats, âge cérébral,
+  carte du cerveau, domaines, calendrier). Corrigé : les records annonçaient « x/20 ouverts ».
+- **Série masquable** (`showStreak`) : la mission demande de pouvoir couper la série ; masquée, elle
+  disparaît de l'accueil, des Progrès et du widget, mais continue d'être comptée (trophées, chapeaux).
+- Ces chiffres décrivent des parties, jamais une intelligence : aucun texte ne parle de QI ni
+  d'amélioration générale.
+
 ## Accueil (v2.9)
 
 Dans l'ordre, sur téléphone : salutation et niveau ; **le test du jour** (ses trois jeux et le dernier

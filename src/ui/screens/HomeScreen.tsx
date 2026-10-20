@@ -117,7 +117,7 @@ function Home() {
           </span>
         </button>
         <span className="home__chips">
-          {streak > 0 && (
+          {streak > 0 && data.settings.showStreak && (
             <span className="streak" title={tr('Jours d’entraînement d’affilée', 'Training days in a row')}>
               <Icon name="flame" size={18} />
               {streak}
@@ -158,7 +158,7 @@ function Home() {
         </p>
       )}
 
-      {restedYesterday && (
+      {restedYesterday && data.settings.showStreak && (
         <p className="notice notice--warm" role="status">
           <Mascot mood="sleep" size={34} />
           {tr(

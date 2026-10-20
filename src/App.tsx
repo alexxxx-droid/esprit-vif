@@ -143,22 +143,24 @@ function useReminderSync(settings: Settings, doneToday: boolean) {
 }
 
 /** Appli Android : le widget d'écran d'accueil suit la série et le test du jour. */
-function useWidgetSync(plays: readonly PlayRecord[], tests: readonly TestRecord[], today: string) {
+function useWidgetSync(plays: readonly PlayRecord[], tests: readonly TestRecord[], today: string, showStreak: boolean) {
   const { active, profiles } = useProfiles();
   // Un prénom choisi, ou « Joueur 2 » quand plusieurs joueurs partagent l'appareil ; sinon rien.
   const name = active.name || profiles.length > 1 ? profileName(active, profiles) : '';
   useEffect(() => {
     const update = platform().updateWidget;
     if (!update) return;
-    const { count, until } = streakHorizon(
+    const horizon = streakHorizon(
       plays.map((p) => p.day),
       today,
     );
+    // Série masquée par le joueur : le widget n'en parle pas non plus.
+    const { count, until } = showStreak ? horizon : { count: 0, until: null };
     const last = tests.filter((t) => t.done && t.official).sort((a, b) => a.startedAt.localeCompare(b.startedAt)).at(-1);
     const texts = {
       streakOne: tr('Série : 1 jour', 'Streak: 1 day'),
       streakMany: tr('Série : %d jours', 'Streak: %d days'),
-      noStreak: tr('Une partie aujourd’hui lance ta série', 'Play today to start a streak'),
+      noStreak: showStreak ? tr('Une partie aujourd’hui lance ta série', 'Play today to start a streak') : tr('Quelques minutes par jour', 'A few minutes a day'),
       testDoneAge: tr('Test du jour fait · âge cérébral %d ans', 'Daily test done · brain age %d'),
       testDone: tr('Test du jour fait', 'Daily test done'),
       testTodo: tr('Test du jour : à faire', 'Daily test: to do'),
@@ -167,7 +169,7 @@ function useWidgetSync(plays: readonly PlayRecord[], tests: readonly TestRecord[
       session: tr('Séance du jour', 'Daily session'),
     };
     void update({ name, streak: count, streakUntil: until ?? '', testDay: last?.day ?? '', brainAge: last?.brainAge ?? 0, texts });
-  }, [plays, tests, today, name]);
+  }, [plays, tests, today, name, showStreak]);
 }
 
 /** Les quatre jeux de la séance joués, d'une façon ou d'une autre : la séance compte, même hors de son écran. */
@@ -188,7 +190,7 @@ export function App() {
   useApplySettings(settings);
   useReminderSync(settings, hasOfficialTest(tests, today));
   useSessionAutoComplete(plays, extras.sessions, settings.goals, today);
-  useWidgetSync(plays, tests, today);
+  useWidgetSync(plays, tests, today, settings.showStreak);
   useCloudSync();
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);

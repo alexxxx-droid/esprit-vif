@@ -99,6 +99,8 @@ export interface Settings {
   hat: HatId | '';
   /** Thème de l'appli : « auto » suit les saisons, sinon un thème débloqué. */
   palette: PaletteChoice;
+  /** Montrer la série de jours (accueil, Progrès, widget) ; elle continue d'être comptée sans être affichée. */
+  showStreak: boolean;
 }
 
 export interface CloudLink {
@@ -131,6 +133,7 @@ export const DEFAULT_SETTINGS: Settings = {
   cloud: { linked: false, email: '', lastSync: '' },
   hat: '',
   palette: 'auto',
+  showStreak: true,
 };
 
 export interface MarathonRecord {

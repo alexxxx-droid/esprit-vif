@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
-import { byCount, formatLongDay, formatMonth, formatWeekday, plural } from '../../core/format';
+import { addDays, addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
+import { byCount, formatLongDay, formatMonth, formatShortDay, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { localized, tr } from '../../core/lang';
-import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
+import { MAX_LEVEL } from '../../core/levels';
+import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor, TITLES } from '../../core/progression';
+import { durationLabel, recentPlays, totals, weeklyRecap } from '../../core/summary';
+import { nextLevelTheme, themeName } from '../../core/themes';
 import { seasonOf, SEASONS } from '../../core/events';
 import { insights } from '../../core/insights';
 import { domainMastery } from '../../core/stats';
-import { bestOverall, gameUnlocked, officialTests, progressionInput } from '../../store/progress';
+import { bestOverall, gameUnlocked, officialTests, progressionInput, type PlayRecord } from '../../store/progress';
 import { BrainAgeChart } from '../components/BrainAgeChart';
 import { BrainMap } from '../components/BrainMap';
 import { DomainBadge, ScreenHeader } from '../components/bits';
 import { GameArt } from '../components/GameArt';
-import { Icon } from '../components/Icon';
+import { Icon, type IconName } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { MedalBadge, RankBar } from '../components/progress-bits';
 import { useToday } from '../hooks';
@@ -20,6 +23,7 @@ import { useProgress } from '../progress-context';
 import { useProgression } from '../progression';
 import { navigate } from '../router';
 import { TROPHY_ICONS } from '../trophy-icons';
+import { useWardrobe } from '../wardrobe';
 
 /** Les initiales des jours, du lundi au dimanche, dans la langue de l'interface. */
 const weekdays = () => tr('LMMJVSD', 'MTWTFSS').split('');
@@ -122,6 +126,10 @@ export function ProgressScreen() {
             </div>
           </section>
 
+          <NextRewards />
+          <WeekRecap plays={data.plays} today={today} />
+          <KeyFigures plays={data.plays} />
+
           <section className="card insights" aria-labelledby="insights-title">
             <h2 className="section-title" id="insights-title">
               {tr('Ce que disent tes parties', 'What your games say')}
@@ -145,12 +153,20 @@ export function ProgressScreen() {
             )}
           </section>
 
-          <div className="tiles">
-            <StatTile label={tr('Série en cours', 'Current streak')} value={currentStreak(playedDays, today)} unit={tr('jour', 'day')} icon="flame" />
-            <StatTile label={tr('Meilleure série', 'Best streak')} value={bestStreak(playedDays)} unit={tr('jour', 'day')} icon="star" />
-            <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
-          </div>
-          <p className="hint progress__rest">{tr('Un jour de repos par semaine ne casse pas ta série.', 'One rest day a week won’t break your streak.')}</p>
+          {data.settings.showStreak ? (
+            <>
+              <div className="tiles">
+                <StatTile label={tr('Série en cours', 'Current streak')} value={currentStreak(playedDays, today)} unit={tr('jour', 'day')} icon="flame" />
+                <StatTile label={tr('Meilleure série', 'Best streak')} value={bestStreak(playedDays)} unit={tr('jour', 'day')} icon="star" />
+                <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
+              </div>
+              <p className="hint progress__rest">{tr('Un jour de repos par semaine ne casse pas ta série.', 'One rest day a week won’t break your streak.')}</p>
+            </>
+          ) : (
+            <div className="tiles">
+              <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
+            </div>
+          )}
 
           <section className="card" aria-labelledby="curve-title">
             <h2 className="section-title" id="curve-title">
@@ -203,6 +219,7 @@ export function ProgressScreen() {
             </ul>
           </section>
 
+          <RecentActivity plays={data.plays} today={today} />
           <Calendar playedDays={playedDays} today={today} />
         </div>
       )}
@@ -280,8 +297,8 @@ export function ProgressScreen() {
                         <span className="record__detail">
                           {best
                             ? tr(
-                                `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/20 ouverts`,
-                                `${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/20 unlocked`,
+                                `${best.headline} · niveau ${best.level} · ${gameUnlocked(data, id)}/${MAX_LEVEL} ouverts`,
+                                `${best.headline} · level ${best.level} · ${gameUnlocked(data, id)}/${MAX_LEVEL} unlocked`,
                               )
                             : tr('Pas encore de record', 'No best score yet')}
                         </span>
@@ -297,6 +314,178 @@ export function ProgressScreen() {
         </div>
       )}
     </div>
+  );
+}
+
+/** Ce qui arrive bientôt : titre et thème du prochain niveau, chapeaux en vue. Vif le montre du doigt. */
+function NextRewards() {
+  const { rank } = useProgression();
+  const status = useWardrobe();
+  const title = TITLES.find(([min]) => min > rank.level);
+  const theme = nextLevelTheme(rank.level);
+  const rows: { key: string; icon: IconName; text: string; meta: string }[] = [];
+  if (title) rows.push({ key: 'title', icon: 'crown', text: tr(`Titre « ${localized(title[1])} »`, `“${localized(title[1])}” title`), meta: tr(`niveau ${title[0]}`, `level ${title[0]}`) });
+  if (theme) rows.push({ key: 'theme', icon: 'sun', text: tr(`Thème ${themeName(theme.id)}`, `${themeName(theme.id)} theme`), meta: tr(`niveau ${theme.unlock.level}`, `level ${theme.unlock.level}`) });
+  if (status.nextPrestige) {
+    const p = status.nextPrestige;
+    rows.push({ key: 'prestige', icon: 'medal', text: p.name, meta: p.progress ? `${p.progress[0]} / ${p.progress[1]}` : p.rule });
+  }
+  if (status.nextShop) {
+    const s = status.nextShop;
+    rows.push({
+      key: 'shop',
+      icon: 'spark',
+      text: s.name,
+      meta: status.balance >= s.price ? tr('à portée !', 'within reach!') : `${status.balance} / ${s.price}`,
+    });
+  }
+  if (!rows.length) return null;
+  return (
+    <section className="card next-rewards" aria-labelledby="next-title">
+      <div className="next-rewards__head">
+        <h2 className="section-title" id="next-title">
+          {tr('Prochaines récompenses', 'Coming up next')}
+        </h2>
+        <Mascot mood="point" size={52} className="next-rewards__vif" />
+      </div>
+      <ul className="next-rewards__list">
+        {rows.map((row) => (
+          <li key={row.key}>
+            <span className="next-rewards__icon" aria-hidden="true">
+              <Icon name={row.icon} size={16} />
+            </span>
+            <span className="next-rewards__text">{row.text}</span>
+            <span className="next-rewards__meta">{row.meta}</span>
+          </li>
+        ))}
+      </ul>
+      <button type="button" className="btn btn--ghost next-rewards__link" onClick={() => navigate({ name: 'wardrobe' })}>
+        {tr('Ouvrir le vestiaire', 'Open the wardrobe')}
+        <Icon name="arrow" size={16} />
+      </button>
+    </section>
+  );
+}
+
+/** Cette semaine face à la précédente : de quoi voir sa régularité, sans prétendre mesurer autre chose. */
+function WeekRecap({ plays, today }: { plays: readonly PlayRecord[]; today: string }) {
+  const { current, previous } = weeklyRecap(plays, today);
+  const rows: { label: string; now: string; delta: number | null }[] = [
+    { label: tr('Parties', 'Games'), now: String(current.plays), delta: current.plays - previous.plays },
+    { label: tr('Jours actifs', 'Active days'), now: String(current.days), delta: current.days - previous.days },
+    { label: tr('Temps de jeu', 'Play time'), now: current.timeMs ? durationLabel(current.timeMs) : '—', delta: null },
+    {
+      label: tr('Score moyen', 'Average score'),
+      now: current.average === null ? '—' : String(current.average),
+      delta: current.average !== null && previous.average !== null ? current.average - previous.average : null,
+    },
+  ];
+  return (
+    <section className="card week-recap" aria-labelledby="recap-title">
+      <h2 className="section-title" id="recap-title">
+        {tr('Ta semaine', 'Your week')}
+      </h2>
+      <p className="card__sub">
+        {tr(`Depuis lundi ${formatShortDay(current.week)}, comparée à la semaine d’avant.`, `Since Monday ${formatShortDay(current.week)}, compared with the week before.`)}
+      </p>
+      {current.plays === 0 && previous.plays === 0 ? (
+        <Empty text={tr('Pas encore de partie cette semaine : une seule suffit pour lancer le bilan.', 'No games yet this week: one is enough to start the recap.')} />
+      ) : (
+        <dl className="week-recap__grid">
+          {rows.map((row) => (
+            <div key={row.label}>
+              <dt>{row.label}</dt>
+              <dd>
+                {row.now}
+                {row.delta !== null && row.delta !== 0 && (
+                  <span className={`delta ${row.delta > 0 ? 'delta--good' : 'delta--soft'}`}>
+                    {row.delta > 0 ? '+' : '−'}
+                    {Math.abs(row.delta)}
+                  </span>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </section>
+  );
+}
+
+/** Les chiffres de toujours, chacun calculé sur les parties qui le mesurent vraiment. */
+function KeyFigures({ plays }: { plays: readonly PlayRecord[] }) {
+  const t = totals(plays);
+  if (!t.plays) return null;
+  const daily = plays.filter((p) => p.mode === 'daily').length;
+  return (
+    <section className="card key-figures" aria-labelledby="figures-title">
+      <h2 className="section-title" id="figures-title">
+        {tr('En chiffres', 'By the numbers')}
+      </h2>
+      <dl className="key-figures__grid">
+        <div>
+          <dt>{tr('Parties terminées', 'Games finished')}</dt>
+          <dd>{t.plays}</dd>
+          <span className="key-figures__note">{tr(`dont ${daily} au test du jour`, `${daily} of them in daily tests`)}</span>
+        </div>
+        <div>
+          <dt>{tr('Temps de jeu', 'Play time')}</dt>
+          <dd>{t.timedPlays ? durationLabel(t.timeMs) : '—'}</dd>
+          <span className="key-figures__note">
+            {t.timedPlays === t.plays
+              ? tr('chrono des parties seules', 'games only, no menus')
+              : tr(`mesuré sur ${t.timedPlays} partie${t.timedPlays > 1 ? 's' : ''} (depuis la v2.9)`, `measured on ${t.timedPlays} game${t.timedPlays === 1 ? '' : 's'} (since v2.9)`)}
+          </span>
+        </div>
+        <div>
+          <dt>{tr('Précision', 'Accuracy')}</dt>
+          <dd>{t.accuracy === null ? '—' : `${t.accuracy} %`}</dd>
+          <span className="key-figures__note">
+            {t.accuracy === null
+              ? tr('dans les jeux qui comptent les erreurs', 'in games that count mistakes')
+              : tr(`bonnes réponses, sur ${t.accuracyPlays} parties`, `correct answers, over ${t.accuracyPlays} games`)}
+          </span>
+        </div>
+        <div>
+          <dt>{tr('Temps de réaction', 'Reaction time')}</dt>
+          <dd>{t.reactionMs === null ? '—' : `${t.reactionMs} ms`}</dd>
+          <span className="key-figures__note">
+            {t.reactionMs === null ? tr('se mesure à Flèches et Réflexe', 'measured in Arrows and Reflex') : tr(`moyenne de ${t.reactionPlays} parties`, `average of ${t.reactionPlays} games`)}
+          </span>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
+/** Les dernières parties, avec leur score : ce que les chiffres résument. */
+function RecentActivity({ plays, today }: { plays: readonly PlayRecord[]; today: string }) {
+  const recent = recentPlays(plays, 6);
+  return (
+    <section className="card" aria-labelledby="recent-title">
+      <h2 className="section-title" id="recent-title">
+        {tr('Activité récente', 'Recent activity')}
+      </h2>
+      {recent.length ? (
+        <ul className="recent">
+          {recent.map((p) => (
+            <li key={p.id} className="recent__item">
+              <GameArt gameId={p.gameId} size={32} />
+              <span className="recent__text">
+                <span className="recent__name">{GAMES[p.gameId].name}</span>
+                <span className="recent__meta">
+                  {p.day === today ? tr('Aujourd’hui', 'Today') : p.day === addDays(today, -1) ? tr('Hier', 'Yesterday') : formatShortDay(p.day)} ·{' '}
+                  {p.mode === 'daily' ? tr('test du jour', 'daily test') : tr(`niveau ${p.level}`, `level ${p.level}`)}
+                </span>
+              </span>
+              <span className="recent__score">{p.score}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <Empty text={tr('Tes parties apparaîtront ici. Commence par le test du jour !', 'Your games will show up here. Start with the daily test!')} />
+      )}
+    </section>
   );
 }
 

@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { CharacterId } from '../../core/characters';
 import { useActiveCharacter } from '../characters-context';
+import { fx } from '../fx/fx';
 import type { SeasonId } from '../../core/events';
 import type { Mood } from '../mascot-mood';
 import { useSeason } from '../season';
@@ -105,10 +106,13 @@ function Eyes({ mood }: { mood: Mood }) {
     <g className="vif__eyes">
       <ellipse className="vif__white" cx="47" cy="59" rx={7 * big} ry={9 * big} />
       <ellipse className="vif__white" cx="73" cy="59" rx={7 * big} ry={9 * big} />
-      <circle className="vif__pupil" cx={47 + look.x} cy={60 + look.y} r="4.3" />
-      <circle className="vif__pupil" cx={73 + look.x} cy={60 + look.y} r="4.3" />
-      <circle className="vif__shine" cx={48.6 + look.x} cy={57.6 + look.y} r="1.5" />
-      <circle className="vif__shine" cx={74.6 + look.x} cy={57.6 + look.y} r="1.5" />
+      {/* Le regard se promène de temps en temps, à gauche puis à droite. */}
+      <g className="vif__look">
+        <circle className="vif__pupil" cx={47 + look.x} cy={60 + look.y} r="4.3" />
+        <circle className="vif__pupil" cx={73 + look.x} cy={60 + look.y} r="4.3" />
+        <circle className="vif__shine" cx={48.6 + look.x} cy={57.6 + look.y} r="1.5" />
+        <circle className="vif__shine" cx={74.6 + look.x} cy={57.6 + look.y} r="1.5" />
+      </g>
     </g>
   );
 }
@@ -159,34 +163,50 @@ interface MascotProps {
   still?: boolean;
 }
 
-/** Un compagnon, dans l'humeur demandée. Décoratif : le texte voisin dit toujours l'essentiel. */
+/** Durée de la réaction quand on touche Vif (voir `vif-poke` dans app.css). */
+const POKE_MS = 650;
+
+/**
+ * Un compagnon, dans l'humeur demandée. Décoratif : le texte voisin dit toujours l'essentiel.
+ * Il bouge selon son humeur (saut de joie, tête penchée qui réfléchit…) et réagit quand on le touche.
+ */
 export function Mascot({ mood = 'happy', size = 64, className, character, still }: MascotProps) {
   const active = useActiveCharacter();
   const season = useSeason();
   const who = character ?? active;
+  const [poked, setPoked] = useState(false);
+  const poke = () => {
+    if (poked) return;
+    setPoked(true);
+    fx.tap();
+    window.setTimeout(() => setPoked(false), POKE_MS);
+  };
   return (
     <svg
-      className={`vif vif--${mood} vif--${who}${still ? ' vif--still' : ''}${className ? ` ${className}` : ''}`}
+      className={`vif vif--${mood} vif--${who}${still ? ' vif--still' : ''}${poked ? ' vif--poke' : ''}${className ? ` ${className}` : ''}`}
       width={size}
       height={size}
       viewBox="0 0 120 120"
       aria-hidden="true"
+      onPointerDown={still ? undefined : poke}
     >
-      <g className="vif__bob">
-        {BODIES[who]}
-        <ellipse className="vif__glow" cx="46" cy="46" rx="13" ry="8" />
-        <ellipse className="vif__cheek" cx="37" cy="72" rx="6" ry="3.6" />
-        <ellipse className="vif__cheek" cx="83" cy="72" rx="6" ry="3.6" />
-        <Eyes mood={mood} />
-        {MOUTHS[mood]}
-        <Arms mood={mood} />
-        {mood === 'sleep' && (
-          <text className="vif__z" x="92" y="32">
-            z
-          </text>
-        )}
-        {mood === 'think' && <path className="vif__dots" d="M96 30h.1M103 22h.1M110 14h.1" />}
-        {season && !still && ACCESSORIES[season.id]}
+      <g className="vif__move">
+        <g className="vif__bob">
+          {BODIES[who]}
+          <ellipse className="vif__glow" cx="46" cy="46" rx="13" ry="8" />
+          <ellipse className="vif__cheek" cx="37" cy="72" rx="6" ry="3.6" />
+          <ellipse className="vif__cheek" cx="83" cy="72" rx="6" ry="3.6" />
+          <Eyes mood={mood} />
+          {MOUTHS[mood]}
+          <Arms mood={mood} />
+          {mood === 'sleep' && (
+            <text className="vif__z" x="92" y="32">
+              z
+            </text>
+          )}
+          {mood === 'think' && <path className="vif__dots" d="M96 30h.1M103 22h.1M110 14h.1" />}
+          {season && !still && ACCESSORIES[season.id]}
+        </g>
       </g>
     </svg>
   );

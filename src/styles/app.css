@@ -3091,9 +3091,212 @@
   stroke-width: 5;
 }
 
-/* Vif respire, cligne des yeux et salue (rien de tout ça en mouvement réduit). */
+/*
+ * Vif est vivant (rien de tout ça en mouvement réduit) : il respire en souplesse, ses étincelles
+ * scintillent, il cligne des yeux et regarde autour de lui ; chaque humeur a son geste (saut de joie,
+ * tête penchée, petit balancement…), et il sursaute quand on le touche.
+ */
+.vif__move,
+.vif__bob {
+  transform-box: view-box;
+  transform-origin: 60px 100px;
+}
+
 .vif__bob {
   animation: vif-bob 3.4s ease-in-out infinite;
+}
+
+.vif__spark {
+  transform-box: view-box;
+  transform-origin: 60px 60px;
+  animation: vif-spark 4.8s ease-in-out infinite;
+}
+
+.vif__look {
+  animation: vif-look 9s ease-in-out infinite;
+}
+
+.vif--happy .vif__move {
+  animation: vif-sway 4.2s ease-in-out infinite;
+}
+
+.vif--gentle .vif__move {
+  animation: vif-sway 6s ease-in-out infinite;
+}
+
+.vif--hello .vif__move {
+  animation: vif-hop 0.9s var(--ease-out) 0.2s 1;
+}
+
+.vif--cheer .vif__move {
+  animation: vif-hop 0.8s var(--ease-out) 3;
+}
+
+.vif--wow .vif__move {
+  animation: vif-pop 0.5s var(--ease-spring) 1;
+}
+
+.vif--think .vif__move {
+  animation: vif-tilt 3.6s ease-in-out infinite;
+}
+
+.vif--sleep .vif__bob {
+  animation-duration: 5.5s;
+}
+
+.vif--sleep .vif__z {
+  animation: vif-z 2.8s ease-in-out infinite;
+}
+
+.vif--poke .vif__move {
+  animation: vif-poke 650ms var(--ease-out) 1;
+}
+
+.vif--poke .vif__eyes {
+  animation: vif-squeeze 650ms ease-in-out 1;
+}
+
+@keyframes vif-spark {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(9deg) scale(1.06);
+  }
+}
+
+@keyframes vif-look {
+  0%,
+  38%,
+  78%,
+  100% {
+    transform: translateX(0);
+  }
+
+  43%,
+  54% {
+    transform: translateX(-2.4px);
+  }
+
+  60%,
+  72% {
+    transform: translateX(2.4px);
+  }
+}
+
+@keyframes vif-sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-2.5deg);
+  }
+
+  75% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes vif-hop {
+  0% {
+    transform: translateY(0) scale(1.06, 0.94);
+  }
+
+  35% {
+    transform: translateY(-11px) scale(0.95, 1.06);
+  }
+
+  62% {
+    transform: translateY(0) scale(1.07, 0.93);
+  }
+
+  80% {
+    transform: translateY(0) scale(0.98, 1.02);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes vif-pop {
+  0% {
+    transform: scale(0.8);
+  }
+
+  60% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes vif-tilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  30%,
+  65% {
+    transform: rotate(-6deg);
+  }
+}
+
+@keyframes vif-z {
+  0% {
+    opacity: 0;
+    transform: translate(0, 4px);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(6px, -10px);
+  }
+}
+
+@keyframes vif-poke {
+  0% {
+    transform: scale(1);
+  }
+
+  18% {
+    transform: scale(1.14, 0.84);
+  }
+
+  48% {
+    transform: translateY(-10px) scale(0.93, 1.09) rotate(-4deg);
+  }
+
+  74% {
+    transform: translateY(0) scale(1.05, 0.96) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes vif-squeeze {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  20%,
+  60% {
+    transform: scaleY(0.15);
+  }
 }
 
 .vif__eyes {
@@ -3110,7 +3313,7 @@
 
 @keyframes vif-bob {
   50% {
-    transform: translateY(-3px);
+    transform: translateY(-2px) scale(0.985, 1.03);
   }
 }
 
@@ -3246,7 +3449,11 @@
 
 .vif--still .vif__bob,
 .vif--still .vif__eyes,
-.vif--still .vif__arm--wave {
+.vif--still .vif__arm--wave,
+.vif--still .vif__move,
+.vif--still .vif__spark,
+.vif--still .vif__look,
+.vif--still .vif__z {
   animation: none;
 }
 

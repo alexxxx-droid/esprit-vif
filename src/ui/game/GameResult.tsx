@@ -3,6 +3,7 @@ import { compareToHistory, type Comparison } from '../../core/compare';
 import type { GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_LEVEL, starsFor, tierName, tierOf, TIERS, UNLOCK_SCORE } from '../../core/levels';
+import { objectiveLabel } from '../../core/objectives';
 import { cheer } from '../../core/outcome';
 import { MEDAL_NAMES, medalRank } from '../../core/progression';
 import type { PlayMode } from '../../core/types';
@@ -131,8 +132,26 @@ export function GameResult({ meta, mode, result, children }: GameResultProps) {
               </span>
             </p>
           ))}
+          {delta.objectivesCompleted.map((objective) => (
+            <p key={objective.id} className="gain gain--objective">
+              <span className="gain__icon">
+                <Icon name="check" size={20} strokeWidth={3} />
+              </span>
+              <span>
+                {tr('Objectif du jour rempli', 'Daily goal complete')}
+                <span className="gain__desc">{objectiveLabel(objective)}</span>
+              </span>
+            </p>
+          ))}
           <div className="xp-card">
-            <p className="xp-card__gain">+{delta.xpGained}&nbsp;XP</p>
+            <p className="xp-card__gain">
+              +{delta.xpGained}&nbsp;XP
+              {delta.sparksGained > 0 && (
+                <span className="xp-card__sparks" aria-label={tr(`${delta.sparksGained} étincelles`, `${delta.sparksGained} sparks`)}>
+                  <Icon name="spark" size={14} />+{delta.sparksGained}
+                </span>
+              )}
+            </p>
             <RankBar rank={delta.rankAfter} compact />
           </div>
         </section>

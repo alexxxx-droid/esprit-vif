@@ -5,6 +5,7 @@ import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
 import { unlockedLevel, type ProgressionInput } from '../core/progression';
 import { adaptLevel, brainAge, clampLevel } from '../core/scoring';
 import type { Domain, GameId, PlayMode, PlayOutcome } from '../core/types';
+import { isHatId, purchaseBlocker, wardrobe, type HatId, type WardrobeEntry } from '../core/wardrobe';
 import type { Storage, StoredData } from './storage';
 
 export interface PlayRecord {
@@ -93,6 +94,8 @@ export interface Settings {
   language: LangChoice;
   /** Sauvegarde Google Drive (facultative) : liée ou non, le compte, la dernière synchro (ISO). */
   cloud: CloudLink;
+  /** Chapeau que porte le compagnon (vide : aucun, les accessoires de saison reprennent leur place). */
+  hat: HatId | '';
 }
 
 export interface CloudLink {
@@ -123,6 +126,7 @@ export const DEFAULT_SETTINGS: Settings = {
   handwriting: false,
   language: 'auto',
   cloud: { linked: false, email: '', lastSync: '' },
+  hat: '',
 };
 
 export interface MarathonRecord {
@@ -139,6 +143,8 @@ export interface Extras {
   /** Défis entre amies : les parties (graine, niveau, jeux) et les scores reçus ou joués ici. */
   challenges: ChallengeInfo[];
   friends: FriendResult[];
+  /** Chapeaux achetés avec les étincelles. */
+  wardrobe: WardrobeEntry[];
 }
 
 export type ChallengeInfo = Omit<ChallengeLink, 'scores'>;
@@ -146,7 +152,7 @@ export type ChallengeInfo = Omit<ChallengeLink, 'scores'>;
 /** Assez pour des mois de défis, sans laisser grossir la base indéfiniment. */
 const MAX_CHALLENGES = 60;
 
-export const EMPTY_EXTRAS: Extras = { sessions: [], marathons: {}, duels: 0, challenges: [], friends: [] };
+export const EMPTY_EXTRAS: Extras = { sessions: [], marathons: {}, duels: 0, challenges: [], friends: [], wardrobe: [] };
 
 export interface ProgressData {
   plays: PlayRecord[];
@@ -177,7 +183,8 @@ export interface PlayInput {
 /**
  * Version du schéma de la base. Historique des migrations (toutes additives, valeurs par défaut sûres) :
  * - 1 (jusqu'à la v2.8, sans numéro enregistré) : parties, tests, réglages, jeux, extras ;
- * - 2 (v2.9) : numéro de schéma enregistré, durée des parties (`durationMs`, facultative).
+ * - 2 (v2.9) : numéro de schéma enregistré, durée des parties (`durationMs`, facultative), chapeaux
+ *   achetés (`extras.wardrobe`) et chapeau porté (`settings.hat`).
  * Une base plus ancienne est lue, complétée par `normalize`, puis réécrite une fois au format actuel.
  */
 export const SCHEMA_VERSION = 2;
@@ -404,6 +411,18 @@ export class ProgressStore {
     await this.saveExtras({ ...this.data.extras, challenges, friends });
   }
 
+  /**
+   * Achète un chapeau du vestiaire avec les étincelles. Refusé (avec la raison) s'il est déjà là,
+   * s'il ne s'achète pas ou si le solde ne suffit pas : on ne peut jamais dépenser deux fois.
+   */
+  async buyHat(id: HatId, now = new Date()): Promise<void> {
+    const status = wardrobe(progressionInput(this.data), this.data.extras.wardrobe);
+    const blocker = purchaseBlocker(status, id);
+    if (blocker) throw new Error(blocker);
+    const cost = status.hats.find((h) => h.id === id)?.price ?? 0;
+    await this.saveExtras({ ...this.data.extras, wardrobe: [...this.data.extras.wardrobe, { id, cost, day: dayKey(now) }] });
+  }
+
   /** Bilan de départ : ouvre d'emblée les premiers niveaux des jeux où le joueur est déjà à l'aise. */
   async placeLevels(starts: Partial<Record<GameId, number>>): Promise<void> {
     const games = { ...this.data.games };
@@ -524,7 +543,19 @@ function normalizeExtras(raw: unknown): Extras {
     duels: Number(raw.duels) || 0,
     challenges: Array.isArray(raw.challenges) ? raw.challenges.filter(isChallengeInfo) : [],
     friends: Array.isArray(raw.friends) ? raw.friends.filter(isFriendResult) : [],
+    wardrobe: Array.isArray(raw.wardrobe) ? uniqueHats(raw.wardrobe.filter(isWardrobeEntry)) : [],
   };
+}
+
+function isWardrobeEntry(v: unknown): v is WardrobeEntry {
+  return isObject(v) && isHatId(v.id) && Number.isInteger(v.cost) && (v.cost as number) >= 0 && typeof v.day === 'string';
+}
+
+/** Un chapeau n'est acheté qu'une fois : en double (fusion, import), seul le premier achat compte. */
+export function uniqueHats(entries: readonly WardrobeEntry[]): WardrobeEntry[] {
+  const seen = new Map<string, WardrobeEntry>();
+  for (const e of [...entries].sort((a, b) => a.day.localeCompare(b.day) || a.cost - b.cost)) if (!seen.has(e.id)) seen.set(e.id, e);
+  return [...seen.values()];
 }
 
 function isChallengeInfo(v: unknown): v is ChallengeInfo {
@@ -587,6 +618,7 @@ function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boole
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
+  if (settings.hat !== '' && !isHatId(settings.hat)) settings.hat = '';
   const cloud: Record<string, unknown> = isObject(settings.cloud) ? settings.cloud : {};
   settings.cloud = { linked: cloud.linked === true, email: typeof cloud.email === 'string' ? cloud.email : '', lastSync: typeof cloud.lastSync === 'string' ? cloud.lastSync : '' };
   const games: Partial<Record<GameId, GameProgress>> = {};

@@ -1988,6 +1988,25 @@
   font-variant-numeric: tabular-nums;
 }
 
+.xp-card__sparks {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 2px;
+  color: var(--warm-ink);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.gain--objective {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.gain--objective .gain__icon {
+  color: var(--good);
+}
+
 .xp-card .rank {
   flex: 1;
   min-width: 0;

@@ -58,6 +58,47 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   46 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
   ont leur petite mémoire (`extras`), exportée avec le reste.
 
+## Objectifs, étincelles et vestiaire (v2.9)
+
+Quatre systèmes, chacun avec un seul rôle : les **niveaux** d'un jeu règlent sa difficulté ; les
+**étoiles** ouvrent le niveau suivant et donnent les médailles ; l'**XP** fait monter le niveau de
+joueur (titres, chapeaux de prestige) ; les **étincelles** habillent Vif. Rien ne s'achète avec de
+l'argent, rien ne se perd, et tout se recalcule depuis l'historique : une récompense ne peut pas être
+versée deux fois, même si l'on rejoue, ferme l'appli ou recharge une sauvegarde.
+
+- **Objectifs du jour** (`src/core/objectives.ts`) : trois par jour, un de volume (2-3 parties),
+  un de variété (2-3 domaines, un thème, ou un jeu laissé de côté depuis 7 jours), un d'exploit (test
+  du jour, 80 points, battre un record, 2 étoiles). Tirés de la date et des parties d'**avant** la
+  journée : ils ne changent pas en cours de route. Moins de 10 parties jouées : objectifs de débutant
+  (2 parties, 2 domaines ou un thème, test du jour ou 60 points), jamais de record à battre. Chaque
+  objectif rapporte **15 XP et 5 étincelles** ; ils comptent à partir du 20-10-2026 (`OBJECTIVES_START`),
+  pour ne pas faire bondir d'un coup le niveau des joueurs existants. Une partie jouée dans le test
+  du jour compte aussi pour les objectifs. Un « record » demande d'avoir battu un score existant au
+  même niveau : une première partie n'en est pas un.
+- **Étincelles** : 1 à 5 par partie selon le score (`1 + score ÷ 25`), **plafonnées à 25 par jour**
+  pour les parties (enchaîner ne sert à rien au-delà d'une dizaine), plus 10 pour le test du jour
+  officiel, 5 par objectif, 20 par défi de la semaine. Les parties d'avant la v2.9 comptent : un joueur
+  fidèle retrouve d'emblée de quoi habiller Vif. Solde = gagné − dépensé.
+- **Vestiaire** (`src/core/wardrobe.ts`, `#/vestiaire`) : 20 chapeaux à acheter (40 à 200 étincelles,
+  soit deux mois de jeu régulier pour tout avoir) et 11 chapeaux de **prestige** qui ne s'achètent
+  pas : paliers Expert, Maître et Légende ouverts dans un jeu, médailles de platine et de diamant,
+  séries de 7 et 30 jours, 5 défis de la semaine, niveaux de joueur 10, 25 et 50. Les conditions ne
+  peuvent que progresser : un chapeau gagné reste gagné. Le prix payé est enregistré avec l'achat
+  (`extras.wardrobe`) : changer un prix plus tard ne touche pas aux soldes. Le chapeau porté
+  (`settings.hat`) remplace l'accessoire de saison ; sous un chapeau, la pointe du haut de Vif s'efface.
+- **Résultat** : les objectifs remplis par la partie et les étincelles gagnées s'affichent avec l'XP.
+
+## Accueil (v2.9)
+
+Dans l'ordre, sur téléphone : salutation et niveau ; **le test du jour** (ses trois jeux et le dernier
+âge cérébral, ou, une fois fait, le score du jour, l'âge et les trois scores, chaque jeu se rejouant
+en entraînement libre sans toucher aux récompenses du test) ; le bouton principal (commencer,
+continuer le test, ou l'entraînement conseillé) ; les objectifs du jour et le vestiaire ; la semaine
+(7 jours + défi de la semaine) ; reprendre le dernier jeu libre ; les six thèmes ; la séance du jour ;
+la saison ; le mot du coach. La série se résume à la flamme et son nombre, pour laisser la place au
+prénom. Le bilan du test donne le **score du jour** (moyenne des trois) et la formule de l'âge
+cérébral ; chaque jeu s'y compare à sa dernière apparition dans un test.
+
 ## 50 niveaux et 5 paliers (v2.8)
 
 Demande d'Alex : « beaucoup de niveaux et de difficultés pour ne pas faire le tour en une

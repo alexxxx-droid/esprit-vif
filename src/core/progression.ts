@@ -3,6 +3,7 @@ import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type Seaso
 import { DOMAIN_ORDER, GAME_ORDER, gamesOfDomain } from './games/registry';
 import { localized, tr, type Translations } from './lang';
 import { MAX_LEVEL, starsFor, UNLOCK_SCORE } from './levels';
+import { OBJECTIVE_XP, objectivesDone, sparksEarned, type DailyObjective } from './objectives';
 import type { GameId } from './types';
 
 /**
@@ -130,7 +131,7 @@ export function medalRank(medal: Medal | null): number {
 
 // ---------- XP et rang ----------
 
-export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP };
+export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP, objective: OBJECTIVE_XP };
 
 /** XP d'une partie : de 5 à 50 selon le score, plus 5 % par niveau, plafonné au niveau 30 (×2,45). */
 export function playXp(score: number, level: number): number {
@@ -154,6 +155,7 @@ export function totalXp(input: ProgressionInput): number {
   xp += input.duels * XP_BONUS.duel;
   xp += input.challenges * XP_BONUS.challenge;
   xp += weekliesDone(input.plays, input.sessions) * XP_BONUS.weekly;
+  xp += objectivesDone(input.plays, input.tests).length * XP_BONUS.objective;
   return xp;
 }
 
@@ -220,7 +222,8 @@ export type TrophyIcon =
   | 'flower'
   | 'users';
 
-interface TrophyContext {
+/** Ce que le joueur a accompli : de quoi juger trophées et chapeaux de prestige. */
+export interface AchievementContext {
   plays: readonly ProgressionPlay[];
   official: ProgressionTest[];
   distinctGames: number;
@@ -249,7 +252,7 @@ interface TrophyDef {
   description: string;
   icon: TrophyIcon;
   /** Valeur actuelle et objectif ; un objectif de 1 sans compteur est un trophée « tout ou rien ». */
-  value: (c: TrophyContext) => number;
+  value: (c: AchievementContext) => number;
   target: number;
   counter?: boolean;
   /** Trophée de saison : on ne le gagne que pendant sa fenêtre. */
@@ -280,7 +283,7 @@ const t = (
 
 const has = (condition: boolean) => (condition ? 1 : 0);
 const SEASON_ICONS: Record<SeasonId, TrophyIcon> = { halloween: 'pumpkin', noel: 'snow', printemps: 'flower', ete: 'sun' };
-const medalsAtLeast = (c: TrophyContext, medal: Medal) => c.medals.filter((m) => medalRank(m) >= medalRank(medal)).length;
+export const medalsAtLeast = (c: AchievementContext, medal: Medal) => c.medals.filter((m) => medalRank(m) >= medalRank(medal)).length;
 
 /** Trophée de saison : ses textes viennent de la saison (déjà dans les deux langues). */
 const seasonTrophy = (season: Season): TrophyDef => ({
@@ -398,11 +401,11 @@ export interface TrophyStatus {
   season?: SeasonId;
 }
 
-export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(input)).level): TrophyStatus[] {
+export function achievements(input: ProgressionInput, rank = rankFor(totalXp(input)).level): AchievementContext {
   const official = input.tests.filter((test) => test.done && test.official).sort((a, b) => a.startedAt.localeCompare(b.startedAt));
   const ages = official.map((test) => test.brainAge).filter((age): age is number => age !== undefined);
   const medals = GAME_ORDER.map((id) => medalFor(input.bests[id]));
-  const context: TrophyContext = {
+  return {
     plays: input.plays,
     official,
     distinctGames: new Set(input.plays.map((p) => p.gameId)).size,
@@ -426,6 +429,10 @@ export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(i
     lateGame: input.plays.some((p) => new Date(p.at).getHours() >= 23),
     weeklies: weekliesDone(input.plays, input.sessions),
   };
+}
+
+export function trophyStatuses(input: ProgressionInput, rank = rankFor(totalXp(input)).level): TrophyStatus[] {
+  const context = achievements(input, rank);
   return TROPHIES.map((def) => {
     const value = def.value(context);
     return {
@@ -452,6 +459,9 @@ export interface ProgressionDelta {
   /** Le niveau suivant vient de se débloquer. */
   unlockedNext: boolean;
   newTrophies: TrophyStatus[];
+  sparksGained: number;
+  /** Objectifs du jour que cette partie vient de remplir. */
+  objectivesCompleted: DailyObjective[];
 }
 
 export function progressionDelta(before: ProgressionInput, after: ProgressionInput, gameId: GameId, level: number): ProgressionDelta {
@@ -459,6 +469,7 @@ export function progressionDelta(before: ProgressionInput, after: ProgressionInp
   const rankAfter = rankFor(totalXp(after));
   const unlockedBefore = new Set(trophyStatuses(before, rankBefore.level).filter((s) => s.unlocked).map((s) => s.id));
   const levelStars = (input: ProgressionInput) => starsFor(input.bests[gameId]?.[level]?.score ?? 0);
+  const doneBefore = new Set(objectivesDone(before.plays, before.tests).map((o) => o.id));
   return {
     xpGained: rankAfter.xp - rankBefore.xp,
     rankBefore,
@@ -469,6 +480,8 @@ export function progressionDelta(before: ProgressionInput, after: ProgressionInp
     medalAfter: medalFor(after.bests[gameId]),
     unlockedNext: unlockedLevel(after.bests[gameId]) > unlockedLevel(before.bests[gameId]),
     newTrophies: trophyStatuses(after, rankAfter.level).filter((s) => s.unlocked && !unlockedBefore.has(s.id)),
+    sparksGained: sparksEarned(after) - sparksEarned(before),
+    objectivesCompleted: objectivesDone(after.plays, after.tests).filter((o) => !doneBefore.has(o.id)),
   };
 }
 
@@ -477,9 +490,11 @@ export interface ProgressionSummary {
   rank: Rank;
   stars: number;
   trophies: TrophyStatus[];
+  /** Étincelles gagnées depuis le début (avant les achats du vestiaire). */
+  sparks: number;
 }
 
 export function progressionSummary(input: ProgressionInput): ProgressionSummary {
   const rank = rankFor(totalXp(input));
-  return { rank, stars: totalStars(input.bests), trophies: trophyStatuses(input, rank.level) };
+  return { rank, stars: totalStars(input.bests), trophies: trophyStatuses(input, rank.level), sparks: sparksEarned(input) };
 }

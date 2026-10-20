@@ -18,7 +18,8 @@ export type Route =
   | { name: 'duel' }
   | { name: 'party' }
   | { name: 'challenge'; code: string | null }
-  | { name: 'transfer' };
+  | { name: 'transfer' }
+  | { name: 'wardrobe' };
 
 const isDomain = (value: string | undefined): value is Domain => DOMAIN_ORDER.includes(value as Domain);
 
@@ -57,6 +58,8 @@ export function parseHash(hash: string): Route {
       return { name: 'challenge', code: arg ?? null };
     case 'transfert':
       return { name: 'transfer' };
+    case 'vestiaire':
+      return { name: 'wardrobe' };
     default:
       return { name: 'home' };
   }
@@ -92,6 +95,8 @@ export function routeHash(route: Route): string {
       return route.code ? `#/defi/${route.code}` : '#/defi';
     case 'transfer':
       return '#/transfert';
+    case 'wardrobe':
+      return '#/vestiaire';
   }
 }
 

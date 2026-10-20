@@ -1,10 +1,12 @@
 import { useState, type ReactNode } from 'react';
 import type { CharacterId } from '../../core/characters';
-import { useActiveCharacter } from '../characters-context';
+import type { HatId } from '../../core/wardrobe';
+import { useActiveCharacter, useActiveHat } from '../characters-context';
 import { fx } from '../fx/fx';
 import type { SeasonId } from '../../core/events';
 import type { Mood } from '../mascot-mood';
 import { useSeason } from '../season';
+import { HAT_ART } from './hats';
 
 /*
  * Vif, la mascotte maison (une boule coiffée de quatre pointes d'étincelle, le symbole de l'appli),
@@ -13,16 +15,20 @@ import { useSeason } from '../season';
  */
 
 /** Ce qu'il y a derrière et autour du visage : la silhouette de chaque compagnon. */
+/** Les pointes d'étincelle de Vif : celle du haut s'efface sous un chapeau. */
+const SPARK_TOP = 'M60 4c4 14 8 22 14 26-8 2-20 2-28 0 6-4 10-12 14-26z';
+const SPARK_OTHERS =
+  'M60 116c4-12 8-20 14-24-8-2-20-2-28 0 6 4 10 12 14 24zM6 62c14-4 22-8 26-14 2 8 2 20 0 28-4-6-12-10-26-14zM114 62c-14-4-22-8-26-14-2 8-2 20 0 28 4-6 12-10 26-14z';
+
+const vifBody = (hatted: boolean) => (
+  <>
+    <path className="vif__spark" d={hatted ? SPARK_OTHERS : SPARK_TOP + SPARK_OTHERS} />
+    <circle className="vif__body" cx="60" cy="62" r="36" />
+  </>
+);
+
 const BODIES: Record<CharacterId, ReactNode> = {
-  vif: (
-    <>
-      <path
-        className="vif__spark"
-        d="M60 4c4 14 8 22 14 26-8 2-20 2-28 0 6-4 10-12 14-26zM60 116c4-12 8-20 14-24-8-2-20-2-28 0 6 4 10 12 14 24zM6 62c14-4 22-8 26-14 2 8 2 20 0 28-4-6-12-10-26-14zM114 62c-14-4-22-8-26-14-2 8-2 20 0 28 4-6 12-10 26-14z"
-      />
-      <circle className="vif__body" cx="60" cy="62" r="36" />
-    </>
-  ),
+  vif: vifBody(false),
   pomme: (
     <>
       <path className="vif__body" d="M60 34C46 22 20 28 22 60c2 34 24 46 38 40 14 6 36-6 38-40 2-32-24-38-38-26z" />
@@ -161,6 +167,11 @@ interface MascotProps {
   character?: CharacterId;
   /** Sans respiration ni clignement (avatars, listes). */
   still?: boolean;
+  /**
+   * Chapeau à montrer (aperçu du vestiaire) ; null : aucun. Par défaut, le compagnon du joueur en
+   * cours porte le chapeau choisi, et un compagnon précis (`character`) n'en porte pas.
+   */
+  hat?: HatId | null;
 }
 
 /** Durée de la réaction quand on touche Vif (voir `vif-poke` dans app.css). */
@@ -170,10 +181,12 @@ const POKE_MS = 650;
  * Un compagnon, dans l'humeur demandée. Décoratif : le texte voisin dit toujours l'essentiel.
  * Il bouge selon son humeur (saut de joie, tête penchée qui réfléchit…) et réagit quand on le touche.
  */
-export function Mascot({ mood = 'happy', size = 64, className, character, still }: MascotProps) {
+export function Mascot({ mood = 'happy', size = 64, className, character, still, hat }: MascotProps) {
   const active = useActiveCharacter();
+  const activeHat = useActiveHat();
   const season = useSeason();
   const who = character ?? active;
+  const worn = hat !== undefined ? hat : character ? null : activeHat;
   const [poked, setPoked] = useState(false);
   const poke = () => {
     if (poked) return;
@@ -192,7 +205,7 @@ export function Mascot({ mood = 'happy', size = 64, className, character, still 
     >
       <g className="vif__move">
         <g className="vif__bob">
-          {BODIES[who]}
+          {who === 'vif' && worn && worn !== 'lunettes' ? vifBody(true) : BODIES[who]}
           <ellipse className="vif__glow" cx="46" cy="46" rx="13" ry="8" />
           <ellipse className="vif__cheek" cx="37" cy="72" rx="6" ry="3.6" />
           <ellipse className="vif__cheek" cx="83" cy="72" rx="6" ry="3.6" />
@@ -205,7 +218,8 @@ export function Mascot({ mood = 'happy', size = 64, className, character, still 
             </text>
           )}
           {mood === 'think' && <path className="vif__dots" d="M96 30h.1M103 22h.1M110 14h.1" />}
-          {season && !still && ACCESSORIES[season.id]}
+          {/* Un chapeau choisi remplace l'accessoire de saison. */}
+          {worn ? <g className={`hat hat--${worn}`}>{HAT_ART[worn]}</g> : season && !still && ACCESSORIES[season.id]}
         </g>
       </g>
     </svg>

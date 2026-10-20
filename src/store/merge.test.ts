@@ -60,4 +60,18 @@ describe('fusion de deux appareils', () => {
     expect(merged.settings.onboarded).toBe(true);
     expect(merged.settings.goals).toEqual(['memoire']);
   });
+
+  it('réunit les chapeaux achetés sur les deux appareils, sans les compter deux fois', async () => {
+    const a = await device();
+    const b = await device();
+    const base = a.getSnapshot();
+    const phone = { ...base, extras: { ...base.extras, wardrobe: [{ id: 'bob' as const, cost: 60, day: '2026-10-20' }, { id: 'fez' as const, cost: 130, day: '2026-10-21' }] } };
+    const tablet = { ...b.getSnapshot(), extras: { ...b.getSnapshot().extras, wardrobe: [{ id: 'bob' as const, cost: 60, day: '2026-10-22' }] } };
+    const merged = mergeProgress(phone, tablet);
+    expect(merged.extras.wardrobe).toEqual([
+      { id: 'bob', cost: 60, day: '2026-10-20' },
+      { id: 'fez', cost: 130, day: '2026-10-21' },
+    ]);
+    expect(content(mergeProgress(tablet, phone))).toBe(content(merged));
+  });
 });

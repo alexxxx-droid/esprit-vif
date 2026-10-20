@@ -1,7 +1,7 @@
 import { mergeResults } from '../core/challenges';
 import { DOMAIN_ORDER } from '../core/games/registry';
 import type { GameId } from '../core/types';
-import type { Extras, GameProgress, ProgressData, TestRecord } from './progress';
+import { uniqueHats, type Extras, type GameProgress, type ProgressData, type TestRecord } from './progress';
 
 /**
  * Fusion de deux progressions du même joueur (téléphone et tablette, via le Drive) : rien ne
@@ -80,5 +80,6 @@ function mergeExtras(a: Extras, b: Extras): Extras {
     friends: mergeResults(a.friends, b.friends).sort(
       (x, y) => x.challenge.localeCompare(y.challenge) || Number(y.me) - Number(x.me) || x.name.localeCompare(y.name) || x.gameId.localeCompare(y.gameId),
     ),
+    wardrobe: uniqueHats([...a.wardrobe, ...b.wardrobe]).sort((x, y) => x.id.localeCompare(y.id)),
   };
 }

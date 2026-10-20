@@ -26,6 +26,7 @@ import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
 import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { TrainingScreen } from './ui/screens/TrainingScreen';
+import { WardrobeScreen } from './ui/screens/WardrobeScreen';
 
 const TABBED: Route['name'][] = ['home', 'training', 'progress', 'settings'];
 
@@ -60,6 +61,8 @@ function Screen({ route }: { route: Route }) {
       return <PartyScreen />;
     case 'challenge':
       return <ChallengeScreen code={route.code} />;
+    case 'wardrobe':
+      return <WardrobeScreen />;
     case 'transfer':
       return (
         <Suspense fallback={null}>

@@ -132,6 +132,7 @@ describe('séances, marathons et duels', () => {
       duels: 1,
       challenges: [],
       friends: [],
+      wardrobe: [],
     });
     expect(progressionInput(other.getSnapshot()).marathons).toBe(2);
   });
@@ -249,5 +250,35 @@ describe('fiabilité et migrations', () => {
     const plays = parseBackup(store.exportJson()).plays;
     expect(plays[0].durationMs).toBe(41_235);
     expect(plays[1].durationMs).toBeUndefined();
+  });
+});
+
+describe('vestiaire', () => {
+  it('achète un chapeau avec les étincelles, une seule fois, et le garde dans la sauvegarde', async () => {
+    const store = await freshStore();
+    // 20 parties à 100 pts sur 2 jours : 2 × 25 étincelles (plafond quotidien).
+    for (let i = 0; i < 20; i++) await store.recordPlay({ gameId: 'calcul', level: 1, mode: 'free', seed: i, outcome: outcome(100) }, at(10 + (i % 2)));
+    await expect(store.buyHat('viking')).rejects.toThrow(/étincelles/);
+    await store.buyHat('casquette', at(12));
+    await expect(store.buyHat('casquette')).rejects.toThrow(/Déjà/);
+    await expect(store.buyHat('couronne')).rejects.toThrow();
+    await store.updateSettings({ hat: 'casquette' });
+    const restored = parseBackup(store.exportJson());
+    expect(restored.extras.wardrobe).toEqual([{ id: 'casquette', cost: 40, day: '2026-10-12' }]);
+    expect(restored.settings.hat).toBe('casquette');
+  });
+
+  it('écarte un achat illisible ou en double, et un chapeau inconnu', () => {
+    const json = JSON.stringify({
+      app: 'esprit-vif',
+      format: 1,
+      plays: [],
+      tests: [],
+      settings: { hat: 'sombrero-geant' },
+      extras: { wardrobe: [{ id: 'bob', cost: 60, day: '2026-10-21' }, { id: 'bob', cost: 60, day: '2026-10-20' }, { id: 'inconnu', cost: 1, day: '2026-10-20' }, { id: 'fez', cost: -5, day: 'x' }] },
+    });
+    const data = parseBackup(json);
+    expect(data.extras.wardrobe).toEqual([{ id: 'bob', cost: 60, day: '2026-10-20' }]);
+    expect(data.settings.hat).toBe('');
   });
 });

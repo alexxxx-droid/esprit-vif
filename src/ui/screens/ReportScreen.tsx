@@ -3,6 +3,8 @@ import { placement } from '../../core/placement';
 import { byCount, formatLongDay, plural } from '../../core/format';
 import { DOMAINS, GAMES, gamesOfDomain } from '../../core/games/registry';
 import { tr } from '../../core/lang';
+import { SPARKS } from '../../core/objectives';
+import { XP_BONUS } from '../../core/progression';
 import { MAX_BRAIN_AGE, MIN_BRAIN_AGE } from '../../core/scoring';
 import { officialTests, type TestRecord } from '../../store/progress';
 import { GameArt } from '../components/GameArt';
@@ -64,8 +66,10 @@ export function ReportScreen({ testId }: { testId: string }) {
 
   const official = officialTests(data).filter((t) => t.id !== test.id && t.startedAt < test.startedAt);
   const previous: TestRecord | undefined = official.at(-1);
-  const scoreBefore = (gameId: string) => previous?.results.find((r) => r.gameId === gameId)?.score;
+  // Les jeux changent chaque jour : on compare à la dernière fois où ce jeu est passé dans un test.
+  const scoreBefore = (gameId: string) => data.plays.findLast((p) => p.gameId === gameId && p.mode === 'daily' && p.at < test.startedAt)?.score;
   const previousAge = previous?.brainAge;
+  const dayScore = Math.round(test.results.reduce((sum, r) => sum + r.score, 0) / Math.max(1, test.results.length));
 
   return (
     <div className="screen screen-in report">
@@ -88,9 +92,16 @@ export function ReportScreen({ testId }: { testId: string }) {
       </section>
 
       <section className="card" aria-labelledby="scores-title">
-        <h2 className="section-title" id="scores-title">
-          {tr('Score par domaine', 'Score by area')}
+        <h2 className="section-title report__day-score" id="scores-title">
+          {tr('Score du jour', 'Today’s score')}
+          <span>{dayScore} / 100</span>
         </h2>
+        <p className="card__sub report__formula">
+          {tr(
+            `La moyenne des trois jeux. Âge cérébral = 80 − 0,6 × ${dayScore}, entre 20 et 80 ans.`,
+            `The average of the three games. Brain age = 80 − 0.6 × ${dayScore}, between 20 and 80.`,
+          )}
+        </p>
         <ul className="score-bars">
           {test.games.map((gameId) => {
             const result = test.results.find((r) => r.gameId === gameId);
@@ -149,6 +160,16 @@ export function ReportScreen({ testId }: { testId: string }) {
             {tr('Les autres domaines démarrent au niveau 1 : chaque étoile ouvre la suite.', 'The other areas start at level 1: each star unlocks the next one.')}
           </p>
         </section>
+      )}
+
+      {test.official && (
+        <p className="report__rewards">
+          <Icon name="spark" size={18} />
+          {tr(
+            `Test du jour : +${XP_BONUS.test} XP et +${SPARKS.test} étincelles, en plus de chaque partie. Tu peux rejouer ces jeux en entraînement libre : le test, lui, ne compte qu’une fois par jour.`,
+            `Daily test: +${XP_BONUS.test} XP and +${SPARKS.test} sparks, on top of each game. You can replay these games in free training: the test itself only counts once a day.`,
+          )}
+        </p>
       )}
 
       {!test.official && (

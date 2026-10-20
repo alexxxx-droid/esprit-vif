@@ -24,7 +24,7 @@ import { ChallengeScreen } from './ui/screens/ChallengeScreen';
 import { HomeScreen } from './ui/screens/HomeScreen';
 import { DuelScreen, MarathonScreen, SessionScreen } from './ui/screens/ModeScreens';
 import { PartyScreen } from './ui/screens/PartyScreen';
-import { DailyTestScreen, PlayScreen, StartTestScreen } from './ui/screens/PlayScreens';
+import { DailyTestScreen, LegendScreen, PlayScreen, StartTestScreen } from './ui/screens/PlayScreens';
 import { ProgressScreen } from './ui/screens/ProgressScreen';
 import { ReportScreen } from './ui/screens/ReportScreen';
 import { SettingsScreen } from './ui/screens/SettingsScreen';
@@ -75,6 +75,8 @@ function Screen({ route }: { route: Route }) {
       return <PremiumScreen focus={route.focus} />;
     case 'month':
       return <MonthScreen />;
+    case 'legend':
+      return <LegendScreen />;
     case 'history':
       return <HistoryScreen gameId={route.gameId} />;
     case 'transfer':

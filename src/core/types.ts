@@ -30,7 +30,8 @@ export type GameId =
   | 'lecture'
   | 'itineraire';
 
-export type PlayMode = 'free' | 'daily';
+/** Entraînement libre, test du jour, ou Défi Légende du jour. */
+export type PlayMode = 'free' | 'daily' | 'legende';
 
 export interface StatLine {
   label: string;

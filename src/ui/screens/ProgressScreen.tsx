@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { addDays, addMonths, bestStreak, currentStreak, monthGrid } from '../../core/daily';
+import { addDays, addMonths, bestStreak, currentStreak, dayKey, monthGrid } from '../../core/daily';
 import { byCount, formatLongDay, formatMonth, formatShortDay, formatWeekday, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from '../../core/games/registry';
 import { localized, tr } from '../../core/lang';
 import { MAX_LEVEL, masteryName } from '../../core/levels';
-import { AURAS, masteryOf, MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor, nextTitle } from '../../core/progression';
+import { AURAS, highestPassed, masteryOf, MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor, nextTitle } from '../../core/progression';
+import { legendChallenge } from '../../core/legend';
 import { durationLabel, recentPlays, totals, weeklyRecap } from '../../core/summary';
 import { nextLevelTheme, themeName } from '../../core/themes';
 import { seasonOf, SEASONS } from '../../core/events';
@@ -337,6 +338,11 @@ function NextRewards() {
   const theme = nextLevelTheme(rank.level);
   const rows: { key: string; icon: IconName; text: string; meta: string }[] = [];
   rows.push({ key: 'title', icon: 'crown', text: tr(`Titre « ${title[1]} »`, `“${title[1]}” title`), meta: tr(`niveau ${title[0]}`, `level ${title[0]}`) });
+  const data = useProgress();
+  if (!legendChallenge(dayKey(), data.plays) && !data.plays.some((p) => p.mode === 'legende')) {
+    const best = Math.max(0, ...Object.values(data.games).map((g) => highestPassed(g?.bests)));
+    rows.push({ key: 'legend', icon: 'crown', text: tr('Défi Légende du jour', 'Daily Legend challenge'), meta: tr(`niveau 40 · ${Math.min(best, 40)}/40`, `level 40 · ${Math.min(best, 40)}/40`) });
+  }
   const aura = AURAS.find((a) => a.level > rank.level);
   if (aura && rank.level >= 50) rows.push({ key: 'aura', icon: 'spark', text: localized(aura.name), meta: tr(`niveau ${aura.level}`, `level ${aura.level}`) });
   if (theme) rows.push({ key: 'theme', icon: 'sun', text: tr(`Thème ${themeName(theme.id)}`, `${themeName(theme.id)} theme`), meta: tr(`niveau ${theme.unlock.level}`, `level ${theme.unlock.level}`) });

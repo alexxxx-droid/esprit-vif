@@ -9,7 +9,10 @@ import { suggestGame } from '../../core/stats';
 import type { GameId } from '../../core/types';
 import { characterName } from '../../core/characters';
 import { challengeProgress, SEASON_PLAYS, seasonPlays, WEEKLY_XP, weeklyChallenge } from '../../core/events';
-import { dailyObjectives, OBJECTIVE_SPARKS, OBJECTIVE_XP, objectiveLabel } from '../../core/objectives';
+import { dailyObjectives, OBJECTIVE_SPARKS, OBJECTIVE_XP, objectiveLabel, SPARKS } from '../../core/objectives';
+import { legendBest, legendChallenge } from '../../core/legend';
+import { isMastery, masteryName } from '../../core/levels';
+import { XP_BONUS } from '../../core/progression';
 import { gameLevel, officialTests, testInProgress, type TestRecord } from '../../store/progress';
 import { profileName } from '../../store/profiles';
 import { GameArt } from '../components/GameArt';
@@ -192,6 +195,7 @@ function Home() {
         </div>
 
         <ObjectivesCard />
+        <LegendCard />
       </div>
 
       <div className="home__side">
@@ -382,6 +386,46 @@ function ObjectivesCard() {
         </span>
       </button>
     </section>
+  );
+}
+
+/** Le Défi Légende du jour, pour les joueurs qui ont ouvert un palier Légende. */
+function LegendCard() {
+  const data = useProgress();
+  const today = useToday();
+  const challenge = useMemo(() => legendChallenge(today, data.plays), [today, data.plays]);
+  if (!challenge) return null;
+  const meta = GAMES[challenge.gameId];
+  const best = legendBest(data.plays, today);
+  return (
+    <button type="button" className="legend-card" onClick={() => navigate({ name: 'legend' })}>
+      <span className="legend-card__kicker">
+        <Icon name="crown" size={16} />
+        {tr('Défi Légende du jour', 'Daily Legend challenge')}
+      </span>
+      <span className="legend-card__body">
+        <GameArt gameId={challenge.gameId} size={48} />
+        <span className="legend-card__text">
+          <span className="legend-card__name">{meta.name}</span>
+          <span className="legend-card__level">{isMastery(challenge.level) ? masteryName(challenge.level) : tr(`Niveau ${challenge.level}`, `Level ${challenge.level}`)}</span>
+        </span>
+        <span className="legend-card__score">
+          {best === null ? (
+            <small>{tr(`+${SPARKS.legende} ✦ · +${XP_BONUS.legende} XP`, `+${SPARKS.legende} ✦ · +${XP_BONUS.legende} XP`)}</small>
+          ) : (
+            <>
+              <strong>{best}</strong>
+              <small>{tr('ton meilleur', 'your best')}</small>
+            </>
+          )}
+        </span>
+      </span>
+      <span className="legend-card__foot">
+        {best === null
+          ? tr('La même partie pour toute la journée : à toi de jouer.', 'The same game all day long: your move.')
+          : tr('Récompense reçue. Tu peux retenter pour battre ton score.', 'Reward collected. Try again to beat your score.')}
+      </span>
+    </button>
   );
 }
 

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import { dailyGames, dailySeed } from '../../core/daily';
+import { legendChallenge } from '../../core/legend';
 import { DAILY_POOL, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { isMastery, masteryName, TOP_LEVEL } from '../../core/levels';
@@ -139,6 +140,48 @@ export function DailyTestScreen() {
           </button>
         )
       }
+      onQuit={quit}
+    />
+  );
+}
+
+/**
+ * Le Défi Légende du jour : la même partie toute la journée, au plus haut niveau ouvert du jeu choisi.
+ * On peut la rejouer pour battre son meilleur score ; les récompenses du défi ne comptent qu'une fois.
+ */
+export function LegendScreen() {
+  const data = useProgress();
+  const store = useStore();
+  const today = useToday();
+  const challenge = useMemo(() => legendChallenge(today, data.plays), [today, data.plays]);
+  const quit = useCallback(() => navigate({ name: 'home' }, { replace: true }), []);
+
+  useEffect(() => {
+    if (!challenge) navigate({ name: 'home' }, { replace: true });
+  }, [challenge]);
+
+  if (!challenge) return null;
+  const meta = GAMES[challenge.gameId];
+  return (
+    <GameRunner
+      key={challenge.gameId}
+      meta={meta}
+      level={challenge.level}
+      mode="legende"
+      fixedSeed={challenge.seed}
+      badge={tr('Défi Légende du jour', 'Daily Legend challenge')}
+      save={(outcome, run) => store.recordPlay({ gameId: challenge.gameId, level: run.level, mode: 'legende', seed: run.seed, outcome })}
+      actions={({ replay }) => (
+        <>
+          <button type="button" className="btn btn--primary btn--lg" onClick={() => replay()} autoFocus>
+            <Icon name="replay" />
+            {tr('Retenter le défi', 'Try the challenge again')}
+          </button>
+          <button type="button" className="btn btn--lg btn--ghost" onClick={quit}>
+            {tr('Terminer', 'Finish')}
+          </button>
+        </>
+      )}
       onQuit={quit}
     />
   );

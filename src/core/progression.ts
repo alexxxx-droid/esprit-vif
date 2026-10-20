@@ -3,6 +3,7 @@ import { SEASON_PLAYS, SEASONS, seasonPlays, WEEKLY_XP, weekliesDone, type Seaso
 import { DOMAIN_ORDER, GAME_ORDER, gamesOfDomain } from './games/registry';
 import { localized, tr, type Translations } from './lang';
 import { MAX_LEVEL, masteryRank, passScore, starsFor, TOP_LEVEL } from './levels';
+import { legendDays } from './legend';
 import { OBJECTIVE_XP, objectivesDone, sparksEarned, type DailyObjective } from './objectives';
 import type { GameId } from './types';
 
@@ -18,6 +19,7 @@ export interface ProgressionPlay {
   /** Horodatage ISO. */
   at: string;
   day: string;
+  mode?: string;
 }
 
 export interface ProgressionTest {
@@ -140,7 +142,7 @@ export function medalRank(medal: Medal | null): number {
 
 // ---------- XP et rang ----------
 
-export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP, objective: OBJECTIVE_XP };
+export const XP_BONUS = { test: 40, star: 10, session: 30, marathon: 30, duel: 10, challenge: 20, weekly: WEEKLY_XP, objective: OBJECTIVE_XP, legende: 25 };
 
 /** XP d'une partie : de 5 à 50 selon le score, plus 5 % par niveau, plafonné au niveau 30 (×2,45). */
 export function playXp(score: number, level: number): number {
@@ -165,6 +167,7 @@ export function totalXp(input: ProgressionInput): number {
   xp += input.challenges * XP_BONUS.challenge;
   xp += weekliesDone(input.plays, input.sessions) * XP_BONUS.weekly;
   xp += objectivesDone(input.plays, input.tests).length * XP_BONUS.objective;
+  xp += legendDays(input.plays).size * XP_BONUS.legende;
   return xp;
 }
 

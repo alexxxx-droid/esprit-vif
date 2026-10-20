@@ -75,6 +75,12 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   infini, éternel, puis « Esprit éternel II, III… »), 20 étincelles par niveau au-delà de 50
   (`levelSparks`), et trois auras pour Vif aux niveaux 60, 75 et 100 (argent, or, arc-en-ciel), à
   choisir au vestiaire.
+- **Défi Légende du jour** (`src/core/legend.ts`, `#/legende`) : ouvert quand un jeu atteint le palier
+  Légende (niveau 41). Chaque jour, un des jeux du joueur de niveau Expert ou plus (21+), à son plus haut
+  niveau ouvert, maîtrise comprise, avec la même graine toute la journée. Tout se calcule sur les parties
+  d'avant la journée : le défi ne change pas si l'on progresse dans la journée. On peut le retenter ; la
+  première partie du jour rapporte 15 étincelles et 25 XP (une seule fois), le meilleur score du jour
+  s'affiche sur l'accueil. Le niveau du jeu ne bouge pas (comme au test du jour).
 
 ## Premium à vie (v2.9, décision d'Alex du 20-10-2026)
 

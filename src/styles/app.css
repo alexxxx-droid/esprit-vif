@@ -6161,3 +6161,90 @@
   background: linear-gradient(135deg, #7fd3ff, #e3f6ff 50%, #b98cff);
   color: #12122a;
 }
+
+/* ---------- Défi Légende du jour ---------- */
+
+.legend-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-l);
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #f2b51d, #ffe17a 45%, #b98cff) border-box;
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  text-align: left;
+}
+
+.legend-card__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #b07800;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.legend-card__body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.legend-card__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.legend-card__name {
+  font-size: 1.05rem;
+  font-weight: 750;
+}
+
+.legend-card__level {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.legend-card__score {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  font-variant-numeric: tabular-nums;
+}
+
+.legend-card__score strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.legend-card__score small {
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.legend-card__foot {
+  color: var(--ink-3);
+  font-size: 0.82rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .legend-card__kicker {
+    color: #ffd36e;
+  }
+}
+
+:root[data-theme='dark'] .legend-card__kicker {
+  color: #ffd36e;
+}

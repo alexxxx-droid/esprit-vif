@@ -333,7 +333,7 @@ export class ProgressStore {
     const bests = record
       ? { ...progress.bests, [level]: { score: play.score, headline: play.headline, day: play.day } }
       : progress.bests;
-    // Seul l'entraînement libre fait bouger le niveau : le test du jour reste à niveau fixe.
+    // Seul l'entraînement libre fait bouger le niveau : le test du jour et le Défi Légende restent à niveau fixe.
     const unlocked = Math.max(unlockedLevel(bests), progress.start ?? 1);
     const nextLevel = input.mode === 'free' ? Math.min(adaptLevel(level, play.score, meta.maxLevel), unlocked) : progress.level;
     const updated: GameProgress = { level: nextLevel, bests, ...(progress.start ? { start: progress.start } : {}) };

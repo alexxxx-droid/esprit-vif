@@ -1,5 +1,6 @@
 import { addDays } from './daily';
 import { weekliesDone } from './events';
+import { legendDays } from './legend';
 import { DOMAIN_ORDER, DOMAINS, GAME_ORDER, GAMES } from './games/registry';
 import { tr } from './lang';
 import { starsFor } from './levels';
@@ -18,6 +19,7 @@ export interface HistoryPlay {
   /** Horodatage ISO. */
   at: string;
   day: string;
+  mode?: string;
 }
 
 export interface HistoryTest {
@@ -257,6 +259,8 @@ export const SPARKS = {
   test: 10,
   objective: OBJECTIVE_SPARKS,
   weekly: 20,
+  /** Défi Légende : la première partie de la journée. */
+  legende: 15,
 } as const;
 
 /** Étincelles d'une partie : de 1 à 5 selon le score. */
@@ -279,5 +283,6 @@ export function sparksEarned({ plays, tests, sessions }: SparksInput): number {
   total += officialDays(tests).size * SPARKS.test;
   total += objectivesDone(plays, tests).length * SPARKS.objective;
   total += weekliesDone(plays, sessions) * SPARKS.weekly;
+  total += legendDays(plays).size * SPARKS.legende;
   return total;
 }

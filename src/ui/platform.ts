@@ -51,6 +51,8 @@ export interface Platform {
   updateWidget?: (summary: WidgetSummary) => Promise<void>;
   /** Propose d'ajouter le widget ; faux si le téléphone ne sait pas le faire depuis l'appli. */
   pinWidget?: () => Promise<boolean>;
+  /** Jeton Google pour le Drive, par le module natif (appli Android). Absent sur le web. */
+  googleToken?: (interactive: boolean) => Promise<{ token: string; expiresIn: number }>;
 }
 
 function download(name: string, blob: Blob) {

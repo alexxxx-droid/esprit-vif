@@ -47,6 +47,8 @@ repositories {
 }
 
 dependencies {
+    // Sauvegarde Google Drive : autorisation par les services Google du téléphone.
+    implementation 'com.google.android.gms:play-services-auth:21.3.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"

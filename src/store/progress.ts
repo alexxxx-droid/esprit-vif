@@ -89,6 +89,14 @@ export interface Settings {
   handwriting: boolean;
   /** Langue de l'interface (« auto » : celle du téléphone). */
   language: LangChoice;
+  /** Sauvegarde Google Drive (facultative) : liée ou non, le compte, la dernière synchro (ISO). */
+  cloud: CloudLink;
+}
+
+export interface CloudLink {
+  linked: boolean;
+  email: string;
+  lastSync: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -112,6 +120,7 @@ export const DEFAULT_SETTINGS: Settings = {
   seasonal: true,
   handwriting: false,
   language: 'auto',
+  cloud: { linked: false, email: '', lastSync: '' },
 };
 
 export interface MarathonRecord {
@@ -411,6 +420,12 @@ export class ProgressStore {
     );
   }
 
+  /** Remplace la progression par sa version fusionnée avec celle du Drive (synchronisation). */
+  async replaceData(next: ProgressData): Promise<void> {
+    await this.storage.replaceAll(toStored(next));
+    this.commit(next);
+  }
+
   /** Remplace toute la progression par une sauvegarde exportée auparavant. */
   async importJson(text: string): Promise<void> {
     const next = parseBackup(text);
@@ -503,6 +518,8 @@ function normalize(raw: StoredData): ProgressData {
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
   if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
+  const cloud: Record<string, unknown> = isObject(settings.cloud) ? settings.cloud : {};
+  settings.cloud = { linked: cloud.linked === true, email: typeof cloud.email === 'string' ? cloud.email : '', lastSync: typeof cloud.lastSync === 'string' ? cloud.lastSync : '' };
   const games: Partial<Record<GameId, GameProgress>> = {};
   if (isObject(raw.kv.games)) {
     for (const [id, value] of Object.entries(raw.kv.games)) {

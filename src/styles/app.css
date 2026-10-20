@@ -4125,3 +4125,40 @@
   font-size: 0.85em;
   font-weight: 650;
 }
+
+.medal--diamant .medal__disc {
+  background: linear-gradient(135deg, #e9e4ff, #9b8cff 45%, #6fd6ff 80%, #f4fbff);
+}
+
+.medal--legende .medal__disc {
+  background: linear-gradient(135deg, #2b1d63, #4b39ef 45%, #f2b51d 100%);
+  color: #fff6d8;
+}
+
+/* ---------- Sauvegarde Google Drive ---------- */
+
+.cloud-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 4px 0 10px;
+}
+
+.cloud-status > svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--good);
+}
+
+.cloud-status span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cloud-status small {
+  color: var(--ink-3);
+  font-size: 0.85rem;
+}

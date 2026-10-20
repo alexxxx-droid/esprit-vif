@@ -1,12 +1,15 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { dayKey, hasOfficialTest } from '../../core/daily';
+import { formatTime } from '../../core/format';
 import { DOMAIN_ORDER, GAMES } from '../../core/games/registry';
 import { resolveLang, tr, type LangChoice } from '../../core/lang';
 import type { TextSize, ThemeChoice } from '../../store/progress';
+import { cloudConfigured, revokeAccess } from '../../sync/google';
 import { profileName } from '../../store/profiles';
 import { ConfirmDialog, DomainBadge, ScreenHeader, Toggle } from '../components/bits';
 import { Icon, type IconName } from '../components/Icon';
 import { CharacterPicker, ColorPicker, PlayersDialog, ProfileAvatar } from '../components/Players';
+import { syncProgress, useCloudPhase } from '../cloud';
 import { hapticsSupported } from '../fx/haptics';
 import { GOAL_LABELS, MAX_GOALS, toggleGoal } from '../goals';
 import { voiceSupported } from '../fx/voice';
@@ -409,9 +412,16 @@ export function SettingsScreen() {
         </Section>
       )}
 
+      <CloudSection say={say} />
+
       <Section title={tr('Mes données', 'My data')}>
         <p className="hint">
-          {tr('Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.', 'Everything stays on this device. Export a backup to keep it safe or move it.')}
+          {settings.cloud.linked && cloudConfigured()
+            ? tr(
+                'Ta progression est sur cet appareil et sur ton Google Drive. Tu peux aussi l’exporter ou la transférer.',
+                'Your progress is on this device and on your Google Drive. You can also export or transfer it.',
+              )
+            : tr('Tout reste sur cet appareil. Exporte une sauvegarde pour la garder ou la transférer.', 'Everything stays on this device. Export a backup to keep it safe or move it.')}
         </p>
         <div className="data-actions">
           <ActionRow icon="share" label={tr('Transférer vers un autre appareil (QR code)', 'Transfer to another device (QR code)')} onClick={() => navigate({ name: 'transfer' })} />
@@ -484,6 +494,77 @@ export function SettingsScreen() {
         </p>
       )}
     </div>
+  );
+}
+
+/** Sauvegarde Google Drive, facultative : montrée seulement si l'appli a son identifiant Google. */
+function CloudSection({ say }: { say: (text: string) => void }) {
+  const store = useStore();
+  const manager = useProfileManager();
+  const { settings } = useProgress();
+  const phase = useCloudPhase();
+  const [busy, setBusy] = useState(false);
+  if (!cloudConfigured()) return null;
+  const { cloud } = settings;
+
+  const connect = async () => {
+    setBusy(true);
+    const result = await syncProgress(store, manager, true);
+    setBusy(false);
+    if (!result) say(tr('Connexion à Google impossible pour le moment.', 'Couldn’t reach Google right now.'));
+    else if (!cloud.linked)
+      say(result.changedLocal ? tr('Progression récupérée depuis ton Drive.', 'Progress restored from your Drive.') : tr('Sauvegarde Drive activée.', 'Drive backup is on.'));
+  };
+
+  const disconnect = async () => {
+    await revokeAccess();
+    await store.updateSettings({ cloud: { linked: false, email: '', lastSync: '' } });
+    say(tr('Sauvegarde Drive arrêtée sur cet appareil : ta progression reste ici.', 'Drive backup stopped on this device: your progress stays here.'));
+  };
+
+  const last = cloud.lastSync ? new Date(cloud.lastSync) : null;
+  const status =
+    phase === 'syncing' || busy
+      ? tr('Synchronisation…', 'Syncing…')
+      : phase === 'paused'
+        ? tr('En pause : touche « Synchroniser maintenant ».', 'Paused: tap “Sync now”.')
+        : phase === 'error'
+          ? tr('Pas de réseau : nouvel essai à la prochaine partie.', 'No connection: will retry after your next game.')
+          : last
+            ? tr(`Synchronisé à ${formatTime(last)}`, `Synced at ${formatTime(last)}`)
+            : '';
+
+  return (
+    <Section title={tr('Sauvegarde Google Drive', 'Google Drive backup')}>
+      {cloud.linked ? (
+        <>
+          <p className="cloud-status">
+            <Icon name="cloud" />
+            <span>
+              {tr('Connecté à ', 'Connected to ')}
+              <strong>{cloud.email || 'Google'}</strong>
+              {status && <small>{status}</small>}
+            </span>
+          </p>
+          <div className="data-actions">
+            <ActionRow icon="replay" label={tr('Synchroniser maintenant', 'Sync now')} onClick={() => void connect()} />
+            <ActionRow icon="close" label={tr('Arrêter la sauvegarde Drive', 'Stop Drive backup')} onClick={() => void disconnect()} />
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="hint">
+            {tr(
+              'Retrouve ta progression sur ta tablette ou un nouveau téléphone. Elle est rangée dans un dossier caché de ton Google Drive, que toi seul vois. Facultatif, sans publicité ni pistage.',
+              'Pick up your progress on your tablet or a new phone. It is kept in a hidden folder of your Google Drive that only you can see. Optional, no ads, no tracking.',
+            )}
+          </p>
+          <div className="data-actions">
+            <ActionRow icon="cloud" label={busy ? tr('Connexion…', 'Connecting…') : tr('Se connecter avec Google', 'Sign in with Google')} onClick={() => void connect()} />
+          </div>
+        </>
+      )}
+    </Section>
   );
 }
 

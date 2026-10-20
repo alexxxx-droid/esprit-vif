@@ -9,6 +9,8 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         // Module maison : le widget d'écran d'accueil (enregistré avant super.onCreate, comme le veut Capacitor).
         registerPlugin(WidgetBridge.class);
+        // Module maison : la sauvegarde Google Drive (jeton par les services Google du téléphone).
+        registerPlugin(GoogleDrivePlugin.class);
         super.onCreate(savedInstanceState);
     }
 }

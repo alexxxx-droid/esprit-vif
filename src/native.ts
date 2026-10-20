@@ -1,6 +1,7 @@
 import { App } from '@capacitor/app';
 import { registerPlugin } from '@capacitor/core';
 import { tr } from './core/lang';
+import { NeedsConsent } from './sync/google';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -96,6 +97,23 @@ interface WidgetBridgePlugin {
 
 const WidgetBridge = registerPlugin<WidgetBridgePlugin>('WidgetBridge');
 
+/** La sauvegarde Google Drive : un jeton par les services Google du téléphone (android/…/GoogleDrivePlugin.java). */
+interface GoogleDrivePluginApi {
+  authorize(options: { interactive: boolean }): Promise<{ token: string; expiresIn: number }>;
+}
+
+const GoogleDrive = registerPlugin<GoogleDrivePluginApi>('GoogleDrive');
+
+async function googleToken(interactive: boolean) {
+  try {
+    return await GoogleDrive.authorize({ interactive });
+  } catch (error) {
+    // Accord à demander (ou refusé) : la synchro attend que le joueur touche « Synchroniser ».
+    if ((error as { code?: string }).code === 'NEEDS_CONSENT') throw new NeedsConsent('accord');
+    throw error;
+  }
+}
+
 async function updateWidget(summary: WidgetSummary) {
   await WidgetBridge.update(summary).catch(() => undefined);
 }
@@ -122,7 +140,7 @@ function vibrate(kind: HapticKind) {
 }
 
 export async function setupNative() {
-  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder, updateWidget, pinWidget });
+  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder, updateWidget, pinWidget, googleToken });
   setNativeHaptics(vibrate);
   // Retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
   const launch = await App.getLaunchUrl().catch(() => undefined);

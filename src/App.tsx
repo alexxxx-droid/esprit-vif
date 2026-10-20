@@ -13,6 +13,7 @@ import { setEffectsVolume, setSoundEnabled } from './ui/fx/sound';
 import { MOTION_EVENT, useToday } from './ui/hooks';
 import { platform } from './ui/platform';
 import { setGenerousTime } from './ui/tempo';
+import { useCloudSync } from './ui/cloud';
 import { useProfiles } from './ui/profiles-context';
 import { useProgress, useStore } from './ui/progress-context';
 import { routeHash, useRoute, type Route } from './ui/router';
@@ -161,6 +162,7 @@ export function App() {
   useReminderSync(settings, hasOfficialTest(tests, today));
   useSessionAutoComplete(plays, extras.sessions, settings.goals, today);
   useWidgetSync(plays, tests, today);
+  useCloudSync();
   const tabbed = TABBED.includes(route.name);
   const key = routeHash(route);
 

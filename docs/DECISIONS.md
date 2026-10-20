@@ -290,6 +290,26 @@ Changer de téléphone, ou passer du site à l'appli, sans compte ni serveur (`s
 - Vérifié : bout en bout avec une caméra simulée qui filme les codes de l'autre appareil (5 s
   pour 12 images, avec des images ratées), copier-coller, autorisation et caméra dans l'APK.
 
+## Sauvegarde Google Drive (décision d'Alex, 20-10-2026)
+
+Le cahier des charges disait « Pas de backend, pas de compte ». Alex a choisi d'ajouter une
+sauvegarde par compte Google pour passer du téléphone à la tablette ; version retenue, qui garde
+l'esprit de la règle :
+
+- **Facultative** et **sans serveur à nous** : l'appli parle directement à l'API du Drive avec le
+  jeton du joueur ; rien n'est collecté, rien n'est visible par le développeur.
+- **Un seul droit**, `drive.appdata` : le dossier caché de l'appli sur le Drive du joueur, jamais
+  ses fichiers.
+- **Fusion sans perte** (`src/store/merge.ts`) : parties et tests réunis par identifiant, meilleur
+  niveau et meilleurs scores par jeu, compteurs au maximum ; commutative et idempotente (deux
+  synchros de suite ne réécrivent rien). Les réglages restent ceux de l'appareil.
+- **Quand** : à l'ouverture, 4 s après une partie, en quittant ; une seule à la fois.
+- **Connexion** : Google Identity Services sur le site (chargé seulement si le joueur s'en sert),
+  un module natif dans l'APK (`GoogleDrivePlugin.java`, services Google du téléphone), car Google
+  interdit sa page de connexion dans une vue web.
+- Masquée tant que l'identifiant OAuth n'est pas configuré (`VITE_GOOGLE_CLIENT_ID`, voir
+  `docs/GOOGLE_DRIVE.md`). Vérifiée avec un faux Drive (tests et robot), pas encore avec Google.
+
 ## Rappel quotidien
 
 Sans serveur, une PWA ne peut pas déclencher une notification à heure fixe de façon fiable.

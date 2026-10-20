@@ -1,4 +1,4 @@
-import { lang, locale } from './lang';
+import { lang, locale, type Lang } from './lang';
 
 /** Espace insécable : l'unité ne se retrouve jamais seule en début de ligne. */
 export const NBSP = String.fromCharCode(0xa0);
@@ -78,7 +78,10 @@ export function formatWeekdayInitial(day: string): string {
   return formats().weekdayNarrow.format(fromDayKey(day));
 }
 
-const SHORT_DAYS = { fr: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'], en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] };
+const SHORT_DAYS: Record<Lang, string[]> = {
+  fr: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+  en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+};
 
 /** « 2026-10-19 » → « Lu » : deux lettres, sans confondre mardi et mercredi. */
 export function formatWeekdayShort(day: string): string {
@@ -88,6 +91,11 @@ export function formatWeekdayShort(day: string): string {
 /** « 2026-10-19 » → « lundi 19 ». */
 export function formatWeekday(day: string): string {
   return formats().weekdayLong.format(fromDayKey(day));
+}
+
+/** Une heure, à la façon de la langue en cours : « 10:42 » (« 10:42 AM » en anglais). */
+export function formatTime(date: Date): string {
+  return new Intl.DateTimeFormat(locale(), { hour: '2-digit', minute: '2-digit' }).format(date);
 }
 
 /** « 2026-10-19 » → « octobre 2026 ». */

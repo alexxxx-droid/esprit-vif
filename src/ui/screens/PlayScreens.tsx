@@ -17,7 +17,8 @@ export function PlayScreen({ gameId }: { gameId: GameId }) {
   const store = useStore();
   const meta = GAMES[gameId];
   const unlocked = gameUnlocked(data, gameId);
-  const quit = useCallback(() => navigate({ name: 'training' }, { replace: true }), []);
+  // Après une partie, on revient à la page du thème du jeu.
+  const quit = useCallback(() => navigate({ name: 'training', domain: meta.domain }, { replace: true }), [meta.domain]);
   return (
     <GameRunner
       key={gameId}

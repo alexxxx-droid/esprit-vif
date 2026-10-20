@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { domainProfile, suggestGame, type ScoredPlay } from './stats';
+import { domainMastery, domainProfile, suggestGame, type ScoredPlay } from './stats';
 
 const play = (gameId: ScoredPlay['gameId'], score: number, at: string): ScoredPlay => ({ gameId, score, at });
 
@@ -36,5 +36,23 @@ describe('suggestGame', () => {
     expect(suggestGame([...plays, play('calcul', 30, '2026-10-02T10:00:00Z')], ['calcul', 'stroop', 'schulte'])).toBe(
       'schulte',
     );
+  });
+});
+
+describe('domainMastery', () => {
+  it('monte avec les niveaux, pas avec un seul bon score', () => {
+    expect(domainMastery({ sudoku: { 1: { score: 100 } } }).logique).toBe(14);
+    expect(domainMastery({ sudoku: { 10: { score: 100 } } }).logique).toBe(45);
+    expect(domainMastery({ sudoku: { 20: { score: 100 } } }).logique).toBe(63);
+    expect(domainMastery({ sudoku: { 35: { score: 100 } } }).logique).toBe(84);
+    expect(domainMastery({ sudoku: { 50: { score: 100 } } }).logique).toBe(100);
+  });
+
+  it('prend le meilleur point de chaque jeu et la moyenne des jeux joués du domaine', () => {
+    const m = domainMastery({ sudoku: { 1: { score: 100 }, 2: { score: 40 } }, balance: { 1: { score: 100 } }, calcul: {} });
+    // Sudoku : niveau 2 à 40 → (1 + 0,4) / 50 ; Balance : niveau 1 réussi → 1 / 50.
+    expect(m.logique).toBe(Math.round(100 * Math.sqrt((1.4 / 50 + 1 / 50) / 2)));
+    expect(m.calcul).toBeNull();
+    expect(m.memoire).toBeNull();
   });
 });

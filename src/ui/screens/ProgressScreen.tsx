@@ -6,8 +6,8 @@ import { localized, tr } from '../../core/lang';
 import { MEDAL_NAMES, MEDAL_ORDER, MEDAL_RULES, medalFor } from '../../core/progression';
 import { seasonOf, SEASONS } from '../../core/events';
 import { insights } from '../../core/insights';
-import { domainProfile } from '../../core/stats';
-import { bestOverall, gameUnlocked, officialTests } from '../../store/progress';
+import { domainMastery } from '../../core/stats';
+import { bestOverall, gameUnlocked, officialTests, progressionInput } from '../../store/progress';
 import { BrainAgeChart } from '../components/BrainAgeChart';
 import { BrainMap } from '../components/BrainMap';
 import { DomainBadge, ScreenHeader } from '../components/bits';
@@ -62,7 +62,7 @@ export function ProgressScreen() {
     .slice(-30)
     .filter((t) => t.brainAge !== undefined)
     .map((t) => ({ day: t.day, age: t.brainAge as number }));
-  const profile = domainProfile(data.plays);
+  const profile = domainMastery(progressionInput(data).bests);
   const { rank, stars, trophies } = useProgression();
   const medals = GAME_ORDER.map((id) => medalFor(data.games[id]?.bests));
   const trophiesWon = trophies.filter((t) => t.unlocked).length;
@@ -174,7 +174,7 @@ export function ProgressScreen() {
               {tr('Carte du cerveau', 'Brain map')}
             </h2>
             <p className="card__sub">
-              {tr('Tes points forts d’un coup d’œil (moyenne des 5 dernières parties)', 'Your strengths at a glance (average of your last 5 games)')}
+              {tr('Ta maîtrise de chaque domaine : elle grandit avec les niveaux réussis', 'Your mastery of each area: it grows as you clear levels')}
             </p>
             <BrainMap profile={profile} />
           </section>
@@ -183,7 +183,7 @@ export function ProgressScreen() {
             <h2 className="section-title" id="domains-title">
               {tr('Par domaine', 'By area')}
             </h2>
-            <p className="card__sub">{tr('Moyenne de tes 5 dernières parties', 'Average of your last 5 games')}</p>
+            <p className="card__sub">{tr('Sur 100 : 100, c’est le niveau 50 réussi sans faute', 'Out of 100: 100 means level 50 cleared perfectly')}</p>
             <ul className="score-bars score-bars--profile">
               {DOMAIN_ORDER.map((domain) => {
                 const value = profile[domain];

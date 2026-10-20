@@ -39,7 +39,7 @@ function Screen({ route }: { route: Route }) {
     case 'progress':
       return <ProgressScreen />;
     case 'training':
-      return <TrainingScreen />;
+      return <TrainingScreen domain={route.domain} />;
     case 'settings':
       return <SettingsScreen />;
     case 'play':

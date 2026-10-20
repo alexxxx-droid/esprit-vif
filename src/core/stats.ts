@@ -1,4 +1,6 @@
 import { DOMAIN_ORDER, GAMES } from './games/registry';
+import { MAX_LEVEL } from './levels';
+import type { LevelBests } from './progression';
 import type { Domain, GameId } from './types';
 
 export interface ScoredPlay {
@@ -19,6 +21,26 @@ export function domainProfile(plays: readonly ScoredPlay[], count = 5): Record<D
       : null;
   }
   return profile;
+}
+
+/**
+ * Maîtrise de chaque domaine, de 0 à 100 (carte du cerveau) : elle monte avec les niveaux réussis, pas avec
+ * un seul bon score. Pour chaque jeu joué, le meilleur point atteint (niveau − 1 + score du niveau / 100, sur 50) ;
+ * la moyenne des jeux joués du domaine passe par une racine pour que les premiers progrès se voient :
+ * niveau 1 réussi ≈ 14, niveau 10 ≈ 45, niveau 20 ≈ 63, niveau 35 ≈ 84, niveau 50 parfait = 100.
+ * null pour un domaine dont aucun jeu n'a été joué.
+ */
+export function domainMastery(bests: Partial<Record<GameId, LevelBests>>): Record<Domain, number | null> {
+  const reach = (levels: LevelBests): number =>
+    Math.max(0, ...Object.entries(levels).map(([level, best]) => (Number(level) - 1 + Math.min(100, best.score) / 100) / MAX_LEVEL));
+  const mastery = {} as Record<Domain, number | null>;
+  for (const domain of DOMAIN_ORDER) {
+    const played = Object.entries(bests)
+      .filter(([id, levels]) => GAMES[id as GameId]?.domain === domain && levels && Object.keys(levels).length > 0)
+      .map(([, levels]) => reach(levels as LevelBests));
+    mastery[domain] = played.length ? Math.round(100 * Math.sqrt(Math.min(1, played.reduce((sum, v) => sum + v, 0) / played.length))) : null;
+  }
+  return mastery;
 }
 
 /**

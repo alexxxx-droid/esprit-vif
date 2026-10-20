@@ -3905,6 +3905,118 @@
 }
 
 /* Tuile large : les défis entre amies, sous les quatre modes. */
+/* Entraînement : un bouton par thème ; les jeux sont sur la page du thème. */
+.themes {
+  display: grid;
+  gap: 12px;
+}
+
+.themes__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (min-width: 700px) {
+  .themes__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.theme-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-height: 150px;
+  padding: 14px 12px 12px;
+  border: 0;
+  border-radius: var(--radius-l);
+  background: linear-gradient(160deg, color-mix(in oklab, var(--tile) 18%, var(--surface)) 0%, var(--surface) 75%);
+  box-shadow: var(--shadow-1);
+  color: var(--ink);
+  text-align: left;
+  transition: transform 140ms var(--ease-out);
+}
+
+.theme-tile:active {
+  transform: scale(0.97);
+}
+
+.theme-tile .domain-badge {
+  margin-bottom: 8px;
+}
+
+.theme-tile__name {
+  font-size: 1.08rem;
+  font-weight: 780;
+}
+
+.theme-tile__tag {
+  color: var(--ink-2);
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.theme-tile__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--ink-2);
+  font-size: 0.82rem;
+  font-weight: 680;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme-tile__meta svg {
+  color: var(--star, #f2b632);
+}
+
+.theme-tile__new {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
+.theme-tile--calcul {
+  --tile: var(--d-calcul);
+}
+.theme-tile--memoire {
+  --tile: var(--d-memoire);
+}
+.theme-tile--attention {
+  --tile: var(--d-attention);
+}
+.theme-tile--vitesse {
+  --tile: var(--d-vitesse);
+}
+.theme-tile--langage {
+  --tile: var(--d-langage);
+}
+.theme-tile--logique {
+  --tile: var(--d-logique);
+}
+
+.theme-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.theme-head .screen-title {
+  font-size: 1.6rem;
+}
+
 .mode-tile--wide {
   grid-column: 1 / -1;
   flex-direction: row;

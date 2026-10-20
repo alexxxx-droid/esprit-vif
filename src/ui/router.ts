@@ -6,7 +6,7 @@ import type { Domain, GameId } from '../core/types';
 /** Routage par le fragment d'URL (#/…) : fonctionne tel quel sur GitHub Pages et dans l'APK. */
 export type Route =
   | { name: 'home' }
-  | { name: 'training' }
+  | { name: 'training'; domain?: Domain }
   | { name: 'progress' }
   | { name: 'settings' }
   | { name: 'play'; gameId: GameId }
@@ -32,7 +32,7 @@ export function parseHash(hash: string): Route {
     case undefined:
       return { name: 'home' };
     case 'entrainement':
-      return { name: 'training' };
+      return isDomain(arg) ? { name: 'training', domain: arg } : { name: 'training' };
     case 'progres':
       return { name: 'progress' };
     case 'reglages':
@@ -67,7 +67,7 @@ export function routeHash(route: Route): string {
     case 'home':
       return '#/';
     case 'training':
-      return '#/entrainement';
+      return route.domain ? `#/entrainement/${route.domain}` : '#/entrainement';
     case 'progress':
       return '#/progres';
     case 'settings':

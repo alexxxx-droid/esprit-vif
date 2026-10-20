@@ -14,7 +14,7 @@ function point(index: number, value: number): [number, number] {
 }
 
 /**
- * Carte du cerveau : un radar des 6 domaines (moyenne des 5 dernières parties).
+ * Carte du cerveau : un radar des 6 domaines (maîtrise, qui monte avec les niveaux réussis : `domainMastery`).
  * Chaque sommet porte son nom et sa valeur ; les barres « Par domaine » donnent les mêmes chiffres.
  */
 export function BrainMap({ profile }: { profile: Record<Domain, number | null> }) {

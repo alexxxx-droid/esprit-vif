@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { dailyGames, hasOfficialTest } from '../../core/daily';
+import { plural } from '../../core/format';
 import { DAILY_ROTATION, DOMAIN_ORDER, DOMAINS, durationFor, GAMES, gamesOfDomain, type GameMeta } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { MAX_LEVEL } from '../../core/levels';
 import { gameStars, medalFor } from '../../core/progression';
+import type { Domain } from '../../core/types';
 import { gameLevel, gameUnlocked } from '../../store/progress';
 import { DomainBadge, ScreenHeader } from '../components/bits';
 import { GameArt } from '../components/GameArt';
@@ -13,7 +15,8 @@ import { useToday } from '../hooks';
 import { useProgress, useStore } from '../progress-context';
 import { navigate } from '../router';
 
-export function TrainingScreen() {
+/** Entraînement : les thèmes et les modes de jeu ; avec `domain`, la page d'un thème et ses jeux. */
+export function TrainingScreen({ domain }: { domain?: Domain }) {
   const data = useProgress();
   const store = useStore();
   const today = useToday();
@@ -26,12 +29,25 @@ export function TrainingScreen() {
     navigate({ name: 'test' });
   };
 
+  if (domain) return <ThemeScreen domain={domain} />;
+
   return (
     <div className="screen screen-in">
       <ScreenHeader
         title={tr('Entraînement', 'Training')}
-        subtitle={tr('Chaque jeu a 20 niveaux : gagne des étoiles pour débloquer les suivants.', 'Each game has 20 levels: earn stars to unlock the next ones.')}
+        subtitle={tr('Chaque jeu a 50 niveaux : gagne des étoiles pour débloquer les suivants.', 'Each game has 50 levels: earn stars to unlock the next ones.')}
       />
+
+      <section className="themes" aria-labelledby="themes-title">
+        <h2 className="domain-section__title" id="themes-title">
+          {tr('Thèmes', 'Areas')}
+        </h2>
+        <div className="themes__grid">
+          {DOMAIN_ORDER.map((d) => (
+            <ThemeTile key={d} domain={d} />
+          ))}
+        </div>
+      </section>
 
       <section className="modes" aria-labelledby="modes-title">
         <h2 className="domain-section__title" id="modes-title">
@@ -84,25 +100,6 @@ export function TrainingScreen() {
         </div>
       </section>
 
-      {DOMAIN_ORDER.map((domain) => {
-        const games = gamesOfDomain(domain);
-        if (games.length === 0) return null;
-        return (
-          <section key={domain} className="domain-section" aria-labelledby={`domain-${domain}`}>
-            <h2 className="domain-section__title" id={`domain-${domain}`}>
-              <DomainBadge domain={domain} size={26} />
-              {DOMAINS[domain].name}
-            </h2>
-            <div className="game-grid">
-              {games.map((id, i) => (
-                // Un nombre impair de jeux : le dernier prend toute la largeur, plutôt qu'un trou.
-                <GameCard key={id} meta={GAMES[id]} wide={games.length % 2 === 1 && i === games.length - 1} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
-
       {doneToday && (
         <button type="button" className="card card--action" onClick={() => void retakeTest()} disabled={starting}>
           <span className="card__icon">
@@ -115,6 +112,82 @@ export function TrainingScreen() {
           <Icon name="arrow" />
         </button>
       )}
+    </div>
+  );
+}
+
+/** Ce qu'on travaille dans chaque thème, en quelques mots. */
+function themeTagline(domain: Domain): string {
+  switch (domain) {
+    case 'calcul':
+      return tr('Calcul mental et nombres', 'Mental math and numbers');
+    case 'memoire':
+      return tr('Retenir et se souvenir', 'Remember and recall');
+    case 'attention':
+      return tr('Rester concentré, déjouer les pièges', 'Stay focused, dodge the traps');
+    case 'vitesse':
+      return tr('Voir et réagir vite', 'See fast, react fast');
+    case 'langage':
+      return tr('Mots, lettres et lecture', 'Words, letters and reading');
+    case 'logique':
+      return tr('Raisonner et déduire', 'Reason and deduce');
+  }
+}
+
+/** Un bouton par thème : ses jeux, ses étoiles, et combien restent à découvrir. */
+function ThemeTile({ domain }: { domain: Domain }) {
+  const data = useProgress();
+  const games = gamesOfDomain(domain);
+  const stars = games.reduce((sum, id) => sum + gameStars(data.games[id]?.bests), 0);
+  const fresh = games.filter((id) => Object.keys(data.games[id]?.bests ?? {}).length === 0).length;
+  return (
+    <button type="button" className={`theme-tile theme-tile--${domain}`} onClick={() => navigate({ name: 'training', domain })}>
+      <DomainBadge domain={domain} size={44} />
+      <span className="theme-tile__name">{DOMAINS[domain].name}</span>
+      <span className="theme-tile__tag">{themeTagline(domain)}</span>
+      <span className="theme-tile__meta">
+        {tr(plural(games.length, 'jeu', 'jeux'), plural(games.length, 'game'))}
+        <span aria-hidden="true">·</span>
+        <Icon name="star" size={14} />
+        <span className="sr-only">{tr('étoiles\u00a0:', 'stars:')}</span>
+        {stars}
+      </span>
+      {fresh > 0 && <span className="theme-tile__new">{tr(`${fresh} à découvrir`, `${fresh} new`)}</span>}
+    </button>
+  );
+}
+
+/** La page d'un thème : ses jeux, et le marathon du thème. */
+function ThemeScreen({ domain }: { domain: Domain }) {
+  const games = gamesOfDomain(domain);
+  return (
+    <div className="screen screen-in">
+      <header className="theme-head">
+        <button type="button" className="icon-btn" onClick={() => navigate({ name: 'training' }, { replace: true })} aria-label={tr('Retour', 'Back')}>
+          <Icon name="back" />
+        </button>
+        <DomainBadge domain={domain} size={44} />
+        <div>
+          <h1 className="screen-title">{DOMAINS[domain].name}</h1>
+          <p className="screen-subtitle">{themeTagline(domain)}</p>
+        </div>
+      </header>
+      <div className="game-grid">
+        {games.map((id, i) => (
+          // Un nombre impair de jeux : le dernier prend toute la largeur, plutôt qu'un trou.
+          <GameCard key={id} meta={GAMES[id]} wide={games.length % 2 === 1 && i === games.length - 1} />
+        ))}
+      </div>
+      <button type="button" className="card card--action" onClick={() => navigate({ name: 'marathon', domain })}>
+        <span className="card__icon">
+          <Icon name="flame" />
+        </span>
+        <span className="card__text">
+          <span className="card__title">{tr(`Marathon ${DOMAINS[domain].name}`, `${DOMAINS[domain].name} marathon`)}</span>
+          <span className="card__sub">{tr('Tous les jeux du thème d’affilée', 'Every game of this area in a row')}</span>
+        </span>
+        <Icon name="arrow" />
+      </button>
     </div>
   );
 }

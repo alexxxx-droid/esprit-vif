@@ -9,7 +9,6 @@ import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { TapButton } from '../components/TapButton';
 import { fx } from '../fx/fx';
-import { useProfiles } from '../profiles-context';
 import type { GameProps } from '../game/chrome';
 import { GameHud } from '../game/Hud';
 import { slow } from '../tempo';
@@ -42,8 +41,6 @@ interface GridProps {
 }
 
 export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps) {
-  // Le compagnon du joueur marque le départ.
-  const { active } = useProfiles();
   // Grille plus haute que large aux niveaux avancés (7 colonnes au plus : des cases d'au moins 40 px).
   const cols = trial.size;
   const rows = trial.rows ?? trial.size;
@@ -70,7 +67,7 @@ export function ItiGrid({ trial, picked, showPath, disabled, onPick }: GridProps
               (rock ? tr(', rocher', ', rock') : '')
             }
           >
-            {start && <Mascot character={active.character} mood="happy" size={30} still />}
+            {start && <Mascot mood="happy" size={30} still />}
           </TapButton>
         );
       })}

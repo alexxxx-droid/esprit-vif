@@ -1,18 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { track } from '../../analytics/journal';
+import { PREMIUM_CHARACTERS } from '../../core/characters';
+import { dayKey } from '../../core/daily';
+import { formatMonth } from '../../core/format';
+import { GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
+import { monthlyReport } from '../../core/summary';
+import { THEMES, themeName, type ThemeId } from '../../core/themes';
+import type { GameId } from '../../core/types';
+import { HATS, hatName, type HatId } from '../../core/wardrobe';
 import type { TestBackend, TestScenario } from '../../premium/billing';
-import { premiumBenefits } from '../../premium/catalog';
 import type { Notice, PremiumState } from '../../premium/premium';
+import { GameArt } from '../components/GameArt';
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
+import { ScoreChart } from '../components/ScoreChart';
+import { SeasonDecor } from '../components/SeasonDecor';
+import { useReducedMotion } from '../hooks';
 import { premiumController, usePremiumState } from '../premium';
+import { useProgress } from '../progress-context';
 import { navigate } from '../router';
+import { setThemePreview, useThemePreview } from '../theme-preview';
 
 function close() {
   if (history.length > 1) history.back();
   else navigate({ name: 'settings' }, { replace: true });
 }
+
+const PREMIUM_THEMES = THEMES.filter((t) => t.unlock.kind === 'premium');
+const PREMIUM_HATS = HATS.filter((h) => h.premium).map((h) => h.id);
 
 const NOTICES: Record<Exclude<Notice, null>, { tone: 'good' | 'info' | 'bad'; text: () => string }> = {
   purchased: { tone: 'good', text: () => tr('Merci ! Premium est activé sur cet appareil.', 'Thank you! Premium is now active on this device.') },
@@ -37,47 +53,50 @@ const NOTICES: Record<Exclude<Notice, null>, { tone: 'good' | 'info' | 'bad'; te
   error: { tone: 'bad', text: () => tr('L’achat n’a pas abouti. Rien n’a été débité ; tu peux réessayer.', 'The purchase didn’t go through. You weren’t charged; you can try again.') },
 };
 
-/** Esprit Vif Premium : un achat unique, sobre, avec ce qu'il apporte vraiment et ce qui reste gratuit. */
-export function PremiumScreen() {
+/**
+ * Esprit Vif Premium : une vitrine où tout s'essaie (thèmes en direct, chapeaux sur Vif, compagnons),
+ * avec les vraies données du joueur en aperçu, puis un achat unique. Jamais ouvert tout seul.
+ */
+export function PremiumScreen({ focus }: { focus?: string }) {
   const state = usePremiumState();
   const controller = premiumController();
+  const preview = useThemePreview();
+  const [hat, setHat] = useState<HatId>(PREMIUM_HATS[0]);
 
   useEffect(() => {
-    track('premium_viewed');
-    return () => controller.dismissNotice();
-  }, [controller]);
+    track('premium_viewed', focus ? { focus } : undefined);
+    if (focus && PREMIUM_THEMES.some((t) => t.id === focus)) setThemePreview(focus as ThemeId);
+    return () => {
+      controller.dismissNotice();
+      // En quittant l'écran, le thème du joueur revient.
+      setThemePreview(null);
+    };
+  }, [controller, focus]);
 
   return (
     <div className="screen screen-in premium">
+      {preview === 'sakura' && <SeasonDecor decor="sakura" />}
       <header className="premium__top">
+        {preview && (
+          <p className="premium__preview-tag">
+            <Icon name="sun" size={16} />
+            {tr(`Aperçu : ${themeName(preview)}`, `Preview: ${themeName(preview)}`)}
+          </p>
+        )}
         <button type="button" className="icon-btn" onClick={close} aria-label={tr('Fermer', 'Close')}>
           <Icon name="close" />
         </button>
       </header>
 
-      <section className="premium__hero">
-        <Mascot mood={state.premium ? 'cheer' : 'hello'} size={96} hat={state.premium ? 'couronne' : undefined} />
-        <h1 className="premium__title">Esprit Vif Premium</h1>
-        <p className="premium__tagline">
-          {tr('Un seul achat, pour toujours. Pas d’abonnement, pas de publicité.', 'One purchase, forever. No subscription, no ads.')}
-        </p>
-      </section>
-
-      <ul className="premium__benefits">
-        {premiumBenefits().map((b) => (
-          <li key={b.id}>
-            <span className="premium__benefit-icon" aria-hidden="true">
-              <Icon name={b.icon} size={20} />
-            </span>
-            <span>
-              <strong>{b.title}</strong>
-              <span className="premium__benefit-text">{b.text}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
+      <Hero premium={state.premium} hat={hat} onHat={setHat} />
 
       <Purchase state={state} />
+
+      <ThemeShowcase premium={state.premium} />
+      <HatShowcase premium={state.premium} selected={hat} onSelect={setHat} />
+      <CompanionShowcase premium={state.premium} />
+      <HistoryTeaser premium={state.premium} />
+      <MonthTeaser premium={state.premium} />
 
       <section className="card premium__free" aria-labelledby="free-title">
         <h2 className="section-title" id="free-title">
@@ -85,14 +104,228 @@ export function PremiumScreen() {
         </h2>
         <p className="card__sub">
           {tr(
-            'Les 28 jeux et leurs 1 400 niveaux, le test du jour, les objectifs, le vestiaire, les thèmes gagnés en jouant, tes statistiques et tes sauvegardes. Rien de ce qui est gratuit aujourd’hui ne deviendra payant.',
-            'All 28 games and their 1,400 levels, the daily test, goals, the wardrobe, themes earned by playing, your stats and backups. Nothing free today will ever become paid.',
+            'Les 28 jeux et leurs 1 400 niveaux, le test du jour, les objectifs, le vestiaire et ses 31 chapeaux à gagner, les thèmes gagnés en jouant, tes statistiques et tes sauvegardes. Rien de ce qui est gratuit aujourd’hui ne deviendra payant, et il n’y aura jamais de publicité.',
+            'All 28 games and their 1,400 levels, the daily test, goals, the wardrobe and its 31 hats to earn, themes earned by playing, your stats and backups. Nothing free today will ever become paid, and there will never be ads.',
           )}
         </p>
       </section>
 
+      {!state.premium && state.shop === 'ready' && state.product?.price && (
+        <button type="button" className="btn btn--primary btn--lg" disabled={state.busy !== null} onClick={() => void controller.buy()}>
+          {tr(`Tout débloquer pour ${state.product.price}`, `Unlock everything for ${state.product.price}`)}
+        </button>
+      )}
+
       {state.test && <TestPanel />}
     </div>
+  );
+}
+
+/** Vif essaie un chapeau Premium après l'autre ; deux compagnons exclusifs l'entourent. */
+function Hero({ premium, hat, onHat }: { premium: boolean; hat: HatId; onHat: (id: HatId) => void }) {
+  const reduced = useReducedMotion();
+  useEffect(() => {
+    if (reduced) return;
+    const id = window.setTimeout(() => onHat(PREMIUM_HATS[(PREMIUM_HATS.indexOf(hat) + 1) % PREMIUM_HATS.length]), 2200);
+    return () => window.clearTimeout(id);
+  }, [hat, onHat, reduced]);
+  return (
+    <section className="premium__hero">
+      <div className="premium__stage" aria-hidden="true">
+        <Mascot character="kiwi" mood="happy" size={58} className="premium__side premium__side--left" />
+        <Mascot key={hat} mood={premium ? 'cheer' : 'wow'} size={112} hat={hat} character="vif" />
+        <Mascot character="myrtille" mood="happy" size={58} className="premium__side premium__side--right" />
+      </div>
+      <h1 className="premium__title">Esprit Vif Premium</h1>
+      <p className="premium__tagline">{tr('Un seul achat, pour toujours. Pas d’abonnement, pas de publicité.', 'One purchase, forever. No subscription, no ads.')}</p>
+      <ul className="premium__chips">
+        <li>{tr('3 thèmes', '3 themes')}</li>
+        <li>{tr('8 chapeaux', '8 hats')}</li>
+        <li>{tr('3 compagnons', '3 companions')}</li>
+        <li>{tr('Historique', 'History')}</li>
+        <li>{tr('Bilan du mois', 'Monthly recap')}</li>
+      </ul>
+    </section>
+  );
+}
+
+function ThemeShowcase({ premium }: { premium: boolean }) {
+  const preview = useThemePreview();
+  return (
+    <section className="premium__section" aria-labelledby="pt-title">
+      <h2 className="section-title" id="pt-title">
+        {tr('Trois thèmes exclusifs', 'Three exclusive themes')}
+      </h2>
+      <p className="premium__section-sub">
+        {premium
+          ? tr('Choisis-les dans Réglages → Apparence.', 'Pick them in Settings → Appearance.')
+          : tr('Essaie-les en direct : toute l’appli change de couleurs le temps de l’aperçu.', 'Try them live: the whole app changes colors during the preview.')}
+      </p>
+      <div className="premium__themes">
+        {PREMIUM_THEMES.map((t) => {
+          const on = preview === t.id;
+          return (
+            <button
+              key={t.id}
+              type="button"
+              className={`premium__theme${on ? ' is-on' : ''}`}
+              style={{ '--sw-light': t.light, '--sw-dark': t.dark, '--sw-tint': t.tint } as CSSProperties}
+              aria-pressed={on}
+              onClick={() => setThemePreview(on ? null : t.id)}
+            >
+              <span className={`premium__theme-art premium__theme-art--${t.id}`} aria-hidden="true" />
+              <span className="premium__theme-name">{themeName(t.id)}</span>
+              <span className="premium__theme-action">{on ? tr('Arrêter l’essai', 'Stop preview') : tr('Essayer', 'Try it')}</span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HatShowcase({ premium, selected, onSelect }: { premium: boolean; selected: HatId; onSelect: (id: HatId) => void }) {
+  return (
+    <section className="premium__section" aria-labelledby="ph-title">
+      <h2 className="section-title" id="ph-title">
+        {tr('Huit chapeaux qui scintillent', 'Eight sparkling hats')}
+      </h2>
+      <p className="premium__section-sub">
+        {premium
+          ? tr('Ils t’attendent dans le vestiaire.', 'They’re waiting in the wardrobe.')
+          : tr('Touche un chapeau : Vif l’essaie là-haut. Sans étincelles, ils sont à toi d’un coup.', 'Tap a hat: Vif tries it on up top. No sparks needed, they’re all yours at once.')}
+      </p>
+      <div className="premium__hats">
+        {PREMIUM_HATS.map((id) => (
+          <button
+            key={id}
+            type="button"
+            className={`premium__hat${selected === id ? ' is-on' : ''}`}
+            aria-pressed={selected === id}
+            aria-label={hatName(id)}
+            onClick={() => {
+              onSelect(id);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            <Mascot size={52} hat={id} character="vif" still />
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CompanionShowcase({ premium }: { premium: boolean }) {
+  return (
+    <section className="premium__section" aria-labelledby="pc-title">
+      <h2 className="section-title" id="pc-title">
+        {tr('Trois compagnons exclusifs', 'Three exclusive companions')}
+      </h2>
+      <p className="premium__section-sub">
+        {premium
+          ? tr('Choisis-les dans Réglages → Joueur.', 'Pick them in Settings → Player.')
+          : tr('Ils rejoignent Vif et sa bande, avec les mêmes chapeaux et les mêmes humeurs.', 'They join Vif and the gang, with the same hats and moods.')}
+      </p>
+      <div className="premium__companions">
+        {PREMIUM_CHARACTERS.map((c, i) => (
+          <figure key={c.id} className="premium__companion">
+            <Mascot character={c.id} mood={(['cheer', 'hello', 'happy'] as const)[i]} size={76} />
+            <figcaption>{c.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** Ta vraie courbe, floutée : l'historique détaillé se devine sans être montré. */
+function HistoryTeaser({ premium }: { premium: boolean }) {
+  const data = useProgress();
+  const game = useMemo(() => {
+    const count = new Map<GameId, number>();
+    for (const p of data.plays) count.set(p.gameId, (count.get(p.gameId) ?? 0) + 1);
+    return [...count.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  }, [data.plays]);
+  const points = useMemo(
+    () => (game ? data.plays.filter((p) => p.gameId === game).map((p) => ({ day: p.day, score: p.score, level: p.level })) : []),
+    [data.plays, game],
+  );
+  return (
+    <section className="premium__section" aria-labelledby="phi-title">
+      <h2 className="section-title" id="phi-title">
+        {tr('L’historique détaillé de chaque jeu', 'Detailed history for every game')}
+      </h2>
+      <p className="premium__section-sub">
+        {tr('Tous tes scores, ton meilleur score à chaque niveau, ta précision et ton temps de réaction au fil des parties.', 'All your scores, your best on every level, your accuracy and reaction time over time.')}
+      </p>
+      {game && points.length >= 2 ? (
+        <div className={`teaser${premium ? '' : ' teaser--locked'}`}>
+          <p className="teaser__game">
+            <GameArt gameId={game} size={28} /> {GAMES[game].name}
+          </p>
+          <div className="teaser__content" aria-hidden={!premium}>
+            <ScoreChart points={points} />
+          </div>
+          {premium ? (
+            <button type="button" className="btn btn--ghost" onClick={() => navigate({ name: 'history', gameId: game })}>
+              {tr('Ouvrir l’historique', 'Open the history')}
+            </button>
+          ) : (
+            <p className="teaser__veil">
+              <Icon name="lock" size={18} />
+              {tr(`Ta courbe de ${GAMES[game].name} est prête : ${points.length} parties.`, `Your ${GAMES[game].name} chart is ready: ${points.length} games.`)}
+            </p>
+          )}
+        </div>
+      ) : (
+        <p className="premium__section-sub">{tr('Ta courbe apparaîtra après quelques parties.', 'Your chart will appear after a few games.')}</p>
+      )}
+    </section>
+  );
+}
+
+/** Ton vrai bilan du mois, flouté tant que Premium n'est pas là. */
+function MonthTeaser({ premium }: { premium: boolean }) {
+  const data = useProgress();
+  const month = dayKey().slice(0, 7);
+  const report = useMemo(() => monthlyReport(data.plays, data.tests, month), [data.plays, data.tests, month]);
+  const name = formatMonth(`${month}-01`);
+  return (
+    <section className="premium__section" aria-labelledby="pm-title">
+      <h2 className="section-title" id="pm-title">
+        {tr('Ton bilan du mois', 'Your monthly recap')}
+      </h2>
+      <p className="premium__section-sub">
+        {tr('Chaque mois, une carte illustrée de ta régularité, de tes records et de ton jeu préféré, à garder ou à partager.', 'Every month, an illustrated card of your consistency, best scores and favorite game, to keep or share.')}
+      </p>
+      {report.plays > 0 && (
+        <div className={`teaser${premium ? '' : ' teaser--locked'}`}>
+          <div className="teaser__content month-mini" aria-hidden={!premium}>
+            <strong className="month-mini__title">{name}</strong>
+            <span>
+              <b>{report.plays}</b> {tr('parties', 'games')}
+            </span>
+            <span>
+              <b>{report.days}</b> {tr('jours', 'days')}
+            </span>
+            <span>
+              <b>{report.records}</b> {tr('records', 'best scores')}
+            </span>
+          </div>
+          {premium ? (
+            <button type="button" className="btn btn--ghost" onClick={() => navigate({ name: 'month' })}>
+              {tr('Voir mon bilan', 'See my recap')}
+            </button>
+          ) : (
+            <p className="teaser__veil">
+              <Icon name="lock" size={18} />
+              {tr(`Ton bilan de ${name} t’attend.`, `Your ${name} recap is waiting.`)}
+            </p>
+          )}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -126,8 +359,8 @@ function Purchase({ state }: { state: PremiumState }) {
       <section className="premium__buy">
         <p className="premium__info">
           {tr(
-            'Premium s’achète dans l’appli Android, sur Google Play. Sur ce site, tout le reste est gratuit.',
-            'Premium is sold in the Android app, on Google Play. On this website, everything else is free.',
+            'Premium s’achète dans l’appli Android, sur Google Play. Sur ce site, tout le reste est gratuit, et tout s’essaie ci-dessous.',
+            'Premium is sold in the Android app, on Google Play. On this website, everything else is free, and you can try it all below.',
           )}
         </p>
       </section>
@@ -138,8 +371,8 @@ function Purchase({ state }: { state: PremiumState }) {
       <section className="premium__buy">
         <p className="premium__info">
           {tr(
-            'Premium arrive bientôt : la boutique Google Play de l’appli n’est pas encore ouverte.',
-            'Premium is coming soon: the app’s Google Play store isn’t open yet.',
+            'Premium arrive bientôt : la boutique Google Play de l’appli n’est pas encore ouverte. En attendant, tout s’essaie ci-dessous.',
+            'Premium is coming soon: the app’s Google Play store isn’t open yet. Meanwhile, you can try everything below.',
           )}
         </p>
       </section>

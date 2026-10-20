@@ -3447,6 +3447,43 @@
   --vif-body: #46a552;
 }
 
+/* Compagnons Premium. */
+.vif--kiwi {
+  --vif-body: #9ccc3d;
+}
+
+.vif--ananas {
+  --vif-body: #f6b93b;
+}
+
+.vif--myrtille {
+  --vif-body: #5466c9;
+}
+
+.vif__kiwi-seeds {
+  fill: none;
+  stroke: #2a1d10;
+  stroke-linecap: round;
+  stroke-width: 3.4;
+}
+
+.vif__ananas-grid {
+  fill: none;
+  stroke: #d98c1f;
+  stroke-linecap: round;
+  stroke-width: 2.2;
+  opacity: 0.7;
+}
+
+.vif__myrtille-crown {
+  fill: #2c347a;
+}
+
+.vif__bloom {
+  fill: #ffffff;
+  opacity: 0.18;
+}
+
 .vif--still .vif__bob,
 .vif--still .vif__eyes,
 .vif--still .vif__arm--wave,
@@ -5606,4 +5643,460 @@
   .player-chip__name {
     font-size: 1.05rem;
   }
+}
+
+/* Collection Premium : quelques étincelles qui scintillent (rien en mouvement réduit). */
+.hat__twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hat-twinkle 2.4s ease-in-out infinite;
+}
+
+.hat__twinkle--late {
+  animation-delay: 1.2s;
+}
+
+.hat__blink {
+  animation: hat-blink 1.6s steps(2, jump-none) infinite;
+}
+
+.vif--still .hat__twinkle,
+.vif--still .hat__blink {
+  animation: none;
+}
+
+@keyframes hat-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.6) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+
+@keyframes hat-blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ---------- Premium : vitrine ---------- */
+
+.premium__top {
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.premium__top .icon-btn {
+  margin-left: auto;
+}
+
+.premium__preview-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.premium__stage {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  min-height: 124px;
+}
+
+.premium__side {
+  margin-bottom: 4px;
+}
+
+.premium__side--left {
+  rotate: -8deg;
+}
+
+.premium__side--right {
+  rotate: 8deg;
+}
+
+.premium__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.premium__chips li {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.premium__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.premium__section .section-title {
+  margin-bottom: 0;
+}
+
+.premium__section-sub {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.premium__themes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.premium__theme {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: center;
+}
+
+.premium__theme.is-on {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.premium__theme-art {
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--sw-light) 0 48%, var(--sw-dark) 52% 100%);
+}
+
+.premium__theme-art--aurore {
+  background:
+    radial-gradient(80% 60% at 20% 10%, #34d39988, transparent 70%),
+    radial-gradient(70% 60% at 85% 20%, #8b5cf688, transparent 70%),
+    linear-gradient(160deg, #0d3b3a, #12122a);
+}
+
+.premium__theme-art--sakura {
+  background:
+    radial-gradient(6px 4px at 25% 30%, #ffd6e5, transparent),
+    radial-gradient(5px 3px at 70% 55%, #ffb3cf, transparent),
+    radial-gradient(6px 4px at 45% 80%, #ffd6e5, transparent),
+    linear-gradient(160deg, #ffe1ec, #b0355f);
+}
+
+.premium__theme-art--encre {
+  background: linear-gradient(135deg, #fbfaf7 0 48%, #000000 52% 100%);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.premium__theme-name {
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.premium__theme-action {
+  color: var(--accent-soft-ink);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.premium__hats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.premium__hat {
+  display: grid;
+  place-items: center;
+  min-height: 68px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.premium__hat.is-on {
+  border-color: var(--accent);
+}
+
+.premium__companions {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.premium__companion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Aperçu flouté : les vraies données du joueur, devinées derrière un voile. */
+.teaser {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  overflow: hidden;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.teaser--locked .teaser__content {
+  filter: blur(6px) saturate(0.8);
+  opacity: 0.7;
+  pointer-events: none;
+  user-select: none;
+}
+
+.teaser__game {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.teaser__veil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 700;
+  text-align: center;
+}
+
+.teaser__veil--card {
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  padding: 20px;
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+}
+
+.history__teaser {
+  margin-bottom: -60px;
+}
+
+.month-mini {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+}
+
+.month-mini__title {
+  flex-basis: 100%;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+.month-mini b {
+  font-size: 1.3rem;
+}
+
+/* Compagnons Premium dans le choix du compagnon. */
+.character--premium {
+  position: relative;
+}
+
+.character.is-locked .vif {
+  opacity: 0.75;
+}
+
+.character__lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--ink-3);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.character__teaser {
+  margin: 4px 0 8px;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+}
+
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-soft-ink);
+  font: inherit;
+  font-weight: 750;
+  text-decoration: underline;
+}
+
+.hat-tile--premium {
+  background: linear-gradient(170deg, color-mix(in oklab, var(--warm) 14%, var(--surface)), var(--surface) 70%);
+}
+
+/* ---------- Bilan du mois ---------- */
+
+.month__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.month__name {
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.month-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background: radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--accent) 22%, var(--surface)), var(--surface) 65%);
+  box-shadow: var(--shadow-1);
+}
+
+.month-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.month-card__kicker {
+  color: var(--ink-3);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.month-card__title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: capitalize;
+}
+
+.month-card__compare {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.month-card__vif {
+  flex: none;
+  margin: -8px -6px 0 0;
+}
+
+.month-card__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.month-card__grid > div {
+  padding: 10px 12px;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+}
+
+.month-card__grid dt {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.month-card__grid dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.month-card__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.month-card__facts li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.3;
+}
+
+.month-card__facts small {
+  display: block;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+}
+
+.month-card__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--warm-soft);
+  color: var(--warm-ink);
+}
+
+.month-card__domains {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.month-card__domains li {
+  display: grid;
+  grid-template-columns: 26px 88px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-card__domain-name {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.month-card__domain-n {
+  font-weight: 750;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }

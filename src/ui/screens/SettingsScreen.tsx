@@ -661,7 +661,7 @@ function ThemePicker() {
             style={{ '--sw-light': choice.light, '--sw-dark': choice.dark, '--sw-tint': choice.tint } as CSSProperties}
             onClick={() => {
               if (!choice.lock) void store.updateSettings({ palette: choice.id });
-              else if (choice.premium) navigate({ name: 'premium' });
+              else if (choice.premium) navigate({ name: 'premium', focus: choice.id });
             }}
           >
             <span className="theme-swatch__dot" aria-hidden="true">

@@ -13,7 +13,18 @@ ne sont pas faites, l'écran Premium dit « Premium arrive bientôt » et rien n
 | --- | --- | --- |
 | 3 thèmes exclusifs : Aurore boréale, Sakura (pétales), Encre (noir et blanc, vrai noir en sombre) | Réglages → Apparence | `src/core/themes.ts` |
 | Historique détaillé par jeu : courbe de tous les scores, meilleur score par niveau, tendance (score, précision, temps de réaction) | Progrès → Records → icône courbe | `HistoryScreen.tsx`, `gameHistory` |
+| 8 chapeaux Premium qui scintillent (astronaute, licorne, mousquetaire, couronne étoilée, lapin, dragon, arc-en-ciel, pharaon) | Vestiaire → Collection Premium | `core/wardrobe.ts`, `hats.tsx` |
+| 3 compagnons exclusifs : Kiwi, Ananas, Myrtille | Réglages → Joueur | `core/characters.ts`, `Mascot.tsx` |
+| Bilan du mois : carte illustrée (parties, jours, temps, jeu préféré, plus beau progrès, records, objectifs, domaines), à partager | Progrès → Bilan du mois | `MonthScreen.tsx`, `monthlyReport` |
 | Soutien au développeur | — | — |
+
+**Essayer avant d'acheter** (« donner envie », demande d'Alex du 20-10) : l'écran Premium est une vitrine
+où tout s'essaie. Les thèmes s'appliquent en direct à toute l'appli le temps de l'aperçu
+(`theme-preview.ts`), Vif essaie les chapeaux, les compagnons s'animent, et les vraies données du joueur
+(courbe du jeu le plus joué, bilan du mois) apparaissent floutées. Même chose ailleurs : un chapeau
+Premium s'essaie sur Vif au vestiaire, un compagnon Premium se montre dans le choix du compagnon,
+l'historique et le bilan verrouillés laissent deviner les vrais chiffres. Rien n'est inventé ; l'écran
+ne s'ouvre jamais tout seul.
 
 Tout le reste est gratuit et le restera (`premiumBenefits()` dans `src/premium/catalog.ts` est la
 seule liste affichée aux joueurs : n'y ajouter qu'une fonction réellement construite).
@@ -84,7 +95,8 @@ seule liste affichée aux joueurs : n'y ajouter qu'une fonction réellement cons
 | Quoi | Comment |
 | --- | --- |
 | Logique (sans téléphone) | `npm test` : `src/premium/premium.test.ts` couvre achat annulé, en attente puis confirmé, valide, déjà détenu, restauration sans achat, remboursement, erreur réseau, site, APK sans clé, Google Play injoignable |
-| Écran et parcours (sans Google) | `npx vite build --mode billingtest --outDir dist-test` puis `npx vite preview --outDir dist-test` : l'écran Premium montre un panneau **MODE TEST — aucun achat réel** pour choisir la réponse (réussi, en attente, annulé, erreur, déjà acheté, rembourser). Aussi avec `npm run dev`. Jamais dans le site publié ni dans l'APK |
+| Écran et parcours (sans Google) | `npx vite build --mode billingtest --outDir dist-test` puis `npx vite preview --outDir dist-test` : l'écran Premium montre un panneau **MODE TEST — aucun achat réel** pour choisir la réponse (réussi, en attente, annulé, erreur, déjà acheté, rembourser). Aussi avec `npm run dev`. Jamais dans le site publié |
+| APK de test (à distribuer à la main, jamais dans la release publique) | `VITE_BILLING_TEST=1 npm run build:android` puis `./gradlew assembleRelease` : même appli, boutique simulée (le mode test passe avant Google Play). Penser à refaire `npm run build:android` sans la variable avant l'APK publié |
 | Vraie facturation | canal de test interne + compte testeur de licence : acheter avec « Toujours approuver », vérifier Premium ; « Lent » pour l'achat en attente ; rembourser depuis la Play Console (Gestion des commandes) puis relancer l'appli : Premium doit disparaître ; désinstaller, réinstaller, « Restaurer mes achats » |
 
 ## Mise à jour de la bibliothèque

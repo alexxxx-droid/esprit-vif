@@ -4,7 +4,8 @@ Quelques minutes par jour pour garder l’esprit vif : un test du jour en trois 
 un âge cérébral indicatif et un entraînement libre qui s’adapte à ton niveau.
 Sans compte, sans publicité, sans pistage : tout reste sur ton appareil.
 Tout est gratuit ; dans l’appli Android, un **Premium à vie** facultatif (achat unique, pas
-d’abonnement) ajoute trois thèmes exclusifs et l’historique détaillé de chaque jeu.
+d’abonnement) ajoute trois thèmes exclusifs, huit chapeaux, trois compagnons, l’historique détaillé
+de chaque jeu et un bilan du mois. Tout s’essaie avant d’acheter.
 
 **Jouer :** https://alexxxx-droid.github.io/esprit-vif/
 

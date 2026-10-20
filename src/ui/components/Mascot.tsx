@@ -74,6 +74,30 @@ const BODIES: Record<CharacterId, ReactNode> = {
       <path className="vif__leaf" d="M64 12c8-6 18-4 22 2-8 4-16 4-22-2z" />
     </>
   ),
+  kiwi: (
+    <>
+      <circle cx="60" cy="63" r="40" fill="#7a5230" />
+      <circle className="vif__body" cx="60" cy="63" r="35" />
+      <path
+        className="vif__kiwi-seeds"
+        d="M60 32v.1M76 37v.1M87 49v.1M91 64v.1M86 80v.1M74 91v.1M46 91v.1M34 80v.1M29 64v.1M33 49v.1M44 37v.1"
+      />
+    </>
+  ),
+  ananas: (
+    <>
+      <path className="vif__leaf" d="M60 30c-4-10-2-20 0-26 2 6 4 16 0 26zM58 31c-8-6-14-14-14-22 6 4 12 12 14 22zM62 31c8-6 14-14 14-22-6 4-12 12-14 22z" />
+      <ellipse className="vif__body" cx="60" cy="68" rx="34" ry="40" />
+      <path className="vif__ananas-grid" d="M34 46l52 52M30 62l38 38M42 36l46 46M86 46l-52 52M90 62l-38 38M78 36l-46 46" />
+    </>
+  ),
+  myrtille: (
+    <>
+      <circle className="vif__body" cx="60" cy="64" r="38" />
+      <path className="vif__myrtille-crown" d="M60 22l4 6 7-2-3 6 6 4-7 2v7l-7-4-7 4v-7l-7-2 6-4-3-6 7 2z" />
+      <ellipse className="vif__bloom" cx="80" cy="44" rx="9" ry="5" />
+    </>
+  ),
   pasteque: (
     <>
       <circle className="vif__body" cx="60" cy="63" r="38" />

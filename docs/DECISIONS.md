@@ -74,7 +74,15 @@ n'ajoute que du nouveau. Détails techniques et étapes de la Play Console : `do
   thème verrouillé ou par l'historique d'un jeu. Pas de compte à rebours, pas de promotion.
 - **Droit = achat vérifié** : terminé (pas « en attente »), signature vérifiée, bon produit ; gardé
   sur l'appareil pour le hors-ligne, revérifié à chaque lancement (remboursement compris).
-- **Mode test** explicite (`--mode billingtest` ou `npm run dev`), avec un bandeau, jamais publié.
+- **Mode test** explicite (`--mode billingtest`, `npm run dev`, ou `VITE_BILLING_TEST=1` pour un APK de
+  test), avec un bandeau, jamais publié.
+- **« Donner envie »** (Alex, 20-10 soir) : plus de contenu Premium, toujours nouveau (8 chapeaux qui
+  scintillent, 3 compagnons exclusifs, bilan du mois) et une vitrine où tout s'essaie (thèmes en direct,
+  chapeaux sur Vif, vraies données floutées). Pas d'étincelles en plus pour les acheteurs : Premium ne
+  touche ni aux scores ni à la progression. Les compagnons Premium restent hors de « Qui est qui ? »
+  (ses parties ne changent pas). Sans Premium (remboursement), un compagnon ou un chapeau Premium choisi
+  redevient Vif ou tête nue à l'écran, sans que le choix soit effacé. Le bilan du mois ne compare que
+  dans le bon sens (« 10 parties de plus que le mois d'avant »), jamais pour culpabiliser.
 
 ## Mesures (v2.9, décision d'Alex du 20-10-2026)
 

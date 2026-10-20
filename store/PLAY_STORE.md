@@ -60,8 +60,9 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > pour retrouver ta progression sur ta tablette.
 >
 > **Gratuit, pour de vrai** : tous les jeux et tous les niveaux sont gratuits. Esprit Vif
-> Premium, facultatif et payé une seule fois (pas d’abonnement), ajoute trois thèmes exclusifs
-> et l’historique détaillé de chaque jeu.
+> Premium, facultatif et payé une seule fois (pas d’abonnement), ajoute trois thèmes exclusifs,
+> huit chapeaux qui scintillent, trois compagnons (Kiwi, Ananas, Myrtille), l’historique détaillé
+> de chaque jeu et un bilan illustré chaque mois. Tout s’essaie avant d’acheter.
 
 ### Full description (English)
 
@@ -98,7 +99,9 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > tablet.
 >
 > **Truly free**: every game and every level is free. Esprit Vif Premium, optional and paid
-> once (no subscription), adds three exclusive themes and a detailed history for every game.
+> once (no subscription), adds three exclusive themes, eight sparkling hats, three companions
+> (Kiwi, Pineapple, Blueberry), a detailed history for every game and an illustrated monthly
+> recap. Try everything before you buy.
 
 ## Catégorie et coordonnées
 

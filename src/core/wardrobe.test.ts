@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { ProgressionInput } from './progression';
-import { HATS, hatName, purchaseBlocker, wardrobe } from './wardrobe';
+import { HATS, hatName, hatWearable, purchaseBlocker, wardrobe } from './wardrobe';
 
 const empty: ProgressionInput = { plays: [], tests: [], bests: {}, sessions: [], marathons: 0, duels: 0, challenges: 0 };
 
@@ -9,7 +9,7 @@ describe('vestiaire de Vif', () => {
     expect(new Set(HATS.map((h) => h.id)).size).toBe(HATS.length);
     for (const hat of HATS) {
       expect(hatName(hat.id).length).toBeGreaterThan(1);
-      expect(Boolean(hat.price) !== Boolean(hat.prestige)).toBe(true);
+      expect([hat.price, hat.prestige, hat.premium].filter(Boolean)).toHaveLength(1);
     }
   });
 
@@ -35,5 +35,18 @@ describe('vestiaire de Vif', () => {
     expect(status.hats.find((h) => h.id === 'magicien')?.progress).toEqual([23, 31]);
     expect(status.hats.find((h) => h.id === 'couronne')?.owned).toBe(false);
     expect(status.nextPrestige?.id).toBe('magicien');
+  });
+
+  it('réserve la collection Premium à Premium, sans étincelles ni achat', () => {
+    const free = wardrobe(empty, [], 1000, false);
+    const paid = wardrobe(empty, [], 1000, true);
+    expect(free.hats.filter((h) => h.kind === 'premium')).toHaveLength(8);
+    expect(free.hats.filter((h) => h.kind === 'premium').every((h) => !h.owned)).toBe(true);
+    expect(paid.hats.filter((h) => h.kind === 'premium').every((h) => h.owned)).toBe(true);
+    expect(purchaseBlocker(free, 'astronaute')).toMatch(/Premium/);
+    expect(paid.balance).toBe(1000);
+    expect(hatWearable('astronaute', false)).toBe(false);
+    expect(hatWearable('astronaute', true)).toBe(true);
+    expect(hatWearable('casquette', false)).toBe(true);
   });
 });

@@ -25,6 +25,7 @@ import { promptInstall, usePwa } from '../pwa';
 import { navigate } from '../router';
 import { useSeason } from '../season';
 import { useWardrobe } from '../wardrobe';
+import { useActiveCharacter } from '../characters-context';
 import { WelcomeScreen } from './WelcomeScreen';
 
 function minutesOf(time: string): number {
@@ -47,6 +48,7 @@ function Home() {
   const [starting, setStarting] = useState(false);
   const [playersOpen, setPlayersOpen] = useState(false);
   const { profiles, active } = useProfiles();
+  const companion = useActiveCharacter();
   const { rank } = useProgression();
   const rankProgress = (rank.xp - rank.levelStart) / (rank.nextAt - rank.levelStart);
 
@@ -203,7 +205,7 @@ function Home() {
           <Mascot mood="hello" size={58} className="coach__vif" />
           <div>
             <h2 className="coach__title" id="coach-title">
-              {tr(`Le mot de ${characterName(active.character)}, ton coach`, `Tip from your coach, ${characterName(active.character)}`)}
+              {tr(`Le mot de ${characterName(companion)}, ton coach`, `Tip from your coach, ${characterName(companion)}`)}
             </h2>
             <p className="coach__tip">{coachTip(today)}</p>
           </div>

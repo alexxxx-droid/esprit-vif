@@ -307,4 +307,89 @@ export const HAT_ART: Record<HatId, ReactNode> = {
       <ellipse cx="60" cy="11" rx="23" ry="6.5" fill="none" stroke={GOLD} strokeWidth="4.5" />
     </>
   ),
+  /* ---------- Collection Premium : plus riches, et quelques étincelles qui scintillent ---------- */
+  astronaute: (
+    <>
+      <circle cx="60" cy="61" r="45" fill="#cfe6ff" fillOpacity="0.22" stroke="#e8f1fb" strokeWidth="4" />
+      <path d="M32 34c6-9 15-14 26-15" stroke="#ffffff" strokeOpacity="0.8" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M24 92c10 9 22 13 36 13s26-4 36-13l4 6c-11 10-25 15-40 15s-29-5-40-15z" fill="#e8f1fb" />
+      <rect x="54" y="105" width="12" height="6" rx="2" fill="#ff8a3d" />
+      <path d="M60 16V6" stroke="#e8f1fb" strokeWidth="3" strokeLinecap="round" />
+      <circle className="hat__blink" cx="60" cy="5" r="3.4" fill="#ff5a52" />
+    </>
+  ),
+  licorne: (
+    <>
+      <path d="M34 30l-3-13 11 8zM86 30l3-13-11 8z" fill="#ffd6e5" />
+      <path d="M27 37c10-6 21-9 33-9s23 3 33 9" stroke="#b38cf0" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M53 31 60 1l7 30z" fill="#ffd34d" />
+      <path d="M55 24l9-3M56 17l7-2.5M57.5 10l5-2" stroke="#e0a800" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="40" cy="31.5" r="4" fill="#ff8fb8" />
+      <circle cx="80" cy="31.5" r="4" fill="#9ad1ff" />
+      <g className="hat__twinkle">{sparkle(76, 12, 4.5, '#ffffff')}</g>
+    </>
+  ),
+  mousquetaire: (
+    <>
+      <path d="M38 33c0-12 9-19 22-19s22 7 22 19z" fill="#3d2a6b" />
+      <path d="M68 18c10-12 26-14 36-8-6 1-12 4-16 8 7-2 14-1 18 3-9 0-17 3-24 9z" fill="#ff8fb8" />
+      <path d="M70 22c8-5 18-8 28-8" stroke="#ffffff" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <rect x="38" y="28" width="44" height="5" fill="#ffd34d" />
+      <path d="M12 36c10-5 28-8 48-8s38 3 48 8c3 2 1 6-3 6-14-1-29-2-45-2s-31 1-45 2c-4 0-6-4-3-6z" fill="#2d1f52" />
+    </>
+  ),
+  'couronne-etoilee': (
+    <>
+      <path d="M31 37l-2-20 9 7 6-14 7 12 9-18 9 18 7-12 6 14 9-7-2 20z" fill="#ffd34d" />
+      <path d="M31 31h58v7H31z" fill="#7b4fd6" />
+      <circle cx="45" cy="34.5" r="2.4" fill="#ffffff" />
+      <circle cx="60" cy="34.5" r="2.8" fill="#7fd3ff" />
+      <circle cx="75" cy="34.5" r="2.4" fill="#ffffff" />
+      <g className="hat__twinkle">{sparkle(60, 9, 5, '#ffffff')}</g>
+      <g className="hat__twinkle hat__twinkle--late">
+        {sparkle(36, 14, 3.4, '#fff3b0')}
+        {sparkle(86, 14, 3.4, '#fff3b0')}
+      </g>
+    </>
+  ),
+  lapin: (
+    <>
+      <path d="M44 34C38 22 36 8 42 2c6 4 9 18 8 32z" fill="#ffffff" />
+      <path d="M44 30c-3-9-4-18-1-23 3 3 5 13 4 23z" fill="#ffc2d6" />
+      <path d="M72 34c4-10 12-18 22-20 3 6-4 16-14 22z" fill="#ffffff" />
+      <path d="M75 31c4-6 9-11 15-13 1 4-4 10-11 14z" fill="#ffc2d6" />
+      <path d="M30 38c9-6 19-9 30-9s21 3 30 9" stroke="#ff8fb8" strokeWidth="4" fill="none" strokeLinecap="round" />
+    </>
+  ),
+  dragon: (
+    <>
+      <path d="M26 50c0-24 15-38 34-38s34 14 34 38c-6-6-14-9-20-9H46c-6 0-14 3-20 9z" fill="#3fae49" />
+      <path d="M40 16l-6-12 12 7zM80 16l6-12-12 7z" fill="#f4ead5" />
+      <path d="M52 13l4-8 4 7 4-7 4 8" fill="#ffd34d" stroke="#ffd34d" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M30 44c8-4 18-6 30-6s22 2 30 6" stroke="#2b7a35" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <circle cx="44" cy="27" r="2.2" fill="#2b7a35" />
+      <circle cx="76" cy="27" r="2.2" fill="#2b7a35" />
+    </>
+  ),
+  'arc-en-ciel': (
+    <>
+      {['#ff5a52', '#ff9a3d', '#ffd34d', '#34c972', '#4f8dff', '#b98cff'].map((color, i) => (
+        <path key={color} d={`M${26 + i * 3} 34a${34 - i * 3} ${30 - i * 3} 0 0 1 ${68 - i * 6} 0`} stroke={color} strokeWidth="3.2" fill="none" />
+      ))}
+      <path d="M14 36c0-5 4-8 8-7 1-4 7-5 9-1 4-1 7 2 6 6 0 3-3 5-6 5H19c-3 0-5-1-5-3z" fill="#ffffff" />
+      <path d="M83 36c0-5 4-8 8-7 1-4 7-5 9-1 4-1 7 2 6 6 0 3-3 5-6 5H88c-3 0-5-1-5-3z" fill="#ffffff" />
+      <g className="hat__twinkle">{sparkle(60, 2, 3.6, '#ffffff')}</g>
+    </>
+  ),
+  pharaon: (
+    <>
+      <path d="M24 74c0-14 2-26 8-36 6-12 16-20 28-20s22 8 28 20c6 10 8 22 8 36l-8 4c0-10-2-20-6-28-3-6-12-10-22-10s-19 4-22 10c-4 8-6 18-6 28z" fill="#ffd34d" />
+      {[30, 38, 46, 54, 62, 70].map((y) => (
+        <path key={y} d={`M${y < 50 ? 30 - (y - 30) * 0.1 : 27} ${y}h8M${y < 50 ? 82 + (y - 30) * 0.1 : 85} ${y}h8`} stroke="#2a5db0" strokeWidth="3.4" strokeLinecap="round" />
+      ))}
+      <path d="M36 36c8-5 16-7 24-7s16 2 24 7" stroke="#2a5db0" strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M60 16c-3 4-3 8 0 12 3-4 3-8 0-12z" fill="#2a5db0" />
+      <circle cx="60" cy="22" r="2" fill="#ff5a52" />
+    </>
+  ),
 };

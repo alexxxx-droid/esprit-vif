@@ -22,7 +22,7 @@ export const QUI_COLORS = 6;
  * Fonds où le compagnon se verrait mal (0 bleu, 1 orange, 2 vert d'eau, 3 jaune, 4 rose, 5 vert) :
  * pas de pastèque sur du vert ni de citron sur du jaune.
  */
-export const CLASHING_COLORS: Record<CharacterId, readonly number[]> = {
+export const CLASHING_COLORS: Partial<Record<CharacterId, readonly number[]>> = {
   vif: [0],
   pomme: [1, 4],
   orange: [1, 3],
@@ -236,7 +236,7 @@ function pickFaces(rng: Rng, count: number, sameFruit: number): Pick<Person, 'ch
   for (const character of rng.shuffle(CHARACTERS.map((c) => c.id))) {
     // Les fruits en double viennent en tête de liste : ils doivent vraiment se ressembler.
     // Jamais plus de copies que de fonds possibles (la poire n'en a que trois).
-    const copies = Math.min(sameFruit, QUI_COLORS - CLASHING_COLORS[character].length, count - faces.length);
+    const copies = Math.min(sameFruit, QUI_COLORS - (CLASHING_COLORS[character] ?? []).length, count - faces.length);
     for (let k = 0; k < copies && faces.length < count; k++) {
       faces.push({ character, color: 0 });
     }
@@ -246,7 +246,7 @@ function pickFaces(rng: Rng, count: number, sameFruit: number): Pick<Person, 'ch
   const colors = new Map<CharacterId, number[]>();
   return faces.map((face) => {
     const taken = colors.get(face.character) ?? [];
-    const free = Array.from({ length: QUI_COLORS }, (_, i) => i).filter((c) => !taken.includes(c) && !CLASHING_COLORS[face.character].includes(c));
+    const free = Array.from({ length: QUI_COLORS }, (_, i) => i).filter((c) => !taken.includes(c) && !(CLASHING_COLORS[face.character] ?? []).includes(c));
     const color = rng.pick(free);
     colors.set(face.character, [...taken, color]);
     return { ...face, color };

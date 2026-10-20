@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { durationLabel, gameHistory, recentPlays, totals, weeklyRecap, type SummaryPlay } from './summary';
+import { durationLabel, gameHistory, monthlyReport, previousMonth, recentPlays, totals, weeklyRecap, type SummaryPlay } from './summary';
 
 const play = (day: string, score: number, stats: Record<string, number> = {}, durationMs?: number, hour = 9): SummaryPlay => ({
   gameId: 'calcul',
@@ -59,6 +59,32 @@ describe('chiffres des Progrès', () => {
     const h = gameHistory([...plays, { ...play('2026-10-21', 99), gameId: 'stroop' }], 'calcul');
     expect(h).toMatchObject({ plays: 20, best: 70, recent: 70, before: 50, accuracy: { recent: 90, before: 60 }, reaction: { recent: null, before: null } });
     expect(gameHistory(plays.slice(0, 2), 'calcul').before).toBeNull();
+  });
+
+  it('fait le bilan d’un mois à partir des seules parties du mois', () => {
+    const sept = Array.from({ length: 4 }, (_, i) => play(`2026-09-1${i}`, 50));
+    const oct = [
+      ...Array.from({ length: 4 }, (_, i) => play(`2026-10-0${i + 1}`, 70 + i, {}, 60_000)),
+      { ...play('2026-10-05', 90), gameId: 'stroop' as const },
+      { ...play('2026-11-01', 99), gameId: 'stroop' as const },
+    ];
+    const tests = [
+      { day: '2026-10-02', official: true, done: true, brainAge: 38 },
+      { day: '2026-10-03', official: true, done: true, brainAge: 35 },
+      { day: '2026-10-03', official: false, done: true, brainAge: 20 },
+    ];
+    const r = monthlyReport([...sept, ...oct], tests, '2026-10');
+    expect(r).toMatchObject({ plays: 5, days: 5, timeMs: 240_000, tests: 2, bestAge: 35, previous: { plays: 4, days: 4 } });
+    expect(r.favorite).toEqual({ gameId: 'calcul', plays: 4 });
+    expect(r.bestGain).toEqual({ gameId: 'calcul', before: 50, now: 72 });
+    expect(r.records).toBe(4);
+    expect(r.domains).toEqual({ calcul: 4, attention: 1 });
+    expect(previousMonth('2026-01')).toBe('2025-12');
+  });
+
+  it('laisse vide un mois sans partie, sans rien inventer', () => {
+    const r = monthlyReport([], [], '2026-10');
+    expect(r).toMatchObject({ plays: 0, average: null, favorite: null, bestGain: null, bestAge: null });
   });
 });
 

@@ -1,5 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { CHARACTERS, type CharacterId } from '../../core/characters';
+import { CHARACTERS, PREMIUM_CHARACTERS, shownCharacter, type CharacterId } from '../../core/characters';
+import { usePremium } from '../theme';
+import { navigate } from '../router';
 import { tr } from '../../core/lang';
 import { MAX_PROFILES, PROFILE_COLORS, profileName, type Profile } from '../../store/profiles';
 import { useProfileManager, useProfiles } from '../profiles-context';
@@ -8,24 +10,57 @@ import { Mascot } from './Mascot';
 
 /** Avatar d'un joueur : la tête de son compagnon, sur la couleur qu'il a choisie. */
 export function ProfileAvatar({ profile, size = 40 }: { profile: Profile; profiles?: readonly Profile[]; size?: number }) {
+  const premium = usePremium();
   return (
     <span className={`avatar avatar--c${profile.color}`} style={{ width: size, height: size }} aria-hidden="true">
-      <Mascot character={profile.character} mood="happy" size={size * 0.92} still />
+      <Mascot character={shownCharacter(profile.character, premium)} mood="happy" size={size * 0.92} still />
     </span>
   );
 }
 
-/** Choix du compagnon : Vif ou l'un des fruits. */
+/** Choix du compagnon : Vif ou l'un des fruits ; les trois compagnons Premium se montrent, cadenassés sans Premium. */
 export function CharacterPicker({ value, onChange }: { value: CharacterId; onChange: (character: CharacterId) => void }) {
+  const premium = usePremium();
+  const [teaser, setTeaser] = useState<CharacterId | null>(null);
+  const teased = PREMIUM_CHARACTERS.find((c) => c.id === teaser);
   return (
-    <div className="characters" role="radiogroup" aria-label={tr('Compagnon', 'Companion')}>
-      {CHARACTERS.map((c) => (
-        <button key={c.id} type="button" role="radio" aria-checked={value === c.id} className="character" onClick={() => onChange(c.id)}>
-          <Mascot character={c.id} mood={value === c.id ? 'cheer' : 'happy'} size={54} still={value !== c.id} />
-          <span>{c.name}</span>
-        </button>
-      ))}
-    </div>
+    <>
+      <div className="characters" role="radiogroup" aria-label={tr('Compagnon', 'Companion')}>
+        {CHARACTERS.map((c) => (
+          <button key={c.id} type="button" role="radio" aria-checked={value === c.id} className="character" onClick={() => onChange(c.id)}>
+            <Mascot character={c.id} mood={value === c.id ? 'cheer' : 'happy'} size={54} still={value !== c.id} />
+            <span>{c.name}</span>
+          </button>
+        ))}
+        {PREMIUM_CHARACTERS.map((c) => (
+          <button
+            key={c.id}
+            type="button"
+            role="radio"
+            aria-checked={premium && value === c.id}
+            aria-disabled={!premium}
+            className={`character character--premium${premium ? '' : ' is-locked'}`}
+            onClick={() => (premium ? onChange(c.id) : setTeaser(c.id))}
+          >
+            <Mascot character={c.id} mood={(premium && value === c.id) || teaser === c.id ? 'cheer' : 'happy'} size={54} still={!(premium && value === c.id) && teaser !== c.id} />
+            <span>{c.name}</span>
+            {!premium && (
+              <span className="character__lock">
+                <Icon name="lock" size={12} /> Premium
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+      {teased && !premium && (
+        <p className="character__teaser" role="status">
+          {tr(`${teased.name} fait partie d’Esprit Vif Premium.`, `${teased.name} comes with Esprit Vif Premium.`)}{' '}
+          <button type="button" className="link-btn" onClick={() => navigate({ name: 'premium' })}>
+            {tr('Découvrir', 'Find out more')}
+          </button>
+        </p>
+      )}
+    </>
   );
 }
 

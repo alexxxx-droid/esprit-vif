@@ -17,7 +17,16 @@ export type CardSpec =
       line?: string;
       mascot?: SVGSVGElement | null;
     }
-  | { kind: 'age'; age: number; verdict: string; mascot?: SVGSVGElement | null };
+  | { kind: 'age'; age: number; verdict: string; mascot?: SVGSVGElement | null }
+  | {
+      kind: 'month';
+      /** « octobre 2026 ». */
+      month: string;
+      /** Quatre chiffres clés : valeur et libellé. */
+      figures: [string, string][];
+      line?: string;
+      mascot?: SVGSVGElement | null;
+    };
 
 const W = 1080;
 const H = 1350;
@@ -157,6 +166,28 @@ export async function renderCard(spec: CardSpec, day: string): Promise<Blob> {
       ctx.fillStyle = SOFT;
       ctx.font = `600 38px ${font}`;
       wrap(ctx, spec.line, 760).forEach((l, i) => ctx.fillText(l, W / 2, 955 + i * 48));
+    }
+  } else if (spec.kind === 'month') {
+    ctx.fillStyle = SOFT;
+    ctx.font = `700 42px ${font}`;
+    ctx.fillText(tr('Mon mois', 'My month'), W / 2, 380);
+    ctx.fillStyle = INK;
+    ctx.font = `800 76px ${font}`;
+    ctx.fillText(spec.month, W / 2, 470);
+    spec.figures.slice(0, 4).forEach(([value, label], i) => {
+      const x = W / 2 + (i % 2 === 0 ? -200 : 200);
+      const y = 640 + Math.floor(i / 2) * 210;
+      ctx.fillStyle = INK;
+      ctx.font = `800 120px ${font}`;
+      ctx.fillText(value, x, y);
+      ctx.fillStyle = SOFT;
+      ctx.font = `600 36px ${font}`;
+      ctx.fillText(label, x, y + 52);
+    });
+    if (spec.line) {
+      ctx.fillStyle = INK;
+      ctx.font = `600 36px ${font}`;
+      wrap(ctx, spec.line, 820).forEach((l, i) => ctx.fillText(l, W / 2, 1000 + i * 46));
     }
   } else {
     ctx.fillStyle = SOFT;

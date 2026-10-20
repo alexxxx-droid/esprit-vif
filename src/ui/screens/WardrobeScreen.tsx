@@ -6,10 +6,10 @@ import { purchaseBlocker, type HatId, type HatStatus } from '../../core/wardrobe
 import { Icon } from '../components/Icon';
 import { Mascot } from '../components/Mascot';
 import { fx } from '../fx/fx';
-import { useProfiles } from '../profiles-context';
 import { useProgress, useStore } from '../progress-context';
 import { navigate } from '../router';
 import { useWardrobe } from '../wardrobe';
+import { useActiveCharacter } from '../characters-context';
 
 function goBack() {
   if (history.length > 1) history.back();
@@ -21,14 +21,13 @@ export function WardrobeScreen() {
   const data = useProgress();
   const store = useStore();
   const status = useWardrobe();
-  const { active } = useProfiles();
   const worn = data.settings.hat || null;
   const [selected, setSelected] = useState<HatId | null>(worn ?? status.nextShop?.id ?? null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cheer, setCheer] = useState(false);
   const hat = status.hats.find((h) => h.id === selected) ?? null;
-  const name = characterName(active.character);
+  const name = characterName(useActiveCharacter());
 
   const wear = async (id: HatId | '') => {
     await store.updateSettings({ hat: id });
@@ -53,6 +52,8 @@ export function WardrobeScreen() {
 
   const shop = status.hats.filter((h) => h.kind === 'shop');
   const prestige = status.hats.filter((h) => h.kind === 'prestige');
+  const premiumHats = status.hats.filter((h) => h.kind === 'premium');
+  const premium = premiumHats.some((h) => h.owned);
 
   return (
     <div className="screen screen-in wardrobe">
@@ -84,6 +85,18 @@ export function WardrobeScreen() {
 
       <HatGrid title={tr('La boutique', 'The shop')} hats={shop} selected={selected} worn={worn} onSelect={setSelected} />
       <HatGrid title={tr('Prestige', 'Prestige')} subtitle={tr('Ils ne s’achètent pas : ils se méritent.', 'These can’t be bought: they’re earned.')} hats={prestige} selected={selected} worn={worn} onSelect={setSelected} />
+      <HatGrid
+        title={tr('Collection Premium', 'Premium collection')}
+        subtitle={
+          premium
+            ? tr('Merci de soutenir Esprit Vif : ils sont tous à toi.', 'Thanks for supporting Esprit Vif: they’re all yours.')
+            : tr('Huit chapeaux qui scintillent, inclus dans Esprit Vif Premium. Touche-les pour les essayer sur Vif.', 'Eight sparkling hats, included with Esprit Vif Premium. Tap one to try it on Vif.')
+        }
+        hats={premiumHats}
+        selected={selected}
+        worn={worn}
+        onSelect={setSelected}
+      />
 
       <section className="wardrobe__how" aria-labelledby="how-title">
         <h2 className="section-title" id="how-title">
@@ -125,6 +138,14 @@ function HatActions({ hat, worn, busy, blocker, onWear, onBuy }: HatActionsProps
             {tr('Porter', 'Wear')}
           </button>
         )
+      ) : hat.kind === 'premium' ? (
+        <>
+          <button type="button" className="btn btn--lg btn--primary" onClick={() => navigate({ name: 'premium' })}>
+            <Icon name="spark" size={18} />
+            {tr('Avec Esprit Vif Premium', 'With Esprit Vif Premium')}
+          </button>
+          <p className="wardrobe__hint">{tr('Essai gratuit ici : il ne le gardera qu’avec Premium.', 'Try it here for free: it stays only with Premium.')}</p>
+        </>
       ) : hat.kind === 'shop' ? (
         <>
           <button type="button" className="btn btn--lg btn--primary" disabled={busy || blocker !== null} onClick={() => onBuy(hat.id)}>
@@ -166,7 +187,7 @@ function HatGrid({ title, subtitle, hats, selected, worn, onSelect }: HatGridPro
             <button
               key={hat.id}
               type="button"
-              className={`hat-tile${hat.owned ? ' is-owned' : ''}${selected === hat.id ? ' is-selected' : ''}${hat.kind === 'prestige' && !hat.owned ? ' is-locked' : ''}`}
+              className={`hat-tile${hat.owned ? ' is-owned' : ''}${selected === hat.id ? ' is-selected' : ''}${hat.kind === 'prestige' && !hat.owned ? ' is-locked' : ''}${hat.kind === 'premium' ? ' hat-tile--premium' : ''}`}
               aria-pressed={selected === hat.id}
               aria-label={`${hat.name}, ${state}`}
               onClick={() => onSelect(hat.id)}
@@ -183,6 +204,10 @@ function HatGrid({ title, subtitle, hats, selected, worn, onSelect }: HatGridPro
                 ) : hat.kind === 'shop' ? (
                   <>
                     <Icon name="spark" size={12} /> {hat.price}
+                  </>
+                ) : hat.kind === 'premium' ? (
+                  <>
+                    <Icon name="lock" size={12} /> Premium
                   </>
                 ) : (
                   <>

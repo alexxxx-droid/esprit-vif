@@ -2,6 +2,7 @@ import { useMemo, useSyncExternalStore } from 'react';
 import { resolveTheme, type ResolvedTheme } from '../core/themes';
 import { isPremium, subscribePremium } from '../premium/entitlement';
 import { useToday } from './hooks';
+import { useThemePreview } from './theme-preview';
 import { useProgress } from './progress-context';
 import { useProgression } from './progression';
 
@@ -16,8 +17,10 @@ export function useResolvedTheme(): ResolvedTheme {
   const { rank } = useProgression();
   const premium = usePremium();
   const today = useToday();
+  const preview = useThemePreview();
+  // Un thème essayé s'applique comme s'il était débloqué, le temps de l'aperçu.
   return useMemo(
-    () => resolveTheme(settings.palette, today, settings.seasonal, rank.level, premium),
-    [settings.palette, settings.seasonal, today, rank.level, premium],
+    () => (preview ? resolveTheme(preview, today, settings.seasonal, Infinity, true) : resolveTheme(settings.palette, today, settings.seasonal, rank.level, premium)),
+    [preview, settings.palette, settings.seasonal, today, rank.level, premium],
   );
 }

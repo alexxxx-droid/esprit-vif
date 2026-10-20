@@ -40,7 +40,15 @@ export type HatId =
   | 'toque'
   | 'haut-de-forme'
   | 'mortier'
-  | 'aureole';
+  | 'aureole'
+  | 'astronaute'
+  | 'licorne'
+  | 'mousquetaire'
+  | 'couronne-etoilee'
+  | 'lapin'
+  | 'dragon'
+  | 'arc-en-ciel'
+  | 'pharaon';
 
 interface Prestige {
   rule: Translations;
@@ -55,6 +63,8 @@ interface HatDef {
   price?: number;
   /** Condition d'obtention (chapeaux de prestige). */
   prestige?: Prestige;
+  /** Collection Premium : à toi avec Esprit Vif Premium, jamais contre des étincelles. */
+  premium?: true;
 }
 
 const shop = (id: HatId, fr: string, en: string, price: number): HatDef => ({ id, name: { fr, en }, price });
@@ -63,6 +73,7 @@ const prestige = (id: HatId, fr: string, en: string, rule: Translations, value: 
   name: { fr, en },
   prestige: { rule, value, target },
 });
+const premiumHat = (id: HatId, fr: string, en: string): HatDef => ({ id, name: { fr, en }, premium: true });
 const has = (condition: boolean) => (condition ? 1 : 0);
 
 /** Les paliers de niveaux, du plus simple au plus difficile (voir `TIERS`). */
@@ -121,7 +132,22 @@ export const HATS: readonly HatDef[] = [
   prestige('haut-de-forme', 'Haut-de-forme', 'Top hat', { fr: 'Atteindre le niveau 10 de joueur', en: 'Reach player level 10' }, (c) => c.rank, 10),
   prestige('mortier', 'Mortier de diplômé', 'Graduation cap', { fr: 'Atteindre le niveau 25 de joueur', en: 'Reach player level 25' }, (c) => c.rank, 25),
   prestige('aureole', 'Auréole', 'Halo', { fr: 'Atteindre le niveau 50 de joueur', en: 'Reach player level 50' }, (c) => c.rank, MAX_LEVEL),
+  premiumHat('astronaute', 'Casque d’astronaute', 'Space helmet'),
+  premiumHat('licorne', 'Corne de licorne', 'Unicorn horn'),
+  premiumHat('mousquetaire', 'Chapeau de mousquetaire', 'Musketeer hat'),
+  premiumHat('couronne-etoilee', 'Couronne étoilée', 'Starry crown'),
+  premiumHat('lapin', 'Oreilles de lapin', 'Bunny ears'),
+  premiumHat('dragon', 'Capuche de dragon', 'Dragon hood'),
+  premiumHat('arc-en-ciel', 'Arc-en-ciel', 'Rainbow'),
+  premiumHat('pharaon', 'Coiffe de pharaon', 'Pharaoh headdress'),
 ];
+
+export const isPremiumHat = (id: HatId) => HATS.some((h) => h.id === id && h.premium);
+
+/** Un chapeau de la collection Premium ne se porte qu'avec Premium (le choix est gardé, pas effacé). */
+export function hatWearable(id: HatId, premium: boolean): boolean {
+  return premium || !isPremiumHat(id);
+}
 
 export const isHatId = (value: unknown): value is HatId => HATS.some((h) => h.id === value);
 
@@ -139,7 +165,7 @@ export interface WardrobeEntry {
 export interface HatStatus {
   id: HatId;
   name: string;
-  kind: 'shop' | 'prestige';
+  kind: 'shop' | 'prestige' | 'premium';
   owned: boolean;
   price: number;
   /** Prestige : la condition, et où en est le joueur. */
@@ -158,7 +184,7 @@ export interface Wardrobe {
   nextPrestige: HatStatus | null;
 }
 
-export function wardrobe(input: ProgressionInput, entries: readonly WardrobeEntry[], earned = sparksEarned(input)): Wardrobe {
+export function wardrobe(input: ProgressionInput, entries: readonly WardrobeEntry[], earned = sparksEarned(input), premium = false): Wardrobe {
   const context = achievements(input);
   const bought = new Set(entries.map((e) => e.id));
   const spent = entries.reduce((sum, e) => sum + e.cost, 0);
@@ -174,6 +200,9 @@ export function wardrobe(input: ProgressionInput, entries: readonly WardrobeEntr
         rule: localized(def.prestige.rule),
         progress: def.prestige.target > 1 ? [Math.min(value, def.prestige.target), def.prestige.target] : null,
       };
+    }
+    if (def.premium) {
+      return { id: def.id, name: localized(def.name), kind: 'premium', owned: premium, price: 0, rule: tr('Collection Premium', 'Premium collection'), progress: null };
     }
     return { id: def.id, name: localized(def.name), kind: 'shop', owned: bought.has(def.id), price: def.price ?? 0, rule: '', progress: null };
   });
@@ -191,6 +220,7 @@ export function wardrobe(input: ProgressionInput, entries: readonly WardrobeEntr
 /** Pourquoi un achat est refusé (null : il est possible). */
 export function purchaseBlocker(status: Wardrobe, id: HatId): string | null {
   const hat = status.hats.find((h) => h.id === id);
+  if (hat?.kind === 'premium') return tr('Réservé à Esprit Vif Premium.', 'Included with Esprit Vif Premium.');
   if (!hat || hat.kind !== 'shop') return tr('Ce chapeau ne s’achète pas.', 'This hat can’t be bought.');
   if (hat.owned) return tr('Déjà dans le vestiaire.', 'Already in the wardrobe.');
   if (status.balance < hat.price) return tr(`Encore ${hat.price - status.balance} étincelles`, `${hat.price - status.balance} more sparks`);

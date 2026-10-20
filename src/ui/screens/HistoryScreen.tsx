@@ -34,12 +34,30 @@ export function HistoryScreen({ gameId }: { gameId: GameId }) {
           <p className="screen-subtitle">{tr(`Historique · ${DOMAINS[meta.domain].name}`, `History · ${DOMAINS[meta.domain].name}`)}</p>
         </div>
       </header>
-      {premium ? <Details gameId={gameId} /> : <Locked />}
+      {premium ? <Details gameId={gameId} /> : <Locked gameId={gameId} />}
     </div>
   );
 }
 
-function Locked() {
+/** Sans Premium : la vraie courbe du joueur, floutée derrière le cadenas (rien d'inventé). */
+function Locked({ gameId }: { gameId: GameId }) {
+  const data = useProgress();
+  const points = data.plays.filter((p) => p.gameId === gameId).map((p) => ({ day: p.day, score: p.score, level: p.level }));
+  return (
+    <>
+      {points.length >= 2 && (
+        <div className="teaser teaser--locked history__teaser" aria-hidden="true">
+          <div className="teaser__content">
+            <ScoreChart points={points} />
+          </div>
+        </div>
+      )}
+      <LockedCard />
+    </>
+  );
+}
+
+function LockedCard() {
   return (
     <section className="card history__locked">
       <Mascot mood="think" size={64} />

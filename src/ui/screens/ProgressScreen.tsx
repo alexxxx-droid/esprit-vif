@@ -24,6 +24,7 @@ import { useProgression } from '../progression';
 import { navigate } from '../router';
 import { TROPHY_ICONS } from '../trophy-icons';
 import { useWardrobe } from '../wardrobe';
+import { usePremium } from '../theme';
 
 /** Les initiales des jours, du lundi au dimanche, dans la langue de l'interface. */
 const weekdays = () => tr('LMMJVSD', 'MTWTFSS').split('');
@@ -129,6 +130,7 @@ export function ProgressScreen() {
           <NextRewards />
           <WeekRecap plays={data.plays} today={today} />
           <KeyFigures plays={data.plays} />
+          {data.plays.length > 0 && <MonthEntry />}
 
           <section className="card insights" aria-labelledby="insights-title">
             <h2 className="section-title" id="insights-title">
@@ -496,6 +498,25 @@ function RecentActivity({ plays, today }: { plays: readonly PlayRecord[]; today:
         <Empty text={tr('Tes parties apparaîtront ici. Commence par le test du jour !', 'Your games will show up here. Start with the daily test!')} />
       )}
     </section>
+  );
+}
+
+/** L'accès au bilan du mois (Premium) : une ligne discrète, avec un cadenas sans Premium. */
+function MonthEntry() {
+  const premium = usePremium();
+  return (
+    <button type="button" className="card card--action month-entry" onClick={() => navigate({ name: 'month' })}>
+      <span className="card__icon">
+        <Icon name="calendar" />
+      </span>
+      <span className="card__text">
+        <span className="card__title">{tr('Bilan du mois', 'Monthly recap')}</span>
+        <span className="card__sub">
+          {premium ? tr('Ta carte du mois, à garder ou à partager', 'Your month on one card, to keep or share') : tr('Inclus dans Premium · ton bilan est prêt', 'Included with Premium · your recap is ready')}
+        </span>
+      </span>
+      <Icon name={premium ? 'arrow' : 'lock'} />
+    </button>
   );
 }
 

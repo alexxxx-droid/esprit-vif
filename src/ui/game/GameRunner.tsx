@@ -5,6 +5,7 @@ import { progressionDelta, type ProgressionDelta } from '../../core/progression'
 import { randomSeed } from '../../core/rng';
 import type { PlayMode, PlayOutcome } from '../../core/types';
 import { progressionInput, type SavedPlay } from '../../store/progress';
+import { track } from '../../analytics/journal';
 import { fx } from '../fx/fx';
 import { startMusic, stopMusic } from '../fx/music';
 import { GAME_COMPONENTS, GAME_TUTORIALS } from '../games/catalog';
@@ -73,6 +74,7 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
     const playLevel = override ?? chosen;
     if (override !== undefined) setSelected(override);
     setRun((previous) => ({ id: previous.id + 1, seed, level: playLevel }));
+    track('game_started', { game: meta.id, level: playLevel, mode });
     setResult(null);
     setNotice(null);
     setPhase('countdown');
@@ -107,6 +109,13 @@ export function GameRunner({ meta, level, mode, selectable, fixedSeed, badge, st
       const delta = saved ? progressionDelta(before, progressionInput(store.getSnapshot()), meta.id, run.level) : null;
       if (delta && (delta.rankAfter.level > delta.rankBefore.level || delta.newTrophies.length || saved?.record === 'new')) fx.record();
       else fx.done();
+      if (saved) {
+        track('game_done', { game: meta.id, level: run.level, mode, score: outcome.score });
+        track('first_game_done');
+        if (saved.record === 'new') track('record', { game: meta.id, level: run.level });
+        if (delta?.unlockedNext) track('level_unlocked', { game: meta.id, level: run.level + 1 });
+        for (const objective of delta?.objectivesCompleted ?? []) track('objective_done', { kind: objective.kind });
+      }
       setResult({ outcome, saved, level: run.level, seed: run.seed, delta });
       setPhase('result');
     } catch {

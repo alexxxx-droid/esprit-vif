@@ -1,5 +1,6 @@
 import { mergeResults, type ChallengeLink, type FriendResult } from '../core/challenges';
 import { tr, type LangChoice } from '../core/lang';
+import { track } from '../analytics/journal';
 import { dayKey, hasOfficialTest } from '../core/daily';
 import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
 import { unlockedLevel, type ProgressionInput } from '../core/progression';
@@ -358,6 +359,7 @@ export class ProgressStore {
     };
     await this.storage.put('tests', test);
     this.commit({ ...this.data, tests: [...this.data.tests.filter((t) => t.done), test] });
+    track('daily_test_started', { official: test.official });
     return test;
   }
 
@@ -368,6 +370,7 @@ export class ProgressStore {
     const others = this.data.tests.filter((t) => t.id !== testId);
     const test = withResult(current, play, others, now.toISOString());
     await this.storage.put('tests', test);
+    if (test.done) track('daily_test_done', { official: test.official });
     this.commit({ ...this.data, tests: [...others, test] });
     return test;
   }

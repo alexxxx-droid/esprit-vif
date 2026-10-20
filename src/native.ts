@@ -1,5 +1,6 @@
 import { App } from '@capacitor/app';
 import { registerPlugin } from '@capacitor/core';
+import type { PlayBillingApi } from './premium/billing';
 import { tr } from './core/lang';
 import { NeedsConsent } from './sync/google';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
@@ -104,6 +105,9 @@ interface GoogleDrivePluginApi {
 
 const GoogleDrive = registerPlugin<GoogleDrivePluginApi>('GoogleDrive');
 
+/** Premium à vie par Google Play Billing (android/…/PlayBillingPlugin.java). */
+const PlayBilling = registerPlugin<PlayBillingApi>('PlayBilling');
+
 async function googleToken(interactive: boolean) {
   try {
     return await GoogleDrive.authorize({ interactive });
@@ -140,7 +144,7 @@ function vibrate(kind: HapticKind) {
 }
 
 export async function setupNative() {
-  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder, updateWidget, pinWidget, googleToken });
+  setPlatform({ native: true, saveFile, shareImage, shareLink, scheduleReminder, updateWidget, pinWidget, googleToken, billing: PlayBilling });
   setNativeHaptics(vibrate);
   // Retour Android : écran précédent, ou sortie de l'appli depuis l'accueil.
   const launch = await App.getLaunchUrl().catch(() => undefined);

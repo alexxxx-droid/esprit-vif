@@ -47,11 +47,11 @@ Règle de chaque phase : tests, lint et types verts, captures vérifiées sur 36
 
 ## Phase 4 — Premium à vie (appli Google Play)
 
-- [ ] Catalogue (`premium_lifetime`), client de facturation (module natif Play Billing), droits,
+- [x] Catalogue (`premium_lifetime`), client de facturation (module natif Play Billing), droits,
       écran Premium, restauration, mode test explicite
-- [ ] Avantages réellement construits : thèmes de couleur supplémentaires, historique détaillé par jeu
-- [ ] Achats en attente, annulés, déjà détenus, remboursés ; jeux gratuits jamais bloqués
-- [ ] Guide Play Console (`docs/GOOGLE_PLAY_BILLING.md`) : produit à créer, clé, testeurs
+- [x] Avantages réellement construits : thèmes de couleur supplémentaires, historique détaillé par jeu
+- [x] Achats en attente, annulés, déjà détenus, remboursés ; jeux gratuits jamais bloqués
+- [x] Guide Play Console (`docs/GOOGLE_PLAY_BILLING.md`) : produit à créer, clé, testeurs
 
 ## Phase 5 — Rétention et lancement
 

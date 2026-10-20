@@ -11,6 +11,8 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(WidgetBridge.class);
         // Module maison : la sauvegarde Google Drive (jeton par les services Google du téléphone).
         registerPlugin(GoogleDrivePlugin.class);
+        // Module maison : Premium à vie par Google Play Billing (achat vérifié sur l'appareil).
+        registerPlugin(PlayBillingPlugin.class);
         super.onCreate(savedInstanceState);
     }
 }

@@ -306,6 +306,16 @@ export function ProgressScreen() {
                       {medal && <MedalBadge medal={medal} size={26} />}
                       <span className="record__score">{best ? best.score : '—'}</span>
                     </button>
+                    {best && (
+                      <button
+                        type="button"
+                        className="icon-btn icon-btn--flat record__history"
+                        onClick={() => navigate({ name: 'history', gameId: id })}
+                        aria-label={tr(`Historique de ${GAMES[id].name}`, `${GAMES[id].name} history`)}
+                      >
+                        <Icon name="progress" size={20} />
+                      </button>
+                    )}
                   </li>
                 );
               })}

@@ -5381,3 +5381,218 @@
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---------- Petits boutons, journal, records ---------- */
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+}
+
+.journal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.journal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.records li:has(.record__history) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.record__history {
+  flex: none;
+}
+
+.chart__dot--best {
+  fill: var(--warm);
+}
+
+/* ---------- Premium ---------- */
+
+.premium {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.premium__top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.premium__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.premium__title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.premium__tagline {
+  max-width: 30ch;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.premium__notice--good {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.premium__notice--bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.premium__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.premium__benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.premium__benefit-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+}
+
+.premium__benefit-text {
+  display: block;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.premium__buy {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  text-align: center;
+}
+
+.premium__fine,
+.premium__info {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.premium__info {
+  padding: 14px;
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+  font-size: 0.95rem;
+}
+
+.premium__owned {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: var(--radius-m);
+  background: var(--good-soft);
+  color: var(--good);
+  font-weight: 700;
+}
+
+.premium__test {
+  border: 2px dashed var(--warm);
+}
+
+.premium__test-title {
+  margin-bottom: 8px;
+  color: var(--warm-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.premium__test-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* ---------- Historique d'un jeu ---------- */
+
+.history__locked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.level-bests {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.level-best {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.level-best__n {
+  color: var(--ink-3);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.level-best__score {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.level-best--s1 {
+  background: color-mix(in oklab, var(--warm) 18%, var(--surface-2));
+}
+
+.level-best--s2 {
+  background: color-mix(in oklab, var(--warm) 34%, var(--surface-2));
+}
+
+.level-best--s3 {
+  background: color-mix(in oklab, var(--warm) 55%, var(--surface-2));
+}
+
+.level-best--sx .level-best__score {
+  color: var(--ink-3);
+}

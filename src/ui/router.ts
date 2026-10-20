@@ -19,7 +19,9 @@ export type Route =
   | { name: 'party' }
   | { name: 'challenge'; code: string | null }
   | { name: 'transfer' }
-  | { name: 'wardrobe' };
+  | { name: 'wardrobe' }
+  | { name: 'premium' }
+  | { name: 'history'; gameId: GameId };
 
 const isDomain = (value: string | undefined): value is Domain => DOMAIN_ORDER.includes(value as Domain);
 
@@ -60,6 +62,10 @@ export function parseHash(hash: string): Route {
       return { name: 'transfer' };
     case 'vestiaire':
       return { name: 'wardrobe' };
+    case 'premium':
+      return { name: 'premium' };
+    case 'historique':
+      return arg && isGameId(arg) ? { name: 'history', gameId: arg } : { name: 'progress' };
     default:
       return { name: 'home' };
   }
@@ -97,6 +103,10 @@ export function routeHash(route: Route): string {
       return '#/transfert';
     case 'wardrobe':
       return '#/vestiaire';
+    case 'premium':
+      return '#/premium';
+    case 'history':
+      return `#/historique/${route.gameId}`;
   }
 }
 

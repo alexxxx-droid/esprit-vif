@@ -58,6 +58,31 @@ Chaque choix est réversible : il suffit de modifier la constante citée.
   46 trophées sont recalculés, rien ne peut se désynchroniser. Seuls séances, marathons et duels
   ont leur petite mémoire (`extras`), exportée avec le reste.
 
+## Premium à vie (v2.9, décision d'Alex du 20-10-2026)
+
+Le cahier des charges disait « sans publicité » et la fiche Play « achats numériques : non ». Alex a
+choisi : **un Premium à vie, zéro publicité**, vendu seulement dans l'appli Google Play, qui
+n'ajoute que du nouveau. Détails techniques et étapes de la Play Console : `docs/GOOGLE_PLAY_BILLING.md`.
+
+- **Un produit** (`premium_lifetime`), achat unique non consommable ; prix conseillé 8,99 €.
+- **Ce qu'il apporte, et rien d'autre** : trois thèmes exclusifs et l'historique détaillé de chaque
+  jeu. Les 28 jeux, les 1 400 niveaux, le test du jour, les objectifs, le vestiaire, les thèmes
+  gagnés, les statistiques et les sauvegardes restent gratuits. Aucune fonction existante n'a été
+  retirée de la version gratuite.
+- **Le site ne vend rien** : l'écran Premium y explique que l'achat se fait dans l'appli Android.
+- **Discret** : l'écran Premium ne s'ouvre jamais tout seul ; on y arrive par Réglages, par un
+  thème verrouillé ou par l'historique d'un jeu. Pas de compte à rebours, pas de promotion.
+- **Droit = achat vérifié** : terminé (pas « en attente »), signature vérifiée, bon produit ; gardé
+  sur l'appareil pour le hors-ligne, revérifié à chaque lancement (remboursement compris).
+- **Mode test** explicite (`--mode billingtest` ou `npm run dev`), avec un bandeau, jamais publié.
+
+## Mesures (v2.9, décision d'Alex du 20-10-2026)
+
+Aucun SDK d'analytics. Un **journal local** (`src/analytics/journal.ts`, 500 événements au plus)
+note les étapes clés sur l'appareil, sans prénom ni contenu ; il n'est jamais envoyé, et se copie
+ou s'efface dans Réglages → Mes données. Les indicateurs de tous les joueurs (installations,
+rétention, achats) viennent de la Play Console : voir `docs/METRIQUES.md`.
+
 ## Objectifs, étincelles et vestiaire (v2.9)
 
 Quatre systèmes, chacun avec un seul rôle : les **niveaux** d'un jeu règlent sa difficulté ; les

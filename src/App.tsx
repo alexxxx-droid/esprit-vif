@@ -30,6 +30,10 @@ import { ReportScreen } from './ui/screens/ReportScreen';
 import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { TrainingScreen } from './ui/screens/TrainingScreen';
 import { WardrobeScreen } from './ui/screens/WardrobeScreen';
+import { HistoryScreen } from './ui/screens/HistoryScreen';
+import { PremiumScreen } from './ui/screens/PremiumScreen';
+import { premiumController } from './ui/premium';
+import { track } from './analytics/journal';
 
 const TABBED: Route['name'][] = ['home', 'training', 'progress', 'settings'];
 
@@ -66,6 +70,10 @@ function Screen({ route }: { route: Route }) {
       return <ChallengeScreen code={route.code} />;
     case 'wardrobe':
       return <WardrobeScreen />;
+    case 'premium':
+      return <PremiumScreen />;
+    case 'history':
+      return <HistoryScreen gameId={route.gameId} />;
     case 'transfer':
       return (
         <Suspense fallback={null}>
@@ -196,6 +204,12 @@ export function App() {
   const key = routeHash(route);
   const look = useResolvedTheme();
   useApplyTheme(look, settings.theme);
+
+  // Au lancement : la boutique vérifie les achats (les thèmes Premium s'appliquent sans attendre l'écran).
+  useEffect(() => {
+    premiumController();
+    track('first_open');
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { durationLabel, recentPlays, totals, weeklyRecap, type SummaryPlay } from './summary';
+import { durationLabel, gameHistory, recentPlays, totals, weeklyRecap, type SummaryPlay } from './summary';
 
 const play = (day: string, score: number, stats: Record<string, number> = {}, durationMs?: number, hour = 9): SummaryPlay => ({
   gameId: 'calcul',
@@ -53,4 +53,12 @@ describe('chiffres des Progrès', () => {
     expect(durationLabel(42 * 60_000)).toBe('42 min');
     expect(durationLabel(185 * 60_000)).toBe('3 h 05');
   });
+
+  it('résume l’historique d’un jeu : record, 10 dernières parties face aux 10 d’avant', () => {
+    const plays = Array.from({ length: 20 }, (_, i) => play(`2026-10-${String(1 + i).padStart(2, '0')}`, i < 10 ? 50 : 70, { correct: i < 10 ? 6 : 9, errors: i < 10 ? 4 : 1 }));
+    const h = gameHistory([...plays, { ...play('2026-10-21', 99), gameId: 'stroop' }], 'calcul');
+    expect(h).toMatchObject({ plays: 20, best: 70, recent: 70, before: 50, accuracy: { recent: 90, before: 60 }, reaction: { recent: null, before: null } });
+    expect(gameHistory(plays.slice(0, 2), 'calcul').before).toBeNull();
+  });
 });
+

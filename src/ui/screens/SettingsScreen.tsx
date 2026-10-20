@@ -22,6 +22,9 @@ import { navigate } from '../router';
 import { useProgression } from '../progression';
 import { useToday } from '../hooks';
 import { usePremium, useResolvedTheme } from '../theme';
+import { premiumController, usePremiumState } from '../premium';
+import { clearJournal, readJournal, summarize, track } from '../../analytics/journal';
+import { copyText } from '../platform';
 
 // Les libellés portent les deux langues : `tr` se choisit à l'affichage, jamais au chargement.
 const TEXT_SIZES: { value: TextSize; fr: string; en: string }[] = [
@@ -69,6 +72,7 @@ export function SettingsScreen() {
     const schedule = platform().scheduleReminder;
     if (schedule) {
       const ok = await schedule(reminder ? reminderTime : null, { skipToday: hasOfficialTest(tests, dayKey()), ask: true });
+      if (reminder && ok) track('reminder_enabled');
       if (reminder && !ok) {
         await store.updateSettings({ reminder: false });
         say(tr('Les notifications sont refusées : autorise-les dans les réglages du téléphone.', 'Notifications are blocked: allow them in your phone’s settings.'));
@@ -426,6 +430,8 @@ export function SettingsScreen() {
         </Section>
       )}
 
+      <PremiumSection />
+
       <CloudSection say={say} />
 
       <Section title={tr('Mes données', 'My data')}>
@@ -443,6 +449,7 @@ export function SettingsScreen() {
           <ActionRow icon="upload" label={tr('Importer une sauvegarde', 'Import a backup')} onClick={() => fileInput.current?.click()} />
           <ActionRow icon="trash" label={tr('Tout effacer', 'Erase everything')} danger onClick={() => setPending({ kind: 'reset' })} />
         </div>
+        <JournalRow say={say} />
         <input
           ref={fileInput}
           type="file"
@@ -623,7 +630,7 @@ function ThemePicker() {
   const today = useToday();
   const season = seasonThemeOf(today);
   const current = useResolvedTheme();
-  const choices: { id: PaletteChoice; name: string; light: string; dark: string; tint: string; lock: string | null }[] = [
+  const choices: { id: PaletteChoice; name: string; light: string; dark: string; tint: string; lock: string | null; premium?: boolean }[] = [
     { id: 'auto', name: tr(`Auto · ${themeName(season.id)}`, `Auto · ${themeName(season.id)}`), light: season.light, dark: season.dark, tint: season.tint, lock: null },
     ...APP_THEMES.map((theme) => ({
       id: theme.id,
@@ -631,6 +638,7 @@ function ThemePicker() {
       light: theme.light,
       dark: theme.dark,
       tint: theme.tint,
+      premium: theme.unlock.kind === 'premium',
       lock: themeUnlocked(theme, rank.level, premium)
         ? null
         : theme.unlock.kind === 'level'
@@ -653,6 +661,7 @@ function ThemePicker() {
             style={{ '--sw-light': choice.light, '--sw-dark': choice.dark, '--sw-tint': choice.tint } as CSSProperties}
             onClick={() => {
               if (!choice.lock) void store.updateSettings({ palette: choice.id });
+              else if (choice.premium) navigate({ name: 'premium' });
             }}
           >
             <span className="theme-swatch__dot" aria-hidden="true">
@@ -672,5 +681,73 @@ function ThemePicker() {
             )}
       </p>
     </>
+  );
+}
+
+/** Esprit Vif Premium : son état, l'écran de présentation, et la restauration des achats. */
+function PremiumSection() {
+  const state = usePremiumState();
+  const status = state.premium
+    ? tr('Actif sur cet appareil. Merci !', 'Active on this device. Thank you!')
+    : state.shop === 'web'
+      ? tr('Proposé dans l’appli Android (Google Play).', 'Available in the Android app (Google Play).')
+      : state.shop === 'not-configured'
+        ? tr('Bientôt disponible.', 'Coming soon.')
+        : state.product
+          ? tr(`Achat unique : ${state.product.price}`, `One-time purchase: ${state.product.price}`)
+          : tr('Achat unique, sans abonnement.', 'One-time purchase, no subscription.');
+  return (
+    <Section title="Esprit Vif Premium">
+      <div className="data-actions">
+        <ActionRow icon="spark" label={state.premium ? tr('Voir Premium', 'View Premium') : tr('Découvrir Premium', 'Discover Premium')} onClick={() => navigate({ name: 'premium' })} />
+        {state.shop !== 'web' && (
+          <ActionRow icon="replay" label={state.busy === 'restore' ? tr('Vérification…', 'Checking…') : tr('Restaurer mes achats', 'Restore purchases')} onClick={() => void premiumController().restore()} />
+        )}
+      </div>
+      <p className="hint">{status}</p>
+    </Section>
+  );
+}
+
+/**
+ * Le journal d'utilisation : gardé sur cet appareil, jamais envoyé. Un testeur peut le copier pour
+ * l'envoyer de lui-même ; on peut aussi l'effacer.
+ */
+function JournalRow({ say }: { say: (text: string) => void }) {
+  // Effacer le journal redessine la ligne : le résumé se relit à chaque affichage.
+  const [, setVersion] = useState(0);
+  const summary = summarize(readJournal());
+  return (
+    <div className="journal">
+      <p className="hint">
+        {tr(
+          `Journal d’utilisation : ${summary.total} événements, gardés sur cet appareil et jamais envoyés (aucun prénom, aucun score personnel identifiable).`,
+          `Usage log: ${summary.total} events, kept on this device and never sent (no names, nothing identifying).`,
+        )}
+      </p>
+      <div className="journal__actions">
+        <button
+          type="button"
+          className="btn btn--sm"
+          onClick={async () => {
+            const ok = await copyText(JSON.stringify(readJournal()));
+            say(ok ? tr('Journal copié.', 'Log copied.') : tr('Copie impossible sur ce navigateur.', 'Copying isn’t possible in this browser.'));
+          }}
+        >
+          {tr('Copier le journal', 'Copy the log')}
+        </button>
+        <button
+          type="button"
+          className="btn btn--sm btn--ghost"
+          onClick={() => {
+            clearJournal();
+            setVersion((v) => v + 1);
+            say(tr('Journal effacé.', 'Log cleared.'));
+          }}
+        >
+          {tr('Effacer', 'Clear')}
+        </button>
+      </div>
+    </div>
   );
 }

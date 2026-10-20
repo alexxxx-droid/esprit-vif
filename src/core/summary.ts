@@ -112,3 +112,32 @@ export function durationLabel(ms: number): string {
   if (minutes < 60) return `${minutes} min`;
   return `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, '0')}`;
 }
+
+export interface GameHistory {
+  plays: number;
+  best: number | null;
+  /** Moyenne des 10 dernières parties, et des 10 d'avant (null s'il n'y en a pas assez). */
+  recent: number | null;
+  before: number | null;
+  /** Précision et temps de réaction des 10 dernières parties, puis des 10 d'avant, quand le jeu les mesure. */
+  accuracy: { recent: number | null; before: number | null };
+  reaction: { recent: number | null; before: number | null };
+}
+
+const WINDOW = 10;
+const mean = (values: readonly number[]) => (values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null);
+
+/** L'historique d'un jeu : tendance récente comparée aux parties d'avant, sur les seules parties enregistrées. */
+export function gameHistory(plays: readonly SummaryPlay[], gameId: GameId): GameHistory {
+  const mine = plays.filter((p) => p.gameId === gameId).sort((a, b) => a.at.localeCompare(b.at));
+  const recent = mine.slice(-WINDOW);
+  const before = mine.slice(-2 * WINDOW, -WINDOW);
+  return {
+    plays: mine.length,
+    best: mine.length ? Math.max(...mine.map((p) => p.score)) : null,
+    recent: mean(recent.map((p) => p.score)),
+    before: before.length >= 3 ? mean(before.map((p) => p.score)) : null,
+    accuracy: { recent: totals(recent).accuracy, before: before.length >= 3 ? totals(before).accuracy : null },
+    reaction: { recent: totals(recent).reactionMs, before: before.length >= 3 ? totals(before).reactionMs : null },
+  };
+}

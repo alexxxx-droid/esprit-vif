@@ -1,3 +1,5 @@
+import type { PlayBillingApi } from '../premium/billing';
+
 /**
  * Ce qui diffère entre le navigateur et l'appli Android : enregistrement de fichiers et rappel quotidien.
  * La version web est installée par défaut ; l'APK installe la sienne au démarrage.
@@ -53,6 +55,8 @@ export interface Platform {
   pinWidget?: () => Promise<boolean>;
   /** Jeton Google pour le Drive, par le module natif (appli Android). Absent sur le web. */
   googleToken?: (interactive: boolean) => Promise<{ token: string; expiresIn: number }>;
+  /** Achats Google Play (Premium à vie), par le module natif. Absent sur le web. */
+  billing?: PlayBillingApi;
 }
 
 function download(name: string, blob: Blob) {

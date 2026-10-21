@@ -86,7 +86,7 @@ export function SessionScreen() {
 
   return (
     <div className="screen screen-in mode-screen">
-      <ModeHeader onBack={() => navigate({ name: 'home' }, { replace: true })} badge="≈ 6 minutes" />
+      <ModeHeader onBack={() => navigate({ name: 'home' }, { replace: true })} badge="≈ 6 min" />
       <div className="intro__head">
         <h1 className="intro__title">{tr('Séance du jour', 'Daily session')}</h1>
         <p className="intro__rule">
@@ -244,7 +244,7 @@ function MarathonRun({ domain }: { domain: Domain }) {
   const max = games.length * 100;
   return (
     <div className="screen screen-in mode-screen">
-      <ModeHeader onBack={() => navigate({ name: 'marathon', domain: null }, { replace: true })} badge={`≈ ${games.length + 1} minutes`} />
+      <ModeHeader onBack={() => navigate({ name: 'marathon', domain: null }, { replace: true })} badge={`≈ ${games.length + 1} min`} />
       <div className="intro__head">
         <span className="mode-domain">
           <DomainBadge domain={domain} size={26} />

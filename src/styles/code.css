@@ -1,0 +1,141 @@
+/* ---------- Code secret ---------- */
+
+.code {
+  gap: 14px;
+}
+
+/* Les essais, du premier au dernier ; la ligne en cours a un liseré. */
+.code__board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.code__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
+}
+
+.code__row.is-current {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.code__pegs {
+  display: flex;
+  gap: 8px;
+}
+
+.code__peg,
+.code__color {
+  --pad: var(--ink-bleu);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--surface);
+  background: var(--pad);
+}
+
+.code__peg .echo__shape,
+.code__color .echo__shape {
+  width: 50%;
+  height: 50%;
+}
+
+.code__peg.is-empty {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+
+/* Indice d'un pion : une pastille sous le pion (✓ bien placé, • ailleurs, rien sinon). */
+.code__hint {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 0 0 1.5px var(--line);
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.code__peg.is-good .code__hint {
+  color: var(--accent-ink);
+  background: var(--good, var(--accent));
+}
+
+.code__peg.is-miss {
+  opacity: 0.45;
+}
+
+.code__counts {
+  display: flex;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 760;
+  font-variant-numeric: tabular-nums;
+}
+
+.code__secret {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+/* La palette : une touche par couleur, puis effacer et valider. */
+.code__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.code__palette {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.code__color {
+  width: 48px;
+  height: 48px;
+  border: 0;
+}
+
+.code__color:disabled {
+  opacity: 0.4;
+}
+
+.code__keys {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Démo de l'intro. */
+.code__board--demo .code__peg {
+  width: 28px;
+  height: 28px;
+}
+
+.code__board--demo .code__hint {
+  width: 15px;
+  height: 15px;
+  font-size: 0.6rem;
+}

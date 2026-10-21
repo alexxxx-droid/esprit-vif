@@ -672,3 +672,9 @@ restent originaux ; chaque partie tient en une minute au plus.
   Débutant : 4 × 4, trait vertical ; Confirmé : 6 × 6 ; Expert : trait parfois horizontal ; Maître :
   la diagonale fait miroir (ses cases, hachurées, ne comptent pas) ; Légende : le demi-tour autour
   du centre.
+- **Code secret** (Logique, une minute au plus) : un petit Mastermind aux couleurs et formes
+  d'Écho. Trois codes par partie (deux aux deux derniers paliers) ; chaque code vaut 100 pts s'il
+  est trouvé en autant d'essais qu'un bon joueur (`par`), moins ensuite, 0 s'il ne l'est pas ou si
+  la minute s'achève ; le score est la moyenne. Débutant : 3 pions, un indice par pion (✓ bien
+  placé, • ailleurs) ; Confirmé : 4 pions ; Expert : couleurs répétées ; Maître : indices comptés
+  seulement (● bien placés, ○ mal placés) ; Légende : comptés et répétés.

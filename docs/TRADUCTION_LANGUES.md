@@ -74,6 +74,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | compte | Le compte est bon | Cuenta exacta | Zielzahl | Conto esatto | Conta certa |
 | echo | Écho | Eco | Echo | Eco | Eco |
 | miroir | Miroir | Espejo | Spiegel | Specchio | Espelho |
+| code | Code secret | Código secreto | Geheimcode | Codice segreto | Código secreto |
 
 ### Domaines
 

@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { codeLevelLabel, codeRule } from './code';
 import { miroirLevelLabel, miroirRule } from './miroir';
 import { echoLevelLabel, echoRule } from './echo';
 import { compteLevelLabel, compteRule } from './compte';
@@ -747,6 +748,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: miroirLevelLabel,
   },
+  code: {
+    id: 'code',
+    get name() {
+      return tr('Code secret', 'Secret Code');
+    },
+    domain: 'logique',
+    rule: codeRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: codeLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -801,6 +814,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'sudoku',
   'itineraire',
   'suites',
+  'code',
 ];
 
 /** Jeux du test du jour, par domaine (dans l'ordre des domaines) : tous les jeux y participent. */

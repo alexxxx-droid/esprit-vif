@@ -52,6 +52,7 @@ const GLOSSARY: Record<GameId, string> = {
   filature: 'Keep Track',
   lucioles: 'Fireflies',
   contraires: 'Opposites',
+  code: 'Secret Code',
   miroir: 'Mirror',
   echo: 'Echo',
   compte: 'Hit the Number',

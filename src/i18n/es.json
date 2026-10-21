@@ -479,6 +479,7 @@
   "'Le compte est bon'": "'Cuenta exacta'",
   "'Écho'": "'Eco'",
   "'Miroir'": "'Espejo'",
+  "'Code secret'": "'Código secreto'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para superarla`",
   "'sans miroir'": "'sin espejo'",
   "'1 reflet piège'": "'1 reflejo trampa'",

@@ -667,3 +667,8 @@ restent originaux ; chaque partie tient en une minute au plus.
   erreur le tour se rejoue en entier. Confirmé : 6 touches ; Expert : les touches changent de place ;
   Maître : seule la nouvelle note est jouée ; Légende : deux notes de plus par tour. 100 pts à
   8 notes (9 aux deux derniers paliers) : un test vérifie qu'un joueur rapide y arrive en 55 s.
+- **Miroir** (Vitesse, 45 s) : compléter le reflet d'une figure de l'autre côté du trait ; la
+  figure se valide d'elle-même au bon nombre de cases (une case touchée se retire d'un appui).
+  Débutant : 4 × 4, trait vertical ; Confirmé : 6 × 6 ; Expert : trait parfois horizontal ; Maître :
+  la diagonale fait miroir (ses cases, hachurées, ne comptent pas) ; Légende : le demi-tour autour
+  du centre.

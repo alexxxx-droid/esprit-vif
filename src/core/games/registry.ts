@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { miroirLevelLabel, miroirRule } from './miroir';
 import { echoLevelLabel, echoRule } from './echo';
 import { compteLevelLabel, compteRule } from './compte';
 import { suitesLevelLabel, suitesRule } from './suites';
@@ -734,6 +735,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: echoLevelLabel,
   },
+  miroir: {
+    id: 'miroir',
+    get name() {
+      return tr('Miroir', 'Mirror');
+    },
+    domain: 'vitesse',
+    rule: miroirRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: miroirLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -776,6 +789,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'reflexe',
   'coupdoeil',
   'lucioles',
+  'miroir',
   'anagrammes',
   'lettre',
   'categories',

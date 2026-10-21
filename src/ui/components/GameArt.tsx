@@ -4,6 +4,7 @@ import type { GameId } from '../../core/types';
 import { CONTRAIRES_ART } from './art-contraires';
 import { FILATURE_ART } from './art-filature';
 import { LUCIOLES_ART } from './art-lucioles';
+import { MIROIR_ART } from './art-miroir';
 import { ECHO_ART } from './art-echo';
 import { COMPTE_ART } from './art-compte';
 import { SUITES_ART } from './art-suites';
@@ -17,6 +18,7 @@ const ART: Record<GameId, ReactNode> = {
   filature: FILATURE_ART,
   lucioles: LUCIOLES_ART,
   contraires: CONTRAIRES_ART,
+  miroir: MIROIR_ART,
   echo: ECHO_ART,
   compte: COMPTE_ART,
   suites: SUITES_ART,

@@ -478,6 +478,7 @@
   "'Suites logiques'": "'Zahlenreihen'",
   "'Le compte est bon'": "'Zielzahl'",
   "'Écho'": "'Echo'",
+  "'Miroir'": "'Spiegel'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} Pkt. zum Bestehen`",
   "'sans miroir'": "'ohne Spiegelbild'",
   "'1 reflet piège'": "'1 Spiegelbild-Falle'",

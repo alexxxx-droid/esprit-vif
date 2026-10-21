@@ -73,6 +73,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | suites | Suites logiques | Series lógicas | Zahlenreihen | Serie logiche | Sequências lógicas |
 | compte | Le compte est bon | Cuenta exacta | Zielzahl | Conto esatto | Conta certa |
 | echo | Écho | Eco | Echo | Eco | Eco |
+| miroir | Miroir | Espejo | Spiegel | Specchio | Espelho |
 
 ### Domaines
 

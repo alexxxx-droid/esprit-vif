@@ -478,6 +478,7 @@
   "'Suites logiques'": "'Sequências lógicas'",
   "'Le compte est bon'": "'Conta certa'",
   "'Écho'": "'Eco'",
+  "'Miroir'": "'Espelho'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para vencer`",
   "'sans miroir'": "'sem espelho'",
   "'1 reflet piège'": "'1 reflexo-armadilha'",

@@ -478,6 +478,7 @@
   "'Suites logiques'": "'Serie logiche'",
   "'Le compte est bon'": "'Conto esatto'",
   "'Écho'": "'Eco'",
+  "'Miroir'": "'Specchio'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} punti per superarla`",
   "'sans miroir'": "'senza specchi'",
   "'1 reflet piège'": "'1 riflesso trappola'",

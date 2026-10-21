@@ -1,0 +1,90 @@
+/* ---------- Symboles ---------- */
+
+.sym {
+  gap: 14px;
+}
+
+/* La table : chaque forme au-dessus de son chiffre. */
+.sym__table {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+.sym__pair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 34px;
+}
+
+.sym__pair strong {
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sym__glyph {
+  fill: var(--ink);
+}
+
+.sym__current {
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  border-radius: 32px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 3px var(--d-vitesse),
+    var(--shadow-1);
+  animation: pop 160ms var(--ease-spring);
+}
+
+/* Les touches : quatre par ligne. */
+.sym__pad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.sym__pad--6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Démo de l'intro. */
+.sym--demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.sym--demo .sym__table {
+  padding: 4px 6px;
+  box-shadow: none;
+  animation: none;
+}
+
+.sym--demo .sym__pair {
+  min-width: 22px;
+}
+
+.sym--demo .sym__pair strong {
+  font-size: 0.8rem;
+}
+
+.sym--demo .sym__pad {
+  gap: 4px;
+  width: 150px;
+}
+
+.sym--demo .numpad__key {
+  height: 26px;
+  font-size: 0.9rem;
+}

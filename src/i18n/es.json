@@ -483,6 +483,7 @@
   "'Combien de cubes\\u00a0?'": "'¿Cuántos cubos?'",
   "'Mots mêlés'": "'Sopa de letras'",
   "'Aiguillages'": "'Agujas'",
+  "'Symboles'": "'Símbolos'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para superarla`",
   "'sans miroir'": "'sin espejo'",
   "'1 reflet piège'": "'1 reflejo trampa'",

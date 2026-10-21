@@ -697,3 +697,15 @@ restent originaux ; chaque partie tient en une minute au plus.
   des trains express (cerclés de pointillés) presque deux fois plus rapides. Huit couleurs et huit
   formes (deux de plus qu'Écho, `echo-shapes.tsx`), pour les daltoniens.
 - Avec ces huit jeux : 39 jeux, 1 950 niveaux (README et fiche Play Store mis à jour).
+
+## Huit autres petits jeux (v2.14)
+
+Nouveau choix d'Alex (21-10-2026), tout coché à nouveau : Symboles, Changement de règle, Le plus
+grand ?, Qui manque ?, Pendu express, Taquin express, Labyrinthe éclair, Tours de Hanoï. Même
+méthode : un jeu à la fois, un APK à chaque jeu, textes en français et anglais d'abord.
+
+- **Symboles** (Vitesse, 45 s) : le codage des tests de vitesse classiques ; une table forme →
+  chiffre, on touche le chiffre de chaque forme, une erreur retire un point (au hasard : 0).
+  Confirmé : 6 symboles ; Expert : la table change toutes les 12 à 8 réponses (au moins la moitié
+  des chiffres bougent) ; Maître : la table se cache après 8 à 5 s, un coup d'œil coûte 2 s ;
+  Légende : 8 symboles, touches dans le désordre, puis table cachée.

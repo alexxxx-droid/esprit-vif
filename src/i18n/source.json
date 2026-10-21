@@ -3175,14 +3175,14 @@
     "key": "'Calcul'",
     "en": "'Math'",
     "at": [
-      "src/core/games/registry.ts:53"
+      "src/core/games/registry.ts:54"
     ]
   },
   {
     "key": "'Mémoire'",
     "en": "'Memory'",
     "at": [
-      "src/core/games/registry.ts:58",
+      "src/core/games/registry.ts:59",
       "src/ui/goals.ts:10"
     ]
   },
@@ -3190,49 +3190,49 @@
     "key": "'Attention'",
     "en": "'Attention'",
     "at": [
-      "src/core/games/registry.ts:63"
+      "src/core/games/registry.ts:64"
     ]
   },
   {
     "key": "'Vitesse'",
     "en": "'Speed'",
     "at": [
-      "src/core/games/registry.ts:68"
+      "src/core/games/registry.ts:69"
     ]
   },
   {
     "key": "'Langage'",
     "en": "'Language'",
     "at": [
-      "src/core/games/registry.ts:73"
+      "src/core/games/registry.ts:74"
     ]
   },
   {
     "key": "'Logique'",
     "en": "'Logic'",
     "at": [
-      "src/core/games/registry.ts:78"
+      "src/core/games/registry.ts:79"
     ]
   },
   {
     "key": "'Filature'",
     "en": "'Keep Track'",
     "at": [
-      "src/core/games/registry.ts:113"
+      "src/core/games/registry.ts:114"
     ]
   },
   {
     "key": "'Lucioles'",
     "en": "'Fireflies'",
     "at": [
-      "src/core/games/registry.ts:125"
+      "src/core/games/registry.ts:126"
     ]
   },
   {
     "key": "'Contraires'",
     "en": "'Opposites'",
     "at": [
-      "src/core/games/registry.ts:137",
+      "src/core/games/registry.ts:138",
       "src/ui/games/contraires-demo.tsx:96",
       "src/ui/games/ContrairesGame.tsx:29"
     ]
@@ -3241,147 +3241,147 @@
     "key": "'Calcul éclair'",
     "en": "'Flash Math'",
     "at": [
-      "src/core/games/registry.ts:149"
+      "src/core/games/registry.ts:150"
     ]
   },
   {
     "key": "'Couleurs piégées'",
     "en": "'Color Trap'",
     "at": [
-      "src/core/games/registry.ts:161"
+      "src/core/games/registry.ts:162"
     ]
   },
   {
     "key": "'Table de Schulte'",
     "en": "'Schulte Table'",
     "at": [
-      "src/core/games/registry.ts:173"
+      "src/core/games/registry.ts:174"
     ]
   },
   {
     "key": "'Matrice'",
     "en": "'Grid Memory'",
     "at": [
-      "src/core/games/registry.ts:185"
+      "src/core/games/registry.ts:186"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer : le sens (même ordre ou à l’envers) ne s’affiche qu’après.'",
     "en": "'Watch the squares light up: only afterwards are you told whether to tap them in the same or reverse order.'",
     "at": [
-      "src/core/games/registry.ts:192"
+      "src/core/games/registry.ts:193"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer, puis touche-les dans l’ordre inverse.'",
     "en": "'Watch the squares light up, then tap them in reverse order.'",
     "at": [
-      "src/core/games/registry.ts:196"
+      "src/core/games/registry.ts:197"
     ]
   },
   {
     "key": "'Regarde les cases s’allumer, puis touche-les dans le même ordre.'",
     "en": "'Watch the squares light up, then tap them in the same order.'",
     "at": [
-      "src/core/games/registry.ts:197"
+      "src/core/games/registry.ts:198"
     ]
   },
   {
     "key": "`${base} Ignore les cases barrées : ce sont des pièges.`",
     "en": "`${base} Ignore the crossed-out squares: they’re traps.`",
     "at": [
-      "src/core/games/registry.ts:199"
+      "src/core/games/registry.ts:200"
     ]
   },
   {
     "key": "'Double retour'",
     "en": "'Look Back'",
     "at": [
-      "src/core/games/registry.ts:210"
+      "src/core/games/registry.ts:211"
     ]
   },
   {
     "key": "byCount(n, 'au coup précédent', `il y a ${n} coups`)",
     "en": "byCount(n, 'the previous one', `the one from ${n} turns ago`)",
     "at": [
-      "src/core/games/registry.ts:215"
+      "src/core/games/registry.ts:216"
     ]
   },
   {
     "key": "' Gare aux pièges : ce qui revient un coup trop tôt ou trop tard ne compte pas.'",
     "en": "' Watch for traps: a repeat one turn too early or too late doesn’t count.'",
     "at": [
-      "src/core/games/registry.ts:217"
+      "src/core/games/registry.ts:218"
     ]
   },
   {
     "key": "byCount(n, 'Touche « Même lettre » quand la lettre est la même qu’au coup précédent.', `Touche « Même lettre » quand la lettre est la même qu’il y a ${n} lettres.`)",
     "en": "byCount(n, 'Tap “Same letter” when the letter matches the previous one.', `Tap “Same letter” when the letter matches the one ${n} letters back.`)",
     "at": [
-      "src/core/games/registry.ts:222"
+      "src/core/games/registry.ts:223"
     ]
   },
   {
     "key": "`Touche « Même place » quand la case allumée est la même qu’${back}.`",
     "en": "`Tap “Same spot” when the lit square matches ${back}.`",
     "at": [
-      "src/core/games/registry.ts:228"
+      "src/core/games/registry.ts:229"
     ]
   },
   {
     "key": "`Deux questions à la fois : même lettre et même place qu’${back} ?`",
     "en": "`Two questions at once: same letter and same spot as ${back}?`",
     "at": [
-      "src/core/games/registry.ts:229"
+      "src/core/games/registry.ts:230"
     ]
   },
   {
     "key": "'Total cumulé'",
     "en": "'Running Total'",
     "at": [
-      "src/core/games/registry.ts:239"
+      "src/core/games/registry.ts:240"
     ]
   },
   {
     "key": "'L’intrus'",
     "en": "'Odd One Out'",
     "at": [
-      "src/core/games/registry.ts:251"
+      "src/core/games/registry.ts:252"
     ]
   },
   {
     "key": "'Anagrammes'",
     "en": "'Anagrams'",
     "at": [
-      "src/core/games/registry.ts:263"
+      "src/core/games/registry.ts:264"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop, et ce sont des sosies de celles du mot !'",
     "en": "'Put the letters back in order to find the hidden word. Careful: some letters don’t belong, and they copy the word’s own letters!'",
     "at": [
-      "src/core/games/registry.ts:269"
+      "src/core/games/registry.ts:270"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché. Attention : des lettres sont en trop !'",
     "en": "'Put the letters back in order to find the hidden word. Careful: some letters don’t belong!'",
     "at": [
-      "src/core/games/registry.ts:274"
+      "src/core/games/registry.ts:275"
     ]
   },
   {
     "key": "'Remets les lettres dans l’ordre pour retrouver le mot caché.'",
     "en": "'Put the letters back in order to find the hidden word.'",
     "at": [
-      "src/core/games/registry.ts:277"
+      "src/core/games/registry.ts:278"
     ]
   },
   {
     "key": "'La boutique'",
     "en": "'The Shop'",
     "at": [
-      "src/core/games/registry.ts:286",
+      "src/core/games/registry.ts:287",
       "src/ui/screens/WardrobeScreen.tsx:91"
     ]
   },
@@ -3389,14 +3389,14 @@
     "key": "'Calcul du diable'",
     "en": "'Tricky Sums'",
     "at": [
-      "src/core/games/registry.ts:298"
+      "src/core/games/registry.ts:299"
     ]
   },
   {
     "key": "'Du plus petit au plus grand'",
     "en": "'Smallest to Largest'",
     "at": [
-      "src/core/games/registry.ts:310",
+      "src/core/games/registry.ts:311",
       "src/ui/games/demos.tsx:373"
     ]
   },
@@ -3404,448 +3404,455 @@
     "key": "'Retiens où sont les nombres, puis touche leurs cases du plus grand au plus petit.'",
     "en": "'Remember where the numbers are, then tap their squares from largest to smallest.'",
     "at": [
-      "src/core/games/registry.ts:317"
+      "src/core/games/registry.ts:318"
     ]
   },
   {
     "key": "'Retiens où sont les nombres, puis touche leurs cases du plus petit au plus grand.'",
     "en": "'Remember where the numbers are, then tap their squares from smallest to largest.'",
     "at": [
-      "src/core/games/registry.ts:321"
+      "src/core/games/registry.ts:322"
     ]
   },
   {
     "key": "`${base} Ne touche pas les nombres barrés.`",
     "en": "`${base} Don’t tap the crossed-out numbers.`",
     "at": [
-      "src/core/games/registry.ts:325"
+      "src/core/games/registry.ts:326"
     ]
   },
   {
     "key": "'Monnaie'",
     "en": "'Small Change'",
     "at": [
-      "src/core/games/registry.ts:336"
+      "src/core/games/registry.ts:337"
     ]
   },
   {
     "key": "'Pluie de calculs'",
     "en": "'Number Rain'",
     "at": [
-      "src/core/games/registry.ts:348"
+      "src/core/games/registry.ts:349"
     ]
   },
   {
     "key": "'Correspondance express'",
     "en": "'Quick Match'",
     "at": [
-      "src/core/games/registry.ts:360"
+      "src/core/games/registry.ts:361"
     ]
   },
   {
     "key": "'Flèches'",
     "en": "'Arrows'",
     "at": [
-      "src/core/games/registry.ts:372"
+      "src/core/games/registry.ts:373"
     ]
   },
   {
     "key": "'Réflexe'",
     "en": "'Reflex'",
     "at": [
-      "src/core/games/registry.ts:384"
+      "src/core/games/registry.ts:385"
     ]
   },
   {
     "key": "'Rotation mentale'",
     "en": "'Mental Rotation'",
     "at": [
-      "src/core/games/registry.ts:396"
+      "src/core/games/registry.ts:397"
     ]
   },
   {
     "key": "'Pièces en relief : retrouve la même pièce, tournée dans l’espace. Son reflet dans un miroir ne compte pas ! 45 secondes.'",
     "en": "'3D pieces: find the same piece, turned in space. Its mirror image doesn’t count! 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:403"
+      "src/core/games/registry.ts:404"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle, simplement tournée : les propositions sont penchées. Méfie-toi de son reflet dans un miroir !'",
     "en": "'Find the model piece, just turned around: the choices are tilted. Watch out for its mirror image!'",
     "at": [
-      "src/core/games/registry.ts:409"
+      "src/core/games/registry.ts:410"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle, simplement tournée. Méfie-toi de son reflet dans un miroir : il ne compte pas !'",
     "en": "'Find the model piece, just turned around. Watch out for its mirror image: it doesn’t count!'",
     "at": [
-      "src/core/games/registry.ts:415"
+      "src/core/games/registry.ts:416"
     ]
   },
   {
     "key": "'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 45 secondes.'",
     "en": "'Find the model piece among the choices: it has only been turned. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:419"
+      "src/core/games/registry.ts:420"
     ]
   },
   {
     "key": "'Mini-sudoku'",
     "en": "'Mini Sudoku'",
     "at": [
-      "src/core/games/registry.ts:431"
+      "src/core/games/registry.ts:432"
     ]
   },
   {
     "key": "`Chaque chiffre de 1 à ${size} une seule fois par ligne, par colonne et par bloc. Un chiffre faux coûte 5 secondes.`",
     "en": "`Each digit from 1 to ${size} appears once in every row, column and box. A wrong digit costs 5 seconds.`",
     "at": [
-      "src/core/games/registry.ts:437"
+      "src/core/games/registry.ts:438"
     ]
   },
   {
     "key": "'Tout se déduit pas à pas, sans jamais deviner.'",
     "en": "'Everything can be worked out step by step, no guessing.'",
     "at": [
-      "src/core/games/registry.ts:440"
+      "src/core/games/registry.ts:441"
     ]
   },
   {
     "key": "'Balance'",
     "en": "'Scales'",
     "at": [
-      "src/core/games/registry.ts:451"
+      "src/core/games/registry.ts:452"
     ]
   },
   {
     "key": "'Une balance penche du côté le plus lourd. D’après toutes les balances, trouve l’objet le plus lourd… ou le plus léger.'",
     "en": "'A scale tips toward the heavier side. Using all the scales, find the heaviest item… or the lightest.'",
     "at": [
-      "src/core/games/registry.ts:457"
+      "src/core/games/registry.ts:458"
     ]
   },
   {
     "key": "'Deux carrés qui battent trois triangles : le carré est plus lourd. Trois triangles qui battent deux carrés : on ne sait rien.'",
     "en": "'Two squares beating three triangles: the square is heavier. Three triangles beating two squares: that tells you nothing.'",
     "at": [
-      "src/core/games/registry.ts:462"
+      "src/core/games/registry.ts:463"
     ]
   },
   {
     "key": "'Méfie-toi : certaines balances n’apprennent rien, et la réponse peut y perdre.'",
     "en": "'Careful: some scales tell you nothing, and the answer can lose on them.'",
     "at": [
-      "src/core/games/registry.ts:468"
+      "src/core/games/registry.ts:469"
     ]
   },
   {
     "key": "'Horloges'",
     "en": "'Clocks'",
     "at": [
-      "src/core/games/registry.ts:482"
+      "src/core/games/registry.ts:483"
     ]
   },
   {
     "key": "'Durées sur 24 heures : regarde si chaque horloge indique le matin, l’après-midi ou le soir. 45 secondes.'",
     "en": "'24-hour durations: check whether each clock shows AM or PM. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:489"
+      "src/core/games/registry.ts:490"
     ]
   },
   {
     "key": "'Certaines horloges sont vues dans un miroir : retrouve l’heure vraie avant de répondre. 45 secondes.'",
     "en": "'Some clocks are seen in a mirror: find the real time before you answer. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:495"
+      "src/core/games/registry.ts:496"
     ]
   },
   {
     "key": "'Lis les horloges : l’heure qu’il est, celle qu’il sera, celle qu’il était, ou le temps écoulé. 45 secondes.'",
     "en": "'Read the clocks: the time now, later, earlier, or the time that has passed. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:501"
+      "src/core/games/registry.ts:502"
     ]
   },
   {
     "key": "'Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 45 secondes.'",
     "en": "'Read the time on the clock and pick the right answer. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:506"
+      "src/core/games/registry.ts:507"
     ]
   },
   {
     "key": "'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 45 secondes.'",
     "en": "'Read the clocks: the time now, the time it will be, or the time that has passed. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:508"
+      "src/core/games/registry.ts:509"
     ]
   },
   {
     "key": "'Mots à retenir'",
     "en": "'Word Recall'",
     "at": [
-      "src/core/games/registry.ts:520"
+      "src/core/games/registry.ts:521"
     ]
   },
   {
     "key": "`${count} mots défilent un par un : retiens-les, puis dis si chaque mot était dans la liste.`",
     "en": "`${count} words go by one at a time: memorize them, then say whether each word was on the list.`",
     "at": [
-      "src/core/games/registry.ts:528"
+      "src/core/games/registry.ts:529"
     ]
   },
   {
     "key": "'Les mots barrés sont à oublier : ils reviendront en pièges.'",
     "en": "'Forget the crossed-out words: they’ll come back as traps.'",
     "at": [
-      "src/core/games/registry.ts:531"
+      "src/core/games/registry.ts:532"
     ]
   },
   {
     "key": "`Réponds en moins de ${secondsLabel(answerMs)}.`",
     "en": "`Answer within ${secondsLabel(answerMs)}.`",
     "at": [
-      "src/core/games/registry.ts:532"
+      "src/core/games/registry.ts:533"
     ]
   },
   {
     "key": "`Mémorise ${count} mots, puis dis si chaque mot était dans la liste. Attention : les nouveaux mots leur ressemblent !`",
     "en": "`Memorize ${count} words, then say whether each word was on the list. Careful: the new words look a lot like them!`",
     "at": [
-      "src/core/games/registry.ts:539"
+      "src/core/games/registry.ts:540"
     ]
   },
   {
     "key": "`Mémorise ${count} mots, puis dis pour chaque mot s’il était dans la liste.`",
     "en": "`Memorize ${count} words, then say for each word whether it was on the list.`",
     "at": [
-      "src/core/games/registry.ts:543"
+      "src/core/games/registry.ts:544"
     ]
   },
   {
     "key": "'Lettre manquante'",
     "en": "'Missing Letter'",
     "at": [
-      "src/core/games/registry.ts:555"
+      "src/core/games/registry.ts:556"
     ]
   },
   {
     "key": "'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 45 secondes.'",
     "en": "'One letter is missing: pick the one that completes the word. The category gives you a hint. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:562"
+      "src/core/games/registry.ts:563"
     ]
   },
   {
     "key": "'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 45 secondes.'",
     "en": "'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:566"
+      "src/core/games/registry.ts:567"
     ]
   },
   {
     "key": "'Catégories'",
     "en": "'Categories'",
     "at": [
-      "src/core/games/registry.ts:577"
+      "src/core/games/registry.ts:578"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté. Les mots vont par paires de même initiale, et l’intrus s’y fond : lis bien. 45 secondes.'",
     "en": "'All the words go together… except one, from a neighboring group. Words come in pairs with the same first letter, and the odd one blends in: read carefully. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:583"
+      "src/core/games/registry.ts:584"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté (un radis parmi des fruits). Trouve l’intrus le plus vite possible. 45 secondes.'",
     "en": "'All the words go together… except one, from a neighboring group (a radish among fruits). Find the odd one out as fast as you can. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:588"
+      "src/core/games/registry.ts:589"
     ]
   },
   {
     "key": "'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 45 secondes.'",
     "en": "'All the words go together… except one. Find the odd one out as fast as you can. 45 seconds.'",
     "at": [
-      "src/core/games/registry.ts:592"
+      "src/core/games/registry.ts:593"
     ]
   },
   {
     "key": "'Paires'",
     "en": "'Pairs'",
     "at": [
-      "src/core/games/registry.ts:603"
+      "src/core/games/registry.ts:604"
     ]
   },
   {
     "key": "'Retourne les cartes deux par deux et retrouve toutes les paires, en le moins de coups possible.'",
     "en": "'Turn the cards over two at a time and find all the pairs, in as few moves as you can.'",
     "at": [
-      "src/core/games/registry.ts:608"
+      "src/core/games/registry.ts:609"
     ]
   },
   {
     "key": "`${base} Attention : deux cartes ratées échangent leur place !`",
     "en": "`${base} Careful: two mismatched cards swap places!`",
     "at": [
-      "src/core/games/registry.ts:612"
+      "src/core/games/registry.ts:613"
     ]
   },
   {
     "key": "'Coup d’œil'",
     "en": "'At a Glance'",
     "at": [
-      "src/core/games/registry.ts:623"
+      "src/core/games/registry.ts:624"
     ]
   },
   {
     "key": "'Qui est qui ?'",
     "en": "\"Who's Who?\"",
     "at": [
-      "src/core/games/registry.ts:635"
+      "src/core/games/registry.ts:636"
     ]
   },
   {
     "key": "'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Deux manches.'",
     "en": "'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Two rounds.'",
     "at": [
-      "src/core/games/registry.ts:643"
+      "src/core/games/registry.ts:644"
     ]
   },
   {
     "key": "'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Deux manches.'",
     "en": "'Companions introduce themselves: remember their names, then find who’s who. Two rounds.'",
     "at": [
-      "src/core/games/registry.ts:647"
+      "src/core/games/registry.ts:648"
     ]
   },
   {
     "key": "`${base} À chaque manche, les mêmes visages changent de prénom !`",
     "en": "`${base} Each round, the same faces get different names!`",
     "at": [
-      "src/core/games/registry.ts:651"
+      "src/core/games/registry.ts:652"
     ]
   },
   {
     "key": "'Lecture éclair'",
     "en": "'Speed Reading'",
     "at": [
-      "src/core/games/registry.ts:662"
+      "src/core/games/registry.ts:663"
     ]
   },
   {
     "key": "'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 40 secondes.'",
     "en": "'Read each sentence all the way through: true or false? Watch out for “not”. 40 seconds.'",
     "at": [
-      "src/core/games/registry.ts:669"
+      "src/core/games/registry.ts:670"
     ]
   },
   {
     "key": "'Lis chaque phrase et dis vite si elle est vraie ou fausse. 40 secondes.'",
     "en": "'Read each sentence and quickly say whether it’s true or false. 40 seconds.'",
     "at": [
-      "src/core/games/registry.ts:672"
+      "src/core/games/registry.ts:673"
     ]
   },
   {
     "key": "'Itinéraire'",
     "en": "'Route Finder'",
     "at": [
-      "src/core/games/registry.ts:681"
+      "src/core/games/registry.ts:682"
     ]
   },
   {
     "key": "'Les flèches défilent une par une : suis le trajet de tête depuis ton compagnon, puis touche la case d’arrivée. Huit trajets.'",
     "en": "'The arrows show up one at a time: follow the route in your head from your companion, then tap where it ends. Eight routes.'",
     "at": [
-      "src/core/games/registry.ts:688"
+      "src/core/games/registry.ts:689"
     ]
   },
   {
     "key": "'Lis les flèches (« → 2 » : deux cases à droite) : elles vont disparaître. Touche la case où l’on arrive. Huit trajets.'",
     "en": "'Read the arrows (“→ 2”: two squares right): they’ll disappear. Tap the square where you end up. Eight routes.'",
     "at": [
-      "src/core/games/registry.ts:692"
+      "src/core/games/registry.ts:693"
     ]
   },
   {
     "key": "'« ↗ 2 » : deux cases en diagonale.'",
     "en": "'“↗ 2”: two squares diagonally.'",
     "at": [
-      "src/core/games/registry.ts:696"
+      "src/core/games/registry.ts:697"
     ]
   },
   {
     "key": "'Un rocher arrête la course : on s’arrête juste devant.'",
     "en": "'A rock stops you: you halt right in front of it.'",
     "at": [
-      "src/core/games/registry.ts:697"
+      "src/core/games/registry.ts:698"
     ]
   },
   {
     "key": "'Suites logiques'",
     "en": "'Number Series'",
     "at": [
-      "src/core/games/registry.ts:709"
+      "src/core/games/registry.ts:710"
     ]
   },
   {
     "key": "'Le compte est bon'",
     "en": "'Hit the Number'",
     "at": [
-      "src/core/games/registry.ts:721"
+      "src/core/games/registry.ts:722"
     ]
   },
   {
     "key": "'Écho'",
     "en": "'Echo'",
     "at": [
-      "src/core/games/registry.ts:733"
+      "src/core/games/registry.ts:734"
     ]
   },
   {
     "key": "'Miroir'",
     "en": "'Mirror'",
     "at": [
-      "src/core/games/registry.ts:745"
+      "src/core/games/registry.ts:746"
     ]
   },
   {
     "key": "'Code secret'",
     "en": "'Secret Code'",
     "at": [
-      "src/core/games/registry.ts:757"
+      "src/core/games/registry.ts:758"
     ]
   },
   {
     "key": "'Combien de cubes\\u00a0?'",
     "en": "'Cube Count'",
     "at": [
-      "src/core/games/registry.ts:769"
+      "src/core/games/registry.ts:770"
     ]
   },
   {
     "key": "'Mots mêlés'",
     "en": "'Word Search'",
     "at": [
-      "src/core/games/registry.ts:781"
+      "src/core/games/registry.ts:782"
     ]
   },
   {
     "key": "'Aiguillages'",
     "en": "'Switchyard'",
     "at": [
-      "src/core/games/registry.ts:793"
+      "src/core/games/registry.ts:794"
+    ]
+  },
+  {
+    "key": "'Symboles'",
+    "en": "'Symbol Code'",
+    "at": [
+      "src/core/games/registry.ts:806"
     ]
   },
   {
     "key": "`${masteryName(level)} · ${passScore(level)} pts pour réussir`",
     "en": "`${masteryName(level)} · ${passScore(level)} pts to pass`",
     "at": [
-      "src/core/games/registry.ts:814"
+      "src/core/games/registry.ts:827"
     ]
   },
   {
@@ -4381,6 +4388,69 @@
     ]
   },
   {
+    "key": "`${c.symbols} symboles`",
+    "en": "`${c.symbols} symbols`",
+    "at": [
+      "src/core/games/symboles.ts:56"
+    ]
+  },
+  {
+    "key": "`la table change toutes les ${c.shuffleEvery} réponses`",
+    "en": "`table changes every ${c.shuffleEvery} answers`",
+    "at": [
+      "src/core/games/symboles.ts:57"
+    ]
+  },
+  {
+    "key": "`table cachée après ${secondsLabel(c.hideMs)}`",
+    "en": "`table hidden after ${secondsLabel(c.hideMs)}`",
+    "at": [
+      "src/core/games/symboles.ts:58"
+    ]
+  },
+  {
+    "key": "'touches mélangées'",
+    "en": "'mixed keys'",
+    "at": [
+      "src/core/games/symboles.ts:59"
+    ]
+  },
+  {
+    "key": "`objectif ${c.target}`",
+    "en": "`target ${c.target}`",
+    "at": [
+      "src/core/games/symboles.ts:60"
+    ]
+  },
+  {
+    "key": "'Touche le chiffre de chaque symbole, d’après la table du haut. Une erreur retire un point. 45 secondes.'",
+    "en": "'Tap the number for each symbol, using the table at the top. A mistake costs a point. 45 seconds.'",
+    "at": [
+      "src/core/games/symboles.ts:70"
+    ]
+  },
+  {
+    "key": "`La table change toutes les ${c.shuffleEvery} réponses : relis-la.`",
+    "en": "`The table changes every ${c.shuffleEvery} answers: read it again.`",
+    "at": [
+      "src/core/games/symboles.ts:71"
+    ]
+  },
+  {
+    "key": "`La table se cache au bout de ${secondsLabel(c.hideMs)} : retiens-la. Un coup d’œil coûte 2 secondes.`",
+    "en": "`The table hides after ${secondsLabel(c.hideMs)}: remember it. A peek costs 2 seconds.`",
+    "at": [
+      "src/core/games/symboles.ts:74"
+    ]
+  },
+  {
+    "key": "'Les touches des chiffres sont dans le désordre.'",
+    "en": "'The number keys are out of order.'",
+    "at": [
+      "src/core/games/symboles.ts:77"
+    ]
+  },
+  {
     "key": "`Jusqu’à ${c.maxStep}`",
     "en": "`Up to ${c.maxStep}`",
     "at": [
@@ -4683,7 +4753,8 @@
       "src/ui/games/LettreGame.tsx:47",
       "src/ui/games/LuciolesGame.tsx:67",
       "src/ui/games/RotationGame.tsx:96",
-      "src/ui/games/SudokuGame.tsx:51"
+      "src/ui/games/SudokuGame.tsx:51",
+      "src/ui/games/SymbolesGame.tsx:47"
     ]
   },
   {
@@ -4715,7 +4786,8 @@
       "src/ui/games/MiroirGame.tsx:58",
       "src/ui/games/MonnaieGame.tsx:84",
       "src/ui/games/RotationGame.tsx:99",
-      "src/ui/games/SuitesGame.tsx:35"
+      "src/ui/games/SuitesGame.tsx:35",
+      "src/ui/games/SymbolesGame.tsx:50"
     ]
   },
   {
@@ -4737,7 +4809,8 @@
       "src/ui/games/MiroirGame.tsx:58",
       "src/ui/games/MonnaieGame.tsx:84",
       "src/ui/games/RotationGame.tsx:99",
-      "src/ui/games/SuitesGame.tsx:35"
+      "src/ui/games/SuitesGame.tsx:35",
+      "src/ui/games/SymbolesGame.tsx:50"
     ]
   },
   {
@@ -7560,7 +7633,8 @@
       "src/ui/games/MonnaieGame.tsx:85",
       "src/ui/games/PluieGame.tsx:54",
       "src/ui/games/RotationGame.tsx:100",
-      "src/ui/games/SuitesGame.tsx:36"
+      "src/ui/games/SuitesGame.tsx:36",
+      "src/ui/games/SymbolesGame.tsx:51"
     ]
   },
   {
@@ -8081,7 +8155,8 @@
       "src/ui/games/FlechesGame.tsx:144",
       "src/ui/games/HorlogesGame.tsx:117",
       "src/ui/games/MonnaieGame.tsx:83",
-      "src/ui/games/QuiGame.tsx:55"
+      "src/ui/games/QuiGame.tsx:55",
+      "src/ui/games/SymbolesGame.tsx:49"
     ]
   },
   {
@@ -8616,7 +8691,8 @@
     "en": "'Look closely…'",
     "at": [
       "src/ui/games/CoupGame.tsx:145",
-      "src/ui/games/MatriceGame.tsx:142"
+      "src/ui/games/MatriceGame.tsx:142",
+      "src/ui/games/SymbolesGame.tsx:121"
     ]
   },
   {
@@ -11432,6 +11508,62 @@
     "en": "'The series'",
     "at": [
       "src/ui/games/SuitesGame.tsx:97"
+    ]
+  },
+  {
+    "key": "'Le triangle, c’est 2'",
+    "en": "'The triangle is 2'",
+    "at": [
+      "src/ui/games/symboles-demo.tsx:37"
+    ]
+  },
+  {
+    "key": "`${correct} symboles codés`",
+    "en": "`${correct} symbols coded`",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:47"
+    ]
+  },
+  {
+    "key": "`C’était ${table[shape]}`",
+    "en": "`It was ${table[shape]}`",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:93"
+    ]
+  },
+  {
+    "key": "'Nouvelle table !'",
+    "en": "'New table!'",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:97"
+    ]
+  },
+  {
+    "key": "'La table des symboles'",
+    "en": "'The symbol table'",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:111"
+    ]
+  },
+  {
+    "key": "'Revoir la table (2 s)'",
+    "en": "'See the table (2 s)'",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:121"
+    ]
+  },
+  {
+    "key": "'Le symbole à coder'",
+    "en": "'The symbol to code'",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:124"
+    ]
+  },
+  {
+    "key": "'Les chiffres'",
+    "en": "'The numbers'",
+    "at": [
+      "src/ui/games/SymbolesGame.tsx:130"
     ]
   },
   {

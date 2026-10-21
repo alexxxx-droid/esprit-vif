@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { symbolesLevelLabel, symbolesRule } from './symboles';
 import { aiguillagesLevelLabel, aiguillagesRule } from './aiguillages';
 import { melesLevelLabel, melesRule } from './motsmeles';
 import { combienLevelLabel, combienRule } from './combien';
@@ -799,6 +800,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: aiguillagesLevelLabel,
   },
+  symboles: {
+    id: 'symboles',
+    get name() {
+      return tr('Symboles', 'Symbol Code');
+    },
+    domain: 'vitesse',
+    rule: symbolesRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: symbolesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -844,6 +857,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'lucioles',
   'miroir',
   'combien',
+  'symboles',
   'anagrammes',
   'lettre',
   'categories',

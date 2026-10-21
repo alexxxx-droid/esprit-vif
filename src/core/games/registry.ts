@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { suitesLevelLabel, suitesRule } from './suites';
 import { tr } from '../lang';
 import { isMastery, MAX_LEVEL, masteryName, passScore, pickLevel, secondsLabel, TOP_LEVEL } from '../levels';
 import type { Domain, GameId } from '../types';
@@ -695,6 +696,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: itiLevelLabel,
   },
+  suites: {
+    id: 'suites',
+    get name() {
+      return tr('Suites logiques', 'Number Series');
+    },
+    domain: 'logique',
+    rule: suitesRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: suitesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -745,6 +758,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'horloges',
   'sudoku',
   'itineraire',
+  'suites',
 ];
 
 /** Jeux du test du jour, par domaine (dans l'ordre des domaines) : tous les jeux y participent. */

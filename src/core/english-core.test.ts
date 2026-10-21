@@ -52,6 +52,7 @@ const GLOSSARY: Record<GameId, string> = {
   filature: 'Keep Track',
   lucioles: 'Fireflies',
   contraires: 'Opposites',
+  suites: 'Number Series',
 };
 
 /** Jeux dont les libellés de niveau sont traduits ici (les autres le sont avec leurs contenus). */

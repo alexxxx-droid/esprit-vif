@@ -23,7 +23,7 @@ Confirmé, Expert, Maître, Légende), soit **1 550 niveaux**, puis dix crans de
 | Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature |
 | Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles |
 | Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires |
-| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire |
+| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
 - **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20,

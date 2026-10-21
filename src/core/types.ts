@@ -31,7 +31,8 @@ export type GameId =
   | 'itineraire'
   | 'filature'
   | 'lucioles'
-  | 'contraires';
+  | 'contraires'
+  | 'suites';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

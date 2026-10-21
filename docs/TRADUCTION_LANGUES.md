@@ -70,6 +70,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | filature | Filature | Seguimiento | Verfolgung | Pedinamento | De olho |
 | lucioles | Lucioles | Luciérnagas | Glühwürmchen | Lucciole | Vaga-lumes |
 | contraires | Contraires | Contrarios | Gegenteile | Contrari | Opostos |
+| suites | Suites logiques | Series lógicas | Zahlenreihen | Serie logiche | Sequências lógicas |
 
 ### Domaines
 

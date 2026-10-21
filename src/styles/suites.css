@@ -1,0 +1,65 @@
+/* ---------- Suites logiques ---------- */
+
+.suites {
+  gap: 22px;
+}
+
+/* La suite : des nombres en cartes, sur une ou deux lignes ; le nombre manquant se remplit au pavé. */
+.suites__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+.suites__term {
+  display: grid;
+  place-items: center;
+  min-width: 58px;
+  height: 64px;
+  padding: 0 8px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font-size: 1.6rem;
+  font-weight: 760;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.suites__row--long .suites__term {
+  min-width: 52px;
+  height: 58px;
+  font-size: 1.4rem;
+}
+
+.suites__term--missing {
+  color: var(--muted);
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.suites__term--missing.is-typed {
+  color: var(--ink);
+  background: var(--surface);
+  animation: pop 180ms var(--ease-spring);
+}
+
+/* Démo de l'intro : la même suite, en plus petit. */
+.suites__row--demo {
+  gap: 5px;
+  animation: none;
+}
+
+.suites__row--demo .suites__term {
+  min-width: 38px;
+  height: 42px;
+  padding: 0 4px;
+  border-radius: 11px;
+  font-size: 1.05rem;
+}

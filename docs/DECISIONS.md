@@ -636,3 +636,17 @@ Total cumulé, Anagrammes, La boutique, Calcul du diable, Du plus petit…, Bala
   pour 12 paires). Un test vérifie que la difficulté ne recule jamais d'un niveau au suivant.
 - Lecture éclair affichait « 60 s » alors que la partie dure 40 s depuis la 2.11 : corrigé.
 - Les empreintes des niveaux 1 à 20 de ces jeux sont relevées à nouveau.
+
+## Huit nouveaux jeux (v2.13)
+
+Choix d'Alex (21-10-2026) parmi mes propositions de mécaniques très jouées dans le genre (Peak,
+Elevate, Lumosity, NeuroNation), toutes peu coûteuses : il a tout coché. Noms, règles et visuels
+restent originaux ; chaque partie tient en une minute au plus.
+
+- **Suites logiques** (Logique, 45 s, pavé numérique) : le nombre qui manque dans une suite
+  d'entiers de 1 à 999. Débutant : le nombre suivant d'une suite qui monte, puis qui descend.
+  Confirmé : le nombre manquant peut être au milieu, des suites × 2 et × 3. Expert : deux suites
+  mêlées, un nombre sur deux. Maître : des écarts qui grandissent, ou qui montent et descendent tour
+  à tour. Légende : des carrés (parfois décalés) et des suites où chaque nombre est la somme des
+  deux d'avant. Le premier nombre reste toujours visible, et chaque règle montre assez de nombres
+  pour être retrouvée (6 sur 7 pour deux suites mêlées).

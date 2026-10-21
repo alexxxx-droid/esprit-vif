@@ -13,7 +13,7 @@ import { countScore } from '../scoring';
  * comptent pas, et une question qui s'inverse : « laquelle en avait le MOINS ? ».
  */
 
-export const COUP_DURATION_MS = 60_000;
+export const COUP_DURATION_MS = 45_000;
 
 /** Les difficultés des niveaux 21 à 50. */
 export interface CoupTwist {
@@ -35,11 +35,13 @@ export interface CoupLevel {
    */
   ratio: number;
   showMs: number;
-  /** Bonnes réponses moins erreurs en 60 s pour 100 pts (répondre au hasard rapporte 0). */
+  /** Bonnes réponses moins erreurs en une partie pour 100 pts (répondre au hasard rapporte 0). */
   target: number;
   twist?: CoupTwist;
 }
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * COUP_DURATION_MS) / 60_000);
 const C = (min: number, max: number, ratio: number, showMs: number, target: number): CoupLevel => ({ min, max, ratio, showMs, target });
 const T = (min: number, max: number, ratio: number, showMs: number, target: number, contrast: number, decoys = 0, fewer = 0): CoupLevel => ({
   ...C(min, max, ratio, showMs, target),
@@ -102,8 +104,11 @@ export const COUP_LEVELS: readonly CoupLevel[] = [
   T(36, 50, 1.06, 300, 8, 0.22, 14, 0.5),
 ];
 
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = COUP_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function coupLevel(level: number): CoupLevel {
-  return pickLevel(COUP_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 /** Taille de la grande nuée : arrondie aux niveaux 1 à 20, jamais sous le rapport ensuite. */
@@ -126,8 +131,8 @@ export function coupLevelLabel(level: number): string {
 export function coupRule(level: number): string {
   const { twist } = coupLevel(level);
   const base = tr(
-    'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 60 secondes.',
-    'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 60 seconds.',
+    'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 45 secondes.',
+    'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 45 seconds.',
   );
   if (!twist) return base;
   const parts = [base, tr('La taille des points ne veut rien dire.', 'Dot size means nothing.')];

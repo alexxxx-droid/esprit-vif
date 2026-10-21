@@ -13,7 +13,7 @@ import { countScore } from '../scoring';
  * Légende, la phrase s'efface au bout de quelques secondes.
  */
 
-export const LECTURE_DURATION_MS = 60_000;
+export const LECTURE_DURATION_MS = 40_000;
 
 /** Une idée, en version vraie et en version fausse. */
 export type SentencePair = readonly [truth: string, lie: string];
@@ -465,7 +465,7 @@ export type LectureTier = 1 | 2 | 3 | 4 | 5;
 export interface LectureLevel {
   /** Paliers de phrases tirés à ce niveau (1 à 5). */
   tiers: readonly LectureTier[];
-  /** Bonnes réponses moins erreurs en 60 s pour 100 pts (au hasard : 0). */
+  /** Bonnes réponses moins erreurs en une partie pour 100 pts (au hasard : 0). */
   target: number;
   /**
    * Phrase éclair (palier Légende) : la phrase s'efface après 0,6 s plus ce temps par caractère.
@@ -474,6 +474,8 @@ export interface LectureLevel {
   flashMsPerChar?: number;
 }
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * LECTURE_DURATION_MS) / 60_000);
 const L = (tiers: LectureTier[], target: number, flashMsPerChar?: number): LectureLevel =>
   flashMsPerChar ? { tiers, target, flashMsPerChar } : { tiers, target };
 
@@ -536,8 +538,11 @@ export const LECTURE_LEVELS: readonly LectureLevel[] = [
   L([4, 5], 17, 40),
 ];
 
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = LECTURE_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function lectureLevel(level: number): LectureLevel {
-  return pickLevel(LECTURE_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 /** Durée d'affichage d'une phrase éclair, ou `null` si elle reste à l'écran (niveaux sans éclair). */
@@ -551,18 +556,18 @@ export function lectureRule(level: number): string | null {
   const c = lectureLevel(level);
   if (c.flashMsPerChar)
     return tr(
-      'Lis vite : chaque phrase s’efface au bout de quelques secondes. Vraie ou fausse ? Tu peux encore répondre, mais plus relire. 60 secondes.',
-      'Read fast: each sentence fades out after a few seconds. True or false? You can still answer, but not reread. 60 seconds.',
+      'Lis vite : chaque phrase s’efface au bout de quelques secondes. Vraie ou fausse ? Tu peux encore répondre, mais plus relire. 40 secondes.',
+      'Read fast: each sentence fades out after a few seconds. True or false? You can still answer, but not reread. 40 seconds.',
     );
   if (c.tiers.includes(5))
     return tr(
-      'Lis chaque phrase jusqu’au bout et raisonne : vraie ou fausse ? Attention à « aucun », « au moins », « si… alors ». 60 secondes.',
-      'Read each sentence to the end and think: true or false? Watch out for “no”, “at least”, “if… then”. 60 seconds.',
+      'Lis chaque phrase jusqu’au bout et raisonne : vraie ou fausse ? Attention à « aucun », « au moins », « si… alors ». 40 secondes.',
+      'Read each sentence to the end and think: true or false? Watch out for “no”, “at least”, “if… then”. 40 seconds.',
     );
   if (c.tiers.includes(4))
     return tr(
-      'Des phrases à rallonge : l’erreur se cache parfois tout au bout. Vraie ou fausse ? 60 secondes.',
-      'Very long sentences: the mistake sometimes hides at the very end. True or false? 60 seconds.',
+      'Des phrases à rallonge : l’erreur se cache parfois tout au bout. Vraie ou fausse ? 40 secondes.',
+      'Very long sentences: the mistake sometimes hides at the very end. True or false? 40 seconds.',
     );
   return null;
 }

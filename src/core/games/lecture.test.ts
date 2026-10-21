@@ -72,11 +72,12 @@ describe('Lecture éclair en anglais', () => {
       expect(questions).toHaveLength(tiers.length * 80);
       for (const q of questions) expect(pool.has(q.sentence)).toBe(true);
     }
-    expect(lectureLevelLabel(1)).toBe('short sentences · target 16');
-    expect(lectureLevelLabel(10)).toBe('short sentences, long sentences and negations · target 13');
-    expect(lectureLevelLabel(5)).toBe('short sentences and long sentences · target 16');
+    // Objectifs pour une partie de 40 s (16 et 13 dans le tableau, écrit pour 60 s).
+    expect(lectureLevelLabel(1)).toBe('short sentences · target 11');
+    expect(lectureLevelLabel(10)).toBe('short sentences, long sentences and negations · target 9');
+    expect(lectureLevelLabel(5)).toBe('short sentences and long sentences · target 11');
     setLang('fr');
     expect(sentences()).toBe(SENTENCES);
-    expect(lectureLevelLabel(1)).toBe('phrases courtes · objectif 16');
+    expect(lectureLevelLabel(1)).toBe('phrases courtes · objectif 11');
   });
 });

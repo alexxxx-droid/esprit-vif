@@ -18,7 +18,7 @@ import { WORDS_EN, WORDS_FR, type WordFamily, type WordKind } from './contraires
  * familles de sens que le mot demandé : aucun ne peut passer pour une bonne réponse.
  */
 
-export const CONTRAIRES_DURATION_MS = 60_000;
+export const CONTRAIRES_DURATION_MS = 40_000;
 
 /** Registre des mots : 1 très courant, 2 courant, 3 soutenu (rare). */
 export type Grade = 1 | 2 | 3;
@@ -36,10 +36,12 @@ export interface ContrairesLevel {
   lure: number;
   /** Palier Légende : deux mots à juger, en ce temps au plus par paire (ms, avant les réglages de rythme). */
   judgeMs?: number;
-  /** Bonnes réponses moins erreurs en 60 s pour 100 pts (au hasard : 0). */
+  /** Bonnes réponses moins erreurs en une partie pour 100 pts (au hasard : 0). */
   target: number;
 }
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * CONTRAIRES_DURATION_MS) / 60_000);
 const L = (grades: Grade[], same: number, lure: number, target: number, judgeMs?: number): ContrairesLevel =>
   judgeMs ? { grades, same, lure, target, judgeMs } : { grades, same, lure, target };
 
@@ -101,8 +103,11 @@ export const CONTRAIRES_LEVELS: readonly ContrairesLevel[] = [
   L([2, 3], 0, 0, 20, 3000),
 ];
 
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = CONTRAIRES_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function contrairesLevel(level: number): ContrairesLevel {
-  return pickLevel(CONTRAIRES_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 const GRADE_LABELS = {
@@ -130,27 +135,27 @@ export function contrairesRule(level: number): string {
   const c = contrairesLevel(level);
   if (c.judgeMs)
     return tr(
-      'Deux mots : contraires, même sens ou sans rapport ? Tranche vite, chaque paire a sa mèche. 60 secondes.',
-      'Two words: opposites, same meaning or unrelated? Decide fast, each pair has a time limit. 60 seconds.',
+      'Deux mots : contraires, même sens ou sans rapport ? Tranche vite, chaque paire a sa mèche. 40 secondes.',
+      'Two words: opposites, same meaning or unrelated? Decide fast, each pair has a time limit. 40 seconds.',
     );
   if (c.grades.includes(3))
     return tr(
-      'Des mots rares et soutenus : le contraire ou le même sens ? Méfie-toi des pièges. 60 secondes.',
-      'Rare, formal words: opposite or same meaning? Beware of traps. 60 seconds.',
+      'Des mots rares et soutenus : le contraire ou le même sens ? Méfie-toi des pièges. 40 secondes.',
+      'Rare, formal words: opposite or same meaning? Beware of traps. 40 seconds.',
     );
   if (c.lure)
     return tr(
-      'Attention aux pièges : quand on demande le contraire, un mot de même sens se glisse parmi les propositions, et inversement. 60 secondes.',
-      'Watch out for traps: when you are asked for the opposite, a word with the same meaning hides among the choices, and vice versa. 60 seconds.',
+      'Attention aux pièges : quand on demande le contraire, un mot de même sens se glisse parmi les propositions, et inversement. 40 secondes.',
+      'Watch out for traps: when you are asked for the opposite, a word with the same meaning hides among the choices, and vice versa. 40 seconds.',
     );
   if (c.same)
     return tr(
-      'Lis bien la consigne : le contraire ou le même sens ? Touche le bon mot parmi les quatre. 60 secondes.',
-      'Read the instruction carefully: opposite or same meaning? Tap the right word among the four. 60 seconds.',
+      'Lis bien la consigne : le contraire ou le même sens ? Touche le bon mot parmi les quatre. 40 secondes.',
+      'Read the instruction carefully: opposite or same meaning? Tap the right word among the four. 40 seconds.',
     );
   return tr(
-    'Touche le contraire du mot parmi les quatre propositions. Chaque erreur annule une bonne réponse. 60 secondes.',
-    'Tap the opposite of the word among the four choices. Each mistake cancels out a correct answer. 60 seconds.',
+    'Touche le contraire du mot parmi les quatre propositions. Chaque erreur annule une bonne réponse. 40 secondes.',
+    'Tap the opposite of the word among the four choices. Each mistake cancels out a correct answer. 40 seconds.',
   );
 }
 

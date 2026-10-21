@@ -84,8 +84,9 @@ describe('Vitesse — les niveaux 1 à 20 ne changent pas', () => {
       schulte: 3813405048,
       correspondance: 1275596207,
       reflexe: 54229200,
-      coup: 114852447,
-      rules: 3133184483,
+      // Coup d'œil et sa règle relevés à nouveau le 21-10-2026 : la partie passe de 60 à 45 s (demande d'Alex).
+      coup: 3672738597,
+      rules: 851974227,
     });
   });
 });

@@ -9,7 +9,7 @@ import { formatCalc, generateFromKinds, makeCalcQuestion, type CalcKind, type Ca
  * qu'elles touchent l'eau. Trois gouttes perdues et c'est fini.
  */
 
-export const PLUIE_DURATION_MS = 60_000;
+export const PLUIE_DURATION_MS = 45_000;
 export const PLUIE_LIVES = 3;
 
 export interface PluieLevel {
@@ -116,7 +116,7 @@ export function pluieTrapCount(level: number): number {
   return Math.round(pluieCount(level) * (pluieLevel(level).traps ?? 0));
 }
 
-/** Gouttes résolues pour 100 pts : 80 % de celles qui tombent en une minute (sans compter les pièges). */
+/** Gouttes résolues pour 100 pts : 80 % de celles qui tombent pendant la partie (sans compter les pièges). */
 export function pluieTarget(level: number): number {
   const traps = pluieTrapCount(level);
   if (traps > 0) return Math.round((pluieCount(level) - traps) * 0.8);

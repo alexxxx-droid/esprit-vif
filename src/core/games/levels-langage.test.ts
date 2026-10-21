@@ -80,13 +80,14 @@ describe('niveaux 1 à 20 inchangés', () => {
       anagrammes: { 1: 'b9a120b7', 10: '8e12d01f', 20: 'b46870ed', all: 'c3708c39' },
       lettre: { 1: '8a0ba248', 10: '7301f5f6', 20: '07781cf4', all: '59d0382d' },
       categories: { 1: 'b5982b28', 10: '4f2b21be', 20: '77c36506', all: '6bdbfcbb' },
-      lecture: { 1: '72d4f014', 10: 'f571aa6a', 20: '886d0084', all: '93a0c3e4' },
+      // Lecture éclair relevée à nouveau le 21-10-2026 : la partie passe de 60 à 40 s (demande d'Alex).
+      lecture: { 1: '1dcc433f', 10: '19a07be5', 20: '1c272b7e', all: 'f6505c28' },
     },
     en: {
       anagrammes: { 1: '6d72fdc7', 10: '1b554b87', 20: '7433c499', all: '64ace9c1' },
       lettre: { 1: 'd0b0a470', 10: '2a24dd74', 20: '5906a262', all: 'c816d5f0' },
       categories: { 1: '21465996', 10: '046b03c8', 20: 'adf744ec', all: '6ee58a3f' },
-      lecture: { 1: '431cba84', 10: '700a2229', 20: '87908ed2', all: '8a567e50' },
+      lecture: { 1: '5710040f', 10: 'a79f34a6', 20: '9b482f34', all: 'd7f9a590' },
     },
   };
 
@@ -170,7 +171,7 @@ describe('tables de niveaux', () => {
     expect(inLang('fr', () => GAMES.categories.rule(21))).toContain('famille d’à côté');
     expect(inLang('en', () => GAMES.categories.levelLabel(41))).toBe('10 words · camouflaged odd ones (first letter, length)');
     expect(inLang('fr', () => GAMES.lecture.rule(21))).toContain('à rallonge');
-    expect(inLang('fr', () => GAMES.lecture.levelLabel(43))).toBe('négations, phrases à rallonge et logique · objectif 15 · phrases qui s’effacent');
+    expect(inLang('fr', () => GAMES.lecture.levelLabel(43))).toBe('négations, phrases à rallonge et logique · objectif 10 · phrases qui s’effacent');
     expect(inLang('en', () => GAMES.lecture.rule(41))).toContain('fades out');
   });
 });

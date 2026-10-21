@@ -5,7 +5,7 @@ import { clampScore } from '../scoring';
 
 /**
  * Lucioles : une grille de cases dans la nuit ; des lucioles s'allument un court instant, on les
- * touche avant qu'elles s'éteignent. La partie dure 60 s et se joue par vagues : une ou deux lucioles,
+ * touche avant qu'elles s'éteignent. La partie dure 40 s et se joue par vagues : une ou deux lucioles,
  * puis une courte pause. Une vague se termine dès que ses lucioles à attraper sont prises (ou
  * éteintes) : on ne fait jamais attendre un joueur rapide.
  * Les paliers changent la façon de jouer : deux lucioles à la fois (Confirmé), des lucioles rouges
@@ -13,7 +13,7 @@ import { clampScore } from '../scoring';
  * lucioles dorées qui demandent deux appuis sur une grille de 5 × 5 (Légende).
  */
 
-export const LUCIOLES_DURATION_MS = 60_000;
+export const LUCIOLES_DURATION_MS = 40_000;
 
 /** Temps de réaction d'un joueur très rapide : il sert à fixer l'objectif des 100 points. */
 const FAST_RT_MS = 380;
@@ -37,7 +37,7 @@ export interface LuciolesLevel {
   hops: number;
   /** Part des lucioles dorées, à toucher deux fois. */
   golds: number;
-  /** Lucioles attrapées (moins ratées ÷ 2 et mauvais appuis) en 60 s pour 100 pts. */
+  /** Lucioles attrapées (moins ratées ÷ 2 et mauvais appuis) en une partie pour 100 pts. */
   target: number;
 }
 
@@ -152,7 +152,7 @@ export function neighbours(cell: number, size: number): number[] {
   return out;
 }
 
-/** Assez de vagues pour une partie de 60 s même très rapide (une vague prend au moins la pause). */
+/** Assez de vagues pour une partie entière, même très rapide (une vague prend au moins la pause). */
 export const LUCIOLES_WAVES = 200;
 
 /**

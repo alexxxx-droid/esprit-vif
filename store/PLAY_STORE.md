@@ -24,13 +24,13 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 | Champ | Français | English |
 | --- | --- | --- |
 | Nom (30 car. max) | Esprit Vif – Jeux cérébraux | Esprit Vif – Brain Games |
-| Description courte (80 max) | 31 jeux, 1 550 niveaux, un défi chaque jour. Sans pub ni compte. | 31 games, 1,550 levels, a daily challenge. No ads, no account. |
+| Description courte (80 max) | 39 jeux, 1 950 niveaux, un défi chaque jour. Sans pub ni compte. | 39 games, 1,950 levels, a daily challenge. No ads, no account. |
 
 ### Description complète (français)
 
 > Quelques minutes par jour pour garder l’esprit vif.
 >
-> **31 mini-jeux, 1 550 niveaux** répartis en six domaines : calcul, mémoire, attention,
+> **39 mini-jeux, 1 950 niveaux** répartis en six domaines : calcul, mémoire, attention,
 > vitesse, langage et logique. Chaque jeu monte en difficulté sur 50 niveaux et 5 paliers,
 > de Débutant à Légende : de quoi progresser pendant des mois.
 >
@@ -70,7 +70,7 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 
 > A few minutes a day to keep your mind sharp.
 >
-> **31 mini-games, 1,550 levels** across six areas: math, memory, attention, speed, language
+> **39 mini-games, 1,950 levels** across six areas: math, memory, attention, speed, language
 > and logic. Every game gets harder over 50 levels and 5 tiers, from Beginner to Legend:
 > enough to keep improving for months.
 >
@@ -113,16 +113,16 @@ Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis col
 
 | Langue | Nom (30 car. max) | Description courte (80 max) |
 | --- | --- | --- |
-| es-ES | Esprit Vif – Juegos mentales | 31 juegos, 1550 niveles y un reto cada día. Sin anuncios ni cuenta. |
-| de-DE | Esprit Vif – Gehirnjogging | 31 Spiele, 1550 Level, jeden Tag eine Challenge. Ohne Werbung, ohne Konto. |
-| it-IT | Esprit Vif – Allena la mente | 31 giochi, 1550 livelli, una sfida ogni giorno. Senza pubblicità né account. |
-| pt-BR | Esprit Vif – Jogos cerebrais | 31 jogos, 1.550 níveis e um desafio por dia. Sem anúncios e sem conta. |
+| es-ES | Esprit Vif – Juegos mentales | 39 juegos, 1950 niveles y un reto cada día. Sin anuncios ni cuenta. |
+| de-DE | Esprit Vif – Gehirnjogging | 39 Spiele, 1950 Level, jeden Tag eine Challenge. Ohne Werbung, ohne Konto. |
+| it-IT | Esprit Vif – Allena la mente | 39 giochi, 1950 livelli, una sfida ogni giorno. Senza pubblicità né account. |
+| pt-BR | Esprit Vif – Jogos cerebrais | 39 jogos, 1.950 níveis e um desafio por dia. Sem anúncios e sem conta. |
 
 ### Descripción completa (español)
 
 > Unos minutos al día para mantener la mente despierta.
 >
-> **31 minijuegos, 1550 niveles** repartidos en seis áreas: cálculo, memoria, atención,
+> **39 minijuegos, 1950 niveles** repartidos en seis áreas: cálculo, memoria, atención,
 > velocidad, lenguaje y lógica. Cada juego sube de dificultad a lo largo de 50 niveles y
 > 5 etapas, de Principiante a Leyenda: para seguir progresando durante meses.
 >
@@ -163,7 +163,7 @@ Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis col
 
 > Ein paar Minuten am Tag, damit dein Kopf fit bleibt.
 >
-> **31 Minispiele, 1550 Level** in sechs Bereichen: Rechnen, Gedächtnis, Aufmerksamkeit,
+> **39 Minispiele, 1950 Level** in sechs Bereichen: Rechnen, Gedächtnis, Aufmerksamkeit,
 > Tempo, Sprache und Logik. Jedes Spiel wird über 50 Level und 5 Stufen schwieriger, von
 > Anfänger bis Legende: genug, um monatelang besser zu werden.
 >
@@ -204,7 +204,7 @@ Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis col
 
 > Pochi minuti al giorno per mantenere la mente sveglia.
 >
-> **31 minigiochi, 1550 livelli** divisi in sei aree: calcolo, memoria, attenzione, velocità,
+> **39 minigiochi, 1950 livelli** divisi in sei aree: calcolo, memoria, attenzione, velocità,
 > linguaggio e logica. Ogni gioco diventa più difficile in 50 livelli e 5 fasce, da
 > Principiante a Leggenda: c’è da migliorare per mesi.
 >
@@ -245,7 +245,7 @@ Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis col
 
 > Alguns minutos por dia para manter a mente afiada.
 >
-> **31 minijogos, 1.550 níveis** em seis áreas: cálculo, memória, atenção, velocidade,
+> **39 minijogos, 1.950 níveis** em seis áreas: cálculo, memória, atenção, velocidade,
 > linguagem e lógica. Cada jogo fica mais difícil ao longo de 50 níveis e 5 patamares, de
 > Iniciante a Lenda: dá para evoluir por meses.
 >

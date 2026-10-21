@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { aiguillagesLevelLabel, aiguillagesRule } from './aiguillages';
 import { melesLevelLabel, melesRule } from './motsmeles';
 import { combienLevelLabel, combienRule } from './combien';
 import { codeLevelLabel, codeRule } from './code';
@@ -786,6 +787,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: melesLevelLabel,
   },
+  aiguillages: {
+    id: 'aiguillages',
+    get name() {
+      return tr('Aiguillages', 'Switchyard');
+    },
+    domain: 'attention',
+    rule: aiguillagesRule,
+    duration: '≈ 45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: aiguillagesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -823,6 +836,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'boutique',
   'fleches',
   'filature',
+  'aiguillages',
   'schulte',
   'correspondance',
   'reflexe',

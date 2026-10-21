@@ -1,0 +1,98 @@
+/* ---------- Aiguillages ---------- */
+
+.aig {
+  gap: 12px;
+}
+
+/* Le réseau : il prend toute la largeur ; les voies actives en couleur, les autres en pointillés. */
+.aig__net {
+  width: min(100%, 340px);
+  max-height: 62vh;
+  overflow: visible;
+  touch-action: manipulation;
+}
+
+.aig__rail {
+  stroke: var(--line);
+  stroke-width: 1.6;
+  stroke-dasharray: 2.2 2;
+  stroke-linecap: round;
+}
+
+.aig__rail.is-active {
+  stroke: var(--ink-3);
+  stroke-width: 2.6;
+  stroke-dasharray: none;
+}
+
+.aig__tunnel {
+  fill: var(--ink);
+}
+
+/* Les gares et les trains portent la couleur et la forme de leur gare. */
+.aig__station,
+.aig__train {
+  --pad: var(--ink-bleu);
+}
+
+.aig__station > rect {
+  fill: var(--pad);
+  transition: transform 160ms var(--ease-out);
+}
+
+.aig__station.is-ok > rect {
+  filter: drop-shadow(0 0 3px var(--pad));
+}
+
+.aig__station.is-bad > rect {
+  stroke: var(--ink);
+  stroke-width: 1.2;
+  stroke-dasharray: 1.5 1;
+}
+
+.aig__glyph {
+  fill: var(--surface);
+}
+
+.aig__train circle {
+  fill: var(--pad);
+  stroke: var(--surface);
+  stroke-width: 1.3;
+}
+
+.aig__train.is-express circle {
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-dasharray: 1.6 1.1;
+}
+
+/* Un aiguillage : une grosse zone à toucher, un point, et une flèche vers le côté actif. */
+.aig__switch {
+  cursor: pointer;
+  outline: none;
+}
+
+.aig__switch-hit {
+  fill: transparent;
+}
+
+.aig__switch-dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.4;
+}
+
+.aig__switch:focus-visible .aig__switch-dot {
+  stroke: var(--ink);
+}
+
+.aig__switch-arrow {
+  stroke: var(--accent-ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* Démo de l'intro. */
+.aig--demo .aig__net {
+  width: 120px;
+}

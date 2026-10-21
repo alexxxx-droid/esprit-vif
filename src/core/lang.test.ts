@@ -11,7 +11,7 @@ const read = (file: string) => FILES[`../i18n/${file}`];
  * d'Alex le 21-10-2026 : le français d'abord). En attendant, ces langues les affichent en anglais.
  * Leurs noms sont déjà traduits. À vider dès que leurs textes le sont.
  */
-const PENDING_FILES: readonly string[] = ['core/games/compte.ts', 'ui/games/CompteGame.tsx', 'ui/games/compte-demo.tsx', 'core/games/echo.ts', 'ui/games/EchoGame.tsx', 'ui/games/echo-demo.tsx', 'core/games/miroir.ts', 'ui/games/MiroirGame.tsx', 'ui/games/miroir-demo.tsx', 'core/games/code.ts', 'ui/games/CodeGame.tsx', 'ui/games/code-demo.tsx', 'core/games/combien.ts', 'ui/games/CombienGame.tsx', 'ui/games/combien-demo.tsx', 'core/games/motsmeles.ts', 'ui/games/MelesGame.tsx', 'ui/games/meles-demo.tsx'];
+const PENDING_FILES: readonly string[] = ['core/games/compte.ts', 'ui/games/CompteGame.tsx', 'ui/games/compte-demo.tsx', 'core/games/echo.ts', 'ui/games/EchoGame.tsx', 'ui/games/echo-demo.tsx', 'core/games/miroir.ts', 'ui/games/MiroirGame.tsx', 'ui/games/miroir-demo.tsx', 'core/games/code.ts', 'ui/games/CodeGame.tsx', 'ui/games/code-demo.tsx', 'core/games/combien.ts', 'ui/games/CombienGame.tsx', 'ui/games/combien-demo.tsx', 'core/games/motsmeles.ts', 'ui/games/MelesGame.tsx', 'ui/games/meles-demo.tsx', 'core/games/aiguillages.ts', 'ui/games/AiguillagesGame.tsx', 'ui/games/aiguillages-demo.tsx'];
 
 describe('Langues proposées', () => {
   it('« Auto » suit le téléphone pour chaque langue proposée, et donne l’anglais pour les autres', () => {

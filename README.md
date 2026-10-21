@@ -13,14 +13,14 @@ de chaque jeu et un bilan du mois. Tout s’essaie avant d’acheter.
 
 ## Au programme
 
-**31 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
-Confirmé, Expert, Maître, Légende), soit **1 550 niveaux**, puis dix crans de **maîtrise** :
+**39 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
+Confirmé, Expert, Maître, Légende), soit **1 950 niveaux**, puis dix crans de **maîtrise** :
 
 | Domaine | Jeux |
 | --- | --- |
 | Calcul | Calcul éclair, Total cumulé, Calcul du diable, Monnaie, Pluie de calculs, Le compte est bon |
 | Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires, Qui est qui ?, Écho |
-| Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature |
+| Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature, Aiguillages |
 | Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles, Miroir, Combien de cubes ? |
 | Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires, Mots mêlés |
 | Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques, Code secret |

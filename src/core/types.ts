@@ -38,7 +38,8 @@ export type GameId =
   | 'miroir'
   | 'code'
   | 'combien'
-  | 'motsmeles';
+  | 'motsmeles'
+  | 'aiguillages';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

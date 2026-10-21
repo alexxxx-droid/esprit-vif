@@ -10,6 +10,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { slow } from '../tempo';
+import { ShapeGlyph } from './echo-shapes';
 
 type Phase = 'lead' | 'show' | 'input' | 'pause' | 'over';
 
@@ -23,20 +24,10 @@ const COLOR_NAMES = [
   () => tr('orange', 'orange'),
 ];
 
-/** Une forme par couleur : rond, triangle, carré, étoile, losange, goutte. */
-const SHAPES = [
-  <circle key="0" cx="12" cy="12" r="7" />,
-  <path key="1" d="M12 4.5 20 19H4z" />,
-  <rect key="2" x="5" y="5" width="14" height="14" rx="2" />,
-  <path key="3" d="m12 3.5 2.5 5.4 5.9.6-4.4 4 1.3 5.8L12 16.4l-5.3 2.9L8 13.5l-4.4-4 5.9-.6z" />,
-  <path key="4" d="M12 3.5 20.5 12 12 20.5 3.5 12z" />,
-  <path key="5" d="M12 3.5c3.5 4.6 6.5 8.1 6.5 11a6.5 6.5 0 0 1-13 0c0-2.9 3-6.4 6.5-11z" />,
-];
-
 export function EchoShape({ color }: { color: number }) {
   return (
     <svg className="echo__shape" viewBox="0 0 24 24" aria-hidden="true">
-      {SHAPES[color]}
+      <ShapeGlyph color={color} />
     </svg>
   );
 }

@@ -690,3 +690,10 @@ restent originaux ; chaque partie tient en une minute au plus.
   mot ne se lit qu'une fois (le remplissage, pris dans les lettres de la famille, est vérifié).
   Confirmé : diagonales ; Expert : mots à l'envers ; Maître : liste cachée (la famille et le nombre
   de mots seulement) ; Légende : 8 × 8, les huit directions.
+- **Aiguillages** (Attention, ≈ 45 s) : des trains de couleur descendent un réseau en arbre ; on
+  touche les aiguillages pour envoyer chacun à la gare de sa couleur, un train suivant l'aiguillage
+  tel qu'il est quand il l'atteint. Un nombre fixe de trains par partie (de 28 à 48 s, vérifié par
+  un test). Confirmé : 4 gares ; Expert : plusieurs trains à la fois ; Maître : 8 gares ; Légende :
+  des trains express (cerclés de pointillés) presque deux fois plus rapides. Huit couleurs et huit
+  formes (deux de plus qu'Écho, `echo-shapes.tsx`), pour les daltoniens.
+- Avec ces huit jeux : 39 jeux, 1 950 niveaux (README et fiche Play Store mis à jour).

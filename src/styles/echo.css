@@ -57,6 +57,15 @@
   --pad: var(--ink-orange);
 }
 
+/* Deux couleurs de plus pour les huit gares d'Aiguillages. */
+.echo__pad--6 {
+  --pad: #d6478f;
+}
+
+.echo__pad--7 {
+  --pad: #1f9a93;
+}
+
 /* Allumée : pleine couleur, un halo, elle gonfle un peu. */
 .echo__pad.is-lit {
   background: var(--pad);

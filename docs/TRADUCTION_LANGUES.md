@@ -77,6 +77,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | code | Code secret | Código secreto | Geheimcode | Codice segreto | Código secreto |
 | combien | Combien de cubes ? | ¿Cuántos cubos? | Würfel zählen | Quanti cubi? | Quantos cubos? |
 | motsmeles | Mots mêlés | Sopa de letras | Buchstabensalat | Cerca parole | Caça-palavras |
+| aiguillages | Aiguillages | Agujas | Weichen | Scambi | Desvios |
 
 ### Domaines
 

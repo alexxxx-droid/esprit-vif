@@ -49,6 +49,8 @@ import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
 import { ItiGame } from './ItiGame';
+import { AiguillagesGame } from './AiguillagesGame';
+import { AiguillagesDemo } from './aiguillages-demo';
 import { MelesGame } from './MelesGame';
 import { MelesDemo } from './meles-demo';
 import { CombienGame } from './CombienGame';
@@ -113,6 +115,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+  aiguillages: AiguillagesGame,
   motsmeles: MelesGame,
   combien: CombienGame,
   code: CodeGame,
@@ -163,6 +166,7 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,
+  aiguillages: AiguillagesDemo,
   motsmeles: MelesDemo,
   combien: CombienDemo,
   code: CodeDemo,

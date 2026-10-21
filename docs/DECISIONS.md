@@ -661,3 +661,9 @@ restent originaux ; chaque partie tient en une minute au plus.
 - Textes des nouveaux jeux : français et anglais d'abord (Alex : « on s'occupera des traductions
   plus tard, français en prio ») ; leurs noms sont traduits, le reste s'affiche en anglais dans les
   quatre autres langues. `PENDING_FILES` (`lang.test.ts`) liste ces fichiers, à vider ensuite.
+- **Écho** (Mémoire, une minute au plus) : façon Simon, des touches de couleur (chacune sa note et
+  sa forme, pour les daltoniens) ; la même suite s'allonge à chaque tour, ce qui le distingue de
+  Matrice (une nouvelle séquence de cases par manche). Deux erreurs et c'est fini ; après une
+  erreur le tour se rejoue en entier. Confirmé : 6 touches ; Expert : les touches changent de place ;
+  Maître : seule la nouvelle note est jouée ; Légende : deux notes de plus par tour. 100 pts à
+  8 notes (9 aux deux derniers paliers) : un test vérifie qu'un joueur rapide y arrive en 55 s.

@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { echoLevelLabel, echoRule } from './echo';
 import { compteLevelLabel, compteRule } from './compte';
 import { suitesLevelLabel, suitesRule } from './suites';
 import { tr } from '../lang';
@@ -721,6 +722,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: compteLevelLabel,
   },
+  echo: {
+    id: 'echo',
+    get name() {
+      return tr('Écho', 'Echo');
+    },
+    domain: 'memoire',
+    rule: echoRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: echoLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -752,6 +765,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'mots',
   'paires',
   'quiestqui',
+  'echo',
   'stroop',
   'intrus',
   'boutique',

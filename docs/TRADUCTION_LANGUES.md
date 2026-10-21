@@ -72,6 +72,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | contraires | Contraires | Contrarios | Gegenteile | Contrari | Opostos |
 | suites | Suites logiques | Series lógicas | Zahlenreihen | Serie logiche | Sequências lógicas |
 | compte | Le compte est bon | Cuenta exacta | Zielzahl | Conto esatto | Conta certa |
+| echo | Écho | Eco | Echo | Eco | Eco |
 
 ### Domaines
 

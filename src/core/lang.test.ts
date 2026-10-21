@@ -11,7 +11,7 @@ const read = (file: string) => FILES[`../i18n/${file}`];
  * d'Alex le 21-10-2026 : le français d'abord). En attendant, ces langues les affichent en anglais.
  * Leurs noms sont déjà traduits. À vider dès que leurs textes le sont.
  */
-const PENDING_FILES: readonly string[] = ['core/games/compte.ts', 'ui/games/CompteGame.tsx', 'ui/games/compte-demo.tsx'];
+const PENDING_FILES: readonly string[] = ['core/games/compte.ts', 'ui/games/CompteGame.tsx', 'ui/games/compte-demo.tsx', 'core/games/echo.ts', 'ui/games/EchoGame.tsx', 'ui/games/echo-demo.tsx'];
 
 describe('Langues proposées', () => {
   it('« Auto » suit le téléphone pour chaque langue proposée, et donne l’anglais pour les autres', () => {

@@ -1,0 +1,106 @@
+/* ---------- Écho ---------- */
+
+.echo {
+  gap: 20px;
+}
+
+/* Les touches : une grille de 2 × 2 ou 2 × 3, chacune sa couleur et sa forme. */
+.echo__pads {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: min(100%, 300px);
+}
+
+.echo__pads--6 {
+  grid-template-columns: repeat(3, 1fr);
+  width: min(100%, 330px);
+}
+
+.echo__pad {
+  --pad: var(--ink-bleu);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 26px;
+  color: var(--surface);
+  background: color-mix(in srgb, var(--pad) 42%, var(--surface));
+  box-shadow: inset 0 -5px 0 color-mix(in srgb, var(--pad) 55%, transparent);
+  transition:
+    transform 110ms var(--ease-out),
+    background-color 110ms var(--ease-out),
+    box-shadow 110ms var(--ease-out);
+}
+
+.echo__pads--6 .echo__pad {
+  border-radius: 22px;
+}
+
+.echo__pad--1 {
+  --pad: var(--ink-rouge);
+}
+
+.echo__pad--2 {
+  --pad: var(--ink-vert);
+}
+
+.echo__pad--3 {
+  --pad: var(--ink-jaune);
+}
+
+.echo__pad--4 {
+  --pad: var(--ink-violet);
+}
+
+.echo__pad--5 {
+  --pad: var(--ink-orange);
+}
+
+/* Allumée : pleine couleur, un halo, elle gonfle un peu. */
+.echo__pad.is-lit {
+  background: var(--pad);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--pad) 35%, transparent),
+    0 8px 26px color-mix(in srgb, var(--pad) 55%, transparent);
+  transform: scale(1.05);
+}
+
+/* Pendant que l'écho joue, les touches ne se touchent pas : elles restent nettes, sans voile. */
+.echo__pad:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.echo__shape {
+  width: 42%;
+  height: 42%;
+  fill: currentColor;
+  opacity: 0.9;
+}
+
+.echo__prompt {
+  min-height: 1.5em;
+}
+
+.echo__failures {
+  color: var(--ink-3);
+}
+
+/* Démo de l'intro. */
+.echo__pads--demo {
+  gap: 8px;
+  width: 132px;
+}
+
+.echo__pads--demo.echo__pads--6 {
+  width: 186px;
+}
+
+.echo__pads--demo .echo__pad {
+  border-radius: 14px;
+}
+
+.echo__pad.is-pressed {
+  transform: scale(0.94);
+}

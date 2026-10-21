@@ -1,0 +1,65 @@
+/* ---------- Labyrinthe éclair ---------- */
+
+.laby {
+  gap: 14px;
+}
+
+/* Le labyrinthe prend toute la largeur ; on y trace du doigt sans faire défiler la page. */
+.laby__maze {
+  width: min(100%, 330px);
+  touch-action: none;
+  user-select: none;
+}
+
+.laby__floor {
+  fill: var(--surface);
+}
+
+.laby__fog {
+  fill: color-mix(in srgb, var(--ink) 78%, var(--surface));
+}
+
+.laby__walls,
+.laby__frame {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 0.12;
+  stroke-linecap: round;
+}
+
+.laby__exit {
+  fill: var(--d-logique);
+}
+
+.laby__key circle {
+  fill: none;
+  stroke: var(--ink-jaune);
+  stroke-width: 0.1;
+}
+
+.laby__key path {
+  fill: none;
+  stroke: var(--ink-jaune);
+  stroke-width: 0.1;
+  stroke-linecap: round;
+}
+
+.laby__path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.28;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+
+.laby__head {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 0.08;
+}
+
+/* Démo de l'intro. */
+.laby--demo .laby__maze {
+  width: 96px;
+}

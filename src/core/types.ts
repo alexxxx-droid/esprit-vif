@@ -45,7 +45,8 @@ export type GameId =
   | 'grand'
   | 'manque'
   | 'pendu'
-  | 'taquin';
+  | 'taquin'
+  | 'labyrinthe';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

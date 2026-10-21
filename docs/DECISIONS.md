@@ -734,3 +734,8 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   toujours faisable, et en au plus autant de coups). Une tuile à sa place est soulignée. Débutant :
   3 × 3, 3 à 6 coups ; Confirmé : 7 à 10 ; Expert : 4 × 4 ; Maître : coups comptés (le mélange
   plus une marge de 6 à 2) ; Légende : 4 × 4 et coups comptés.
+- **Labyrinthe éclair** (Logique, une minute) : tracer du doigt (glisser) le chemin de l'entrée à la
+  sortie ; revenir sur la case d'avant efface le dernier pas ; un mur arrête le doigt. Labyrinthes
+  parfaits creusés en profondeur au hasard. Débutant : 5 × 5 puis 6 × 6 ; Confirmé : 7 × 7 ;
+  Expert : brouillard (on voit à 2 cases) ; Maître : une clé hors du chemin direct, à ramasser
+  avant la sortie ; Légende : les murs s'effacent après 4 à 2,5 s (ils bloquent toujours).

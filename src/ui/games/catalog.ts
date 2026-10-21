@@ -49,6 +49,8 @@ import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
 import { ItiGame } from './ItiGame';
+import { LabyrintheGame } from './LabyrintheGame';
+import { LabyrintheDemo } from './labyrinthe-demo';
 import { TaquinGame } from './TaquinGame';
 import { TaquinDemo } from './taquin-demo';
 import { PenduGame } from './PenduGame';
@@ -127,6 +129,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+  labyrinthe: LabyrintheGame,
   taquin: TaquinGame,
   pendu: PenduGame,
   manque: ManqueGame,
@@ -184,6 +187,7 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,
+  labyrinthe: LabyrintheDemo,
   taquin: TaquinDemo,
   pendu: PenduDemo,
   manque: ManqueDemo,

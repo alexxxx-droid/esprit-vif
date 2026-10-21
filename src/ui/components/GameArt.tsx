@@ -4,6 +4,7 @@ import type { GameId } from '../../core/types';
 import { CONTRAIRES_ART } from './art-contraires';
 import { FILATURE_ART } from './art-filature';
 import { LUCIOLES_ART } from './art-lucioles';
+import { LABYRINTHE_ART } from './art-labyrinthe';
 import { TAQUIN_ART } from './art-taquin';
 import { PENDU_ART } from './art-pendu';
 import { MANQUE_ART } from './art-manque';
@@ -28,6 +29,7 @@ const ART: Record<GameId, ReactNode> = {
   filature: FILATURE_ART,
   lucioles: LUCIOLES_ART,
   contraires: CONTRAIRES_ART,
+  labyrinthe: LABYRINTHE_ART,
   taquin: TAQUIN_ART,
   pendu: PENDU_ART,
   manque: MANQUE_ART,

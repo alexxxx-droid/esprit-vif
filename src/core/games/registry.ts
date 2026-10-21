@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { labyLevelLabel, labyRule } from './labyrinthe';
 import { taquinLevelLabel, taquinRule } from './taquin';
 import { penduLevelLabel, penduRule } from './pendu';
 import { manqueLevelLabel, manqueRule } from './manque';
@@ -877,6 +878,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: taquinLevelLabel,
   },
+  labyrinthe: {
+    id: 'labyrinthe',
+    get name() {
+      return tr('Labyrinthe éclair', 'Maze Rush');
+    },
+    domain: 'logique',
+    rule: labyRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: labyLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -941,6 +954,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'suites',
   'code',
   'taquin',
+  'labyrinthe',
 ];
 
 /** Jeux du test du jour, par domaine (dans l'ordre des domaines) : tous les jeux y participent. */

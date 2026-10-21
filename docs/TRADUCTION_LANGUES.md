@@ -84,6 +84,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | manque | Qui manque ? | ¿Qué falta? | Was fehlt? | Cosa manca? | O que falta? |
 | pendu | Pendu express | Ahorcado | Galgenraten | Impiccato | Forca |
 | taquin | Taquin express | Juego del 15 | Schiebepuzzle | Gioco del 15 | Jogo do 15 |
+| labyrinthe | Labyrinthe éclair | Laberinto | Labyrinth | Labirinto | Labirinto |
 
 ### Domaines
 

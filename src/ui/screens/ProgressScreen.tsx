@@ -159,15 +159,15 @@ export function ProgressScreen() {
           {data.settings.showStreak ? (
             <>
               <div className="tiles">
-                <StatTile label={tr('Série en cours', 'Current streak')} value={currentStreak(playedDays, today)} unit={tr('jour', 'day')} icon="flame" />
-                <StatTile label={tr('Meilleure série', 'Best streak')} value={bestStreak(playedDays)} unit={tr('jour', 'day')} icon="star" />
-                <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
+                <StatTile label={tr('Série en cours', 'Current streak')} value={currentStreak(playedDays, today)} unit={dayUnit} icon="flame" />
+                <StatTile label={tr('Meilleure série', 'Best streak')} value={bestStreak(playedDays)} unit={dayUnit} icon="star" />
+                <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={dayUnit} icon="calendar" />
               </div>
               <p className="hint progress__rest">{tr('Un jour de repos par semaine ne casse pas ta série.', 'One rest day a week won’t break your streak.')}</p>
             </>
           ) : (
             <div className="tiles">
-              <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={tr('jour', 'day')} icon="calendar" />
+              <StatTile label={tr('Jours joués', 'Days played')} value={playedDays.size} unit={dayUnit} icon="calendar" />
             </div>
           )}
 
@@ -461,7 +461,7 @@ function KeyFigures({ plays }: { plays: readonly PlayRecord[] }) {
         </div>
         <div>
           <dt>{tr('Précision', 'Accuracy')}</dt>
-          <dd>{t.accuracy === null ? '—' : `${t.accuracy} %`}</dd>
+          <dd>{t.accuracy === null ? '—' : tr(`${t.accuracy}\u00a0%`, `${t.accuracy}%`)}</dd>
           <span className="key-figures__note">
             {t.accuracy === null
               ? tr('dans les jeux qui comptent les erreurs', 'in games that count mistakes')
@@ -540,14 +540,19 @@ function seasonReturn(id: string, today: string): string {
   return formatLongDay(next).split(' ').slice(1).join(' ');
 }
 
-function StatTile({ label, value, unit, icon }: { label: string; value: number; unit: string; icon: 'flame' | 'star' | 'calendar' }) {
+/** L'unité des tuiles de série, accordée au nombre (chaque langue a son pluriel). */
+function dayUnit(count: number): string {
+  return tr(byCount(count, 'jour', 'jours'), byCount(count, 'day', 'days'));
+}
+
+function StatTile({ label, value, unit, icon }: { label: string; value: number; unit: (count: number) => string; icon: 'flame' | 'star' | 'calendar' }) {
   return (
     <div className="tile-stat">
       <span className={`tile-stat__icon tile-stat__icon--${icon}`}>
         <Icon name={icon} size={18} />
       </span>
       <span className="tile-stat__value">{value}</span>
-      <span className="tile-stat__unit">{plural(value, unit).replace(/^\S+\s/, '')}</span>
+      <span className="tile-stat__unit">{unit(value)}</span>
       <span className="tile-stat__label">{label}</span>
     </div>
   );

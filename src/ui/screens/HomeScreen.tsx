@@ -354,7 +354,7 @@ function ObjectivesCard() {
             </span>
             <span className="objective__label">
               {objectiveLabel(objective)}
-              <span className="sr-only">{complete ? tr(' : fait', ': done') : ` : ${progress} / ${objective.target}`}</span>
+              <span className="sr-only">{complete ? tr(' : fait', ': done') : tr(` : ${progress} / ${objective.target}`, `: ${progress} / ${objective.target}`)}</span>
             </span>
             <span className="objective__meta" aria-hidden="true">
               {!complete && objective.target > 1 ? `${progress}/${objective.target}` : `+${OBJECTIVE_XP} XP`}

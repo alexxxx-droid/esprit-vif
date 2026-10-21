@@ -257,13 +257,14 @@ function AuraPicker() {
               type="button"
               className={`hat-tile${owned ? ' is-owned' : ' is-locked'}${on ? ' is-selected' : ''}`}
               aria-pressed={on}
-              aria-label={`${localized(a.name)}, ${owned ? (on ? tr('portée', 'worn') : tr('à toi', 'yours')) : tr(`niveau ${a.level}`, `level ${a.level}`)}`}
+              aria-label={`${localized(a.name)}, ${owned ? (on ? tr('portée', 'worn') : tr('débloquée', 'unlocked')) : tr(`niveau ${a.level}`, `level ${a.level}`)}`}
               onClick={() => owned && void store.updateSettings({ aura: on ? '' : a.id })}
             >
               <Mascot size={58} aura={a.id} hat={null} still={!owned} />
               <span className="hat-tile__name">{localized(a.name)}</span>
               <span className="hat-tile__meta" aria-hidden="true">
-                {on ? tr('Portée', 'Worn') : owned ? tr('À toi', 'Yours') : (
+                {/* « Débloquée », pas « À toi » : une aura est féminine, un chapeau masculin, et les autres langues accordent. */}
+                {on ? tr('Portée', 'Worn') : owned ? tr('Débloquée', 'Unlocked') : (
                   <>
                     <Icon name="lock" size={12} /> {tr(`Niv. ${a.level}`, `Lv. ${a.level}`)}
                   </>

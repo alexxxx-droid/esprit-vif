@@ -105,7 +105,7 @@ function SendPanel() {
     <div className="tab-panel transfer__panel" role="tabpanel">
       <p className="transfer__what">
         <strong>{profileName(active, profiles)}</strong> · {tr(plural(data.plays.length, 'partie'), plural(data.plays.length, 'game'))} ·{' '}
-        {plural(data.tests.filter((t) => t.done).length, 'test')}
+        {tr(plural(data.tests.filter((t) => t.done).length, 'test'), plural(data.tests.filter((t) => t.done).length, 'test'))}
       </p>
       <div className="transfer__qr-wrap">{frames.length ? <QrCanvas text={frames[index % frames.length]} /> : <span className="transfer__wait">{tr('Préparation…', 'Getting ready…')}</span>}</div>
       {frames.length > 1 && (
@@ -262,7 +262,7 @@ function ReceivePanel() {
           <Icon name="check" size={28} strokeWidth={3} />
           <p>
             {tr('Progression reçue\u00a0: ', 'Progress received: ')}
-            <strong>{who}</strong>, {tr(plural(summary.plays, 'partie'), plural(summary.plays, 'game'))}, {plural(summary.tests, 'test')}.
+            <strong>{who}</strong>, {tr(plural(summary.plays, 'partie'), plural(summary.plays, 'game'))}, {tr(plural(summary.tests, 'test'), plural(summary.tests, 'test'))}.
           </p>
         </div>
         <div className="mode-actions">

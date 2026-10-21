@@ -24,7 +24,9 @@ const character = (id: CharacterId, name: Translations): Character => ({
 export const CHARACTERS: readonly Character[] = [
   character('vif', { fr: 'Vif', en: 'Vif' }),
   character('pomme', { fr: 'Pomme', en: 'Apple' }),
-  character('orange', { fr: 'Orange', en: 'Orange' }),
+  // Backticks : une autre clé de dictionnaire que la couleur 'Orange' de Couleurs piégées (le fruit
+  // et la couleur ne se disent pas pareil partout : en italien, Arancia et Arancione).
+  character('orange', { fr: `Orange`, en: 'Orange' }),
   character('citron', { fr: 'Citron', en: 'Lemon' }),
   character('fraise', { fr: 'Fraise', en: 'Strawberry' }),
   character('raisin', { fr: 'Raisin', en: 'Grape' }),

@@ -51,7 +51,7 @@ export function SudokuGame({ seed, level, onFinish }: GameProps) {
         headline: `${formatSeconds(ms)} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
         lines: [
           { label: tr('Temps', 'Time'), value: formatSeconds(ms) },
-          { label: tr('Chiffres refusés', 'Digits rejected'), value: errors ? `${errors} (+${errors * SUDOKU_PENALTY_S} s)` : tr('Aucun', 'None') },
+          { label: tr('Chiffres refusés', 'Digits rejected'), value: errors ? `${errors} (+${errors * SUDOKU_PENALTY_S} s)` : '0' },
           { label: tr('Grilles', 'Grids'), value: `${puzzles.length} × ${size} × ${size}` },
         ],
       });

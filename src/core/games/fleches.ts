@@ -168,7 +168,7 @@ export function flechesLevelLabel(level: number): string {
     c.nogo > 0 && tr('flèches barrées', 'crossed-out arrows'),
     c.motion && tr('voisines mobiles', 'moving arrows'),
     layout,
-    c.dirs === 4 ? '4 directions' : '2 directions',
+    c.dirs === 4 ? tr('4 directions', '4 directions') : tr('2 directions', '2 directions'),
     tr(`${arrows} flèches`, `${arrows} arrows`),
     tr(`${delay} pour répondre`, `${delay} to answer`),
   ]

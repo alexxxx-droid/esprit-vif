@@ -550,7 +550,7 @@ function ChallengeResult({ link, standings, mine, onBack }: { link: ChallengeLin
               <span className="visually-hidden">{GAMES[g].name}</span>
             </span>
           ))}
-          <span role="columnheader">Total</span>
+          <span role="columnheader">{tr('Total', 'Total')}</span>
         </div>
         {standings.map((s) => (
           <div key={s.me ? '' : s.name.toLowerCase()} className={`challenge-table__row${s.me ? ' is-me' : ''}${s === top && !tied && others.length ? ' is-top' : ''}`} role="row">

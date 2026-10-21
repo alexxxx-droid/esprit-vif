@@ -68,7 +68,9 @@ function extract() {
         const props = node.properties.filter(ts.isPropertyAssignment);
         const fr = props.find((p) => p.name.getText(source) === 'fr');
         const en = props.find((p) => p.name.getText(source) === 'en');
-        if (fr && en && isText(fr.initializer)) add(fr.initializer, en.initializer);
+        // Un objet qui porte déjà les autres langues (`LANG_NAMES`, les locales) n'a rien à traduire.
+        const already = props.some((p) => ['es', 'de', 'it', 'pt'].includes(p.name.getText(source)));
+        if (fr && en && !already && isText(fr.initializer)) add(fr.initializer, en.initializer);
       }
       ts.forEachChild(node, visit);
     };

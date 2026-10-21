@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
-import { plural } from '../../core/format';
+import { byCount, plural } from '../../core/format';
 import { tr } from '../../core/lang';
 import {
   denominationLabel,
@@ -78,7 +78,7 @@ export function MonnaieGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scoreMonnaie(correct, level),
       stats: { correct, errors },
-      headline: tr(`${correct} bonnes réponses`, plural(correct, 'correct answer')),
+      headline: tr(byCount(correct, `${correct} bonne réponse`, `${correct} bonnes réponses`), plural(correct, 'correct answer')),
       lines: [
         { label: tr('Bonnes réponses', 'Correct answers'), value: String(correct) },
         { label: tr('Erreurs', 'Errors'), value: errors ? String(errors) : tr('Aucune', 'None') },

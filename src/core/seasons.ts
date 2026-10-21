@@ -24,10 +24,7 @@ interface Story {
   chapters: readonly [Chapter, Chapter, Chapter, Chapter];
 }
 
-const ch = (frTitle: string, enTitle: string, frLine: string, enLine: string): Chapter => ({
-  title: { fr: frTitle, en: enTitle },
-  line: { fr: frLine, en: enLine },
-});
+const ch = (title: Translations, line: Translations): Chapter => ({ title, line });
 
 export const STORIES: readonly Story[] = [
   {
@@ -35,10 +32,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'L’expédition polaire', en: 'The Polar Expedition' },
     hat: { fr: 'Chapka polaire', en: 'Polar trapper hat' },
     chapters: [
-      ch('Le camp de base', 'Base camp', 'Vif boucle son sac : cap sur le Grand Nord !', 'Vif packs up: next stop, the far North!'),
-      ch('Le col des glaces', 'The Ice Pass', 'Le vent souffle fort, mais chaque défi relevé ouvre la voie.', 'The wind is fierce, but every challenge clears the way.'),
-      ch('Les aurores', 'The Northern Lights', 'Le ciel s’illumine de vert et de violet.', 'The sky lights up in green and violet.'),
-      ch('Le sommet blanc', 'The White Summit', 'Encore un effort : le drapeau t’attend au sommet !', 'One last push: the flag awaits at the top!'),
+      ch({ fr: 'Le camp de base', en: 'Base camp' }, { fr: 'Vif boucle son sac : cap sur le Grand Nord !', en: 'Vif packs up: next stop, the far North!' }),
+      ch({ fr: 'Le col des glaces', en: 'The Ice Pass' }, { fr: 'Le vent souffle fort, mais chaque défi relevé ouvre la voie.', en: 'The wind is fierce, but every challenge clears the way.' }),
+      ch({ fr: 'Les aurores', en: 'The Northern Lights' }, { fr: 'Le ciel s’illumine de vert et de violet.', en: 'The sky lights up in green and violet.' }),
+      ch({ fr: 'Le sommet blanc', en: 'The White Summit' }, { fr: 'Encore un effort : le drapeau t’attend au sommet !', en: 'One last push: the flag awaits at the top!' }),
     ],
   },
   {
@@ -46,10 +43,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'Le grand voyage en mer', en: 'The Great Sea Voyage' },
     hat: { fr: 'Casquette de capitaine', en: 'Captain’s cap' },
     chapters: [
-      ch('Le port', 'The Harbor', 'Le navire largue les amarres.', 'The ship casts off.'),
-      ch('La tempête', 'The Storm', 'Les vagues grondent : tiens bon la barre !', 'The waves roar: hold the wheel!'),
-      ch('L’île aux perroquets', 'Parrot Island', 'Une escale colorée, pleine de bavards à plumes.', 'A colorful stop, full of feathered chatterboxes.'),
-      ch('Le trésor', 'The Treasure', 'La carte mène à un coffre… qui brille déjà !', 'The map leads to a chest… already shining!'),
+      ch({ fr: 'Le port', en: 'The Harbor' }, { fr: 'Le navire largue les amarres.', en: 'The ship casts off.' }),
+      ch({ fr: 'La tempête', en: 'The Storm' }, { fr: 'Les vagues grondent : tiens bon la barre !', en: 'The waves roar: hold the wheel!' }),
+      ch({ fr: 'L’île aux perroquets', en: 'Parrot Island' }, { fr: 'Une escale colorée, pleine de bavards à plumes.', en: 'A colorful stop, full of feathered chatterboxes.' }),
+      ch({ fr: 'Le trésor', en: 'The Treasure' }, { fr: 'La carte mène à un coffre… qui brille déjà !', en: 'The map leads to a chest… already shining!' }),
     ],
   },
   {
@@ -57,10 +54,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'La forêt enchantée', en: 'The Enchanted Forest' },
     hat: { fr: 'Chapeau champignon', en: 'Mushroom cap' },
     chapters: [
-      ch('L’orée du bois', 'The Forest’s Edge', 'Des lucioles montrent le chemin.', 'Fireflies light the way.'),
-      ch('Le pont des fées', 'The Fairy Bridge', 'Un pont de lianes, une énigme à chaque planche.', 'A vine bridge, a riddle on every plank.'),
-      ch('Le chêne qui parle', 'The Talking Oak', 'Le vieux chêne connaît tous les secrets.', 'The old oak knows every secret.'),
-      ch('La clairière', 'The Clearing', 'La fête des champignons commence !', 'The mushroom party begins!'),
+      ch({ fr: 'L’orée du bois', en: 'The Forest’s Edge' }, { fr: 'Des lucioles montrent le chemin.', en: 'Fireflies light the way.' }),
+      ch({ fr: 'Le pont des fées', en: 'The Fairy Bridge' }, { fr: 'Un pont de lianes, une énigme à chaque planche.', en: 'A vine bridge, a riddle on every plank.' }),
+      ch({ fr: 'Le chêne qui parle', en: 'The Talking Oak' }, { fr: 'Le vieux chêne connaît tous les secrets.', en: 'The old oak knows every secret.' }),
+      ch({ fr: 'La clairière', en: 'The Clearing' }, { fr: 'La fête des champignons commence !', en: 'The mushroom party begins!' }),
     ],
   },
   {
@@ -68,10 +65,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'Le désert des mirages', en: 'The Desert of Mirages' },
     hat: { fr: 'Casque d’explorateur', en: 'Explorer’s helmet' },
     chapters: [
-      ch('L’oasis', 'The Oasis', 'Dernière gorgée d’eau fraîche avant les dunes.', 'One last sip of cool water before the dunes.'),
-      ch('Les dunes', 'The Dunes', 'Le sable bouge : garde l’esprit clair !', 'The sand shifts: keep a clear head!'),
-      ch('Le mirage', 'The Mirage', 'Était-ce vraiment une ville au loin ?', 'Was that really a city on the horizon?'),
-      ch('Le temple caché', 'The Hidden Temple', 'Les portes de pierre s’ouvrent enfin.', 'The stone doors finally open.'),
+      ch({ fr: 'L’oasis', en: 'The Oasis' }, { fr: 'Dernière gorgée d’eau fraîche avant les dunes.', en: 'One last sip of cool water before the dunes.' }),
+      ch({ fr: 'Les dunes', en: 'The Dunes' }, { fr: 'Le sable bouge : garde l’esprit clair !', en: 'The sand shifts: keep a clear head!' }),
+      ch({ fr: 'Le mirage', en: 'The Mirage' }, { fr: 'Était-ce vraiment une ville au loin ?', en: 'Was that really a city on the horizon?' }),
+      ch({ fr: 'Le temple caché', en: 'The Hidden Temple' }, { fr: 'Les portes de pierre s’ouvrent enfin.', en: 'The stone doors finally open.' }),
     ],
   },
   {
@@ -79,10 +76,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'La cité des étoiles', en: 'The City of Stars' },
     hat: { fr: 'Chapeau planète', en: 'Planet hat' },
     chapters: [
-      ch('Le décollage', 'Liftoff', '3, 2, 1… la fusée s’envole !', '3, 2, 1… the rocket takes off!'),
-      ch('La ceinture d’astéroïdes', 'The Asteroid Belt', 'Slalom entre les cailloux de l’espace.', 'Slaloming through space rocks.'),
-      ch('La lune bleue', 'The Blue Moon', 'On y marche en faisant des bonds.', 'You walk there in giant hops.'),
-      ch('La cité des étoiles', 'The City of Stars', 'Ses habitants t’accueillent comme un héros.', 'Its people welcome you as a hero.'),
+      ch({ fr: 'Le décollage', en: 'Liftoff' }, { fr: '3, 2, 1… la fusée s’envole !', en: '3, 2, 1… the rocket takes off!' }),
+      ch({ fr: 'La ceinture d’astéroïdes', en: 'The Asteroid Belt' }, { fr: 'Slalom entre les cailloux de l’espace.', en: 'Slaloming through space rocks.' }),
+      ch({ fr: 'La lune bleue', en: 'The Blue Moon' }, { fr: 'On y marche en faisant des bonds.', en: 'You walk there in giant hops.' }),
+      ch({ fr: 'La cité des étoiles', en: 'The City of Stars' }, { fr: 'Ses habitants t’accueillent comme un héros.', en: 'Its people welcome you as a hero.' }),
     ],
   },
   {
@@ -90,10 +87,10 @@ export const STORIES: readonly Story[] = [
     name: { fr: 'Le cœur du volcan', en: 'The Heart of the Volcano' },
     hat: { fr: 'Couronne de flammes', en: 'Flame crown' },
     chapters: [
-      ch('Le sentier fumant', 'The Smoking Trail', 'Le sol est chaud sous les pattes.', 'The ground is warm underfoot.'),
-      ch('La rivière de lave', 'The Lava River', 'On saute de pierre en pierre.', 'Hopping from stone to stone.'),
-      ch('La caverne de cristal', 'The Crystal Cave', 'Des cristaux géants scintillent dans le noir.', 'Giant crystals sparkle in the dark.'),
-      ch('Le cœur du volcan', 'The Heart of the Volcano', 'Une flamme dorée t’attend au centre.', 'A golden flame awaits at the center.'),
+      ch({ fr: 'Le sentier fumant', en: 'The Smoking Trail' }, { fr: 'Le sol est chaud sous les pattes.', en: 'The ground is warm underfoot.' }),
+      ch({ fr: 'La rivière de lave', en: 'The Lava River' }, { fr: 'On saute de pierre en pierre.', en: 'Hopping from stone to stone.' }),
+      ch({ fr: 'La caverne de cristal', en: 'The Crystal Cave' }, { fr: 'Des cristaux géants scintillent dans le noir.', en: 'Giant crystals sparkle in the dark.' }),
+      ch({ fr: 'Le cœur du volcan', en: 'The Heart of the Volcano' }, { fr: 'Une flamme dorée t’attend au centre.', en: 'A golden flame awaits at the center.' }),
     ],
   },
 ];

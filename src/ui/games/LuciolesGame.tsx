@@ -67,15 +67,15 @@ export function LuciolesGame({ seed, level, onFinish }: GameProps) {
       headline: `${tr(plural(tally.caught, 'luciole attrapée', 'lucioles attrapées'), plural(tally.caught, 'firefly caught', 'fireflies caught'))} · ${tr(plural(errors, 'erreur'), plural(errors, 'error'))}`,
       lines: [
         { label: tr('Lucioles attrapées', 'Fireflies caught'), value: String(tally.caught) },
-        { label: tr('Éteintes avant d’être prises', 'Went out before being caught'), value: tally.missed ? String(tally.missed) : tr('Aucune', 'None') },
-        { label: tr('Mauvais appuis', 'Wrong taps'), value: tally.wrong ? String(tally.wrong) : tr('Aucun', 'None') },
+        { label: tr('Éteintes avant d’être prises', 'Went out before being caught'), value: String(tally.missed) },
+        { label: tr('Mauvais appuis', 'Wrong taps'), value: String(tally.wrong) },
         { label: tr('Temps de réaction moyen', 'Average reaction time'), value: mean ? `${mean} ms` : '—' },
         { label: tr('Objectif pour 100 pts', 'Target for 100 pts'), value: String(config.target) },
       ],
     });
   });
 
-  // La partie dure 60 s, quoi qu'il arrive.
+  // La partie dure LUCIOLES_DURATION_MS, quoi qu'il arrive.
   useEffect(() => {
     clock.start();
     const id = window.setInterval(() => {

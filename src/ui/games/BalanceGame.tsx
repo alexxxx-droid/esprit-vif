@@ -168,8 +168,8 @@ export function BalanceGame({ seed, level, onFinish }: GameProps) {
       <div className="game__stage balance">
         <p className="balance__ask">
           {puzzle.ask === 'heaviest'
-            ? rich(tr('Lequel est le plus {which}\u00a0?', 'Which one is the {which}?'), { which: <strong>{tr('lourd', 'heaviest')}</strong> })
-            : rich(tr('Lequel est le plus {which}\u00a0?', 'Which one is the {which}?'), { which: <strong>{tr('léger', 'lightest')}</strong> })}
+            ? rich(tr('Lequel est {which}\u00a0?', 'Which one is {which}?'), { which: <strong>{tr('le plus lourd', 'the heaviest')}</strong> })
+            : rich(tr('Lequel est {which}\u00a0?', 'Which one is {which}?'), { which: <strong>{tr('le plus léger', 'the lightest')}</strong> })}
         </p>
         <div key={index} className={`balance__clues${puzzle.clues.length > 6 ? ' balance__clues--3' : ''}`}>
           {puzzle.clues.map((clue, i) => (

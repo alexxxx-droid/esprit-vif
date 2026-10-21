@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { dayKey } from '../../core/daily';
-import { formatMonth } from '../../core/format';
+import { byCount, formatMonth, plural } from '../../core/format';
 import { DOMAIN_ORDER, DOMAINS, GAMES } from '../../core/games/registry';
 import { tr } from '../../core/lang';
 import { durationLabel, monthlyReport, previousMonth, type MonthReport } from '../../core/summary';
@@ -90,6 +90,8 @@ export function MonthScreen() {
 function Report({ report, name }: { report: MonthReport; name: string }) {
   const most = Math.max(1, ...Object.values(report.domains).map((n) => n ?? 0));
   const delta = report.plays - report.previous.plays;
+  const playsText = tr(plural(report.plays, 'partie'), plural(report.plays, 'game'));
+  const daysText = tr(plural(report.days, 'jour'), plural(report.days, 'day'));
   return (
     <>
       <section className="month-card">
@@ -99,7 +101,12 @@ function Report({ report, name }: { report: MonthReport; name: string }) {
             <h2 className="month-card__title">{name}</h2>
             {/* Seulement les bonnes nouvelles : un mois en cours ne se compare pas à un mois entier, et jamais pour culpabiliser. */}
             {report.previous.plays > 0 && delta > 0 && (
-              <p className="month-card__compare">{tr(`${delta} parties de plus que le mois d’avant`, `${delta} more games than the month before`)}</p>
+              <p className="month-card__compare">
+                {tr(
+                  byCount(delta, `${delta} partie de plus que le mois d’avant`, `${delta} parties de plus que le mois d’avant`),
+                  byCount(delta, `${delta} more game than the month before`, `${delta} more games than the month before`),
+                )}
+              </p>
             )}
           </div>
           <Mascot mood="cheer" size={84} hat="couronne-etoilee" className="month-card__vif" />
@@ -127,8 +134,8 @@ function Report({ report, name }: { report: MonthReport; name: string }) {
             <li>
               <GameArt gameId={report.favorite.gameId} size={34} />
               <span>
-                {tr('Jeu préféré', 'Favorite game')} : <strong>{GAMES[report.favorite.gameId].name}</strong>
-                <small>{tr(`${report.favorite.plays} parties`, `${report.favorite.plays} games`)}</small>
+                {tr('Jeu préféré\u00a0:', 'Favorite game:')} <strong>{GAMES[report.favorite.gameId].name}</strong>
+                <small>{tr(plural(report.favorite.plays, 'partie'), plural(report.favorite.plays, 'game'))}</small>
               </span>
             </li>
           )}
@@ -136,7 +143,7 @@ function Report({ report, name }: { report: MonthReport; name: string }) {
             <li>
               <GameArt gameId={report.bestGain.gameId} size={34} />
               <span>
-                {tr('Plus beau progrès', 'Biggest gain')} : <strong>{GAMES[report.bestGain.gameId].name}</strong>
+                {tr('Plus beau progrès\u00a0:', 'Biggest gain:')} <strong>{GAMES[report.bestGain.gameId].name}</strong>
                 <small>{tr(`moyenne ${report.bestGain.before} → ${report.bestGain.now}`, `average ${report.bestGain.before} → ${report.bestGain.now}`)}</small>
               </span>
             </li>
@@ -192,8 +199,8 @@ function Report({ report, name }: { report: MonthReport; name: string }) {
           ),
           name: `esprit-vif-${report.month}.png`,
           text: tr(
-            `Mon mois sur Esprit Vif : ${report.plays} parties en ${report.days} jours. https://alexxxx-droid.github.io/esprit-vif/`,
-            `My month on Esprit Vif: ${report.plays} games over ${report.days} days. https://alexxxx-droid.github.io/esprit-vif/`,
+            `Mon mois sur Esprit Vif : ${playsText} en ${daysText}. https://alexxxx-droid.github.io/esprit-vif/`,
+            `My month on Esprit Vif: ${playsText} over ${daysText}. https://alexxxx-droid.github.io/esprit-vif/`,
           ),
         })}
       />

@@ -27,6 +27,7 @@ export function SeasonScreen() {
   const done = status.done.filter(Boolean).length;
   const collection = seasonsEarned(data.plays, data.extras.sessions, today).length;
   const daysLeft = dayIndex(arc.end) - dayIndex(today) + 1;
+  const leftText = tr(byCount(daysLeft, `Encore ${daysLeft} jour.`, `Encore ${daysLeft} jours.`), byCount(daysLeft, `${daysLeft} day left.`, `${daysLeft} days left.`));
 
   return (
     <div className="screen screen-in season-screen">
@@ -49,8 +50,8 @@ export function SeasonScreen() {
           {status.earned
             ? tr(`Saison réussie ! ${seasonHatName(hatId)} est dans ton vestiaire.`, `Season complete! ${seasonHatName(hatId)} is in your wardrobe.`)
             : tr(
-                `${SEASON_REQUIRED} chapitres sur 4 : ${seasonHatName(hatId)} et ${SPARKS.season} étincelles. Encore ${daysLeft} jours.`,
-                `${SEASON_REQUIRED} chapters out of 4: ${seasonHatName(hatId)} and ${SPARKS.season} sparks. ${daysLeft} days left.`,
+                `${SEASON_REQUIRED} chapitres sur 4 : ${seasonHatName(hatId)} et ${SPARKS.season} étincelles. ${leftText}`,
+                `${SEASON_REQUIRED} chapters out of 4: ${seasonHatName(hatId)} and ${SPARKS.season} sparks. ${leftText}`,
               )}
         </p>
         <span className="season-hero__dots" aria-label={tr(`${done} chapitres sur 4`, `${done} of 4 chapters`)}>

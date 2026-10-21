@@ -25,9 +25,9 @@ export interface ThemeDef {
   tint: string;
 }
 
-const theme = (id: ThemeId, fr: string, en: string, unlock: ThemeUnlock, light: string, dark: string, tint: string): ThemeDef => ({
+const theme = (id: ThemeId, name: Translations, unlock: ThemeUnlock, light: string, dark: string, tint: string): ThemeDef => ({
   id,
-  name: { fr, en },
+  name,
   unlock,
   light,
   dark,
@@ -39,16 +39,16 @@ const PREMIUM: ThemeUnlock = { kind: 'premium' };
 
 /** Contrastes vérifiés : au moins 5,4:1 pour le texte sur l'accent, en clair comme en sombre. */
 export const THEMES: readonly ThemeDef[] = [
-  theme('classique', 'Classique', 'Classic', { kind: 'free' }, '#4b39ef', '#9385ff', '#4b39ef'),
-  theme('ocean', 'Océan', 'Ocean', level(5), '#0a6680', '#6fd3ee', '#3fb6d6'),
-  theme('foret', 'Forêt', 'Forest', level(10), '#2b7330', '#8fdc8f', '#5fae63'),
-  theme('corail', 'Corail', 'Coral', level(15), '#b83b28', '#ff9b86', '#ff8a70'),
-  theme('lavande', 'Lavande', 'Lavender', level(20), '#7048b8', '#c9a8ff', '#b38cf0'),
-  theme('nuit', 'Nuit étoilée', 'Starry night', level(30), '#3b3f9e', '#a5b4ff', '#3b4a8f'),
-  theme('or', 'Or', 'Gold', level(40), '#7d5800', '#ffd36e', '#e0b440'),
-  theme('aurore', 'Aurore boréale', 'Northern lights', PREMIUM, '#0d6b63', '#5eead4', '#34d399'),
-  theme('sakura', 'Sakura', 'Sakura', PREMIUM, '#b0355f', '#ffb3cf', '#ffc2d6'),
-  theme('encre', 'Encre', 'Ink', PREMIUM, '#141414', '#f2f2f2', '#808080'),
+  theme('classique', { fr: 'Classique', en: 'Classic' }, { kind: 'free' }, '#4b39ef', '#9385ff', '#4b39ef'),
+  theme('ocean', { fr: 'Océan', en: 'Ocean' }, level(5), '#0a6680', '#6fd3ee', '#3fb6d6'),
+  theme('foret', { fr: 'Forêt', en: 'Forest' }, level(10), '#2b7330', '#8fdc8f', '#5fae63'),
+  theme('corail', { fr: 'Corail', en: 'Coral' }, level(15), '#b83b28', '#ff9b86', '#ff8a70'),
+  theme('lavande', { fr: 'Lavande', en: 'Lavender' }, level(20), '#7048b8', '#c9a8ff', '#b38cf0'),
+  theme('nuit', { fr: 'Nuit étoilée', en: 'Starry night' }, level(30), '#3b3f9e', '#a5b4ff', '#3b4a8f'),
+  theme('or', { fr: 'Or', en: 'Gold' }, level(40), '#7d5800', '#ffd36e', '#e0b440'),
+  theme('aurore', { fr: 'Aurore boréale', en: 'Northern lights' }, PREMIUM, '#0d6b63', '#5eead4', '#34d399'),
+  theme('sakura', { fr: 'Sakura', en: 'Sakura' }, PREMIUM, '#b0355f', '#ffb3cf', '#ffc2d6'),
+  theme('encre', { fr: 'Encre', en: 'Ink' }, PREMIUM, '#141414', '#f2f2f2', '#808080'),
 ];
 
 export interface SeasonThemeDef {

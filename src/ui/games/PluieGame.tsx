@@ -47,7 +47,7 @@ export function PluieGame({ seed, level, onFinish }: GameProps) {
     onFinish({
       score: scorePluie(solvedCount, level),
       stats: { solved: solvedCount, missed: missedCount },
-      headline: tr(`${solvedCount} gouttes résolues`, `${plural(solvedCount, 'drop')} solved`),
+      headline: tr(byCount(solvedCount, `${solvedCount} goutte résolue`, `${solvedCount} gouttes résolues`), `${plural(solvedCount, 'drop')} solved`),
       lines: [
         { label: tr('Gouttes résolues', 'Drops solved'), value: String(solvedCount) },
         { label: tr('Gouttes perdues', 'Drops lost'), value: String(missedCount) },

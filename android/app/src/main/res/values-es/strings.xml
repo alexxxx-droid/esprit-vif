@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Téléphone réglé en espagnol : raccourcis de l'icône et fiche du widget dans le sélecteur. -->
+<resources>
+    <string name="shortcut_test">Test</string>
+    <string name="shortcut_test_long">Test del día</string>
+    <string name="shortcut_seance">Sesión</string>
+    <string name="shortcut_seance_long">Sesión del día</string>
+    <string name="shortcut_jeux">Juegos</string>
+    <string name="shortcut_jeux_long">Entrenamiento</string>
+    <string name="shortcut_defis">Retos</string>
+    <string name="shortcut_defis_long">Retos entre amigas</string>
+    <string name="widget_description">Tu racha y el test del día, de un vistazo</string>
+    <string name="widget_no_streak">Juega hoy para empezar tu racha</string>
+    <string name="widget_test_todo">Test del día: pendiente</string>
+</resources>

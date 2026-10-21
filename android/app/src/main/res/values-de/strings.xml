@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Téléphone réglé en allemand : raccourcis de l'icône et fiche du widget dans le sélecteur. -->
+<resources>
+    <string name="shortcut_test">Test</string>
+    <string name="shortcut_test_long">Tagestest</string>
+    <string name="shortcut_seance">Training</string>
+    <string name="shortcut_seance_long">Tagestraining</string>
+    <string name="shortcut_jeux">Spiele</string>
+    <string name="shortcut_jeux_long">Training</string>
+    <string name="shortcut_defis">Challenges</string>
+    <string name="shortcut_defis_long">Freundinnen-Challenge</string>
+    <string name="widget_description">Deine Serie und der Tagestest auf einen Blick</string>
+    <string name="widget_no_streak">Eine Runde heute startet deine Serie</string>
+    <string name="widget_test_todo">Tagestest: noch offen</string>
+</resources>

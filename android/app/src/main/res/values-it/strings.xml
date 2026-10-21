@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Téléphone réglé en italien : raccourcis de l'icône et fiche du widget dans le sélecteur. -->
+<resources>
+    <string name="shortcut_test">Test</string>
+    <string name="shortcut_test_long">Test del giorno</string>
+    <string name="shortcut_seance">Sessione</string>
+    <string name="shortcut_seance_long">Sessione del giorno</string>
+    <string name="shortcut_jeux">Giochi</string>
+    <string name="shortcut_jeux_long">Allenamento</string>
+    <string name="shortcut_defis">Sfide</string>
+    <string name="shortcut_defis_long">Sfide tra amiche</string>
+    <string name="widget_description">La tua serie e il test del giorno, a colpo d’occhio</string>
+    <string name="widget_no_streak">Gioca oggi per iniziare la tua serie</string>
+    <string name="widget_test_todo">Test del giorno: da fare</string>
+</resources>

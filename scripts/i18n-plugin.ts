@@ -76,9 +76,11 @@ export function i18nPlugin(root: string): Plugin {
     name: 'esprit-vif-i18n',
     enforce: 'pre',
     // Vitest garde les modules transformés d'une exécution à l'autre (fsModuleCache) : sa clé
-    // ignore les dictionnaires, il faut donc y ajouter leur empreinte.
+    // ignore les dictionnaires et les modules de contenu présents (l'import.meta.glob de
+    // src/core/content/index.ts), il faut donc y ajouter les deux.
     configureVitest(context) {
-      const key = fingerprint(loadDictionaries(root));
+      const modules = EXTRA_LANGS.filter((lang) => existsSync(resolve(root, `src/core/content/${lang}.ts`)));
+      const key = `${fingerprint(loadDictionaries(root))}:${modules.join(',')}`;
       context.defineCacheKeyGenerator(() => key);
     },
     buildStart() {

@@ -100,67 +100,66 @@
     ]
   },
   {
-    "key": "'Orange'",
+    "key": "`Orange`",
     "en": "'Orange'",
     "at": [
-      "src/core/characters.ts:27",
-      "src/core/games/stroop.ts:29"
+      "src/core/characters.ts:29"
     ]
   },
   {
     "key": "'Citron'",
     "en": "'Lemon'",
     "at": [
-      "src/core/characters.ts:28"
+      "src/core/characters.ts:30"
     ]
   },
   {
     "key": "'Fraise'",
     "en": "'Strawberry'",
     "at": [
-      "src/core/characters.ts:29"
+      "src/core/characters.ts:31"
     ]
   },
   {
     "key": "'Raisin'",
     "en": "'Grape'",
     "at": [
-      "src/core/characters.ts:30"
+      "src/core/characters.ts:32"
     ]
   },
   {
     "key": "'Poire'",
     "en": "'Pear'",
     "at": [
-      "src/core/characters.ts:31"
+      "src/core/characters.ts:33"
     ]
   },
   {
     "key": "'Pastèque'",
     "en": "'Watermelon'",
     "at": [
-      "src/core/characters.ts:32"
+      "src/core/characters.ts:34"
     ]
   },
   {
     "key": "'Kiwi'",
     "en": "'Kiwi'",
     "at": [
-      "src/core/characters.ts:37"
+      "src/core/characters.ts:39"
     ]
   },
   {
     "key": "'Ananas'",
     "en": "'Pineapple'",
     "at": [
-      "src/core/characters.ts:38"
+      "src/core/characters.ts:40"
     ]
   },
   {
     "key": "'Myrtille'",
     "en": "'Blueberry'",
     "at": [
-      "src/core/characters.ts:39"
+      "src/core/characters.ts:41"
     ]
   },
   {
@@ -386,7 +385,8 @@
     "key": "'le plus lourd'",
     "en": "'heaviest'",
     "at": [
-      "src/core/games/balance.ts:125"
+      "src/core/games/balance.ts:125",
+      "src/ui/games/BalanceGame.tsx:171"
     ]
   },
   {
@@ -955,105 +955,105 @@
     "key": "'mots simples'",
     "en": "'simple words'",
     "at": [
-      "src/core/games/contraires.ts:109"
+      "src/core/games/contraires.ts:112"
     ]
   },
   {
     "key": "'mots courants'",
     "en": "'everyday words'",
     "at": [
-      "src/core/games/contraires.ts:110"
+      "src/core/games/contraires.ts:113"
     ]
   },
   {
     "key": "'mots moins courants'",
     "en": "'less common words'",
     "at": [
-      "src/core/games/contraires.ts:111"
+      "src/core/games/contraires.ts:114"
     ]
   },
   {
     "key": "'mots courants et soutenus'",
     "en": "'everyday and formal words'",
     "at": [
-      "src/core/games/contraires.ts:112"
+      "src/core/games/contraires.ts:115"
     ]
   },
   {
     "key": "'mots rares et soutenus'",
     "en": "'rare, formal words'",
     "at": [
-      "src/core/games/contraires.ts:113"
+      "src/core/games/contraires.ts:116"
     ]
   },
   {
     "key": "'deux mots à juger'",
     "en": "'two words to judge'",
     "at": [
-      "src/core/games/contraires.ts:120"
+      "src/core/games/contraires.ts:123"
     ]
   },
   {
     "key": "'contraire ou même sens · pièges'",
     "en": "'opposite or same meaning · traps'",
     "at": [
-      "src/core/games/contraires.ts:122"
+      "src/core/games/contraires.ts:125"
     ]
   },
   {
     "key": "'contraire ou même sens'",
     "en": "'opposite or same meaning'",
     "at": [
-      "src/core/games/contraires.ts:124"
+      "src/core/games/contraires.ts:127"
     ]
   },
   {
     "key": "'contraires'",
     "en": "'opposites'",
     "at": [
-      "src/core/games/contraires.ts:125"
+      "src/core/games/contraires.ts:128"
     ]
   },
   {
     "key": "`${mode} · ${words} · objectif ${c.target}`",
     "en": "`${mode} · ${words} · target ${c.target}`",
     "at": [
-      "src/core/games/contraires.ts:126"
+      "src/core/games/contraires.ts:129"
     ]
   },
   {
-    "key": "'Deux mots : contraires, même sens ou sans rapport ? Tranche vite, chaque paire a sa mèche. 60 secondes.'",
-    "en": "'Two words: opposites, same meaning or unrelated? Decide fast, each pair has a time limit. 60 seconds.'",
+    "key": "'Deux mots : contraires, même sens ou sans rapport ? Tranche vite, chaque paire a sa mèche. 40 secondes.'",
+    "en": "'Two words: opposites, same meaning or unrelated? Decide fast, each pair has a time limit. 40 seconds.'",
     "at": [
-      "src/core/games/contraires.ts:133"
+      "src/core/games/contraires.ts:136"
     ]
   },
   {
-    "key": "'Des mots rares et soutenus : le contraire ou le même sens ? Méfie-toi des pièges. 60 secondes.'",
-    "en": "'Rare, formal words: opposite or same meaning? Beware of traps. 60 seconds.'",
+    "key": "'Des mots rares et soutenus : le contraire ou le même sens ? Méfie-toi des pièges. 40 secondes.'",
+    "en": "'Rare, formal words: opposite or same meaning? Beware of traps. 40 seconds.'",
     "at": [
-      "src/core/games/contraires.ts:138"
+      "src/core/games/contraires.ts:141"
     ]
   },
   {
-    "key": "'Attention aux pièges : quand on demande le contraire, un mot de même sens se glisse parmi les propositions, et inversement. 60 secondes.'",
-    "en": "'Watch out for traps: when you are asked for the opposite, a word with the same meaning hides among the choices, and vice versa. 60 seconds.'",
+    "key": "'Attention aux pièges : quand on demande le contraire, un mot de même sens se glisse parmi les propositions, et inversement. 40 secondes.'",
+    "en": "'Watch out for traps: when you are asked for the opposite, a word with the same meaning hides among the choices, and vice versa. 40 seconds.'",
     "at": [
-      "src/core/games/contraires.ts:143"
+      "src/core/games/contraires.ts:146"
     ]
   },
   {
-    "key": "'Lis bien la consigne : le contraire ou le même sens ? Touche le bon mot parmi les quatre. 60 secondes.'",
-    "en": "'Read the instruction carefully: opposite or same meaning? Tap the right word among the four. 60 seconds.'",
+    "key": "'Lis bien la consigne : le contraire ou le même sens ? Touche le bon mot parmi les quatre. 40 secondes.'",
+    "en": "'Read the instruction carefully: opposite or same meaning? Tap the right word among the four. 40 seconds.'",
     "at": [
-      "src/core/games/contraires.ts:148"
+      "src/core/games/contraires.ts:151"
     ]
   },
   {
-    "key": "'Touche le contraire du mot parmi les quatre propositions. Chaque erreur annule une bonne réponse. 60 secondes.'",
-    "en": "'Tap the opposite of the word among the four choices. Each mistake cancels out a correct answer. 60 seconds.'",
+    "key": "'Touche le contraire du mot parmi les quatre propositions. Chaque erreur annule une bonne réponse. 40 secondes.'",
+    "en": "'Tap the opposite of the word among the four choices. Each mistake cancels out a correct answer. 40 seconds.'",
     "at": [
-      "src/core/games/contraires.ts:152"
+      "src/core/games/contraires.ts:155"
     ]
   },
   {
@@ -1215,49 +1215,49 @@
     "key": "`≈ ${big} contre ${small} · vu ${shown}`",
     "en": "`≈ ${big} vs. ${small} · shown ${shown}`",
     "at": [
-      "src/core/games/coupdoeil.ts:120"
+      "src/core/games/coupdoeil.ts:123"
     ]
   },
   {
     "key": "'points gris'",
     "en": "'gray dots'",
     "at": [
-      "src/core/games/coupdoeil.ts:121"
+      "src/core/games/coupdoeil.ts:124"
     ]
   },
   {
     "key": "'plus ou moins'",
     "en": "'more or fewer'",
     "at": [
-      "src/core/games/coupdoeil.ts:121"
+      "src/core/games/coupdoeil.ts:124"
     ]
   },
   {
-    "key": "'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 60 secondes.'",
-    "en": "'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 60 seconds.'",
+    "key": "'Des points bleus et orange apparaissent un instant. Sans compter, dis quelle couleur était la plus nombreuse. 45 secondes.'",
+    "en": "'Blue and orange dots flash up for a moment. Without counting, say which color had more dots. 45 seconds.'",
     "at": [
-      "src/core/games/coupdoeil.ts:129"
+      "src/core/games/coupdoeil.ts:132"
     ]
   },
   {
     "key": "'La taille des points ne veut rien dire.'",
     "en": "'Dot size means nothing.'",
     "at": [
-      "src/core/games/coupdoeil.ts:133"
+      "src/core/games/coupdoeil.ts:136"
     ]
   },
   {
     "key": "'Les points gris ne comptent pas.'",
     "en": "'Gray dots don’t count.'",
     "at": [
-      "src/core/games/coupdoeil.ts:134"
+      "src/core/games/coupdoeil.ts:137"
     ]
   },
   {
     "key": "'Attention : parfois, on demande la MOINS nombreuse !'",
     "en": "'Careful: sometimes you’re asked which had FEWER!'",
     "at": [
-      "src/core/games/coupdoeil.ts:135"
+      "src/core/games/coupdoeil.ts:138"
     ]
   },
   {
@@ -1527,6 +1527,20 @@
     "en": "'moving arrows'",
     "at": [
       "src/core/games/fleches.ts:169"
+    ]
+  },
+  {
+    "key": "'4 directions'",
+    "en": "'4 directions'",
+    "at": [
+      "src/core/games/fleches.ts:171"
+    ]
+  },
+  {
+    "key": "'2 directions'",
+    "en": "'2 directions'",
+    "at": [
+      "src/core/games/fleches.ts:171"
     ]
   },
   {
@@ -1992,73 +2006,73 @@
     ]
   },
   {
-    "key": "'Lis vite : chaque phrase s’efface au bout de quelques secondes. Vraie ou fausse ? Tu peux encore répondre, mais plus relire. 60 secondes.'",
-    "en": "'Read fast: each sentence fades out after a few seconds. True or false? You can still answer, but not reread. 60 seconds.'",
+    "key": "'Lis vite : chaque phrase s’efface au bout de quelques secondes. Vraie ou fausse ? Tu peux encore répondre, mais plus relire. 40 secondes.'",
+    "en": "'Read fast: each sentence fades out after a few seconds. True or false? You can still answer, but not reread. 40 seconds.'",
     "at": [
-      "src/core/games/lecture.ts:554"
+      "src/core/games/lecture.ts:557"
     ]
   },
   {
-    "key": "'Lis chaque phrase jusqu’au bout et raisonne : vraie ou fausse ? Attention à « aucun », « au moins », « si… alors ». 60 secondes.'",
-    "en": "'Read each sentence to the end and think: true or false? Watch out for “no”, “at least”, “if… then”. 60 seconds.'",
+    "key": "'Lis chaque phrase jusqu’au bout et raisonne : vraie ou fausse ? Attention à « aucun », « au moins », « si… alors ». 40 secondes.'",
+    "en": "'Read each sentence to the end and think: true or false? Watch out for “no”, “at least”, “if… then”. 40 seconds.'",
     "at": [
-      "src/core/games/lecture.ts:559"
+      "src/core/games/lecture.ts:562"
     ]
   },
   {
-    "key": "'Des phrases à rallonge : l’erreur se cache parfois tout au bout. Vraie ou fausse ? 60 secondes.'",
-    "en": "'Very long sentences: the mistake sometimes hides at the very end. True or false? 60 seconds.'",
+    "key": "'Des phrases à rallonge : l’erreur se cache parfois tout au bout. Vraie ou fausse ? 40 secondes.'",
+    "en": "'Very long sentences: the mistake sometimes hides at the very end. True or false? 40 seconds.'",
     "at": [
-      "src/core/games/lecture.ts:564"
+      "src/core/games/lecture.ts:567"
     ]
   },
   {
     "key": "'phrases courtes'",
     "en": "'short sentences'",
     "at": [
-      "src/core/games/lecture.ts:571"
+      "src/core/games/lecture.ts:574"
     ]
   },
   {
     "key": "'phrases longues'",
     "en": "'long sentences'",
     "at": [
-      "src/core/games/lecture.ts:572"
+      "src/core/games/lecture.ts:575"
     ]
   },
   {
     "key": "'négations'",
     "en": "'negations'",
     "at": [
-      "src/core/games/lecture.ts:573"
+      "src/core/games/lecture.ts:576"
     ]
   },
   {
     "key": "'phrases à rallonge'",
     "en": "'very long sentences'",
     "at": [
-      "src/core/games/lecture.ts:574"
+      "src/core/games/lecture.ts:577"
     ]
   },
   {
     "key": "'logique'",
     "en": "'logic'",
     "at": [
-      "src/core/games/lecture.ts:575"
+      "src/core/games/lecture.ts:578"
     ]
   },
   {
     "key": "' · phrases qui s’effacent'",
     "en": "' · sentences fade out'",
     "at": [
-      "src/core/games/lecture.ts:586"
+      "src/core/games/lecture.ts:589"
     ]
   },
   {
     "key": "`${tiers} · objectif ${c.target}${flash}`",
     "en": "`${tiers} · target ${c.target}${flash}`",
     "at": [
-      "src/core/games/lecture.ts:587"
+      "src/core/games/lecture.ts:590"
     ]
   },
   {
@@ -3303,15 +3317,15 @@
     ]
   },
   {
-    "key": "'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 60 secondes.'",
-    "en": "'Read each sentence all the way through: true or false? Watch out for “not”. 60 seconds.'",
+    "key": "'Lis chaque phrase jusqu’au bout : vraie ou fausse ? Attention aux « ne… pas ». 40 secondes.'",
+    "en": "'Read each sentence all the way through: true or false? Watch out for “not”. 40 seconds.'",
     "at": [
       "src/core/games/registry.ts:665"
     ]
   },
   {
-    "key": "'Lis chaque phrase et dis vite si elle est vraie ou fausse. 60 secondes.'",
-    "en": "'Read each sentence and quickly say whether it’s true or false. 60 seconds.'",
+    "key": "'Lis chaque phrase et dis vite si elle est vraie ou fausse. 40 secondes.'",
+    "en": "'Read each sentence and quickly say whether it’s true or false. 40 seconds.'",
     "at": [
       "src/core/games/registry.ts:668"
     ]
@@ -3646,6 +3660,13 @@
     ]
   },
   {
+    "key": "'Orange'",
+    "en": "'Orange'",
+    "at": [
+      "src/core/games/stroop.ts:29"
+    ]
+  },
+  {
     "key": "'Violet'",
     "en": "'Purple'",
     "at": [
@@ -3926,20 +3947,6 @@
     ]
   },
   {
-    "key": "'Français'",
-    "en": "'English'",
-    "at": [
-      "src/core/lang.ts:24"
-    ]
-  },
-  {
-    "key": "'fr-FR'",
-    "en": "'en-US'",
-    "at": [
-      "src/core/lang.ts:59"
-    ]
-  },
-  {
     "key": "'Débutant'",
     "en": "'Beginner'",
     "at": [
@@ -4147,7 +4154,6 @@
       "src/ui/games/IntrusGame.tsx:72",
       "src/ui/games/LectureGame.tsx:45",
       "src/ui/games/LettreGame.tsx:50",
-      "src/ui/games/LuciolesGame.tsx:70",
       "src/ui/games/MonnaieGame.tsx:84",
       "src/ui/games/RotationGame.tsx:110"
     ]
@@ -4290,7 +4296,8 @@
     "key": "'Or'",
     "en": "'Gold'",
     "at": [
-      "src/core/progression.ts:93"
+      "src/core/progression.ts:93",
+      "src/core/themes.ts:48"
     ]
   },
   {
@@ -5042,91 +5049,478 @@
     "key": "'L’expédition polaire'",
     "en": "'The Polar Expedition'",
     "at": [
-      "src/core/seasons.ts:35"
+      "src/core/seasons.ts:32"
     ]
   },
   {
     "key": "'Chapka polaire'",
     "en": "'Polar trapper hat'",
     "at": [
+      "src/core/seasons.ts:33"
+    ]
+  },
+  {
+    "key": "'Le camp de base'",
+    "en": "'Base camp'",
+    "at": [
+      "src/core/seasons.ts:35"
+    ]
+  },
+  {
+    "key": "'Vif boucle son sac : cap sur le Grand Nord !'",
+    "en": "'Vif packs up: next stop, the far North!'",
+    "at": [
+      "src/core/seasons.ts:35"
+    ]
+  },
+  {
+    "key": "'Le col des glaces'",
+    "en": "'The Ice Pass'",
+    "at": [
       "src/core/seasons.ts:36"
+    ]
+  },
+  {
+    "key": "'Le vent souffle fort, mais chaque défi relevé ouvre la voie.'",
+    "en": "'The wind is fierce, but every challenge clears the way.'",
+    "at": [
+      "src/core/seasons.ts:36"
+    ]
+  },
+  {
+    "key": "'Les aurores'",
+    "en": "'The Northern Lights'",
+    "at": [
+      "src/core/seasons.ts:37"
+    ]
+  },
+  {
+    "key": "'Le ciel s’illumine de vert et de violet.'",
+    "en": "'The sky lights up in green and violet.'",
+    "at": [
+      "src/core/seasons.ts:37"
+    ]
+  },
+  {
+    "key": "'Le sommet blanc'",
+    "en": "'The White Summit'",
+    "at": [
+      "src/core/seasons.ts:38"
+    ]
+  },
+  {
+    "key": "'Encore un effort : le drapeau t’attend au sommet !'",
+    "en": "'One last push: the flag awaits at the top!'",
+    "at": [
+      "src/core/seasons.ts:38"
     ]
   },
   {
     "key": "'Le grand voyage en mer'",
     "en": "'The Great Sea Voyage'",
     "at": [
-      "src/core/seasons.ts:46"
+      "src/core/seasons.ts:43"
     ]
   },
   {
     "key": "'Casquette de capitaine'",
     "en": "'Captain’s cap'",
     "at": [
+      "src/core/seasons.ts:44"
+    ]
+  },
+  {
+    "key": "'Le port'",
+    "en": "'The Harbor'",
+    "at": [
+      "src/core/seasons.ts:46"
+    ]
+  },
+  {
+    "key": "'Le navire largue les amarres.'",
+    "en": "'The ship casts off.'",
+    "at": [
+      "src/core/seasons.ts:46"
+    ]
+  },
+  {
+    "key": "'La tempête'",
+    "en": "'The Storm'",
+    "at": [
       "src/core/seasons.ts:47"
+    ]
+  },
+  {
+    "key": "'Les vagues grondent : tiens bon la barre !'",
+    "en": "'The waves roar: hold the wheel!'",
+    "at": [
+      "src/core/seasons.ts:47"
+    ]
+  },
+  {
+    "key": "'L’île aux perroquets'",
+    "en": "'Parrot Island'",
+    "at": [
+      "src/core/seasons.ts:48"
+    ]
+  },
+  {
+    "key": "'Une escale colorée, pleine de bavards à plumes.'",
+    "en": "'A colorful stop, full of feathered chatterboxes.'",
+    "at": [
+      "src/core/seasons.ts:48"
+    ]
+  },
+  {
+    "key": "'Le trésor'",
+    "en": "'The Treasure'",
+    "at": [
+      "src/core/seasons.ts:49"
+    ]
+  },
+  {
+    "key": "'La carte mène à un coffre… qui brille déjà !'",
+    "en": "'The map leads to a chest… already shining!'",
+    "at": [
+      "src/core/seasons.ts:49"
     ]
   },
   {
     "key": "'La forêt enchantée'",
     "en": "'The Enchanted Forest'",
     "at": [
-      "src/core/seasons.ts:57"
+      "src/core/seasons.ts:54"
     ]
   },
   {
     "key": "'Chapeau champignon'",
     "en": "'Mushroom cap'",
     "at": [
+      "src/core/seasons.ts:55"
+    ]
+  },
+  {
+    "key": "'L’orée du bois'",
+    "en": "'The Forest’s Edge'",
+    "at": [
+      "src/core/seasons.ts:57"
+    ]
+  },
+  {
+    "key": "'Des lucioles montrent le chemin.'",
+    "en": "'Fireflies light the way.'",
+    "at": [
+      "src/core/seasons.ts:57"
+    ]
+  },
+  {
+    "key": "'Le pont des fées'",
+    "en": "'The Fairy Bridge'",
+    "at": [
       "src/core/seasons.ts:58"
+    ]
+  },
+  {
+    "key": "'Un pont de lianes, une énigme à chaque planche.'",
+    "en": "'A vine bridge, a riddle on every plank.'",
+    "at": [
+      "src/core/seasons.ts:58"
+    ]
+  },
+  {
+    "key": "'Le chêne qui parle'",
+    "en": "'The Talking Oak'",
+    "at": [
+      "src/core/seasons.ts:59"
+    ]
+  },
+  {
+    "key": "'Le vieux chêne connaît tous les secrets.'",
+    "en": "'The old oak knows every secret.'",
+    "at": [
+      "src/core/seasons.ts:59"
+    ]
+  },
+  {
+    "key": "'La clairière'",
+    "en": "'The Clearing'",
+    "at": [
+      "src/core/seasons.ts:60"
+    ]
+  },
+  {
+    "key": "'La fête des champignons commence !'",
+    "en": "'The mushroom party begins!'",
+    "at": [
+      "src/core/seasons.ts:60"
     ]
   },
   {
     "key": "'Le désert des mirages'",
     "en": "'The Desert of Mirages'",
     "at": [
-      "src/core/seasons.ts:68"
+      "src/core/seasons.ts:65"
     ]
   },
   {
     "key": "'Casque d’explorateur'",
     "en": "'Explorer’s helmet'",
     "at": [
+      "src/core/seasons.ts:66"
+    ]
+  },
+  {
+    "key": "'L’oasis'",
+    "en": "'The Oasis'",
+    "at": [
+      "src/core/seasons.ts:68"
+    ]
+  },
+  {
+    "key": "'Dernière gorgée d’eau fraîche avant les dunes.'",
+    "en": "'One last sip of cool water before the dunes.'",
+    "at": [
+      "src/core/seasons.ts:68"
+    ]
+  },
+  {
+    "key": "'Les dunes'",
+    "en": "'The Dunes'",
+    "at": [
       "src/core/seasons.ts:69"
+    ]
+  },
+  {
+    "key": "'Le sable bouge : garde l’esprit clair !'",
+    "en": "'The sand shifts: keep a clear head!'",
+    "at": [
+      "src/core/seasons.ts:69"
+    ]
+  },
+  {
+    "key": "'Le mirage'",
+    "en": "'The Mirage'",
+    "at": [
+      "src/core/seasons.ts:70"
+    ]
+  },
+  {
+    "key": "'Était-ce vraiment une ville au loin ?'",
+    "en": "'Was that really a city on the horizon?'",
+    "at": [
+      "src/core/seasons.ts:70"
+    ]
+  },
+  {
+    "key": "'Le temple caché'",
+    "en": "'The Hidden Temple'",
+    "at": [
+      "src/core/seasons.ts:71"
+    ]
+  },
+  {
+    "key": "'Les portes de pierre s’ouvrent enfin.'",
+    "en": "'The stone doors finally open.'",
+    "at": [
+      "src/core/seasons.ts:71"
     ]
   },
   {
     "key": "'La cité des étoiles'",
     "en": "'The City of Stars'",
     "at": [
-      "src/core/seasons.ts:79"
+      "src/core/seasons.ts:76",
+      "src/core/seasons.ts:82"
     ]
   },
   {
     "key": "'Chapeau planète'",
     "en": "'Planet hat'",
     "at": [
+      "src/core/seasons.ts:77"
+    ]
+  },
+  {
+    "key": "'Le décollage'",
+    "en": "'Liftoff'",
+    "at": [
+      "src/core/seasons.ts:79"
+    ]
+  },
+  {
+    "key": "'3, 2, 1… la fusée s’envole !'",
+    "en": "'3, 2, 1… the rocket takes off!'",
+    "at": [
+      "src/core/seasons.ts:79"
+    ]
+  },
+  {
+    "key": "'La ceinture d’astéroïdes'",
+    "en": "'The Asteroid Belt'",
+    "at": [
       "src/core/seasons.ts:80"
+    ]
+  },
+  {
+    "key": "'Slalom entre les cailloux de l’espace.'",
+    "en": "'Slaloming through space rocks.'",
+    "at": [
+      "src/core/seasons.ts:80"
+    ]
+  },
+  {
+    "key": "'La lune bleue'",
+    "en": "'The Blue Moon'",
+    "at": [
+      "src/core/seasons.ts:81"
+    ]
+  },
+  {
+    "key": "'On y marche en faisant des bonds.'",
+    "en": "'You walk there in giant hops.'",
+    "at": [
+      "src/core/seasons.ts:81"
+    ]
+  },
+  {
+    "key": "'Ses habitants t’accueillent comme un héros.'",
+    "en": "'Its people welcome you as a hero.'",
+    "at": [
+      "src/core/seasons.ts:82"
     ]
   },
   {
     "key": "'Le cœur du volcan'",
     "en": "'The Heart of the Volcano'",
     "at": [
-      "src/core/seasons.ts:90"
+      "src/core/seasons.ts:87",
+      "src/core/seasons.ts:93"
     ]
   },
   {
     "key": "'Couronne de flammes'",
     "en": "'Flame crown'",
     "at": [
+      "src/core/seasons.ts:88"
+    ]
+  },
+  {
+    "key": "'Le sentier fumant'",
+    "en": "'The Smoking Trail'",
+    "at": [
+      "src/core/seasons.ts:90"
+    ]
+  },
+  {
+    "key": "'Le sol est chaud sous les pattes.'",
+    "en": "'The ground is warm underfoot.'",
+    "at": [
+      "src/core/seasons.ts:90"
+    ]
+  },
+  {
+    "key": "'La rivière de lave'",
+    "en": "'The Lava River'",
+    "at": [
       "src/core/seasons.ts:91"
+    ]
+  },
+  {
+    "key": "'On saute de pierre en pierre.'",
+    "en": "'Hopping from stone to stone.'",
+    "at": [
+      "src/core/seasons.ts:91"
+    ]
+  },
+  {
+    "key": "'La caverne de cristal'",
+    "en": "'The Crystal Cave'",
+    "at": [
+      "src/core/seasons.ts:92"
+    ]
+  },
+  {
+    "key": "'Des cristaux géants scintillent dans le noir.'",
+    "en": "'Giant crystals sparkle in the dark.'",
+    "at": [
+      "src/core/seasons.ts:92"
+    ]
+  },
+  {
+    "key": "'Une flamme dorée t’attend au centre.'",
+    "en": "'A golden flame awaits at the center.'",
+    "at": [
+      "src/core/seasons.ts:93"
     ]
   },
   {
     "key": "`${localized(story.hat)} · édition ${parsed.edition}`",
     "en": "`${localized(story.hat)} · edition ${parsed.edition}`",
     "at": [
-      "src/core/seasons.ts:160"
+      "src/core/seasons.ts:157"
+    ]
+  },
+  {
+    "key": "'Classique'",
+    "en": "'Classic'",
+    "at": [
+      "src/core/themes.ts:42"
+    ]
+  },
+  {
+    "key": "'Océan'",
+    "en": "'Ocean'",
+    "at": [
+      "src/core/themes.ts:43"
+    ]
+  },
+  {
+    "key": "'Forêt'",
+    "en": "'Forest'",
+    "at": [
+      "src/core/themes.ts:44"
+    ]
+  },
+  {
+    "key": "'Corail'",
+    "en": "'Coral'",
+    "at": [
+      "src/core/themes.ts:45"
+    ]
+  },
+  {
+    "key": "'Lavande'",
+    "en": "'Lavender'",
+    "at": [
+      "src/core/themes.ts:46"
+    ]
+  },
+  {
+    "key": "'Nuit étoilée'",
+    "en": "'Starry night'",
+    "at": [
+      "src/core/themes.ts:47"
+    ]
+  },
+  {
+    "key": "'Aurore boréale'",
+    "en": "'Northern lights'",
+    "at": [
+      "src/core/themes.ts:49"
+    ]
+  },
+  {
+    "key": "'Sakura'",
+    "en": "'Sakura'",
+    "at": [
+      "src/core/themes.ts:50"
+    ]
+  },
+  {
+    "key": "'Encre'",
+    "en": "'Ink'",
+    "at": [
+      "src/core/themes.ts:51"
     ]
   },
   {
@@ -5144,94 +5538,402 @@
     ]
   },
   {
+    "key": "'Casquette'",
+    "en": "'Cap'",
+    "at": [
+      "src/core/wardrobe.ts:89"
+    ]
+  },
+  {
+    "key": "'Fleur des champs'",
+    "en": "'Wildflower'",
+    "at": [
+      "src/core/wardrobe.ts:90"
+    ]
+  },
+  {
+    "key": "'Nœud'",
+    "en": "'Bow'",
+    "at": [
+      "src/core/wardrobe.ts:91"
+    ]
+  },
+  {
+    "key": "'Bonnet de laine'",
+    "en": "'Wool beanie'",
+    "at": [
+      "src/core/wardrobe.ts:92"
+    ]
+  },
+  {
+    "key": "'Bob'",
+    "en": "'Bucket hat'",
+    "at": [
+      "src/core/wardrobe.ts:93"
+    ]
+  },
+  {
+    "key": "'Lunettes rondes'",
+    "en": "'Round glasses'",
+    "at": [
+      "src/core/wardrobe.ts:94"
+    ]
+  },
+  {
+    "key": "'Chapeau de paille'",
+    "en": "'Straw hat'",
+    "at": [
+      "src/core/wardrobe.ts:95"
+    ]
+  },
+  {
+    "key": "'Bandana'",
+    "en": "'Bandana'",
+    "at": [
+      "src/core/wardrobe.ts:96"
+    ]
+  },
+  {
+    "key": "'Chapeau de fête'",
+    "en": "'Party hat'",
+    "at": [
+      "src/core/wardrobe.ts:97"
+    ]
+  },
+  {
+    "key": "'Casque de chantier'",
+    "en": "'Hard hat'",
+    "at": [
+      "src/core/wardrobe.ts:98"
+    ]
+  },
+  {
+    "key": "'Oreilles de chat'",
+    "en": "'Cat ears'",
+    "at": [
+      "src/core/wardrobe.ts:99"
+    ]
+  },
+  {
+    "key": "'Antennes'",
+    "en": "'Antennae'",
+    "at": [
+      "src/core/wardrobe.ts:100"
+    ]
+  },
+  {
+    "key": "'Couronne de fleurs'",
+    "en": "'Flower crown'",
+    "at": [
+      "src/core/wardrobe.ts:101"
+    ]
+  },
+  {
+    "key": "'Chapeau melon'",
+    "en": "'Bowler hat'",
+    "at": [
+      "src/core/wardrobe.ts:102"
+    ]
+  },
+  {
+    "key": "'Fez'",
+    "en": "'Fez'",
+    "at": [
+      "src/core/wardrobe.ts:103"
+    ]
+  },
+  {
+    "key": "'Chapeau de cow-boy'",
+    "en": "'Cowboy hat'",
+    "at": [
+      "src/core/wardrobe.ts:104"
+    ]
+  },
+  {
+    "key": "'Tricorne de pirate'",
+    "en": "'Pirate hat'",
+    "at": [
+      "src/core/wardrobe.ts:105"
+    ]
+  },
+  {
+    "key": "'Casque audio'",
+    "en": "'Headphones'",
+    "at": [
+      "src/core/wardrobe.ts:106"
+    ]
+  },
+  {
+    "key": "'Sombrero'",
+    "en": "'Sombrero'",
+    "at": [
+      "src/core/wardrobe.ts:107"
+    ]
+  },
+  {
+    "key": "'Casque viking'",
+    "en": "'Viking helmet'",
+    "at": [
+      "src/core/wardrobe.ts:108"
+    ]
+  },
+  {
+    "key": "'Béret d’artiste'",
+    "en": "'Artist’s beret'",
+    "at": [
+      "src/core/wardrobe.ts:111"
+    ]
+  },
+  {
     "key": "'Ouvrir le palier Expert (niveau 21) d’un jeu'",
     "en": "'Open the Expert tier (level 21) in a game'",
     "at": [
-      "src/core/wardrobe.ts:113"
+      "src/core/wardrobe.ts:112"
+    ]
+  },
+  {
+    "key": "'Chapeau de magicien'",
+    "en": "'Wizard hat'",
+    "at": [
+      "src/core/wardrobe.ts:118"
     ]
   },
   {
     "key": "'Ouvrir le palier Maître (niveau 31) d’un jeu'",
     "en": "'Open the Master tier (level 31) in a game'",
     "at": [
-      "src/core/wardrobe.ts:121"
+      "src/core/wardrobe.ts:119"
+    ]
+  },
+  {
+    "key": "'Couronne royale'",
+    "en": "'Royal crown'",
+    "at": [
+      "src/core/wardrobe.ts:125"
     ]
   },
   {
     "key": "'Ouvrir le palier Légende (niveau 41) d’un jeu'",
     "en": "'Open the Legend tier (level 41) in a game'",
     "at": [
-      "src/core/wardrobe.ts:129"
+      "src/core/wardrobe.ts:126"
+    ]
+  },
+  {
+    "key": "'Couronne de laurier'",
+    "en": "'Laurel wreath'",
+    "at": [
+      "src/core/wardrobe.ts:130"
     ]
   },
   {
     "key": "'Gagner une médaille de platine'",
     "en": "'Earn a platinum medal'",
     "at": [
-      "src/core/wardrobe.ts:133"
+      "src/core/wardrobe.ts:130"
+    ]
+  },
+  {
+    "key": "'Diadème'",
+    "en": "'Tiara'",
+    "at": [
+      "src/core/wardrobe.ts:131"
     ]
   },
   {
     "key": "'Gagner une médaille de diamant'",
     "en": "'Earn a diamond medal'",
     "at": [
-      "src/core/wardrobe.ts:134"
+      "src/core/wardrobe.ts:131"
+    ]
+  },
+  {
+    "key": "'Bonnet de nuit étoilé'",
+    "en": "'Starry nightcap'",
+    "at": [
+      "src/core/wardrobe.ts:132"
     ]
   },
   {
     "key": "'Tenir une série de 7 jours'",
     "en": "'Keep a 7-day streak'",
     "at": [
-      "src/core/wardrobe.ts:135"
+      "src/core/wardrobe.ts:132"
+    ]
+  },
+  {
+    "key": "'Casque d’aviateur'",
+    "en": "'Aviator cap'",
+    "at": [
+      "src/core/wardrobe.ts:133"
     ]
   },
   {
     "key": "'Tenir une série de 30 jours'",
     "en": "'Keep a 30-day streak'",
     "at": [
-      "src/core/wardrobe.ts:136"
+      "src/core/wardrobe.ts:133"
+    ]
+  },
+  {
+    "key": "'Toque de chef'",
+    "en": "'Chef’s hat'",
+    "at": [
+      "src/core/wardrobe.ts:134"
     ]
   },
   {
     "key": "'Relever 5 défis de la semaine'",
     "en": "'Complete 5 weekly challenges'",
     "at": [
-      "src/core/wardrobe.ts:137"
+      "src/core/wardrobe.ts:134"
+    ]
+  },
+  {
+    "key": "'Haut-de-forme'",
+    "en": "'Top hat'",
+    "at": [
+      "src/core/wardrobe.ts:135"
     ]
   },
   {
     "key": "'Atteindre le niveau 10 de joueur'",
     "en": "'Reach player level 10'",
     "at": [
-      "src/core/wardrobe.ts:138"
+      "src/core/wardrobe.ts:135"
+    ]
+  },
+  {
+    "key": "'Mortier de diplômé'",
+    "en": "'Graduation cap'",
+    "at": [
+      "src/core/wardrobe.ts:136"
     ]
   },
   {
     "key": "'Atteindre le niveau 25 de joueur'",
     "en": "'Reach player level 25'",
     "at": [
-      "src/core/wardrobe.ts:139"
+      "src/core/wardrobe.ts:136"
+    ]
+  },
+  {
+    "key": "'Auréole'",
+    "en": "'Halo'",
+    "at": [
+      "src/core/wardrobe.ts:137"
     ]
   },
   {
     "key": "'Atteindre le niveau 50 de joueur'",
     "en": "'Reach player level 50'",
     "at": [
+      "src/core/wardrobe.ts:137"
+    ]
+  },
+  {
+    "key": "'Bandeau de maître'",
+    "en": "'Master’s headband'",
+    "at": [
+      "src/core/wardrobe.ts:139"
+    ]
+  },
+  {
+    "key": "'Heaume de chevalier'",
+    "en": "'Knight’s helm'",
+    "at": [
       "src/core/wardrobe.ts:140"
+    ]
+  },
+  {
+    "key": "'Couronne de cristal'",
+    "en": "'Crystal crown'",
+    "at": [
+      "src/core/wardrobe.ts:141"
+    ]
+  },
+  {
+    "key": "'Chapeau du grand sage'",
+    "en": "'Grand sage’s hat'",
+    "at": [
+      "src/core/wardrobe.ts:142"
+    ]
+  },
+  {
+    "key": "'Couronne solaire'",
+    "en": "'Sun crown'",
+    "at": [
+      "src/core/wardrobe.ts:143"
     ]
   },
   {
     "key": "`Maîtriser ${n} jeux (Maîtrise V)`",
     "en": "`Master ${n} games (Mastery V)`",
     "at": [
+      "src/core/wardrobe.ts:145"
+    ]
+  },
+  {
+    "key": "'Casque d’astronaute'",
+    "en": "'Space helmet'",
+    "at": [
+      "src/core/wardrobe.ts:147"
+    ]
+  },
+  {
+    "key": "'Corne de licorne'",
+    "en": "'Unicorn horn'",
+    "at": [
       "src/core/wardrobe.ts:148"
+    ]
+  },
+  {
+    "key": "'Chapeau de mousquetaire'",
+    "en": "'Musketeer hat'",
+    "at": [
+      "src/core/wardrobe.ts:149"
+    ]
+  },
+  {
+    "key": "'Couronne étoilée'",
+    "en": "'Starry crown'",
+    "at": [
+      "src/core/wardrobe.ts:150"
+    ]
+  },
+  {
+    "key": "'Oreilles de lapin'",
+    "en": "'Bunny ears'",
+    "at": [
+      "src/core/wardrobe.ts:151"
+    ]
+  },
+  {
+    "key": "'Capuche de dragon'",
+    "en": "'Dragon hood'",
+    "at": [
+      "src/core/wardrobe.ts:152"
+    ]
+  },
+  {
+    "key": "'Arc-en-ciel'",
+    "en": "'Rainbow'",
+    "at": [
+      "src/core/wardrobe.ts:153"
+    ]
+  },
+  {
+    "key": "'Coiffe de pharaon'",
+    "en": "'Pharaoh headdress'",
+    "at": [
+      "src/core/wardrobe.ts:154"
     ]
   },
   {
     "key": "'Collection Premium'",
     "en": "'Premium collection'",
     "at": [
-      "src/core/wardrobe.ts:225",
+      "src/core/wardrobe.ts:222",
       "src/ui/screens/WardrobeScreen.tsx:94"
     ]
   },
@@ -5239,28 +5941,28 @@
     "key": "'Réservé à Esprit Vif Premium.'",
     "en": "'Included with Esprit Vif Premium.'",
     "at": [
-      "src/core/wardrobe.ts:243"
+      "src/core/wardrobe.ts:240"
     ]
   },
   {
     "key": "'Ce chapeau ne s’achète pas.'",
     "en": "'This hat can’t be bought.'",
     "at": [
-      "src/core/wardrobe.ts:244"
+      "src/core/wardrobe.ts:241"
     ]
   },
   {
     "key": "'Déjà dans le vestiaire.'",
     "en": "'Already in the wardrobe.'",
     "at": [
-      "src/core/wardrobe.ts:245"
+      "src/core/wardrobe.ts:242"
     ]
   },
   {
     "key": "`Encore ${hat.price - status.balance} étincelles`",
     "en": "`${hat.price - status.balance} more sparks`",
     "at": [
-      "src/core/wardrobe.ts:246"
+      "src/core/wardrobe.ts:243"
     ]
   },
   {
@@ -5623,7 +6325,7 @@
       "src/ui/components/Players.tsx:151",
       "src/ui/screens/ChallengeScreen.tsx:59",
       "src/ui/screens/SettingsScreen.tsx:120",
-      "src/ui/screens/WelcomeScreen.tsx:79"
+      "src/ui/screens/WelcomeScreen.tsx:103"
     ]
   },
   {
@@ -5654,10 +6356,11 @@
       "src/ui/screens/ModeScreens.tsx:32",
       "src/ui/screens/MonthScreen.tsx:40",
       "src/ui/screens/PartyScreen.tsx:122",
-      "src/ui/screens/SeasonScreen.tsx:34",
+      "src/ui/screens/SeasonScreen.tsx:35",
       "src/ui/screens/TrainingScreen.tsx:166",
       "src/ui/screens/TransferScreen.tsx:49",
-      "src/ui/screens/WardrobeScreen.tsx:65"
+      "src/ui/screens/WardrobeScreen.tsx:65",
+      "src/ui/screens/WelcomeScreen.tsx:55"
     ]
   },
   {
@@ -6297,7 +7000,7 @@
     "en": "'Skip'",
     "at": [
       "src/ui/games/AnagrammesGame.tsx:160",
-      "src/ui/screens/WelcomeScreen.tsx:132"
+      "src/ui/screens/WelcomeScreen.tsx:156"
     ]
   },
   {
@@ -6336,25 +7039,16 @@
     ]
   },
   {
-    "key": "'Lequel est le plus {which}\\u00a0?'",
-    "en": "'Which one is the {which}?'",
+    "key": "'Lequel est {which}\\u00a0?'",
+    "en": "'Which one is {which}?'",
     "at": [
       "src/ui/games/BalanceGame.tsx:171",
       "src/ui/games/BalanceGame.tsx:172"
     ]
   },
   {
-    "key": "'lourd'",
-    "en": "'heaviest'",
-    "at": [
-      "src/ui/games/BalanceGame.tsx:171",
-      "src/ui/games/contraires-demo.tsx:41",
-      "src/ui/games/contraires-demo.tsx:51"
-    ]
-  },
-  {
-    "key": "'léger'",
-    "en": "'lightest'",
+    "key": "'le plus léger'",
+    "en": "'the lightest'",
     "at": [
       "src/ui/games/BalanceGame.tsx:172"
     ]
@@ -6641,6 +7335,14 @@
     "at": [
       "src/ui/games/contraires-demo.tsx:41",
       "src/ui/games/LuciolesGame.tsx:184"
+    ]
+  },
+  {
+    "key": "'lourd'",
+    "en": "'heavy'",
+    "at": [
+      "src/ui/games/contraires-demo.tsx:41",
+      "src/ui/games/contraires-demo.tsx:51"
     ]
   },
   {
@@ -8253,14 +8955,6 @@
     ]
   },
   {
-    "key": "'Aucun'",
-    "en": "'None'",
-    "at": [
-      "src/ui/games/LuciolesGame.tsx:71",
-      "src/ui/games/SudokuGame.tsx:54"
-    ]
-  },
-  {
     "key": "'Rien ici'",
     "en": "'Nothing here'",
     "at": [
@@ -8477,7 +9171,7 @@
     ]
   },
   {
-    "key": "`${correct} bonnes réponses`",
+    "key": "byCount(correct, `${correct} bonne réponse`, `${correct} bonnes réponses`)",
     "en": "plural(correct, 'correct answer')",
     "at": [
       "src/ui/games/MonnaieGame.tsx:81"
@@ -9156,7 +9850,7 @@
     ]
   },
   {
-    "key": "`${solvedCount} gouttes résolues`",
+    "key": "byCount(solvedCount, `${solvedCount} goutte résolue`, `${solvedCount} gouttes résolues`)",
     "en": "`${plural(solvedCount, 'drop')} solved`",
     "at": [
       "src/ui/games/PluieGame.tsx:50"
@@ -9995,8 +10689,8 @@
       "src/ui/screens/ChallengeScreen.tsx:462",
       "src/ui/screens/HomeScreen.tsx:96",
       "src/ui/screens/ModeScreens.tsx:312",
-      "src/ui/screens/WelcomeScreen.tsx:87",
-      "src/ui/screens/WelcomeScreen.tsx:132"
+      "src/ui/screens/WelcomeScreen.tsx:111",
+      "src/ui/screens/WelcomeScreen.tsx:156"
     ]
   },
   {
@@ -10105,6 +10799,13 @@
     ]
   },
   {
+    "key": "'Total'",
+    "en": "'Total'",
+    "at": [
+      "src/ui/screens/ChallengeScreen.tsx:553"
+    ]
+  },
+  {
     "key": "'Toi'",
     "en": "'You'",
     "at": [
@@ -10195,7 +10896,7 @@
     "en": "'Average score'",
     "at": [
       "src/ui/screens/HistoryScreen.tsx:131",
-      "src/ui/screens/MonthScreen.tsx:121",
+      "src/ui/screens/MonthScreen.tsx:128",
       "src/ui/screens/ProgressScreen.tsx:397"
     ]
   },
@@ -10420,6 +11121,13 @@
     ]
   },
   {
+    "key": "` : ${progress} / ${objective.target}`",
+    "en": "`: ${progress} / ${objective.target}`",
+    "at": [
+      "src/ui/screens/HomeScreen.tsx:357"
+    ]
+  },
+  {
     "key": "`Chaque objectif : +${OBJECTIVE_XP} XP et +${OBJECTIVE_SPARKS} étincelles. De nouveaux demain.`",
     "en": "`Each goal: +${OBJECTIVE_XP} XP and +${OBJECTIVE_SPARKS} sparks. New ones tomorrow.`",
     "at": [
@@ -10560,7 +11268,7 @@
     "en": "`${formatWeekday(day)}: trained`",
     "at": [
       "src/ui/screens/HomeScreen.tsx:528",
-      "src/ui/screens/ProgressScreen.tsx:621"
+      "src/ui/screens/ProgressScreen.tsx:626"
     ]
   },
   {
@@ -10568,7 +11276,7 @@
     "en": "`${formatWeekday(day)}: no training`",
     "at": [
       "src/ui/screens/HomeScreen.tsx:529",
-      "src/ui/screens/ProgressScreen.tsx:622"
+      "src/ui/screens/ProgressScreen.tsx:627"
     ]
   },
   {
@@ -10660,7 +11368,7 @@
     "en": "'Later'",
     "at": [
       "src/ui/screens/HomeScreen.tsx:656",
-      "src/ui/screens/WelcomeScreen.tsx:183"
+      "src/ui/screens/WelcomeScreen.tsx:207"
     ]
   },
   {
@@ -11106,7 +11814,7 @@
     "en": "'Previous month'",
     "at": [
       "src/ui/screens/MonthScreen.tsx:50",
-      "src/ui/screens/ProgressScreen.tsx:583"
+      "src/ui/screens/ProgressScreen.tsx:588"
     ]
   },
   {
@@ -11114,7 +11822,7 @@
     "en": "'Next month'",
     "at": [
       "src/ui/screens/MonthScreen.tsx:59",
-      "src/ui/screens/ProgressScreen.tsx:602"
+      "src/ui/screens/ProgressScreen.tsx:607"
     ]
   },
   {
@@ -11132,25 +11840,39 @@
     ]
   },
   {
+    "key": "plural(report.plays, 'partie')",
+    "en": "plural(report.plays, 'game')",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:93"
+    ]
+  },
+  {
+    "key": "plural(report.days, 'jour')",
+    "en": "plural(report.days, 'day')",
+    "at": [
+      "src/ui/screens/MonthScreen.tsx:94"
+    ]
+  },
+  {
     "key": "'Mon mois'",
     "en": "'My month'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:98",
+      "src/ui/screens/MonthScreen.tsx:100",
       "src/ui/share-card.ts:173"
     ]
   },
   {
-    "key": "`${delta} parties de plus que le mois d’avant`",
-    "en": "`${delta} more games than the month before`",
+    "key": "byCount(delta, `${delta} partie de plus que le mois d’avant`, `${delta} parties de plus que le mois d’avant`)",
+    "en": "byCount(delta, `${delta} more game than the month before`, `${delta} more games than the month before`)",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:102"
+      "src/ui/screens/MonthScreen.tsx:106"
     ]
   },
   {
     "key": "'Parties'",
     "en": "'Games'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:109",
+      "src/ui/screens/MonthScreen.tsx:116",
       "src/ui/screens/ProgressScreen.tsx:393"
     ]
   },
@@ -11158,7 +11880,7 @@
     "key": "'Jours actifs'",
     "en": "'Active days'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:113",
+      "src/ui/screens/MonthScreen.tsx:120",
       "src/ui/screens/ProgressScreen.tsx:394"
     ]
   },
@@ -11166,87 +11888,87 @@
     "key": "'Temps de jeu'",
     "en": "'Play time'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:117",
+      "src/ui/screens/MonthScreen.tsx:124",
       "src/ui/screens/ProgressScreen.tsx:395",
       "src/ui/screens/ProgressScreen.tsx:451"
     ]
   },
   {
-    "key": "'Jeu préféré'",
-    "en": "'Favorite game'",
+    "key": "'Jeu préféré\\u00a0:'",
+    "en": "'Favorite game:'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:130"
+      "src/ui/screens/MonthScreen.tsx:137"
     ]
   },
   {
-    "key": "`${report.favorite.plays} parties`",
-    "en": "`${report.favorite.plays} games`",
+    "key": "plural(report.favorite.plays, 'partie')",
+    "en": "plural(report.favorite.plays, 'game')",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:131"
+      "src/ui/screens/MonthScreen.tsx:138"
     ]
   },
   {
-    "key": "'Plus beau progrès'",
-    "en": "'Biggest gain'",
+    "key": "'Plus beau progrès\\u00a0:'",
+    "en": "'Biggest gain:'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:139"
+      "src/ui/screens/MonthScreen.tsx:146"
     ]
   },
   {
     "key": "`moyenne ${report.bestGain.before} → ${report.bestGain.now}`",
     "en": "`average ${report.bestGain.before} → ${report.bestGain.now}`",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:140"
+      "src/ui/screens/MonthScreen.tsx:147"
     ]
   },
   {
     "key": "'records battus'",
     "en": "'best scores beaten'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:149"
+      "src/ui/screens/MonthScreen.tsx:156"
     ]
   },
   {
     "key": "'étoiles'",
     "en": "'stars'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:149",
-      "src/ui/screens/MonthScreen.tsx:186"
+      "src/ui/screens/MonthScreen.tsx:156",
+      "src/ui/screens/MonthScreen.tsx:193"
     ]
   },
   {
     "key": "'objectifs remplis'",
     "en": "'goals completed'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:157"
+      "src/ui/screens/MonthScreen.tsx:164"
     ]
   },
   {
     "key": "'tests du jour'",
     "en": "'daily tests'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:157"
+      "src/ui/screens/MonthScreen.tsx:164"
     ]
   },
   {
     "key": "`meilleur âge cérébral : ${report.bestAge} ans`",
     "en": "`best brain age: ${report.bestAge}`",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:158"
+      "src/ui/screens/MonthScreen.tsx:165"
     ]
   },
   {
     "key": "'Partager mon bilan'",
     "en": "'Share my recap'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:176"
+      "src/ui/screens/MonthScreen.tsx:183"
     ]
   },
   {
     "key": "'parties'",
     "en": "'games'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:183",
+      "src/ui/screens/MonthScreen.tsx:190",
       "src/ui/screens/PremiumScreen.tsx:310"
     ]
   },
@@ -11254,14 +11976,14 @@
     "key": "'jours actifs'",
     "en": "'active days'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:184"
+      "src/ui/screens/MonthScreen.tsx:191"
     ]
   },
   {
     "key": "'records'",
     "en": "'best scores'",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:185",
+      "src/ui/screens/MonthScreen.tsx:192",
       "src/ui/screens/PremiumScreen.tsx:316"
     ]
   },
@@ -11269,14 +11991,14 @@
     "key": "`Jeu préféré : ${GAMES[report.favorite.gameId].name}`",
     "en": "`Favorite game: ${GAMES[report.favorite.gameId].name}`",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:188"
+      "src/ui/screens/MonthScreen.tsx:195"
     ]
   },
   {
-    "key": "`Mon mois sur Esprit Vif : ${report.plays} parties en ${report.days} jours. https://alexxxx-droid.github.io/esprit-vif/`",
-    "en": "`My month on Esprit Vif: ${report.plays} games over ${report.days} days. https://alexxxx-droid.github.io/esprit-vif/`",
+    "key": "`Mon mois sur Esprit Vif : ${playsText} en ${daysText}. https://alexxxx-droid.github.io/esprit-vif/`",
+    "en": "`My month on Esprit Vif: ${playsText} over ${daysText}. https://alexxxx-droid.github.io/esprit-vif/`",
     "at": [
-      "src/ui/screens/MonthScreen.tsx:195"
+      "src/ui/screens/MonthScreen.tsx:202"
     ]
   },
   {
@@ -11867,16 +12589,6 @@
     ]
   },
   {
-    "key": "'jour'",
-    "en": "'day'",
-    "at": [
-      "src/ui/screens/ProgressScreen.tsx:162",
-      "src/ui/screens/ProgressScreen.tsx:163",
-      "src/ui/screens/ProgressScreen.tsx:164",
-      "src/ui/screens/ProgressScreen.tsx:170"
-    ]
-  },
-  {
     "key": "'Meilleure série'",
     "en": "'Best streak'",
     "at": [
@@ -12123,6 +12835,13 @@
     ]
   },
   {
+    "key": "`${t.accuracy}\\u00a0%`",
+    "en": "`${t.accuracy}%`",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:464"
+    ]
+  },
+  {
     "key": "'dans les jeux qui comptent les erreurs'",
     "en": "'in games that count mistakes'",
     "at": [
@@ -12207,17 +12926,24 @@
     ]
   },
   {
+    "key": "byCount(count, 'jour', 'jours')",
+    "en": "byCount(count, 'day', 'days')",
+    "at": [
+      "src/ui/screens/ProgressScreen.tsx:545"
+    ]
+  },
+  {
     "key": "byCount(playedThisMonth, `${playedThisMonth}\\u00a0jour d’entraînement`, `${playedThisMonth}\\u00a0jours d’entraînement`)",
     "en": "plural(playedThisMonth, 'training day')",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:593"
+      "src/ui/screens/ProgressScreen.tsx:598"
     ]
   },
   {
     "key": "'Aucun entraînement ce mois-ci'",
     "en": "'No training this month'",
     "at": [
-      "src/ui/screens/ProgressScreen.tsx:594"
+      "src/ui/screens/ProgressScreen.tsx:599"
     ]
   },
   {
@@ -12355,94 +13081,101 @@
     ]
   },
   {
+    "key": "byCount(daysLeft, `Encore ${daysLeft} jour.`, `Encore ${daysLeft} jours.`)",
+    "en": "byCount(daysLeft, `${daysLeft} day left.`, `${daysLeft} days left.`)",
+    "at": [
+      "src/ui/screens/SeasonScreen.tsx:30"
+    ]
+  },
+  {
     "key": "'Saison de défis'",
     "en": "'Challenge season'",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:38"
+      "src/ui/screens/SeasonScreen.tsx:39"
     ]
   },
   {
     "key": "`Du ${formatShortDay(arc.start)} au ${formatShortDay(arc.end)}`",
     "en": "`${formatShortDay(arc.start)} to ${formatShortDay(arc.end)}`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:40"
+      "src/ui/screens/SeasonScreen.tsx:41"
     ]
   },
   {
     "key": "`Saison réussie ! ${seasonHatName(hatId)} est dans ton vestiaire.`",
     "en": "`Season complete! ${seasonHatName(hatId)} is in your wardrobe.`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:50"
+      "src/ui/screens/SeasonScreen.tsx:51"
     ]
   },
   {
-    "key": "`${SEASON_REQUIRED} chapitres sur 4 : ${seasonHatName(hatId)} et ${SPARKS.season} étincelles. Encore ${daysLeft} jours.`",
-    "en": "`${SEASON_REQUIRED} chapters out of 4: ${seasonHatName(hatId)} and ${SPARKS.season} sparks. ${daysLeft} days left.`",
+    "key": "`${SEASON_REQUIRED} chapitres sur 4 : ${seasonHatName(hatId)} et ${SPARKS.season} étincelles. ${leftText}`",
+    "en": "`${SEASON_REQUIRED} chapters out of 4: ${seasonHatName(hatId)} and ${SPARKS.season} sparks. ${leftText}`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:52"
+      "src/ui/screens/SeasonScreen.tsx:53"
     ]
   },
   {
     "key": "`${done} chapitres sur 4`",
     "en": "`${done} of 4 chapters`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:56"
+      "src/ui/screens/SeasonScreen.tsx:57"
     ]
   },
   {
     "key": "`Chapitre ${i + 1} · `",
     "en": "`Chapter ${i + 1} · `",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:76"
+      "src/ui/screens/SeasonScreen.tsx:77"
     ]
   },
   {
     "key": "'Défi de la semaine relevé'",
     "en": "'Weekly challenge done'",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:81"
+      "src/ui/screens/SeasonScreen.tsx:82"
     ]
   },
   {
     "key": "'Manqué : pas grave, 3 chapitres suffisent.'",
     "en": "'Missed: no worries, 3 chapters are enough.'",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:83"
+      "src/ui/screens/SeasonScreen.tsx:84"
     ]
   },
   {
     "key": "`À partir du ${formatShortDay(week)}`",
     "en": "`From ${formatShortDay(week)}`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:84"
+      "src/ui/screens/SeasonScreen.tsx:85"
     ]
   },
   {
     "key": "'Ta collection de saison'",
     "en": "'Your season collection'",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:97"
+      "src/ui/screens/SeasonScreen.tsx:98"
     ]
   },
   {
     "key": "byCount(collection, `${collection} chapeau de saison`, `${collection} chapeaux de saison`)",
     "en": "byCount(collection, `${collection} season hat`, `${collection} season hats`)",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:101"
+      "src/ui/screens/SeasonScreen.tsx:102"
     ]
   },
   {
     "key": "'Le premier chapeau t’attend au bout de cette saison.'",
     "en": "'The first hat awaits at the end of this season.'",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:104"
+      "src/ui/screens/SeasonScreen.tsx:105"
     ]
   },
   {
     "key": "`Chaque saison dure quatre semaines ; la suivante commence le ${formatShortDay(addDays(arc.end, 1))}`",
     "en": "`Each season lasts four weeks; the next one starts on ${formatShortDay(addDays(arc.end, 1))}`",
     "at": [
-      "src/ui/screens/SeasonScreen.tsx:113"
+      "src/ui/screens/SeasonScreen.tsx:114"
     ]
   },
   {
@@ -12578,7 +13311,7 @@
     "en": "'Goals'",
     "at": [
       "src/ui/screens/SettingsScreen.tsx:172",
-      "src/ui/screens/WelcomeScreen.tsx:107"
+      "src/ui/screens/WelcomeScreen.tsx:131"
     ]
   },
   {
@@ -12974,7 +13707,7 @@
     "en": "'Brain age is a playful indicator, not a medical measure.'",
     "at": [
       "src/ui/screens/SettingsScreen.tsx:477",
-      "src/ui/screens/WelcomeScreen.tsx:170"
+      "src/ui/screens/WelcomeScreen.tsx:194"
     ]
   },
   {
@@ -13462,6 +14195,13 @@
     ]
   },
   {
+    "key": "plural(data.tests.filter((t) => t.done).length, 'test')",
+    "en": "plural(data.tests.filter((t) => t.done).length, 'test')",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:108"
+    ]
+  },
+  {
     "key": "`Image ${(index % frames.length) + 1} / ${frames.length} · elles défilent en boucle`",
     "en": "`Image ${(index % frames.length) + 1} / ${frames.length} · they play on a loop`",
     "at": [
@@ -13541,6 +14281,13 @@
   {
     "key": "plural(summary.plays, 'partie')",
     "en": "plural(summary.plays, 'game')",
+    "at": [
+      "src/ui/screens/TransferScreen.tsx:265"
+    ]
+  },
+  {
+    "key": "plural(summary.tests, 'test')",
+    "en": "plural(summary.tests, 'test')",
     "at": [
       "src/ui/screens/TransferScreen.tsx:265"
     ]
@@ -13718,7 +14465,7 @@
     "en": "'Take off'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:145",
-      "src/ui/screens/WardrobeScreen.tsx:337"
+      "src/ui/screens/WardrobeScreen.tsx:338"
     ]
   },
   {
@@ -13726,7 +14473,7 @@
     "en": "'Wear'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:149",
-      "src/ui/screens/WardrobeScreen.tsx:337"
+      "src/ui/screens/WardrobeScreen.tsx:338"
     ]
   },
   {
@@ -13755,7 +14502,7 @@
     "en": "'worn'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:196",
-      "src/ui/screens/WardrobeScreen.tsx:309"
+      "src/ui/screens/WardrobeScreen.tsx:310"
     ]
   },
   {
@@ -13763,8 +14510,7 @@
     "en": "'yours'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:196",
-      "src/ui/screens/WardrobeScreen.tsx:260",
-      "src/ui/screens/WardrobeScreen.tsx:309"
+      "src/ui/screens/WardrobeScreen.tsx:310"
     ]
   },
   {
@@ -13779,7 +14525,7 @@
     "en": "'Worn'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:211",
-      "src/ui/screens/WardrobeScreen.tsx:315"
+      "src/ui/screens/WardrobeScreen.tsx:316"
     ]
   },
   {
@@ -13787,8 +14533,7 @@
     "en": "'Yours'",
     "at": [
       "src/ui/screens/WardrobeScreen.tsx:214",
-      "src/ui/screens/WardrobeScreen.tsx:266",
-      "src/ui/screens/WardrobeScreen.tsx:288"
+      "src/ui/screens/WardrobeScreen.tsx:289"
     ]
   },
   {
@@ -13813,6 +14558,13 @@
     ]
   },
   {
+    "key": "'débloquée'",
+    "en": "'unlocked'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:260"
+    ]
+  },
+  {
     "key": "`niveau ${a.level}`",
     "en": "`level ${a.level}`",
     "at": [
@@ -13823,147 +14575,175 @@
     "key": "'Portée'",
     "en": "'Worn'",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:266"
+      "src/ui/screens/WardrobeScreen.tsx:267"
+    ]
+  },
+  {
+    "key": "'Débloquée'",
+    "en": "'Unlocked'",
+    "at": [
+      "src/ui/screens/WardrobeScreen.tsx:267"
     ]
   },
   {
     "key": "`Niv. ${a.level}`",
     "en": "`Lv. ${a.level}`",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:268"
+      "src/ui/screens/WardrobeScreen.tsx:269"
     ]
   },
   {
     "key": "'Chapeaux de saison'",
     "en": "'Season hats'",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:294"
+      "src/ui/screens/WardrobeScreen.tsx:295"
     ]
   },
   {
     "key": "'Un par saison de défis réussie (3 chapitres sur 4) ; chaque retour d’une histoire apporte une nouvelle édition.'",
     "en": "'One per completed challenge season (3 chapters out of 4); each time a story comes back, a new edition.'",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:298"
+      "src/ui/screens/WardrobeScreen.tsx:299"
     ]
   },
   {
     "key": "`saison en cours, ${h.meta} chapitres`",
     "en": "`current season, ${h.meta} chapters`",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:309"
+      "src/ui/screens/WardrobeScreen.tsx:310"
     ]
   },
   {
     "key": "'Voir la saison en cours'",
     "en": "'See the current season'",
     "at": [
-      "src/ui/screens/WardrobeScreen.tsx:341"
+      "src/ui/screens/WardrobeScreen.tsx:342"
     ]
   },
   {
     "key": "`Étape ${step + 1} sur 3`",
     "en": "`Step ${step + 1} of 3`",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:52"
+      "src/ui/screens/WelcomeScreen.tsx:59"
     ]
   },
   {
     "key": "'Bienvenue sur Esprit Vif\\u00a0!'",
     "en": "'Welcome to Esprit Vif!'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:69"
+      "src/ui/screens/WelcomeScreen.tsx:77"
     ]
   },
   {
-    "key": "`Quelques minutes par jour, ${GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance\\u00a0!`",
-    "en": "`A few minutes a day, ${GAME_ORDER.length} mini-games and your brain age to track your progress. Pick your companion and let’s get to know each other!`",
+    "key": "`${GAME_ORDER.length} mini-jeux et un test chaque jour`",
+    "en": "`${GAME_ORDER.length} mini-games and a test every day`",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:72"
+      "src/ui/screens/WelcomeScreen.tsx:85"
+    ]
+  },
+  {
+    "key": "'Des objectifs et des récompenses'",
+    "en": "'Goals and rewards'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:91"
+    ]
+  },
+  {
+    "key": "'Sans pub ni compte\\u00a0: tout reste chez toi'",
+    "en": "'No ads, no account: everything stays with you'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:97"
+    ]
+  },
+  {
+    "key": "'Choisis ton compagnon et faisons connaissance\\u00a0!'",
+    "en": "'Pick your companion and let’s get to know each other!'",
+    "at": [
+      "src/ui/screens/WelcomeScreen.tsx:100"
     ]
   },
   {
     "key": "'Ton prénom'",
     "en": "'Your first name'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:78"
+      "src/ui/screens/WelcomeScreen.tsx:102"
     ]
   },
   {
     "key": "'Ton compagnon'",
     "en": "'Your companion'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:81"
+      "src/ui/screens/WelcomeScreen.tsx:105"
     ]
   },
   {
     "key": "'Ta couleur'",
     "en": "'Your color'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:83"
+      "src/ui/screens/WelcomeScreen.tsx:107"
     ]
   },
   {
     "key": "'Couleur de ton avatar'",
     "en": "'Your avatar color'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:84"
+      "src/ui/screens/WelcomeScreen.tsx:108"
     ]
   },
   {
     "key": "'Qu’as-tu envie de travailler\\u00a0?'",
     "en": "'What would you like to work on?'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:99"
+      "src/ui/screens/WelcomeScreen.tsx:123"
     ]
   },
   {
     "key": "`Choisis jusqu’à ${MAX_GOALS} objectifs : ta séance du jour les mettra en avant. Tu pourras les changer dans les réglages.`",
     "en": "`Pick up to ${MAX_GOALS} goals: your daily session will focus on them. You can change them in Settings.`",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:102"
+      "src/ui/screens/WelcomeScreen.tsx:126"
     ]
   },
   {
     "key": "byCount(goals.length, `${goals.length} objectif`, `${goals.length} objectifs`)",
     "en": "byCount(goals.length, `${goals.length} goal`, `${goals.length} goals`)",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:135"
+      "src/ui/screens/WelcomeScreen.tsx:159"
     ]
   },
   {
     "key": "'Tout travailler un peu'",
     "en": "'A bit of everything'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:136"
+      "src/ui/screens/WelcomeScreen.tsx:160"
     ]
   },
   {
     "key": "'Ton bilan de départ'",
     "en": "'Your starting assessment'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:149"
+      "src/ui/screens/WelcomeScreen.tsx:173"
     ]
   },
   {
     "key": "'Trois mini-jeux, environ trois minutes : ils te donnent ton âge cérébral de départ et ouvrent d’emblée les niveaux où tu es déjà à l’aise.'",
     "en": "'Three mini-games, about three minutes: they give you your starting brain age and unlock right away the levels you’re already comfortable with.'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:152"
+      "src/ui/screens/WelcomeScreen.tsx:176"
     ]
   },
   {
     "key": "'Commencer le bilan'",
     "en": "'Start the assessment'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:175"
+      "src/ui/screens/WelcomeScreen.tsx:199"
     ]
   },
   {
     "key": "'3 jeux · environ 3 minutes'",
     "en": "'3 games · about 3 minutes'",
     "at": [
-      "src/ui/screens/WelcomeScreen.tsx:176"
+      "src/ui/screens/WelcomeScreen.tsx:200"
     ]
   },
   {

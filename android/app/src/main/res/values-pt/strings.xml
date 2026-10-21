@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Téléphone réglé en portugais (textes du Brésil) : raccourcis de l'icône et fiche du widget dans le sélecteur. -->
+<resources>
+    <string name="shortcut_test">Teste</string>
+    <string name="shortcut_test_long">Teste do dia</string>
+    <string name="shortcut_seance">Sessão</string>
+    <string name="shortcut_seance_long">Sessão do dia</string>
+    <string name="shortcut_jeux">Jogos</string>
+    <string name="shortcut_jeux_long">Treino</string>
+    <string name="shortcut_defis">Desafios</string>
+    <string name="shortcut_defis_long">Desafios entre amigas</string>
+    <string name="widget_description">Sua sequência e o teste do dia num relance</string>
+    <string name="widget_no_streak">Jogue hoje para começar sua sequência</string>
+    <string name="widget_test_todo">Teste do dia: a fazer</string>
+</resources>

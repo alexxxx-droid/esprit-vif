@@ -13,8 +13,8 @@ de chaque jeu et un bilan du mois. Tout s’essaie avant d’acheter.
 
 ## Au programme
 
-**39 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
-Confirmé, Expert, Maître, Légende), soit **1 950 niveaux**, puis dix crans de **maîtrise** :
+**47 mini-jeux** répartis en six domaines, chacun avec **50 niveaux** en cinq paliers (Débutant,
+Confirmé, Expert, Maître, Légende), soit **2 350 niveaux**, puis dix crans de **maîtrise** :
 
 | Domaine | Jeux |
 | --- | --- |
@@ -23,7 +23,7 @@ Confirmé, Expert, Maître, Légende), soit **1 950 niveaux**, puis dix crans de
 | Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature, Aiguillages, Changement de règle |
 | Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles, Miroir, Combien de cubes ?, Symboles |
 | Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires, Mots mêlés, Pendu express |
-| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques, Code secret, Taquin express, Labyrinthe éclair |
+| Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques, Code secret, Taquin express, Labyrinthe éclair, Tours de Hanoï |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.
 - **Médailles par jeu** : bronze au niveau 5, argent au 10, or au 15, platine avec 3 étoiles au 20,

@@ -52,6 +52,7 @@ const GLOSSARY: Record<GameId, string> = {
   filature: 'Keep Track',
   lucioles: 'Fireflies',
   contraires: 'Opposites',
+  hanoi: 'Towers of Hanoi',
   labyrinthe: 'Maze Rush',
   taquin: 'Slide Puzzle',
   pendu: 'Hangman',

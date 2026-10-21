@@ -1,0 +1,96 @@
+/* ---------- Tours de Hanoï ---------- */
+
+.hanoi {
+  gap: 14px;
+}
+
+/* Trois piquets côte à côte ; chacun se touche en entier. */
+.hanoi__pegs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: min(100%, 340px);
+}
+
+.hanoi__peg {
+  position: relative;
+  height: 190px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: inset 0 -6px 0 var(--line);
+}
+
+.hanoi__peg.is-selected {
+  box-shadow:
+    inset 0 0 0 3px var(--accent),
+    inset 0 -6px 0 var(--line);
+}
+
+.hanoi__rod {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 6px;
+  height: 78%;
+  border-radius: 3px;
+  background: var(--line);
+  transform: translateX(-50%);
+}
+
+.hanoi__disk {
+  position: absolute;
+  left: 50%;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--d-logique);
+  transform: translateX(-50%);
+  transition: transform 140ms var(--ease-out);
+}
+
+.hanoi__disk--1 {
+  background: var(--ink-bleu);
+}
+
+.hanoi__disk--2 {
+  background: var(--ink-orange);
+}
+
+.hanoi__disk--3 {
+  background: var(--ink-violet);
+}
+
+.hanoi__disk.is-lifted {
+  transform: translate(-50%, -18px);
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+/* Le modèle à reproduire (Maître, Légende), en petit. */
+.hanoi__model {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.hanoi__pegs--small {
+  width: 150px;
+  gap: 4px;
+}
+
+.hanoi__pegs--small .hanoi__peg {
+  height: 52px;
+  border-radius: 8px;
+  box-shadow: inset 0 -3px 0 var(--line);
+}
+
+.hanoi__pegs--small .hanoi__disk {
+  height: 7px;
+  border-radius: 4px;
+}
+
+.hanoi__pegs--small .hanoi__rod {
+  bottom: 3px;
+  width: 3px;
+}

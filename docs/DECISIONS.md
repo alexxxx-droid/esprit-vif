@@ -739,3 +739,8 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   parfaits creusés en profondeur au hasard. Débutant : 5 × 5 puis 6 × 6 ; Confirmé : 7 × 7 ;
   Expert : brouillard (on voit à 2 cases) ; Maître : une clé hors du chemin direct, à ramasser
   avant la sortie ; Légende : les murs s'effacent après 4 à 2,5 s (ils bloquent toujours).
+- **Tours de Hanoï** (Logique, une minute) : un disque à la fois, jamais un grand sur un petit ; un
+  tour fini vaut le meilleur nombre de coups divisé par les coups joués (calculé exactement, en
+  largeur sur les 3^n positions). Débutant : 3 disques ; Confirmé : 4 ; Expert : départ mélangé ;
+  Maître : un modèle à reproduire ; Légende : coups comptés (marge de 3 à 1).
+- Avec ces seize jeux : 47 jeux, 2 350 niveaux (README et fiche Play Store mis à jour).

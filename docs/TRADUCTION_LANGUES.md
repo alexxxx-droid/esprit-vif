@@ -85,6 +85,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | pendu | Pendu express | Ahorcado | Galgenraten | Impiccato | Forca |
 | taquin | Taquin express | Juego del 15 | Schiebepuzzle | Gioco del 15 | Jogo do 15 |
 | labyrinthe | Labyrinthe éclair | Laberinto | Labyrinth | Labirinto | Labirinto |
+| hanoi | Tours de Hanoï | Torres de Hanói | Türme von Hanoi | Torre di Hanoi | Torre de Hanói |
 
 ### Domaines
 

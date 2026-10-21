@@ -46,7 +46,8 @@ export type GameId =
   | 'manque'
   | 'pendu'
   | 'taquin'
-  | 'labyrinthe';
+  | 'labyrinthe'
+  | 'hanoi';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

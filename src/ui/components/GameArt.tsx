@@ -4,6 +4,7 @@ import type { GameId } from '../../core/types';
 import { CONTRAIRES_ART } from './art-contraires';
 import { FILATURE_ART } from './art-filature';
 import { LUCIOLES_ART } from './art-lucioles';
+import { GRAND_ART } from './art-grand';
 import { REGLE_ART } from './art-regle';
 import { SYMBOLES_ART } from './art-symboles';
 import { AIGUILLAGES_ART } from './art-aiguillages';
@@ -24,6 +25,7 @@ const ART: Record<GameId, ReactNode> = {
   filature: FILATURE_ART,
   lucioles: LUCIOLES_ART,
   contraires: CONTRAIRES_ART,
+  grand: GRAND_ART,
   regle: REGLE_ART,
   symboles: SYMBOLES_ART,
   aiguillages: AIGUILLAGES_ART,

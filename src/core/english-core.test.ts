@@ -52,6 +52,7 @@ const GLOSSARY: Record<GameId, string> = {
   filature: 'Keep Track',
   lucioles: 'Fireflies',
   contraires: 'Opposites',
+  grand: 'Which Is Bigger?',
   regle: 'Rule Switch',
   symboles: 'Symbol Code',
   aiguillages: 'Switchyard',

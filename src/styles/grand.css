@@ -1,0 +1,81 @@
+/* ---------- Le plus grand ? ---------- */
+
+.grand {
+  gap: 18px;
+}
+
+.grand__ask {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 760;
+}
+
+.grand__ask.is-smallest {
+  color: var(--ink-rouge);
+}
+
+/* Les calculs : de grandes cartes à toucher, côte à côte ou en colonne de trois. */
+.grand__calcs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: min(100%, 330px);
+  animation: card-in 200ms var(--ease-out) both;
+}
+
+.grand__calcs--3 {
+  grid-template-columns: 1fr;
+}
+
+.grand__calc {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  padding: 10px;
+  border: 0;
+  border-radius: 22px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 2px var(--line),
+    var(--shadow-1);
+  font: inherit;
+  font-size: 1.7rem;
+  font-weight: 780;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.grand__calcs--3 .grand__calc {
+  min-height: 72px;
+}
+
+.grand__calc.is-pressed {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.grand__equal {
+  width: 120px;
+  height: 54px;
+  border: 0;
+  border-radius: 16px;
+  color: var(--ink);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 2px var(--line);
+  font: inherit;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+/* Démo de l'intro. */
+.grand--demo .grand__calcs {
+  width: 220px;
+  gap: 8px;
+  animation: none;
+}
+
+.grand--demo .grand__calc {
+  min-height: 54px;
+  border-radius: 14px;
+  font-size: 1.05rem;
+}

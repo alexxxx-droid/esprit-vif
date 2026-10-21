@@ -41,7 +41,8 @@ export type GameId =
   | 'motsmeles'
   | 'aiguillages'
   | 'symboles'
-  | 'regle';
+  | 'regle'
+  | 'grand';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

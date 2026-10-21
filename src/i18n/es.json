@@ -485,6 +485,7 @@
   "'Aiguillages'": "'Agujas'",
   "'Symboles'": "'Símbolos'",
   "'Changement de règle'": "'Cambio de regla'",
+  "'Le plus grand\\u00a0?'": "'¿Cuál es mayor?'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para superarla`",
   "'sans miroir'": "'sin espejo'",
   "'1 reflet piège'": "'1 reflejo trampa'",

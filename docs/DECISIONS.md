@@ -714,3 +714,7 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   bas. Deux boutons, une erreur retire un point. Débutant : la règle change par blocs ; Confirmé :
   à n'importe quelle carte ; Expert : la place de la carte ; Maître : boutons muets (◀ ▶, la
   légende reste en haut) ; Légende : contre-ordres (cadre rouge en pointillés, on répond l'inverse).
+- **Le plus grand ?** (Calcul, 45 s) : deux calculs, toucher celui qui donne le plus (estimer plutôt
+  que calculer) ; une erreur retire un point. Débutant : additions aux écarts nets ; Confirmé : − et
+  × ; Expert : ÷, écarts de 1 à 3 et parfois l'égalité (bouton =) ; Maître : trois calculs ;
+  Légende : parfois « le plus petit ? » (question en rouge).

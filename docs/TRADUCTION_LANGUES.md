@@ -80,6 +80,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | aiguillages | Aiguillages | Agujas | Weichen | Scambi | Desvios |
 | symboles | Symboles | Símbolos | Symbole | Simboli | Símbolos |
 | regle | Changement de règle | Cambio de regla | Regelwechsel | Cambio di regola | Troca de regra |
+| grand | Le plus grand ? | ¿Cuál es mayor? | Was ist größer? | Qual è più grande? | Qual é maior? |
 
 ### Domaines
 

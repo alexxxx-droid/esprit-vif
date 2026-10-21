@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { grandLevelLabel, grandRule } from './grand';
 import { regleLevelLabel, regleRule } from './regle';
 import { symbolesLevelLabel, symbolesRule } from './symboles';
 import { aiguillagesLevelLabel, aiguillagesRule } from './aiguillages';
@@ -825,6 +826,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: regleLevelLabel,
   },
+  grand: {
+    id: 'grand',
+    get name() {
+      return tr('Le plus grand\u00a0?', 'Which Is Bigger?');
+    },
+    domain: 'calcul',
+    rule: grandRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: grandLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -850,6 +863,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'monnaie',
   'pluie',
   'compte',
+  'grand',
   'matrice',
   'nback',
   'ordre',

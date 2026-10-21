@@ -49,7 +49,9 @@ Confirmé, Expert, Maître, Légende), soit **1 550 niveaux**, puis dix crans de
 - **Après le niveau 50** : dix crans de **maîtrise** par jeu (la partie du niveau 50, toujours plus
   exigeante), le **Défi Légende du jour**, des **saisons de défis** en histoires de quatre semaines avec
   un chapeau à collectionner, et un rang de joueur sans fin (titres, auras de Vif).
-- **En français ou en anglais** : la langue suit le téléphone, ou se choisit dans les réglages.
+- **En six langues** : français, anglais, espagnol, allemand, italien et portugais du Brésil. La
+  langue suit le téléphone, ou se choisit dans les réglages ; chaque langue a ses propres mots,
+  catégories, phrases et prénoms dans les jeux de langage.
 - **Transfert par QR code** : ta progression passe d'un téléphone à l'autre, ou du site à l'appli,
   par une suite de QR codes (ou un code à copier-coller), sans compte ni serveur.
 - **Écrire au doigt** : dans les jeux de nombres, tu peux écrire ta réponse au lieu de toucher le

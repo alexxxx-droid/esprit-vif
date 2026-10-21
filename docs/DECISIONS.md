@@ -589,3 +589,28 @@ les rappels s'arrêtent d'eux-mêmes : encourager, jamais harceler.
 
 La reconnaissance vocale (Web Speech) est **désactivée par défaut** : sur Chrome, l'audio est
 analysé par un service en ligne, ce qui ne colle pas avec « aucun pistage ». L'option l'explique.
+
+## Six langues (v2.11)
+
+- Le français fait foi et l'anglais est écrit dans le code (`tr('…', '…')`). L'espagnol,
+  l'allemand, l'italien et le portugais du Brésil viennent des dictionnaires `src/i18n/<langue>.json`,
+  greffés au build ; leurs jeux de langage ont leur propre contenu (`src/core/content/<langue>.ts`),
+  écrit dans la langue et jamais traduit mot à mot. Méthode et glossaire : `TRADUCTION_LANGUES.md`.
+- Une langue n'est proposée (`PUBLISHED_LANGS`) qu'avec 100 % de ses textes et son contenu de jeux :
+  `lang.test.ts` le vérifie.
+- `${NBSP}` est libre dans une traduction (typographie française) ; tout autre `${…}` doit être
+  repris à l'identique. Un mot caché dans une variable ne se traduit pas : chaque morceau de
+  texte passe par son propre `tr`.
+- Deux sens pour un même mot français (« Orange » le fruit et la couleur) : la clé du dictionnaire
+  est le texte source exact, guillemets compris ; le compagnon s'écrit donc entre backticks.
+- Mots longs (allemand, portugais) : les onglets prennent au moins la largeur de leur nom, les
+  mots trop longs passent à la ligne, avec césure en allemand.
+
+## Durée des jeux rapides
+
+Demande d'Alex du 21-10 : certaines parties de 60 s paraissaient longues. Coup d'œil et Pluie de
+calculs passent à 45 s ; Lecture éclair, Contraires et Lucioles à 40 s. Les objectifs restent
+écrits pour 60 s dans les tableaux (les niveaux restent distincts) et sont ramenés au prorata :
+scores, étoiles et âge cérébral restent comparables. Monnaie, Rotation mentale et Horloges gardent
+60 s : chaque question s'y réfléchit, et à 30 s leur objectif tomberait à deux réponses (un score
+de pile ou face). Pluie reste à 45 s pour garder au moins 8 gouttes à résoudre sur les niveaux à pièges.

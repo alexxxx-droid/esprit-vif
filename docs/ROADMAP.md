@@ -70,7 +70,23 @@ Bilan complet (tests, procédure sur téléphone, maintenance, suite) : [`BILAN_
 - [x] Rang sans fin : titres, étincelles, auras de Vif
 - [x] Saisons de défis (6 histoires de 4 semaines) et chapeaux de saison en éditions
 - [x] 3 nouveaux jeux : Filature (Attention), Lucioles (Vitesse), Contraires (Langage)
-- [ ] Traductions espagnol, allemand, italien, portugais (dictionnaires, contenus, Android, fiche)
+- [x] Traductions espagnol, allemand, italien, portugais (dictionnaires, contenus, Android, fiche) : en v2.11
+
+## v2.11 — six langues (demandes d'Alex du 21-10)
+
+- [x] Espagnol, allemand, italien, portugais du Brésil proposés : 2 073 textes d'interface par langue,
+      contenu des jeux de langage écrit dans chaque langue, Android, fiche Play Store, confidentialité
+- [x] Plus aucun texte hors de portée des dictionnaires (chapeaux, thèmes, chapitres de saison,
+      pluriels, ponctuation) ; la langue choisie n'est plus remise sur Auto au lancement
+- [x] Accueil : flèche retour entre les étapes, trois promesses sur le premier écran (vu chez Elevate)
+- [x] Jeux rapides raccourcis : Coup d'œil et Pluie de calculs 45 s ; Lecture éclair, Contraires,
+      Lucioles 40 s (objectifs au prorata)
+- [x] Mots longs : onglets à la largeur de leur nom, puces des domaines sur deux colonnes hors fr/en ;
+      80 écrans vérifiés sans débordement en 360 × 740 dans les six langues
+- [ ] Relecture par des natifs (noms de chapeaux, histoires de saison, listes de mots, Lecture éclair)
+- [ ] Captures de la fiche Play Store dans les quatre nouvelles langues
+- [ ] Peut-être : ne charger que le contenu de la langue utilisée (le paquet principal passe de
+      ≈ 250 à 533 Ko compressés avec les quatre langues)
 
 ## Reste à faire par Alex
 

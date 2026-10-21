@@ -32,7 +32,8 @@ describe('générateur du Total cumulé', () => {
         }
       }
     }
-  });
+    // 16 000 manches : plus de 5 s quand toute la suite tourne en parallèle.
+  }, 30_000);
 
   it('démarre à 4 nombres au niveau 1, comme la spec', () => {
     expect(totalLevel(1).start).toBe(4);

@@ -5,11 +5,11 @@ import { MAX_LEVEL } from '../levels';
 import { createRng, deriveSeed, hashSeed } from '../rng';
 import { categoryOf } from './lexique';
 import { generateMatriceRound, generateSequence, MATRICE_LEVELS, MATRICE_MAX_SPAN, matriceLevel, matriceLevelLabel, scoreMatrice } from './matrice';
-import { generateMots, MOTS_LEVELS, motsLevel, motsLevelLabel, scoreMots } from './mots';
+import { generateMots, MOTS_LEVELS, MOTS_PROBES, motsLevel, motsLevelLabel, scoreMots } from './mots';
 import { countLures, generateNBack, NBACK_GAP_MS, NBACK_LEVELS, NBACK_TARGETS, nbackLevel, nbackLevelLabel, nbackLoad, scoreNBack, tallyStream } from './nback';
 import { generateOrdreRound, ORDRE_LEVELS, ordreLevel, ordreLevelLabel, ordreMaxSpan, scoreOrdre } from './ordre';
 import { generatePaires, PAIRES_LEVELS, pairesLevel, pairesLevelLabel, scorePaires, swapSlots } from './paires';
-import { generateQui, QUI_LEVELS, quiLevel, quiLevelLabel, scoreQui } from './quiestqui';
+import { generateQui, QUI_LEVELS, QUI_QUESTIONS, quiLevel, quiLevelLabel, scoreQui } from './quiestqui';
 import { GAMES } from './registry';
 
 /**
@@ -55,7 +55,7 @@ const OLD_MATRICE = [[4,800,0],[4,700,0],[4,600,0],[5,750,0],[4,800,1],[5,650,0]
 const OLD_NBACK = [[1,'letter',2500,70],[2,'letter',2500,100],[2,'letter',2200,105],[1,'position',2500,80],[2,'position',2500,105],[3,'letter',2500,120],[1,'dual',2700,100],[2,'letter',1900,115],[3,'position',2500,125],[2,'dual',2800,125],[3,'letter',2100,130],[4,'letter',2500,140],[2,'dual',2400,135],[3,'position',2100,135],[3,'dual',2800,150],[4,'letter',2100,150],[4,'position',2500,155],[3,'dual',2400,160],[4,'dual',2800,170],[4,'dual',2400,180]];
 const OLD_ORDRE = [[1,9,4,900,0,0],[1,20,4,800,0,0],[1,50,4,750,0,0],[1,9,4,600,0,0],[1,99,4,700,0,0],[1,20,4,800,1,0],[1,50,4,550,0,0],[1,20,4,700,0,1],[1,99,4,500,0,0],[1,50,4,650,1,0],[1,50,4,600,0,1],[1,99,5,550,0,0],[1,99,4,500,1,0],[1,50,4,600,1,1],[1,99,5,450,0,0],[-20,20,4,600,0,0],[1,99,4,500,0,1],[1,99,5,450,1,0],[-50,50,4,500,0,0],[-50,50,4,450,1,1]];
 const OLD_MOTS = [[6,15000,'random'],[8,18000,'random'],[8,14000,'random'],[10,20000,'random'],[10,16000,'random'],[8,14000,'category'],[12,22000,'random'],[10,16000,'category'],[12,18000,'random'],[12,18000,'category'],[14,22000,'random'],[14,20000,'category'],[16,24000,'random'],[14,16000,'category'],[16,22000,'category'],[18,26000,'random'],[16,18000,'category'],[18,22000,'category'],[20,26000,'category'],[20,22000,'category']];
-const OLD_PAIRES = [[6,3,3000,0,85000],[6,3,1500,0,85000],[8,4,3000,0,100000],[8,4,1500,0,100000],[8,4,0,0,100000],[10,4,3000,0,110000],[10,4,1500,0,110000],[10,4,0,0,110000],[6,3,0,1,85000],[12,4,3000,0,120000],[12,4,1500,0,120000],[8,4,0,1,100000],[12,4,0,0,120000],[10,4,1500,1,110000],[14,4,3000,0,135000],[14,4,1500,0,135000],[12,4,0,1,120000],[14,4,0,0,135000],[14,4,1500,1,135000],[14,4,0,1,135000]];
+const OLD_PAIRES = [[6,3,3000,0,41000],[6,3,1500,0,41000],[8,4,3000,0,48000],[8,4,1500,0,48000],[8,4,0,0,48000],[10,4,3000,0,55000],[10,4,1500,0,55000],[10,4,0,0,55000],[6,3,0,1,41000],[12,4,3000,0,60000],[12,4,1500,0,60000],[8,4,0,1,48000],[12,4,0,0,60000],[10,4,1500,1,55000],[10,4,0,1,55000],[12,4,3000,1,60000],[12,4,1500,1,60000],[12,4,0,1,60000],[12,4,0,1,58000],[12,4,0,1,55000]];
 const OLD_QUI = [[3,1,2600,0,0],[4,1,2500,0,0],[4,1,2200,0.25,0],[5,1,2300,0.25,0],[5,1,2000,0.5,0],[6,1,2100,0.5,0],[6,2,2100,0.5,0],[6,2,1900,0.5,0],[7,2,2000,0.5,0],[7,2,1800,0.5,1],[7,2,1700,0.5,1],[8,2,1800,0.5,1],[8,2,1700,0.5,1],[8,3,1700,0.5,1],[9,2,1700,0.5,1],[9,3,1600,0.5,1],[9,3,1500,0.5,1],[10,3,1500,0.5,1],[10,3,1400,0.5,1],[10,3,1300,0.5,1]];
 
 /** Empreintes des parties générées (4 graines) aux niveaux 1 à 20, relevées avant le passage à 50 niveaux. */
@@ -64,17 +64,17 @@ const FINGERPRINTS: Record<'fr' | 'en', Record<string, string[]>> = {
     matrice: ['462fda22','462fda22','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','182d5f24'],
     nback: ['c6d8c7e2','20ae52cb','20ae52cb','ebaec421','4298f366','807b01b7','b3ff380d','20ae52cb','b3e5c0d6','b4b1fd6d','807b01b7','7e6dca18','b4b1fd6d','b3e5c0d6','9e87d665','7e6dca18','12a63ce1','9e87d665','57a3d16b','57a3d16b'],
     ordre: ['1677472f','40e6a12a','b198a23d','1677472f','81692af9','8ec5ffb2','b198a23d','40e6a12a','81692af9','e6d258a5','b198a23d','aa578c35','db91e349','e6d258a5','aa578c35','539a0610','81692af9','bcfebd7b','b5d94620','d9d4d1a0'],
-    mots: ['fae9460','8ff54a0f','8ff54a0f','949d1814','949d1814','5448b1d1','2f3271c8','119ab355','2f3271c8','ddb4f5c3','14266d20','29e74665','9ecf87f9','29e74665','b27dfba0','ba82fdd7','b27dfba0','e1fba3e6','1f87bca9','1f87bca9'],
-    paires: ['4260d7d0','4260d7d0','b049d869','b049d869','b049d869','63f26d07','63f26d07','63f26d07','267d5dd','24b9ffbb','24b9ffbb','f2fa8411','24b9ffbb','4f073c71','ad54a669','ad54a669','c6c34030','ad54a669','e644273','e644273'],
-    quiestqui: ['96aaa154','8405ee01','cce0721d','e709f761','e2a00e23','2ad2176','ee30ec83','ee30ec83','281265c6','a5121597','a5121597','3b40e9b3','3b40e9b3','b4aff14d','cbf79bf5','b9facbaf','b9facbaf','79236a1','79236a1','79236a1'],
+    mots: ['f235c4a6','87f68aa1','87f68aa1','ae6c8cd4','ae6c8cd4','3fa35a87','2796fba2','3eaf4783','2796fba2','9b08b40e','a2156f97','fbe8f092','7abb5b2b','fbe8f092','650ef1e7','6678fdb1','650ef1e7','3f8a6328','49411208','49411208'],
+    paires: ['4260d7d0','4260d7d0','b049d869','b049d869','b049d869','63f26d07','63f26d07','63f26d07','267d5dd','24b9ffbb','24b9ffbb','f2fa8411','24b9ffbb','4f073c71','4f073c71','c6c34030','c6c34030','c6c34030','c6c34030','c6c34030'],
+    quiestqui: ['ff741cb6','e773e2b9','3e433bd1','fc31ad74','e5f4ca00','856ade6','780faa05','780faa05','6f15049','d3517ef','d3517ef','60f6f128','60f6f128','cb8ae1d5','3ff6e941','ccd3482a','ccd3482a','7f496dc1','7f496dc1','7f496dc1'],
   },
   en: {
     matrice: ['462fda22','462fda22','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','462fda22','182d5f24','182d5f24','182d5f24'],
     nback: ['c6d8c7e2','20ae52cb','20ae52cb','ebaec421','4298f366','807b01b7','b3ff380d','20ae52cb','b3e5c0d6','b4b1fd6d','807b01b7','7e6dca18','b4b1fd6d','b3e5c0d6','9e87d665','7e6dca18','12a63ce1','9e87d665','57a3d16b','57a3d16b'],
     ordre: ['1677472f','40e6a12a','b198a23d','1677472f','81692af9','8ec5ffb2','b198a23d','40e6a12a','81692af9','e6d258a5','b198a23d','aa578c35','db91e349','e6d258a5','aa578c35','539a0610','81692af9','bcfebd7b','b5d94620','d9d4d1a0'],
-    mots: ['cec6752b','2b6288b5','2b6288b5','8cbc82e','8cbc82e','ed2c8fca','1e5d4e1c','72980422','1e5d4e1c','e07415d2','67f03d9c','5404d2c0','2c86037c','5404d2c0','cda48463','1ce1a67e','cda48463','5ad9a4d1','3860875f','3860875f'],
-    paires: ['4260d7d0','4260d7d0','b049d869','b049d869','b049d869','63f26d07','63f26d07','63f26d07','267d5dd','24b9ffbb','24b9ffbb','f2fa8411','24b9ffbb','4f073c71','ad54a669','ad54a669','c6c34030','ad54a669','e644273','e644273'],
-    quiestqui: ['10021eb3','cb73a3e0','70c34b64','79e95ff','f9e5d8d4','183943a5','5c384f54','5c384f54','7344fb12','d577096a','d577096a','3f5b19d9','3f5b19d9','5f00c7e6','d3ac5325','6cf836b','6cf836b','930929b7','930929b7','930929b7'],
+    mots: ['cdb70999','49d6dcb7','49d6dcb7','3107e4bc','3107e4bc','214cb47e','be8337c6','e7f8c543','be8337c6','ecfb2f4c','e0a899bf','15f6076c','50dbf050','15f6076c','2b119540','e8ce9d8a','2b119540','a1da9bd','dcb80d39','dcb80d39'],
+    paires: ['4260d7d0','4260d7d0','b049d869','b049d869','b049d869','63f26d07','63f26d07','63f26d07','267d5dd','24b9ffbb','24b9ffbb','f2fa8411','24b9ffbb','4f073c71','4f073c71','c6c34030','c6c34030','c6c34030','c6c34030','c6c34030'],
+    quiestqui: ['e39d0e10','e46826db','8bd63ffb','7dd6390f','d8ea4500','81125df3','d6130930','d6130930','5471acf6','c9b538ae','c9b538ae','710b2783','710b2783','ac740764','c7593d29','1246de66','1246de66','d973ce1','d973ce1','d973ce1'],
   },
 };
 
@@ -144,9 +144,9 @@ describe('Mémoire : les niveaux 1 à 20 ne changent pas', () => {
       [-35, 2, 4, -30, -32, 40, -19],
     ]);
     expect([1, 10, 20].map((l) => generateMots(createRng(7), l).study.slice(0, 5))).toEqual([
-      ['vent', 'tête', 'camion', 'menuisier', 'Égypte'],
-      ['gris', 'magenta', 'comète', 'violet', 'surligneur'],
-      ['violet', 'agrafeuse', 'comète', 'surligneur', 'policier'],
+      ['menuisier', 'pelle', 'camion', 'Égypte', 'vent'],
+      ['moustique', 'météorite', 'magenta', 'surligneur', 'sauterelle'],
+      ['menuisier', 'violet', 'gris', 'comète', 'éclipse'],
     ]);
     expect(generatePaires(createRng(7), 1).cards).toEqual([3, 2, 0, 4, 5, 1, 3, 1, 5, 2, 4, 0]);
     expect(generateQui(createRng(7), 1)[0].people.map((p) => `${p.name}:${p.character}-${p.color}`).join(' ')).toBe(
@@ -166,7 +166,7 @@ describe('Mémoire : les niveaux 1 à 20 ne changent pas', () => {
       for (let i = 0; i < 20; i++) {
         const hits = rng.int(0, count);
         const fa = rng.int(0, count);
-        expect(scoreMots(hits, fa, level)).toBe(Math.round(Math.min(100, Math.max(0, ((hits - fa) / count) * 100))));
+        expect(scoreMots(hits, fa, level)).toBe(Math.round(Math.min(100, Math.max(0, ((hits - fa) / Math.min(count, MOTS_PROBES)) * 100))));
         const { pairs } = pairesLevel(level);
         const found = rng.int(1, pairs);
         const attempts = rng.int(found, found * 5);
@@ -303,15 +303,18 @@ describe('Mémoire : des parties valides aux 50 niveaux', () => {
           for (const seed of SEEDS) {
             const round = timed(() => generateMots(createRng(seed + level), level));
             expect(round.study).toHaveLength(c.count);
-            expect(round.probes).toHaveLength(c.count * 2);
-            expect(new Set(round.probes.map((p) => p.word)).size).toBe(c.count * 2);
+            expect(round.probes).toHaveLength(Math.min(c.count, MOTS_PROBES) * 2);
+            expect(new Set(round.probes.map((p) => p.word)).size).toBe(Math.min(c.count, MOTS_PROBES) * 2);
             for (const p of round.probes) {
               expect(round.study.includes(p.word)).toBe(p.seen);
               expect(categoryOf(p.word), p.word).toBeDefined();
             }
             const forget = round.sequence.filter((s) => s.forget).map((s) => s.word);
             expect(forget).toHaveLength(c.decoys);
-            expect(round.probes.filter((p) => p.forget).map((p) => p.word).sort()).toEqual([...forget].sort());
+            // Au test, une partie des mots barrés revient comme piège, au prorata de l'échantillon.
+            const trapped = round.probes.filter((p) => p.forget).map((p) => p.word);
+            expect(trapped).toHaveLength(c.decoys ? Math.max(1, Math.round((Math.min(c.count, MOTS_PROBES) * c.decoys) / c.count)) : 0);
+            for (const w of trapped) expect(forget).toContain(w);
             expect(round.sequence.filter((s) => !s.forget).map((s) => s.word).sort()).toEqual([...round.study].sort());
             expect(round.sequence[0].forget).toBe(false);
             if (c.lures === 'category') {
@@ -356,7 +359,10 @@ describe('Mémoire : des parties valides aux 50 niveaux', () => {
               for (const p of people) perFruit.set(p.character, (perFruit.get(p.character) ?? 0) + 1);
               expect(Math.max(...perFruit.values())).toBeLessThanOrEqual(c.sameFruit);
               if (c.lookAlikeNames) expect(new Set(people.map((p) => p.name[0])).size).toBeLessThan(c.people);
-              expect(questions.map((q) => q.target).sort((a, b) => a - b)).toEqual(people.map((_, i) => i));
+              const targets = questions.map((q) => q.target);
+              expect(targets).toHaveLength(Math.min(c.people, QUI_QUESTIONS));
+              expect(new Set(targets).size).toBe(targets.length);
+              for (const t of targets) expect(t).toBeLessThan(people.length);
               for (const q of questions) {
                 expect(q.options).toContain(q.target);
                 expect(new Set(q.options).size).toBe(q.options.length);
@@ -415,9 +421,9 @@ const motsLoad = (level: number) => {
 
 const pairesLoad = (level: number) => {
   const c = pairesLevel(level);
-  const perPair = (c.durationMs / 1000 - 50) / c.pairs;
+  const perPair = (c.durationMs / 1000 - 20) / c.pairs;
   const preview = c.previewMs === 0 ? 2 : c.previewMs <= 1500 ? 1 : 0;
-  return c.pairs / 2 + (c.similar ? 3 : 0) + preview + (c.swap ? 3 : 0) + (900 - c.peekMs) / 150 + (6 - perPair) * 1.5;
+  return c.pairs / 2 + (c.similar ? 3 : 0) + preview + (c.swap ? 3 : 0) + (900 - c.peekMs) / 150 + (3.5 - perPair) * 3;
 };
 
 const quiLoad = (level: number) => {
@@ -472,10 +478,11 @@ describe('Mémoire : progression des niveaux 21 à 50', () => {
     expect(tier(21).filter((l) => motsLevel(l).wordMs > 0).length).toBeGreaterThanOrEqual(8);
     expect(tier(31).every((l) => motsLevel(l).decoys > 0)).toBe(true);
     expect(tier(41).every((l) => motsLevel(l).answerMs > 0)).toBe(true);
-    // Paires : 16 à 20 paires, cartes baladeuses, temps compté.
-    expect(tier(21).every((l) => pairesLevel(l).pairs >= 16)).toBe(true);
+    // Paires : cartes vite recachées, cartes baladeuses, temps compté (12 paires au plus : une minute au plus).
+    expect(tier(21).every((l) => pairesLevel(l).peekMs < 900)).toBe(true);
     expect(tier(31).every((l) => pairesLevel(l).swap)).toBe(true);
-    expect(tier(41).every((l) => (pairesLevel(l).durationMs / 1000 - 50) / pairesLevel(l).pairs <= 5)).toBe(true);
+    expect(tier(41).every((l) => (pairesLevel(l).durationMs / 1000 - 20) / pairesLevel(l).pairs <= 2.2)).toBe(true);
+    expect(LEVELS.every((l) => pairesLevel(l).pairs <= 12 && pairesLevel(l).durationMs <= 60_000)).toBe(true);
     // Qui est qui ? : un par un et six prénoms, prénoms échangés, même fruit quatre fois.
     expect(tier(21).some((l) => quiLevel(l).serial) && tier(21).some((l) => quiLevel(l).nameOptions === 6)).toBe(true);
     expect(tier(31).every((l) => quiLevel(l).rebind)).toBe(true);
@@ -501,7 +508,7 @@ describe('Mémoire : progression des niveaux 21 à 50', () => {
     for (const level of LEVELS) {
       // Mots : 60 pts avec 70 % des mots retrouvés et 15 % de fausses alarmes, au pire 50 % de solde net.
       const { count, net } = motsLevel(level);
-      expect(scoreMots(Math.ceil(count * net * 0.6), 0, level)).toBeGreaterThanOrEqual(60);
+      expect(scoreMots(Math.ceil(Math.min(count, MOTS_PROBES) * net * 0.6), 0, level)).toBeGreaterThanOrEqual(60);
       expect(net).toBeGreaterThanOrEqual(0.7);
       // Qui est qui ? : jamais plus de 60 % de bonnes réponses pour l'étoile, jamais moins de 42 %.
       expect(scoreQui(60, 100, level)).toBeGreaterThanOrEqual(60);
@@ -509,7 +516,7 @@ describe('Mémoire : progression des niveaux 21 à 50', () => {
       // Paires : toutes les paires trouvées, même à 4 coups par paire, valent l'étoile ; le temps le permet.
       const { pairs, durationMs } = pairesLevel(level);
       expect(scorePaires(pairs, pairs * 4, level)).toBeGreaterThanOrEqual(60);
-      expect(durationMs / pairs).toBeGreaterThanOrEqual(6000);
+      expect(durationMs / pairs).toBeGreaterThanOrEqual(3000);
     }
   });
 

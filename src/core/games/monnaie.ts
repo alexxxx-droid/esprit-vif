@@ -13,7 +13,7 @@ import { countScore } from '../scoring';
 export const COINS = [100, 200] as const;
 /** Le billet de 200 € n'apparaît qu'à partir du niveau 21. */
 export const NOTES = [500, 1000, 2000, 5000, 10000, 20000] as const;
-export const MONNAIE_DURATION_MS = 60_000;
+export const MONNAIE_DURATION_MS = 45_000;
 
 export type MonnaieMode = 'total' | 'change';
 
@@ -28,7 +28,7 @@ export interface MonnaieLevel {
   paidWith: number[];
   /** Les pièces se cachent après ce délai (mémoire), sinon null. */
   hideMs: number | null;
-  /** Bonnes réponses en 60 s pour 100 pts. */
+  /** Bonnes réponses en une partie pour 100 pts. */
   target: number;
   /** Mode total, niveaux 21 et plus : les pièces et billets identiques forment des piles (« ×4 »). */
   stacks?: StackRule;
@@ -147,8 +147,13 @@ export const MONNAIE_LEVELS: readonly MonnaieLevel[] = [
   S(HUGE, 6, 7, 9, 3, 5000),
 ];
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * MONNAIE_DURATION_MS) / 60_000);
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle, jamais sous 3 réponses (sinon une erreur coûterait toutes les étoiles). */
+const PLAYED = MONNAIE_LEVELS.map((c) => ({ ...c, target: Math.max(3, forDuration(c.target)) }));
+
 export function monnaieLevel(level: number): MonnaieLevel {
-  return pickLevel(MONNAIE_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 /**
@@ -203,22 +208,22 @@ export function monnaieRule(level: number): string {
   const c = monnaieLevel(level);
   if (c.basket) {
     const base = tr(
-      'Additionne le panier, puis calcule la monnaie à rendre, le plus de fois possible en 60 secondes.',
-      'Add up the basket, then work out the change, as many times as you can in 60 seconds.',
+      'Additionne le panier, puis calcule la monnaie à rendre, le plus de fois possible en 45 secondes.',
+      'Add up the basket, then work out the change, as many times as you can in 45 seconds.',
     );
     return c.basket.coupon ? `${base} ${tr('Le bon de réduction se retire du total.', 'The coupon comes off the total.')}` : base;
   }
   if (c.mode === 'change') {
-    return tr('Calcule la monnaie à rendre, le plus de fois possible en 60 secondes.', 'Work out the change to give back, as many times as you can in 60 seconds.');
+    return tr('Calcule la monnaie à rendre, le plus de fois possible en 45 secondes.', 'Work out the change to give back, as many times as you can in 45 seconds.');
   }
   if (c.stacks) {
     const base = tr(
-      'Compte les piles de pièces et de billets (« ×3 » : trois fois le même), le plus de fois possible en 60 secondes.',
-      'Count the stacks of coins and bills (“×3”: three of the same), as many times as you can in 60 seconds.',
+      'Compte les piles de pièces et de billets (« ×3 » : trois fois le même), le plus de fois possible en 45 secondes.',
+      'Count the stacks of coins and bills (“×3”: three of the same), as many times as you can in 45 seconds.',
     );
     return c.hideMs ? `${base} ${tr('Elles se retournent vite : compte sans traîner.', 'They flip over quickly: count fast.')}` : base;
   }
-  return tr('Compte les pièces et les billets, le plus de fois possible en 60 secondes.', 'Count the coins and bills, as many times as you can in 60 seconds.');
+  return tr('Compte les pièces et les billets, le plus de fois possible en 45 secondes.', 'Count the coins and bills, as many times as you can in 45 seconds.');
 }
 
 /** Un article du panier : « 3 × 4 € » (prix unitaire en centimes). */

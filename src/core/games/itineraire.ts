@@ -11,7 +11,7 @@ import { clampScore } from '../scoring';
  * Maître (31-40) : flèches en diagonale. Légende (41-50) : les deux à la fois, jusqu'à 4 cases.
  */
 
-export const ITI_TRIALS = 8;
+export const ITI_TRIALS = 5;
 
 export type Dir = 'up' | 'down' | 'left' | 'right';
 

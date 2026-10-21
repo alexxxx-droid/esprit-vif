@@ -11,7 +11,7 @@ import { congruentSolids, mirrorSolid, orientations, picture, randomSolid, type 
  * Maître et Légende (31-50) : pièces en relief, des cubes tournés dans l'espace.
  */
 
-export const ROTATION_DURATION_MS = 60_000;
+export const ROTATION_DURATION_MS = 45_000;
 
 /** Un carré de la pièce : [colonne, ligne], ligne vers le bas. */
 export type Cell = readonly [number, number];
@@ -24,7 +24,7 @@ export interface RotationLevel {
   options: number;
   /** Combien de propositions sont des reflets du modèle (les autres : d'autres pièces). */
   mirrors: number;
-  /** Bonnes réponses en 60 s pour 100 pts (une erreur en retire une). */
+  /** Bonnes réponses en une partie pour 100 pts (une erreur en retire une). */
   target: number;
   /** Propositions penchées d'un angle libre : on ne peut plus les comparer case par case. */
   tilt?: true;
@@ -92,8 +92,13 @@ export const ROTATION_LEVELS: readonly RotationLevel[] = [
   S(10, 6, 5, 4),
 ];
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * ROTATION_DURATION_MS) / 60_000);
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle, jamais sous 4 réponses (sinon une erreur coûterait trop cher). */
+const PLAYED = ROTATION_LEVELS.map((c) => ({ ...c, target: Math.max(4, forDuration(c.target)) }));
+
 export function rotationLevel(level: number): RotationLevel {
-  return pickLevel(ROTATION_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 export function rotationLevelLabel(level: number): string {

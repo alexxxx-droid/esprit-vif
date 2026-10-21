@@ -614,3 +614,25 @@ calculs passent à 45 s ; Lecture éclair, Contraires et Lucioles à 40 s. Les o
 scores, étoiles et âge cérébral restent comparables. Monnaie, Rotation mentale et Horloges gardent
 60 s : chaque question s'y réfléchit, et à 30 s leur objectif tomberait à deux réponses (un score
 de pile ou face). Pluie reste à 45 s pour garder au moins 8 gouttes à résoudre sur les niveaux à pièges.
+
+## Parties d'une minute au plus (v2.12)
+
+Demande d'Alex (21-10-2026) : « que les jeux durent entre 30 secondes et 1 min max » (Monnaie à
+60 s était « très long »). Trois choix d'Alex : le Mini-sudoku reste une exception à durée libre
+(un casse-tête), les jeux chronométrés passent à 45 s, les jeux annoncés « ≈ 1 min » (Matrice,
+Total cumulé, Anagrammes, La boutique, Calcul du diable, Du plus petit…, Balance) ne bougent pas.
+
+- Monnaie, Rotation mentale, Horloges, Lettre manquante et Catégories : 45 s. Les objectifs restent
+  écrits pour 60 s et sont ramenés au prorata, avec un plancher de 3 réponses pour Monnaie et de 4
+  pour Rotation (en dessous, une seule erreur coûterait toutes les étoiles) : les quelques niveaux
+  concernés deviennent un peu plus exigeants.
+- Moins de manches : Filature 4 essais (6 avant), Itinéraire 5 trajets (8), Qui est qui ? 2 manches
+  (3) et 8 questions par manche au plus.
+- Mots à retenir : la liste à retenir ne change pas, mais le test n'en redemande que 8, avec autant
+  de mots nouveaux (dont des mots barrés au prorata aux niveaux Maître et Légende).
+- Paires : 12 paires et une minute au plus (20 s + 3,5 s par paire, ou le temps fixé par le
+  niveau). Les grands jeux de 14 à 20 paires disparaissent ; la difficulté des niveaux 21 à 50 vient
+  des cartes vite recachées (jamais sous 0,4 s), des cartes baladeuses et du temps (de 58 à 36 s
+  pour 12 paires). Un test vérifie que la difficulté ne recule jamais d'un niveau au suivant.
+- Lecture éclair affichait « 60 s » alors que la partie dure 40 s depuis la 2.11 : corrigé.
+- Les empreintes des niveaux 1 à 20 de ces jeux sont relevées à nouveau.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_LEVEL } from '../levels';
 import { createRng } from '../rng';
-import { CLASHING_COLORS, generateQui, QUI_LEVELS, QUI_NAMES, QUI_ROUNDS, quiLevel, scoreQui } from './quiestqui';
+import { CLASHING_COLORS, generateQui, QUI_LEVELS, QUI_NAMES, QUI_QUESTIONS, QUI_ROUNDS, quiLevel, scoreQui } from './quiestqui';
 
 describe('Qui est qui ?', () => {
   it('a 50 niveaux et des prénoms tous différents', () => {
@@ -24,13 +24,16 @@ describe('Qui est qui ?', () => {
         for (const p of people) perFruit.set(p.character, (perFruit.get(p.character) ?? 0) + 1);
         expect(Math.max(...perFruit.values())).toBeLessThanOrEqual(c.sameFruit);
         if (c.lookAlikeNames) expect(new Set(people.map((p) => p.name[0])).size).toBeLessThan(c.people);
-        expect(questions.map((q) => q.target).sort((a, b) => a - b)).toEqual(people.map((_, i) => i));
+        const targets = questions.map((q) => q.target);
+        expect(targets).toHaveLength(Math.min(c.people, QUI_QUESTIONS));
+        expect(new Set(targets).size).toBe(targets.length);
+        for (const t of targets) expect(t).toBeLessThan(people.length);
         for (const q of questions) {
           expect(q.options).toContain(q.target);
           expect(new Set(q.options).size).toBe(q.options.length);
           expect(q.options).toHaveLength(q.kind === 'face' ? c.people : Math.min(c.nameOptions, c.people));
         }
-        expect(questions.filter((q) => q.kind === 'name')).toHaveLength(Math.round(c.people * c.nameQuestions));
+        expect(questions.filter((q) => q.kind === 'name')).toHaveLength(Math.round(Math.min(c.people, QUI_QUESTIONS) * c.nameQuestions));
       }
     }
     expect(generateQui(createRng(3), 9)).toEqual(generateQui(createRng(3), 9));

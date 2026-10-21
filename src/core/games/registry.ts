@@ -106,7 +106,7 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'attention',
     rule: filatureRule,
-    duration: '≈ 1 min 30',
+    duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: filatureLevelLabel,
@@ -329,7 +329,7 @@ export const GAMES: Record<GameId, GameMeta> = {
     },
     domain: 'calcul',
     rule: monnaieRule,
-    duration: '60 s',
+    duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: monnaieLevelLabel,
@@ -392,8 +392,8 @@ export const GAMES: Record<GameId, GameMeta> = {
       const c = rotationLevel(level);
       if (c.solid) {
         return tr(
-          'Pièces en relief : retrouve la même pièce, tournée dans l’espace. Son reflet dans un miroir ne compte pas ! 60 secondes.',
-          '3D pieces: find the same piece, turned in space. Its mirror image doesn’t count! 60 seconds.',
+          'Pièces en relief : retrouve la même pièce, tournée dans l’espace. Son reflet dans un miroir ne compte pas ! 45 secondes.',
+          '3D pieces: find the same piece, turned in space. Its mirror image doesn’t count! 45 seconds.',
         );
       }
       if (c.tilt) {
@@ -408,11 +408,11 @@ export const GAMES: Record<GameId, GameMeta> = {
             'Find the model piece, just turned around. Watch out for its mirror image: it doesn’t count!',
           )
         : tr(
-            'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 60 secondes.',
-            'Find the model piece among the choices: it has only been turned. 60 seconds.',
+            'Retrouve la pièce du modèle parmi les propositions : elle a seulement tourné. 45 secondes.',
+            'Find the model piece among the choices: it has only been turned. 45 seconds.',
           );
     },
-    duration: '60 s',
+    duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: rotationLevelLabel,
@@ -478,30 +478,30 @@ export const GAMES: Record<GameId, GameMeta> = {
       const c = horlogesLevel(level);
       if (c.modes.includes('overnight')) {
         return tr(
-          'Durées sur 24 heures : regarde si chaque horloge indique le matin, l’après-midi ou le soir. 60 secondes.',
-          '24-hour durations: check whether each clock shows AM or PM. 60 seconds.',
+          'Durées sur 24 heures : regarde si chaque horloge indique le matin, l’après-midi ou le soir. 45 secondes.',
+          '24-hour durations: check whether each clock shows AM or PM. 45 seconds.',
         );
       }
       if (c.mirror) {
         return tr(
-          'Certaines horloges sont vues dans un miroir : retrouve l’heure vraie avant de répondre. 60 secondes.',
-          'Some clocks are seen in a mirror: find the real time before you answer. 60 seconds.',
+          'Certaines horloges sont vues dans un miroir : retrouve l’heure vraie avant de répondre. 45 secondes.',
+          'Some clocks are seen in a mirror: find the real time before you answer. 45 seconds.',
         );
       }
       if (c.modes.includes('earlier')) {
         return tr(
-          'Lis les horloges : l’heure qu’il est, celle qu’il sera, celle qu’il était, ou le temps écoulé. 60 secondes.',
-          'Read the clocks: the time now, later, earlier, or the time that has passed. 60 seconds.',
+          'Lis les horloges : l’heure qu’il est, celle qu’il sera, celle qu’il était, ou le temps écoulé. 45 secondes.',
+          'Read the clocks: the time now, later, earlier, or the time that has passed. 45 seconds.',
         );
       }
       return c.modes.length === 1 && c.modes[0] === 'read'
-        ? tr('Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 60 secondes.', 'Read the time on the clock and pick the right answer. 60 seconds.')
+        ? tr('Lis l’heure sur l’horloge à aiguilles et choisis la bonne réponse. 45 secondes.', 'Read the time on the clock and pick the right answer. 45 seconds.')
         : tr(
-            'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 60 secondes.',
-            'Read the clocks: the time now, the time it will be, or the time that has passed. 60 seconds.',
+            'Lis les horloges : l’heure qu’il est, celle qu’il sera, ou le temps écoulé. 45 secondes.',
+            'Read the clocks: the time now, the time it will be, or the time that has passed. 45 seconds.',
           );
     },
-    duration: '60 s',
+    duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: horlogesLevelLabel,
@@ -536,9 +536,7 @@ export const GAMES: Record<GameId, GameMeta> = {
             `Memorize ${count} words, then say for each word whether it was on the list.`,
           );
     },
-    get duration() {
-      return tr('≈ 1 min 30', '≈ 1 min 30 s');
-    },
+    duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: motsLevelLabel,
@@ -553,14 +551,14 @@ export const GAMES: Record<GameId, GameMeta> = {
       lettreRule(level) ??
       (lettreLevel(level).missing === 1
         ? tr(
-            'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 60 secondes.',
-            'One letter is missing: pick the one that completes the word. The category gives you a hint. 60 seconds.',
+            'Il manque une lettre : choisis celle qui complète le mot. La catégorie te met sur la piste. 45 secondes.',
+            'One letter is missing: pick the one that completes the word. The category gives you a hint. 45 seconds.',
           )
         : tr(
-            'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 60 secondes.',
-            'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 60 seconds.',
+            'Il manque deux lettres : choisis la paire qui complète le mot. La catégorie te met sur la piste. 45 secondes.',
+            'Two letters are missing: pick the pair that completes the word. The category gives you a hint. 45 seconds.',
           )),
-    duration: '60 s',
+    duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: lettreLevelLabel,
@@ -574,19 +572,19 @@ export const GAMES: Record<GameId, GameMeta> = {
     rule: (level) =>
       categoriesLevel(level).camouflage
         ? tr(
-            'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté. Les mots vont par paires de même initiale, et l’intrus s’y fond : lis bien. 60 secondes.',
-            'All the words go together… except one, from a neighboring group. Words come in pairs with the same first letter, and the odd one blends in: read carefully. 60 seconds.',
+            'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté. Les mots vont par paires de même initiale, et l’intrus s’y fond : lis bien. 45 secondes.',
+            'All the words go together… except one, from a neighboring group. Words come in pairs with the same first letter, and the odd one blends in: read carefully. 45 seconds.',
           )
         : categoriesLevel(level).twin !== undefined
           ? tr(
-              'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté (un radis parmi des fruits). Trouve l’intrus le plus vite possible. 60 secondes.',
-              'All the words go together… except one, from a neighboring group (a radish among fruits). Find the odd one out as fast as you can. 60 seconds.',
+              'Tous les mots vont ensemble… sauf un, venu de la famille d’à côté (un radis parmi des fruits). Trouve l’intrus le plus vite possible. 45 secondes.',
+              'All the words go together… except one, from a neighboring group (a radish among fruits). Find the odd one out as fast as you can. 45 seconds.',
             )
           : tr(
-              'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 60 secondes.',
-              'All the words go together… except one. Find the odd one out as fast as you can. 60 seconds.',
+              'Tous les mots vont ensemble… sauf un. Trouve l’intrus le plus vite possible. 45 secondes.',
+              'All the words go together… except one. Find the odd one out as fast as you can. 45 seconds.',
             ),
-    duration: '60 s',
+    duration: '45 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: categoriesLevelLabel,
@@ -606,9 +604,7 @@ export const GAMES: Record<GameId, GameMeta> = {
         ? tr(`${base} Attention : deux cartes ratées échangent leur place !`, `${base} Careful: two mismatched cards swap places!`)
         : base;
     },
-    get duration() {
-      return tr('≈ 1 min 30', '≈ 1 min 30 s');
-    },
+    duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: pairesLevelLabel,
@@ -636,18 +632,18 @@ export const GAMES: Record<GameId, GameMeta> = {
       const base =
         c.nameQuestions > 0
           ? tr(
-              'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Trois manches.',
-              'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Three rounds.',
+              'Des compagnons se présentent : retiens leur prénom. Retrouve ensuite qui est qui, et le prénom de chacun. Deux manches.',
+              'Companions introduce themselves: remember their names. Then find who’s who, and each one’s name. Two rounds.',
             )
           : tr(
-              'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Trois manches.',
-              'Companions introduce themselves: remember their names, then find who’s who. Three rounds.',
+              'Des compagnons se présentent : retiens leur prénom, puis retrouve qui est qui. Deux manches.',
+              'Companions introduce themselves: remember their names, then find who’s who. Two rounds.',
             );
       return c.rebind
         ? tr(`${base} À chaque manche, les mêmes visages changent de prénom !`, `${base} Each round, the same faces get different names!`)
         : base;
     },
-    duration: '≈ 2 min',
+    duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: quiLevelLabel,
@@ -666,7 +662,7 @@ export const GAMES: Record<GameId, GameMeta> = {
             'Read each sentence all the way through: true or false? Watch out for “not”. 40 seconds.',
           )
         : tr('Lis chaque phrase et dis vite si elle est vraie ou fausse. 40 secondes.', 'Read each sentence and quickly say whether it’s true or false. 40 seconds.')),
-    duration: '60 s',
+    duration: '40 s',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: lectureLevelLabel,
@@ -694,9 +690,7 @@ export const GAMES: Record<GameId, GameMeta> = {
       ].filter(Boolean);
       return [rule, ...twists].join(' ');
     },
-    get duration() {
-      return tr('≈ 1 min 30', '≈ 1 min 30 s');
-    },
+    duration: '≈ 1 min',
     maxLevel: MAX_LEVEL,
     dailyLevel: 1,
     levelLabel: itiLevelLabel,

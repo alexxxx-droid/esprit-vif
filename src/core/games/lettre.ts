@@ -12,14 +12,14 @@ import { anagramWords, extraKnownWords, hasRudeWord, longAnagramWords } from './
  * Plus haut : des leurres sosies (M pour N, B pour P), jusqu'à 4 lettres manquantes, et plus d'indice.
  */
 
-export const LETTRE_DURATION_MS = 60_000;
+export const LETTRE_DURATION_MS = 45_000;
 
 export interface LettreLevel {
   minLength: number;
   maxLength: number;
   missing: 1 | 2 | 3 | 4;
   options: number;
-  /** Bonnes réponses en 60 s pour 100 pts (une erreur en retire une). */
+  /** Bonnes réponses en une partie pour 100 pts (une erreur en retire une). */
   target: number;
   /** Leurres sosies : des lettres qui se ressemblent ou sonnent pareil (M / N, B / P, C / S, A / E…). */
   twins?: boolean;
@@ -100,8 +100,13 @@ export const LETTRE_LEVELS: readonly LettreLevel[] = [
   L(7, 8, 4, 6, 6, NO_HINT | TWINS),
 ];
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * LETTRE_DURATION_MS) / 60_000);
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = LETTRE_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function lettreLevel(level: number): LettreLevel {
-  return pickLevel(LETTRE_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 export function lettreLevelLabel(level: number): string {
@@ -134,7 +139,7 @@ export function lettreRule(level: number): string | null {
           : tr('Il manque quatre lettres : choisis le groupe qui complète le mot.', 'Four letters are missing: pick the set that completes the word.');
   const hint = c.noHint ? tr('Pas de catégorie pour t’aider.', 'No category to help you.') : tr('La catégorie te met sur la piste.', 'The category gives you a hint.');
   const twins = c.twins ? tr(' Méfie-toi des lettres sosies (M ou N, B ou P…).', ' Watch out for look-alike letters (M or N, B or P…).') : '';
-  return `${what} ${hint}${twins} ${tr('60 secondes.', '60 seconds.')}`;
+  return `${what} ${hint}${twins} ${tr('45 secondes.', '45 seconds.')}`;
 }
 
 const VOWELS = 'AEIOUY';

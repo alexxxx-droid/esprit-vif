@@ -30,13 +30,17 @@ export interface PairesLevel {
 /** Les deux cartes ratées restent visibles 0,9 s jusqu'au niveau 20. */
 export const PAIRES_PEEK_MS = 900;
 
+/** Secondes par paire en plus des 20 s de base. */
+const PAIRES_PER_PAIR = 3.5;
+/** Temps limite : 20 s + 3,5 s par paire, ou celui que fixe le niveau ; une minute au plus. */
+const pairesLimit = (pairs: number, seconds = Math.round(20 + pairs * PAIRES_PER_PAIR)) => Math.min(60, seconds) * 1000;
+
 const L = (pairs: number, previewMs: number, similar = false): PairesLevel => ({
   pairs,
   cols: pairs <= 6 ? 3 : 4,
   previewMs,
   similar,
-  // Plus il y a de paires, plus on a de temps : 50 s + 6 s par paire, arrondi à 5 s.
-  durationMs: Math.round((50 + pairs * 6) / 5) * 5000,
+  durationMs: pairesLimit(pairs),
   swap: false,
   peekMs: PAIRES_PEEK_MS,
   slack: 0,
@@ -46,18 +50,18 @@ interface Options {
   similar?: boolean;
   swap?: boolean;
   peekMs?: number;
-  /** Secondes par paire en plus des 50 s de base (6 jusqu'au niveau 20, moins quand le temps presse). */
-  perPair?: number;
+  /** Temps limite en secondes (sinon 20 s + 3,5 s par paire) : le temps presse aux niveaux avancés. */
+  limit?: number;
   slack?: number;
 }
 
-/** Niveaux 21 à 50 : 4 colonnes jusqu'à 18 paires, 5 à 20 paires (au moins 44 px par carte sur un petit téléphone). */
-const P = (pairs: number, previewMs: number, { similar = false, swap = false, peekMs = PAIRES_PEEK_MS, perPair = 6, slack = 0.25 }: Options): PairesLevel => ({
+/** Niveaux 19 à 50 : 12 paires au plus (une partie tient en une minute), sur 4 colonnes. */
+const P = (pairs: number, previewMs: number, { similar = false, swap = false, peekMs = PAIRES_PEEK_MS, limit, slack = 0.25 }: Options): PairesLevel => ({
   pairs,
-  cols: pairs <= 6 ? 3 : pairs <= 18 ? 4 : 5,
+  cols: pairs <= 6 ? 3 : 4,
   previewMs,
   similar,
-  durationMs: Math.round(50 + pairs * perPair) * 1000,
+  durationMs: pairesLimit(pairs, limit),
   swap,
   peekMs,
   slack,
@@ -81,45 +85,45 @@ export const PAIRES_LEVELS: readonly PairesLevel[] = [
   L(8, 0, true),
   L(12, 0),
   L(10, 1500, true),
-  L(14, 3000),
-  L(14, 1500),
+  L(10, 0, true),
+  L(12, 3000, true),
+  L(12, 1500, true),
   L(12, 0, true),
-  L(14, 0),
-  L(14, 1500, true),
-  L(14, 0, true),
-  // Expert : grands jeux (16 paires de formes proches, 18 et 20 paires), cartes vite recachées.
-  P(16, 1500, SIM),
-  P(18, 0, { peekMs: 600 }),
-  P(16, 0, SIM),
-  P(16, 1500, { ...SIM, peekMs: 750 }),
-  P(20, 0, { peekMs: 600 }),
-  P(16, 0, { ...SIM, peekMs: 750 }),
-  P(16, 1500, { ...SIM, peekMs: 600 }),
-  P(20, 0, { peekMs: 450 }),
-  P(16, 0, { ...SIM, peekMs: 600 }),
-  P(18, 0, { peekMs: 450, perPair: 5 }),
+  P(12, 0, { ...SIM, limit: 58, slack: 0 }),
+  P(12, 0, { ...SIM, limit: 55, slack: 0 }),
+  // Expert : cartes vite recachées, temps compté.
+  P(12, 0, { ...SIM, peekMs: 750, limit: 58 }),
+  P(12, 0, { ...SIM, peekMs: 750, limit: 56 }),
+  P(12, 0, { ...SIM, peekMs: 600, limit: 58 }),
+  P(12, 0, { ...SIM, peekMs: 600, limit: 56 }),
+  P(12, 0, { ...SIM, peekMs: 500, limit: 55 }),
+  P(12, 0, { peekMs: 450, limit: 44 }),
+  P(12, 0, { ...SIM, peekMs: 400, limit: 54 }),
+  P(12, 0, { ...SIM, peekMs: 450, limit: 51 }),
+  P(12, 0, { ...SIM, peekMs: 400, limit: 51 }),
+  P(12, 0, { ...SIM, peekMs: 400, limit: 49 }),
   // Maître : cartes baladeuses.
-  P(14, 0, { ...SIM, ...SWAP, peekMs: 750 }),
-  P(16, 1500, { ...SIM, ...SWAP, peekMs: 750 }),
-  P(18, 0, { ...SWAP, peekMs: 600 }),
-  P(16, 0, { ...SIM, ...SWAP }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 750 }),
-  P(20, 0, { ...SWAP, peekMs: 600 }),
-  P(16, 1500, { ...SIM, ...SWAP, peekMs: 600 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 600 }),
-  P(20, 0, { ...SWAP, peekMs: 450 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 500 }),
-  // Légende : le temps presse (jusqu'à 3,5 s par paire), cartes recachées en 0,4 s.
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 600, perPair: 5 }),
-  P(20, 0, { ...SWAP, peekMs: 450, perPair: 4.5 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 5 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 4.5 }),
-  P(20, 0, { ...SWAP, peekMs: 400, perPair: 4 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 4.5 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 450, perPair: 4 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 4 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 3.75 }),
-  P(16, 0, { ...SIM, ...SWAP, peekMs: 400, perPair: 3.5 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 600, limit: 55 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 500, limit: 56 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 450, limit: 56 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 56 }),
+  P(12, 0, { ...SWAP, peekMs: 450, limit: 42 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 55 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 450, limit: 52 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 52 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 49 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 47 }),
+  // Légende : le temps presse, de 46 s à 36 s pour 12 paires.
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 46 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 45 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 44 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 43 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 42 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 41 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 40 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 39 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 38 }),
+  P(12, 0, { ...SIM, ...SWAP, peekMs: 400, limit: 36 }),
 ];
 
 export function pairesLevel(level: number): PairesLevel {

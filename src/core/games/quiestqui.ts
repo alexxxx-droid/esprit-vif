@@ -15,7 +15,9 @@ import { clampScore } from '../scoring';
  * jusqu'à quatre fois, et de moins en moins de temps.
  */
 
-export const QUI_ROUNDS = 3;
+export const QUI_ROUNDS = 2;
+/** Questions par manche, au plus : la partie tient en une minute. */
+export const QUI_QUESTIONS = 8;
 export const QUI_COLORS = 6;
 
 /**
@@ -261,11 +263,12 @@ export function generateQuiRound(rng: Rng, level: number): QuiRound {
   return { people, questions: quiQuestions(rng, c, people) };
 }
 
-/** Une question par personne, dans le désordre : « Qui est … ? » ou « Quel est son prénom ? ». */
+/** Une question par personne (au plus `QUI_QUESTIONS`), dans le désordre : « Qui est … ? » ou « Quel est son prénom ? ». */
 function quiQuestions(rng: Rng, c: QuiLevel, people: readonly Person[]): QuiQuestion[] {
-  const nameCount = Math.round(c.people * c.nameQuestions);
-  const kinds = rng.shuffle(Array.from({ length: c.people }, (_, i) => (i < nameCount ? 'name' : 'face')));
-  return rng.shuffle(people.map((_, i) => i)).map((target, k): QuiQuestion => {
+  const asked = Math.min(c.people, QUI_QUESTIONS);
+  const nameCount = Math.round(asked * c.nameQuestions);
+  const kinds = rng.shuffle(Array.from({ length: asked }, (_, i) => (i < nameCount ? 'name' : 'face')));
+  return rng.shuffle(people.map((_, i) => i)).slice(0, asked).map((target, k): QuiQuestion => {
     const kind = kinds[k] as QuiQuestion['kind'];
     const others = rng.shuffle(people.map((_, i) => i).filter((i) => i !== target));
     // « Qui est … ? » : tous les visages ; « Quel est son prénom ? » : quatre prénoms (six aux niveaux avancés).

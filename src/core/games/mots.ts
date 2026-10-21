@@ -13,6 +13,9 @@ import { categories } from './lexique';
 
 export type Lures = 'random' | 'category';
 
+/** Mots de la liste redemandés au test, au plus (et autant de mots nouveaux) : la partie tient en une minute. */
+export const MOTS_PROBES = 8;
+
 export interface MotsLevel {
   count: number;
   /** Temps d'étude total (la liste entière, ou tous les mots qui défilent). */
@@ -182,10 +185,13 @@ export function generateMots(rng: Rng, level: number): MotsRound {
     fresh = all.slice(count, count + count - decoys);
     forget = all.slice(count * 2 - decoys, count * 2);
   }
+  // Au test, un échantillon : autant de mots nouveaux que de mots de la liste, dont des mots barrés au prorata.
+  const asked = Math.min(count, MOTS_PROBES);
+  const traps = forget.length ? Math.max(1, Math.round((asked * forget.length) / count)) : 0;
   const probes = rng.shuffle([
-    ...study.map((word) => ({ word, seen: true })),
-    ...fresh.map((word) => ({ word, seen: false })),
-    ...forget.map((word) => ({ word, seen: false, forget: true })),
+    ...rng.shuffle(study).slice(0, asked).map((word) => ({ word, seen: true })),
+    ...rng.shuffle(fresh).slice(0, asked - traps).map((word) => ({ word, seen: false })),
+    ...rng.shuffle(forget).slice(0, traps).map((word) => ({ word, seen: false, forget: true })),
   ]);
   const shown = rng.shuffle(study);
   const items = shown.map((word) => ({ word, forget: false }));
@@ -195,10 +201,10 @@ export function generateMots(rng: Rng, level: number): MotsRound {
 }
 
 /**
- * Bons « vu » moins fausses alarmes, rapportés au nombre de mots : répondre au hasard donne 0.
+ * Bons « vu » moins fausses alarmes, rapportés au nombre de mots redemandés : répondre au hasard donne 0.
  * Aux niveaux 21 et plus, 100 pts dès que ce solde atteint la part `net` des mots.
  */
 export function scoreMots(hits: number, falseAlarms: number, level: number): number {
   const { count, net } = motsLevel(level);
-  return clampScore(((hits - falseAlarms) / (count * net)) * 100);
+  return clampScore(((hits - falseAlarms) / (Math.min(count, MOTS_PROBES) * net)) * 100);
 }

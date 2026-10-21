@@ -16,7 +16,7 @@ import { clampScore } from '../scoring';
  */
 
 /** Essais par partie. */
-export const FILATURE_TRIALS = 6;
+export const FILATURE_TRIALS = 4;
 /** Durée du signalement des disques à suivre (allongée par le temps généreux, raccourcie en maîtrise). */
 export const FILATURE_CUE_MS = 1800;
 /** Côté de l'arène, dans son propre repère. */

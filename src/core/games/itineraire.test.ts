@@ -46,6 +46,6 @@ describe('Itinéraire', () => {
 
   it('note la part de trajets retrouvés', () => {
     expect(scoreIti(ITI_TRIALS)).toBe(100);
-    expect(scoreIti(6)).toBe(75);
+    expect(scoreIti(4)).toBe(80);
   });
 });

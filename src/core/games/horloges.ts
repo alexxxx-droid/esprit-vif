@@ -6,13 +6,13 @@ import { countScore } from '../scoring';
 
 /**
  * Horloges : lire une horloge à aiguilles, dire l'heure qu'il sera plus tard,
- * ou le temps écoulé entre deux horloges. Quatre propositions, 60 secondes.
+ * ou le temps écoulé entre deux horloges. Quatre propositions, 45 secondes.
  * Au-delà du niveau 20 : l'heure qu'il était (« il y a… »), les chiffres romains (Expert),
  * l'horloge vue dans un miroir (Maître), puis des durées sur 24 heures, de part et d'autre
  * de minuit, avec des horloges marquées matin / après-midi / soir (Légende).
  */
 
-export const HORLOGES_DURATION_MS = 60_000;
+export const HORLOGES_DURATION_MS = 45_000;
 export const HALF_DAY = 720;
 export const DAY = 1440;
 
@@ -30,7 +30,7 @@ export interface HorlogeLevel {
    * de 12 heures, il reste sous 12 h ; seules les durées sur 24 heures (« overnight ») vont au-delà.
    */
   maxDelta: number;
-  /** Bonnes réponses en 60 s pour 100 pts (une erreur en retire une). */
+  /** Bonnes réponses en une partie pour 100 pts (une erreur en retire une). */
   target: number;
   /** Probabilité qu'une horloge soit vue dans un miroir (niveaux 31 et plus). */
   mirror?: number;
@@ -104,8 +104,13 @@ export const HORLOGES_LEVELS: readonly HorlogeLevel[] = [
   M(ALL5, 1, 'none', 1435, 6, 0.5),
 ];
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * HORLOGES_DURATION_MS) / 60_000);
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = HORLOGES_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function horlogesLevel(level: number): HorlogeLevel {
-  return pickLevel(HORLOGES_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 /** Noms des modes et des cadrans : [français, anglais], choisis à l'affichage. */

@@ -6,7 +6,7 @@ import { contrairesFamilies, contrairesLexicon } from '../games/contraires';
 import { generateLecture, lectureLevel, lectureLevelLabel, sentences } from '../games/lecture';
 import { generateLettre, lettreConsonants, lettreKnownWords, lettreKnownWordsPlus, lettreLevel, lettreLookalikes, lettreWords } from '../games/lettre';
 import { categories, categoryOf, CATEGORIES, type Category } from '../games/lexique';
-import { generateMots, motsLevel } from '../games/mots';
+import { generateMots, MOTS_PROBES, motsLevel } from '../games/mots';
 import { generateQui, quiLevel, quiNames } from '../games/quiestqui';
 import { describeRule, fillOf, REFLEXE_LEVELS, reflexeLevelLabel, reflexeRule, type ReflexeRule } from '../games/reflexe';
 import { GAME_ORDER, GAMES } from '../games/registry';
@@ -451,7 +451,7 @@ for (const l of CONTENT_LANGS) {
             const round = attempt(problems, at, () => generateMots(createRng(seed + level), level));
             if (!round) continue;
             const words = round.probes.map((p) => p.word);
-            if (round.study.length !== c.count || round.probes.length !== c.count * 2) problems.push(`${at} : ${c.count} mots à retenir et ${c.count * 2} questions attendus`);
+            if (round.study.length !== c.count || round.probes.length !== Math.min(c.count, MOTS_PROBES) * 2) problems.push(`${at} : ${c.count} mots à retenir et ${Math.min(c.count, MOTS_PROBES) * 2} questions attendus`);
             if (words.some((w) => typeof w !== 'string')) problems.push(`${at} : il manque des mots (une catégorie trop courte ?)`);
             if (new Set(words).size !== words.length) problems.push(`${at} : un mot revient deux fois`);
             for (const p of round.probes) {

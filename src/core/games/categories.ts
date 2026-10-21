@@ -12,13 +12,13 @@ import { categories, type Category } from './lexique';
  * initiale et de même longueur, et l'objectif remonte.
  */
 
-export const CATEGORIES_DURATION_MS = 60_000;
+export const CATEGORIES_DURATION_MS = 45_000;
 
 export interface CategoriesLevel {
   words: number;
   /** Probabilité que l'intrus vienne d'une catégorie voisine (même famille). */
   near: number;
-  /** Bonnes réponses en 60 s pour 100 pts (une erreur en retire une). */
+  /** Bonnes réponses en une partie pour 100 pts (une erreur en retire une). */
   target: number;
   /** Probabilité que l'intrus vienne de la catégorie jumelle (`TWIN_CATEGORIES`), dès le niveau 21. */
   twin?: number;
@@ -127,8 +127,13 @@ export const CATEGORIES_LEVELS: readonly CategoriesLevel[] = [
   L(12, 1, 10, 1, 2),
 ];
 
+/** Les objectifs du tableau sont écrits pour une partie de 60 s : l'accesseur du niveau les ramène à la durée réelle. */
+const forDuration = (target: number) => Math.round((target * CATEGORIES_DURATION_MS) / 60_000);
+/** Les niveaux tels qu'on les joue : objectifs ramenés à la durée réelle de la partie. */
+const PLAYED = CATEGORIES_LEVELS.map((c) => ({ ...c, target: forDuration(c.target) }));
+
 export function categoriesLevel(level: number): CategoriesLevel {
-  return pickLevel(CATEGORIES_LEVELS, level);
+  return pickLevel(PLAYED, level);
 }
 
 export function categoriesLevelLabel(level: number): string {

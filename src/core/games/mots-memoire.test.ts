@@ -5,7 +5,7 @@ import { createRng } from '../rng';
 import { categoriesLevel, categoriesLevelLabel, generateCategories, scoreCategories } from './categories';
 import { generateLettre, LETTRE_WORDS, lettreKnownWords, lettreLevel, lettreLevelLabel, lettreWords, scoreLettre } from './lettre';
 import { categories, CATEGORIES, CATEGORIES_EN, categoryOf } from './lexique';
-import { generateMots, motsLevel, motsLevelLabel, scoreMots } from './mots';
+import { generateMots, MOTS_PROBES, motsLevel, motsLevelLabel, scoreMots } from './mots';
 import { generatePaires, pairesLevel, pairesLevelLabel, scorePaires } from './paires';
 import { COMMON_WORDS_EN, hasRudeWord, WORDS, WORDS_EN } from './words';
 
@@ -36,8 +36,8 @@ describe('Mots à retenir', () => {
         const round = generateMots(createRng(seed + level), level);
         expect(round.study).toHaveLength(c.count);
         expect(new Set(round.study).size).toBe(c.count);
-        expect(round.probes).toHaveLength(c.count * 2);
-        expect(new Set(round.probes.map((p) => p.word)).size).toBe(c.count * 2);
+        expect(round.probes).toHaveLength(Math.min(c.count, MOTS_PROBES) * 2);
+        expect(new Set(round.probes.map((p) => p.word)).size).toBe(Math.min(c.count, MOTS_PROBES) * 2);
         for (const p of round.probes) expect(round.study.includes(p.word)).toBe(p.seen);
         if (c.lures === 'category') {
           const studied = new Set(round.study.map((w) => categoryOf(w)?.id));
@@ -176,7 +176,7 @@ describe('Lexique anglais', () => {
       for (const seed of SEEDS.slice(0, 4)) {
         const round = generateMots(createRng(seed + level), level);
         expect(round.study).toHaveLength(c.count);
-        expect(new Set(round.probes.map((p) => p.word)).size).toBe(c.count * 2);
+        expect(new Set(round.probes.map((p) => p.word)).size).toBe(Math.min(c.count, MOTS_PROBES) * 2);
         for (const p of round.probes) expect(english.has(p.word)).toBe(true);
         if (c.lures === 'category') {
           const studied = new Set(round.study.map((w) => categoryOf(w)?.id));

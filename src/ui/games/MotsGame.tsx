@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
-import { generateMots, motsLevel, scoreMots } from '../../core/games/mots';
+import { generateMots, MOTS_PROBES, motsLevel, scoreMots } from '../../core/games/mots';
 import { byCount, NBSP } from '../../core/format';
 import { tr } from '../../core/lang';
 import { createRng } from '../../core/rng';
@@ -23,6 +23,8 @@ interface Tally {
 
 export function MotsGame({ seed, level, onFinish }: GameProps) {
   const config = motsLevel(level);
+  /** Mots de la liste redemandés au test (et autant de pièges). */
+  const asked = Math.min(config.count, MOTS_PROBES);
   const studyMs = slow(config.studyMs);
   const wordMs = slow(config.wordMs);
   const answerMs = config.answerMs ? slow(config.answerMs) : 0;
@@ -106,13 +108,13 @@ export function MotsGame({ seed, level, onFinish }: GameProps) {
         score: scoreMots(next.hits, next.falseAlarms, level),
         stats: { ...next, count: config.count },
         headline: tr(
-          byCount(next.falseAlarms, `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} piège`, `${next.hits}/${config.count} retrouvés · ${next.falseAlarms} pièges`),
-          byCount(next.falseAlarms, `${next.hits}/${config.count} recalled · ${next.falseAlarms} trap`, `${next.hits}/${config.count} recalled · ${next.falseAlarms} traps`),
+          byCount(next.falseAlarms, `${next.hits}/${asked} retrouvés · ${next.falseAlarms} piège`, `${next.hits}/${asked} retrouvés · ${next.falseAlarms} pièges`),
+          byCount(next.falseAlarms, `${next.hits}/${asked} recalled · ${next.falseAlarms} trap`, `${next.hits}/${asked} recalled · ${next.falseAlarms} traps`),
         ),
         lines: [
-          { label: tr('Mots retrouvés', 'Words recalled'), value: `${next.hits} / ${config.count}` },
+          { label: tr('Mots retrouvés', 'Words recalled'), value: `${next.hits} / ${asked}` },
           { label: tr('Mots oubliés', 'Words forgotten'), value: String(next.misses) },
-          { label: tr('Pièges évités', 'Traps avoided'), value: `${next.rejections} / ${config.count}` },
+          { label: tr('Pièges évités', 'Traps avoided'), value: `${next.rejections} / ${asked}` },
         ],
       });
     }

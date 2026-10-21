@@ -78,15 +78,17 @@ describe('niveaux 1 à 20 inchangés', () => {
   const BEFORE: Record<'fr' | 'en', Record<LangGame, Record<'1' | '10' | '20' | 'all', string>>> = {
     fr: {
       anagrammes: { 1: 'b9a120b7', 10: '8e12d01f', 20: 'b46870ed', all: 'c3708c39' },
-      lettre: { 1: '8a0ba248', 10: '7301f5f6', 20: '07781cf4', all: '59d0382d' },
-      categories: { 1: 'b5982b28', 10: '4f2b21be', 20: '77c36506', all: '6bdbfcbb' },
+      // Relevées à nouveau le 21-10-2026 : parties d'une minute au plus (demande d'Alex).
+      lettre: { 1: '8569b678', 10: 'b2404fa0', 20: 'd68c244f', all: '0f1fda89' },
+      categories: { 1: 'dbc9442f', 10: 'd8ff8500', 20: '341e8853', all: '93963f1a' },
       // Lecture éclair relevée à nouveau le 21-10-2026 : la partie passe de 60 à 40 s (demande d'Alex).
       lecture: { 1: '1dcc433f', 10: '19a07be5', 20: '1c272b7e', all: 'f6505c28' },
     },
     en: {
       anagrammes: { 1: '6d72fdc7', 10: '1b554b87', 20: '7433c499', all: '64ace9c1' },
-      lettre: { 1: 'd0b0a470', 10: '2a24dd74', 20: '5906a262', all: 'c816d5f0' },
-      categories: { 1: '21465996', 10: '046b03c8', 20: 'adf744ec', all: '6ee58a3f' },
+      // Relevées à nouveau le 21-10-2026 : parties d'une minute au plus (demande d'Alex).
+      lettre: { 1: '44a584fe', 10: '69e0f3f2', 20: '20927761', all: 'bb401ee0' },
+      categories: { 1: 'b9381ce1', 10: '7a4dc2b6', 20: '98267037', all: '398a52b6' },
       lecture: { 1: '5710040f', 10: 'a79f34a6', 20: '9b482f34', all: 'd7f9a590' },
     },
   };

@@ -718,3 +718,8 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   que calculer) ; une erreur retire un point. Débutant : additions aux écarts nets ; Confirmé : − et
   × ; Expert : ÷, écarts de 1 à 3 et parfois l'égalité (bouton =) ; Maître : trois calculs ;
   Légende : parfois « le plus petit ? » (question en rouge).
+- **Qui manque ?** (Mémoire, 8 manches, ≈ 50 s) : des formes colorées à retenir, puis les mêmes moins
+  une ; on la retrouve parmi 4 propositions (les autres jamais montrées, cachées pendant l'étude).
+  Débutant : les formes gardent leur place (une case vide) ; Confirmé : elles changent de place ;
+  Expert : pièges ressemblants (même forme ou même couleur) ; Maître : deux disparaissent (6
+  propositions) ; Légende : les formes défilent une par une.

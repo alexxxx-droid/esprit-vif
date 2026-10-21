@@ -1,0 +1,80 @@
+/* ---------- Qui manque ? ---------- */
+
+.manque {
+  gap: 14px;
+}
+
+/* La série : des pastilles de couleur, chacune sa forme. */
+.manque__set {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 330px;
+  min-height: 150px;
+  align-content: center;
+  animation: card-in 200ms var(--ease-out) both;
+}
+
+.manque__item {
+  --pad: var(--ink-bleu);
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: var(--surface);
+  background: var(--pad);
+  fill: currentColor;
+}
+
+.manque__item.is-empty {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--line);
+  border: 2px dashed var(--line);
+}
+
+/* Les propositions : quatre (ou six) touches. */
+.manque__options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.manque__options--6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.manque__option {
+  display: grid;
+  place-items: center;
+  height: 70px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+
+.manque__option.is-picked {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.manque__option.is-right {
+  box-shadow: inset 0 0 0 3px var(--good, var(--ink-vert));
+}
+
+.manque__option.is-wrong {
+  opacity: 0.45;
+}
+
+.manque__option:disabled:not(.is-right, .is-wrong) {
+  opacity: 0.6;
+}
+
+/* Démo de l'intro. */
+.manque--demo .manque__set {
+  min-height: 0;
+  gap: 6px;
+}
+
+.manque--demo .manque__item {
+  border-radius: 10px;
+}

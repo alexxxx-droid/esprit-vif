@@ -486,6 +486,7 @@
   "'Symboles'": "'Simboli'",
   "'Changement de règle'": "'Cambio di regola'",
   "'Le plus grand\\u00a0?'": "'Qual è più grande?'",
+  "'Qui manque\\u00a0?'": "'Cosa manca?'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} punti per superarla`",
   "'sans miroir'": "'senza specchi'",
   "'1 reflet piège'": "'1 riflesso trappola'",

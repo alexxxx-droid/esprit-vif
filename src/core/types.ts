@@ -42,7 +42,8 @@ export type GameId =
   | 'aiguillages'
   | 'symboles'
   | 'regle'
-  | 'grand';
+  | 'grand'
+  | 'manque';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

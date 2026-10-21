@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { manqueLevelLabel, manqueRule } from './manque';
 import { grandLevelLabel, grandRule } from './grand';
 import { regleLevelLabel, regleRule } from './regle';
 import { symbolesLevelLabel, symbolesRule } from './symboles';
@@ -838,6 +839,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: grandLevelLabel,
   },
+  manque: {
+    id: 'manque',
+    get name() {
+      return tr('Qui manque\u00a0?', 'What’s Missing?');
+    },
+    domain: 'memoire',
+    rule: manqueRule,
+    duration: '≈ 50 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: manqueLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -871,6 +884,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'paires',
   'quiestqui',
   'echo',
+  'manque',
   'stroop',
   'intrus',
   'boutique',

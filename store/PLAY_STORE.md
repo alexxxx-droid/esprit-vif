@@ -333,5 +333,5 @@ Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis col
 | --- | --- |
 | Icône | 512 × 512 PNG (`public/pwa-512x512.png`) |
 | Image de présentation | 1024 × 500 PNG ou JPEG |
-| Captures téléphone | 2 à 8, 1080 × 1920 (9:16) : `phone-fr-1…7.png` et `phone-en-1…7.png` (v2.9.1) — accueil, bilan du test, une partie (Rotation mentale), vestiaire, Progrès, Entraînement, objectifs du jour |
+| Captures téléphone | 2 à 8, 1080 × 1920 (9:16) : `phone-<langue>-1…7.png` en fr, en, es, de, it et pt (v2.12) — accueil, bilan du test, une partie (Rotation mentale), vestiaire, Progrès, Entraînement, objectifs du jour |
 | Captures tablette 7" et 10" | 2 à 8 chacune, recommandées |

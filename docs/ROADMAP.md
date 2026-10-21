@@ -84,7 +84,7 @@ Bilan complet (tests, procédure sur téléphone, maintenance, suite) : [`BILAN_
 - [x] Mots longs : onglets à la largeur de leur nom, puces des domaines sur deux colonnes hors fr/en ;
       80 écrans vérifiés sans débordement en 360 × 740 dans les six langues
 - [ ] Relecture par des natifs (noms de chapeaux, histoires de saison, listes de mots, Lecture éclair)
-- [ ] Captures de la fiche Play Store dans les quatre nouvelles langues
+- [x] Captures de la fiche Play Store dans les quatre nouvelles langues (`store/images/phone-<langue>-1..7.png`, refaites aussi en français et en anglais avec les parties de 45 s)
 - [ ] Peut-être : ne charger que le contenu de la langue utilisée (le paquet principal passe de
       ≈ 250 à 533 Ko compressés avec les quatre langues)
 

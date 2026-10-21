@@ -7,6 +7,7 @@ import './styles/game.css';
 import './styles/filature.css';
 import './styles/lucioles.css';
 import './styles/contraires.css';
+import './styles/regle.css';
 import './styles/symboles.css';
 import './styles/aiguillages.css';
 import './styles/meles.css';

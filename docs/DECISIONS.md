@@ -709,3 +709,8 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   Confirmé : 6 symboles ; Expert : la table change toutes les 12 à 8 réponses (au moins la moitié
   des chiffres bougent) ; Maître : la table se cache après 8 à 5 s, un coup d'œil coûte 2 s ;
   Légende : 8 symboles, touches dans le désordre, puis table cachée.
+- **Changement de règle** (Attention, 45 s) : la flexibilité mentale. Un nombre (jamais 5) dans un
+  cadre dont la couleur dit la règle : bleu pair/impair, orange moins/plus de 5, vert en haut/en
+  bas. Deux boutons, une erreur retire un point. Débutant : la règle change par blocs ; Confirmé :
+  à n'importe quelle carte ; Expert : la place de la carte ; Maître : boutons muets (◀ ▶, la
+  légende reste en haut) ; Légende : contre-ordres (cadre rouge en pointillés, on répond l'inverse).

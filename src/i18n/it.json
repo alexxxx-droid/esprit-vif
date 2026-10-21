@@ -484,6 +484,7 @@
   "'Mots mêlés'": "'Cerca parole'",
   "'Aiguillages'": "'Scambi'",
   "'Symboles'": "'Simboli'",
+  "'Changement de règle'": "'Cambio di regola'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} punti per superarla`",
   "'sans miroir'": "'senza specchi'",
   "'1 reflet piège'": "'1 riflesso trappola'",

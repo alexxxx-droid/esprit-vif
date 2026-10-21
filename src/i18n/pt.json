@@ -484,6 +484,7 @@
   "'Mots mêlés'": "'Caça-palavras'",
   "'Aiguillages'": "'Desvios'",
   "'Symboles'": "'Símbolos'",
+  "'Changement de règle'": "'Troca de regra'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para vencer`",
   "'sans miroir'": "'sem espelho'",
   "'1 reflet piège'": "'1 reflexo-armadilha'",

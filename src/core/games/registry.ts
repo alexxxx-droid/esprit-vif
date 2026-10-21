@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { regleLevelLabel, regleRule } from './regle';
 import { symbolesLevelLabel, symbolesRule } from './symboles';
 import { aiguillagesLevelLabel, aiguillagesRule } from './aiguillages';
 import { melesLevelLabel, melesRule } from './motsmeles';
@@ -812,6 +813,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: symbolesLevelLabel,
   },
+  regle: {
+    id: 'regle',
+    get name() {
+      return tr('Changement de règle', 'Rule Switch');
+    },
+    domain: 'attention',
+    rule: regleRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: regleLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -850,6 +863,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'fleches',
   'filature',
   'aiguillages',
+  'regle',
   'schulte',
   'correspondance',
   'reflexe',

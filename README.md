@@ -20,7 +20,7 @@ Confirmé, Expert, Maître, Légende), soit **1 950 niveaux**, puis dix crans de
 | --- | --- |
 | Calcul | Calcul éclair, Total cumulé, Calcul du diable, Monnaie, Pluie de calculs, Le compte est bon |
 | Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires, Qui est qui ?, Écho |
-| Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature, Aiguillages |
+| Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature, Aiguillages, Changement de règle |
 | Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles, Miroir, Combien de cubes ?, Symboles |
 | Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires, Mots mêlés |
 | Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques, Code secret |

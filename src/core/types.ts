@@ -40,7 +40,8 @@ export type GameId =
   | 'combien'
   | 'motsmeles'
   | 'aiguillages'
-  | 'symboles';
+  | 'symboles'
+  | 'regle';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

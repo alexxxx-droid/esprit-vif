@@ -79,6 +79,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | motsmeles | Mots mêlés | Sopa de letras | Buchstabensalat | Cerca parole | Caça-palavras |
 | aiguillages | Aiguillages | Agujas | Weichen | Scambi | Desvios |
 | symboles | Symboles | Símbolos | Symbole | Simboli | Símbolos |
+| regle | Changement de règle | Cambio de regla | Regelwechsel | Cambio di regola | Troca de regra |
 
 ### Domaines
 

@@ -49,11 +49,19 @@ export function WelcomeScreen() {
 
   return (
     <div className="screen screen-in welcome">
-      <div className="welcome__steps" aria-label={tr(`Étape ${step + 1} sur 3`, `Step ${step + 1} of 3`)}>
-        {[0, 1, 2].map((i) => (
-          <span key={i} className={i <= step ? 'is-on' : undefined} />
-        ))}
-      </div>
+      <header className="welcome__top">
+        {/* Revenir en arrière garde tout ce qui a été choisi (prénom, compagnon, objectifs). */}
+        {step > 0 && (
+          <button type="button" className="icon-btn" onClick={() => setStep(step - 1)} aria-label={tr('Retour', 'Back')}>
+            <Icon name="back" />
+          </button>
+        )}
+        <div className="welcome__steps" aria-label={tr(`Étape ${step + 1} sur 3`, `Step ${step + 1} of 3`)}>
+          {[0, 1, 2].map((i) => (
+            <span key={i} className={i <= step ? 'is-on' : undefined} />
+          ))}
+        </div>
+      </header>
 
       {step === 0 && (
         <>
@@ -67,13 +75,29 @@ export function WelcomeScreen() {
           </div>
           <div className="intro__head">
             <h1 className="intro__title">{tr('Bienvenue sur Esprit Vif\u00a0!', 'Welcome to Esprit Vif!')}</h1>
-            <p className="intro__rule">
-              {tr(
-                `Quelques minutes par jour, ${GAME_ORDER.length} mini-jeux et ton âge cérébral pour suivre tes progrès. Choisis ton compagnon et faisons connaissance\u00a0!`,
-                `A few minutes a day, ${GAME_ORDER.length} mini-games and your brain age to track your progress. Pick your companion and let’s get to know each other!`,
-              )}
-            </p>
           </div>
+          {/* Ce que l'appli promet, d'un coup d'œil, avant de demander quoi que ce soit. */}
+          <ul className="welcome__promises">
+            <li>
+              <span className="welcome__promise-icon">
+                <Icon name="calendar" size={18} />
+              </span>
+              {tr(`${GAME_ORDER.length} mini-jeux et un test chaque jour`, `${GAME_ORDER.length} mini-games and a test every day`)}
+            </li>
+            <li>
+              <span className="welcome__promise-icon">
+                <Icon name="trophy" size={18} />
+              </span>
+              {tr('Des objectifs et des récompenses', 'Goals and rewards')}
+            </li>
+            <li>
+              <span className="welcome__promise-icon">
+                <Icon name="lock" size={18} />
+              </span>
+              {tr('Sans pub ni compte\u00a0: tout reste chez toi', 'No ads, no account: everything stays with you')}
+            </li>
+          </ul>
+          <p className="intro__rule">{tr('Choisis ton compagnon et faisons connaissance\u00a0!', 'Pick your companion and let’s get to know each other!')}</p>
           <label className="field">
             <span className="field__label">{tr('Ton prénom', 'Your first name')}</span>
             <input className="field__input" value={name} maxLength={16} placeholder={tr('Prénom', 'First name')} onChange={(e) => setName(e.target.value)} />

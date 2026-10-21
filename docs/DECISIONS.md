@@ -723,3 +723,9 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   Débutant : les formes gardent leur place (une case vide) ; Confirmé : elles changent de place ;
   Expert : pièges ressemblants (même forme ou même couleur) ; Maître : deux disparaissent (6
   propositions) ; Légende : les formes défilent une par une.
+- **Pendu express** (Langage, une minute) : deviner un mot du lexique de la langue (capitales sans
+  accents) lettre par lettre au clavier A à Z, avec sa famille en indice ; trop d'erreurs et le mot
+  est perdu (il s'affiche en rouge). Jamais deux mots de suite de la même famille ; les lettres
+  données ne dévoilent jamais plus de la moitié du mot. Débutant : première et dernière lettres ;
+  Confirmé : la première ; Expert : aucune ; Maître : sans indice ; Légende : mots de 7 à 10
+  lettres, 3 erreurs permises.

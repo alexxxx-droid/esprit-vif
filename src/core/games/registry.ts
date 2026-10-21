@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { penduLevelLabel, penduRule } from './pendu';
 import { manqueLevelLabel, manqueRule } from './manque';
 import { grandLevelLabel, grandRule } from './grand';
 import { regleLevelLabel, regleRule } from './regle';
@@ -851,6 +852,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: manqueLevelLabel,
   },
+  pendu: {
+    id: 'pendu',
+    get name() {
+      return tr('Pendu express', 'Hangman');
+    },
+    domain: 'langage',
+    rule: penduRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: penduLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -906,6 +919,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'lecture',
   'contraires',
   'motsmeles',
+  'pendu',
   'rotation',
   'balance',
   'horloges',

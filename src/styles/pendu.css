@@ -1,0 +1,105 @@
+/* ---------- Pendu express ---------- */
+
+.pendu {
+  gap: 14px;
+}
+
+.pendu__hint {
+  margin: 0;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+/* Le mot : une case par lettre, sur une ligne (rapetissées pour les mots longs). */
+.pendu__word {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  max-width: 340px;
+}
+
+.pendu__slot {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 46px;
+  border-bottom: 3px solid var(--ink-3);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.pendu__word--long .pendu__slot {
+  width: 28px;
+  font-size: 1.3rem;
+}
+
+.pendu__slot.is-known {
+  border-color: var(--accent);
+  animation: pop 160ms var(--ease-spring);
+}
+
+.pendu__slot.is-revealed {
+  color: var(--ink-rouge);
+  border-color: var(--ink-rouge);
+}
+
+/* Les erreurs permises : des pastilles qui s'éteignent. */
+.pendu__lives {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+
+.pendu__life {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.pendu__life.is-used {
+  background: var(--line);
+}
+
+/* Le clavier : 26 lettres, sept par ligne. */
+.pendu__keys {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.pendu__key {
+  height: 46px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 760;
+}
+
+.pendu__key.is-good {
+  color: var(--accent-ink);
+  background: var(--accent);
+  opacity: 1;
+}
+
+.pendu__key.is-bad {
+  opacity: 0.3;
+}
+
+/* Démo de l'intro. */
+.pendu--demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pendu--demo .pendu__slot {
+  width: 20px;
+  height: 26px;
+  font-size: 1rem;
+}

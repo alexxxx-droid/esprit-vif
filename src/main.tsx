@@ -7,6 +7,7 @@ import './styles/game.css';
 import './styles/filature.css';
 import './styles/lucioles.css';
 import './styles/contraires.css';
+import './styles/pendu.css';
 import './styles/manque.css';
 import './styles/grand.css';
 import './styles/regle.css';

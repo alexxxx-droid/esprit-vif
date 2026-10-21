@@ -49,6 +49,8 @@ import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
 import { ItiGame } from './ItiGame';
+import { PenduGame } from './PenduGame';
+import { PenduDemo } from './pendu-demo';
 import { ManqueGame } from './ManqueGame';
 import { ManqueDemo } from './manque-demo';
 import { GrandGame } from './GrandGame';
@@ -123,6 +125,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+  pendu: PenduGame,
   manque: ManqueGame,
   grand: GrandGame,
   regle: RegleGame,
@@ -178,6 +181,7 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,
+  pendu: PenduDemo,
   manque: ManqueDemo,
   grand: GrandDemo,
   regle: RegleDemo,

@@ -82,6 +82,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | regle | Changement de règle | Cambio de regla | Regelwechsel | Cambio di regola | Troca de regra |
 | grand | Le plus grand ? | ¿Cuál es mayor? | Was ist größer? | Qual è più grande? | Qual é maior? |
 | manque | Qui manque ? | ¿Qué falta? | Was fehlt? | Cosa manca? | O que falta? |
+| pendu | Pendu express | Ahorcado | Galgenraten | Impiccato | Forca |
 
 ### Domaines
 

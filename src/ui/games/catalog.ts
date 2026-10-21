@@ -49,6 +49,8 @@ import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
 import { ItiGame } from './ItiGame';
+import { CombienGame } from './CombienGame';
+import { CombienDemo } from './combien-demo';
 import { CodeGame } from './CodeGame';
 import { CodeDemo } from './code-demo';
 import { MiroirGame } from './MiroirGame';
@@ -109,6 +111,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+  combien: CombienGame,
   code: CodeGame,
   miroir: MiroirGame,
   echo: EchoGame,
@@ -122,7 +125,7 @@ export const GAME_TUTORIALS: Partial<Record<GameId, ComponentType<TutorialProps>
 };
 
 /** Jeux où l'on répond avec le pavé numérique : on peut aussi y écrire au doigt. */
-export const NUMBER_GAMES: ReadonlySet<GameId> = new Set(['calcul', 'total', 'diable', 'monnaie', 'pluie', 'boutique', 'suites']);
+export const NUMBER_GAMES: ReadonlySet<GameId> = new Set(['calcul', 'total', 'diable', 'monnaie', 'pluie', 'boutique', 'combien', 'suites']);
 
 /** Mini-démonstrations animées de l'écran d'intro. */
 export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
@@ -157,6 +160,7 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,
+  combien: CombienDemo,
   code: CodeDemo,
   miroir: MiroirDemo,
   echo: EchoDemo,

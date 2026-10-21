@@ -75,6 +75,7 @@ allemand : préférer un mot court à un composé de 20 lettres). Orthographe so
 | echo | Écho | Eco | Echo | Eco | Eco |
 | miroir | Miroir | Espejo | Spiegel | Specchio | Espelho |
 | code | Code secret | Código secreto | Geheimcode | Codice segreto | Código secreto |
+| combien | Combien de cubes ? | ¿Cuántos cubos? | Würfel zählen | Quanti cubi? | Quantos cubos? |
 
 ### Domaines
 

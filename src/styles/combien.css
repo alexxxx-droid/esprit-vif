@@ -1,0 +1,65 @@
+/* ---------- Combien de cubes ? ---------- */
+
+.combien {
+  gap: 14px;
+}
+
+.combien__piles {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+/* Les cubes prennent la couleur du domaine ; le sol est un damier discret. */
+.combien__pile {
+  color: var(--ink-orange);
+  overflow: visible;
+}
+
+.combien__pile polygon {
+  stroke: var(--surface);
+  stroke-width: 0.06;
+  stroke-linejoin: round;
+}
+
+.combien__floor {
+  fill: color-mix(in srgb, var(--d-vitesse) 22%, var(--surface));
+  stroke: color-mix(in srgb, var(--d-vitesse) 55%, var(--surface)) !important;
+  stroke-width: 0.05;
+}
+
+.combien__piles--two .combien__pile + .combien__pile {
+  padding-left: 12px;
+  border-left: 2px dashed var(--line);
+}
+
+.combien__ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.combien__answer {
+  display: inline-grid;
+  place-items: center;
+  min-width: 54px;
+  height: 46px;
+  border-radius: 14px;
+  color: var(--ink-3);
+  box-shadow: inset 0 0 0 2px var(--accent);
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.combien__answer.is-typed {
+  color: var(--ink);
+  background: var(--surface);
+  animation: pop 180ms var(--ease-spring);
+}

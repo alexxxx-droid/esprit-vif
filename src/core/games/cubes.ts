@@ -173,6 +173,18 @@ export function picture(solid: Solid): Picture {
   return { key: codes.sort((a, b) => a - b).join(','), visible };
 }
 
+const FACE_KINDS: readonly FaceKind[] = ['top', 'left', 'right'];
+
+/** Pour chaque cube (dans l'ordre de la pièce), les faces dont on voit au moins un triangle. */
+export function visibleFaces(solid: Solid): Set<FaceKind>[] {
+  const order = solid.map((_, i) => i).sort((a, b) => solid[a][0] + solid[a][1] + solid[a][2] - (solid[b][0] + solid[b][1] + solid[b][2]));
+  const owner = new Map<number, readonly [number, number]>();
+  for (const i of order) for (const [t, face] of cubeTriangles(solid[i])) owner.set(t, [i, face]);
+  const out = solid.map(() => new Set<FaceKind>());
+  for (const [i, face] of owner.values()) out[i].add(FACE_KINDS[face]);
+  return out;
+}
+
 /** Assez lisible : chaque cube montre au moins une face entière (deux triangles). */
 export const readable = (solid: Solid) => picture(solid).visible.every((n) => n >= 2);
 

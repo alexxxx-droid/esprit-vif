@@ -678,3 +678,9 @@ restent originaux ; chaque partie tient en une minute au plus.
   la minute s'achève ; le score est la moyenne. Débutant : 3 pions, un indice par pion (✓ bien
   placé, • ailleurs) ; Confirmé : 4 pions ; Expert : couleurs répétées ; Maître : indices comptés
   seulement (● bien placés, ○ mal placés) ; Légende : comptés et répétés.
+- **Combien de cubes ?** (Vitesse, 45 s, pavé numérique) : des piles de cubes en relief (le dessin
+  de Rotation mentale, `ui/games/iso.ts`) sur un sol quadrillé. Un cube repose toujours sur le sol
+  ou sur un autre : une pile se compte jusqu'en bas, et le dessus de chaque pile reste visible
+  (`visibleFaces` dans `cubes.ts`), sans quoi sa hauteur ne se devinerait pas. Confirmé : sol de
+  3 × 3 ; Expert : combien en manque-t-il pour remplir le pavé ; Maître : deux tas, combien de plus
+  à gauche ; Légende : combien de cubes sont tout à fait cachés.

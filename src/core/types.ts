@@ -36,7 +36,8 @@ export type GameId =
   | 'compte'
   | 'echo'
   | 'miroir'
-  | 'code';
+  | 'code'
+  | 'combien';
 
 /** Entraînement libre, test du jour, ou Défi Légende du jour. */
 export type PlayMode = 'free' | 'daily' | 'legende';

@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { tr } from '../../core/lang';
 import { plural } from '../../core/format';
-import { ISO_X, paintOrder, solidBounds, solidFrame, type Cube, type Solid } from '../../core/games/cubes';
+import { paintOrder, solidBounds, solidFrame, type Solid } from '../../core/games/cubes';
 import {
   generateRotation,
   pieceSize,
@@ -21,6 +21,7 @@ import type { GameProps } from '../game/chrome';
 import { GameClock } from '../game/clock';
 import { GameHud, TimeLeft } from '../game/Hud';
 import { useKeyDown } from '../hooks';
+import { cubeFaces } from './iso';
 
 /** Une pièce dessinée carré par carré, centrée dans un cadre commun à toute la question (et penchée de `tilt` degrés). */
 export function PieceView({ piece, span, size, tilt = 0 }: { piece: Piece; span: number; size: number; tilt?: number }) {
@@ -53,18 +54,6 @@ function tiltFrame(puzzle: FlatPuzzle, span: number): number {
 }
 
 /** Perspective isométrique : x vers la droite et le bas, y vers la gauche et le bas, z vers le haut. */
-const point = (u: number, v: number) => `${(u * ISO_X).toFixed(3)},${(v / 2).toFixed(3)}`;
-
-function cubeFaces([x, y, z]: Cube) {
-  const u = x - y;
-  const v = x + y - 2 * z;
-  return {
-    top: [point(u, v - 2), point(u + 1, v - 1), point(u, v), point(u - 1, v - 1)].join(' '),
-    right: [point(u, v), point(u + 1, v - 1), point(u + 1, v + 1), point(u, v + 2)].join(' '),
-    left: [point(u, v), point(u, v + 2), point(u - 1, v + 1), point(u - 1, v - 1)].join(' '),
-  };
-}
-
 /** Une pièce en relief : chaque cube montre son dessus (clair) et ses deux flancs (plus sombres). */
 export function SolidView({ solid, frame, size }: { solid: Solid; frame: number; size: number }) {
   const b = solidBounds(solid);

@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { combienLevelLabel, combienRule } from './combien';
 import { codeLevelLabel, codeRule } from './code';
 import { miroirLevelLabel, miroirRule } from './miroir';
 import { echoLevelLabel, echoRule } from './echo';
@@ -760,6 +761,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: codeLevelLabel,
   },
+  combien: {
+    id: 'combien',
+    get name() {
+      return tr('Combien de cubes\u00a0?', 'Cube Count');
+    },
+    domain: 'vitesse',
+    rule: combienRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: combienLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -803,6 +816,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'coupdoeil',
   'lucioles',
   'miroir',
+  'combien',
   'anagrammes',
   'lettre',
   'categories',

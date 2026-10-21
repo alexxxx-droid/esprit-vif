@@ -209,6 +209,14 @@ describe('fiabilité et migrations', () => {
     expect((await storage.readAll()).kv.schema).toBe(SCHEMA_VERSION);
   });
 
+  it('garde la langue choisie, quelle qu’elle soit, et remet « Auto » à une langue inconnue', async () => {
+    for (const [saved, expected] of [['de', 'de'], ['pt', 'pt'], ['xx', 'auto']]) {
+      const base = { ...v20Base(), kv: { ...v20Base().kv, settings: { language: saved } } };
+      const store = await ProgressStore.load(createMemoryStorage(base));
+      expect(store.getSnapshot().settings.language).toBe(expected);
+    }
+  });
+
   it('ne réécrit jamais une base venue d’une version plus récente', async () => {
     const base = { ...v20Base(), kv: { ...v20Base().kv, schema: SCHEMA_VERSION + 1, futur: 'garder' } };
     const storage = createMemoryStorage(base);

@@ -1,5 +1,5 @@
 import { mergeResults, type ChallengeLink, type FriendResult } from '../core/challenges';
-import { tr, type LangChoice } from '../core/lang';
+import { LANGS, tr, type LangChoice } from '../core/lang';
 import { track } from '../analytics/journal';
 import { dayKey, hasOfficialTest } from '../core/daily';
 import { DOMAIN_ORDER, GAMES, isGameId } from '../core/games/registry';
@@ -630,7 +630,7 @@ function normalize(raw: StoredData): ProgressData {
 function normalizeStored(raw: StoredData): { data: ProgressData; repaired: boolean } {
   const settings = isObject(raw.kv.settings) ? { ...DEFAULT_SETTINGS, ...raw.kv.settings } : { ...DEFAULT_SETTINGS };
   settings.goals = Array.isArray(settings.goals) ? settings.goals.filter((d): d is Domain => DOMAIN_ORDER.includes(d as Domain)).slice(0, 3) : [];
-  if (!['auto', 'fr', 'en'].includes(settings.language)) settings.language = 'auto';
+  if (settings.language !== 'auto' && !LANGS.includes(settings.language)) settings.language = 'auto';
   if (settings.hat !== '' && !isWornHat(settings.hat)) settings.hat = '';
   if (!isPaletteChoice(settings.palette)) settings.palette = 'auto';
   if (settings.aura !== '' && !isAuraId(settings.aura)) settings.aura = '';

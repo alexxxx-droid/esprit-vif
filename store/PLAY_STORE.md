@@ -49,7 +49,7 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > • Un compagnon à choisir, en thème clair ou sombre
 > • Accessibilité : grand texte, contraste renforcé, temps généreux, mode gaucher
 > • Widget d’écran d’accueil et rappel quotidien
-> • Profils pour toute la famille, en français ou en anglais
+> • Profils pour toute la famille, en six langues
 >
 > **Chaque jour, une raison de revenir**
 > • Trois objectifs du jour, des étincelles à gagner et 36 chapeaux pour habiller Vif
@@ -89,7 +89,7 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > • Pick a companion, light or dark theme
 > • Accessibility: larger text, high contrast, extra time, left-handed mode
 > • Home-screen widget and daily reminder
-> • Profiles for the whole family, in English or French
+> • Profiles for the whole family, in six languages
 >
 > **A reason to come back every day**
 > • Three daily goals, sparks to earn and 36 hats to dress up Vif
@@ -105,6 +105,182 @@ questionnaires, visuels. Les captures et l'image de présentation sont dans `sto
 > once (no subscription), adds three exclusive themes, eight sparkling hats, three companions
 > (Kiwi, Pineapple, Blueberry), a detailed history for every game and an illustrated monthly
 > recap. Try everything before you buy.
+
+## Fiches traduites (espagnol, allemand, italien, portugais du Brésil)
+
+Dans la Play Console : **Présence sur le Store → Fiche principale → Gérer les traductions →
+Ajouter vos propres traductions**, cocher es-ES, de-DE, it-IT et pt-BR, puis coller ces textes.
+
+| Langue | Nom (30 car. max) | Description courte (80 max) |
+| --- | --- | --- |
+| es-ES | Esprit Vif – Juegos mentales | 31 juegos, 1550 niveles y un reto cada día. Sin anuncios ni cuenta. |
+| de-DE | Esprit Vif – Gehirnjogging | 31 Spiele, 1550 Level, jeden Tag eine Challenge. Ohne Werbung, ohne Konto. |
+| it-IT | Esprit Vif – Allena la mente | 31 giochi, 1550 livelli, una sfida ogni giorno. Senza pubblicità né account. |
+| pt-BR | Esprit Vif – Jogos cerebrais | 31 jogos, 1.550 níveis e um desafio por dia. Sem anúncios e sem conta. |
+
+### Descripción completa (español)
+
+> Unos minutos al día para mantener la mente despierta.
+>
+> **31 minijuegos, 1550 niveles** repartidos en seis áreas: cálculo, memoria, atención,
+> velocidad, lenguaje y lógica. Cada juego sube de dificultad a lo largo de 50 niveles y
+> 5 etapas, de Principiante a Leyenda: para seguir progresando durante meses.
+>
+> **El test del día**: tres juegos, cinco minutos, y tu edad cerebral (un indicador lúdico,
+> no una medida médica) para seguir tus progresos con el tiempo.
+>
+> **Formas de jugar para cada día**
+> • Una sesión del día a tu medida, centrada en tus áreas más flojas
+> • Maratón: todos los juegos de un área seguidos
+> • Duelo a dos en el mismo móvil, modo fiesta hasta cuatro jugadores
+> • Retos entre amigas: envía un enlace y comparad vuestras puntuaciones por categoría
+>
+> **Pensada para ti**
+> • Respuestas escritas con el dedo en los juegos de números
+> • Estrellas, medallas, trofeos y una racha que perdona un día de descanso
+> • Un compañero a elegir, con tema claro u oscuro
+> • Accesibilidad: texto grande, contraste alto, tiempo extra, modo zurdo
+> • Widget en la pantalla de inicio y recordatorio diario
+> • Perfiles para toda la familia, en seis idiomas
+>
+> **Cada día, una razón para volver**
+> • Tres objetivos del día, chispas que ganar y 36 sombreros para vestir a Vif
+> • Después del nivel 50: la maestría, el Reto Leyenda del día y temporadas de retos contadas
+> como historias
+> • Temas de temporada (nieve, pétalos, hojas…) y temas por desbloquear
+> • Tus progresos, claros: tu semana, tu precisión, tus récords
+>
+> **Respeto total**: sin publicidad, sin rastreo, sin cuenta obligatoria. Todo se queda en tu
+> dispositivo; si quieres, una copia opcional en tu propio Google Drive te permite seguir en
+> tu tableta.
+>
+> **Gratis de verdad**: todos los juegos y todos los niveles son gratis. Esprit Vif Premium,
+> opcional y de pago único (sin suscripción), añade tres temas exclusivos, ocho sombreros que
+> brillan, tres compañeros (Kiwi, Piña, Arándano), el historial detallado de cada juego y un
+> resumen ilustrado cada mes. Pruébalo todo antes de comprar.
+
+### Vollständige Beschreibung (Deutsch)
+
+> Ein paar Minuten am Tag, damit dein Kopf fit bleibt.
+>
+> **31 Minispiele, 1550 Level** in sechs Bereichen: Rechnen, Gedächtnis, Aufmerksamkeit,
+> Tempo, Sprache und Logik. Jedes Spiel wird über 50 Level und 5 Stufen schwieriger, von
+> Anfänger bis Legende: genug, um monatelang besser zu werden.
+>
+> **Der Tagestest**: drei Spiele, fünf Minuten, und dein Gehirnalter (ein spielerischer
+> Richtwert, keine medizinische Messung), um deine Fortschritte im Blick zu behalten.
+>
+> **Spielarten für jeden Tag**
+> • Ein Tagestraining nach Maß, das deine schwächeren Bereiche übt
+> • Marathon: alle Spiele eines Bereichs am Stück
+> • Duell zu zweit auf einem Handy, Partymodus für bis zu vier Spieler
+> • Freundinnen-Challenge: Link verschicken und Ergebnisse nach Kategorie vergleichen
+>
+> **Für dich gemacht**
+> • Antworten mit dem Finger schreiben in den Zahlenspielen
+> • Sterne, Medaillen, Trophäen und eine Serie, die einen Ruhetag verzeiht
+> • Ein Begleiter nach Wahl, helles oder dunkles Design
+> • Barrierefreiheit: große Schrift, hoher Kontrast, mehr Zeit, Linkshändermodus
+> • Widget für den Startbildschirm und tägliche Erinnerung
+> • Profile für die ganze Familie, in sechs Sprachen
+>
+> **Jeden Tag ein Grund wiederzukommen**
+> • Drei Tagesziele, Funken zum Sammeln und 36 Hüte, um Vif einzukleiden
+> • Nach Level 50: die Meisterstufen, die tägliche Legenden-Challenge und Challenge-Saisons
+> als Geschichten
+> • Saisonale Designs (Schnee, Blüten, Blätter …) und Designs zum Freischalten
+> • Deine Fortschritte auf einen Blick: deine Woche, deine Genauigkeit, deine Rekorde
+>
+> **Volle Rücksicht**: keine Werbung, kein Tracking, kein Pflichtkonto. Alles bleibt auf
+> deinem Gerät; wenn du möchtest, kannst du mit einer freiwilligen Sicherung in deinem eigenen
+> Google Drive auf deinem Tablet weiterspielen.
+>
+> **Wirklich kostenlos**: Alle Spiele und alle Level sind kostenlos. Esprit Vif Premium,
+> freiwillig und nur einmal bezahlt (kein Abo), bringt drei exklusive Designs, acht glitzernde
+> Hüte, drei Begleiter (Kiwi, Ananas, Heidelbeere), den genauen Verlauf jedes Spiels und jeden
+> Monat einen illustrierten Rückblick. Alles lässt sich vor dem Kauf ausprobieren.
+
+### Descrizione completa (italiano)
+
+> Pochi minuti al giorno per mantenere la mente sveglia.
+>
+> **31 minigiochi, 1550 livelli** divisi in sei aree: calcolo, memoria, attenzione, velocità,
+> linguaggio e logica. Ogni gioco diventa più difficile in 50 livelli e 5 fasce, da
+> Principiante a Leggenda: c’è da migliorare per mesi.
+>
+> **Il test del giorno**: tre giochi, cinque minuti, e la tua età cerebrale (un indicatore
+> ludico, non una misura medica) per seguire i tuoi progressi nel tempo.
+>
+> **Modi di giocare per ogni giorno**
+> • Una sessione del giorno su misura, che punta sulle tue aree più deboli
+> • Maratona: tutti i giochi di un’area di fila
+> • Duello a due sullo stesso telefono, modalità festa fino a quattro giocatori
+> • Sfide tra amiche: invia un link e confrontate i punteggi per categoria
+>
+> **Pensata per te**
+> • Risposte scritte col dito nei giochi di numeri
+> • Stelle, medaglie, trofei e una serie che perdona un giorno di riposo
+> • Un compagno a scelta, con tema chiaro o scuro
+> • Accessibilità: testo grande, contrasto elevato, tempo extra, modalità mancini
+> • Widget per la schermata Home e promemoria quotidiano
+> • Profili per tutta la famiglia, in sei lingue
+>
+> **Ogni giorno, un motivo per tornare**
+> • Tre obiettivi del giorno, scintille da guadagnare e 36 cappelli per vestire Vif
+> • Dopo il livello 50: la maestria, la Sfida Leggenda del giorno e stagioni di sfide raccontate
+> come storie
+> • Temi di stagione (neve, petali, foglie…) e temi da sbloccare
+> • I tuoi progressi in chiaro: la tua settimana, la tua precisione, i tuoi record
+>
+> **Rispetto totale**: nessuna pubblicità, nessun tracciamento, nessun account obbligatorio.
+> Tutto resta sul tuo dispositivo; se vuoi, un backup facoltativo nel tuo Google Drive ti
+> permette di continuare sul tablet.
+>
+> **Gratis davvero**: tutti i giochi e tutti i livelli sono gratuiti. Esprit Vif Premium,
+> facoltativo e pagato una volta sola (nessun abbonamento), aggiunge tre temi esclusivi, otto
+> cappelli scintillanti, tre compagni (Kiwi, Ananas, Mirtillo), la cronologia dettagliata di
+> ogni gioco e un resoconto illustrato ogni mese. Puoi provare tutto prima di acquistare.
+
+### Descrição completa (português do Brasil)
+
+> Alguns minutos por dia para manter a mente afiada.
+>
+> **31 minijogos, 1.550 níveis** em seis áreas: cálculo, memória, atenção, velocidade,
+> linguagem e lógica. Cada jogo fica mais difícil ao longo de 50 níveis e 5 patamares, de
+> Iniciante a Lenda: dá para evoluir por meses.
+>
+> **O teste do dia**: três jogos, cinco minutos, e a sua idade cerebral (um indicador lúdico,
+> não uma medida médica) para acompanhar seu progresso ao longo do tempo.
+>
+> **Jeitos de jogar todo dia**
+> • Uma sessão do dia sob medida, focada nas suas áreas mais fracas
+> • Maratona: todos os jogos de uma área em sequência
+> • Duelo a dois no mesmo celular, modo festa para até quatro jogadores
+> • Desafios entre amigas: envie um link e comparem as pontuações por categoria
+>
+> **Feito para você**
+> • Respostas escritas com o dedo nos jogos de números
+> • Estrelas, medalhas, troféus e uma sequência que perdoa um dia de descanso
+> • Um companheiro à sua escolha, com tema claro ou escuro
+> • Acessibilidade: texto grande, contraste reforçado, tempo extra, modo canhoto
+> • Widget na tela inicial e lembrete diário
+> • Perfis para toda a família, em seis idiomas
+>
+> **Todo dia, um motivo para voltar**
+> • Três objetivos do dia, faíscas para ganhar e 36 chapéus para vestir o Vif
+> • Depois do nível 50: a maestria, o Desafio Lenda do dia e temporadas de desafios contadas
+> como histórias
+> • Temas de estação (neve, pétalas, folhas…) e temas para desbloquear
+> • Seu progresso bem claro: sua semana, sua precisão, seus recordes
+>
+> **Respeito total**: sem anúncios, sem rastreamento, sem conta obrigatória. Tudo fica no seu
+> aparelho; se quiser, um backup opcional no seu próprio Google Drive permite continuar no
+> tablet.
+>
+> **Grátis de verdade**: todos os jogos e todos os níveis são grátis. O Esprit Vif Premium,
+> opcional e pago uma única vez (sem assinatura), traz três temas exclusivos, oito chapéus que
+> brilham, três companheiros (Kiwi, Abacaxi, Mirtilo), o histórico detalhado de cada jogo e um
+> resumo ilustrado todo mês. Experimente tudo antes de comprar.
 
 ## Catégorie et coordonnées
 

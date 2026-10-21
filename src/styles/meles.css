@@ -1,0 +1,126 @@
+/* ---------- Mots mêlés ---------- */
+
+.meles {
+  gap: 12px;
+}
+
+/* La grille : des lettres en touches carrées, de 6 à 8 par ligne sur 328 px. */
+.meles__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  width: min(100%, 318px);
+  padding: 8px;
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  animation: card-in 220ms var(--ease-out) both;
+}
+
+.meles__grid--7 {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.meles__grid--8 {
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+}
+
+.meles__cell {
+  --hue: var(--accent);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface-2);
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 760;
+}
+
+.meles__grid--8 .meles__cell {
+  border-radius: 7px;
+  font-size: 1rem;
+}
+
+.meles__cell.is-first {
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+
+.meles__cell.is-found {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--hue) 40%, var(--surface));
+}
+
+/* Cinq couleurs de surlignage, une par mot trouvé. */
+.meles__cell--f1,
+.meles__word--f1 {
+  --hue: var(--ink-vert);
+}
+
+.meles__cell--f2,
+.meles__word--f2 {
+  --hue: var(--ink-orange);
+}
+
+.meles__cell--f3,
+.meles__word--f3 {
+  --hue: var(--ink-violet);
+}
+
+.meles__cell--f4,
+.meles__word--f4 {
+  --hue: var(--ink-bleu);
+}
+
+.meles__family {
+  margin: 0;
+  font-weight: 650;
+  text-align: center;
+}
+
+.meles__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 8px;
+  max-width: 330px;
+  min-height: 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meles__word {
+  --hue: var(--accent);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1.5px var(--line);
+  font-weight: 700;
+}
+
+.meles__word.is-found {
+  color: var(--ink-3);
+  background: color-mix(in srgb, var(--hue) 22%, var(--surface));
+  box-shadow: none;
+  text-decoration: line-through;
+}
+
+/* Démo de l'intro. */
+.meles__grid--demo {
+  grid-template-columns: repeat(4, 1fr);
+  width: 128px;
+  gap: 3px;
+  padding: 5px;
+  box-shadow: none;
+  animation: none;
+}
+
+.meles__grid--demo .meles__cell {
+  border-radius: 6px;
+  font-size: 0.85rem;
+}

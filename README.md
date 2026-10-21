@@ -22,7 +22,7 @@ Confirmé, Expert, Maître, Légende), soit **1 550 niveaux**, puis dix crans de
 | Mémoire | Matrice, Double retour, Du plus petit au plus grand, Mots à retenir, Paires, Qui est qui ?, Écho |
 | Attention | Couleurs piégées, L’intrus, La boutique, Flèches, Filature |
 | Vitesse | Table de Schulte, Correspondance express, Réflexe, Coup d’œil, Lucioles, Miroir, Combien de cubes ? |
-| Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires |
+| Langage | Anagrammes, Lettre manquante, Catégories, Lecture éclair, Contraires, Mots mêlés |
 | Logique | Rotation mentale, Balance, Horloges, Mini-sudoku, Itinéraire, Suites logiques, Code secret |
 
 - **Niveaux et étoiles** : 1 étoile dès 60 pts (le niveau suivant se débloque), 2 dès 80, 3 dès 95.

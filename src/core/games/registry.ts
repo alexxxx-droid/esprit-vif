@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { melesLevelLabel, melesRule } from './motsmeles';
 import { combienLevelLabel, combienRule } from './combien';
 import { codeLevelLabel, codeRule } from './code';
 import { miroirLevelLabel, miroirRule } from './miroir';
@@ -773,6 +774,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: combienLevelLabel,
   },
+  motsmeles: {
+    id: 'motsmeles',
+    get name() {
+      return tr('Mots mêlés', 'Word Search');
+    },
+    domain: 'langage',
+    rule: melesRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: melesLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -822,6 +835,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'categories',
   'lecture',
   'contraires',
+  'motsmeles',
   'rotation',
   'balance',
   'horloges',

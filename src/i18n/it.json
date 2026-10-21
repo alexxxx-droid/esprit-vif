@@ -481,6 +481,7 @@
   "'Miroir'": "'Specchio'",
   "'Code secret'": "'Codice segreto'",
   "'Combien de cubes\\u00a0?'": "'Quanti cubi?'",
+  "'Mots mêlés'": "'Cerca parole'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} punti per superarla`",
   "'sans miroir'": "'senza specchi'",
   "'1 reflet piège'": "'1 riflesso trappola'",

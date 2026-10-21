@@ -7,6 +7,7 @@ import './styles/game.css';
 import './styles/filature.css';
 import './styles/lucioles.css';
 import './styles/contraires.css';
+import './styles/meles.css';
 import './styles/combien.css';
 import './styles/code.css';
 import './styles/miroir.css';

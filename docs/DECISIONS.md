@@ -684,3 +684,9 @@ restent originaux ; chaque partie tient en une minute au plus.
   (`visibleFaces` dans `cubes.ts`), sans quoi sa hauteur ne se devinerait pas. Confirmé : sol de
   3 × 3 ; Expert : combien en manque-t-il pour remplir le pavé ; Maître : deux tas, combien de plus
   à gauche ; Légende : combien de cubes sont tout à fait cachés.
+- **Mots mêlés** (Langage, 45 s) : quelques mots d'une même famille du lexique de la langue du
+  joueur, cachés dans une grille (capitales sans accents ni ligatures, ß → SS) ; on touche la
+  première lettre puis la dernière, dans un sens ou dans l'autre. Pas de mot dans un autre, chaque
+  mot ne se lit qu'une fois (le remplissage, pris dans les lettres de la famille, est vérifié).
+  Confirmé : diagonales ; Expert : mots à l'envers ; Maître : liste cachée (la famille et le nombre
+  de mots seulement) ; Légende : 8 × 8, les huit directions.

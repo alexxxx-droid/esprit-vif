@@ -7,6 +7,7 @@ import './styles/game.css';
 import './styles/filature.css';
 import './styles/lucioles.css';
 import './styles/contraires.css';
+import './styles/compte.css';
 import './styles/suites.css';
 
 import { Capacitor } from '@capacitor/core';

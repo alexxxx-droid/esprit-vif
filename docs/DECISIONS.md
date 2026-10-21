@@ -650,3 +650,14 @@ restent originaux ; chaque partie tient en une minute au plus.
   à tour. Légende : des carrés (parfois décalés) et des suites où chaque nombre est la somme des
   deux d'avant. Le premier nombre reste toujours visible, et chaque règle montre assez de nombres
   pour être retrouvée (6 sur 7 pour deux suites mêlées).
+- **Le compte est bon** (Calcul, 45 s) : atteindre une cible en combinant les plaques deux à
+  deux (plaque, signe, plaque ; le résultat devient une plaque, et reste choisi pour enchaîner).
+  Que des entiers positifs : une soustraction qui donnerait zéro ou moins, une division qui ne
+  tombe pas juste sont refusées, sans pénalité. On peut annuler un pas ou passer le tirage. Chaque
+  tirage est construit à partir d'une vraie solution, et la cible ne s'atteint jamais en moins
+  d'opérations que prévu (recherche exhaustive). Débutant : 3 plaques, + ou −. Confirmé : 4 plaques,
+  2 opérations, ×. Expert : 3 opérations et ÷. Maître : une grande plaque (25 à 100) parmi 5.
+  Légende : chaque signe une seule fois par tirage. Objectifs de 8 à 3 comptes.
+- Textes des nouveaux jeux : français et anglais d'abord (Alex : « on s'occupera des traductions
+  plus tard, français en prio ») ; leurs noms sont traduits, le reste s'affiche en anglais dans les
+  quatre autres langues. `PENDING_FILES` (`lang.test.ts`) liste ces fichiers, à vider ensuite.

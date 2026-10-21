@@ -49,6 +49,8 @@ import { FlechesGame } from './FlechesGame';
 import { HorlogesGame } from './HorlogesGame';
 import { IntrusGame } from './IntrusGame';
 import { ItiGame } from './ItiGame';
+import { CompteGame } from './CompteGame';
+import { CompteDemo } from './compte-demo';
 import { SuitesGame } from './SuitesGame';
 import { SuitesDemo } from './suites-demo';
 import { LectureGame } from './LectureGame';
@@ -101,6 +103,7 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   quiestqui: QuiGame,
   lecture: LectureGame,
   itineraire: ItiGame,
+  compte: CompteGame,
   suites: SuitesGame,
 };
 
@@ -145,5 +148,6 @@ export const GAME_DEMOS: Record<GameId, ComponentType<{ level: number }>> = {
   quiestqui: QuiDemo,
   lecture: LectureDemo,
   itineraire: ItiDemo,
+  compte: CompteDemo,
   suites: SuitesDemo,
 };

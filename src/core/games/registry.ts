@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { compteLevelLabel, compteRule } from './compte';
 import { suitesLevelLabel, suitesRule } from './suites';
 import { tr } from '../lang';
 import { isMastery, MAX_LEVEL, masteryName, passScore, pickLevel, secondsLabel, TOP_LEVEL } from '../levels';
@@ -708,6 +709,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: suitesLevelLabel,
   },
+  compte: {
+    id: 'compte',
+    get name() {
+      return tr('Le compte est bon', 'Hit the Number');
+    },
+    domain: 'calcul',
+    rule: compteRule,
+    duration: '45 s',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: compteLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -732,6 +745,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'diable',
   'monnaie',
   'pluie',
+  'compte',
   'matrice',
   'nback',
   'ordre',

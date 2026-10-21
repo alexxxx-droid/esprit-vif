@@ -476,6 +476,7 @@
   "'« ↗ 2 » : deux cases en diagonale.'": "'«↗ 2»: dos casillas en diagonal.'",
   "'Un rocher arrête la course : on s’arrête juste devant.'": "'Una roca corta el camino: te detienes justo delante.'",
   "'Suites logiques'": "'Series lógicas'",
+  "'Le compte est bon'": "'Cuenta exacta'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para superarla`",
   "'sans miroir'": "'sin espejo'",
   "'1 reflet piège'": "'1 reflejo trampa'",

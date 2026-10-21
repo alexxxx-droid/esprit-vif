@@ -476,6 +476,7 @@
   "'« ↗ 2 » : deux cases en diagonale.'": "'«↗ 2»: due caselle in diagonale.'",
   "'Un rocher arrête la course : on s’arrête juste devant.'": "'Un masso blocca la corsa: ti fermi proprio davanti.'",
   "'Suites logiques'": "'Serie logiche'",
+  "'Le compte est bon'": "'Conto esatto'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} punti per superarla`",
   "'sans miroir'": "'senza specchi'",
   "'1 reflet piège'": "'1 riflesso trappola'",

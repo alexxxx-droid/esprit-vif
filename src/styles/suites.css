@@ -32,14 +32,29 @@
   letter-spacing: -0.02em;
 }
 
+/* Six ou sept nombres tiennent sur une ligne de 328 px (360 px moins les marges). */
+.suites__row--long,
+.suites__row--xlong {
+  gap: 6px;
+}
+
 .suites__row--long .suites__term {
-  min-width: 52px;
+  min-width: 46px;
   height: 58px;
-  font-size: 1.4rem;
+  padding: 0 4px;
+  font-size: 1.3rem;
+}
+
+.suites__row--xlong .suites__term {
+  min-width: 40px;
+  height: 54px;
+  padding: 0 4px;
+  border-radius: 13px;
+  font-size: 1.15rem;
 }
 
 .suites__term--missing {
-  color: var(--muted);
+  color: var(--ink-3);
   background: transparent;
   box-shadow: inset 0 0 0 2px var(--accent);
 }

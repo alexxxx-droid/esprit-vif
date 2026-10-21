@@ -94,7 +94,7 @@ export function SuitesGame({ seed, level, onFinish }: GameProps) {
         <p className="anagram__found">
           <strong>{correct}</strong> / {config.target}
         </p>
-        <ol key={index} className={`suites__row${suite.terms.length > 6 ? ' suites__row--long' : ''}`} aria-label={tr('La suite', 'The series')}>
+        <ol key={index} className={`suites__row${suite.terms.length >= 7 ? ' suites__row--xlong' : suite.terms.length === 6 ? ' suites__row--long' : ''}`} aria-label={tr('La suite', 'The series')}>
           {suite.terms.map((term, i) =>
             i === suite.missing ? (
               <li key={i} className={`suites__term suites__term--missing${typed ? ' is-typed' : ''}`} aria-label={typed ? tr(`Ta réponse : ${typed}`, `Your answer: ${typed}`) : tr('Nombre manquant', 'Missing number')}>

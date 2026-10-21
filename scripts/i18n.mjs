@@ -2,8 +2,9 @@
 //   node scripts/i18n.mjs extract        → src/i18n/source.json (tous les textes français, avec l'anglais)
 //   node scripts/i18n.mjs check es       → ce qui manque en espagnol, et les traductions invalides
 //   node scripts/i18n.mjs todo es 150    → les 150 premiers textes manquants (numéro, clé, anglais, emplacement), en JSON
+//                                          (--from 900 --to 1955 : seulement cette tranche de numéros)
 //   node scripts/i18n.mjs merge es lot.json → ajoute un lot { numéro ou clé: traduction } au dictionnaire (les invalides sont refusées)
-import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync, rmdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
@@ -82,7 +83,10 @@ function extract() {
   if (apart.length) console.log(`${apart.length} textes dont le français glisse une variable que l'anglais n'a pas :\n  ${apart.join('\n  ')}`);
 }
 
-/** Les expressions `${…}`, les appels et les `{morceaux}` (voir `rich()`) d'un texte source : une traduction doit garder les mêmes. */
+/**
+ * Les expressions `${…}`, les appels et les `{morceaux}` (voir `rich()`) d'un texte source : une traduction doit garder les mêmes.
+ * Sauf `${NBSP}`, l'espace insécable : de la typographie, que chaque langue place où elle veut (ou nulle part), voir `slotProblem`.
+ */
 function slots(text) {
   const found = [...(text.match(/(?<!\$)\{\w+\}/g) ?? [])];
   const source = ts.createSourceFile('x.ts', `const x = (${text});`, ts.ScriptTarget.Latest, true);
@@ -93,7 +97,18 @@ function slots(text) {
     ts.forEachChild(node, visit);
   };
   visit(source);
-  return { found: found.sort(), broken };
+  return { found: found.filter((s) => s !== 'NBSP').sort(), nbsp: found.includes('NBSP'), broken };
+}
+
+/** Ce qui empêche `value` de traduire `key` (syntaxe, variables), ou `null`. */
+function slotProblem(key, value) {
+  const a = slots(key);
+  const b = slots(value);
+  if (b.broken) return `syntaxe invalide : ${value}`;
+  if (JSON.stringify(a.found) !== JSON.stringify(b.found)) return `variables ${JSON.stringify(b.found)} au lieu de ${JSON.stringify(a.found)}`;
+  // NBSP n'existe que dans les fichiers qui l'importent : ceux dont le texte français s'en sert.
+  if (b.nbsp && !a.nbsp) return `\${NBSP} absent du texte français (pas importé dans ce fichier) : une espace simple, ou \\u00a0`;
+  return null;
 }
 
 function check(lang) {
@@ -104,10 +119,8 @@ function check(lang) {
   const invalid = [];
   for (const e of list) {
     if (!(e.key in dict)) continue;
-    const a = slots(e.key);
-    const b = slots(dict[e.key]);
-    if (b.broken) invalid.push(`${e.key}\n    → syntaxe invalide : ${dict[e.key]}`);
-    else if (JSON.stringify(a.found) !== JSON.stringify(b.found)) invalid.push(`${e.key}\n    → variables ${JSON.stringify(b.found)} au lieu de ${JSON.stringify(a.found)}`);
+    const problem = slotProblem(e.key, dict[e.key]);
+    if (problem) invalid.push(`${e.key}\n    → ${problem}`);
   }
   const extra = Object.keys(dict).filter((k) => !list.some((e) => e.key === k));
   console.log(`${lang} : ${list.length - missing.length}/${list.length} traduits, ${missing.length} manquants, ${invalid.length} invalides, ${extra.length} en trop`);
@@ -122,13 +135,35 @@ const readDict = (lang) => (existsSync(dictFile(lang)) ? JSON.parse(readFileSync
 /**
  * Les textes encore à traduire, par lots : `[{ id, key, en, at }]`. `id` = le rang dans source.json
  * (le lot peut s'en servir à la place de la clé : rien à recopier) ; `at` = le premier emplacement.
+ * `from` / `to` : seulement les numéros de cette tranche (deux traducteurs sur une même langue).
  */
-function todo(lang, count) {
+function todo(lang, count, from = 0, to = Infinity) {
   const list = JSON.parse(readFileSync(join(SRC, 'i18n', 'source.json'), 'utf8'));
   const dict = readDict(lang);
-  const missing = list.map((e, id) => ({ id, ...e })).filter((e) => !(e.key in dict));
+  const missing = list.map((e, id) => ({ id, ...e })).filter((e) => !(e.key in dict) && e.id >= from && e.id <= to);
   console.log(JSON.stringify(missing.slice(0, count).map((e) => ({ id: e.id, key: e.key, en: e.en, at: e.at[0] })), null, 1));
-  console.error(`${missing.length} textes manquants en ${lang}, ${Math.min(count, missing.length)} affichés`);
+  console.error(`${missing.length} textes manquants en ${lang}${from || to < Infinity ? ` (numéros ${from} à ${to})` : ''}, ${Math.min(count, missing.length)} affichés`);
+}
+
+/** Plusieurs traducteurs peuvent verser leurs lots en même temps : un seul à la fois réécrit le dictionnaire. */
+function withLock(lang, work) {
+  const lock = join(SRC, 'i18n', `.${lang}.lock`);
+  const start = Date.now();
+  for (;;) {
+    try {
+      mkdirSync(lock);
+      break;
+    } catch (error) {
+      if (error.code !== 'EEXIST') throw error;
+      if (Date.now() - start > 30_000) throw new Error(`${lock} bloqué depuis 30 s : le supprimer si aucun merge ne tourne`);
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 50);
+    }
+  }
+  try {
+    return work();
+  } finally {
+    rmdirSync(lock);
+  }
 }
 
 /**
@@ -140,35 +175,36 @@ function todo(lang, count) {
 function merge(lang, file) {
   const list = JSON.parse(readFileSync(join(SRC, 'i18n', 'source.json'), 'utf8'));
   const known = new Set(list.map((e) => e.key));
-  const dict = readDict(lang);
   const batch = JSON.parse(readFileSync(file, 'utf8'));
-  let added = 0;
-  const refused = [];
-  for (const [given, value] of Object.entries(batch)) {
-    const key = /^\d+$/.test(given) && list[Number(given)] ? list[Number(given)].key : given;
-    if (!known.has(key)) {
-      refused.push(`${key}\n    → clé inconnue (recopier la clé exacte de « todo »)`);
-      continue;
+  withLock(lang, () => {
+    const dict = readDict(lang);
+    let added = 0;
+    const refused = [];
+    for (const [given, value] of Object.entries(batch)) {
+      const key = /^\d+$/.test(given) && list[Number(given)] ? list[Number(given)].key : given;
+      if (!known.has(key)) {
+        refused.push(`${key}\n    → clé inconnue (recopier la clé exacte de « todo »)`);
+        continue;
+      }
+      const problem = slotProblem(key, value);
+      if (problem) refused.push(`${key}\n    → ${problem}`);
+      else {
+        dict[key] = value;
+        added++;
+      }
     }
-    const a = slots(key);
-    const b = slots(value);
-    if (b.broken) refused.push(`${key}\n    → syntaxe invalide : ${value}`);
-    else if (JSON.stringify(a.found) !== JSON.stringify(b.found)) refused.push(`${key}\n    → variables ${JSON.stringify(b.found)} au lieu de ${JSON.stringify(a.found)}`);
-    else {
-      dict[key] = value;
-      added++;
-    }
-  }
-  const ordered = Object.fromEntries(list.filter((e) => e.key in dict).map((e) => [e.key, dict[e.key]]));
-  writeFileSync(dictFile(lang), JSON.stringify(ordered, null, 2) + '\n');
-  console.log(`${lang} : ${added} ajoutés, ${refused.length} refusés, ${Object.keys(ordered).length}/${list.length} traduits`);
-  for (const line of refused) console.log('  ✗ ' + line);
-  process.exitCode = refused.length ? 1 : 0;
+    const ordered = Object.fromEntries(list.filter((e) => e.key in dict).map((e) => [e.key, dict[e.key]]));
+    writeFileSync(dictFile(lang), JSON.stringify(ordered, null, 2) + '\n');
+    console.log(`${lang} : ${added} ajoutés, ${refused.length} refusés, ${Object.keys(ordered).length}/${list.length} traduits`);
+    for (const line of refused) console.log('  ✗ ' + line);
+    process.exitCode = refused.length ? 1 : 0;
+  });
 }
 
 const [command, lang, arg] = process.argv.slice(2);
+const flag = (name, fallback) => (process.argv.includes(name) ? Number(process.argv[process.argv.indexOf(name) + 1]) : fallback);
 if (command === 'extract') extract();
 else if (command === 'check' && lang) check(lang);
-else if (command === 'todo' && lang) todo(lang, Number(arg) || 100);
+else if (command === 'todo' && lang) todo(lang, Number(arg) || 100, flag('--from', 0), flag('--to', Infinity));
 else if (command === 'merge' && lang && arg) merge(lang, arg);
-else console.log('usage : node scripts/i18n.mjs extract | check <langue> [--missing] | todo <langue> [nombre] | merge <langue> <lot.json>');
+else console.log('usage : node scripts/i18n.mjs extract | check <langue> [--missing] | todo <langue> [nombre] [--from n] [--to n] | merge <langue> <lot.json>');

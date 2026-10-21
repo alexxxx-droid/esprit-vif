@@ -176,10 +176,9 @@ export function ProgressScreen() {
               {tr('Âge cérébral', 'Brain age')}
             </h2>
             <p className="card__sub">
-              {tr(
-                `Tes ${tests.length > 1 ? `${tests.length} derniers` : ''} tests du jour officiels`,
-                `Your ${tests.length > 1 ? `last ${tests.length} ` : ''}official daily tests`,
-              )}
+              {tests.length > 1
+                ? tr(`Tes ${tests.length} derniers tests du jour officiels`, `Your last ${tests.length} official daily tests`)
+                : tr('Tes tests du jour officiels', 'Your official daily tests')}
             </p>
             {tests.length ? (
               <BrainAgeChart points={tests} />

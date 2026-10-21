@@ -113,12 +113,13 @@ export function sudokuDuration(level: number): string {
 
 export function sudokuLevelLabel(level: number): string {
   const c = sudokuLevel(level);
-  return tr(
-    [`${c.puzzles > 1 ? `${c.puzzles} grilles` : '1 grille'} ${c.size} × ${c.size}`, `${c.givens} chiffres donnés`, c.waves && `${c.waves} étapes de déduction`]
-      .filter(Boolean)
-      .join(' · '),
-    [`${c.puzzles > 1 ? `${c.puzzles} grids` : '1 grid'} of ${c.size} × ${c.size}`, `${c.givens} digits given`, c.waves && `${c.waves} deduction rounds`].filter(Boolean).join(' · '),
-  );
+  const grids =
+    c.puzzles > 1
+      ? tr(`${c.puzzles} grilles ${c.size} × ${c.size}`, `${c.puzzles} grids of ${c.size} × ${c.size}`)
+      : tr(`1 grille ${c.size} × ${c.size}`, `1 grid of ${c.size} × ${c.size}`);
+  return [grids, tr(`${c.givens} chiffres donnés`, `${c.givens} digits given`), c.waves && tr(`${c.waves} étapes de déduction`, `${c.waves} deduction rounds`)]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 /** Dimensions d'un bloc : 2 × 2 pour le 4 × 4, 2 lignes × 3 colonnes pour le 6 × 6, 2 × 4 pour le 8 × 8, 3 × 3 pour le 9 × 9. */

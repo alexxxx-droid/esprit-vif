@@ -38,14 +38,9 @@ function askLabel(ask: StroopItem['ask']): string {
 function describeItem(item: StroopItem): string {
   const ink = STROOP_LABELS[item.ink].toLowerCase();
   const frame = item.frame ? STROOP_LABELS[item.frame].toLowerCase() : '';
+  const framed = frame ? tr(`, dans un cadre ${frame}`, `, in a ${frame} frame`) : '';
   const prompt = item.ask === 'word' ? tr('Lis le mot. ', 'Read the word. ') : item.ask === 'frame' ? tr('Couleur du cadre. ', 'Frame color. ') : '';
-  return (
-    prompt +
-    tr(
-      `Le mot ${STROOP_LABELS[item.word]}, écrit en ${ink}${frame ? `, dans un cadre ${frame}` : ''}`,
-      `The word ${STROOP_LABELS[item.word]}, written in ${ink}${frame ? `, in a ${frame} frame` : ''}`,
-    )
-  );
+  return prompt + tr(`Le mot ${STROOP_LABELS[item.word]}, écrit en ${ink}${framed}`, `The word ${STROOP_LABELS[item.word]}, written in ${ink}${framed}`);
 }
 
 export function StroopGame({ seed, level, onFinish }: GameProps) {

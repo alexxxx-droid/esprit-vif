@@ -488,6 +488,7 @@
   "'Le plus grand\\u00a0?'": "'Qual é maior?'",
   "'Qui manque\\u00a0?'": "'O que falta?'",
   "'Pendu express'": "'Forca'",
+  "'Taquin express'": "'Jogo do 15'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} pts para vencer`",
   "'sans miroir'": "'sem espelho'",
   "'1 reflet piège'": "'1 reflexo-armadilha'",

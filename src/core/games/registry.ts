@@ -1,4 +1,5 @@
 import { byCount } from '../format';
+import { taquinLevelLabel, taquinRule } from './taquin';
 import { penduLevelLabel, penduRule } from './pendu';
 import { manqueLevelLabel, manqueRule } from './manque';
 import { grandLevelLabel, grandRule } from './grand';
@@ -864,6 +865,18 @@ export const GAMES: Record<GameId, GameMeta> = {
     dailyLevel: 1,
     levelLabel: penduLevelLabel,
   },
+  taquin: {
+    id: 'taquin',
+    get name() {
+      return tr('Taquin express', 'Slide Puzzle');
+    },
+    domain: 'logique',
+    rule: taquinRule,
+    duration: '≈ 1 min',
+    maxLevel: MAX_LEVEL,
+    dailyLevel: 1,
+    levelLabel: taquinLevelLabel,
+  },
 };
 
 /** Ordre d'affichage dans l'entraînement : regroupé par domaine. */
@@ -927,6 +940,7 @@ export const GAME_ORDER: readonly GameId[] = [
   'itineraire',
   'suites',
   'code',
+  'taquin',
 ];
 
 /** Jeux du test du jour, par domaine (dans l'ordre des domaines) : tous les jeux y participent. */

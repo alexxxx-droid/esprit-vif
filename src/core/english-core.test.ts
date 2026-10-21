@@ -52,6 +52,7 @@ const GLOSSARY: Record<GameId, string> = {
   filature: 'Keep Track',
   lucioles: 'Fireflies',
   contraires: 'Opposites',
+  taquin: 'Slide Puzzle',
   pendu: 'Hangman',
   manque: 'What’s Missing?',
   grand: 'Which Is Bigger?',

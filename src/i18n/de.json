@@ -488,6 +488,7 @@
   "'Le plus grand\\u00a0?'": "'Was ist größer?'",
   "'Qui manque\\u00a0?'": "'Was fehlt?'",
   "'Pendu express'": "'Galgenraten'",
+  "'Taquin express'": "'Schiebepuzzle'",
   "`${masteryName(level)} · ${passScore(level)} pts pour réussir`": "`${masteryName(level)} · ${passScore(level)} Pkt. zum Bestehen`",
   "'sans miroir'": "'ohne Spiegelbild'",
   "'1 reflet piège'": "'1 Spiegelbild-Falle'",

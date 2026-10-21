@@ -729,3 +729,8 @@ méthode : un jeu à la fois, un APK à chaque jeu, textes en français et angla
   données ne dévoilent jamais plus de la moitié du mot. Débutant : première et dernière lettres ;
   Confirmé : la première ; Expert : aucune ; Maître : sans indice ; Légende : mots de 7 à 10
   lettres, 3 erreurs permises.
+- **Taquin express** (Logique, une minute) : remettre les tuiles dans l'ordre ; chaque grille est
+  mélangée de quelques coups depuis la grille rangée, sans repasser par une même position (donc
+  toujours faisable, et en au plus autant de coups). Une tuile à sa place est soulignée. Débutant :
+  3 × 3, 3 à 6 coups ; Confirmé : 7 à 10 ; Expert : 4 × 4 ; Maître : coups comptés (le mélange
+  plus une marge de 6 à 2) ; Légende : 4 × 4 et coups comptés.
